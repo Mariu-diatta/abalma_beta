@@ -6,7 +6,7 @@ const Hero = () => {
         <>
             <Navbar />
 
-            <div className="m-2 relative bg-white pb-[110px] pt-[120px] dark:bg-dark lg:pt-[150px]">
+            <div className="relative bg-white pb-[110px] pt-[120px] dark:bg-dark lg:pt-[150px] ">
 
                 <div className="container">
                     <div className="-mx-4 flex flex-wrap">
@@ -162,21 +162,11 @@ const Navbar = () => {
     const [open, setOpen] = useState(false);
 
     return (
-        <header className={`absolute left-0 top-0 z-20 flex w-full items-center`}>
+        <header className={` absolute left-0 top-0 right-0 z-20 flex w-full items-center`}>
             <div className="container">
                 <div className="relative -mx-4 flex items-center justify-between">
-                    <div className="w-60 max-w-full px-4">
-                        <a href="/#" className="block w-full py-5">
-                            {/*<img*/}
-                            {/*    src="https://cdn.tailgrids.com/assets/images/logo/logo.svg"*/}
-                            {/*    alt="logo"*/}
-                            {/*    className="w-full dark:hidden"*/}
-                            {/*/>*/}
-                            {/*<img*/}
-                            {/*    src="https://cdn.tailgrids.com/assets/images/logo/logo-white.svg"*/}
-                            {/*    alt="logo"*/}
-                            {/*    className="w-full hidden dark:block"*/}
-                            {/*/>*/}
+                    <div className="w-50 max-w-full px-6">
+                        <a href="/#" className="block w-full py-2">
                             <Logo/>
                         </a>
                     </div>
@@ -185,13 +175,14 @@ const Navbar = () => {
                             <button
                                 onClick={() => setOpen(!open)}
                                 id="navbarToggler"
-                                className={` ${open && "navbarTogglerActive"
-                                    } absolute right-4 top-1/2 block -translate-y-1/2 rounded-lg px-3 py-[6px] ring-primary focus:ring-2 lg:hidden bg-grey`}
+                                className={`${open && "navbarTogglerActive"
+                                    } absolute right-4 top-1/2 block -translate-y-1/2 rounded-lg px-3 py-[6px] bg-blue-500 focus:ring-2 ring-primary lg:hidden`}
                             >
-                                <span className="relative my-[6px] block h-[2px] w-[30px] bg-body-color dark:bg-white"></span>
-                                <span className="relative my-[6px] block h-[2px] w-[30px] bg-body-color dark:bg-white"></span>
-                                <span className="relative my-[6px] block h-[2px] w-[30px] bg-body-color dark:bg-white"></span>
+                                <span className="relative my-[6px] block h-[2px] w-[30px] bg-white"></span>
+                                <span className="relative my-[6px] block h-[2px] w-[30px] bg-white"></span>
+                                <span className="relative my-[6px] block h-[2px] w-[30px] bg-white"></span>
                             </button>
+
                             <nav
                                 id="navbarCollapse"
                                 className={`absolute right-4 top-full w-full max-w-[250px] rounded-lg bg-white px-6 py-5 shadow dark:bg-dark-2 lg:static lg:block lg:w-full lg:max-w-full lg:bg-transparent lg:shadow-none lg:dark:bg-transparent ${!open && "hidden"
