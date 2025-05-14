@@ -1,14 +1,21 @@
 
 import React from 'react'
 import './App.css';
-import Hero from './components/Header';
+import routes from './router/Routers';
+import { useRoutes, BrowserRouter } from "react-router-dom"
+
+const AppRoutes = () => {
+    const routing = useRoutes(routes); // Utilisation des routes
+    return routing;
+};
 
 function App() {
   return (
-    <div className="App">
+    <>
        
-          <Hero/>
-    </div>
+       <AppRoutes />
+         
+    </>
   );
 }
 

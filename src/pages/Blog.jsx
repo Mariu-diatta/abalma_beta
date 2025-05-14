@@ -1,12 +1,12 @@
 import React from 'react'
 import HomeLayout from '../layouts/HomeLayout';
 
-const About = () => {
+const BlogPage = () => {
     return (
         <HomeLayout>
-            "About"
+            "BlogPage"
         </HomeLayout>
     )
 }
 
-export default About;
+export default BlogPage;

@@ -1,12 +1,12 @@
 import React from 'react'
 import HomeLayout from '../layouts/HomeLayout';
 
-const About = () => {
+const Payment = () => {
     return (
         <HomeLayout>
-            "About"
+            "Payment"
         </HomeLayout>
     )
 }
 
-export default About;
+export default Payment;

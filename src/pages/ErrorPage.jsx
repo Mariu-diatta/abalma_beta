@@ -1,12 +1,12 @@
 import React from 'react'
 import HomeLayout from '../layouts/HomeLayout';
 
-const About = () => {
+const ErrorPage = () => {
     return (
         <HomeLayout>
-            "About"
+            " ErrorPage"
         </HomeLayout>
     )
 }
 
-export default About;
+export default ErrorPage;

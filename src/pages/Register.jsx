@@ -1,12 +1,13 @@
 import React from 'react'
 import HomeLayout from '../layouts/HomeLayout';
+import RegisterForm from '../components/Form';
 
-const About = () => {
+const Register = () => {
     return (
         <HomeLayout>
-            "About"
+             <RegisterForm />
         </HomeLayout>
     )
 }
 
-export default About;
+export default Register;

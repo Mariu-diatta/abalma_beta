@@ -6,7 +6,7 @@ const Logo = () => {
         <img
             src={logoApp}
             alt="logo"
-            className="w-24 sm:w-28 md:w-32 lg:w-30 xl:w-30 dark:hidden"
+            className="w-20 y-10 sm:w-28 md:w-32 lg:w-20 xl:w-20 dark:hidden"
         />
     );
 };
