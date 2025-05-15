@@ -1,13 +1,14 @@
 import React from 'react'
 import NavbarHeader from '../components/Header';
-import Home from '../components/Home';
+import Footer from '../pages/Footer';
 
 const HomeLayout = ({children}) => {
 
     return (
         <container className="d-flex flex-coulumn">
             <NavbarHeader />
-            <>{ children }  </ >
+            <>{children}  </ >
+            <Footer/>
         </container>
     );
 };

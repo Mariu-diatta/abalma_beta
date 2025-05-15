@@ -32,7 +32,7 @@ export default function DatePickerWithFullWidthButtons() {
         for (let i = 1; i <= daysInMonth; i++) {
             const dayDiv = document.createElement("div");
             dayDiv.className =
-                "flex h-[38px] w-[38px] items-center justify-center rounded-[7px] border-[.5px] border-transparent text-dark hover:border-stroke hover:bg-gray-2 sm:h-[46px] sm:w-[47px] dark:text-white dark:hover:border-dark-3 dark:hover:bg-dark mb-2";
+                "flex h-[38px] w-[38px] items-center justify-center rounded-[7px] border-[.5px] border-transparent text-dark hover:border-stroke hover:bg-gray-2 sm:h-[46px] sm:w-[47px] dark:text-white dark:hover:border-dark-3 dark:hover:bg-dark ";
             dayDiv.textContent = i.toString();
             dayDiv.addEventListener("click", () => {
                 const selectedDateValue = `${month + 1}/${i}/${year}`;
@@ -76,7 +76,7 @@ export default function DatePickerWithFullWidthButtons() {
     };
 
     return (
-        <section className="bg-white py-20 dark:bg-dark">
+        <section className="bg-white  dark:bg-dark border-0">
             <div className="container">
                 <div className="mx-auto w-full max-w-[510px]">
                     <div className="relative mb-3">
@@ -84,7 +84,7 @@ export default function DatePickerWithFullWidthButtons() {
                             id="datepicker"
                             type="text"
                             placeholder="Pick a date"
-                            className="h-12 w-full appearance-none rounded-lg border border-stroke bg-white pl-12 pr-4 text-dark outline-none focus:border-primary dark:border-dark-3 dark:bg-dark-2 dark:text-white"
+                            className="border-0 h-12 w-full appearance-none rounded-lg border border-stroke bg-white pl-12 pr-4 text-dark outline-none focus:border-primary dark:border-dark-3 dark:bg-dark-2 dark:text-white"
                             value={selectedDate || ""}
                             readOnly
                             onClick={handleToggleCalendar}

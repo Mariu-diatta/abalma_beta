@@ -1,11 +1,10 @@
 import ProtectedRoute from "../ProtectedRoute";
-import Home from "../components/Home";
 import AdminPage from "../layouts/AdminLayout";
 import AuthPage from "../layouts/AuthLayout";
-import HomeLayout from "../layouts/HomeLayout";
 import About from "../pages/About";
 import BlogPage from "../pages/Blog";
 import ErrorPage from "../pages/ErrorPage";
+import Home from "../pages/Home";
 import LogIn from "../pages/Login";
 import Payment from "../pages/Payment";
 import Register from "../pages/Register";
@@ -15,9 +14,7 @@ import Register from "../pages/Register";
 const routes = [
 
     {
-        path: '/',
-
-        element: <HomeLayout/>,
+    
 
         errorElement: <ErrorPage />,
 
