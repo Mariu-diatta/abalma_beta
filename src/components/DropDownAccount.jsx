@@ -55,7 +55,7 @@ export default function AccountDropdown3() {
                     <div className="relative inline-block">
                         <div className="mb-3.5 flex items-center gap-4">
                             {/* Icon 1 */}
-                            <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-stroke bg-white dark:border-dark-3 dark:bg-dark-2">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-lg border-0 bg-white dark:border-dark-3 dark:bg-dark-2">
                                 <svg
                                     className="h-5 text-gray-800 dark:text-white"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -73,7 +73,7 @@ export default function AccountDropdown3() {
                             </div>
 
                             {/* Icon 2 */}
-                            <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-stroke bg-white dark:border-dark-3 dark:bg-dark-2">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-lg border-0  bg-white dark:border-dark-3 dark:bg-dark-2">
                                 <svg
                                     className="h-5 text-gray-800 dark:text-white"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -94,7 +94,7 @@ export default function AccountDropdown3() {
                             <button
                                 ref={trigger}
                                 onClick={() => setDropdownOpen(!dropdownOpen)}
-                                className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-stroke bg-white px-4 py-2 text-base font-medium text-dark dark:border-dark-3 dark:bg-dark-2 dark:text-white"
+                                className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border-0  bg-white px-4 py-2 text-base font-medium text-dark dark:border-dark-3 dark:bg-dark-2 dark:text-white"
                             >
                                 <svg
                                     className="w-6 h-6 text-gray-800 dark:text-white"

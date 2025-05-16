@@ -11,7 +11,7 @@ const NavbarHeader = () => {
     return (
 
          <>
-            <header className={` absolute left-0 right-0 top-2  z-20 flex w-full items-center justify-between`}>
+            <header className={` absolute left-0 right-0 top-2  z-20 flex w-full items-center justify-between `}>
                 <div className="container">
                     <div className="relative -mx-4 flex items-center justify-between">
                         <div className="w-50 max-w-full px-6">

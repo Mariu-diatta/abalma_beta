@@ -1,4 +1,5 @@
 import React from 'react';
+import FormElementFileUpload from './FormFile';
 
 const UpdateProduct = () => {
     return (
@@ -69,6 +70,39 @@ const UpdateProduct = () => {
                                 required
                             />
                         </div>
+
+
+                        <div>
+                            <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Le prix</label>
+                            <input
+                                type="number"
+                                name="item-weight"
+                                id="item-weight"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                value="15"
+                                placeholder="Ex. 12"
+                                required
+                            />
+                        </div>
+
+                        <div >
+                            <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Option</label>
+                            <select
+                                id="category"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            >
+                                <option defaultValue>Vendre / pretable</option>
+                                <option value="1">Pretable / offert</option>
+                                <option value="2">Vendre</option>
+                                <option value="3">Offert</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Image Produit</label>
+                            <FormElementFileUpload />
+                        </div>
+
                         <div className="sm:col-span-2">
                             <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
                             <textarea
@@ -79,7 +113,9 @@ const UpdateProduct = () => {
                                 defaultValue="Standard glass, 3.8GHz 8-core 10th-generation Intel Core i7 processor, Turbo Boost up to 5.0GHz, 16GB 2666MHz DDR4 memory, Radeon Pro 5500 XT with 8GB of GDDR6 memory, 256GB SSD storage, Gigabit Ethernet, Magic Mouse 2, Magic Keyboard - US"
                             />
                         </div>
+                  
                     </div>
+               
                     <div className="flex items-center space-x-4">
                         <button
                             type="submit"

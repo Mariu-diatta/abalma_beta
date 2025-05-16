@@ -11,7 +11,7 @@ export default function DatePickerWithFullWidthButtons() {
         if (daysContainerRef.current) {
             renderCalendar();
         }
-    }, [currentDate, isCalendarOpen]);
+    });
 
     const renderCalendar = () => {
         const year = currentDate.getFullYear();
@@ -77,9 +77,9 @@ export default function DatePickerWithFullWidthButtons() {
 
     return (
         <section className="bg-white  dark:bg-dark border-0">
-            <div className="container">
-                <div className="mx-auto w-full max-w-[510px]">
-                    <div className="relative mb-3">
+            <div className="">
+                <div className="mx-auto ">
+                    <div className="relative mb-3 w-full">
                         <input
                             id="datepicker"
                             type="text"
@@ -241,14 +241,14 @@ export default function DatePickerWithFullWidthButtons() {
                             <div className="flex items-center space-x-3 pt-4 sm:space-x-5">
                                 <button
                                     id="cancelBtn"
-                                    className="flex h-[50px] w-full items-center justify-center rounded-md bg-dark text-base font-medium text-white hover:bg-opacity-90"
+                                    className="flex h-[50px] w-full items-center justify-center rounded-md bg-dark text-base font-medium text-grey hover:bg-opacity-90"
                                     onClick={handleCancel}
                                 >
                                     Remove
                                 </button>
                                 <button
                                     id="cancelBtn"
-                                    className="flex h-[50px] w-full items-center justify-center rounded-md bg-primary text-base font-medium text-white hover:bg-blue-dark"
+                                    className="flex h-[50px] w-full items-center justify-center rounded-md bg-primary text-base font-medium text-grey hover:bg-blue-dark"
                                     onClick={handleApply}
                                 >
                                     Done

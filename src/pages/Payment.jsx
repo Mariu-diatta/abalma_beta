@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
-
-import HomeLayout from '../layouts/HomeLayout';
 import DatePickerWithFullWidthButtons from '../components/Date';
 import InputBox from '../components/InputBoxFloat';
+import PaymentCard from '../components/PaymentTools';
 
 const Payment = () => {
+
     return (
-        <HomeLayout>
-            <PaymentForm />
-        </HomeLayout>
+
+        <>
+
+            <PaymentCard >
+                <PaymentForm />
+            </PaymentCard >
+
+   
+
+        </>
     )
 }
 
@@ -37,7 +44,7 @@ const PaymentForm = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className=" lg:py-[150px] max-w-md mx-auto p-2 pt-0 mt-6 bg-white  rounded-lg">
+        <form onSubmit={handleSubmit} className=" lg:py-[1px] max-w-5xl mx-auto pt-0 mt-1 bg-white  rounded-lg">
        
             <h2 className="text-2xl font-bold mb-6 text-center">Payment Form</h2>
             <InputBox
