@@ -39,7 +39,7 @@ const NavbarHeader = () => {
                                 >
                                     <ul className="block lg:flex">
                                         <ListItem endPoint ="/">Home</ListItem>
-                                        <ListItem endPoint="/Payment">Payment</ListItem>
+                                        {/*<ListItem endPoint="/Payment">Payment</ListItem>*/}
                                         <ListItem endPoint="/About">About</ListItem>
                                         <ListItem endPoint="/Blog">Blog</ListItem>
                                     </ul>
