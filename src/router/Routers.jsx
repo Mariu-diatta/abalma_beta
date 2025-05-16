@@ -31,7 +31,9 @@ const routes = [
             {
                 path: 'About', element: <About/>
             },
-
+            {
+                path: 'Home', element: <Home />
+            },
             {
 
                 children: [

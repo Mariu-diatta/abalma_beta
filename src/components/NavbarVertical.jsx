@@ -5,6 +5,7 @@ import GridSlideProduct from "./GridProductSlide";
 import HorizontalCard from "./HorizontalCard";
 import Logo from "./LogoApp";
 import PopOverModal from "./PopOverModal";
+import Tabs from "./ProfileUser";
 import SlideProduct from "./SlideProductItem";
 import UpdateProduct from "./UpdateProduct";
 import ViewProduct from "./ViewProduct";
@@ -179,6 +180,8 @@ const VertcalNavbar = () => {
                         <GridSlideProduct />
 
                     </HorizontalCard >
+
+                    <Tabs/>
                     
                 </div>
             </div>

@@ -1,12 +1,19 @@
 import React, { useState } from "react";
 import Logo from "./LogoApp";
-import ListItem from "./ListOfItems";
 import WhiteRoundedButton from "./Button";
 import { Outlet, NavLink } from 'react-router-dom';
 
 const NavbarHeader = () => {
 
     const [open, setOpen] = useState(false);
+
+    const [activeTab, setActiveTab] = useState('home');
+
+    const tabs = [
+        { id: 'home', label: 'Home', endPoint: '/Home' },
+        { id: 'about', label: 'About', endPoint: '/About' },
+        { id: 'blog', label: 'Blog', endPoint: '/Blog' },
+    ];
 
     return (
 
@@ -25,11 +32,11 @@ const NavbarHeader = () => {
                                     onClick={() => setOpen(!open)}
                                     id="navbarToggler"
                                     className={`${open && "navbarTogglerActive"
-                                        } absolute right-4 top-1/2 block -translate-y-1/2 rounded-lg px-3 py-[6px] bg-blue-500 focus:ring-2 ring-primary lg:hidden`}
+                                        } absolute right-4 top-1/2 block -translate-y-1/2 rounded-lg px-3 py-[6px] bg-white-500 focus:ring-0 ring-primary lg:hidden  focus:bg-gray-200`}
                                 >
-                                    <span className="relative my-[6px] block h-[2px] w-[30px] bg-white"></span>
-                                    <span className="relative my-[6px] block h-[2px] w-[30px] bg-white"></span>
-                                    <span className="relative my-[6px] block h-[2px] w-[30px] bg-white"></span>
+                                    <span className="relative my-[6px] block h-[2px] w-[30px] bg-grey border-1"></span>
+                                    <span className="relative my-[6px] block h-[2px] w-[30px] bg-grey border-1"></span>
+                                    <span className="relative my-[6px] block h-[2px] w-[30px] bg-grey border-1"></span>
                                 </button>
 
                                 <nav
@@ -38,11 +45,26 @@ const NavbarHeader = () => {
                                         } `}
                                 >
                                     <ul className="block lg:flex">
-                                        <ListItem endPoint ="/">Home</ListItem>
-                                        {/*<ListItem endPoint="/Payment">Payment</ListItem>*/}
-                                        <ListItem endPoint="/About">About</ListItem>
-                                        <ListItem endPoint="/Blog">Blog</ListItem>
+                                        <ul className="lg:flex md:block">
+                                            {tabs.map((tab) => (
+                                                <li className="me-2" key={tab.id} role="presentation">
+                                                    <NavLink
+                                                        to={tab.endPoint}
+                                                        className={({ isActive }) =>
+                                                            `inline-block p-2 border-b-2 rounded-t-lg ${isActive
+                                                                ? 'text-purple-600 border-purple-600 dark:text-purple-500 dark:border-purple-500'
+                                                                : 'text-gray-500 border-transparent hover:text-gray-600 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
+                                                            } flex text-base font-medium text-dark dark:text-white lg:ml-10 lg:inline-flex`
+                                                        }
+                                                        role="tab"
+                                                    >
+                                                        {tab.label}
+                                                    </NavLink>
+                                                </li>
+                                            ))}
+                                        </ul>
                                     </ul>
+
                                 </nav>
                             </div>
                             <div className="hidden justify-end pr-16 sm:flex lg:pr-0">
@@ -72,3 +94,6 @@ const NavbarHeader = () => {
 };
 
 export default NavbarHeader;
+
+
+

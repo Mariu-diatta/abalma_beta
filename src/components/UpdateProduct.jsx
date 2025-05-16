@@ -1,121 +1,145 @@
-import React from 'react';
+import React, { useState } from 'react';
 import FormElementFileUpload from './FormFile';
 
 const UpdateProduct = () => {
+
+    const [dataProduct, setDataProduct] = useState({
+        Name: "",
+        Brand: "",
+        Price: "",
+        Categorie: "",
+        Poid: "",
+        Option: "",
+        Description: "",
+        Image: ""
+    });
+
+    const onChangeClick = (e) => {
+        const { name, value } = e.target;
+        setDataProduct((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
     return (
         <section className="bg-white dark:bg-gray-900">
             <div className="max-w-2xl px-4 py-8 mx-auto lg:py-16">
                 <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Update product</h2>
                 <form action="#">
                     <div className="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
+
                         <div className="sm:col-span-2">
-                            <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Name</label>
+                            <label htmlFor="Name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Name</label>
                             <input
                                 type="text"
-                                name="name"
-                                id="name"
+                                name="Name"
+                                id="Name"
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                value="Apple iMac 27”"
+                                value={dataProduct.Name}
                                 placeholder="Type product name"
+                                onChange={onChangeClick}
                                 required
                             />
                         </div>
+
                         <div className="w-full">
-                            <label htmlFor="brand" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Brand</label>
+                            <label htmlFor="Brand" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Brand</label>
                             <input
                                 type="text"
-                                name="brand"
-                                id="brand"
+                                name="Brand"
+                                id="Brand"
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                value="Apple"
+                                value={dataProduct.Brand}
                                 placeholder="Product brand"
+                                onChange={onChangeClick}
                                 required
                             />
                         </div>
+
                         <div className="w-full">
-                            <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
+                            <label htmlFor="Price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
                             <input
                                 type="number"
-                                name="price"
-                                id="price"
+                                name="Price"
+                                id="Price"
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                value="2999"
+                                value={dataProduct.Price}
                                 placeholder="$299"
+                                onChange={onChangeClick}
                                 required
                             />
                         </div>
+
                         <div>
-                            <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
+                            <label htmlFor="Categorie" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
                             <select
-                                id="category"
+                                id="Categorie"
+                                name="Categorie"
+                                value={dataProduct.Categorie}
+                                onChange={onChangeClick}
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             >
-                                <option defaultValue>Electronics</option>
+                                <option value="">Select category</option>
+                                <option value="Electronics">Electronics</option>
                                 <option value="TV">TV/Monitors</option>
                                 <option value="PC">PC</option>
                                 <option value="GA">Gaming/Console</option>
                                 <option value="PH">Phones</option>
-                                <option value="PH">habits</option>
+                                <option value="HB">Habits</option>
                             </select>
                         </div>
+
                         <div>
-                            <label htmlFor="item-weight" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Item Weight (kg)</label>
+                            <label htmlFor="Poid" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Item Weight (kg)</label>
                             <input
                                 type="number"
-                                name="item-weight"
-                                id="item-weight"
+                                name="Poid"
+                                id="Poid"
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                value="15"
+                                value={dataProduct.Poid}
+                                onChange={onChangeClick}
                                 placeholder="Ex. 12"
                                 required
                             />
                         </div>
 
-
                         <div>
-                            <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Le prix</label>
-                            <input
-                                type="number"
-                                name="item-weight"
-                                id="item-weight"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                value="15"
-                                placeholder="Ex. 12"
-                                required
-                            />
-                        </div>
-
-                        <div >
-                            <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Option</label>
+                            <label htmlFor="Option" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Option</label>
                             <select
-                                id="category"
+                                id="Option"
+                                name="Option"
+                                value={dataProduct.Option}
+                                onChange={onChangeClick}
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             >
-                                <option defaultValue>Vendre / pretable</option>
-                                <option value="1">Pretable / offert</option>
+                                <option value="">Vendre / Pretable</option>
+                                <option value="1">Pretable / Offert</option>
                                 <option value="2">Vendre</option>
                                 <option value="3">Offert</option>
                             </select>
                         </div>
 
                         <div>
-                            <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Image Produit</label>
+                            <label htmlFor="Image" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Image Produit</label>
                             <FormElementFileUpload />
                         </div>
 
                         <div className="sm:col-span-2">
-                            <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                            <label htmlFor="Description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
                             <textarea
-                                id="description"
+                                id="Description"
+                                name="Description"
+                                value={dataProduct.Description}
+                                onChange={onChangeClick}
                                 rows="8"
                                 className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 placeholder="Write a product description here..."
-                                defaultValue="Standard glass, 3.8GHz 8-core 10th-generation Intel Core i7 processor, Turbo Boost up to 5.0GHz, 16GB 2666MHz DDR4 memory, Radeon Pro 5500 XT with 8GB of GDDR6 memory, 256GB SSD storage, Gigabit Ethernet, Magic Mouse 2, Magic Keyboard - US"
                             />
                         </div>
-                  
+
                     </div>
-               
+
                     <div className="flex items-center space-x-4">
                         <button
                             type="submit"
