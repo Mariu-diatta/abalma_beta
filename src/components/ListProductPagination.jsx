@@ -1,18 +1,6 @@
 import React, { useState, useMemo } from "react";
 
-const ProductTablePagination = () => {
-    const data = [
-        { id: 1, name: 'Apple MacBook Pro 17"', color: "Silver", category: "Laptop", price: 2999, statut: "en cours" },
-        { id: 2, name: "Microsoft Surface Pro", color: "White", category: "Laptop PC", price: 1999, statut: "vendu" },
-        { id: 3, name: "Magic Mouse 2", color: "Black", category: "Accessories", price: 99, statut: "offert" },
-        { id: 4, name: "Apple Watch", color: "Black", category: "Watches", price: 199, statut: "offert" },
-        { id: 5, name: "Apple iMac", color: "Silver", category: "PC", price: 2999, statut: "prete" },
-        { id: 6, name: "Apple AirPods", color: "White", category: "Accessories", price: 399, statut: "prete" },
-        { id: 7, name: "iPad Pro", color: "Gold", category: "Tablet", price: 699, statut: "offert" },
-        { id: 8, name: "Magic Keyboard", color: "Black", category: "Accessories", price: 99, statut: "offert" },
-        { id: 9, name: "Smart Folio iPad Air", color: "Blue", category: "Accessories", price: 79, statut: "offert" },
-        { id: 10, name: "AirTag", color: "Silver", category: "Accessories", price: 29, statut: "en cours" },
-    ];
+const ProductTablePagination = ({data }) => {
 
     const ITEMS_PER_PAGE = 5;
 
@@ -105,7 +93,16 @@ const ProductTablePagination = () => {
 
     return (
         <div className="mt-5 relative overflow-x-auto shadow-md sm:rounded-lg p-4 bg-white dark:bg-gray-800">
-            <h2 className="m-2 text-xl font-bold dark:text-white">Mes commandes recentes</h2>
+
+            <nav className="flex flex-row items-center gap-2 m-2">
+
+                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 8h6m-6 4h6m-6 4h6M6 3v18l2-2 2 2 2-2 2 2 2-2 2 2V3l-2 2-2-2-2 2-2-2-2 2-2-2Z" />
+                </svg>
+
+                <h2 className="text-2xl font-semibold  text-gray-800 dark:text-white">Mes ventes</h2>
+
+            </nav>
 
             <div className="m-2 flex flex-col sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
                 {/* Filtre statut */}
@@ -178,7 +175,7 @@ const ProductTablePagination = () => {
                                 aria-label="Sélectionner tout"
                             />
                         </th>
-                        {["name", "color", "category", "price", "statut"].map((key) => (
+                        {["name", "color", "category", "price", "statut",'action',"consulter"].map((key) => (
                             <th
                                 key={key}
                                 className="px-4 py-3 cursor-pointer select-none"
@@ -200,10 +197,14 @@ const ProductTablePagination = () => {
                                             : key === "color"
                                                 ? "Couleur"
                                                 : key === "category"
-                                                    ? "Catégorie"
+                                                    ? "Categorie"
                                                     : key === "price"
                                                         ? "Prix"
-                                                        : "Statut"}
+                                                        : key === "statut"
+                                                            ? "Statut"
+                                                            : key === "action"
+                                                                ? "Action"
+                                                                    :"Consulter"}
                                     </span>
                                     {sortConfig.key === key ? (
                                         sortConfig.direction === "asc" ? (
@@ -215,7 +216,7 @@ const ProductTablePagination = () => {
                                 </div>
                             </th>
                         ))}
-                        <th className="px-6 py-3">Action</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -247,13 +248,30 @@ const ProductTablePagination = () => {
                                 <td className="px-4 py-3 capitalize">{item.statut}</td>
                                 <td className="px-6 py-3">
                                     <button
-                                        className="text-blue-600 hover:underline dark:text-blue-400"
+                                        className="text-blue-600 hover:underline dark:text-blue-400 cursor-pointer"
                                         onClick={() => alert(`Modifier: ${item.name}`)}
                                         aria-label={`Modifier ${item.name}`}
                                     >
-                                        Modifier
+                                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z" />
+                                        </svg>
+
                                     </button>
                                 </td>
+                                <td className="px-6 py-3">
+                                    <button
+                                        className="text-blue-600 hover:underline dark:text-blue-400 cursor-pointer"
+                                        onClick={() => alert(`Voir: ${item.name}`)}
+                                        aria-label={`Voir ${item.name}`}
+                                    >
+                                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
+                                            <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                        </svg>
+
+                                    </button>
+                                </td>
+                           
                             </tr>
                         ))
                     )}

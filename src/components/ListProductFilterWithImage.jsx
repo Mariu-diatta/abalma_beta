@@ -1,30 +1,6 @@
 import React, { useState } from "react";
 
-const initialProducts = [
-    {
-        id: 1,
-        name: "Apple Watch",
-        image: "/docs/images/products/apple-watch.png",
-        price: 599,
-        quantity: 1,
-    },
-    {
-        id: 2,
-        name: 'iMac 27"',
-        image: "/docs/images/products/imac.png",
-        price: 2499,
-        quantity: 1,
-    },
-    {
-        id: 3,
-        name: "iPhone 12",
-        image: "/docs/images/products/iphone-12.png",
-        price: 999,
-        quantity: 1,
-    },
-];
-
-const ProductTable = () => {
+const ProductTable = ({ initialProducts }) => {
     const [products, setProducts] = useState(initialProducts);
 
     const increaseQuantity = (id) => {
@@ -53,13 +29,15 @@ const ProductTable = () => {
 
     return (
         <div className="mb-2 relative overflow-x-auto shadow-md sm:rounded-lg">
-            <nav className="flex flex-row items-center gap-2 m-2 text-xl font-bold dark:text-white">
+
+            <nav className="flex flex-row items-center gap-2 m-2">
+
                 <svg
                     className="text-gray-800 dark:text-white"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
+                    width="30"
+                    height="30"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                 >
@@ -69,11 +47,15 @@ const ProductTable = () => {
                         clipRule="evenodd"
                     />
                 </svg>
-                <h2>Mes produits en cours</h2>
+
+                <h2 className="text-2xl font-semibold  text-gray-800 dark:text-white">Produits selectionnes</h2>
+
             </nav>
 
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+
                     <tr>
                         <th scope="col" className="px-16 py-3">
                             <span className="sr-only">Image</span>
@@ -83,6 +65,7 @@ const ProductTable = () => {
                         <th scope="col" className="px-6 py-3">Price</th>
                         <th scope="col" className="px-6 py-3">Total</th>
                         <th scope="col" className="px-6 py-3">Action</th>
+                       
                     </tr>
                 </thead>
 
@@ -165,9 +148,12 @@ const ProductTable = () => {
                             <td className="px-6 py-4">
                                 <button
                                     onClick={() => removeProduct(id)}
-                                    className="font-medium text-red-600 dark:text-red-500 hover:underline"
+                                    className="font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer"
                                 >
-                                    Remove
+                                    <svg class="w-6 h-5 text-red-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z" clip-rule="evenodd" />
+                                    </svg>
+
                                 </button>
                             </td>
                         </tr>
