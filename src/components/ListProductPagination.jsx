@@ -68,12 +68,20 @@ const ProductTablePagination = ({data }) => {
 
     // Gestion sélection
     const toggleSelectAll = () => {
-        if (selectedIds.size === currentItems.length) {
-            setSelectedIds(new Set());
+        const visibleIds = currentItems.map(item => item.id);
+        const allSelected = visibleIds.every(id => selectedIds.has(id));
+        if (allSelected) {
+            // Unselect only visible
+            const newSet = new Set(selectedIds);
+            visibleIds.forEach(id => newSet.delete(id));
+            setSelectedIds(newSet);
         } else {
-            setSelectedIds(new Set(currentItems.map(i => i.id)));
+            const newSet = new Set(selectedIds);
+            visibleIds.forEach(id => newSet.add(id));
+            setSelectedIds(newSet);
         }
     };
+
 
     const toggleSelectOne = (id) => {
         const newSelected = new Set(selectedIds);
@@ -149,6 +157,23 @@ const ProductTablePagination = ({data }) => {
                         </ul>
                     )}
                 </div>
+
+                {/* Bouton supprimer si sélection */}
+                {selectedIds.size > 0 && (
+                    <button
+                        onClick={() => {
+                            if (window.confirm(`Confirmer la suppression de ${selectedIds.size} élément(s) ?`)) {
+                                alert(`Suppression des IDs : ${Array.from(selectedIds).join(", ")}`);
+                                // Ici, tu pourras déclencher une vraie suppression si nécessaire.
+                                setSelectedIds(new Set());
+                            }
+                        }}
+                        className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-200"
+                    >
+                        Supprimer {selectedIds.size === 1 ? "l element" : "la selection"}
+                    </button>
+                )}
+
 
                 {/* Recherche */}
                 <div className="relative w-full sm:w-auto">
