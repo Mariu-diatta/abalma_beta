@@ -64,25 +64,41 @@ const NavbarHeader = () => {
                                             ))}
                                         </ul>
                                     </ul>
+                                    <div className="lg:hidden md:hidden justify-end pr-16 sm:flex lg:pr-0 gap-2">
+                                        {/*<NavLink*/}
+                                        {/*    to="/logIn"*/}
+                                        {/*    className="px-3 py-3 text-base font-medium text-dark hover:text-primary dark:text-white"*/}
+                                        {/*>*/}
+                                        <WhiteRoundedButton titleButton={"Se connecter"} to="/logIn" />
 
+                                        {/*</NavLink>*/}
+
+                                        {/*<NavLink*/}
+                                        {/*    to="/Register"*/}
+                                        {/*    className="rounded-lg bg-primary px-2 py-3 text-dark font-medium text-grey hover:bg-opacity-90"*/}
+                                        {/*>*/}
+                                        <WhiteRoundedButton titleButton={"Creer un compte"} to="/Register" />
+
+                                        {/*</NavLink>*/}
+                                    </div>
                                 </nav>
                             </div>
-                            <div className="hidden justify-end pr-16 sm:flex lg:pr-0">
-                                <NavLink
-                                    to="/logIn"
-                                    className="px-3 py-3 text-base font-medium text-dark hover:text-primary dark:text-white"
-                                >
-                                    <WhiteRoundedButton titleButton={"Se connecter"} />
+                            <div className="hidden  justify-end pr-16 sm:flex lg:pr-0 gap-2">
+                                {/*<NavLink*/}
+                                {/*    to="/logIn"*/}
+                                {/*    className="px-3 py-3 text-base font-medium text-dark hover:text-primary dark:text-white"*/}
+                                {/*>*/}
+                                    <WhiteRoundedButton titleButton={"Se connecter"} to="/logIn" />
 
-                                </NavLink>
+                                {/*</NavLink>*/}
 
-                                <NavLink
-                                    to="/Register"
-                                    className="rounded-lg bg-primary px-2 py-3 text-dark font-medium text-grey hover:bg-opacity-90"
-                                >
-                                    <WhiteRoundedButton titleButton={"Creer un compte"} />
+                                {/*<NavLink*/}
+                                {/*    to="/Register"*/}
+                                {/*    className="rounded-lg bg-primary px-2 py-3 text-dark font-medium text-grey hover:bg-opacity-90"*/}
+                                {/*>*/}
+                                    <WhiteRoundedButton titleButton={"Creer un compte"} to="/Register" />
            
-                                </NavLink>
+                                {/*</NavLink>*/}
                             </div>
                         </div>
                     </div>

@@ -3,6 +3,8 @@ import GridLayoutProduct from "./GridLayoutProducts";
 import GridProductDefault from "./GridProductDefaultSize";
 import GridSlideProduct from "./GridProductSlide";
 import HorizontalCard from "./HorizontalCard";
+import DataTable from "./ListProductFilter";
+import ProductTable from "./ListProductFilterWithImage";
 import Logo from "./LogoApp";
 import PopOverModal from "./PopOverModal";
 import Tabs from "./ProfileUser";
@@ -154,34 +156,38 @@ const VertcalNavbar = () => {
             <div className="p-4 pt-0 mb-5  sm:ml-64">
          
                 <div className="p-0 border-2 border-white-200 border-white rounded-lg dark:border-gray-700">
-                    <div className="grid  gap-0 mb-4">
+                    {/*<div className="grid  gap-0 mb-4">*/}
        
-                        <div className="flex items-center justify-end h-24 rounded-sm">
-                            <AccountDropdown3/>
-                        </div>
-                    </div>
+                    {/*    <div className="flex items-center justify-end h-24 rounded-sm">*/}
+                    {/*        <AccountDropdown3/>*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
  
-                    <GridLayoutProduct />
+                    {/*<GridLayoutProduct />*/}
 
-                    <SlideProduct/>
+                    {/*<SlideProduct/>*/}
 
-                    <GridProductDefault/>
+                    {/*<GridProductDefault/>*/}
 
-                    <ViewProduct />
+                    {/*<ViewProduct />*/}
 
-                    <UpdateProduct />
+                    {/*<UpdateProduct />*/}
 
-                    <PopOverModal />
+                    {/*<PopOverModal />*/}
 
-                    <GridSlideProduct />
+                    {/*<GridSlideProduct />*/}
 
-                    <HorizontalCard >
+                    {/*<HorizontalCard >*/}
 
-                        <GridSlideProduct />
+                    {/*    <GridSlideProduct />*/}
 
-                    </HorizontalCard >
+                    {/*</HorizontalCard >*/}
 
-                    <Tabs/>
+                    <Tabs />
+
+                    {/*<DataTable />*/}
+
+                    {/*<ProductTable/>*/}
                     
                 </div>
             </div>
