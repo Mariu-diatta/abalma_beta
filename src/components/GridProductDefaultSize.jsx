@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import HorizontalCard from "./HorizontalCard";
+import GridSlideProduct from "./GridProductSlide";
 
 const products = [
     { src: "image", price: 79, title: "Produit 1", description: "Description courte 1" },
@@ -16,12 +18,26 @@ const products = [
 ];
 
 const GridProductDefault = () => {
+
     const cols = products.reduce((acc, product, idx) => {
         const col = Math.floor(idx / 3);
         if (!acc[col]) acc[col] = [];
         acc[col].push(product);
         return acc;
     }, []);
+
+    const [modalData, setModalData] = useState(null); // null ou { img, price, title, id }
+
+    const openModal = (id) => {
+        setModalData({
+            id,
+            img: `https://flowbite.s3.amazonaws.com/docs/gallery/square/image${id ? `-${id}` : ''}.jpg`,
+            price: 79,
+            title: 'Saussure neuve.',
+        });
+    };
+
+    const closeModal = () => setModalData(null);
 
     return (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
@@ -34,7 +50,7 @@ const GridProductDefault = () => {
                             <button
                                 type="button"
                                 className="relative p-0 border-0 bg-transparent cursor-pointer block rounded-lg overflow-hidden"
-                                onClick={() => alert(`Image ${src} clicked`)}
+                                onClick={() => openModal(src)}
                                 aria-label={`Voir l'image ${src}`}
                             >
                                 <img
@@ -59,22 +75,23 @@ const GridProductDefault = () => {
                             <div className="flex items-center justify-between mt-1 space-x-2 text-white text-sm">
 
                                 {/* Prix aligné avec les boutons */}
-                                <span className="flex-1 text-center text-lg font-semibold text-gray-800 dark:text-white">
+                                <span className="flex-1 text-center text-md font-semibold text-gray-800 dark:text-white">
                                     ${price}
                                 </span>
 
 
 
                                 <button
-                                    onClick={() => alert(`Cadeau ajouté: ${src}`)}
-                                    className="flex-1 hover:bg-yellow-700 py-1 rounded flex justify-center items-center cursor-pointer"
+                                   
+                                    className="flex-1  py-1 rounded flex justify-center items-center cursor-pointer"
                                 >
                                     <svg
-                                        className="w-6 h-5 text-yellow-800 dark:text-white"
+                                        className="w-6 h-4  text-yellow-800 dark:text-white cursor-pointer"
                                         aria-hidden="true"
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="currentColor"
                                         viewBox="0 0 24 24"
+                                        onClick={() => alert(`Cadeau ajouté: ${src}`)}
                                     >
                                         <path d="M20 7h-.7c.229-.467.349-.98.351-1.5a3.5 3.5 0 0 0-3.5-3.5c-1.717 0-3.215 1.2-4.331 2.481C10.4 2.842 8.949 2 7.5 2A3.5 3.5 0 0 0 4 5.5c.003.52.123 1.033.351 1.5H4a2 2 0 0 0-2 2v2a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a2 2 0 0 0-2-2Zm-9.942 0H7.5a1.5 1.5 0 0 1 0-3c.9 0 2 .754 3.092 2.122-.219.337-.392.635-.534.878Zm6.1 0h-3.742c.933-1.368 2.371-3 3.739-3a1.5 1.5 0 0 1 0 3h.003ZM13 14h-2v8h2v-8Zm-4 0H4v6a2 2 0 0 0 2 2h3v-8Zm6 0v8h3a2 2 0 0 0 2-2v-6h-5Z" />
                                     </svg>
@@ -82,10 +99,10 @@ const GridProductDefault = () => {
 
                                 <button
                                     onClick={() => alert(`Ajouter au panier: ${src}`)}
-                                    className="flex-1 hover:bg-blue-700 py-1 rounded flex justify-center items-center cursor-pointer"
+                                    className="flex-1  py-1 rounded flex justify-center items-center cursor-pointer"
                                 >
                                     <svg
-                                        className="h-5 w-5 text-green-800 dark:text-white"
+                                        className="w-6 h-5 text-green-800 dark:text-white cursor-pointer"
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
                                         viewBox="0 0 24 24"
@@ -107,6 +124,27 @@ const GridProductDefault = () => {
 
                 </div>
             ))}
+
+            {/* Modal Popup */}
+            {modalData && (
+                <div
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50"
+                    onClick={closeModal}  // clic en dehors => ferme modal
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="modal-title"
+                >
+                    <div
+                        onClick={(e) => e.stopPropagation()} // empêche la fermeture quand on clique dans ce div
+                    >
+                        <HorizontalCard>
+                            <GridSlideProduct />
+                        </HorizontalCard>
+                    </div>
+                </div>
+
+            )}
+
         </div>
     );
 };
