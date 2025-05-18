@@ -40,10 +40,10 @@ const SettingsForm = () => {
     };
 
     return (
-        <div className="flex justify-center px-4 py-8">
+        <div className="flex justify-center px-4 py-8 ">
             <form
                 onSubmit={handleSubmit}
-                className="w-full max-w-2xl bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6"
+                className="w-full max-w-2xl bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6 "
             >
                 <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Paramètres du compte</h2>
 

@@ -1,5 +1,5 @@
 ﻿import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, NavLink } from 'react-router-dom';
 export default function AccountDropdown3() {
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -73,7 +73,11 @@ export default function AccountDropdown3() {
                             </div>
 
                             {/* Icon 2 */}
-                            <div className="flex h-12 w-12 items-center justify-center rounded-lg border-0  bg-white dark:border-dark-3 dark:bg-dark-2">
+
+                            <NavLink
+                                to="/payment_card"
+                                className="flex h-12 w-12 items-center justify-center rounded-lg border-0 bg-white dark:border-dark-3 dark:bg-dark-2"
+                            >
                                 <svg
                                     className="h-5 text-gray-800 dark:text-white"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -88,7 +92,8 @@ export default function AccountDropdown3() {
                                         d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6"
                                     />
                                 </svg>
-                            </div>
+                            </NavLink>
+
 
                             {/* Dropdown Button */}
                             <button
@@ -126,55 +131,44 @@ export default function AccountDropdown3() {
                             </button>
                         </div>
 
-
                         <div
                             ref={dropdown}
                             onFocus={() => setDropdownOpen(true)}
                             onBlur={() => setDropdownOpen(false)}
-                            className={`absolute right-0 top-full w-[240px] divide-y divide-stroke overflow-hidden rounded-lg bg-white dark:divide-dark-3 dark:bg-dark-2 ${dropdownOpen ? "block" : "hidden"}`}
+                            className={`absolute right-0 top-full w-[240px] divide-y divide-stroke overflow-hidden rounded-lg bg-white dark:divide-dark-3 dark:bg-dark-2 z-[70] ${dropdownOpen ? "block" : "hidden"}`}
                         >
+
                             <div className="px-4 py-3">
                                 <p className="text-sm font-semibold text-dark dark:text-white">
                                     Account menu
                                 </p>
                             </div>
                             <div>
-                                <a
-                                    href="#0"
+                                <NavLink
+                                    to="/user_profil"
                                     className="flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
                                 >
-                                    Voir profil
-                                </a>
-                                <a
-                                    href="#0"
-                                    className="flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
-                                >
-                                    Settings
-                                </a>
+                                    Voir compte
+                                </NavLink>
+
                             </div>
                             <div>
-                                <a
-                                    href="#0"
+                                <NavLink
+                                    to="/entreprise"
                                     className="flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
                                 >
                                     Entreprise
-                                </a>
-                                <a
-                                    href="#0"
-                                    className="flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
-                                >
-                                    Invite colleagues
-                                </a>
+                                </NavLink>
                             </div>
                             <div>
-                                <a
-                                    href="#0"
+                                <NavLink
+                                    to="/support"
                                     className="flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
                                 >
                                     Support
-                                </a>
-
+                                </NavLink>
                             </div>
+
                             <div>
                                 <button
                                     onClick={() => getUserLogOut()}

@@ -97,12 +97,8 @@ const data = [
 ];
 
 
-
-
-
-
-
 const Tabs = () => {
+
     const [activeTab, setActiveTab] = useState('profile');
 
     const tabs = [
@@ -121,9 +117,11 @@ const Tabs = () => {
             <div className="p-6 space-y-6 max-w-7xl mx-auto">
 
                 <div className="mb-6 text-center">
+
                     <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white">
                         Bienvenue sur votre tableau de bord !
                     </h1>
+
                     <p className="mt-2 text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
                         Gérez vos produits, suivez vos activités et accédez rapidement aux informations essentielles pour optimiser votre expérience.
                     </p>
@@ -141,11 +139,13 @@ const Tabs = () => {
 
             </div>
         ),
+
         settings: (
-            <div className="p-6 max-w-4xl mx-auto text-gray-700 dark:text-gray-300">
+            <div className="p-1 max-full mx-auto text-gray-700 dark:text-gray-300">
                 <Settings/>
             </div>
         ),
+
         contacts: (
             <div className="p-1 max-full mx-auto text-gray-700 dark:text-gray-300">
                 <UserTable users={users} />
@@ -155,12 +155,18 @@ const Tabs = () => {
 
     return (
         <div className="min-h-screen w-full bg-gray-100 dark:bg-gray-900 px-4 py-6">
+
             <div className="max-w-7xl mx-auto">
+
                 {/* Tabs Navigation */}
                 <nav className="mb-4 border-b border-gray-200 dark:border-gray-700" role="tablist" aria-label="Main tabs">
+
                     <ul className="flex space-x-2 overflow-x-auto text-sm font-medium text-center">
+
                         {tabs.map((tab) => (
+
                             <li key={tab.id} role="presentation">
+
                                 <button
                                     type="button"
                                     role="tab"
@@ -175,9 +181,11 @@ const Tabs = () => {
                                 >
                                     {tab.label}
                                 </button>
+
                             </li>
                         ))}
                     </ul>
+
                 </nav>
 
                 {/* Tab Content */}
@@ -189,7 +197,9 @@ const Tabs = () => {
                 >
                     {tabContent[activeTab]}
                 </section>
+
             </div>
+
         </div>
     );
 };

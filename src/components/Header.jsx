@@ -10,7 +10,7 @@ const NavbarHeader = () => {
     const [activeTab, setActiveTab] = useState('home');
 
     const tabs = [
-        { id: 'home', label: 'Home', endPoint: '/Home' },
+        { id: 'home', label: 'Home', endPoint: '/' },
         { id: 'about', label: 'About', endPoint: '/About' },
         { id: 'blog', label: 'Blog', endPoint: '/Blog' },
     ];

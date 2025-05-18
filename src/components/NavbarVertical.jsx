@@ -12,7 +12,10 @@ import SlideProduct from "./SlideProductItem";
 import UpdateProduct from "./UpdateProduct";
 import ViewProduct from "./ViewProduct";
 
-const VertcalNavbar = () => {
+import { NavLink } from 'react-router-dom';
+
+
+const VertcalNavbar = ({ children }) => {
 
     return (
         < >
@@ -80,7 +83,12 @@ const VertcalNavbar = () => {
                                     <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="M9 8h10M9 12h10M9 16h10M4.99 8H5m-.02 4h.01m0 4H5" />
                                 </svg>
 
-                                <span className="flex-1 ms-3 whitespace-nowrap">Products</span>
+                                <NavLink
+                                    to="/products"
+                                    className="flex-1 ms-3 whitespace-nowrap"
+                                >
+                                    Products
+                                </NavLink>
                             </span>
                         </li>
 
@@ -90,6 +98,7 @@ const VertcalNavbar = () => {
                                     <path fill-rule="evenodd" d="M5.833 5a5 5 0 0 1 3-1h6.334a5 5 0 0 1 3 1L21.1 7.2a1 1 0 0 1 .268 1.296l-2 3.5a1 1 0 0 1-1.382.361l-.986-.59V19a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1v-7.234l-.985.591a1 1 0 0 1-1.383-.36l-2-3.5A1 1 0 0 1 2.9 7.2L5.833 5ZM14 5h-4c0 .425.223.933.645 1.355.422.423.93.645 1.355.645.425 0 .933-.222 1.355-.645.423-.422.645-.93.645-1.355Z" clip-rule="evenodd" />
                                 </svg>
                                 <span className="ms-3">habits</span>
+
                             </span>
                         </li>
 
@@ -156,13 +165,13 @@ const VertcalNavbar = () => {
             <div className="p-4 pt-0 mb-5  sm:ml-64">
          
                 <div className="p-0 border-2 border-white-200 border-white rounded-lg dark:border-gray-700">
-                    {/*<div className="grid  gap-0 mb-4">*/}
+                    <div className="grid  gap-0 mb-4">
        
-                    {/*    <div className="flex items-center justify-end h-24 rounded-sm">*/}
-                    {/*        <AccountDropdown3/>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
- 
+                        <div className="flex items-center justify-end h-24 rounded-sm">
+                            <AccountDropdown3/>
+                        </div>
+                    </div>
+                    {children}
                     {/*<GridLayoutProduct />*/}
 
                     {/*<SlideProduct/>*/}
@@ -183,7 +192,7 @@ const VertcalNavbar = () => {
 
                     {/*</HorizontalCard >*/}
 
-                    <Tabs />
+                    {/*<Tabs />*/}
 
                     {/*<DataTable />*/}
 

@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
+import Payment from "../pages/Payment";
+import Logo from "./LogoApp";
 
 const ProductTable = ({ initialProducts }) => {
     const [products, setProducts] = useState(initialProducts);
@@ -173,11 +175,39 @@ const ProductTable = ({ initialProducts }) => {
                 </tfoot>
             </table>
 
+            <BuyButtonWithPaymentForm total_price={grandTotal.toFixed(2) } /> 
+            
+
+        </div>
+    );
+};
+
+export default ProductTable;
+
+
+const BuyButtonWithPaymentForm = ({ total_price }) => {
+    const [showPaymentForm, setShowPaymentForm] = useState(false);
+
+    const handleBuyClick = () => {
+        setShowPaymentForm(true);
+    };
+
+    const handleClose = () => {
+        setShowPaymentForm(false);
+    };
+
+    // Empêche la fermeture quand on clique dans le formulaire
+    const handleFormClick = (e) => {
+        e.stopPropagation();
+    };
+
+    return (
+        <div className="relative">
             <div className="m-2 inline-flex rounded-md shadow-xs" role="group">
                 <button
                     type="button"
                     className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    onClick={() => alert("Achat effectu� !")}
+                    onClick={handleBuyClick}
                 >
                     <svg
                         className="w-3.5 h-3.5 me-2"
@@ -191,8 +221,31 @@ const ProductTable = ({ initialProducts }) => {
                     Buy now
                 </button>
             </div>
+
+            {showPaymentForm && (
+                // Overlay qui couvre tout l'écran, clic ferme le formulaire
+                <div
+                    className="fixed inset-0 z-50 bg-gray-800 bg-opacity-1000 flex justify-center items-center"
+                    onClick={handleClose}
+                >
+                   
+
+                    {/* Formulaire qui prend la moitié de la largeur et une hauteur max, centré */}
+                    <div
+                        className="fixed bg-white md:w-1/2 max-h-[90vh] shadow-lg p-6 overflow-auto rounded"
+                        onClick={(e) => e.stopPropagation()}
+                    > 
+                        <div className="p-2 flex justify-between items-center">
+                            <Logo />
+                            <span className="font-semibold text-lg"> TOTAL à payer : {total_price}</span>
+                        </div>
+                        <Payment />
+                    </div>
+                </div>
+
+            )}
         </div>
     );
 };
 
-export default ProductTable;
+
