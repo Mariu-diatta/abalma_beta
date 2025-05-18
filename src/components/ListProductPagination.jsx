@@ -1,4 +1,7 @@
 import React, { useState, useMemo } from "react";
+import HorizontalCard from "./HorizontalCard";
+import GridSlideProduct from "./GridProductSlide";
+import ViewProduct from "./ViewProduct";
 
 const ProductTablePagination = ({data }) => {
 
@@ -10,6 +13,10 @@ const ProductTablePagination = ({data }) => {
     const [filterStatut, setFilterStatut] = useState("Tous");
     const [selectedIds, setSelectedIds] = useState(new Set());
     const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
+
+    const [popoverOpen, setPoverOpen] = useState(false)
+
+    const closePopover = () => setPoverOpen(false)
 
     // Filtrage par statut réel
     const statutsOptions = ["Tous", "en cours", "vendu", "offert", "prete"];
@@ -286,7 +293,7 @@ const ProductTablePagination = ({data }) => {
                                 <td className="px-6 py-3">
                                     <button
                                         className="text-blue-600 hover:underline dark:text-blue-400 cursor-pointer"
-                                        onClick={() => alert(`Voir: ${item.name}`)}
+                                        onClick={() => setPoverOpen(true)}
                                         aria-label={`Voir ${item.name}`}
                                     >
                                         <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -360,6 +367,29 @@ const ProductTablePagination = ({data }) => {
                     </li>
                 </ul>
             </nav>
+            {popoverOpen && (
+                <>
+                    {/* Fond semi-transparent */}
+                    <div
+                        className="fixed inset-0  bg-opacity-30 z-40"
+                        onClick={closePopover}
+                    ></div>
+
+                    {/* Popover */}
+                    <div
+                        className="fixed top-1/2 left-1/2 z-50 max-w-full  bg-white  rounded-md shadow-lg p-4 transform -translate-x-1/2 -translate-y-1/2"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="popover-title"
+                    >
+                        <div className="flex  items-center  max-w-full ">
+                            <ViewProduct/>
+                        </div>
+
+                    </div>
+                </>
+            )}
+
         </div>
     );
 };

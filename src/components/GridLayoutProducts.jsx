@@ -1,6 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
+import GridSlideProduct from './GridProductSlide';
+import HorizontalCard from './HorizontalCard';
 
 const GridLayoutProduct = () => {
+    const [modalData, setModalData] = useState(null); // null ou { img, price, title, id }
+
+    const openModal = (id) => {
+        setModalData({
+            id,
+            img: `https://flowbite.s3.amazonaws.com/docs/gallery/square/image${id ? `-${id}` : ''}.jpg`,
+            price: 79,
+            title: 'Saussure neuve.',
+        });
+    };
+
+    const closeModal = () => setModalData(null);
+
     return (
         <>
             <div className="flex items-center justify-center py-4 md:py-1 flex-wrap">
@@ -42,7 +57,7 @@ const GridLayoutProduct = () => {
 
                         {/* IMAGE */}
                         <button
-                            onClick={() => alert(`Image ${i} clicked`)}
+                            onClick={() => openModal(i)}
                             className="block w-full p-0 border-0 bg-transparent cursor-pointer"
                             type="button"
                             aria-label={`Voir l'image ${i}`}
@@ -60,10 +75,9 @@ const GridLayoutProduct = () => {
                             Saussure neuve.
                         </p>
 
-
                         {/* Boutons + prix sur la même ligne */}
                         <div className="flex items-center justify-between space-x-1 mb-1 ">
-    
+
                             <span className="hidden text-lg font-medium text-blue-900 line-through dark:text-white">109</span>
                             <span className="ms-3 text-lg font-medium text-blue-900 dark:text-white">$79</span>
 
@@ -97,12 +111,30 @@ const GridLayoutProduct = () => {
                             </div>
                         </div>
 
-
                     </div>
                 ))}
 
             </div>
 
+            {/* Modal Popup */}
+            {modalData && (
+                <div
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50"
+                    onClick={closeModal}  // clic en dehors => ferme modal
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="modal-title"
+                >
+                    <div
+                        onClick={(e) => e.stopPropagation()} // empêche la fermeture quand on clique dans ce div
+                    >
+                        <HorizontalCard>
+                            <GridSlideProduct />
+                        </HorizontalCard>
+                    </div>
+                </div>
+
+            )}
         </>
     );
 };

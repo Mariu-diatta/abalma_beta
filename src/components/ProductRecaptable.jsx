@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
+import ViewProduct from './ViewProduct';
 
 const ProductsRecapTable = ({ products }) => {
 
@@ -6,7 +7,9 @@ const ProductsRecapTable = ({ products }) => {
     const [productList, setProductList] = useState(products);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedStatus, setSelectedStatus] = useState('');
+    const [popoverOpen, setPoverOpen] = useState(false)
 
+    const closePopover = () => setPoverOpen(false)
     const displayedStatus = ['en cours', 'offert', 'preter'];
     const itemsPerPage = 5;
 
@@ -114,8 +117,9 @@ const ProductsRecapTable = ({ products }) => {
                                     </td>
                                     <td className="px-6 py-3">
                                         <button
-                                            className="text-blue-600 hover:underline dark:text-blue-400 cursor-pointer"                                            onClick={() => alert(`Voir: ${product.id}`)}
+                                            className="text-blue-600 hover:underline dark:text-blue-400 cursor-pointer" onClick={() => setPoverOpen(true)}
                                             aria-label={`Voir ${product.id}`}
+                                            
                                         >
                                             <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
@@ -129,6 +133,31 @@ const ProductsRecapTable = ({ products }) => {
                         )}
                     </tbody>
                 </table>
+                {/* Popover overlay */}
+                {popoverOpen && (
+                    <>
+                        {/* Fond semi-transparent */}
+                        <div
+                            className="fixed inset-0  bg-opacity-30 z-40"
+                            onClick={closePopover}
+                        ></div>
+
+                        {/* Popover */}
+                        <div
+                            className="fixed top-1/2 left-1/2 z-50 max-w-full  bg-white  rounded-md shadow-lg p-4 transform -translate-x-1/2 -translate-y-1/2"
+                            role="dialog"
+                            aria-modal="true"
+                            aria-labelledby="popover-title"
+                        >
+                            <div className="flex  items-center  max-w-full ">
+                                <ViewProduct/>
+                            </div>
+             
+                        </div>
+                    </>
+                )}
+
+
             </div>
 
             {/* Pagination Controls */}
