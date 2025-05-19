@@ -70,7 +70,7 @@ const ProfileCard = () => {
                     <div className="relative">
                         <img
                             src={previewUrl || "https://randomuser.me/api/portraits/men/32.jpg"}
-                            alt="Photo de profil"
+                            alt=""
                             className="w-28 h-28 sm:w-32 sm:h-32 rounded-full border-4 border-white shadow-md object-cover"
                         />
                         <label className="absolute bottom-0 right-0 bg-white p-1 rounded-full shadow cursor-pointer hover:bg-gray-100">

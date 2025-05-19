@@ -110,7 +110,7 @@ const GridLayoutProduct = () => {
             {/* Modal */}
             {modalData && (
                 <div
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 bg-black"
+                    className="fixed inset-0 z-50 flex items-center justify-center hover:bg-gray bg-opacity-3"
                     onClick={closeModal}
                     role="dialog"
                     aria-modal="true"
