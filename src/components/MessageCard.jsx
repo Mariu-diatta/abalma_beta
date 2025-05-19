@@ -110,7 +110,7 @@ const MessageCard = () => {
 
             {/* Message Cards */}
             {filteredMessages.map((msg) => (
-                <div key={msg.id} className="flex items-start justify-center gap-2.5 relative">
+                <div key={msg.id} className="flex items-start justify-center gap-2.5 relative w-full">
                     <img className="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="Profile" />
                     <div className="flex flex-col w-full max-w-[320px] p-4 bg-gray-100 dark:bg-gray-700 rounded-e-xl rounded-es-xl">
                         <div className="flex items-center space-x-2">
