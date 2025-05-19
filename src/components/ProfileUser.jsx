@@ -101,6 +101,7 @@ const Tabs = () => {
 
     const [activeTab, setActiveTab] = useState('profile');
 
+
     const tabs = [
         { id: 'profile', label: 'Profil' },
         { id: 'dashboard', label: 'Dashboard' },

@@ -1,10 +1,6 @@
 import ProtectedRoute from "../ProtectedRoute";
-import GridLayoutProduct from "../components/GridLayoutProducts";
-import GridProductDefault from "../components/GridProductDefaultSize";
-import DataTable from "../components/ListProductFilter";
-import ProductTable from "../components/ListProductFilterWithImage";
-import VertcalNavbar from "../components/NavbarVertical";
-import Tabs from "../components/ProfileUser";
+
+import  { ProductList, SelectedProduct, UserMenuAccount } from "../components/NavbarVertical";
 import AdminPage from "../layouts/AdminLayout";
 import AuthPage from "../layouts/AuthLayout";
 import About from "../pages/About";
@@ -15,29 +11,7 @@ import LogIn from "../pages/Login";
 import Payment from "../pages/Payment";
 import Register from "../pages/Register";
 
-const initialProducts = [
-    {
-        id: 1,
-        name: "Apple Watch",
-        image: "/docs/images/products/apple-watch.png",
-        price: 599,
-        quantity: 1,
-    },
-    {
-        id: 2,
-        name: 'iMac 27"',
-        image: "/docs/images/products/imac.png",
-        price: 2499,
-        quantity: 1,
-    },
-    {
-        id: 3,
-        name: "iPhone 12",
-        image: "/docs/images/products/iphone-12.png",
-        price: 999,
-        quantity: 1,
-    },
-];
+
 
 // Configuration des routes
 const routes = [
@@ -55,10 +29,10 @@ const routes = [
                 path: 'logIn', element: <LogIn /> 
             },
             {
-                path: 'user_profil', element: <VertcalNavbar >   < Tabs /> </VertcalNavbar>
+                path: 'user_profil', element: <UserMenuAccount/>
             },
             {
-                path: "payment_card", element: <VertcalNavbar > <ProductTable initialProducts={initialProducts} /> </VertcalNavbar>
+                path: "payment_card", element: <SelectedProduct/>
             },
             {
                 path: 'Register', element: <Register /> 
@@ -67,7 +41,7 @@ const routes = [
                 path: 'About', element: <About/>
             },
             {
-                path: "/products", element: <VertcalNavbar ><GridLayoutProduct/> <GridProductDefault /></VertcalNavbar>
+                path: "/products", element: <ProductList/>
             },
             {
 
