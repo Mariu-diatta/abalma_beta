@@ -1,6 +1,7 @@
 import ProtectedRoute from "../ProtectedRoute";
 
-import  { ProductList, SelectedProduct, UserMenuAccount } from "../components/NavbarVertical";
+import  VertcalNavbar, { ProductList, SelectedProduct, UserMenuAccount } from "../components/NavbarVertical";
+import ProfileCard from "../components/ProfilUser";
 import AdminPage from "../layouts/AdminLayout";
 import AuthPage from "../layouts/AuthLayout";
 import About from "../pages/About";
@@ -29,7 +30,7 @@ const routes = [
                 path: 'logIn', element: <LogIn /> 
             },
             {
-                path: 'user_profil', element: <UserMenuAccount/>
+                path: 'user_profil', element: <VertcalNavbar >  <ProfileCard /></VertcalNavbar > 
             },
             {
                 path: "payment_card", element: <SelectedProduct/>
