@@ -1,6 +1,7 @@
 import ProtectedRoute from "../ProtectedRoute";
 
 import  VertcalNavbar, { ProductList, SelectedProduct, UserMenuAccount } from "../components/NavbarVertical";
+import PrivacyPolicy from "../components/PrivacyPolicy";
 import ProfileCard from "../components/ProfilUser";
 import AdminPage from "../layouts/AdminLayout";
 import AuthPage from "../layouts/AuthLayout";
@@ -34,6 +35,9 @@ const routes = [
             },
             {
                 path: "payment_card", element: <SelectedProduct/>
+            },
+            {
+                path : "/politique-confidentialite", element : < PrivacyPolicy/>
             },
             {
                 path: 'Register', element: <Register /> 

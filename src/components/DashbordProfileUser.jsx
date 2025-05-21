@@ -1,5 +1,5 @@
 ﻿import React, { useState } from 'react';
-import ProductTable from './ListProductFilterWithImage';
+import ProductTable from './ListProductShoppingCart';
 import ProductTablePagination from './ListProductPagination';
 import Settings from './Settings';
 import ProductsRecapTable from './ProductRecaptable';

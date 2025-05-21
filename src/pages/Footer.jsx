@@ -4,7 +4,7 @@ import Logo from "../components/LogoApp";
 const Footer = () => {
     return (
         <>
-            <footer className="relative z-10 bg-white left-0 ms-5  pb-10 pt-20 dark:bg-dark lg:pb-20 lg:pt-[120px] ">
+            <footer className="flex justify-center text-start ms-5 relative z-10 bg-white left-0 ms-5  pb-10 pt-20 dark:bg-dark lg:pb-20 lg:pt-[120px] ">
                 <div className="container">
                     <div className="-mx-4 flex flex-wrap">
                         <div className="w-full px-4 sm:w-2/3 lg:w-3/12">
@@ -16,6 +16,7 @@ const Footer = () => {
                                     Sed ut perspiciatis undmnis is iste natus error sit amet
                                     voluptatem totam rem aperiam.
                                 </p>
+
                                 <p className="flex items-center text-sm font-medium text-dark dark:text-white">
                                     <span className="mr-3 text-primary">
                                         <svg
@@ -49,6 +50,15 @@ const Footer = () => {
                                     <span>+012 (345) 678 99</span>
                                 </p>
                             </div>
+
+                            <label className="flex items-start gap-2 text-sm text-gray-700">
+                                <input type="checkbox" required className="mt-1" />
+                                J’ai lu et j’accepte la
+                                <a href="/politique-confidentialite" target="_blank" className="text-blue-600 underline ml-1">
+                                    politique de confidentialité
+                                </a>
+                            </label>
+
                         </div>
 
                         <LinkGroup header="Resources">
@@ -132,6 +142,7 @@ const Footer = () => {
                                 <p className="text-base text-body-color dark:text-dark-6">
                                     &copy; 2025 Abalma
                                 </p>
+                 
                             </div>
                         </div>
                     </div>

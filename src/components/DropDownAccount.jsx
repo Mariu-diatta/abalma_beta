@@ -1,8 +1,16 @@
 ﻿import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, NavLink } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux'
+import { addToCart, removeFromCart, clearCart, decreaseQuantity } from '../slices/cartSlice'
+
+
 export default function AccountDropdown3() {
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
+
+    const dispatch = useDispatch()
+
+    const nbItems = useSelector(state => state.cart.nbItem)
 
     const trigger = useRef(null);
 
@@ -53,7 +61,9 @@ export default function AccountDropdown3() {
                 <div className="flex justify-center">
 
                     <div className="relative inline-block">
+
                         <div className="mb-3.5 flex items-center gap-4">
+
                             {/* Icon 1 */}
                             <div className="flex h-12 w-12 items-center justify-center rounded-lg border-0 bg-white dark:border-dark-3 dark:bg-dark-2">
                                 <svg
@@ -76,7 +86,7 @@ export default function AccountDropdown3() {
 
                             <NavLink
                                 to="/payment_card"
-                                className="flex h-12 w-12 items-center justify-center rounded-lg border-0 bg-white dark:border-dark-3 dark:bg-dark-2"
+                                className="flex h-12 w-12 items-center justify-center rounded-lg border-0 bg-white dark:border-dark-3 dark:bg-dark-2 text-dark"
                             >
                                 <svg
                                     className="h-5 text-gray-800 dark:text-white"
@@ -92,6 +102,7 @@ export default function AccountDropdown3() {
                                         d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6"
                                     />
                                 </svg>
+                                {nbItems}
                             </NavLink>
 
 

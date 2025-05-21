@@ -1,14 +1,21 @@
 
-
 import React, { useState } from 'react';
 import GridSlideProduct from './GridProductSlide';
 import HorizontalCard from './HorizontalCard';
+import { useSelector, useDispatch } from 'react-redux'
+import { addToCart, removeFromCart, clearCart } from '../slices/cartSlice'
 
 const GridLayoutProduct = () => {
+
     const [modalData, setModalData] = useState(null);
+
     const [activeCategory, setActiveCategory] = useState('All');
 
     const categories = ['All', 'Shoes', 'Bags', 'Electronics', 'Gaming'];
+
+    const dispatch = useDispatch()
+
+    const data = useSelector(state => state.items)
 
     const productData = [
         { id: 1, title: 'Sneakers', price: 79, category: 'Shoes', img: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg' },
@@ -20,6 +27,8 @@ const GridLayoutProduct = () => {
         { id: 7, title: 'Bluetooth Speaker', price: 49, category: 'Electronics', img: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-7.jpg' },
         { id: 8, title: 'Gaming Mouse', price: 59, category: 'Gaming', img: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-8.jpg' },
     ];
+
+    console.log("Data", data)
 
     const filteredItems =
         activeCategory === 'All'
@@ -33,7 +42,9 @@ const GridLayoutProduct = () => {
         <>
             {/* Tabs */}
             <div className="flex items-center justify-center py-4 md:py-1 flex-wrap">
+
                 {categories.map((cat) => (
+
                     <button
                         key={cat}
                         type="button"
@@ -50,8 +61,11 @@ const GridLayoutProduct = () => {
 
             {/* Grid */}
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+
                 {filteredItems.map((item) => (
+
                     <div key={item.id}>
+
                         <button
                             onClick={() => openModal(item)}
                             className="block w-full p-0 border-0 bg-transparent cursor-pointer"
@@ -70,6 +84,7 @@ const GridLayoutProduct = () => {
                         </p>
 
                         <div className="flex items-center justify-between space-x-1 mb-1">
+
                             <span className="text-md font-medium text-blue-900 dark:text-white">${item.price}</span>
 
                             <svg
@@ -81,11 +96,13 @@ const GridLayoutProduct = () => {
                                 onClick={() => alert(`Cadeau ajouté: ${item}`)}
                             >
                                 <path d="M20 7h-.7c.229-.467.349-.98.351-1.5a3.5 3.5 0 0 0-3.5-3.5c-1.717 0-3.215 1.2-4.331 2.481C10.4 2.842 8.949 2 7.5 2A3.5 3.5 0 0 0 4 5.5c.003.52.123 1.033.351 1.5H4a2 2 0 0 0-2 2v2a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9a2 2 0 0 0-2-2Zm-9.942 0H7.5a1.5 1.5 0 0 1 0-3c.9 0 2 .754 3.092 2.122-.219.337-.392.635-.534.878Zm6.1 0h-3.742c.933-1.368 2.371-3 3.739-3a1.5 1.5 0 0 1 0 3h.003ZM13 14h-2v8h2v-8Zm-4 0H4v6a2 2 0 0 0 2 2h3v-8Zm6 0v8h3a2 2 0 0 0 2-2v-6h-5Z" />
+
                             </svg>
 
                             <div
                                 className="flex items-center justify-center rounded-lg bg-white dark:bg-dark-2 dark:border dark:border-dark-3 cursor-pointer"
-                                onClick={() => alert(`Ajouter au panier: ${item.id}`)}
+
+                                onClick={() => dispatch(addToCart(item))}
                             >
                                 <svg
                                     className="h-5 text-green-800 dark:text-white"
@@ -101,8 +118,11 @@ const GridLayoutProduct = () => {
                                         d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6"
                                     />
                                 </svg>
+
                             </div>
+
                         </div>
+
                     </div>
                 ))}
             </div>

@@ -39,7 +39,7 @@ const ProfileCard = () => {
         <div className="w-full max-w-full mx-auto bg-white rounded-md overflow-hidden shadow-md">
             {/* Image de couverture */}
             <div
-                className="relative h-56 bg-cover bg-center"
+                className="relative h-56 bg-cover bg-center bg-gray-200"
                 style={{
                     backgroundImage: `url(${previewUrlBackground || "https://images.unsplash.com/photo-1612832020897-593fae15346e"})`
                 }}
@@ -50,7 +50,7 @@ const ProfileCard = () => {
                             type="file"
                             accept="image/*"
                             onChange={(e) => handleImageUpload(e, true)}
-                            className="bg-white rounded-md p-2 shadow-md text-sm"
+                            className="bg-gray rounded-md p-2 shadow-md text-sm"
                         />
                     </div>
                 )}

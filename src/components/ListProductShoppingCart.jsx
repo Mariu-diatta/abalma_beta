@@ -1,33 +1,30 @@
 ﻿import React, { useState } from "react";
 import Payment from "../pages/Payment";
 import Logo from "./LogoApp";
+import { useSelector, useDispatch } from 'react-redux'
+import { addToCart, removeFromCart, clearCart, decreaseQuantity } from '../slices/cartSlice'
 
-const ProductTable = ({ initialProducts }) => {
-    const [products, setProducts] = useState(initialProducts);
+const ListProductShoppingCart = () => {
 
-    const increaseQuantity = (id) => {
-        setProducts(products.map(product =>
-            product.id === id
-                ? { ...product, quantity: product.quantity + 1 }
-                : product
-        ));
+    const dispatch = useDispatch()
+
+    const data = useSelector(state => state.cart)
+
+    const handleIncreaseQuantity = (prod) => {
+
+        dispatch(addToCart({id:prod.id}))
     };
 
-    const decreaseQuantity = (id) => {
-        setProducts(products.map(product =>
-            product.id === id && product.quantity > 1
-                ? { ...product, quantity: product.quantity - 1 }
-                : product
-        ));
-    };
+    const handleDecreaseQuantity = (prod) => {
 
-    const removeProduct = (id) => {
-        setProducts(products.filter(product => product.id !== id));
+   
+        dispatch(decreaseQuantity({id : prod.id }))
+
     };
 
     const totalPrice = (product) => product.price * product.quantity;
 
-    const grandTotal = products.reduce((acc, product) => acc + totalPrice(product), 0);
+    const grandTotal = data.items.reduce((acc, product) => acc + totalPrice(product), 0);
 
     return (
         <div className="mb-2 relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -63,6 +60,7 @@ const ProductTable = ({ initialProducts }) => {
                             <span className="sr-only">Image</span>
                         </th>
                         <th scope="col" className="px-6 py-3">Product</th>
+                        <th scope="col" className="px-6 py-3">Category</th>
                         <th scope="col" className="px-6 py-3">Qty</th>
                         <th scope="col" className="px-6 py-3">Price</th>
                         <th scope="col" className="px-6 py-3">Total</th>
@@ -72,25 +70,28 @@ const ProductTable = ({ initialProducts }) => {
                 </thead>
 
                 <tbody>
-                    {products.map(({ id, name, image, price, quantity }) => (
+                    {data.items.map(({ id, title,category, img, price, quantity }) => (
                         <tr
                             key={id}
                             className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
                         >
                             <td className="p-4">
                                 <img
-                                    src={image}
+                                    src={img}
                                     className="w-16 md:w-32 max-w-full max-h-full"
-                                    alt={name}
+                                    alt={title}
                                 />
                             </td>
                             <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                {name}
+                                {title}
+                            </td>
+                            <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                {category}
                             </td>
                             <td className="px-6 py-4">
                                 <div className="flex items-center">
                                     <button
-                                        onClick={() => decreaseQuantity(id)}
+                                        onClick={() => handleDecreaseQuantity({ id, title, category, img, price, quantity })}
                                         className="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                                         type="button"
                                     >
@@ -118,7 +119,7 @@ const ProductTable = ({ initialProducts }) => {
                                         className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                                     />
                                     <button
-                                        onClick={() => increaseQuantity(id)}
+                                        onClick={() => handleIncreaseQuantity({ id, title, category, img, price, quantity })}
                                         className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                                         type="button"
                                     >
@@ -149,7 +150,7 @@ const ProductTable = ({ initialProducts }) => {
                             </td>
                             <td className="px-6 py-4">
                                 <button
-                                    onClick={() => removeProduct(id)}
+                                    onClick={() => dispatch(removeFromCart({ id, title, category, img, price, quantity}))}
                                     className="font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer"
                                 >
                                     <svg class="w-6 h-5 text-red-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -182,7 +183,7 @@ const ProductTable = ({ initialProducts }) => {
     );
 };
 
-export default ProductTable;
+export default ListProductShoppingCart;
 
 
 const BuyButtonWithPaymentForm = ({ total_price }) => {
