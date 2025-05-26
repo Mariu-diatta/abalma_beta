@@ -28,9 +28,9 @@ const HomeContain = () => {
                                         </a>
                                     </li>
                                     <li>
-                                        <a
-                                            href="/#"
-                                            className="inline-flex items-center justify-center px-5 py-3 text-center text-base font-medium text-[#464646] hover:text-primary dark:text-white"
+                                        <button
+                                            onClick={()=>alert("L'application sera bientôt disponible")}
+                                            className="cursor-pointer inline-flex items-center justify-center px-5 py-3 text-center text-base font-medium text-[#464646] hover:text-primary dark:text-white"
                                         >
                                             <span className="mr-2">
                                                 <svg
@@ -62,12 +62,12 @@ const HomeContain = () => {
                                                 </svg>
                                             </span>
                                             Download App
-                                        </a>
+                                        </button>
                                     </li>
                                 </ul>
                                 <div className="clients pt-16">
                                     <h6 className="mb-6 flex items-center text-xs font-normal text-body-color dark:text-dark-6">
-                                        Some Of Our Clients
+                                        Ils nous font confiance
                                         <span className="ml-3 inline-block h-px w-8 bg-body-color"></span>
                                     </h6>
 

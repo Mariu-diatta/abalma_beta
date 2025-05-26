@@ -1,19 +1,30 @@
 import React from 'react';
 import ProfilPopPov from './PopovProfile';
 import WalletModal from './WalletModal';
+import { addToCart, removeFromCart, clearCart } from '../slices/cartSlice'
+import { useSelector, useDispatch } from 'react-redux'
 
-const HorizontalCard = ({ children }) => {
+
+const HorizontalCard = ({ children, item }) => {
+
+
+    const dispatch = useDispatch()
+
     return (
         <section className="relative flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow-lg md:flex-row hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
 
 
             <div className="absolute bottom-1 right-50 border-0">
-                <div className="border-0 flex h-8 w-12 items-center justify-center rounded-lg  bg-white dark:border-dark-3 dark:bg-dark-2">
+                <div
+                    className="cursor-pointer border-0 flex h-8 w-12 items-center justify-center rounded-lg  bg-white dark:border-dark-3 dark:bg-dark-2"
+                    onClick={() => dispatch(addToCart(item))}
+                >
                     <svg
                         className="h-5 text-gray-800 dark:text-white"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
+                        
                     >
                         <path
                             stroke="currentColor"
@@ -38,7 +49,7 @@ const HorizontalCard = ({ children }) => {
                 {/*    content={"Payer en ligne en toute securite" }*/}
                 {/*/>*/}
                 <WalletModal>
-                    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <svg className=" w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
 
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8H5m12 0a1 1 0 0 1 1 1v2.6M17 8l-4-4M5 8a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.6M5 8l4-4 4 4m6 4h-4a2 2 0 1 0 0 4h4a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1Z" />
 

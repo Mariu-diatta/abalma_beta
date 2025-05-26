@@ -4,6 +4,7 @@ import './App.css';
 import routes from './router/Routers';
 import { useRoutes} from "react-router-dom"
 import CookieBanner from './components/CookieBanner';
+import { AuthProvider } from './AuthContext';
 
 const AppRoutes = () => {
 
@@ -17,9 +18,13 @@ function App() {
     return (
 
     <>
-       
-        <AppRoutes />
-        <CookieBanner/>
+         <AuthProvider>
+
+            <AppRoutes />
+
+            <CookieBanner />
+
+        </AuthProvider>
          
     </>
   );

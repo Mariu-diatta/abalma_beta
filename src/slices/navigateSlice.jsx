@@ -1,34 +1,25 @@
-// slices/cartSlice.js
+// slices/navigateSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
-const navigateApp = createSlice(
+const initialState = {
+    previousNav: null,
+    currentNav: 'home',
+};
 
-    {
-        name: "Navigate",
-
-        initialState: {
-
-            previousNav: null,
-
-            currentNav:"home"
+const navigateSlice = createSlice({
+    name: 'navigateapp',
+    initialState,
+    reducers: {
+        setPreviousNav: (state) => {
+            state.previousNav = state.currentNav;
         },
+        setCurrentNav: (state, action) => {
+            state.previousNav = state.currentNav; // on garde aussi l'ancien
+            state.currentNav = action.payload;    // payload = nouvelle valeur simple, ex: "shop"
+        },
+    },
+});
 
-        reducers: {
+export const { setPreviousNav, setCurrentNav } = navigateSlice.actions;
 
-            setPreviousNav: state => {
-
-                state.previousNav = state.currentNav
-            },
-
-            setCurrentNav: state => {
-
-                state.previousNav = 0
-            }
-
-        }
-    }
-)
-
-export const { setPreviousNav, setCurrentNav} = navigateApp.actions;
-
-export default navigateApp.reducer;
+export default navigateSlice.reducer;

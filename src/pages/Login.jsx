@@ -1,28 +1,93 @@
-import React from 'react'
+import React, { useState } from 'react';
 import HomeLayout from '../layouts/HomeLayout';
-import {useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import InputBox from '../components/InputBoxFloat';
+import { signInWithGoogle, signInWithFacebook, signInWithTwitter, signInWithEmailPswd } from '../firebase';
+
+import api from '../services/Axios';
 
 
-const LogIn = () => {
-    return (
-        <HomeLayout>
-            <Signin/>
-        </HomeLayout>
-    )
+const loginClient = async (data) => {
+    try {
+        const response = await api.post('/token/', data)
+        console.log(response.data)
+        return response;
+    } catch (error) {
+        console.error('Erreur lors de la récupération des clients', error)
+    }
 }
 
-export default LogIn;
 
 const Signin = () => {
 
+    const [email, setEmail] = useState("")
+
+    const [pwd, setPwd] = useState("")
+
     const navigate = useNavigate();
 
-    const getDashbordAuth = () => {
+    const handleGoogleLogin = async () => {
 
-        navigate("/account", { replace: true });
-
+        try {
+            const user = await signInWithGoogle();
+            console.log("Connecté avec Google:", user);
+            navigate("/account", { replace: true });
+        } catch (error) {
+            alert("Erreur de connexion Google");
+        }
     };
+
+    const handleTwitter = async () => {
+
+        try {
+            const user = await signInWithTwitter ();
+            console.log("Connecté avec TWTe:", user);
+            navigate("/account", { replace: true });
+        } catch (error) {
+            alert("Erreur de connexion TWTe");
+        }
+    };
+
+    const handleFacebookLogin = async () => {
+        try {
+            const user = await signInWithFacebook();
+            console.log("Connecté avec Fbook:", user);
+            navigate("/account", { replace: true });
+        } catch (error) {
+            alert("Erreur de connexion Fbook");
+        }
+    };
+
+
+
+    const handleSignIn = async () => {
+        try {
+            //const user = await signInWithEmailPswd( email, pwd );
+            //console.log("Connexion réussie:", user);
+          
+            loginClient(
+                {
+                    "email": email,
+                    "password": pwd
+                }
+            ).then(
+                resp => {
+                    console.log("Je suis dans la connexion",resp)
+                    //navigate("/account", { replace: true });
+
+                }
+            ).catch(
+                err => {
+                    console.log("ERREUR DE LA CONNEXION", err)
+                }
+            )
+
+
+        } catch (error) {
+            alert("Erreur de connexion");
+        }
+    };
+
 
     return (
         <section className="bg-gray-1 py-20 dark:bg-dark lg:py-[120px]">
@@ -30,29 +95,30 @@ const Signin = () => {
                 <div className="-mx-4 flex flex-wrap">
                     <div className="w-full px-4">
                         <div className="relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white px-10 py-16 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]">
-                            {/*<div className="mb-10 text-center md:mb-16">*/}
-                            {/*    <a*/}
-                            {/*        href="/#"*/}
-                            {/*        className="mx-auto inline-block max-w-[160px]"*/}
-                            {/*    >*/}
-                            {/*        <img*/}
-                            {/*            src="https://cdn.tailgrids.com/assets/images/logo/logo-primary.svg"*/}
-                            {/*            alt="logo"*/}
-                            {/*        />*/}
-                            {/*    </a>*/}
-                            {/*</div>*/}
                             <h1 className="mb-10 text-center md:mb-16">
                                 <span className="text-2xl font-bold text-dark dark:text-white">
                                     Connectez-vous!
                                 </span>
                             </h1>
-                            <form onSubmit={() => getDashbordAuth()}>
-                                <InputBox type="email" name="email" placeholder="Email" />
+
+                            <form onSubmit={(e) => { e.preventDefault();  handleSignIn()}}>
+
+                                <InputBox
+                                    type="email"
+                                    name="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    placeholder="Email"
+                                />
+
                                 <InputBox
                                     type="password"
                                     name="password"
+                                    value={pwd}
+                                    onChange={(e) => setPwd(e.target.value)}
                                     placeholder="Password"
                                 />
+
                                 <div className="mb-10">
                                     <input
                                         type="submit"
@@ -61,15 +127,17 @@ const Signin = () => {
                                     />
                                 </div>
                             </form>
+
                             <p className="mb-6 text-base text-secondary-color dark:text-dark-7">
                                 Connect With
                             </p>
+
                             <ul className="-mx-2 mb-12 flex justify-between">
+                                {/* Facebook */}
                                 <li className="w-full px-2">
-                                    <a
-                                        href="/#"
-                                        className="flex h-11 items-center justify-center rounded-md bg-[#4064AC] hover:bg-opacity-90"
-                                    >
+                                    <button
+                                        onClick={handleFacebookLogin}
+                                        className="flex h-11 w-full items-center justify-center rounded-md bg-[#4064AC] hover:bg-opacity-90">
                                         <svg
                                             width="10"
                                             height="20"
@@ -82,13 +150,14 @@ const Signin = () => {
                                                 fill="white"
                                             />
                                         </svg>
-                                    </a>
+                                    </button>
                                 </li>
+
+                                {/* Twitter */}
                                 <li className="w-full px-2">
-                                    <a
-                                        href="/#"
-                                        className="flex h-11 items-center justify-center rounded-md bg-[#1C9CEA] hover:bg-opacity-90"
-                                    >
+                                    <button
+                                        onClick={handleTwitter}
+                                        className="flex h-11 w-full items-center justify-center rounded-md bg-[#1C9CEA] hover:bg-opacity-90">
                                         <svg
                                             width="22"
                                             height="16"
@@ -101,12 +170,14 @@ const Signin = () => {
                                                 fill="white"
                                             />
                                         </svg>
-                                    </a>
+                                    </button>
                                 </li>
+
+                                {/* Google */}
                                 <li className="w-full px-2">
-                                    <a
-                                        href="/#"
-                                        className="flex h-11 items-center justify-center rounded-md bg-[#D64937] hover:bg-opacity-90"
+                                    <button
+                                        onClick={handleGoogleLogin}
+                                        className="flex h-11 w-full items-center justify-center rounded-md bg-[#D64937] hover:bg-opacity-90"
                                     >
                                         <svg
                                             width="18"
@@ -120,34 +191,33 @@ const Signin = () => {
                                                 fill="white"
                                             />
                                         </svg>
-                                    </a>
+                                    </button>
                                 </li>
                             </ul>
-                            <a
-                                href="/#"
-                                className="mb-2 inline-block text-base text-dark hover:text-primary hover:underline dark:text-white"
-                            >
+
+                            <a href="/#" className="mb-2 inline-block text-base text-dark hover:text-primary hover:underline dark:text-white">
                                 Forget Password?
                             </a>
                             <p className="text-base text-body-color dark:text-dark-6">
                                 <span className="pr-0.5">Not a member yet?</span>
-                                <a
-                                    href="/#"
-                                    className="text-primary hover:underline"
-                                >
+                                <a href="/#" className="text-primary hover:underline">
                                     Sign Up
                                 </a>
                             </p>
-
-                           
                         </div>
                     </div>
                 </div>
             </div>
-
         </section>
     );
 };
 
+const LogIn = () => {
+    return (
+        <HomeLayout>
+            <Signin />
+        </HomeLayout>
+    );
+};
 
-
+export default LogIn;

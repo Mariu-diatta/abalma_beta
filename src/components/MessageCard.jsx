@@ -1,202 +1,245 @@
-import React, { useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
+import { collection, addDoc, serverTimestamp, query, getDocs , doc, deleteDoc} from 'firebase/firestore';
+import { db } from '../firebase';
+import { useAuth } from '../AuthContext';
+import { ChatComponent } from './MessageForm';
+
+
+// 🔼 Supprimer un message par son ID
+const supprimerMessage = async (messageId) => {
+    try {
+        await deleteDoc(doc(db, 'messages', messageId));
+        console.log(`Message supprimé : ${messageId}`);
+    } catch (error) {
+        console.error(`Erreur suppression message ${messageId}`, error);
+    }
+};
+
+const fetchMessages = async () => {
+    try {
+        const snapshot = await getDocs(query(collection(db, 'messages')));
+        return snapshot.docs.map((doc) => {
+            const data = doc.data();
+            return {
+                id: doc.id,
+                texte: data.texte,
+                envoyeurId: data.envoyeurId,
+                nomEnvoyeur: data.nomEnvoyeur,
+                photoEnvoyeurUrl: data.photoEnvoyeurUrl,
+                horodatage: data.horodatage?.toDate ? data.horodatage.toDate() : null,
+                conversationId: data.conversationId,
+                imageUrl: data.imageUrl,
+                type: data.type,
+                parentId: data.parentId ?? null,
+                status: data.status ?? 'new',
+            };
+        });
+    } catch (error) {
+        console.error("Erreur récupération messages :", error);
+        return [];
+    }
+};
 
 const MessageCard = () => {
-    const initialMessages = [
-        {
-            id: 1,
-            sender: 'Bonnie Green',
-            time: '11:46',
-            content: 'Check out this open-source UI component library...',
-            url: 'https://github.com/themesberg/flowbite',
-            imageUrl: 'https://flowbite.com/docs/images/og-image.png',
-            status: 'new', // could be 'new', 'read', or 'deleted'
-        },
-        {
-            id: 2,
-            sender: 'Alice',
-            time: '12:10',
-            content: 'Here is another great resource.',
-            url: '',
-            imageUrl: '',
-            status: 'read',
-        },
-        {
-            id: 3,
-            sender: 'Alice',
-            time: '12:10',
-            content: 'Here is another great resource.',
-            url: '',
-            imageUrl: '',
-            status: 'read',
-        },
-        {
-            id: 4,
-            sender: 'Alice',
-            time: '12:10',
-            content: 'Here is another great resource.',
-            url: '',
-            imageUrl: '',
-            status: 'read',
-        },
-        {
-            id: 5,
-            sender: 'Alice',
-            time: '12:10',
-            content: 'Here is another great resource.',
-            url: '',
-            imageUrl: '',
-            status: 'read',
-        },
-    ];
 
-    const [messages, setMessages] = useState(initialMessages);
+    const { currentUser } = useAuth();
+    const [messages, setMessages] = useState([]);
     const [filter, setFilter] = useState('all');
-    const [showDropdownAll, setShowDropdownAll] = useState(false);
-    const [activeDropdownId, setActiveDropdownId] = useState(null);
+    const [replies, setReplies] = useState({});
+    const [replyingTo, setReplyingTo] = useState(null);
+    const [dropdownId, setDropdownId] = useState(null);
+    const [showFilterMenu, setShowFilterMenu] = useState(false);
 
-    const filteredMessages = messages.filter((msg) => {
-        if (filter === 'all') return msg.status !== 'deleted';
-        return msg.status === filter;
-    });
+    useEffect(() => {
+        fetchMessages().then(setMessages);
+    }, []);
+
+    const envoyerMessage = async (texte, parentId = null) => {
+
+        if (!texte.trim() || !currentUser) return;
+
+        try {
+            await addDoc(collection(db, 'messages'), {
+                texte,
+                envoyeurId: currentUser.uid,
+                nomEnvoyeur: currentUser.displayName || 'Anonyme',
+                photoEnvoyeurUrl: currentUser.photoURL || '',
+                horodatage: serverTimestamp(),
+                conversationId: currentUser.uid,
+                parentId,
+            });
+
+            setReplies((prev) => ({ ...prev, [parentId]: '' }));
+            setReplyingTo(null);
+            const updatedMessages = await fetchMessages();
+            setMessages(updatedMessages);
+        } catch (err) {
+            console.error("Erreur lors de l'envoi du message :", err);
+        }
+    };
+
+    const handleFilter = (label) => {
+        const statusMap = {
+            Nouveaux: 'new',
+            Lus: 'read',
+            Supprimés: 'deleted',
+        };
+        setFilter(statusMap[label] || 'all');
+        setShowFilterMenu(false);
+    };
 
     const deleteMessage = (id) => {
         setMessages((prev) =>
-            prev.map((msg) =>
-                msg.id === id ? { ...msg, status: 'deleted' } : msg
-            )
+            prev.map((msg) => (msg.id === id ? { ...msg, status: 'deleted' } : msg))
         );
-        setActiveDropdownId(null);
+        setDropdownId(null);
     };
 
-    const handleFilter = (status) => {
-        setFilter(status === 'Nouveaux' ? 'new' : status === 'Lus' ? 'read' : 'deleted');
-        setShowDropdownAll(false);
-    };
+    // Messages racines filtrés
+    const rootMessages = messages
+        .filter((msg) => !msg.parentId)
+        .filter((msg) => filter === 'all' ? msg.status !== 'deleted' : msg.status === filter)
+        .reduce((acc, msg) => {
+            if (!acc[msg.conversationId]) acc[msg.conversationId] = msg;
+            return acc;
+        }, {});
+    const filteredParents = Object.values(rootMessages);
+
+    // Réponses groupées par parentId
+    const groupedReplies = messages.reduce((acc, msg) => {
+        if (msg.parentId) {
+            const parentKey = msg.parentId.replace('msg-', '');
+            if (!acc[parentKey]) acc[parentKey] = [];
+            acc[parentKey].push(msg);
+        }
+        return acc;
+    }, {});
+
+    // Trier chaque groupe de réponses par horodatage décroissant (plus récent en premier)
+    Object.keys(groupedReplies).forEach((key) => {
+        groupedReplies[key].sort(
+            (a, b) => (b.horodatage?.getTime?.() || 0) - (a.horodatage?.getTime?.() || 0)
+        );
+    });
+
 
     return (
-
-        <div className="flex flex-col justify-center items-center gap-5 ">
-
-            {/* Header + Filter Dropdown */}
-            <div className="flex items-center mb-6 space-x-4 relative ">
-
-                <svg className="w-7 h-8 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 576 512">
-                    <path d="M64 0C28.7 0 0 28.7 0 64L0 352c0 35.3 28.7 64 64 64l96 0 0 80c0 6.1 3.4 11.6 8.8 14.3s11.9 2.1 16.8-1.5L309.3 416 448 416c35.3 0 64-28.7 64-64l0-288c0-35.3-28.7-64-64-64L64 0z" />
-                </svg>
-
-                <h2 className="text-2xl font-extrabold text-gray-900 dark:text-white">Messages</h2>
-
-                <button onClick={() => setShowDropdownAll(!showDropdownAll)} className="p-2 text-sm text-gray-900 dark:text-white bg-white dark:bg-gray-900 rounded-lg">
-
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 4 15">
-                        <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
-                    </svg>
-
+        <div className="flex flex-col justify-center items-center gap-5">
+            {/* Header */}
+            <div className="flex items-center mb-6 space-x-4 relative">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Messages</h2>
+                <button
+                    onClick={() => setShowFilterMenu(!showFilterMenu)}
+                    className="p-2 bg-gray-200 dark:bg-gray-700 rounded-md"
+                >
+                    Filtres
                 </button>
-
-                {showDropdownAll && (
-                    <div className="absolute right-0 top-10 p-2 bg-white dark:bg-gray-700 rounded-lg shadow-lg w-40 z-100">
-
-                        <button onClick={() => setShowDropdownAll(false)} className="absolute right-2 top-1 text-sm">X</button>
-
-                        <ul className="mt-5 text-sm text-gray-700 dark:text-gray-200">
-
-                            {['Nouveaux', 'Lus', 'Supprim�s'].map((item, i) => (
-
-                                <li key={i}>
-
-                                    <button
-                                        onClick={() => handleFilter(item)}
-                                        className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600"
-                                    >
-                                        {item}
-                                    </button>
-
-                                </li>
-                            ))}
-
-                        </ul>
+                {showFilterMenu && (
+                    <div className="absolute right-0 top-10 bg-white dark:bg-gray-800 p-2 rounded shadow z-10">
+                        {['Nouveaux', 'Lus', 'Supprimés'].map((label) => (
+                            <button
+                                key={label}
+                                onClick={() => handleFilter(label)}
+                                className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600"
+                            >
+                                {label}
+                            </button>
+                        ))}
                     </div>
                 )}
             </div>
 
-            {/* Message Cards */}
-            {filteredMessages.map((msg) => (
+            {/* Messages */}
+            {filteredParents.map((msg) => (
+                <div
+                    key={msg.id}
+                    className="relative w-full max-w-md bg-gray-100 dark:bg-gray-700 rounded-xl space-y-2 p-4"
+                >
+ 
 
-                <div key={msg.id} className="flex items-start justify-center gap-2.5 relative w-full">
+                    {/* Message parent avant les réponses */}
+                    <ChatComponent conversationId={msg.conversationId} />
 
-                    <img className="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="Profile" />
-
-                    <div className="flex flex-col w-full max-w-[320px] p-4 bg-gray-100 dark:bg-gray-700 rounded-e-xl rounded-es-xl">
-
-                        <div className="flex items-center space-x-2">
-
-                            <span className="text-sm font-semibold text-gray-900 dark:text-white">{msg.sender}</span>
-
-                            <span className="text-sm text-gray-500 dark:text-gray-400">{msg.time}</span>
-
+                    {/* Réponses au-dessous du message parent */}
+                    {[...(groupedReplies[msg.id] || [])].reverse().map((reply) => (
+                        <div
+                            key={reply.id}
+                            className="mb-2 p-3 bg-white dark:bg-gray-800 rounded-md border-l-4 border-blue-500 shadow-sm"
+                        >
+                            <div className="flex justify-between items-center">
+                                <p className="text-sm text-gray-800 dark:text-gray-100">
+                                    <strong>{reply.nomEnvoyeur} :</strong> {reply.texte}
+                                </p>
+                                <button
+                                    onClick={() => supprimerMessage(reply.id)}
+                                    title="Supprimer la réponse"
+                                    className="text-red-600 hover:text-red-800 ml-2"
+                                >
+                                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" strokeWidth="2" d="M5 7h14M10 11v6m4-6v6M9 3h6v2H9V3Z" />
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
+                    ))}
 
-                        <p className="text-sm text-gray-900 dark:text-white py-2.5">{msg.content}</p>
 
-                        {msg.url && (
-                            <a href={msg.url} className="text-blue-700 dark:text-blue-500 underline break-all text-sm font-medium">{msg.url}</a>
+
+                    {/* Actions */}
+                    <div className="flex justify-end">
+                        <button
+                            onClick={() => setDropdownId(dropdownId === msg.id ? null : msg.id)}
+                            className="text-gray-500"
+                        >
+                            ...
+                        </button>
+                        {dropdownId === msg.id && (
+                            <div className="absolute right-4 top-4 bg-white dark:bg-gray-700 shadow-md rounded z-20 p-2">
+                                {['Répondre', 'Copier', 'Supprimer'].map((action) => (
+                                    <button
+                                        key={action}
+                                        className="block w-full text-left text-sm px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-600"
+                                        onClick={() => {
+                                            if (action === 'Supprimer') deleteMessage(msg.id);
+                                            if (action === 'Répondre') setReplyingTo(msg.id);
+                                            setDropdownId(null);
+                                        }}
+                                    >
+                                        {action}
+                                    </button>
+                                ))}
+                            </div>
                         )}
-
-                        {msg.imageUrl && (
-
-                            <a href="#" className="bg-gray-50 dark:bg-gray-600 rounded-xl p-4 mb-2 block hover:bg-gray-200 dark:hover:bg-gray-500">
-
-                                <img src={msg.imageUrl} alt="Preview" className="rounded-lg mb-2" />
-
-                                <span className="text-sm font-medium text-gray-900 dark:text-white block">GitHub Preview</span>
-
-                                <span className="text-xs text-gray-500 dark:text-gray-400">github.com</span>
-
-                            </a>
-                        )}
-                        <span className="text-sm text-gray-500 dark:text-gray-400 capitalize">{msg.status}</span>
-
                     </div>
 
-                    {/* Message Actions Dropdown */}
-                    <button
-                        onClick={() => setActiveDropdownId(activeDropdownId === msg.id ? null : msg.id)}
-                        className="p-2 text-sm text-gray-900 bg-white dark:bg-gray-900 rounded-lg"
-                    >
-                        <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 4 15">
-                            <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
-                        </svg>
-
-                    </button>
-
-                    {activeDropdownId === msg.id && (
-
-                        <div className="absolute right-0 top-0 mt-2 p-2 bg-white dark:bg-gray-700 rounded-lg shadow-sm w-40 z-10">
-
-                            <button onClick={() => setActiveDropdownId(null)} className="absolute right-2 top-1 text-sm">X</button>
-
-                            <ul className="mt-5 text-sm text-gray-700 dark:text-gray-200">
-
-                                {['Reply', 'Forward', 'Copy', 'Report', 'Delete'].map((item, i) => (
-
-                                    <li key={i}>
-
-                                        <button
-                                            onClick={item === 'Delete' ? () => deleteMessage(msg.id) : () => { }}
-                                            className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600"
-                                        >
-                                            {item}
-                                        </button>
-
-                                    </li>
-                                ))}
-
-                            </ul>
-
-                        </div>
+                    {/* Formulaire de réponse */}
+                    {replyingTo === msg.id && (
+                        <form
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                envoyerMessage(replies[msg.id] || '', msg.id);
+                            }}
+                            className="mt-2 flex flex-col gap-1"
+                        >
+                            <input
+                                type="text"
+                                value={replies[msg.id] || ''}
+                                onChange={(e) =>
+                                    setReplies({ ...replies, [msg.id]: e.target.value })
+                                }
+                                placeholder="Répondre à ce message..."
+                                className="px-3 py-1 border border-gray-300 rounded-md text-sm"
+                            />
+                            <button
+                                type="submit"
+                                className="self-end bg-blue-600 text-white text-sm px-3 py-1 rounded hover:bg-blue-700"
+                            >
+                                Envoyer
+                            </button>
+                        </form>
                     )}
                 </div>
+
             ))}
         </div>
     );

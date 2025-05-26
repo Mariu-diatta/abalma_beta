@@ -1,0 +1,38 @@
+[debug] [2025-05-23T02:24:21.371Z] ----------------------------------------------------------------------
+[debug] [2025-05-23T02:24:21.379Z] Command:       C:\nvm\nodejs\node.exe C:\Users\Marius Diatta\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2025-05-23T02:24:21.380Z] CLI Version:   14.4.0
+[debug] [2025-05-23T02:24:21.380Z] Platform:      win32
+[debug] [2025-05-23T02:24:21.381Z] Node Version:  v22.11.0
+[debug] [2025-05-23T02:24:21.381Z] Time:          Fri May 23 2025 04:24:21 GMT+0200 (heure d’été d’Europe centrale)
+[debug] [2025-05-23T02:24:21.382Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-05-23T02:24:21.395Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-05-23T02:24:21.396Z] > authorizing via signed-in user (mariusgdiatta@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\PROJET_START_UP\abalma
+
+Before we get started, keep in mind:
+
+  * You are currently outside your home directory
+
+[debug] [2025-05-23T02:28:00.250Z] ExitPromptError: User force closed the prompt with SIGINT
+    at Interface.sigint (C:\Users\Marius Diatta\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\@inquirer\core\dist\commonjs\lib\create-prompt.js:100:37)
+    at Interface.emit (node:events:518:28)
+    at Interface.emit (node:domain:489:12)
+    at [_ttyWrite] [as _ttyWrite] (node:internal/readline/interface:1124:18)
+    at ReadStream.onkeypress (node:internal/readline/interface:263:20)
+    at ReadStream.emit (node:events:530:35)
+    at ReadStream.emit (node:domain:489:12)
+    at emitKeys (node:internal/readline/utils:370:14)
+    at emitKeys.next (<anonymous>)
+    at ReadStream.onData (node:internal/readline/emitKeypressEvents:64:36)
+[error] 
+[error] Error: An unexpected error has occurred.

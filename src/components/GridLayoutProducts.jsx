@@ -9,13 +9,21 @@ const GridLayoutProduct = () => {
 
     const [modalData, setModalData] = useState(null);
 
+    const [idProductAdded, setIdProductAdded] = useState([]);
+
     const [activeCategory, setActiveCategory] = useState('All');
 
     const categories = ['All', 'Shoes', 'Bags', 'Electronics', 'Gaming'];
 
     const dispatch = useDispatch()
 
-    const data = useSelector(state => state.items)
+    const data = useSelector(state => state.cart.items)
+
+
+    const addProductToCard = (item) => {
+
+        dispatch(addToCart(item))
+    }
 
     const productData = [
         { id: 1, title: 'Sneakers', price: 79, category: 'Shoes', img: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg' },
@@ -36,9 +44,11 @@ const GridLayoutProduct = () => {
             : productData.filter((item) => item.category === activeCategory);
 
     const openModal = (item) => setModalData(item);
+
     const closeModal = () => setModalData(null);
 
     return (
+
         <>
             {/* Tabs */}
             <div className="flex items-center justify-center py-4 md:py-1 flex-wrap">
@@ -55,16 +65,21 @@ const GridLayoutProduct = () => {
                             } focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 dark:focus:ring-blue-800`}
                     >
                         {cat}
+
                     </button>
                 ))}
+
             </div>
 
             {/* Grid */}
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
 
                 {filteredItems.map((item) => (
-
-                    <div key={item.id}>
+                    <div
+                        key={item.id}
+                        className={`${data.map(product => product.id).includes(item.id) ? "bg-gray-200 pointer-events-none opacity-50" : ""
+                            }`}
+                    >
 
                         <button
                             onClick={() => openModal(item)}
@@ -100,9 +115,9 @@ const GridLayoutProduct = () => {
                             </svg>
 
                             <div
-                                className="flex items-center justify-center rounded-lg bg-white dark:bg-dark-2 dark:border dark:border-dark-3 cursor-pointer"
+                                className={`flex items-center justify-center rounded-lg bg-white dark:bg-dark-2 dark:border dark:border-dark-3 cursor-pointer`}
 
-                                onClick={() => dispatch(addToCart(item))}
+                                onClick={() => addProductToCard(item)}
                             >
                                 <svg
                                     className="h-5 text-green-800 dark:text-white"
@@ -125,6 +140,7 @@ const GridLayoutProduct = () => {
 
                     </div>
                 ))}
+
             </div>
 
             {/* Modal */}
@@ -137,12 +153,13 @@ const GridLayoutProduct = () => {
                     aria-labelledby="modal-title"
                 >
                     <div onClick={(e) => e.stopPropagation()}>
-                        <HorizontalCard>
+                        <HorizontalCard item={{ id: 8, title: 'Gaming Mouse', price: 59, category: 'Gaming', img: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-8.jpg' } }>
                             <GridSlideProduct />
                         </HorizontalCard>
                     </div>
                 </div>
             )}
+
         </>
     );
 };

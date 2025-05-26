@@ -2,6 +2,7 @@
 import { useNavigate, NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import { addToCart, removeFromCart, clearCart, decreaseQuantity } from '../slices/cartSlice'
+import { setPreviousNav, setCurrentNav } from '../slices/navigateSlice'
 
 
 export default function AccountDropdown3() {
@@ -84,9 +85,9 @@ export default function AccountDropdown3() {
 
                             {/* Icon 2 */}
 
-                            <NavLink
-                                to="/payment_card"
-                                className="flex h-12 w-12 items-center justify-center rounded-lg border-0 bg-white dark:border-dark-3 dark:bg-dark-2 text-dark"
+                            <button
+                                onClick={()=>dispatch(setCurrentNav("payment"))}
+                                className="cursor-pointer flex h-12 w-12 items-center justify-center rounded-lg border-0 bg-white dark:border-dark-3 dark:bg-dark-2 text-dark"
                             >
                                 <svg
                                     className="h-5 text-gray-800 dark:text-white"
@@ -103,7 +104,7 @@ export default function AccountDropdown3() {
                                     />
                                 </svg>
                                 {nbItems}
-                            </NavLink>
+                            </button>
 
 
                             {/* Dropdown Button */}
@@ -155,29 +156,29 @@ export default function AccountDropdown3() {
                                 </p>
                             </div>
                             <div>
-                                <NavLink
-                                    to="/user_profil"
-                                    className="flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
+                                <button
+                                    onClick={() => dispatch(setCurrentNav("profile")) }
+                                    className="cursor-pointer flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
                                 >
                                     Voir compte
-                                </NavLink>
+                                </button>
 
                             </div>
                             <div>
-                                <NavLink
-                                    to="/entreprise"
-                                    className="flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
+                                <button
+                                    onClick={() => dispatch(setCurrentNav("entreprise"))}
+                                    className="cursor-pointer  flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
                                 >
                                     Entreprise
-                                </NavLink>
+                                </button>
                             </div>
                             <div>
-                                <NavLink
-                                    to="/support"
-                                    className="flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
+                                <button
+                                    onClick={() => dispatch(setCurrentNav("support"))}
+                                    className="cursor-pointer flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
                                 >
                                     Support
-                                </NavLink>
+                                </button>
                             </div>
 
                             <div>

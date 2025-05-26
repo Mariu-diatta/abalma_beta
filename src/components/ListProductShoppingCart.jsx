@@ -12,7 +12,8 @@ const ListProductShoppingCart = () => {
 
     const handleIncreaseQuantity = (prod) => {
 
-        dispatch(addToCart({id:prod.id}))
+        dispatch(addToCart({ id: prod.id }))
+
     };
 
     const handleDecreaseQuantity = (prod) => {

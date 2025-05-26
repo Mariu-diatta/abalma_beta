@@ -41,13 +41,13 @@ const NavbarHeader = () => {
 
                                 <nav
                                     id="navbarCollapse"
-                                    className={`absolute right-4 top-full w-full max-w-[250px] rounded-lg bg-white px-6 py-5 shadow dark:bg-dark-2 lg:static lg:block lg:w-full lg:max-w-full lg:bg-transparent lg:shadow-none lg:dark:bg-transparent ${!open && "hidden"
+                                    className={`absolute  right-4 top-full w-full max-w-[250px] rounded-lg bg-white px-6 py-5 shadow dark:bg-dark-2 lg:static lg:block lg:w-full lg:max-w-full lg:bg-transparent lg:shadow-none lg:dark:bg-transparent ${!open && "hidden"
                                         } `}
                                 >
                                     <ul className="block lg:flex">
                                         <ul className="lg:flex md:block">
                                             {tabs.map((tab) => (
-                                                <li className="me-2" key={tab.id} role="presentation">
+                                                <li className="me-1" key={tab.id} role="presentation">
                                                     <NavLink
                                                         to={tab.endPoint}
                                                         className={({ isActive }) =>

@@ -5,11 +5,11 @@ import Footer from '../pages/Footer';
 const HomeLayout = ({children}) => {
 
     return (
-        <container className="d-flex flex-coulumn">
+        <div className="d-flex flex-coulumn">
             <NavbarHeader />
             <>{children}  </ >
             <Footer/>
-        </container>
+        </div>
     );
 };
 

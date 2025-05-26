@@ -137,8 +137,10 @@ const GridProductDefault = () => {
                     <div
                         onClick={(e) => e.stopPropagation()} // empêche la fermeture quand on clique dans ce div
                     >
-                        <HorizontalCard>
+                        <HorizontalCard item={{ id: 1, src: "image-11", price: 59, title: "Produit 12", description: "Description courte 12" }}>
+
                             <GridSlideProduct />
+
                         </HorizontalCard>
                     </div>
                 </div>

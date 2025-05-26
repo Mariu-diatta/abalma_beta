@@ -1,9 +1,18 @@
-﻿import React, { useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
+import MessageForm from './MessageForm';
+import { useAuth } from '../AuthContext';
+
+
 
 const ProfileCard = () => {
+
     const [isEditing, setIsEditing] = useState(false);
     const [isEditingPhotoBg, setIsEditingPhotoBg] = useState(false);
     const [isProFormVisible, setIsProFormVisible] = useState(false);
+    const [messageVisible, setMessageVisible]=useState(false)
+
+    const { currentUser } = useAuth();
+
 
     const [name, setName] = useState('Danish Hebo');
     const [description, setDescription] = useState('Professional UI/UX Designer');
@@ -24,6 +33,10 @@ const ProfileCard = () => {
         }
     };
 
+    const handleNewMessage = (message) => {
+        console.log('Message créé :', message);
+        // Ici tu peux appeler `addDoc(...)` vers Firestore si tu veux l’enregistrer
+    };
 
     const handleSave = () => {
         setIsEditing(false);
@@ -34,6 +47,7 @@ const ProfileCard = () => {
         setIsProFormVisible(false);
         alert("🎉 Félicitations ! Votre compte est maintenant professionnel.");
     };
+
 
     return (
         <div className="w-full max-w-full mx-auto bg-white rounded-md overflow-hidden shadow-md">
@@ -134,25 +148,34 @@ const ProfileCard = () => {
                     )}
 
                     {/* Boutons d'action */}
-                    <div className="mt-6 flex flex-col sm:flex-row gap-2">
+                    {
+                        currentUser?.displayName === "moi" ?
+                        <div className="mt-6 flex flex-col sm:flex-row gap-2">
+                            <button
+                                onClick={() => setIsEditing(true)}
+                                className="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-300 rounded hover:bg-gray-100"
+                            >
+                                Modifier
+                            </button>
+                            <button
+                                className="px-4 py-2 text-sm font-medium text-red-600 bg-white border border-gray-300 rounded hover:bg-red-100"
+                            >
+                                Supprimer
+                            </button>
+                            <button
+                                onClick={() => setIsProFormVisible(true)}
+                                className="px-4 py-2 text-sm font-medium text-yellow-600 bg-white border border-gray-300 rounded hover:bg-yellow-100"
+                            >
+                                Passer à compte pro
+                            </button>
+                        </div> :
                         <button
-                            onClick={() => setIsEditing(true)}
-                            className="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-300 rounded hover:bg-gray-100"
+                            onClick={() => setMessageVisible(true)}
+                            className="px-4 mt-2 py-2 text-sm font-medium text-yellow-600 bg-white border border-gray-300 rounded hover:bg-yellow-100"
                         >
-                            Modifier
+                            Message
                         </button>
-                        <button
-                            className="px-4 py-2 text-sm font-medium text-red-600 bg-white border border-gray-300 rounded hover:bg-red-100"
-                        >
-                            Supprimer
-                        </button>
-                        <button
-                            onClick={() => setIsProFormVisible(true)}
-                            className="px-4 py-2 text-sm font-medium text-yellow-600 bg-white border border-gray-300 rounded hover:bg-yellow-100"
-                        >
-                            Passer à compte pro
-                        </button>
-                    </div>
+                    }
 
                     {/* Formulaire de confirmation pour compte pro */}
                     {isProFormVisible && (
@@ -176,8 +199,13 @@ const ProfileCard = () => {
                             </div>
                         </div>
                     )}
+
                 </div>
+
             </div>
+
+            {messageVisible  && <MessageForm onSend={handleNewMessage} />}
+
         </div>
     );
 };
