@@ -68,7 +68,7 @@ export const signInWithGoogle = async () => {
     try {
         const result = await signInWithPopup(auth, provider);
         const user = result.user;
-        console.log("Connexion Google réussie:", user);
+        console.log("Connexion Google réussie:");
         return user;
     } catch (error) {
         console.error("Erreur Google Auth:", error.message);
@@ -82,7 +82,7 @@ export const signInWithFacebook = async () => {
     try {
         const result = await signInWithPopup(auth, provider);
         const user = result.user;
-        console.log("Connexion Facebook réussie:", user);
+        console.log("Connexion Facebook réussie:");
         return user;
     } catch (error) {
         console.error("Erreur Facebook Auth:", error.message);
@@ -96,7 +96,7 @@ export const signInWithTwitter = async () => {
     try {
         const result = await signInWithPopup(auth, provider);
         const user = result.user;
-        console.log("Connexion Twitter réussie:", user);
+        console.log("Connexion Twitter réussie:");
         return user;
     } catch (error) {
         console.error("Erreur Twitter Auth:", error.message);

@@ -1,40 +1,81 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import HomeLayout from '../layouts/HomeLayout';
 import { useNavigate } from 'react-router-dom';
 import InputBox from '../components/InputBoxFloat';
 import { signInWithGoogle, signInWithFacebook, signInWithTwitter, signInWithEmailPswd } from '../firebase';
 
 import api from '../services/Axios';
+import { login, getFirebaseToken } from '../slices/authSlice';
+import AttentionAlertMesage, { showMessage } from '../components/AlertMessage';
 
 
-const loginClient = async (data) => {
+
+//Fonction pour les message
+const loginClient = async (data, dispatch, setMessageError) => {
+
     try {
-        const response = await api.post('/token/', data)
-        console.log(response.data)
-        return response;
+        const response = await api.post('token/', data);
+
+        const { access, refresh } = response.data;
+
+        localStorage.setItem("token", access);
+
+        localStorage.setItem("refresh", refresh);
+
+        console.log("DONNEE DU BACKEND", response )
+
+        if (access && refresh) {
+
+            return response.data; // renvoyer les données utiles ici
+        }
     } catch (error) {
-        console.error('Erreur lors de la récupération des clients', error)
+
+        console.error('Erreur lors de la connexion', error?.response?.data?.detail);
+
+        setMessageError(error?.response?.data?.detail)
+
+        showMessage(dispatch, error?.response?.data?.detail);
+
+        throw error;
     }
-}
+};
 
 
 const Signin = () => {
 
     const [email, setEmail] = useState("")
 
+    const [setMessageError, messageError] = useState("")
+
     const [pwd, setPwd] = useState("")
 
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
+
+    const userConnected = useSelector((state) => state.auth.isAuthenticated)
+
+    const firebaseToken = useSelector((state) => state.auth.firebaseToken)
+
+    const messageAlert = useSelector((state) => state.navigate.messageAlert)
 
     const handleGoogleLogin = async () => {
 
         try {
             const user = await signInWithGoogle();
-            console.log("Connecté avec Google:", user);
+            //console.log("Connecté avec Google:", user);
+            dispatch(login(user))
+            //localStorage.setItem("config", user)
+            dispatch(getFirebaseToken(user?.accessToken))
             navigate("/account", { replace: true });
+            
         } catch (error) {
             alert("Erreur de connexion Google");
+            showMessage(dispatch,"Erreur de connexion Google");
         }
+
+        console.log("TOKEN ACCESS FIREBASE", firebaseToken)
     };
 
     const handleTwitter = async () => {
@@ -45,6 +86,8 @@ const Signin = () => {
             navigate("/account", { replace: true });
         } catch (error) {
             alert("Erreur de connexion TWTe");
+            showMessage(dispatch,"Erreur de connexion TWTe");
+
         }
     };
 
@@ -55,38 +98,37 @@ const Signin = () => {
             navigate("/account", { replace: true });
         } catch (error) {
             alert("Erreur de connexion Fbook");
+            showMessage(dispatch,"Erreur de connexion Fbook");
         }
     };
-
-
 
     const handleSignIn = async () => {
         try {
-            //const user = await signInWithEmailPswd( email, pwd );
-            //console.log("Connexion réussie:", user);
-          
-            loginClient(
-                {
-                    "email": email,
-                    "password": pwd
-                }
-            ).then(
-                resp => {
-                    console.log("Je suis dans la connexion",resp)
-                    //navigate("/account", { replace: true });
+            const formData = new FormData();
+            formData.append("email", email);
+            formData.append("password", pwd);
 
-                }
-            ).catch(
-                err => {
-                    console.log("ERREUR DE LA CONNEXION", err)
-                }
-            )
+            const userData = await loginClient(formData, dispatch, setMessageError);
 
+            console.log("userData:", userData);
 
+            if (userData) {
+                dispatch(login(userData)); // met à jour Redux avec les données utilisateur
+                navigate("/account", { replace: true }); // redirection
+            }
         } catch (error) {
-            alert("Erreur de connexion");
+            //alert("Erreur de connexion. Vérifie ton email et mot de passe.");
+            showMessage(dispatch,"Erreur de connexion. Vérifie ton email et mot de passe.");
+            console.log("MESSAGE DU CONTENU", messageAlert)
+            //console.error(error);
         }
     };
+
+    useEffect(() => {
+        if (userConnected) {
+            navigate("/account", { replace: true });
+        }
+    }, [userConnected, navigate]);
 
 
     return (
@@ -204,6 +246,7 @@ const Signin = () => {
                                     Sign Up
                                 </a>
                             </p>
+                            {messageAlert && <AttentionAlertMesage title="Error" content={messageAlert}  />}
                         </div>
                     </div>
                 </div>

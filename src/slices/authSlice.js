@@ -5,6 +5,8 @@ const initialState = {
 
     isAuthenticated: false,
 
+    firebaseToken:null,
+
     user: null,
 };
 
@@ -29,9 +31,14 @@ const authSlice = createSlice({
 
             state.user = null;
         },
+
+        getFirebaseToken: (state, action) => {
+
+            state.firebaseToken = state.user = action.payload;;
+        },
     },
 });
 
-export const { login, logout } = authSlice.actions;
+export const { getFirebaseToken, login, logout } = authSlice.actions;
 
 export default authSlice.reducer;

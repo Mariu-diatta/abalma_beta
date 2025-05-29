@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { Suspense } from 'react'
 import './App.css';
 import routes from './router/Routers';
 import { useRoutes} from "react-router-dom"
@@ -15,18 +15,21 @@ const AppRoutes = () => {
 
 function App() {
 
-    return (
+  return (
 
-    <>
-         <AuthProvider>
+      <AuthProvider>
 
-            <AppRoutes />
+          <Suspense fallback={"Loarding..."}>
+            
+              <AppRoutes />
 
-            <CookieBanner />
+          </Suspense>
 
-        </AuthProvider>
+          <CookieBanner />
+
+      </AuthProvider>
          
-    </>
+
   );
 }
 

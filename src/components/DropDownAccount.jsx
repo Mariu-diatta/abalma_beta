@@ -3,6 +3,7 @@ import { useNavigate, NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import { addToCart, removeFromCart, clearCart, decreaseQuantity } from '../slices/cartSlice'
 import { setPreviousNav, setCurrentNav } from '../slices/navigateSlice'
+import { logout } from "../slices/authSlice";
 
 
 export default function AccountDropdown3() {
@@ -49,6 +50,7 @@ export default function AccountDropdown3() {
     const getUserLogOut = () => {
 
         if (window.confirm("Voulez-vous vous deconnecter???")) {
+            dispatch(logout())
             return navigate("/logIn", { replace: true });
         }
 

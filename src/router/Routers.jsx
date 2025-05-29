@@ -1,10 +1,11 @@
+// Imports
 import ProtectedRoute from "../ProtectedRoute";
 
-import  VertcalNavbar, { ProductList, SelectedProduct, UserMenuAccount } from "../components/NavbarVertical";
-import PrivacyPolicy from "../components/PrivacyPolicy";
-import ProfileCard from "../components/ProfilUser";
+// Layouts
 import AdminPage from "../layouts/AdminLayout";
 import AuthPage from "../layouts/AuthLayout";
+
+// Pages
 import About from "../pages/About";
 import BlogPage from "../pages/Blog";
 import ErrorPage from "../pages/ErrorPage";
@@ -13,67 +14,57 @@ import LogIn from "../pages/Login";
 import Payment from "../pages/Payment";
 import Register from "../pages/Register";
 
+// Components
+import VerticalNavbar, {
+    ProductList,
+    SelectedProduct,
+    UserMenuAccount
+} from "../components/NavbarVertical";
+import PrivacyPolicy from "../components/PrivacyPolicy";
+import ProfileCard from "../components/ProfilUser";
+import PersistLogIn from "../features/auth/PersistLogin";
 
-
-// Configuration des routes
+// Routes Configuration
 const routes = [
-
     {
-    
-
         errorElement: <ErrorPage />,
-
         children: [
+            { index: true, element: <Home /> },
+            { path: "logIn", element: <LogIn /> },
+            { path: "register", element: <Register /> },
+            { path: "about", element: <About /> },
+            { path: "politique-confidentialite", element: <PrivacyPolicy /> },
+            { path: "products", element: <ProductList /> },
+            { path: "payment_card", element: <SelectedProduct /> },
+            { path: "blog", element: <BlogPage /> },
+
             {
-                index: true, element: <Home />
+                path: "user_profil",
+                element: (
+                    <VerticalNavbar>
+                        <ProfileCard />
+                    </VerticalNavbar>
+                )
             },
             {
-                path: 'logIn', element: <LogIn /> 
-            },
-            {
-                path: 'user_profil', element: <VertcalNavbar >  <ProfileCard /></VertcalNavbar > 
-            },
-            {
-                path: "payment_card", element: <SelectedProduct/>
-            },
-            {
-                path : "/politique-confidentialite", element : < PrivacyPolicy/>
-            },
-            {
-                path: 'Register', element: <Register /> 
-            },
-            {
-                path: 'About', element: <About/>
-            },
-            {
-                path: "/products", element: <ProductList/>
-            },
-            {
+                element: <PersistLogIn />,
 
                 children: [
 
                     {
-                        path: 'About', element: < About/>
-                    },
-
-                    {
-                        element: <ProtectedRoute/>,
+                        element: <ProtectedRoute />,
 
                         children: [
-
-                            { path: 'account', element: <AuthPage/> },
-
-                            { path: 'AdminPage', element: <AdminPage /> },
-
-                            { path: 'Payment', element: <Payment /> },
-
-                            { path: 'Blog', element: <BlogPage/> }
-                        ],
-                    },
-                ],
+                            { path: "account", element: <AuthPage /> },
+                            { path: "admin", element: <AdminPage /> },
+                            { path: "payment", element: <Payment /> },
+                        ]
+                    }
+                ]
             },
-        ],
-    },
+
+        ]
+    }
 ];
 
 export default routes;

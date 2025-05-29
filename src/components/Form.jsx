@@ -15,8 +15,12 @@ const CreateClient = async (data) => {
     }
 }
 
+
+
 const RegisterForm = () => {
+
     const navigate = useNavigate();
+
     const [form, setForm] = useState({
         "password": "",
         "last_login": null,
@@ -29,7 +33,7 @@ const RegisterForm = () => {
         "description": "",
         "adresse": "",
         "is_connected": false,
-        "is_active": false,
+        "is_active": true,
         "is_staff": false,
         "is_pro": false,
         "is_verified": false,
@@ -53,10 +57,7 @@ const RegisterForm = () => {
         }
 
         try {
-            //const user = await signUpWithEmail({
-            //    email: form.email,
-            //    password: form.password,
-            //});
+
 
             CreateClient(
                 {
@@ -71,7 +72,7 @@ const RegisterForm = () => {
                     "description": "",
                     "adresse": "",
                     "is_connected": false,
-                    "is_active": false,
+                    "is_active": true,
                     "is_staff": false,
                     "is_pro": false,
                     "is_verified": false,
@@ -79,13 +80,18 @@ const RegisterForm = () => {
                     "user_permissions": []
                 }
             ).then(
-                resp => {
-                    console.log("REPONSE INSCRIPTION", resp)
-                    navigate("/login", { replace: true });
 
+                resp => {
+
+                    console.log("REPONSE INSCRIPTION", resp)
+
+                    navigate("/login", { replace: true });
                 }
+
             ).catch(
+
                 req => {
+
                     console.log("REPONSE ERREUR", req)
                 }
             )

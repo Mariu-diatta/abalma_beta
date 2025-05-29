@@ -1,5 +1,4 @@
-﻿import { useState } from "react";
-import AccountDropdown3 from "./DropDownAccount";
+﻿import AccountDropdown3 from "./DropDownAccount";
 import GridLayoutProduct from "./GridLayoutProducts";
 import GridProductDefault from "./GridProductDefaultSize";
 import ProductTable from "./ListProductShoppingCart";
@@ -9,9 +8,19 @@ import UpdateProduct from "./UpdateProduct";
 import MessageCard from "./MessageCard";
 import PrivacyPolicy from "./PrivacyPolicy";
 import { useDispatch, useSelector } from "react-redux";
-import { setPreviousNav, setCurrentNav } from '../slices/navigateSlice'
+import { setCurrentNav } from '../slices/navigateSlice'
 import ProfileCard from "./ProfilUser";
+import api from "../services/Axios";
 
+
+const lesAccount = async () => {
+    try {
+        const response = await api.get('/comptes')
+        console.log(response.data)
+    } catch (error) {
+        console.error('Erreur lors de la récupération des clients', error)
+    }
+}
 
 const menuItems = [
     {
@@ -110,6 +119,8 @@ const VertcalNavbar = ({ children }) => {
     const updateActiveTab = (tab) => {
 
         dispatch(setCurrentNav(tab))
+
+        lesAccount()
     }
 
     const tabContent = {
@@ -292,6 +303,7 @@ const VertcalNavbar = ({ children }) => {
                         className="mb-5 bg-white dark:bg-gray-800 rounded-lg shadow-md max-w-full h-full pb-2"
                     >
                         {tabContent[current]}  
+
 
                     </section>
                     

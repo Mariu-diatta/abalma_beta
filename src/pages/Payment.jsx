@@ -24,6 +24,7 @@ export default Payment;
 
 
 const PaymentForm = () => {
+
     const [formData, setFormData] = useState({
         name: '',
         cardNumber: '',
