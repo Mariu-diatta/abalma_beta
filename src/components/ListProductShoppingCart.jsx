@@ -30,7 +30,7 @@ const ListProductShoppingCart = () => {
     return (
         <div className="mb-2 relative overflow-x-auto shadow-md sm:rounded-lg">
 
-            <nav className="flex flex-row items-center gap-2 m-2">
+            <nav className="flex flex-row items-center gap-2 ">
 
                 <svg
                     className="text-gray-800 dark:text-white"

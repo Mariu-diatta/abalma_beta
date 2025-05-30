@@ -149,7 +149,7 @@ const ProfileCard = () => {
 
                     {/* Boutons d'action */}
                     {
-                        currentUser?.displayName === "moi" ?
+                        currentUser?.displayName === "Marius DIATTA" ?
                         <div className="mt-6 flex flex-col sm:flex-row gap-2">
                             <button
                                 onClick={() => setIsEditing(true)}

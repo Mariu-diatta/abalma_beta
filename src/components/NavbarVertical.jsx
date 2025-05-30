@@ -15,10 +15,15 @@ import { useEffect, useRef, useState } from "react";
 
 
 const lesAccount = async () => {
+
     try {
+
         const response = await api.get('/comptes')
+
         console.log(response.data)
+
     } catch (error) {
+
         console.error('Erreur lors de la récupération des clients', error)
     }
 }
@@ -117,8 +122,6 @@ const VertcalNavbar = ({ children }) => {
 
     const current = useSelector(state => state.navigate.currentNav);
 
-    const previous = useSelector(state => state.navigate.previousNav);
-
     const sidebarRef = useRef();
 
     const updateActiveTab = (tab) => {
@@ -149,21 +152,22 @@ const VertcalNavbar = ({ children }) => {
         "products": <ProductList />, 
         "profile": <ProfileCard/>,
         "payment": <SelectedProduct/>,
-        2: <PrivacyPolicy/>,
+        2: <ProductList />,
         "home": <UserMenuAccount />,
 
-        3: 3,
+        3: <ProductList />,
 
-        4: 4,
+        4: <ProductList />,
 
-        5: 5,
+        5: <ProductList />,
 
-        6: 6,
+        6: <ProductList />,
 
-        7: 7,
+        7: <ProductList />,
         "add_prod": <UpdateProduct />,
         "home_content": <Tabs />,
-        "message_inbox": <MessageCard/>
+        "message_inbox": <MessageCard />,
+        "Help": <PrivacyPolicy />
 
     };
 
@@ -310,24 +314,31 @@ const VertcalNavbar = ({ children }) => {
                 </div>
             </aside>
 
-            <div className=" pt-0 mb-0  sm:ml-64 h-screen">
+            <div className="p-0 m-0  sm:ml-64 h-screen">
          
-                <div className="p-0 border-2 border-white-200 border-white rounded-lg dark:border-gray-700 ">
+                <div className="p-0 m-0 border-2 border-white-200 border-white rounded-lg dark:border-gray-700 ">
 
                     <div className="grid  gap-0 ">
        
-                        <div className="flex items-center justify-end h-24 rounded-sm">
-                            <AccountDropdown3/>
+                        <div className="flex items-center justify-end h-22 rounded-sm">
+
+                            <AccountDropdown3 />
+
                         </div>
+
                     </div>
 
                     {!current && children}
 
                     <section
+
                         id={`${current}-tab`}
                         role="tabpanel"
+
                         aria-labelledby={`${current}-tab-button`}
-                        className="mb-5 bg-white dark:bg-gray-800 rounded-lg shadow-md max-w-full h-full m-1 pb-1"
+
+                        className="mb-5 bg-white dark:bg-gray-800 rounded-lg shadow-md w-full h-full pb-1 p-1"
+
                     >
                         {tabContent[current]}  
 
