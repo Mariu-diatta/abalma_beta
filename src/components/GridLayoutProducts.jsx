@@ -98,7 +98,7 @@ const GridLayoutProduct = () => {
                             {item.title}
                         </p>
 
-                        <div className="flex items-center justify-between space-x-1 mb-1">
+                        <div className="flex items-center justify-between space-x-1 mb-1 pe-3 ps-3">
 
                             <span className="text-md font-medium text-blue-900 dark:text-white">${item.price}</span>
 
