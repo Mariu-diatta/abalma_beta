@@ -115,7 +115,7 @@ const Tabs = () => {
 
         dashboard: (
 
-            <div className="p-6 space-y-6 max-w-7xl mx-auto">
+            <div className="p-2 space-y-6 max-w-7xl mx-auto">
 
                 <div className="mb-6 text-center">
 
@@ -155,9 +155,9 @@ const Tabs = () => {
     };
 
     return (
-        <div className="min-h-screen w-full bg-gray-100 dark:bg-gray-900 px-4 py-6">
+        <div className="min-h-screen w-full bg-gray-100 dark:bg-gray-900 px-1 py-1">
 
-            <div className="max-w-7xl mx-auto">
+            <div className="">
 
                 {/* Tabs Navigation */}
                 <nav className="mb-4 border-b border-gray-200 dark:border-gray-700" role="tablist" aria-label="Main tabs">
