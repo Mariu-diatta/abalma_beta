@@ -18,7 +18,7 @@ const lesAccount = async () => {
 
     try {
 
-        const response = await api.get('/comptes')
+        const response = await api.get('/clients/')
 
         console.log(response.data)
 

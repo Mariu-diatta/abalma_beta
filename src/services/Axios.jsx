@@ -38,16 +38,21 @@ api.interceptors.response.use(
 )
 
 const refreshAccessToken = async (refreshToken) => {
+
     try {
+
         const response = await api.post("refresh/", {
+
             refresh: refreshToken,
         });
 
         // Stocker le nouveau access token
         const newAccessToken = response.data.access;
-        localStorage.setItem("accessToken", newAccessToken);
+
+        localStorage.setItem("token", newAccessToken);
 
         return newAccessToken;
+
     } catch (error) {
         console.error("Erreur lors du rafraîchissement du token :", error);
         // Tu peux rediriger vers login ici si le refresh échoue

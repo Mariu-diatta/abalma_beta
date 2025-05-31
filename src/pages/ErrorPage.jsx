@@ -2,9 +2,13 @@ import React from 'react'
 import HomeLayout from '../layouts/HomeLayout';
 
 const ErrorPage = () => {
+
     return (
+
         <HomeLayout>
-            <Error/>
+
+            <Error />
+
         </HomeLayout>
     )
 }

@@ -34,7 +34,7 @@ const authSlice = createSlice({
 
         getFirebaseToken: (state, action) => {
 
-            state.firebaseToken = state.user = action.payload;;
+            state.firebaseToken =action.payload;;
         },
     },
 });

@@ -3,9 +3,12 @@ import VertcalNavbar from '../components/NavbarVertical';
 
 
 const AuthPage = () => {
+
     return (
+
         <>
-            <VertcalNavbar/>
+            <VertcalNavbar />
+
         </>
     )
 }

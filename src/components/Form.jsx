@@ -3,14 +3,23 @@ import { useNavigate, Link } from 'react-router-dom';
 import InputBox from './InputBoxFloat';
 //import { signUpWithEmail } from '../firebase';
 
+import { login, getFirebaseToken } from '../slices/authSlice';
+
+
 import api from '../services/Axios';
 
 
 const CreateClient = async (data) => {
+
     try {
         const response = await api.post('/clients/', data)
+
         console.log(response.data)
+
+        //localStorage.setItem("USER", JSON.stringify(response.data))
+
     } catch (error) {
+
         console.error('Erreur lors de la récupération des clients', error)
     }
 }
@@ -84,6 +93,10 @@ const RegisterForm = () => {
                 resp => {
 
                     console.log("REPONSE INSCRIPTION", resp)
+
+                    //api.get(`/utilisateurs/?email=${form.email}`).then(
+                    //    resp=>console.log("UTILISATEUR CR2R", resp)
+                    //)
 
                     navigate("/login", { replace: true });
                 }

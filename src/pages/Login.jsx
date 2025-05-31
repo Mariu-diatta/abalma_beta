@@ -23,7 +23,13 @@ const loginClient = async (data, dispatch, setMessageError) => {
 
         localStorage.setItem("refresh", refresh);
 
-        console.log("DONNEE DU BACKEND", response )
+        console.log("DONNEE DU BACKEND", response)
+
+        //const user=JSON.parse(localStorage.getItem("USER"))
+
+        //const compte = await api.post('/comptes/', user)
+
+        //console.log("MON COMPTE", compte)
 
         if (access && refresh) {
 
