@@ -1,6 +1,9 @@
 ﻿import React, { useEffect, useState } from 'react';
 import MessageForm from './MessageForm';
 import { useAuth } from '../AuthContext';
+import { useDispatch, useSelector } from 'react-redux';
+import api from '../services/Axios';
+
 
 
 
@@ -9,26 +12,86 @@ const ProfileCard = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [isEditingPhotoBg, setIsEditingPhotoBg] = useState(false);
     const [isProFormVisible, setIsProFormVisible] = useState(false);
-    const [messageVisible, setMessageVisible]=useState(false)
-
-    const { currentUser } = useAuth();
-
-
-    const [name, setName] = useState('Danish Hebo');
-    const [description, setDescription] = useState('Professional UI/UX Designer');
-    const [comment, setComment] = useState("Je suis un consommateur fidèle");
+    const [messageVisible, setMessageVisible] = useState(false)
+    const [profileUser, setProfileUser] = useState(false)
+    const currentUserEmail = useSelector((state)=>state.auth.user)
+    const { currentUser } = useAuth()
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('Utilisateur');
+    const [comment, setComment] = useState("");
 
     const [previewUrl, setPreviewUrl] = useState(null);
-    const [previewUrlBackground, setPreviewUrlBackground] = useState(null);
+
+    const getUserDataProfile = (profile) => {
+
+        setProfileUser(profile)
+    }
+
+    const getUserCompte = () => {
+
+        const acomptes = api.get("comptes/").then(
+
+            resp => {
+
+                console.log("Liste des comptes:::::::::::::", resp?.data)
+                const response = resp?.data
+                console.log("profileUser::::::::::::", profileUser)
+                const user_compte= response.filter((map) => map?.user?.id === profileUser?.id && map?.id != null);
+
+                console.log("========== id user:::::,", user_compte)
+
+                if (user_compte) {
+
+                    api.post("fournisseurs/",{
+                        "compte_id": user_compte[0]?.id,
+                            "activite": "FOurnisseur",
+                                "is_verified": true
+                    }).then(
+                        resp=>console.log("ALERT DATA", resp)
+
+                    )
+                }
+
+
+            }
+        )
+    }
+
+    const [previewUrlBackground, setPreviewUrlBackground] = useState(null)
+
+    useEffect(() => {
+
+        api.get(`/utilisateurs/?email=${currentUserEmail?.email}`).then(
+
+            resp => {
+
+                console.log("UTILISATEUR CR2R", `/utilisateurs/?email=${currentUserEmail?.email}`, resp?.data[0])
+                getUserDataProfile(resp?.data[0])
+                setName(resp?.data[0]?.nom)
+                setDescription(resp?.data[0]?.description)
+                setComment(resp?.data[0]?.description)
+                setPreviewUrlBackground(resp?.data[0]?.image)
+                setPreviewUrl(resp?.data[0]?.image)
+            }
+        )
+    },[])
 
     const handleImageUpload = (e, isBackground = false) => {
+
         const file = e.target.files[0];
+
         if (!file) return;
+
         const url = URL.createObjectURL(file);
+
         if (isBackground) {
+
             setPreviewUrlBackground(url);
+
             setIsEditingPhotoBg(false); // <-- cacher le champ une fois l'image choisie
+
         } else {
+
             setPreviewUrl(url);
         }
     };
@@ -150,6 +213,7 @@ const ProfileCard = () => {
                     {/* Boutons d'action */}
                     {
                         currentUser?.displayName === "Marius DIATTA" ?
+
                         <div className="mt-6 flex flex-col sm:flex-row gap-2">
                             <button
                                 onClick={() => setIsEditing(true)}
@@ -157,10 +221,18 @@ const ProfileCard = () => {
                             >
                                 Modifier
                             </button>
+
                             <button
                                 className="px-4 py-2 text-sm font-medium text-red-600 bg-white border border-gray-300 rounded hover:bg-red-100"
                             >
                                 Supprimer
+                            </button>
+
+                            <button
+                                className="px-4 py-2 text-sm font-medium text-green-600 bg-white border border-gray-300 rounded hover:bg-green-100"
+                                onClick={() => getUserCompte()}
+                            >
+                                Passer à compte Fournisseur
                             </button>
                             <button
                                 onClick={() => setIsProFormVisible(true)}

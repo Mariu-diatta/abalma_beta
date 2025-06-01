@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import HomeLayout from '../layouts/HomeLayout';
 import { useNavigate } from 'react-router-dom';
 import InputBox from '../components/InputBoxFloat';
-import { signInWithGoogle, signInWithFacebook, signInWithTwitter, signInWithEmailPswd } from '../firebase';
+import { signInWithGoogle, signInWithFacebook, signInWithTwitter } from '../firebase';
 
 import api from '../services/Axios';
 import { login, getFirebaseToken } from '../slices/authSlice';
@@ -69,15 +69,21 @@ const Signin = () => {
     const handleGoogleLogin = async () => {
 
         try {
+
             const user = await signInWithGoogle();
             //console.log("Connecté avec Google:", user);
+
             dispatch(login(user))
             //localStorage.setItem("config", user)
+
             dispatch(getFirebaseToken(user?.accessToken))
+
             navigate("/account", { replace: true });
             
         } catch (error) {
+
             alert("Erreur de connexion Google");
+
             showMessage(dispatch,"Erreur de connexion Google");
         }
 
@@ -87,44 +93,67 @@ const Signin = () => {
     const handleTwitter = async () => {
 
         try {
-            const user = await signInWithTwitter ();
+
+            const user = await signInWithTwitter();
+
             console.log("Connecté avec TWTe:", user);
+
             navigate("/account", { replace: true });
+
         } catch (error) {
+
             alert("Erreur de connexion TWTe");
+
             showMessage(dispatch,"Erreur de connexion TWTe");
 
         }
     };
 
     const handleFacebookLogin = async () => {
+
         try {
+
             const user = await signInWithFacebook();
+
             console.log("Connecté avec Fbook:", user);
+
             navigate("/account", { replace: true });
+
         } catch (error) {
+
             alert("Erreur de connexion Fbook");
+
             showMessage(dispatch,"Erreur de connexion Fbook");
         }
     };
 
     const handleSignIn = async () => {
+
         try {
+
             const formData = new FormData();
+
             formData.append("email", email);
+
             formData.append("password", pwd);
 
             const userData = await loginClient(formData, dispatch, setMessageError);
 
+            userData["email"]=email
+
             console.log("userData:", userData);
 
             if (userData) {
+
                 dispatch(login(userData)); // met à jour Redux avec les données utilisateur
+
                 navigate("/account", { replace: true }); // redirection
             }
         } catch (error) {
+
             //alert("Erreur de connexion. Vérifie ton email et mot de passe.");
-            showMessage(dispatch,"Erreur de connexion. Vérifie ton email et mot de passe.");
+            showMessage(dispatch, "Erreur de connexion. Vérifie ton email et mot de passe.");
+
             console.log("MESSAGE DU CONTENU", messageAlert)
             //console.error(error);
         }
