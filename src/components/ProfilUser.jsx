@@ -3,6 +3,7 @@ import MessageForm from './MessageForm';
 import { useAuth } from '../AuthContext';
 import { useDispatch, useSelector } from 'react-redux';
 import api from '../services/Axios';
+import { updateCompteUser, updateUserData } from '../slices/authSlice';
 
 
 
@@ -14,11 +15,12 @@ const ProfileCard = () => {
     const [isProFormVisible, setIsProFormVisible] = useState(false);
     const [messageVisible, setMessageVisible] = useState(false)
     const [profileUser, setProfileUser] = useState(false)
-    const currentUserEmail = useSelector((state)=>state.auth.user)
+    const currentUserEmail = useSelector((state) => state.auth.user)
     const { currentUser } = useAuth()
     const [name, setName] = useState('');
     const [description, setDescription] = useState('Utilisateur');
     const [comment, setComment] = useState("");
+    const dispatch=useDispatch()
 
     const [previewUrl, setPreviewUrl] = useState(null);
 
@@ -27,35 +29,39 @@ const ProfileCard = () => {
         setProfileUser(profile)
     }
 
-    const getUserCompte = () => {
+    const getUserCompte = async () => {
+        try {
+            const resp = await api.get("comptes/");
+            const comptes = resp?.data || [];
 
-        const acomptes = api.get("comptes/").then(
+            console.log("Liste des comptes:", comptes);
+            console.log("Profil utilisateur:", profileUser);
 
-            resp => {
+            const user_compte = comptes.find(
+                (compte) => compte?.user?.id === profileUser?.id && compte?.id != null
+            );
 
-                console.log("Liste des comptes:::::::::::::", resp?.data)
-                const response = resp?.data
-                console.log("profileUser::::::::::::", profileUser)
-                const user_compte= response.filter((map) => map?.user?.id === profileUser?.id && map?.id != null);
+            if (user_compte) {
 
-                console.log("========== id user:::::,", user_compte)
+                console.log("Compte utilisateur trouvé:", user_compte);
 
-                if (user_compte) {
+                dispatch(updateCompteUser(user_compte))
 
-                    api.post("fournisseurs/",{
-                        "compte_id": user_compte[0]?.id,
-                            "activite": "FOurnisseur",
-                                "is_verified": true
-                    }).then(
-                        resp=>console.log("ALERT DATA", resp)
+                const postResp = await api.post("fournisseurs/", {
+                    compte_id: user_compte.id,
+                    activite: "Fournisseur",
+                    is_verified: true,
+                });
 
-                    )
-                }
-
-
+                console.log("Fournisseur créé avec succès:", postResp?.data);
+            } else {
+                console.warn("Aucun compte correspondant trouvé pour l'utilisateur.");
             }
-        )
-    }
+        } catch (error) {
+            console.error("Erreur lors de la récupération ou création de fournisseur:", error);
+        }
+    };
+
 
     const [previewUrlBackground, setPreviewUrlBackground] = useState(null)
 
@@ -66,6 +72,7 @@ const ProfileCard = () => {
             resp => {
 
                 console.log("UTILISATEUR CR2R", `/utilisateurs/?email=${currentUserEmail?.email}`, resp?.data[0])
+                dispatch(updateUserData(resp?.data[0]))
                 getUserDataProfile(resp?.data[0])
                 setName(resp?.data[0]?.nom)
                 setDescription(resp?.data[0]?.description)
