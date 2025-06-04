@@ -12,6 +12,8 @@ import { setCurrentNav } from '../slices/navigateSlice'
 import ProfileCard from "./ProfilUser";
 import api from "../services/Axios";
 import { useEffect, useRef, useState } from "react";
+import { updateUserData } from "../slices/authSlice";
+import { useAuth } from "../AuthContext";
 
 
 const lesAccount = async () => {
@@ -122,6 +124,9 @@ const VertcalNavbar = ({ children }) => {
 
     const current = useSelector(state => state.navigate.currentNav);
 
+    const [profileUser, setProfileUser] = useState(false)
+
+
     const sidebarRef = useRef();
 
     const updateActiveTab = (tab) => {
@@ -130,6 +135,40 @@ const VertcalNavbar = ({ children }) => {
 
         lesAccount()
     }
+
+    const { currentUser } = useAuth()
+
+    const currentUserEmail = useSelector((state) => state.auth.user)
+
+    const getUserDataProfile = (profile) => {
+
+        setProfileUser(profile)
+    }
+
+    useEffect(() => {
+
+        api.get(`/clients/?email=${currentUserEmail?.email}`).then(
+
+            resp => {
+
+                console.log("UTILISATEUR CR2R", `/utilisateurs/?email=${currentUserEmail?.email}`, resp?.data[0])
+
+                dispatch(updateUserData(resp?.data[0]))
+
+                //getUserDataProfile(resp?.data[0])
+
+                //setName(resp?.data[0]?.nom)
+
+                //setDescription(resp?.data[0]?.description)
+
+                //setComment(resp?.data[0]?.description)
+
+                //setPreviewUrlBackground(resp?.data[0]?.image)
+
+                //setPreviewUrl(resp?.data[0]?.image)
+            }
+        )
+    }, [])
 
     useEffect(() => {
         function handleClickOutside(event) {

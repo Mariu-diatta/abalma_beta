@@ -72,12 +72,19 @@ const ProfileCard = () => {
             resp => {
 
                 console.log("UTILISATEUR CR2R", `/utilisateurs/?email=${currentUserEmail?.email}`, resp?.data[0])
+
                 dispatch(updateUserData(resp?.data[0]))
+
                 getUserDataProfile(resp?.data[0])
+
                 setName(resp?.data[0]?.nom)
+
                 setDescription(resp?.data[0]?.description)
+
                 setComment(resp?.data[0]?.description)
+
                 setPreviewUrlBackground(resp?.data[0]?.image)
+
                 setPreviewUrl(resp?.data[0]?.image)
             }
         )

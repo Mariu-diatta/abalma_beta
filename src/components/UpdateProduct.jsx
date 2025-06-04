@@ -302,11 +302,16 @@ const UpdateProduct = () => {
                         </div>
 
                         <div className="sm:col-span-2">
+
                             <label htmlFor="image_product" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Image du produit</label>
+
                             <FormElementFileUpload
+
                                 label="Choisissez une image"
+
                                 getFile={handleFileSelect}
                             />
+
                         </div>
                     </div>
 
@@ -314,15 +319,13 @@ const UpdateProduct = () => {
 
                     <div className="flex items-center space-x-4">
 
-                        {(user.is_fournisseur) && <button
-
-                            type="submit"
-
-                            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
+                        <button
+                            className={`bg-blue-700 text-white rounded px-4 py-2 ${user.is_fournisseur ? "opacity-50 pointer-events-none cursor-not-allowed" : "hover:bg-blue-800"
+                                }`}
                         >
-                            Enregistrer le produit
+                            {user.is_fournisseur ? "Passer au compte fournisseur":"Enregistrer le produit"}
 
-                        </button>}
+                        </button>
 
                     </div>
                 </form>
