@@ -1,7 +1,8 @@
 ﻿import React, { useState } from 'react';
 import FormElementFileUpload from './FormFile';
-import axios from "axios"
-import {  useSelector } from 'react-redux';
+import {  useDispatch, useSelector } from 'react-redux';
+import api from '../services/Axios';
+import AttentionAlertMesage, { showMessage } from './AlertMessage';
 
 
 const UpdateProduct = () => {
@@ -9,11 +10,17 @@ const UpdateProduct = () => {
     const [imageFile, setImageFile] = useState(null);
 
     const handleFileSelect = (file) => {
+
         setImageFile(file);
     };
 
     const currentUserCompte = useSelector((state) => state.auth.compteUser)
 
+    const messageAlert = useSelector((state) => state.navigate.messageAlert)
+
+    const user = useSelector((state) => state.auth.user)
+
+    const dispatch = useDispatch();
 
     //const currentUser = useSelector((state)=>state.auth.user)
 
@@ -29,9 +36,13 @@ const UpdateProduct = () => {
     });
 
     const onChangeClick = (e) => {
+
         const { name, value } = e.target;
+
         setDataProduct((prev) => ({
+
             ...prev,
+
             [name]: value,
         }));
     };
@@ -39,9 +50,13 @@ const UpdateProduct = () => {
     const isLoanOptionSelected = dataProduct.operation_product === "PRETER";
 
     const formatToISOString = (datetimeStr) => {
+
         if (!datetimeStr) return null; // évite l'erreur si vide
+
         const date = new Date(datetimeStr);
+
         if (isNaN(date.getTime())) return null; // évite l'erreur si invalide
+
         return date.toISOString();
     };
 
@@ -49,60 +64,100 @@ const UpdateProduct = () => {
 
         e.preventDefault();
 
-        // Validation côté client
-        const requiredFields = [
-            'categorie_product',
-            'operation_product',
-            'code_reference',
-            'description_product',
-        ];
-
-        for (let field of requiredFields) {
-            if (!dataProduct[field]) {
-                alert(`Le champ ${field} est requis.`);
-                return;
-            }
-        }
-
-        if (!imageFile) {
-            alert("L'image du produit est requise.");
-            return;
-        }
-
-        if (isLoanOptionSelected) {
-            if (!dataProduct.date_emprunt || !dataProduct.date_fin_emprunt) {
-                alert("Les dates d'emprunt et de fin sont requises pour un prêt.");
-                return;
-            }
-        }
-
-        // FormData
-        const formData = new FormData();
-        formData.append("categorie_product", dataProduct.categorie_product);
-        formData.append("operation_product", dataProduct.operation_product);
-        formData.append("code_reference", dataProduct.code_reference);
-        formData.append("description_product", dataProduct.description_product);
-        formData.append("fournisseur", currentUserCompte?.id);
-        formData.append("image_product", imageFile);
-
-        if (isLoanOptionSelected) {
-            formData.append("date_emprunt", formatToISOString(dataProduct.date_emprunt));
-            formData.append("date_fin_emprunt", formatToISOString(dataProduct.date_fin_emprunt));
-        }
-
         try {
-            const response = await axios.post("http://127.0.0.1:8000/produits/", formData, {
+            // ✅ Validation des champs requis
+            const requiredFields = [
+                'categorie_product',
+                'operation_product',
+                'code_reference',
+                'description_product',
+            ];
+
+            for (let field of requiredFields) {
+
+                if (!dataProduct[field]?.trim()) {
+
+                    //alert(`Le champ "${field}" est requis.`);
+                    showMessage(dispatch, `Le champ "${field}" est requis.`);
+
+                    return;
+                }
+            }
+
+            // ✅ Validation image obligatoire
+            if (!imageFile) {
+                //alert("L'image du produit est requise.");
+                showMessage(dispatch, "L'image du produit est requise.");
+                return;
+            }
+
+            // ✅ Validation des dates de prêt
+            if (isLoanOptionSelected) {
+                if (!dataProduct.date_emprunt || !dataProduct.date_fin_emprunt) {
+                    //alert("Les dates d'emprunt et de fin sont requises.");
+                    showMessage(dispatch, "Les dates d'emprunt et de fin sont requises.");
+                    return;
+                }
+            }
+
+            // ✅ Préparation des données à envoyer
+            const formData = new FormData();
+            formData.append("categorie_product", dataProduct.categorie_product);
+            formData.append("operation_product", dataProduct.operation_product);
+            formData.append("code_reference", dataProduct.code_reference.trim());
+            formData.append("description_product", dataProduct.description_product.trim());
+            formData.append("fournisseur", parseInt(currentUserCompte?.id));
+            formData.append("image_product", imageFile);
+
+            if (isLoanOptionSelected) {
+                formData.append("date_emprunt", formatToISOString(dataProduct.date_emprunt));
+                formData.append("date_fin_emprunt", formatToISOString(dataProduct.date_fin_emprunt));
+            }
+
+            // ✅ Envoi à l'API
+            const response = await api.post("/produits/", formData, {
+
                 headers: {
+
                     'Content-Type': 'multipart/form-data',
                 }
             });
-            console.log("Réponse :", response.data);
-            alert("Produit créé avec succès !");
+
+            //console.log("✅ Produit créé :", response.data);
+
+            // Optionnel : reset du formulaire ici
+            showMessage(dispatch, "Produit créé avec succès !");
+
         } catch (error) {
-            console.error("Erreur lors de la création :", error.response?.data || error.message);
-            alert("Erreur lors de la création du produit.");
+
+            //console.error("❌ Erreur lors de la création :", error);
+
+            showMessage(dispatch, error);
+
+            if (error.response && error.response.data) {
+
+                const errors = error.response.data;
+
+                const messages = Object.entries(errors)
+
+                    .map(([field, msg]) => `${field}: ${Array.isArray(msg) ? msg.join(', ') : msg}`)
+
+                    .join('\n');
+
+                //alert(`Erreur lors de la création du produit :\n${messages}`);
+
+                showMessage(dispatch, `Erreur lors de la création du produit :\n${messages}`);
+
+            } else {
+
+                //alert("Erreur inconnue lors de la création du produit.");
+
+                showMessage(dispatch, "Erreur inconnue lors de la création du produit.");
+
+            }
         }
     };
+
 
 
     return (
@@ -255,13 +310,20 @@ const UpdateProduct = () => {
                         </div>
                     </div>
 
+                    {messageAlert && <AttentionAlertMesage title="Message" content={messageAlert} />}
+
                     <div className="flex items-center space-x-4">
-                        <button
+
+                        {(user.is_fournisseur) && <button
+
                             type="submit"
+
                             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
                         >
                             Enregistrer le produit
-                        </button>
+
+                        </button>}
+
                     </div>
                 </form>
             </div>

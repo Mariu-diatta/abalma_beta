@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { addToCart, removeFromCart, clearCart, decreaseQuantity } from '../slices/cartSlice'
 import { setPreviousNav, setCurrentNav } from '../slices/navigateSlice'
 import { logout } from "../slices/authSlice";
+import api from "../services/Axios";
 
 
 export default function AccountDropdown3() {
@@ -47,11 +48,24 @@ export default function AccountDropdown3() {
     });
 
 
-    const getUserLogOut = () => {
+    const getUserLogOut =async () => {
 
         if (window.confirm("Voulez-vous vous deconnecter???")) {
-            dispatch(logout())
-            return navigate("/logIn", { replace: true });
+
+            try {
+                //const response = await api.post('logout/');
+
+                console.log("ERREUR ERREUR")
+
+                dispatch(logout())
+
+                return navigate("/logIn", { replace: true });
+
+            }catch (error) {
+
+                console.log("error///////////////", error)
+            }
+
         }
 
     };

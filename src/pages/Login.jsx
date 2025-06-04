@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
 import HomeLayout from '../layouts/HomeLayout';
 import { useNavigate } from 'react-router-dom';
@@ -15,7 +16,7 @@ import AttentionAlertMesage, { showMessage } from '../components/AlertMessage';
 const loginClient = async (data, dispatch, setMessageError) => {
 
     try {
-        const response = await api.post('token/', data);
+        const response = await api.post('login/', data);
 
         const { access, refresh } = response.data;
 

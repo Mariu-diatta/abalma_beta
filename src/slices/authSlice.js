@@ -32,6 +32,10 @@ const authSlice = createSlice({
             state.isAuthenticated = false;
 
             state.user = null;
+
+            state.compteUser = null;
+
+            localStorage.clear();
         },
 
         getFirebaseToken: (state, action) => {

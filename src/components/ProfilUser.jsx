@@ -67,7 +67,7 @@ const ProfileCard = () => {
 
     useEffect(() => {
 
-        api.get(`/utilisateurs/?email=${currentUserEmail?.email}`).then(
+        api.get(`/clients/?email=${currentUserEmail?.email}`).then(
 
             resp => {
 

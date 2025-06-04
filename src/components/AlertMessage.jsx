@@ -1,11 +1,17 @@
 import React from "react";
+
 import { clearMessage, setCurrentMessage } from "../slices/navigateSlice";
 
 const AttentionAlertMesage = ({ content, title }) => {
+
     return (
+
         <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-xl px-4">
+
             <div className="border-yellow bg-yellow-light-4 flex w-full rounded-lg border-l-[6px] px-7 py-4 md:py-6 shadow-md dark:bg-dark">
+
                 <div className="bg-yellow mr-5 flex h-[34px] w-[34px] items-center justify-center rounded-md">
+
                     <svg
                         width="18"
                         height="18"
@@ -27,14 +33,19 @@ const AttentionAlertMesage = ({ content, title }) => {
                         />
                     </svg>
                 </div>
+
                 <div>
+
                     <h5 className="mb-1 text-lg font-semibold text-[#9D5425]">
                         {title}
                     </h5>
+
                     <p className="text-base leading-relaxed text-[#D0915C]">
                         {content}
                     </p>
+
                 </div>
+
             </div>
         </div>
     );

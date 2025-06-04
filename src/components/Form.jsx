@@ -51,17 +51,21 @@ const RegisterForm = () => {
     });
 
     const handleChange = (e) => {
+
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
     const handleSignUp = async (e) => {
+
         e.preventDefault();
 
         if (!form.email || !form.password || !form.confirmPassword) {
+
             return alert("Tous les champs requis doivent être remplis.");
         }
 
         if (form.password !== form.confirmPassword) {
+
             return alert("Les mots de passe ne correspondent pas.");
         }
 
