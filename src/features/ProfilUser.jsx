@@ -2,7 +2,7 @@
 import { useAuth } from '../AuthContext';
 import { useDispatch, useSelector } from 'react-redux';
 import api from '../services/Axios';
-import { updateCompteUser} from '../slices/authSlice';
+import { updateCompteUser, updateUserData} from '../slices/authSlice';
 import MessageForm from '../components/MessageForm';
 
 
@@ -49,14 +49,35 @@ const ProfileCard = () => {
                 const formData = new FormData();
 
                 formData.append("compte_id", user_compte.id);
+
                 formData.append("activite", "Fournisseur");
+
                 formData.append("is_verified", "true"); // toujours une string avec FormData
 
                 await api.post("fournisseurs/", formData, {
+
                     headers: {
+
                         "Content-Type": "multipart/form-data",
                     },
-                });
+
+                }).then(
+
+                    resp => {
+
+                        console.log("resp::::Création defournisseur:", resp?.data?.compte?.user)
+
+                        const user_ = resp?.data?.compte?.user
+
+                        user_["is_fournisseur"]=true
+
+                        dispatch(updateUserData(resp?.data?.compte?.user))
+                    }
+
+                ).catch(
+
+                    err=>console.log("err::::::::: Erreur crétion de fournisseur:", err)
+                );
 
             } else {
 
