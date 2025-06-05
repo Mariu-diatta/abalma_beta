@@ -11,32 +11,47 @@ const FormElementFileUpload = ({
     const [error, setError] = useState(null);
 
     const handleImageUpload = (e) => {
+
         const file = e.target.files[0];
+
         if (!file) return;
 
         // Vérifie la taille du fichier
         const fileSizeMB = file.size / (1024 * 1024);
+
         if (fileSizeMB > maxSizeMB) {
+
             setError(`Le fichier dépasse la taille maximale de ${maxSizeMB} Mo.`);
+
             setPreviewUrl(null);
+
             setFileName(null);
+
             getFile(null);
+
             return;
         }
 
         setError(null); // Clear errors
+
         const url = URL.createObjectURL(file);
+
         setPreviewUrl(url);
+
         setFileName(file.name);
 
         getFile && getFile(file);
+
         onFileSelect && onFileSelect(file);
     };
 
     // Nettoyage de l’URL après démontage
     useEffect(() => {
+
         return () => {
+
             if (previewUrl) {
+
                 URL.revokeObjectURL(previewUrl);
             }
         };

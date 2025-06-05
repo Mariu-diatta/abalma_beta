@@ -24,6 +24,10 @@ const ProfileCard = () => {
     const [previewUrlBackground, setPreviewUrlBackground] = useState(null)
     const [previewUrl, setPreviewUrl] = useState(null);
 
+    const [updateImageCover, setUpdateImageCover] = useState(null);
+    const [updateImage, setUpdateImage] = useState(null);
+
+
     const getUserDataProfile = (profile) => {
 
         setProfileUser(profile)
@@ -97,7 +101,7 @@ const ProfileCard = () => {
             setName(currentUserEmail.nom || '');
             setPrenom(currentUserEmail.prenom || 'Utilisateur');
             setComment(currentUserEmail.description || '');
-            setPreviewUrlBackground(currentUserEmail.image || null);
+            setPreviewUrlBackground(currentUserEmail.image_cover || null);
             setPreviewUrl(currentUserEmail.image || null);
         }
 
@@ -113,11 +117,15 @@ const ProfileCard = () => {
 
         if (isBackground) {
 
+            setUpdateImageCover(file)
+
             setPreviewUrlBackground(url);
 
             setIsEditingPhotoBg(false); // <-- cacher le champ une fois l'image choisie
 
         } else {
+
+            setUpdateImage(file)
 
             setPreviewUrl(url);
         }
@@ -129,32 +137,52 @@ const ProfileCard = () => {
         // Ici tu peux appeler `addDoc(...)` vers Firestore si tu veux l’enregistrer
     };
 
+
+
     const handleSave = async () => {
         try {
-            const updateUser = { ...currentUserEmail };
-            updateUser.nom = name;
-            updateUser.prenom = prenom;
-            updateUser.description = comment;
+            const updateUser = {
+                nom: name,
+                prenom: prenom,
+                description: comment,
+            };
 
-            dispatch(updateUserData(updateUser));
+            const formData = new FormData();
+            formData.append("nom", name);
+            formData.append("prenom", prenom);
+            formData.append("description", comment);
 
-            if (!updateUser.id) {
-                console.error("❌ Impossible de mettre à jour : ID utilisateur manquant.");
-                alert("Une erreur est survenue. Veuillez réessayer.");
+            if (updateImage) {
+                formData.append("image", updateImage);
+            }
+
+            if (updateImageCover) {
+                formData.append("image_cover", updateImageCover);
+            }
+
+            if (!currentUserEmail.id) {
+                alert("Erreur : ID utilisateur manquant");
                 return;
             }
 
-            const resp = await api.put(`clients/${updateUser.id}/`, updateUser);
+            const response = await api.put(`clients/${currentUserEmail.id}/`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            });
 
-            console.log("✅ Mise à jour réussie :", resp?.data);
+            console.log("✅ Mise à jour réussie :", response?.data);
+
+            dispatch(updateUserData(response?.data?.data)); // ⚠️ réponse sans File
 
             setIsEditing(false);
-            alert("✅ Votre profil a été mis à jour avec succès.");
-        } catch (err) {
-            console.error("❌ Erreur lors de la mise à jour :", err);
+            alert("✅ Profil mis à jour !");
+        } catch (error) {
+            console.error("❌ Erreur lors de la mise à jour :", error);
             alert("Erreur lors de la mise à jour du profil.");
         }
     };
+
 
 
     const handleUpgradeToPro = () => {
