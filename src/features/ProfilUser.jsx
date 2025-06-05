@@ -18,8 +18,8 @@ const ProfileCard = () => {
     const currentUserEmail = useSelector((state) => state.auth.user)
     const { currentUser } = useAuth()
     const [name, setName] = useState('');
-    const [description, setDescription] = useState('Utilisateur');
-    const [comment, setComment] = useState("");
+    const [prenom, setPrenom] = useState('');
+    const [comment, setComment] = useState('');
     const dispatch=useDispatch()
     const [previewUrlBackground, setPreviewUrlBackground] = useState(null)
     const [previewUrl, setPreviewUrl] = useState(null);
@@ -90,15 +90,17 @@ const ProfileCard = () => {
     };
 
     useEffect(() => {
-        if (currentUserEmail) {
-            getUserDataProfile(currentUserEmail);
 
+        if (currentUserEmail) {
+
+            getUserDataProfile(currentUserEmail);
             setName(currentUserEmail.nom || '');
-            setDescription(currentUserEmail.description || 'Utilisateur');
+            setPrenom(currentUserEmail.prenom || 'Utilisateur');
             setComment(currentUserEmail.description || '');
             setPreviewUrlBackground(currentUserEmail.image || null);
             setPreviewUrl(currentUserEmail.image || null);
         }
+
     }, [currentUserEmail]);
 
     const handleImageUpload = (e, isBackground = false) => {
@@ -127,12 +129,33 @@ const ProfileCard = () => {
         // Ici tu peux appeler `addDoc(...)` vers Firestore si tu veux l’enregistrer
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
+        try {
+            const updateUser = { ...currentUserEmail };
+            updateUser.nom = name;
+            updateUser.prenom = prenom;
+            updateUser.description = comment;
 
-        setIsEditing(false);
+            dispatch(updateUserData(updateUser));
 
-        alert("✅ Votre profil a été mis à jour avec succès.");
+            if (!updateUser.id) {
+                console.error("❌ Impossible de mettre à jour : ID utilisateur manquant.");
+                alert("Une erreur est survenue. Veuillez réessayer.");
+                return;
+            }
+
+            const resp = await api.put(`clients/${updateUser.id}/`, updateUser);
+
+            console.log("✅ Mise à jour réussie :", resp?.data);
+
+            setIsEditing(false);
+            alert("✅ Votre profil a été mis à jour avec succès.");
+        } catch (err) {
+            console.error("❌ Erreur lors de la mise à jour :", err);
+            alert("Erreur lors de la mise à jour du profil.");
+        }
     };
+
 
     const handleUpgradeToPro = () => {
 
@@ -203,7 +226,7 @@ const ProfileCard = () => {
                     {!isEditing ? (
                         <>
                             <h2 className="text-xl font-semibold text-gray-800">{name}</h2>
-                            <p className="text-sm text-gray-500">{description}</p>
+                            <p className="text-sm text-gray-500">{prenom}</p>
                             <p className="mt-4 text-gray-600 text-sm leading-relaxed">{comment}</p>
                         </>
                     ) : (
@@ -214,27 +237,31 @@ const ProfileCard = () => {
                                 onChange={(e) => setName(e.target.value)}
                                 className="w-full border px-3 py-2 rounded-md text-sm"
                                 placeholder="Nom"
-                            />
+                                />
+
                             <textarea
-                                value={description}
-                                onChange={(e) => setDescription(e.target.value)}
+                                value={prenom}
+                                onChange={(e) => setPrenom(e.target.value)}
                                 className="w-full border px-3 py-2 rounded-md text-sm"
-                                placeholder="Description"
-                            />
+                                placeholder="Prenom"
+                                />
+
                             <textarea
                                 value={comment}
                                 onChange={(e) => setComment(e.target.value)}
                                 className="w-full border px-3 py-2 rounded-md text-sm"
                                 placeholder="Commentaire"
                             />
-                            <div className="flex gap-2">
+                                <div className="flex gap-2">
+
                                 <button
                                     type="button"
                                     onClick={handleSave}
                                     className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
                                 >
                                     Enregistrer
-                                </button>
+                                    </button>
+
                                 <button
                                     type="button"
                                     onClick={() => setIsEditing(false)}
@@ -242,6 +269,7 @@ const ProfileCard = () => {
                                 >
                                     Annuler
                                 </button>
+
                             </div>
                         </form>
                     )}
