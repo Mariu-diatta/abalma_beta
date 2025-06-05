@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+Ôªøimport React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import InputBox from './InputBoxFloat';
 //import { signUpWithEmail } from '../firebase';
@@ -20,7 +20,7 @@ const CreateClient = async (data) => {
 
     } catch (error) {
 
-        console.error('Erreur lors de la rÈcupÈration des clients', error)
+        console.error('Erreur lors de la r√©cup√©ration des clients', error)
     }
 }
 
@@ -61,7 +61,7 @@ const RegisterForm = () => {
 
         if (!form.email || !form.password || !form.confirmPassword) {
 
-            return alert("Tous les champs requis doivent Ítre remplis.");
+            return alert("Tous les champs requis doivent √™tre remplis.");
         }
 
         if (form.password !== form.confirmPassword) {
@@ -114,7 +114,7 @@ const RegisterForm = () => {
             )
 
 
-            //console.log("Inscription rÈussie:", user);
+            //console.log("Inscription r√©ussie:", user);
         //    navigate("/account", { replace: true });
         } catch (error) {
             console.error("Erreur:", error.message);
@@ -150,7 +150,7 @@ const RegisterForm = () => {
                                 <InputBox
                                     type="tel"
                                     name="telephone"
-                                    placeholder="NumÈro de tÈlÈphone"
+                                    placeholder="Num√©ro de t√©l√©phone"
                                     value={form.telephone}
                                     onChange={handleChange}
                                 />
@@ -179,7 +179,7 @@ const RegisterForm = () => {
                             </form>
 
                             <p className="text-base text-body-color dark:text-dark-6">
-                                <span>DÈj‡ inscrit ? </span>
+                                <span>D√©j√† inscrit ? </span>
                                 <Link to="/login" className="text-primary hover:underline">
                                     Se connecter
                                 </Link>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+ï»¿import React, { useState, useEffect } from "react";
 
 const CookieBanner = () => {
     const [visible, setVisible] = useState(false);
@@ -20,7 +20,7 @@ const CookieBanner = () => {
     return (
         <div className="fixed bottom-0 left-0 right-0 bg-gray-900 text-white p-4 z-50 flex flex-col md:flex-row justify-between items-center text-sm">
             <p>
-                Ce site utilise des cookies pour améliorer votre expérience.{" "}
+                Ce site utilise des cookies pour amÃ©liorer votre expÃ©rience.{" "}
                 <a href="/politique-confidentialite" className="underline">
                     En savoir plus
                 </a>
