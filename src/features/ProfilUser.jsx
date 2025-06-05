@@ -1,164 +1,127 @@
-﻿import React, { useEffect, useState } from 'react';
-import { useAuth } from '../AuthContext';
+﻿// 📦 Imports
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useAuth } from '../AuthContext';
 import api from '../services/Axios';
-import { updateCompteUser, updateUserData} from '../slices/authSlice';
+import { updateCompteUser, updateUserData } from '../slices/authSlice';
 import MessageForm from '../components/MessageForm';
+import InputBox from '../components/InputBoxFloat';
 
-
-
-
+// 🧩 Composant principal
 const ProfileCard = () => {
 
+    // 🔄 Redux & Auth
+    const dispatch = useDispatch();
+    const currentUserEmail = useSelector((state) => state.auth.user);
+    const { currentUser } = useAuth();
+
+    // 🧠 State local
     const [isEditing, setIsEditing] = useState(false);
     const [isEditingPhotoBg, setIsEditingPhotoBg] = useState(false);
     const [isProFormVisible, setIsProFormVisible] = useState(false);
-    const [messageVisible, setMessageVisible] = useState(false)
-    const [profileUser, setProfileUser] = useState(false)
-    const currentUserEmail = useSelector((state) => state.auth.user)
-    const { currentUser } = useAuth()
-    const [name, setName] = useState('');
+    const [messageVisible, setMessageVisible] = useState(false);
+    const [profileUser, setProfileUser] = useState(false);
+    const [name, setName] = useState(currentUserEmail?.nom || "");
+    const [email, setEmail] = useState(currentUserEmail?.email || "");
+    const [adress, setAdress] = useState(currentUserEmail?.adresse || "");
+    const [tel, setTel] = useState(currentUserEmail?.telephone || "");
+
+
+
     const [prenom, setPrenom] = useState('');
     const [comment, setComment] = useState('');
-    const dispatch=useDispatch()
-    const [previewUrlBackground, setPreviewUrlBackground] = useState(null)
     const [previewUrl, setPreviewUrl] = useState(null);
-
-    const [updateImageCover, setUpdateImageCover] = useState(null);
+    const [previewUrlBackground, setPreviewUrlBackground] = useState(null);
     const [updateImage, setUpdateImage] = useState(null);
+    const [updateImageCover, setUpdateImageCover] = useState(null);
 
 
+
+    // 🔧 Fonctions utilitaires
     const getUserDataProfile = (profile) => {
-
-        setProfileUser(profile)
-    }
+        setProfileUser(profile);
+    };
 
     const getUserCompte = async () => {
-
         try {
-
             const resp = await api.get("comptes/");
-
             const comptes = resp?.data || [];
-
             const user_compte = comptes.find(
-
                 (compte) => compte?.user?.id === profileUser?.id && compte?.id != null
             );
 
             if (user_compte) {
-
-                dispatch(updateCompteUser(user_compte))
+                dispatch(updateCompteUser(user_compte));
 
                 const formData = new FormData();
-
                 formData.append("compte_id", user_compte.id);
-
                 formData.append("activite", "Fournisseur");
-
-                formData.append("is_verified", "true"); // toujours une string avec FormData
+                formData.append("is_verified", "true");
 
                 await api.post("fournisseurs/", formData, {
-
-                    headers: {
-
-                        "Content-Type": "multipart/form-data",
-                    },
-
-                }).then(
-
-                    resp => {
-
-                        console.log("resp::::Création defournisseur:", resp?.data?.compte?.user)
-
-                        const user_ = resp?.data?.compte?.user
-
-                        user_["is_fournisseur"]=true
-
-                        dispatch(updateUserData(resp?.data?.compte?.user))
-                    }
-
-                ).catch(
-
-                    err=>console.log("err::::::::: Erreur crétion de fournisseur:", err)
-                );
-
+                    headers: { "Content-Type": "multipart/form-data" },
+                })
+                    .then((resp) => {
+                        console.log("Création de fournisseur:", resp?.data?.compte?.user);
+                        const user_ = resp?.data?.compte?.user;
+                        user_["is_fournisseur"] = true;
+                        dispatch(updateUserData(user_));
+                    })
+                    .catch((err) => console.log("Erreur création fournisseur:", err));
             } else {
-
-                console.warn("Aucun compte correspondant trouvé pour l'utilisateur.");
+                console.warn("Aucun compte utilisateur trouvé.");
             }
         } catch (error) {
-
-            console.error("Erreur lors de la récupération ou création de fournisseur:", error);
+            console.error("Erreur getUserCompte:", error);
         }
     };
 
+    // 🎯 Side effect
     useEffect(() => {
-
         if (currentUserEmail) {
-
             getUserDataProfile(currentUserEmail);
             setName(currentUserEmail.nom || '');
             setPrenom(currentUserEmail.prenom || 'Utilisateur');
             setComment(currentUserEmail.description || '');
-            setPreviewUrlBackground(currentUserEmail.image_cover || null);
             setPreviewUrl(currentUserEmail.image || null);
+            setPreviewUrlBackground(currentUserEmail.image_cover || null);
         }
-
     }, [currentUserEmail]);
 
+    // 📸 Upload image
     const handleImageUpload = (e, isBackground = false) => {
-
         const file = e.target.files[0];
-
         if (!file) return;
 
         const url = URL.createObjectURL(file);
 
+
         if (isBackground) {
-
-            setUpdateImageCover(file)
-
+            setUpdateImageCover(file);
             setPreviewUrlBackground(url);
-
-            setIsEditingPhotoBg(false); // <-- cacher le champ une fois l'image choisie
+            setIsEditingPhotoBg(false);
 
         } else {
-
-            setUpdateImage(file)
-
+            setUpdateImage(file);
             setPreviewUrl(url);
         }
+
+        setIsEditing(true)
     };
 
-    const handleNewMessage = (message) => {
-
-        console.log('Message créé :', message);
-        // Ici tu peux appeler `addDoc(...)` vers Firestore si tu veux l’enregistrer
-    };
-
-
-
+    // ✅ Sauvegarde
     const handleSave = async () => {
         try {
-            const updateUser = {
-                nom: name,
-                prenom: prenom,
-                description: comment,
-            };
-
             const formData = new FormData();
             formData.append("nom", name);
             formData.append("prenom", prenom);
             formData.append("description", comment);
+            formData.append("email", email);
+            formData.append("adresse", adress);
+            formData.append("telephone", tel);
 
-            if (updateImage) {
-                formData.append("image", updateImage);
-            }
-
-            if (updateImageCover) {
-                formData.append("image_cover", updateImageCover);
-            }
+            if (updateImage) formData.append("image", updateImage);
+            if (updateImageCover) formData.append("image_cover", updateImageCover);
 
             if (!currentUserEmail.id) {
                 alert("Erreur : ID utilisateur manquant");
@@ -166,46 +129,39 @@ const ProfileCard = () => {
             }
 
             const response = await api.put(`clients/${currentUserEmail.id}/`, formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                }
+                headers: { "Content-Type": "multipart/form-data" },
             });
 
             console.log("✅ Mise à jour réussie :", response?.data);
-
-            dispatch(updateUserData(response?.data?.data)); // ⚠️ réponse sans File
-
+            dispatch(updateUserData(response?.data?.data));
             setIsEditing(false);
             alert("✅ Profil mis à jour !");
         } catch (error) {
-            console.error("❌ Erreur lors de la mise à jour :", error);
+            console.error("❌ Erreur mise à jour :", error);
             alert("Erreur lors de la mise à jour du profil.");
         }
     };
 
-
-
-    const handleUpgradeToPro = () => {
-
-        setIsProFormVisible(false);
-
-        alert("🎉 Félicitations ! Votre compte est maintenant professionnel.");
+    // 🔔 Message
+    const handleNewMessage = (message) => {
+        console.log('Message créé :', message);
     };
 
+    // 🚀 Mise à niveau
+    const handleUpgradeToPro = () => {
+        setIsProFormVisible(false);
+        alert("🎉 Votre compte est maintenant professionnel.");
+    };
 
+    // 🖼️ Rendu JSX
     return (
-
         <div className="w-full max-w-full mx-auto bg-white rounded-md overflow-hidden shadow-md">
             {/* Image de couverture */}
-
             <div
                 className="relative h-56 bg-cover bg-center bg-gray-200"
-                style={{
-                    backgroundImage: `url(${previewUrlBackground || "https://images.unsplash.com/photo-1612832020897-593fae15346e"})`
-                }}
+                style={{ backgroundImage: `url(${previewUrlBackground || "https://images.unsplash.com/photo-1612832020897-593fae15346e"})` }}
             >
                 {isEditingPhotoBg && (
-
                     <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
                         <input
                             type="file"
@@ -222,14 +178,12 @@ const ProfileCard = () => {
                 >
                     📷
                 </button>
-
             </div>
 
             {/* Section profil */}
             <div className="relative px-6 pb-6">
                 {/* Photo de profil */}
                 <div className="absolute -top-16 left-1/2 sm:left-6 transform -translate-x-1/2 sm:translate-x-0">
-
                     <div className="relative">
                         <img
                             src={previewUrl || "https://randomuser.me/api/portraits/men/32.jpg"}
@@ -248,9 +202,8 @@ const ProfileCard = () => {
                     </div>
                 </div>
 
-                {/* Informations utilisateur */}
+                {/* Infos utilisateur */}
                 <div className="pt-20 sm:pt-6 sm:ml-40">
-
                     {!isEditing ? (
                         <>
                             <h2 className="text-xl font-semibold text-gray-800">{name}</h2>
@@ -259,37 +212,63 @@ const ProfileCard = () => {
                         </>
                     ) : (
                         <form className="space-y-3 mt-4">
-                            <input
+
+                            <InputBox
                                 type="text"
+                                name="name"
+                                placeholder="Nom"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                className="w-full border px-3 py-2 rounded-md text-sm"
-                                placeholder="Nom"
-                                />
+                            />
 
-                            <textarea
+
+                             <InputBox
+                                type="text"
+                                name="prenom"
                                 value={prenom}
                                 onChange={(e) => setPrenom(e.target.value)}
-                                className="w-full border px-3 py-2 rounded-md text-sm"
                                 placeholder="Prenom"
-                                />
+                             />
+
+                            <InputBox
+                                type="email"
+                                name="email"
+                                placeholder="Email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                             />
+
+                            <InputBox
+                                type="text"
+                                name="adress"
+                                placeholder="Adress"
+                                value={adress}
+                                onChange={(e) => setAdress(e.target.value)}
+                             />
+
+                            <InputBox
+                                type="number"
+                                name="number_call"
+                                placeholder="Numéro de tel"
+                                value={tel}
+                                onChange={(e) => setTel(e.target.value)}
+                            />
 
                             <textarea
                                 value={comment}
                                 onChange={(e) => setComment(e.target.value)}
-                                className="w-full border px-3 py-2 rounded-md text-sm"
+                                    className="block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                 placeholder="Commentaire"
-                            />
-                                <div className="flex gap-2">
+                             />
 
+                            <div className="flex gap-2">
                                 <button
                                     type="button"
                                     onClick={handleSave}
                                     className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
                                 >
                                     Enregistrer
-                                    </button>
-
+                                </button>
                                 <button
                                     type="button"
                                     onClick={() => setIsEditing(false)}
@@ -297,95 +276,55 @@ const ProfileCard = () => {
                                 >
                                     Annuler
                                 </button>
-
                             </div>
                         </form>
                     )}
 
-                    {/* Boutons d'action */}
-                    {
-                        currentUser?.displayName === "Marius DIATTA" ?
-
-                         <div className="mt-6 flex flex-col sm:flex-row gap-2">
-
-                            <button
-                                onClick={() => setIsEditing(true)}
-                                className="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-300 rounded hover:bg-gray-100"
-                            >
+                    {/* Actions */}
+                    {currentUser?.displayName === "Marius DIATTA" ? (
+                        <div className="mt-6 flex flex-col sm:flex-row gap-2">
+                            <button onClick={() => setIsEditing(true)} className="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-300 rounded hover:bg-gray-100">
                                 Modifier
                             </button>
-
-                            <button
-                                className="px-4 py-2 text-sm font-medium text-red-600 bg-white border border-gray-300 rounded hover:bg-red-100"
-                            >
+                            <button className="px-4 py-2 text-sm font-medium text-red-600 bg-white border border-gray-300 rounded hover:bg-red-100">
                                 Supprimer
                             </button>
-
-                                {!currentUserEmail.is_fournisseur && <button
-
-                                className="cursor-pointer px-4 py-2 text-sm font-medium text-green-600 bg-white border border-gray-300 rounded hover:bg-green-100"
-
-                                onClick={() => getUserCompte()}
-                            >
-                                Passer à compte Fournisseur
-                            </button>}
-
-                            <button
-
-                                onClick={() => setIsProFormVisible(true)}
-
-                                className="px-4 py-2 text-sm font-medium text-yellow-600 bg-white border border-gray-300 rounded hover:bg-yellow-100"
-                            >
+                            {!currentUserEmail.is_fournisseur && (
+                                <button onClick={getUserCompte} className="cursor-pointer px-4 py-2 text-sm font-medium text-green-600 bg-white border border-gray-300 rounded hover:bg-green-100">
+                                    Passer à compte Fournisseur
+                                </button>
+                            )}
+                            <button onClick={() => setIsProFormVisible(true)} className="px-4 py-2 text-sm font-medium text-yellow-600 bg-white border border-gray-300 rounded hover:bg-yellow-100">
                                 Passer à compte pro
-
                             </button>
-
                         </div>
-                            :
-
-                        <button
-                            onClick={() => setMessageVisible(true)}
-                            className="px-4 mt-2 py-2 text-sm font-medium text-yellow-600 bg-white border border-gray-300 rounded hover:bg-yellow-100"
-                        >
+                    ) : (
+                        <button onClick={() => setMessageVisible(true)} className="px-4 mt-2 py-2 text-sm font-medium text-yellow-600 bg-white border border-gray-300 rounded hover:bg-yellow-100">
                             Message
                         </button>
-                    }
+                    )}
 
-                    {/* Formulaire de confirmation pour compte pro */}
+                    {/* Confirmation pro */}
                     {isProFormVisible && (
-
                         <div className="mt-4 border border-yellow-300 p-4 rounded bg-yellow-50">
-
                             <p className="text-sm mb-2">
                                 Êtes-vous sûr de vouloir passer à un compte professionnel ?
                             </p>
-
                             <div className="flex gap-2">
-
-                                <button
-                                    onClick={handleUpgradeToPro}
-                                    className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600"
-                                >
+                                <button onClick={handleUpgradeToPro} className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">
                                     Confirmer
                                 </button>
-
-                                <button
-                                    onClick={() => setIsProFormVisible(false)}
-                                    className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400"
-                                >
+                                <button onClick={() => setIsProFormVisible(false)} className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400">
                                     Annuler
                                 </button>
-
                             </div>
                         </div>
                     )}
-
                 </div>
-
             </div>
 
-            {messageVisible  && <MessageForm onSend={handleNewMessage} />}
-
+            {/* Formulaire message */}
+            {messageVisible && <MessageForm onSend={handleNewMessage} />}
         </div>
     );
 };
