@@ -2,7 +2,9 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 
 const WhiteRoundedButton = ({ titleButton, to }) => {
+
     return (
+
         <NavLink
             to={to}
             className={({ isActive }) =>
@@ -13,7 +15,9 @@ const WhiteRoundedButton = ({ titleButton, to }) => {
                 }`
             }
         >
+
             {titleButton}
+
         </NavLink>
     );
 };

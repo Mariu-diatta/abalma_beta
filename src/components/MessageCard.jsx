@@ -230,12 +230,14 @@ const MessageCard = () => {
                                 placeholder="Répondre à ce message..."
                                 className="px-3 py-1 border border-gray-300 rounded-md text-sm"
                             />
+
                             <button
                                 type="submit"
                                 className="self-end bg-blue-600 text-white text-sm px-3 py-1 rounded hover:bg-blue-700"
                             >
                                 Envoyer
                             </button>
+
                         </form>
                     )}
                 </div>

@@ -1,5 +1,5 @@
 import React from 'react'
-import VertcalNavbar from '../components/NavbarVertical';
+import VertcalNavbar from '../features/NavbarVertical';
 
 
 const AuthPage = () => {

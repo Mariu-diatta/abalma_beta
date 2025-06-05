@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import HorizontalCard from "./HorizontalCard";
 import GridSlideProduct from "./GridProductSlide";
+import HorizontalCard from "./HorizontalCard";
+
 
 const products = [
     { src: "image", price: 79, title: "Produit 1", description: "Description courte 1" },
@@ -139,9 +140,10 @@ const GridProductDefault = () => {
                     >
                         <HorizontalCard item={{ id: 1, src: "image-11", price: 59, title: "Produit 12", description: "Description courte 12" }}>
 
-                            <GridSlideProduct />
+                            <GridSlideProduct/>
 
                         </HorizontalCard>
+
                     </div>
                 </div>
 

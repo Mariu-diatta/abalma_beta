@@ -1,19 +1,35 @@
-﻿import AccountDropdown3 from "./DropDownAccount";
+﻿//import GridLayoutProduct from "./GridLayoutProducts";
+//import GridProductDefault from "./GridProductDefaultSize";
+import ProductTable from "./ListProductShoppingCart";
+//import Logo from "./LogoApp";
+//import Tabs from "./DashbordProfileUser";
+//import UpdateProduct from "./UpdateProduct";
+//import MessageCard from "./MessageCard";
+import PrivacyPolicy from "./PrivacyPolicy";
+//import { useDispatch, useSelector } from "react-redux";
+//import { setCurrentNav } from '../slices/navigateSlice'
+//import ProfileCard from "./ProfilUser";
+//import api from "../services/Axios";
+//import { useEffect, useRef, useState } from "react";
+//import { updateUserData } from "../slices/authSlice";
+//import { useAuth } from "../AuthContext";
+
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setCurrentNav } from "../slices/navigateSlice";
+import { useAuth } from "../AuthContext";
+import { updateUserData } from "../slices/authSlice";
+import ProfileCard from "./ProfilUser";
+import UpdateProduct from "./UpdateProduct";
+import Tabs from "./DashbordProfileUser";
+import api from "../services/Axios";
+import Logo from "../components/LogoApp";
 import GridLayoutProduct from "./GridLayoutProducts";
 import GridProductDefault from "./GridProductDefaultSize";
-import ProductTable from "./ListProductShoppingCart";
-import Logo from "./LogoApp";
-import Tabs from "./DashbordProfileUser";
-import UpdateProduct from "./UpdateProduct";
-import MessageCard from "./MessageCard";
-import PrivacyPolicy from "./PrivacyPolicy";
-import { useDispatch, useSelector } from "react-redux";
-import { setCurrentNav } from '../slices/navigateSlice'
-import ProfileCard from "./ProfilUser";
-import api from "../services/Axios";
-import { useEffect, useRef, useState } from "react";
-import { updateUserData } from "../slices/authSlice";
-import { useAuth } from "../AuthContext";
+import AccountDropdown3 from "../components/DropDownAccount";
+import MessageCard from "../components/MessageCard";
+//import MessageCard from "./MessageCard";
+//import MessageCard from "../components/MessageCard";
 
 
 const lesAccount = async () => {
@@ -203,9 +219,9 @@ const VertcalNavbar = ({ children }) => {
         6: <ProductList />,
 
         7: <ProductList />,
-        "add_prod": <UpdateProduct />,
+        "add_prod": <UpdateProduct/>,
         "home_content": <Tabs />,
-        "message_inbox": <MessageCard />,
+        "message_inbox": <MessageCard/>,
         "Help": <PrivacyPolicy />
 
     };
@@ -361,7 +377,7 @@ const VertcalNavbar = ({ children }) => {
        
                         <div className="flex items-center justify-end h-22 rounded-sm">
 
-                            <AccountDropdown3 />
+                            <AccountDropdown3/>
 
                         </div>
 
@@ -405,13 +421,13 @@ export const UserMenuAccount = () => {
 
 export const SelectedProduct = () => {
     return (
-         <ProductTable /> 
+         <ProductTable/> 
     )
 }
 
 export const ProductList = () => {
 
     return (
-        <><GridLayoutProduct /> <GridProductDefault /></>
+        <><GridLayoutProduct /> <GridProductDefault/></>
     )
 }

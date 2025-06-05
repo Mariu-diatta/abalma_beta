@@ -1,5 +1,5 @@
 ﻿import React, { useState } from 'react';
-import ViewProduct from './ViewProduct';
+import ViewProduct from '../components/ViewProduct';
 
 const ProductsRecapTable = ({ products }) => {
 

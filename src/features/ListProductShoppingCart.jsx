@@ -1,8 +1,9 @@
 ﻿import React, { useState } from "react";
 import Payment from "../pages/Payment";
-import Logo from "./LogoApp";
+//import Logo from "./LogoApp";
 import { useSelector, useDispatch } from 'react-redux'
 import { addToCart, removeFromCart, clearCart, decreaseQuantity } from '../slices/cartSlice'
+import Logo from "../components/LogoApp";
 
 const ListProductShoppingCart = () => {
 
@@ -18,7 +19,6 @@ const ListProductShoppingCart = () => {
 
     const handleDecreaseQuantity = (prod) => {
 
-   
         dispatch(decreaseQuantity({id : prod.id }))
 
     };
@@ -28,6 +28,7 @@ const ListProductShoppingCart = () => {
     const grandTotal = data.items.reduce((acc, product) => acc + totalPrice(product), 0);
 
     return (
+
         <div className="mb-2 relative overflow-x-auto shadow-md sm:rounded-lg">
 
             <nav className="flex flex-row items-center gap-2 ">
@@ -188,24 +189,31 @@ export default ListProductShoppingCart;
 
 
 const BuyButtonWithPaymentForm = ({ total_price }) => {
+
     const [showPaymentForm, setShowPaymentForm] = useState(false);
 
     const handleBuyClick = () => {
+
         setShowPaymentForm(true);
     };
 
     const handleClose = () => {
+
         setShowPaymentForm(false);
     };
 
     // Empêche la fermeture quand on clique dans le formulaire
     const handleFormClick = (e) => {
+
         e.stopPropagation();
     };
 
     return (
+
         <div className="relative">
+
             <div className="m-2 inline-flex rounded-md shadow-xs" role="group">
+
                 <button
                     type="button"
                     className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -219,30 +227,43 @@ const BuyButtonWithPaymentForm = ({ total_price }) => {
                         viewBox="0 0 18 21"
                     >
                         <path d="M15 12a1 1 0 0 0 .962-.726l2-7A1 1 0 0 0 17 3H3.77L3.175.745A1 1 0 0 0 2.208 0H1a1 1 0 0 0 0 2h.438l.6 2.255v.019l2 7 .746 2.986A3 3 0 1 0 9 17a2.966 2.966 0 0 0-.184-1h2.368c-.118.32-.18.659-.184 1a3 3 0 1 0 3-3H6.78l-.5-2H15Z" />
+
                     </svg>
+
                     Buy now
+
                 </button>
             </div>
 
             {showPaymentForm && (
+
                 // Overlay qui couvre tout l'écran, clic ferme le formulaire
                 <div
+
                     className="fixed inset-0 z-50 bg-gray-800 bg-opacity-1000 flex justify-center items-center"
+
                     onClick={handleClose}
                 >
                    
-
                     {/* Formulaire qui prend la moitié de la largeur et une hauteur max, centré */}
                     <div
+
                         className="fixed bg-white md:w-1/2 max-h-[90vh] shadow-lg p-6 overflow-auto rounded"
+
                         onClick={(e) => e.stopPropagation()}
                     > 
                         <div className="p-2 flex justify-between items-center">
+
                             <Logo />
+
                             <span className="font-semibold text-lg"> TOTAL à payer : {total_price}</span>
+
                         </div>
+
                         <Payment />
+
                     </div>
+
                 </div>
 
             )}

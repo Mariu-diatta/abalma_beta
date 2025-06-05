@@ -18,11 +18,10 @@ import Register from "../pages/Register";
 import VerticalNavbar, {
     ProductList,
     SelectedProduct,
-    UserMenuAccount
-} from "../components/NavbarVertical";
-import PrivacyPolicy from "../components/PrivacyPolicy";
-import ProfileCard from "../components/ProfilUser";
+} from "../features/NavbarVertical";
 import PersistLogIn from "../features/auth/PersistLogin";
+import ProfileCard from "../features/ProfilUser";
+import PrivacyPolicy from "../features/PrivacyPolicy";
 
 // Routes Configuration
 const routes = [
@@ -33,7 +32,7 @@ const routes = [
             { path: "logIn", element: <LogIn /> },
             { path: "register", element: <Register /> },
             { path: "about", element: <About /> },
-            { path: "politique-confidentialite", element: <PrivacyPolicy /> },
+            { path: "politique-confidentialite", element: <PrivacyPolicy/> },
             { path: "products", element: <ProductList /> },
             { path: "payment_card", element: <SelectedProduct /> },
             { path: "blog", element: <BlogPage /> },
@@ -42,7 +41,7 @@ const routes = [
                 path: "user_profil",
                 element: (
                     <VerticalNavbar>
-                        <ProfileCard />
+                        <ProfileCard/>
                     </VerticalNavbar>
                 )
             },

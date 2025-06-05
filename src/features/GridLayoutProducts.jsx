@@ -1,15 +1,13 @@
 
 import React, { useState } from 'react';
 import GridSlideProduct from './GridProductSlide';
-import HorizontalCard from './HorizontalCard';
 import { useSelector, useDispatch } from 'react-redux'
-import { addToCart, removeFromCart, clearCart } from '../slices/cartSlice'
+import { addToCart} from '../slices/cartSlice'
+import HorizontalCard from './HorizontalCard';
 
 const GridLayoutProduct = () => {
 
     const [modalData, setModalData] = useState(null);
-
-    const [idProductAdded, setIdProductAdded] = useState([]);
 
     const [activeCategory, setActiveCategory] = useState('All');
 
@@ -145,6 +143,7 @@ const GridLayoutProduct = () => {
 
             {/* Modal */}
             {modalData && (
+
                 <div
                     className="fixed inset-0 z-50 flex items-center justify-center hover:bg-gray bg-opacity-3"
                     onClick={closeModal}
@@ -153,9 +152,13 @@ const GridLayoutProduct = () => {
                     aria-labelledby="modal-title"
                 >
                     <div onClick={(e) => e.stopPropagation()}>
+
                         <HorizontalCard item={{ id: 8, title: 'Gaming Mouse', price: 59, category: 'Gaming', img: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-8.jpg' } }>
+
                             <GridSlideProduct />
+
                         </HorizontalCard>
+
                     </div>
                 </div>
             )}

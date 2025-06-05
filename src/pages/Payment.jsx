@@ -10,11 +10,10 @@ const Payment = () => {
         <>
 
             <PaymentCard >
+
                 <PaymentForm />
+
             </PaymentCard >
-
-   
-
         </>
     )
 }

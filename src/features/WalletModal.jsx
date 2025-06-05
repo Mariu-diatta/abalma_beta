@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import ModalManager from './ExtraLargeModal';
 import Payment from '../pages/Payment';
+import ModalManager from '../components/ExtraLargeModal';
 
 const WalletModal = ({ Connectwallet }) => {
 

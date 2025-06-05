@@ -1,11 +1,8 @@
 ﻿import React, { useEffect, useRef, useState } from "react";
-import { useNavigate, NavLink } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
-import { addToCart, removeFromCart, clearCart, decreaseQuantity } from '../slices/cartSlice'
-import { setPreviousNav, setCurrentNav } from '../slices/navigateSlice'
+import {setCurrentNav } from '../slices/navigateSlice'
 import { logout } from "../slices/authSlice";
-import api from "../services/Axios";
-
 
 export default function AccountDropdown3() {
 
