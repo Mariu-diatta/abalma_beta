@@ -12,7 +12,7 @@ const ProfileCard = () => {
 
     // 🔄 Redux & Auth
     const dispatch = useDispatch();
-    const currentUserEmail = useSelector((state) => state.auth.user);
+    const currentUserData = useSelector((state) => state.auth.user);
     const { currentUser } = useAuth();
 
     // 🧠 State local
@@ -21,10 +21,10 @@ const ProfileCard = () => {
     const [isProFormVisible, setIsProFormVisible] = useState(false);
     const [messageVisible, setMessageVisible] = useState(false);
     const [profileUser, setProfileUser] = useState(false);
-    const [name, setName] = useState(currentUserEmail?.nom || "");
-    const [email, setEmail] = useState(currentUserEmail?.email || "");
-    const [adress, setAdress] = useState(currentUserEmail?.adresse || "");
-    const [tel, setTel] = useState(currentUserEmail?.telephone || "");
+    const [name, setName] = useState(currentUserData?.nom || "");
+    const [email, setEmail] = useState(currentUserData?.email || "");
+    const [adress, setAdress] = useState(currentUserData?.adresse || "");
+    const [tel, setTel] = useState(currentUserData?.telephone || "");
 
 
 
@@ -34,6 +34,7 @@ const ProfileCard = () => {
     const [previewUrlBackground, setPreviewUrlBackground] = useState(null);
     const [updateImage, setUpdateImage] = useState(null);
     const [updateImageCover, setUpdateImageCover] = useState(null);
+    const [fileProof, setFileProof] = useState(null);
 
 
 
@@ -78,15 +79,15 @@ const ProfileCard = () => {
 
     // 🎯 Side effect
     useEffect(() => {
-        if (currentUserEmail) {
-            getUserDataProfile(currentUserEmail);
-            setName(currentUserEmail.nom || '');
-            setPrenom(currentUserEmail.prenom || 'Utilisateur');
-            setComment(currentUserEmail.description || '');
-            setPreviewUrl(currentUserEmail.image || null);
-            setPreviewUrlBackground(currentUserEmail.image_cover || null);
+        if (currentUserData) {
+            getUserDataProfile(currentUserData);
+            setName(currentUserData.nom || '');
+            setPrenom(currentUserData.prenom || 'Utilisateur');
+            setComment(currentUserData.description || '');
+            setPreviewUrl(currentUserData.image || null);
+            setPreviewUrlBackground(currentUserData.image_cover || null);
         }
-    }, [currentUserEmail]);
+    }, [currentUserData]);
 
     // 📸 Upload image
     const handleImageUpload = (e, isBackground = false) => {
@@ -111,6 +112,7 @@ const ProfileCard = () => {
 
     // ✅ Sauvegarde
     const handleSave = async () => {
+
         try {
             const formData = new FormData();
             formData.append("nom", name);
@@ -123,12 +125,12 @@ const ProfileCard = () => {
             if (updateImage) formData.append("image", updateImage);
             if (updateImageCover) formData.append("image_cover", updateImageCover);
 
-            if (!currentUserEmail.id) {
+            if (!currentUserData.id) {
                 alert("Erreur : ID utilisateur manquant");
                 return;
             }
 
-            const response = await api.put(`clients/${currentUserEmail.id}/`, formData, {
+            const response = await api.put(`clients/${currentUserData.id}/`, formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
 
@@ -142,15 +144,62 @@ const ProfileCard = () => {
         }
     };
 
+    // Quand un fichier est sélectionné
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setFileProof(file);
+            console.log("Fichier sélectionné :", file);
+        }
+    };
+
+    // Quand on clique sur "Enregistrer justificatif"
+    const handleSaveDoc = async (e) => {
+  
+
+        if (!fileProof) {
+            alert("Veuillez sélectionner un fichier avant de sauvegarder.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("is_pro", true);
+        formData.append("doc_proof", fileProof); // clé à adapter selon votre API
+
+        try {
+            const response = await api.put(`clients/${currentUserData.id}/`, formData, {
+                headers: { "Content-Type": "multipart/form-data" },
+            });
+
+            dispatch(updateUserData(response?.data?.data));
+
+            alert("✅ Justificatif envoyé avec succès !");
+        } catch (error) {
+            console.error("❌ Erreur d'envoi :", error);
+            alert("Erreur lors de l'envoi du justificatif.");
+        }
+    }
+
     // 🔔 Message
     const handleNewMessage = (message) => {
         console.log('Message créé :', message);
     };
 
     // 🚀 Mise à niveau
-    const handleUpgradeToPro = () => {
-        setIsProFormVisible(false);
-        alert("🎉 Votre compte est maintenant professionnel.");
+    const handleUpgradeToPro =async () => {
+
+        try {
+
+            handleSaveDoc()
+
+            setIsProFormVisible(false);
+            alert("🎉 Votre compte est maintenant professionnel.");
+
+        } catch (error) {
+            console.error("❌ Erreur mise à jour :", error);
+            alert("Erreur lors de la mise à jour du profil.");
+        }
+
     };
 
     // 🖼️ Rendu JSX
@@ -289,14 +338,14 @@ const ProfileCard = () => {
                             <button className="px-4 py-2 text-sm font-medium text-red-600 bg-white border border-gray-300 rounded hover:bg-red-100">
                                 Supprimer
                             </button>
-                            {!currentUserEmail.is_fournisseur && (
+                            {!currentUserData.is_fournisseur && (
                                 <button onClick={getUserCompte} className="cursor-pointer px-4 py-2 text-sm font-medium text-green-600 bg-white border border-gray-300 rounded hover:bg-green-100">
                                     Passer à compte Fournisseur
                                 </button>
                             )}
-                            <button onClick={() => setIsProFormVisible(true)} className="px-4 py-2 text-sm font-medium text-yellow-600 bg-white border border-gray-300 rounded hover:bg-yellow-100">
+                            {(!currentUserData?.is_pro && !currentUserData?.doc_proof) && <button onClick={() => setIsProFormVisible(true)} className="px-4 py-2 text-sm font-medium text-yellow-600 bg-white border border-gray-300 rounded hover:bg-yellow-100">
                                 Passer à compte pro
-                            </button>
+                            </button>}
                         </div>
                     ) : (
                         <button onClick={() => setMessageVisible(true)} className="px-4 mt-2 py-2 text-sm font-medium text-yellow-600 bg-white border border-gray-300 rounded hover:bg-yellow-100">
@@ -306,18 +355,53 @@ const ProfileCard = () => {
 
                     {/* Confirmation pro */}
                     {isProFormVisible && (
+
                         <div className="mt-4 border border-yellow-300 p-4 rounded bg-yellow-50">
-                            <p className="text-sm mb-2">
-                                Êtes-vous sûr de vouloir passer à un compte professionnel ?
-                            </p>
-                            <div className="flex gap-2">
-                                <button onClick={handleUpgradeToPro} className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">
-                                    Confirmer
-                                </button>
-                                <button onClick={() => setIsProFormVisible(false)} className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400">
-                                    Annuler
-                                </button>
-                            </div>
+
+                            <form className="d-flex">
+
+                                {
+                                    !currentUserData?.doc_proof && !fileProof &&
+                                    <>
+                                        <div className="">
+
+                                            <div>
+                                                <input
+                                                    type="file"
+                                                    accept="image/*,application/pdf"
+                                                    onChange={handleFileChange}
+                                                    className="bg-gray rounded-md p-2 shadow-md text-sm"
+                                                />
+                                            </div>
+
+                                        </div>
+
+                                        <p> <small>Enregistrer sur un seul document votre carte d'identité et justificatif domicile.</small></p>
+                                    </>
+
+                                }
+
+                                {
+                                     fileProof &&
+                                     <>
+                                        <p className="text-sm mb-2">
+                                            Êtes-vous sûr de vouloir passer à un compte professionnel ?
+                                        </p>
+
+                                        <div className="flex gap-2">
+
+                                            <button onClick={handleUpgradeToPro} className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">
+                                                Confirmer
+                                            </button>
+
+                                            <button onClick={() => setIsProFormVisible(false)} className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400">
+                                                Annuler
+                                            </button>
+
+                                        </div>
+                                    </>
+                                }
+                            </form>
                         </div>
                     )}
                 </div>
