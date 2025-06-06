@@ -1,9 +1,11 @@
 ﻿// 📦 Imports
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
 import { useAuth } from '../AuthContext';
 import api from '../services/Axios';
-import { updateCompteUser, updateUserData } from '../slices/authSlice';
+import { logout, updateCompteUser, updateUserData } from '../slices/authSlice';
 import MessageForm from '../components/MessageForm';
 import InputBox from '../components/InputBoxFloat';
 
@@ -36,6 +38,7 @@ const ProfileCard = () => {
     const [updateImageCover, setUpdateImageCover] = useState(null);
     const [fileProof, setFileProof] = useState(null);
 
+    const navigate = useNavigate();
 
 
     // 🔧 Fonctions utilitaires
@@ -202,6 +205,37 @@ const ProfileCard = () => {
 
     };
 
+
+    const delAccountUser = async () => {
+
+        try {
+
+            if (window.confirm("Voulez vous vraimment supprimer ce compte")) {
+
+                await api.delete(`clients/${currentUserData.id}/`);
+            }
+
+            setTimeout(() => {
+
+                alert("Votre compte à été qupprimer avec succès")
+
+            },[2000])
+
+        } catch (err) {
+
+            console.log("ERREUR DE LA SUPRRESION DU COMPTE", err)
+
+            return 
+        }
+
+        dispatch(logout())
+
+        return navigate("/logIn", { replace: true });
+
+
+
+    }
+
     // 🖼️ Rendu JSX
     return (
         <div className="w-full max-w-full mx-auto bg-white rounded-md overflow-hidden shadow-md">
@@ -344,7 +378,9 @@ const ProfileCard = () => {
                             <button onClick={() => setIsEditing(true)} className="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-300 rounded hover:bg-gray-100">
                                 Modifier
                             </button>
-                            <button className="px-4 py-2 text-sm font-medium text-red-600 bg-white border border-gray-300 rounded hover:bg-red-100">
+                            <button
+                                onClick={() => delAccountUser() }
+                                className="px-4 py-2 text-sm font-medium text-red-600 bg-white border border-gray-300 rounded hover:bg-red-100">
                                 Supprimer
                             </button>
                             {!currentUserData.is_fournisseur && (

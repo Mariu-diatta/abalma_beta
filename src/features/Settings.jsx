@@ -1,4 +1,5 @@
 ﻿import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const SettingsForm = () => {
     const [form, setForm] = useState({
@@ -18,6 +19,8 @@ const SettingsForm = () => {
 
     const [profilePhoto, setProfilePhoto] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(null);
+    const currentUserData = useSelector((state) => state.auth.user);
+
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -51,8 +54,8 @@ const SettingsForm = () => {
 
                 {/* 📷 Photo de profil */}
                 <div className="flex items-center gap-4">
-                    {previewUrl ? (
-                        <img src={previewUrl} alt="Profil" className="w-16 h-16 rounded-full object-cover" />
+                    {currentUserData?.image? (
+                        <img src={currentUserData?.image} alt="Profil" className="w-16 h-16 rounded-full object-cover" />
                     ) : (
                         <div className="w-16 h-16 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center text-gray-500">
                             ?
@@ -70,7 +73,7 @@ const SettingsForm = () => {
                 <FloatingInput
                     id="name"
                     name="name"
-                    label="Nom complet"
+                    label={currentUserData?.nom}
                     value={form.name}
                     onChange={handleChange}
                 />
@@ -81,7 +84,7 @@ const SettingsForm = () => {
                     name="email"
                     label="Adresse email"
                     type="email"
-                    value={form.email}
+                    value={currentUserData?.email}
                     onChange={handleChange}
                 />
 
@@ -164,7 +167,7 @@ const SettingsForm = () => {
                     id="address"
                     name="address"
                     label="Adresse"
-                    value={form.address}
+                    value={currentUserData?.addresse}
                     onChange={handleChange}
                 />
 
