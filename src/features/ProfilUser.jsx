@@ -388,7 +388,7 @@ const ProfileCard = () => {
                                     Passer à compte Fournisseur
                                 </button>
                             )}
-                            {(!currentUserData?.is_pro && !currentUserData?.doc_proof) && <button onClick={() => setIsProFormVisible(true)} className="px-4 py-2 text-sm font-medium text-yellow-600 bg-white border border-gray-300 rounded hover:bg-yellow-100">
+                            {( !currentUserData?.doc_proof) && <button onClick={() => setIsProFormVisible(true)} className="px-4 py-2 text-sm font-medium text-yellow-600 bg-white border border-gray-300 rounded hover:bg-yellow-100">
                                 Passer à compte pro
                             </button>}
                         </div>
