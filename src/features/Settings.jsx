@@ -64,6 +64,27 @@ const SettingsForm = () => {
         }
     };
 
+    const updatePassword = async (e) => {
+
+        e.preventDefault();
+
+        if (!currentUserData?.id) return;
+
+        try {
+
+            await api.patch(`/clients/${currentUserData?.id}/`, {
+                password: form.password,
+            });
+
+            alert('Mot de passe modifié avec succès !');
+
+        } catch (error) {
+
+            console.error("Erreur lors de l'enregistrement des données :", error);
+        }
+
+    }
+
 
     const handleSubmitCard = async (e) => {
 
@@ -102,7 +123,7 @@ const SettingsForm = () => {
         <div className="w-full flex flex-col lg:flex-row justify-center items-start gap-8 px-4 py-8">
 
             <form
-                onSubmit={handleSubmit}
+                onSubmit={updatePassword}
                 className="w-auto bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6"
             >
                 <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Paramètres du compte</h2>
@@ -134,6 +155,7 @@ const SettingsForm = () => {
                     label={currentUserData?.nom || "Nom"}
                     value={form.name}
                     onChange={handleChange}
+                    disabled={true}
                 />
 
                 <FloatingInput
@@ -143,6 +165,7 @@ const SettingsForm = () => {
                     type="email"
                     value={currentUserData?.email || form.email}
                     onChange={handleChange}
+                    disabled={true}
                 />
 
                 <FloatingInput
@@ -150,22 +173,40 @@ const SettingsForm = () => {
                     name="password"
                     label="Mot de passe"
                     type="password"
-                    value={form.password}
+                    value={form.password || currentUserData?.password}
                     onChange={handleChange}
                 />
 
+
+                <button
+                    type="submit"
+                    className="w-full py-2 px-4 mt-4 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                    Changer de mot de passe
+
+                </button>
+
+            </form>
+
+            <form
+                onSubmit={handleSubmit}
+                className="w-auto bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6"
+            >
                 {/* 🌙 Thème */}
                 <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+
                     <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Thème :</label>
+
                     <select
                         name="theme"
                         value={form.theme}
                         onChange={handleChange}
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 p-2.5"
+                        className="border-0 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 p-2.5"
                     >
                         <option value="light">Clair</option>
                         <option value="dark">Sombre</option>
                     </select>
+
                 </div>
 
                 {/* 🔔 Notifications */}
@@ -294,7 +335,7 @@ const SettingsForm = () => {
 };
 
 // 🔁 Composant d'entrée personnalisé
-const FloatingInput = ({ id, name, label, type = 'text', value, onChange, maxLength, wrapperClass = '' }) => (
+const FloatingInput = ({ id, name, label, type = 'text', value, onChange, maxLength, wrapperClass = '', disabled}) => (
 
     <div className={`relative ${wrapperClass}`}>
 
@@ -306,6 +347,7 @@ const FloatingInput = ({ id, name, label, type = 'text', value, onChange, maxLen
             onChange={onChange}
             placeholder=" "
             maxLength={maxLength}
+            disabled={disabled || false}
             className="peer block w-full px-2.5 pt-5 pb-2.5 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600"
         />
 
