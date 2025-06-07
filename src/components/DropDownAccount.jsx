@@ -23,28 +23,43 @@ export default function AccountDropdown3() {
 
     // close on click outside
     useEffect(() => {
+
         const clickHandler = ({ target }) => {
+
             if (!dropdown.current) return;
+
             if (
+
                 !dropdownOpen ||
+
                 dropdown.current.contains(target) ||
+
                 trigger.current.contains(target)
             )
                 return;
+
             setDropdownOpen(false);
         };
+
         document.addEventListener("click", clickHandler);
+
         return () => document.removeEventListener("click", clickHandler);
     });
 
     // close if the esc key is pressed
     useEffect(() => {
+
         const keyHandler = ({ keyCode }) => {
+
             if (!dropdownOpen || keyCode !== 27) return;
+
             setDropdownOpen(false);
         };
+
         document.addEventListener("keydown", keyHandler);
+
         return () => document.removeEventListener("keydown", keyHandler);
+
     });
 
 
@@ -56,9 +71,11 @@ export default function AccountDropdown3() {
                 //const response = await api.post('logout/');
 
                 const formData = new FormData();
+
                 formData.append("is_connected", false);
 
                 const response = await api.put(`clients/${currentUser.id}/`, formData, {
+
                     headers: { "Content-Type": "multipart/form-data" },
                 });
 
@@ -88,17 +105,25 @@ export default function AccountDropdown3() {
 
                             {/* Icon 1 */}
                             <div className="flex h-12 w-12 items-center justify-center rounded-lg border-0 bg-white dark:border-dark-3 dark:bg-dark-2">
+
                                 <svg
                                     className="h-5 text-gray-800 dark:text-white"
+
                                     xmlns="http://www.w3.org/2000/svg"
+
                                     fill="none"
+
                                     viewBox="0 0 16 21"
                                 >
                                     <path
                                         stroke="currentColor"
+
                                         strokeLinecap="round"
+
                                         strokeLinejoin="round"
+
                                         strokeWidth="2"
+
                                         d="M8 3.464V1.1m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175C15 15.4 15 16 14.462 16H1.538C1 16 1 15.4 1 14.807c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 8 3.464ZM4.54 16a3.48 3.48 0 0 0 6.92 0H4.54Z"
                                     />
                                 </svg>
@@ -107,7 +132,9 @@ export default function AccountDropdown3() {
                             {/* Icon 2 */}
 
                             <button
-                                onClick={()=>dispatch(setCurrentNav("payment"))}
+
+                                onClick={() => dispatch(setCurrentNav("payment"))}
+
                                 className="cursor-pointer flex h-12 w-12 items-center justify-center rounded-lg border-0 bg-white dark:border-dark-3 dark:bg-dark-2 text-dark"
                             >
                                 <svg
@@ -144,7 +171,10 @@ export default function AccountDropdown3() {
                                             alt="avatar"
                                             className="h-full w-full rounded-full object-cover object-center"
                                         />
-                                        {currentUser?.is_connected && <span className="absolute -right-0.5 -top-0.5 block h-[14px] w-[14px] rounded-full border-[2.3px] border-white bg-[#219653] dark:border-dark"></span>}
+                                        {
+                                            currentUser?.is_connected && 
+                                                <span className="absolute -right-0.5 -top-0.5 block h-[14px] w-[14px] rounded-full border-[2.3px] border-white bg-[#219653] dark:border-dark"></span>
+                                            }
                                     </div>
                                     :
                                     <svg
@@ -190,6 +220,7 @@ export default function AccountDropdown3() {
                                     Account menu
                                 </p>
                             </div>
+
                             <div>
                                 <button
                                     onClick={() => dispatch(setCurrentNav("profile")) }
@@ -199,6 +230,7 @@ export default function AccountDropdown3() {
                                 </button>
 
                             </div>
+
                             <div>
                                 <button
                                     onClick={() => dispatch(setCurrentNav("entreprise"))}
@@ -207,6 +239,7 @@ export default function AccountDropdown3() {
                                     Entreprise
                                 </button>
                             </div>
+
                             <div>
                                 <button
                                     onClick={() => dispatch(setCurrentNav("support"))}
@@ -223,6 +256,7 @@ export default function AccountDropdown3() {
                                     Log out
                                 </button>
                             </div>
+
                         </div>
 
                     </div>

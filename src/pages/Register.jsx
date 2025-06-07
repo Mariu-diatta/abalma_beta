@@ -1,4 +1,4 @@
-import React from 'react'
+﻿import React from 'react'
 import HomeLayout from '../layouts/HomeLayout';
 import RegisterForm from '../components/Form';
 

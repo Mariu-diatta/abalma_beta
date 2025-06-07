@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+ï»¿import React, { useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import HomeLayout from '../layouts/HomeLayout';
@@ -28,7 +28,7 @@ const loginClient = async (data, dispatch, setMessageError) => {
 
         if (access && refresh) {
 
-            return response.data; // renvoyer les données utiles ici
+            return response.data; // renvoyer les donnÃ©es utiles ici
         }
     } catch (error) {
 
@@ -69,7 +69,7 @@ const Signin = () => {
         try {
 
             const user = await signInWithGoogle();
-            //console.log("Connecté avec Google:", user);
+            //console.log("ConnectÃ© avec Google:", user);
 
             dispatch(login(user))
             //localStorage.setItem("config", user)
@@ -94,7 +94,7 @@ const Signin = () => {
 
             const user = await signInWithTwitter();
 
-            console.log("Connecté avec TWTe:", user);
+            console.log("ConnectÃ© avec TWTe:", user);
 
             navigate("/account", { replace: true });
 
@@ -113,7 +113,7 @@ const Signin = () => {
 
             const user = await signInWithFacebook();
 
-            console.log("Connecté avec Fbook:", user);
+            console.log("ConnectÃ© avec Fbook:", user);
 
             navigate("/account", { replace: true });
 
@@ -143,7 +143,7 @@ const Signin = () => {
 
             if (userData) {
 
-                dispatch(login(userData)); // met à jour Redux avec les données utilisateur
+                dispatch(login(userData)); // met Ã  jour Redux avec les donnÃ©es utilisateur
 
                 await api.get(`/clients/?email=${email}`).then(
 
@@ -160,8 +160,8 @@ const Signin = () => {
 
         } catch (error) {
 
-            //alert("Erreur de connexion. Vérifie ton email et mot de passe.");
-            showMessage(dispatch, "Erreur de connexion. Vérifie ton email et mot de passe.");
+            //alert("Erreur de connexion. VÃ©rifie ton email et mot de passe.");
+            showMessage(dispatch, "Erreur de connexion. VÃ©rifie ton email et mot de passe.");
 
             //console.log("MESSAGE DU CONTENU", messageAlert)
             //console.error(error);
