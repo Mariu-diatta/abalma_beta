@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 
 const UserTable = ({ users }) => {
+
     const [searchTerm, setSearchTerm] = useState("");
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [statusFilter, setStatusFilter] = useState("Tous");
     const [selectedUsers, setSelectedUsers] = useState([]);
 
     const handleSearchChange = (e) => setSearchTerm(e.target.value.toLowerCase());
+
     const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
     const handleStatusFilter = (status) => {
@@ -44,7 +46,9 @@ const UserTable = ({ users }) => {
     };
 
     return (
+
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+
             <h2 className="text-2xl font-bold text-gray-800 dark:text-white px-4 pt-4 pb-2">
                 Liste des contacts
             </h2>

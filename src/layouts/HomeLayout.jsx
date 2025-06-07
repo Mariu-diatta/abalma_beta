@@ -1,12 +1,12 @@
 import React from 'react'
-import NavbarHeader from '../components/Header';
 import Footer from '../pages/Footer';
+import NavbarHeader from '../pages/Header';
 
 const HomeLayout = ({children}) => {
 
     return (
         <div className="d-flex flex-coulumn">
-            <NavbarHeader />
+            <NavbarHeader/>
             <>{children}  </ >
             <Footer/>
         </div>

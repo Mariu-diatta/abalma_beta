@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 export default function ModalManager({ label, content }) {
+
     const [openModal, setOpenModal] = useState(false);
 
     const toggleModal = () => {
@@ -12,7 +13,9 @@ export default function ModalManager({ label, content }) {
     };
 
     return (
+
         <div>
+
             <div className="block space-y-4 md:flex md:space-y-0 md:space-x-4 rtl:space-x-reverse">
                 <button
                     onClick={toggleModal}

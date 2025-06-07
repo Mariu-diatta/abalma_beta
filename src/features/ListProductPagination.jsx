@@ -1,7 +1,5 @@
 import React, { useState, useMemo } from "react";
-import HorizontalCard from "./HorizontalCard";
-import GridSlideProduct from "./GridProductSlide";
-import ViewProduct from "./ViewProduct";
+import ViewProduct from "../components/ViewProduct";
 
 const ProductTablePagination = ({data }) => {
 

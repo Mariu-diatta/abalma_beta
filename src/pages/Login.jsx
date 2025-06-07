@@ -7,7 +7,7 @@ import InputBox from '../components/InputBoxFloat';
 import { signInWithGoogle, signInWithFacebook, signInWithTwitter } from '../firebase';
 
 import api from '../services/Axios';
-import { login, getFirebaseToken } from '../slices/authSlice';
+import { login, getFirebaseToken, updateUserData } from '../slices/authSlice';
 import AttentionAlertMesage, { showMessage } from '../components/AlertMessage';
 
 
@@ -25,12 +25,6 @@ const loginClient = async (data, dispatch, setMessageError) => {
         localStorage.setItem("refresh", refresh);
 
         console.log("DONNEE DU BACKEND", response)
-
-        //const user=JSON.parse(localStorage.getItem("USER"))
-
-        //const compte = await api.post('/comptes/', user)
-
-        //console.log("MON COMPTE", compte)
 
         if (access && refresh) {
 
@@ -66,6 +60,9 @@ const Signin = () => {
     const firebaseToken = useSelector((state) => state.auth.firebaseToken)
 
     const messageAlert = useSelector((state) => state.navigate.messageAlert)
+
+    const currentUserEmail = useSelector((state) => state.auth.user)
+
 
     const handleGoogleLogin = async () => {
 
@@ -148,22 +145,36 @@ const Signin = () => {
 
                 dispatch(login(userData)); // met à jour Redux avec les données utilisateur
 
+                await api.get(`/clients/?email=${email}`).then(
+
+                    resp => {
+
+
+                        dispatch(updateUserData(resp?.data[0]))
+
+                    }
+                ).catch(error => console.log("ERREUR"))
+
                 navigate("/account", { replace: true }); // redirection
             }
+
         } catch (error) {
 
             //alert("Erreur de connexion. Vérifie ton email et mot de passe.");
             showMessage(dispatch, "Erreur de connexion. Vérifie ton email et mot de passe.");
 
-            console.log("MESSAGE DU CONTENU", messageAlert)
+            //console.log("MESSAGE DU CONTENU", messageAlert)
             //console.error(error);
         }
     };
 
     useEffect(() => {
+
         if (userConnected) {
+
             navigate("/account", { replace: true });
         }
+
     }, [userConnected, navigate]);
 
 
@@ -276,15 +287,23 @@ const Signin = () => {
                             <a href="/#" className="mb-2 inline-block text-base text-dark hover:text-primary hover:underline dark:text-white">
                                 Forget Password?
                             </a>
+
                             <p className="text-base text-body-color dark:text-dark-6">
+
                                 <span className="pr-0.5">Not a member yet?</span>
+
                                 <a href="/#" className="text-primary hover:underline">
                                     Sign Up
                                 </a>
+
                             </p>
-                            {messageAlert && <AttentionAlertMesage title="Error" content={messageAlert}  />}
+
+                            {messageAlert && <AttentionAlertMesage title="Error" content={messageAlert} />}
+
                         </div>
+
                     </div>
+
                 </div>
             </div>
         </section>
@@ -292,9 +311,13 @@ const Signin = () => {
 };
 
 const LogIn = () => {
+
     return (
+
         <HomeLayout>
+
             <Signin />
+
         </HomeLayout>
     );
 };

@@ -1,4 +1,4 @@
-import React from 'react'
+﻿import React from 'react'
 import SingleImage from '../components/Image';
 
 const HomeContain = () => {
@@ -16,7 +16,7 @@ const HomeContain = () => {
                                     Faites passer vos biens au premier plan.
                                 </h4>
                                 <p className="mb-8 max-w-[480px] text-base text-body-color dark:text-dark-6">
-                                    Donnez une seconde vie a vos biens (materiel, vetements, jouets, ...) grace a Abalma.
+                                    Donnez une seconde vie a vos biens (matériels, vêtements, jouets, ...) grâce a Abalma.
                                 </p>
                                 <ul className="flex flex-wrap items-center">
                                     <li>
@@ -29,7 +29,7 @@ const HomeContain = () => {
                                     </li>
                                     <li>
                                         <button
-                                            onClick={()=>alert("L'application sera bient�t disponible")}
+                                            onClick={()=>alert("L'application sera bientôt disponible")}
                                             className="cursor-pointer inline-flex items-center justify-center px-5 py-3 text-center text-base font-medium text-[#464646] hover:text-primary dark:text-white"
                                         >
                                             <span className="mr-2">

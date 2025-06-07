@@ -2,7 +2,8 @@
 import FormElementFileUpload from './FormFile';
 import {  useDispatch, useSelector } from 'react-redux';
 import api from '../services/Axios';
-import AttentionAlertMesage, { showMessage } from './AlertMessage';
+import AttentionAlertMesage, { showMessage } from '../components/AlertMessage';
+import { setCurrentNav } from '../slices/navigateSlice';
 
 
 const UpdateProduct = () => {
@@ -21,8 +22,6 @@ const UpdateProduct = () => {
     const user = useSelector((state) => state.auth.user)
 
     const dispatch = useDispatch();
-
-    //const currentUser = useSelector((state)=>state.auth.user)
 
     const [dataProduct, setDataProduct] = useState({
         date_emprunt: "",
@@ -115,7 +114,7 @@ const UpdateProduct = () => {
             }
 
             // ✅ Envoi à l'API
-            const response = await api.post("/produits/", formData, {
+            await api.post("/produits/", formData, {
 
                 headers: {
 
@@ -131,7 +130,6 @@ const UpdateProduct = () => {
         } catch (error) {
 
             //console.error("❌ Erreur lors de la création :", error);
-
             showMessage(dispatch, error);
 
             if (error.response && error.response.data) {
@@ -145,13 +143,11 @@ const UpdateProduct = () => {
                     .join('\n');
 
                 //alert(`Erreur lors de la création du produit :\n${messages}`);
-
                 showMessage(dispatch, `Erreur lors de la création du produit :\n${messages}`);
 
             } else {
 
                 //alert("Erreur inconnue lors de la création du produit.");
-
                 showMessage(dispatch, "Erreur inconnue lors de la création du produit.");
 
             }
@@ -169,7 +165,7 @@ const UpdateProduct = () => {
                     Ajouter / Modifier un produit
                 </h2>
 
-                <form onSubmit={submitForm}>
+                <form onSubmit={submitForm} className={` ${user.is_fournisseur ? "" : "opacity-50 pointer-events-none cursor-not-allowed"}`}>
 
                     <div className="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
 
@@ -320,16 +316,34 @@ const UpdateProduct = () => {
                     <div className="flex items-center space-x-4">
 
                         <button
-                            className={`bg-blue-700 text-white rounded px-4 py-2 ${user.is_fournisseur ? "opacity-50 pointer-events-none cursor-not-allowed" : "hover:bg-blue-800"
-                                }`}
+
+                            className={`bg-blue-700 text-white rounded px-4 py-2`}
                         >
-                            {user.is_fournisseur ? "Passer au compte fournisseur":"Enregistrer le produit"}
+                            Enregistrer le produit
 
                         </button>
 
                     </div>
+
                 </form>
+
+                {
+                    !(user.is_fournisseur) &&
+
+                    <button
+
+                        className={`bg-blue-700 text-white rounded px-4 py-2 mt-5`}
+
+                        onClick={() => dispatch(setCurrentNav("profile")) }
+                    >
+                        Passer au compte fournisseur
+
+                    </button>
+                }
+
+
             </div>
+
         </section>
     );
 };

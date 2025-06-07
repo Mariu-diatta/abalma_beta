@@ -1,10 +1,10 @@
 ﻿import React, { useState } from 'react';
+import ProfileCard from './ProfilUser';
 import ProductTable from './ListProductShoppingCart';
 import ProductTablePagination from './ListProductPagination';
-import Settings from './Settings';
 import ProductsRecapTable from './ProductRecaptable';
-import UserTable from './ContactUser';
-import ProfileCard from './ProfilUser';
+import UserTable from '../components/ContactUser';
+import SettingsForm from './Settings';
 
 const users = [
     {
@@ -143,7 +143,7 @@ const Tabs = () => {
 
         settings: (
             <div className="p-1 max-full mx-auto text-gray-700 dark:text-gray-300">
-                <Settings/>
+                <SettingsForm/>
             </div>
         ),
 

@@ -53,9 +53,13 @@ const AttentionAlertMesage = ({ content, title }) => {
 
 // Fonction pour afficher un message temporaire
 export const showMessage = (dispatch, message) => {
+
     dispatch(setCurrentMessage(message));
+
     setTimeout(() => {
+
         dispatch(clearMessage());
+
     }, 5000);
 };
 

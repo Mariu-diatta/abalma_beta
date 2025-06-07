@@ -1,11 +1,9 @@
 ﻿import React, { useEffect, useRef, useState } from "react";
-import { useNavigate, NavLink } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
-import { addToCart, removeFromCart, clearCart, decreaseQuantity } from '../slices/cartSlice'
-import { setPreviousNav, setCurrentNav } from '../slices/navigateSlice'
+import {setCurrentNav } from '../slices/navigateSlice'
 import { logout } from "../slices/authSlice";
 import api from "../services/Axios";
-
 
 export default function AccountDropdown3() {
 
@@ -14,6 +12,8 @@ export default function AccountDropdown3() {
     const dispatch = useDispatch()
 
     const nbItems = useSelector(state => state.cart.nbItem)
+
+    const currentUser = useSelector(state => state.auth.user)
 
     const trigger = useRef(null);
 
@@ -55,7 +55,12 @@ export default function AccountDropdown3() {
             try {
                 //const response = await api.post('logout/');
 
-                console.log("ERREUR ERREUR")
+                const formData = new FormData();
+                formData.append("is_connected", false);
+
+                const response = await api.put(`clients/${currentUser.id}/`, formData, {
+                    headers: { "Content-Type": "multipart/form-data" },
+                });
 
                 dispatch(logout())
 
@@ -129,18 +134,32 @@ export default function AccountDropdown3() {
                                 onClick={() => setDropdownOpen(!dropdownOpen)}
                                 className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border-0  bg-white px-4 py-2 text-base font-medium text-dark dark:border-dark-3 dark:bg-dark-2 dark:text-white"
                             >
-                                <svg
-                                    className="w-6 h-6 text-gray-800 dark:text-white"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        fillRule="evenodd"
-                                        d="M12 20a7.966 7.966 0 0 1-5.002-1.756l.002.001v-.683c0-1.794 1.492-3.25 3.333-3.25h3.334c1.84 0 3.333 1.456 3.333 3.25v.683A7.966 7.966 0 0 1 12 20ZM2 12C2 6.477 6.477 2 12 2s10 4.477 10 10c0 5.5-4.44 9.963-9.932 10h-.138C6.438 21.962 2 17.5 2 12Zm10-5c-1.84 0-3.333 1.455-3.333 3.25S10.159 13.5 12 13.5c1.84 0 3.333-1.455 3.333-3.25S13.841 7 12 7Z"
-                                        clipRule="evenodd"
-                                    />
-                                </svg>
+
+                                {
+                                    currentUser?.image ?
+                                       
+                                    <div className="relative h-[30px] w-[30px] rounded-full">
+                                        <img
+                                            src={currentUser?.image}
+                                            alt="avatar"
+                                            className="h-full w-full rounded-full object-cover object-center"
+                                        />
+                                        {currentUser?.is_connected && <span className="absolute -right-0.5 -top-0.5 block h-[14px] w-[14px] rounded-full border-[2.3px] border-white bg-[#219653] dark:border-dark"></span>}
+                                    </div>
+                                    :
+                                    <svg
+                                        className="w-6 h-6 text-gray-800 dark:text-white"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            fillRule="evenodd"
+                                            d="M12 20a7.966 7.966 0 0 1-5.002-1.756l.002.001v-.683c0-1.794 1.492-3.25 3.333-3.25h3.334c1.84 0 3.333 1.456 3.333 3.25v.683A7.966 7.966 0 0 1 12 20ZM2 12C2 6.477 6.477 2 12 2s10 4.477 10 10c0 5.5-4.44 9.963-9.932 10h-.138C6.438 21.962 2 17.5 2 12Zm10-5c-1.84 0-3.333 1.455-3.333 3.25S10.159 13.5 12 13.5c1.84 0 3.333-1.455 3.333-3.25S13.841 7 12 7Z"
+                                            clipRule="evenodd"
+                                        />
+                                    </svg>
+                                }
 
                                 <span className={`duration-100 ${dropdownOpen ? "-scale-y-100" : ""}`}>
                                     <svg

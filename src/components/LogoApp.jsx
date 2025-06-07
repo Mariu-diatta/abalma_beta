@@ -2,7 +2,9 @@ import logoApp from '../assets/logoApp.jpg';
 import React from 'react';
 
 const Logo = () => {
+
     return (
+
         <img
             src={logoApp}
             alt="logo"

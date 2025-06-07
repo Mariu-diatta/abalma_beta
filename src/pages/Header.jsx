@@ -1,13 +1,11 @@
-import React, { useState } from "react";
-import Logo from "./LogoApp";
-import WhiteRoundedButton from "./Button";
+﻿import React, { useState } from "react";
 import { Outlet, NavLink } from 'react-router-dom';
+import WhiteRoundedButton from "../components/Button";
+import Logo from "../components/LogoApp";
 
 const NavbarHeader = () => {
 
     const [open, setOpen] = useState(false);
-
-    const [activeTab, setActiveTab] = useState('home');
 
     const tabs = [
         { id: 'home', label: 'Home', endPoint: '/' },
@@ -19,15 +17,23 @@ const NavbarHeader = () => {
 
          <>
             <header className={` absolute left-0 right-0 top-2  z-20 flex w-full items-center justify-between `}>
+
                 <div className="container">
+
                     <div className="relative -mx-4 flex items-center justify-between">
+
                         <div className="w-50 max-w-full px-6">
+
                             <a href="/#" className="block w-full py-2">
                                 <Logo/>
                             </a>
+
                         </div>
+
                         <div className="flex w-full items-center justify-between px-4">
+
                             <div>
+
                                 <button
                                     onClick={() => setOpen(!open)}
                                     id="navbarToggler"
@@ -64,46 +70,35 @@ const NavbarHeader = () => {
                                             ))}
                                         </ul>
                                     </ul>
+
                                     <div className="lg:hidden md:hidden justify-end pr-16 sm:flex lg:pr-0 gap-2">
-                                        {/*<NavLink*/}
-                                        {/*    to="/logIn"*/}
-                                        {/*    className="px-3 py-3 text-base font-medium text-dark hover:text-primary dark:text-white"*/}
-                                        {/*>*/}
+
                                         <WhiteRoundedButton titleButton={"Se connecter"} to="/logIn" />
 
-                                        {/*</NavLink>*/}
-
-                                        {/*<NavLink*/}
-                                        {/*    to="/Register"*/}
-                                        {/*    className="rounded-lg bg-primary px-2 py-3 text-dark font-medium text-grey hover:bg-opacity-90"*/}
-                                        {/*>*/}
                                         <WhiteRoundedButton titleButton={"Creer un compte"} to="/Register" />
 
-                                        {/*</NavLink>*/}
                                     </div>
+
                                 </nav>
+
                             </div>
+
                             <div className="hidden  justify-end pr-16 sm:flex lg:pr-0 gap-2">
-                                {/*<NavLink*/}
-                                {/*    to="/logIn"*/}
-                                {/*    className="px-3 py-3 text-base font-medium text-dark hover:text-primary dark:text-white"*/}
-                                {/*>*/}
-                                    <WhiteRoundedButton titleButton={"Se connecter"} to="/logIn" />
 
-                                {/*</NavLink>*/}
+                                <WhiteRoundedButton titleButton={"Se connecter"} to="/logIn" />
 
-                                {/*<NavLink*/}
-                                {/*    to="/Register"*/}
-                                {/*    className="rounded-lg bg-primary px-2 py-3 text-dark font-medium text-grey hover:bg-opacity-90"*/}
-                                {/*>*/}
-                                    <WhiteRoundedButton titleButton={"Creer un compte"} to="/Register" />
+                                <WhiteRoundedButton titleButton={"Creer un compte"} to="/Register" />
            
-                                {/*</NavLink>*/}
                             </div>
+
                         </div>
+
                     </div>
+
                 </div>
+
             </header>
+
             <Outlet/>
         </>
     );

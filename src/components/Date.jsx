@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 export default function DatePickerWithFullWidthButtons() {
+
     const [currentDate, setCurrentDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(null);
     const [isCalendarOpen, setIsCalendarOpen] = useState(true);
