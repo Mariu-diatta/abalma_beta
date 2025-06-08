@@ -1,9 +1,10 @@
-﻿import React, { useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import api from '../services/Axios';
 
 
 const SettingsForm = () => {
+
     const [form, setForm] = useState({
         name: '',
         email: '',
@@ -15,7 +16,7 @@ const SettingsForm = () => {
         cvv: '',
         address: '',
         city: '',
-        zip: '',
+        zip: 0,
         country: '',
     });
 
@@ -23,6 +24,7 @@ const SettingsForm = () => {
     const [previewUrl, setPreviewUrl] = useState(null);
     const currentUserData = useSelector((state) => state.auth.user);
     const currentUserCompte = useSelector((state) => state.auth.compteUser);
+    const [cartData, setCartData] = useState({});
 
 
     const handleChange = (e) => {
@@ -85,6 +87,27 @@ const SettingsForm = () => {
 
     }
 
+    const GetClientCard = async () => {
+
+        if (!currentUserData?.id) return;
+
+        try {
+
+            const resp = await api.get("/cardPaid/");
+
+            // Correction ici : elem est un élément, pas un index
+            const dataCard = resp?.data?.filter((elem) => elem?.client === currentUserData.id);
+
+            setCartData(dataCard[0])
+
+            console.log('Paramètres de la carte enregistrés avec succès !', dataCard[0]);
+
+        } catch (error) {
+
+            console.error("Erreur lors de l'enregistrement des données :", error);
+        }
+    };
+
 
     const handleSubmitCard = async (e) => {
 
@@ -116,6 +139,15 @@ const SettingsForm = () => {
             console.error("Erreur lors de l'enregistrement des données :", error);
         }
     };
+
+    useEffect(() => {
+
+        if (currentUserData?.id) {
+
+            GetClientCard();
+        }
+
+    }, [currentUserData?.id]);
 
 
     return (
@@ -241,7 +273,7 @@ const SettingsForm = () => {
                 className="w-auto bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6"
             >
                 {/* 💳 Paiement */}
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-white mt-4">Méthode de paiement</h3>
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-white mt-4">Mode de paiement</h3>
 
                 <FloatingInput
                     type="number"
@@ -249,7 +281,7 @@ const SettingsForm = () => {
                     name="cardNumber"
                     label="Numéro de carte"
                     maxLength={19}
-                    value={form.cardNumber}
+                    value={form.cardNumber || cartData?.number_card}
                     onChange={handleChange}
                 />
 
@@ -270,7 +302,7 @@ const SettingsForm = () => {
                         name="cvv"
                         label="CVV"
                         maxLength={4}
-                        value={form.cvv}
+                        value={form.cvv || cartData?.number_cvv}
                         onChange={handleChange}
                         wrapperClass="w-1/2"
                     />
@@ -284,7 +316,7 @@ const SettingsForm = () => {
                     id="address"
                     name="address"
                     label="Adresse"
-                    value={form.address}
+                    value={form.address ||  cartData?.adresse_pay}
                     onChange={handleChange}
                 />
 
@@ -295,17 +327,17 @@ const SettingsForm = () => {
                         id="city"
                         name="city"
                         label="Ville"
-                        value={form.city}
+                        value={form.city || cartData?.ville_pay}
                         onChange={handleChange}
                         wrapperClass="w-1/2"
                     />
 
                     <FloatingInput
-                        type="text"
+                        type="number"
                         id="zip"
                         name="zip"
                         label="Code postal"
-                        value={form.zip}
+                        value={form.zip || parseInt(cartData?.code_postal_pay)}
                         onChange={handleChange}
                         wrapperClass="w-1/2"
                     />
@@ -317,7 +349,7 @@ const SettingsForm = () => {
                     id="country"
                     name="country"
                     label="Pays"
-                    value={form.country}
+                    value={form.country || cartData?.pays_pay}
                     onChange={handleChange}
                 />
 
