@@ -155,30 +155,42 @@ const SettingsForm = () => {
         <div className="w-full flex flex-col lg:flex-row justify-center items-start gap-8 px-4 py-8">
 
             <form
+
                 onSubmit={updatePassword}
+
                 className="w-auto bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6"
             >
                 <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Paramètres du compte</h2>
 
                 {/* 📷 Photo de profil */}
                 <div className="flex items-center gap-4">
-                    {currentUserData?.image ? (
-                        <img
-                            src={currentUserData.image}
-                            alt="Profil"
-                            className="w-16 h-16 rounded-full object-cover"
-                        />
-                    ) : (
-                        <div className="w-16 h-16 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center text-gray-500">
-                            ?
-                        </div>
-                    )}
+
+                    {
+                        currentUserData?.image ?
+                        (
+
+                            <img
+                                src={currentUserData.image}
+                                alt="Profil"
+                                className="w-16 h-16 rounded-full object-cover"
+                            />
+
+                        )
+                        :
+                        (
+                            <div className="w-16 h-16 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center text-gray-500">
+                                ?
+                            </div>
+                        )
+                    }
+
                     <input
                         type="file"
                         accept="image/*"
                         onChange={handleImageUpload}
                         className="text-sm text-gray-700 dark:text-gray-300"
                     />
+
                 </div>
 
                 <FloatingInput
@@ -221,7 +233,9 @@ const SettingsForm = () => {
             </form>
 
             <form
+
                 onSubmit={handleSubmit}
+
                 className="w-auto bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6"
             >
                 {/* 🌙 Thème */}
@@ -236,7 +250,9 @@ const SettingsForm = () => {
                         className="border-0 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 p-2.5"
                     >
                         <option value="light">Clair</option>
+
                         <option value="dark">Sombre</option>
+
                     </select>
 
                 </div>
@@ -254,16 +270,21 @@ const SettingsForm = () => {
                     />
 
                     <label htmlFor="notifications" className="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+
                         Activer les notifications
+
                     </label>
 
                 </div>
 
                 <button
+
                     type="submit"
+
                     className="w-full py-2 px-4 mt-4 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                     Enregistrer
+
                 </button>
 
             </form>
@@ -384,10 +405,13 @@ const FloatingInput = ({ id, name, label, type = 'text', value, onChange, maxLen
         />
 
         <label
+
             htmlFor={id}
+
             className="absolute text-sm text-gray-500 dark:text-gray-400 top-4 left-2.5 transition-all scale-75 -translate-y-4 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-4"
         >
             {label}
+
         </label>
 
     </div>

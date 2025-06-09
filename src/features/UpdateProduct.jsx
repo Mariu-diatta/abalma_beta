@@ -26,16 +26,18 @@ const UpdateProduct = () => {
 
     const [dataProduct, setDataProduct] = useState({
         date_emprunt: "",
-        price_product: 0.0,
+        price_product: "",
         Currency_price:"",
         color_product :"",
         date_fin_emprunt: "",
         categorie_product: "",
         code_reference: "",
         operation_product: "",
-        image_product: imageFile,
+        image_product: null,
         description_product: "",
-        fournisseur: ""
+        fournisseur: "",
+        quantity_product: 1,
+        taille_product:"MEDIUM"
     });
 
     const onChangeClick = (e) => {
@@ -112,10 +114,12 @@ const UpdateProduct = () => {
             const formData = new FormData();
             formData.append("categorie_product", dataProduct.categorie_product);
             formData.append("Currency_price", dataProduct.Currency_price);
+            formData.append("quantity_product", dataProduct.quantity_product);
             formData.append("price_product", dataProduct.price_product);
             formData.append("color_product", dataProduct.color_product);
             formData.append("operation_product", dataProduct.operation_product);
-            formData.append("code_reference", dataProduct.code_reference.trim());
+            formData.append("code_reference", dataProduct.code_reference.trim()); 
+            formData.append("taille_product", dataProduct.taille_product); 
             formData.append("description_product", dataProduct.description_product.trim());
             formData.append("image_product", imageFile);
 
@@ -145,16 +149,18 @@ const UpdateProduct = () => {
             setDataProduct(
                 {
                     date_emprunt: "",
-                    price_product: 0.0,
+                    taille_product:"MEDIUM",
+                    price_product: null,
                     Currency_price:"",
                     color_product: "",
                     date_fin_emprunt: "",
                     categorie_product: "",
                     code_reference: "",
                     operation_product: "",
-                    image_product: imageFile,
+                    image_product: null,
                     description_product: "",
-                    fournisseur: ""
+                    fournisseur: "",
+                    quantity_product:1
                 }
             )
             // Optionnel : reset du formulaire
@@ -200,7 +206,13 @@ const UpdateProduct = () => {
 
                         <div className="w-full">
 
-                            <label htmlFor="code_reference" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Code Référence</label>
+                            <label htmlFor="code_reference" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+
+                                Code Référence
+
+                                <span className="text-red-500">*</span>
+
+                            </label>
 
                             <input
                                 type="text"
@@ -229,7 +241,7 @@ const UpdateProduct = () => {
                                     onChange={onChangeClick}
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                                     placeholder="Jaune"
-                                    required
+                                    
                                 />
 
                             </div>
@@ -238,7 +250,7 @@ const UpdateProduct = () => {
 
                         <div className="w-full">
 
-                            <label htmlFor="Currency_price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choisir la monnaie</label>
+                            <label htmlFor="Currency_price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choisir la monnaie defaul Francs</label>
 
                             <select
                                 id="Currency_price"
@@ -258,7 +270,10 @@ const UpdateProduct = () => {
                         <div className="w-full">
                             <div>
 
-                                <label htmlFor="price_product" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Prix du produit</label>
+                                <label htmlFor="price_product" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Prix du produit
+                                    <span className="text-red-500">*</span>
+                                </label>
 
                                 <input
                                     type="text"
@@ -277,7 +292,10 @@ const UpdateProduct = () => {
 
                         <div className="w-full">
 
-                            <label htmlFor="categorie_product" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Catégorie</label>
+                            <label htmlFor="categorie_product" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Catégorie
+                                <span className="text-red-500">*</span>
+                            </label>
 
                             <select
                                 id="categorie_product"
@@ -285,6 +303,7 @@ const UpdateProduct = () => {
                                 value={dataProduct.categorie_product}
                                 onChange={onChangeClick}
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                required
                             >
                                 <option value="">-- Choisir une catégorie --</option>
                                 <option value="JOUET">Jouet</option>
@@ -308,7 +327,10 @@ const UpdateProduct = () => {
 
                         <div className="w-full">
 
-                            <label htmlFor="operation_product" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type d'opération</label>
+                            <label htmlFor="operation_product" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Type d'opération
+                                <span className="text-red-500">*</span>
+                            </label>
 
                             <select
                                 id="operation_product"
@@ -316,6 +338,7 @@ const UpdateProduct = () => {
                                 value={dataProduct.operation_product}
                                 onChange={onChangeClick}
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                required
                             >
                                 <option value="">-- Choisir l'opération --</option>
                                 <option value="PRETER">Prêter</option>
@@ -374,7 +397,12 @@ const UpdateProduct = () => {
                         </div>
 
                         <div className="sm:col-span-2">
-                            <label htmlFor="description_product" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+
+                            <label htmlFor="description_product" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Description
+                                <span className="text-red-500">*</span>
+                            </label>
+
                             <textarea
                                 id="description_product"
                                 name="description_product"
@@ -383,12 +411,17 @@ const UpdateProduct = () => {
                                 rows="6"
                                 className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
                                 placeholder="Description du produit..."
+                                required
                             />
+
                         </div>
 
-                        <div className="sm:col-span-2">
+                        <div className="w-full">
 
-                            <label htmlFor="image_product" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Image du produit</label>
+                            <label htmlFor="image_product" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Image du produit
+                                <span className="text-red-500">*</span>
+                            </label>
 
                             <FormElementFileUpload
 
@@ -398,6 +431,55 @@ const UpdateProduct = () => {
                             />
 
                         </div>
+
+                        <div className="w-full space-y-4">
+
+                            {/* Taille produit */}
+                            <div>
+
+                                <label htmlFor="taille_product" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Taille du produit (default moyen)
+                                </label>
+
+                                <select
+                                    id="taille_product"
+                                    name="taille_product"
+                                    value={dataProduct.taille_product}
+                                    onChange={onChangeClick}
+                                    className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:placeholder-gray-400"
+                                >
+                                    <option value="">-- Choisir la taille --</option>
+                                    <option value="SMALL">Petit</option>
+                                    <option value="MEDIUM">Moyen</option>
+                                    <option value="BIG">Grand</option>
+
+                                </select>
+
+                            </div>
+
+                            {/* Quantité */}
+                            <div>
+
+                                <label htmlFor="quantity_product" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Quantité (default 1)
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="quantity_product"
+                                    name="quantity_product"
+                                    value={dataProduct.quantity_product}
+                                    onChange={onChangeClick}
+                                    className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:placeholder-gray-400"
+                                    placeholder="Quantité"
+                                    min="1"
+                                />
+
+                            </div>
+
+                        </div>
+
+
                     </div>
 
                     {messageAlert && <AttentionAlertMesage title="Message" content={messageAlert} />}

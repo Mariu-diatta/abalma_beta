@@ -20,11 +20,11 @@ function App() {
 
       <AuthProvider>
 
-          <Suspense fallback={<LoadingCard />}>
+          {/*<Suspense fallback={"...loading"}>*/}
             
               <AppRoutes />
 
-          </Suspense>
+          {/*</Suspense>*/}
 
           <CookieBanner />
 
