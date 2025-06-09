@@ -67,6 +67,13 @@ export default function AccountDropdown3() {
 
         if (window.confirm("Voulez-vous vous deconnecter???")) {
 
+            if (!currentUser?.id) {
+
+                dispatch(logout())
+
+                return navigate("/logIn", { replace: true });
+            }
+
             try {
                 //const response = await api.post('logout/');
 
@@ -74,7 +81,7 @@ export default function AccountDropdown3() {
 
                 formData.append("is_connected", false);
 
-                const response = await api.put(`clients/${currentUser.id}/`, formData, {
+                 await api.put(`clients/${currentUser?.id}/`, formData, {
 
                     headers: { "Content-Type": "multipart/form-data" },
                 });
@@ -85,7 +92,7 @@ export default function AccountDropdown3() {
 
             }catch (error) {
 
-                console.log("error///////////////", error)
+                console.log("error..................", error)
             }
 
         }

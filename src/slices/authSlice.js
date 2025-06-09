@@ -11,12 +11,7 @@ const initialState = {
 
     compteUser: null,
 
-    token: {
-
-        "access_token": null,
-
-        "refresh_token":null
-    }
+    token: null
 };
 
 const authSlice = createSlice({
@@ -42,12 +37,14 @@ const authSlice = createSlice({
 
             state.compteUser = null;
 
+            state.token = null;
+
             localStorage.clear();
         },
 
         getFirebaseToken: (state, action) => {
 
-            state.firebaseToken =action.payload;;
+            state.firebaseToken =action.payload;
         },
 
         updateUserData: (state, action) => {

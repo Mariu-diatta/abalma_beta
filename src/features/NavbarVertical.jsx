@@ -1,20 +1,6 @@
-﻿//import GridLayoutProduct from "./GridLayoutProducts";
-//import GridProductDefault from "./GridProductDefaultSize";
-import ProductTable from "./ListProductShoppingCart";
-//import Logo from "./LogoApp";
-//import Tabs from "./DashbordProfileUser";
-//import UpdateProduct from "./UpdateProduct";
-//import MessageCard from "./MessageCard";
+﻿import ProductTable from "./ListProductShoppingCart";
 import PrivacyPolicy from "./PrivacyPolicy";
-//import { useDispatch, useSelector } from "react-redux";
-//import { setCurrentNav } from '../slices/navigateSlice'
-//import ProfileCard from "./ProfilUser";
-//import api from "../services/Axios";
-//import { useEffect, useRef, useState } from "react";
-//import { updateUserData } from "../slices/authSlice";
-//import { useAuth } from "../AuthContext";
-
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentNav } from "../slices/navigateSlice";
 import { useAuth } from "../AuthContext";
@@ -28,8 +14,6 @@ import GridLayoutProduct from "./GridLayoutProducts";
 import GridProductDefault from "./GridProductDefaultSize";
 import AccountDropdown3 from "../components/DropDownAccount";
 import MessageCard from "../components/MessageCard";
-//import MessageCard from "./MessageCard";
-//import MessageCard from "../components/MessageCard";
 
 
 const lesAccount = async () => {
@@ -140,12 +124,6 @@ const VertcalNavbar = ({ children }) => {
 
     const current = useSelector(state => state.navigate.currentNav);
 
-    const currentCompte = useSelector(state => state.auth.compteUser);
-
-
-    const [profileUser, setProfileUser] = useState(false)
-
-
     const sidebarRef = useRef();
 
     const updateActiveTab = (tab) => {
@@ -155,16 +133,14 @@ const VertcalNavbar = ({ children }) => {
         lesAccount()
     }
 
-    const { currentUser } = useAuth()
+    //const { currentUser } = useAuth()
 
     const currentUserEmail = useSelector((state) => state.auth.user)
 
-    const getUserDataProfile = (profile) => {
-
-        setProfileUser(profile)
-    }
 
     useEffect(() => {
+
+        //console.log(" USER DATA CURRENT", currentUser)
 
         api.get(`/clients/?email=${currentUserEmail?.email}`).then(
 
@@ -173,33 +149,28 @@ const VertcalNavbar = ({ children }) => {
                 console.log("UTILISATEUR CR2R", `/utilisateurs/?email=${currentUserEmail?.email}`, resp?.data[0])
 
                 dispatch(updateUserData(resp?.data[0]))
-
-                //getUserDataProfile(resp?.data[0])
-
-                //setName(resp?.data[0]?.nom)
-
-                //setDescription(resp?.data[0]?.description)
-
-                //setComment(resp?.data[0]?.description)
-
-                //setPreviewUrlBackground(resp?.data[0]?.image)
-
-                //setPreviewUrl(resp?.data[0]?.image)
             }
         )
+
     }, [])
 
 
     useEffect(() => {
+
         // Fonction asynchrone interne pour fetch et dispatch
         const fetchCompte = async () => {
+
             if (!currentUserEmail?.id) {
+
                 console.warn("L'utilisateur actuel n'a pas d'id valide.");
+
                 return;
             }
 
             try {
+
                 const resp = await api.get('/comptes/');
+
                 // Filtrer les comptes correspondant à l'utilisateur courant
                 const account = resp.data.find(item => item?.user === currentUserEmail.id);
 
@@ -210,9 +181,12 @@ const VertcalNavbar = ({ children }) => {
                     console.log("Compte utilisateur mis à jour :", account);
 
                 } else {
+
                     console.warn("Aucun compte trouvé pour l'utilisateur avec l'id :", currentUserEmail.id);
                 }
+
             } catch (error) {
+
                 console.error("Erreur lors de la récupération des comptes :", error);
             }
         };
@@ -243,6 +217,7 @@ const VertcalNavbar = ({ children }) => {
         };
 
     }, [isSidebarOpen]);
+
 
     const tabContent = {
 
