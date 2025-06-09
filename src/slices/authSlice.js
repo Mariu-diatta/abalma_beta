@@ -9,7 +9,14 @@ const initialState = {
 
     user: null,
 
-    compteUser:null
+    compteUser: null,
+
+    token: {
+
+        "access_token": null,
+
+        "refresh_token":null
+    }
 };
 
 const authSlice = createSlice({
@@ -50,10 +57,14 @@ const authSlice = createSlice({
         updateCompteUser: (state, action) => {
 
             state.compteUser = action.payload; // user object
+        },
+        updateUserToken: (state, action) => {
+
+            state.token = action.payload; // user object
         }
     },
 });
 
-export const { updateCompteUser, updateUserData, getFirebaseToken, login, logout } = authSlice.actions;
+export const { updateUserToken, updateCompteUser, updateUserData, getFirebaseToken, login, logout } = authSlice.actions;
 
 export default authSlice.reducer;

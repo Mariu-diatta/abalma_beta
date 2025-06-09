@@ -59,9 +59,12 @@ const UpdateProduct = () => {
         return date.toISOString();
     };
 
+
     const submitForm = async (e) => {
 
         e.preventDefault();
+
+        if (!currentUserCompte?.id) alert("Pas de compte ");
 
         try {
             // ✅ Validation des champs requis
@@ -76,7 +79,6 @@ const UpdateProduct = () => {
 
                 if (!dataProduct[field]?.trim()) {
 
-                    //alert(`Le champ "${field}" est requis.`);
                     showMessage(dispatch, `Le champ "${field}" est requis.`);
 
                     return;
@@ -85,16 +87,19 @@ const UpdateProduct = () => {
 
             // ✅ Validation image obligatoire
             if (!imageFile) {
-                //alert("L'image du produit est requise.");
+
                 showMessage(dispatch, "L'image du produit est requise.");
+
                 return;
             }
 
             // ✅ Validation des dates de prêt
             if (isLoanOptionSelected) {
+
                 if (!dataProduct.date_emprunt || !dataProduct.date_fin_emprunt) {
-                    //alert("Les dates d'emprunt et de fin sont requises.");
+
                     showMessage(dispatch, "Les dates d'emprunt et de fin sont requises.");
+
                     return;
                 }
             }
@@ -105,8 +110,10 @@ const UpdateProduct = () => {
             formData.append("operation_product", dataProduct.operation_product);
             formData.append("code_reference", dataProduct.code_reference.trim());
             formData.append("description_product", dataProduct.description_product.trim());
-            formData.append("fournisseur", parseInt(currentUserCompte?.id));
             formData.append("image_product", imageFile);
+
+            // ✅ Ajout de l'ID du fournisseur lié à l'utilisateur
+            formData.append("fournisseur", parseInt(currentUserCompte.user));
 
             if (isLoanOptionSelected) {
                 formData.append("date_emprunt", formatToISOString(dataProduct.date_emprunt));
@@ -115,44 +122,30 @@ const UpdateProduct = () => {
 
             // ✅ Envoi à l'API
             await api.post("/produits/", formData, {
-
                 headers: {
-
                     'Content-Type': 'multipart/form-data',
                 }
             });
 
-            //console.log("✅ Produit créé :", response.data);
-
-            // Optionnel : reset du formulaire ici
             showMessage(dispatch, "Produit créé avec succès !");
+            // Optionnel : reset du formulaire
 
         } catch (error) {
-
-            //console.error("❌ Erreur lors de la création :", error);
             showMessage(dispatch, error);
 
             if (error.response && error.response.data) {
-
                 const errors = error.response.data;
-
                 const messages = Object.entries(errors)
-
                     .map(([field, msg]) => `${field}: ${Array.isArray(msg) ? msg.join(', ') : msg}`)
-
                     .join('\n');
 
-                //alert(`Erreur lors de la création du produit :\n${messages}`);
                 showMessage(dispatch, `Erreur lors de la création du produit :\n${messages}`);
-
             } else {
-
-                //alert("Erreur inconnue lors de la création du produit.");
                 showMessage(dispatch, "Erreur inconnue lors de la création du produit.");
-
             }
         }
     };
+
 
 
 
@@ -317,7 +310,7 @@ const UpdateProduct = () => {
 
                         <button
 
-                            className={`bg-blue-700 text-white rounded px-4 py-2`}
+                            className={`cursor-pointer bg-blue-700 text-white rounded px-4 py-2`}
                         >
                             Enregistrer le produit
 

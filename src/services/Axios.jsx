@@ -1,87 +1,61 @@
-import axios from "axios"
+import axios from "axios";
 
-// Création d'une instance Axios
+// Création de l'instance Axios
 const api = axios.create({
-    baseURL: 'http://127.0.0.1:8000/', // URL de base de votre API Django
+    baseURL: 'http://127.0.0.1:8000/',
     headers: {
         'Content-Type': 'application/json',
-         Accept: 'application/json',
+        Accept: 'application/json',
     },
-    timeout: 10000, // facultatif : délai d'attente en ms
-})
+    timeout: 10000,
+});
 
-// Intercepteur de requête pour ajouter le token si présent
+// Intercepteur de requête : ajout du token à la main
 api.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem('token') // ou depuis un state manager (Redux, Zustand...)
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`
+        const accessToken = localStorage.getItem("token"); // récupération directe
+        if (accessToken) {
+            config.headers.Authorization = `Bearer ${accessToken}`;
         }
-        return config
+        return config;
     },
     (error) => Promise.reject(error)
-)
+);
 
-// Intercepteur de réponse pour gérer les erreurs globales
-api.interceptors.response.use(
-    (response) => response,
-    (error) => {
-        if (error.response) {
-            console.error('Erreur Axios:', error.response.data)
-            // gestion personnalisée, par exemple :
-            if (error.response.status === 401) {
-                // rediriger vers login, ou déconnecter
-            }
-        }
-        return Promise.reject(error)
-    }
-)
-
+// Rafraîchissement du token
 const refreshAccessToken = async (refreshToken) => {
-
     try {
-
-        const response = await api.post("refresh/", {
-
+        const response = await axios.post("http://127.0.0.1:8000/refresh/", {
             refresh: refreshToken,
         });
 
-        // Stocker le nouveau access token
         const newAccessToken = response.data.access;
-
         localStorage.setItem("token", newAccessToken);
 
         return newAccessToken;
-
     } catch (error) {
         console.error("Erreur lors du rafraîchissement du token :", error);
-        // Tu peux rediriger vers login ici si le refresh échoue
+        // Vous pouvez rediriger ici vers la page de connexion
+        return null;
     }
 };
 
+// Intercepteur de réponse pour gérer les erreurs 401
 api.interceptors.response.use(
-
     (response) => response,
-
     async (error) => {
-
         const originalRequest = error.config;
 
         if (error.response?.status === 401 && !originalRequest._retry) {
-
             originalRequest._retry = true;
 
             const refreshToken = localStorage.getItem("refresh");
-
             if (refreshToken) {
-
                 const newAccessToken = await refreshAccessToken(refreshToken);
-
-                axios.defaults.headers.common["Authorization"] = `Bearer ${newAccessToken}`;
-
-                originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-
-                return axios(originalRequest);
+                if (newAccessToken) {
+                    originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+                    return axios(originalRequest); // relance la requête
+                }
             }
         }
 
@@ -89,9 +63,4 @@ api.interceptors.response.use(
     }
 );
 
-export default api
-
-
-
-
-
+export default api;

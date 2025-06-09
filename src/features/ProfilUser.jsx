@@ -47,14 +47,20 @@ const ProfileCard = () => {
     };
 
     const getUserCompte = async () => {
+
         try {
+
             const resp = await api.get("comptes/");
+
             const comptes = resp?.data || [];
+
             const user_compte = comptes.find(
-                (compte) => compte?.user?.id === profileUser?.id && compte?.id != null
+
+                (compte) => compte?.user === currentUserData?.id && compte?.id != null
             );
 
             if (user_compte) {
+
                 dispatch(updateCompteUser(user_compte));
 
                 const formData = new FormData();
@@ -63,16 +69,24 @@ const ProfileCard = () => {
                 formData.append("is_verified", "true");
 
                 await api.post("fournisseurs/", formData, {
+
                     headers: { "Content-Type": "multipart/form-data" },
                 })
                     .then((resp) => {
+
                         console.log("Création de fournisseur:", resp?.data?.compte?.user);
+
                         const user_ = resp?.data?.compte?.user;
+
                         user_["is_fournisseur"] = true;
+
                         dispatch(updateUserData(user_));
+
                     })
                     .catch((err) => console.log("Erreur création fournisseur:", err));
+
             } else {
+
                 console.warn("Aucun compte utilisateur trouvé.");
             }
         } catch (error) {

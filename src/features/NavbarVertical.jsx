@@ -191,30 +191,36 @@ const VertcalNavbar = ({ children }) => {
 
 
     useEffect(() => {
-
-        const responseData = api.get(`/comptes/`).then(
-
-            resp => {
-
-                //console.log("UTILISATEUR CR2R", `/utilisateurs/?email=${currentUserEmail?.email}`, resp?.data[0])
-
-                //dispatch(updateUserData(resp?.data[0]))
-                console.log("Data porting", resp?.data)
-
-                const account = resp?.data.filter((item,_) => item?.user?.id === currentUserEmail?.id)
-
-                console.log("Data porting", account[0])
-
-                dispatch(updateCompteUser(account[0]))
+        // Fonction asynchrone interne pour fetch et dispatch
+        const fetchCompte = async () => {
+            if (!currentUserEmail?.id) {
+                console.warn("L'utilisateur actuel n'a pas d'id valide.");
+                return;
             }
 
-        ).catch(error => console.log("ERREUR"))
+            try {
+                const resp = await api.get('/comptes/');
+                // Filtrer les comptes correspondant à l'utilisateur courant
+                const account = resp.data.find(item => item?.user === currentUserEmail.id);
 
-        //const account = (responseData.ddata[0]).filter((item, _) => item?.user === currentUserEmail?.user)
+                if (account) {
 
-        console.log("Data porting", responseData)
+                    dispatch(updateCompteUser(account));
 
-    }, [])
+                    console.log("Compte utilisateur mis à jour :", account);
+
+                } else {
+                    console.warn("Aucun compte trouvé pour l'utilisateur avec l'id :", currentUserEmail.id);
+                }
+            } catch (error) {
+                console.error("Erreur lors de la récupération des comptes :", error);
+            }
+        };
+
+        fetchCompte();
+
+    }, [currentUserEmail, dispatch]);
+
 
     useEffect(() => {
 

@@ -1,6 +1,7 @@
 ﻿import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import InputBox from './InputBoxFloat';
+import axios from "axios"
 //import { signUpWithEmail } from '../firebase';
 
 import { login, getFirebaseToken } from '../slices/authSlice';
@@ -12,9 +13,16 @@ import api from '../services/Axios';
 const CreateClient = async (data) => {
 
     try {
-        const response = await api.post('/clients/', data)
+        const response = await axios.post('http://127.0.0.1:8000/clients/', data,
+            {
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+            timeout: 10000, // facultatif : délai d'attente en ms
+        })
 
-        console.log(response.data)
+        //console.log(response.data)
 
         //localStorage.setItem("USER", JSON.stringify(response.data))
 
@@ -78,7 +86,7 @@ const RegisterForm = () => {
                     "last_login": null,
                     "is_superuser": false,
                     "email": form.email,
-                    "prenom": form.nom,
+                    "prenom": form.prenom,
                     "nom": form.nom,
                     "image": null,
                     "telephone": form.telephone,
@@ -101,6 +109,8 @@ const RegisterForm = () => {
                     //api.get(`/utilisateurs/?email=${form.email}`).then(
                     //    resp=>console.log("UTILISATEUR CR2R", resp)
                     //)
+
+                    alert("Utilisateur créé avec succès !!!")
 
                     navigate("/login", { replace: true });
                 }
@@ -136,8 +146,15 @@ const RegisterForm = () => {
                                 <InputBox
                                     type="text"
                                     name="nom"
-                                    placeholder="Nom complet"
+                                    placeholder="Nom "
                                     value={form.nom}
+                                    onChange={handleChange}
+                                />
+                                <InputBox
+                                    type="text"
+                                    name="prenom"
+                                    placeholder="Prenom"
+                                    value={form.prenom}
                                     onChange={handleChange}
                                 />
                                 <InputBox
