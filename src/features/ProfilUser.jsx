@@ -49,32 +49,43 @@ const ProfileCard = () => {
     }, [currentUserData]);
 
     const getUserCompte = async () => {
+
         try {
+
             const fournisseursRes = await api.get('fournisseurs/');
+
             const userFournisseur = fournisseursRes.data.filter(
+
                 (f) => f.compte?.user === currentUserData?.id && f.id != null
             );
 
-            if (userFournisseur) {
+            if (userFournisseur[0]) {
+
                 if (!currentUserData?.is_fournisseur) {
+
                     try {
-                        await api.put(`/clients/${currentUserData.id}/`, { is_fournisseur: true });
+                        await api.put(`/clients/${currentUserData?.id}/`, { is_fournisseur: true });
                     } catch {
                         console.log("Erreur lors de la mise à jour de l'utilisateur");
                     }
                 }
 
                 alert("L'utilisateur est déjà un fournisseur");
+
                 setIsUserFournisseur(true);
+
                 return;
             }
 
             const comptesRes = await api.get('comptes/');
+
             const userCompte = comptesRes.data.find(
+
                 (c) => c.user === currentUserData?.id && c.id != null
             );
 
             if (userCompte) {
+
                 dispatch(updateCompteUser(userCompte));
 
                 const formData = new FormData();
@@ -212,6 +223,7 @@ const ProfileCard = () => {
     const handleNewMessage = (message) => {
         console.log('Message créé :', message);
     };
+
 
     return (
         <div className="w-full max-w-full mx-auto bg-white rounded-md overflow-hidden shadow-md">
@@ -353,7 +365,7 @@ const ProfileCard = () => {
                         </form>
                     )}
 
-                    <div className="mt-6 space-x-2">
+                    <div className="mt-6 space-x-2 mb-3">
                         {!isEditing && (
                             <>
                                 <button
@@ -366,9 +378,9 @@ const ProfileCard = () => {
                                     onClick={() => setMessageVisible(!messageVisible)}
                                     className="bg-yellow-600 text-white px-3 py-1 rounded hover:bg-yellow-700 m-1"
                                 >
-                                    Message
+                                    {!messageVisible?"Message":"X"}
                                 </button>
-                               { !currentUserData?.is_fournisseur && <button
+                                {!currentUserData?.is_fournisseur && isUserFournisseur && <button
                                     onClick={getUserCompte}
                                     className="bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700 m-1"
                                 >

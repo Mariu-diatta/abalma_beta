@@ -92,10 +92,20 @@ const Signin = () => {
             const userData = await loginClient(formData, dispatch, setMessageError);
 
             if (userData) {
-                dispatch(login(userData));
+
+
                 const response = await api.get(`/clients/?email=${email}`);
-                dispatch(updateUserData(response?.data[0]));
-                navigate("/account", { replace: true });
+
+                if (response?.data[0]) {
+
+                    dispatch(login(userData));
+
+                    dispatch(updateUserData(response?.data[0]));
+
+                    return navigate("/account", { replace: true });
+                }
+
+                return 
             }
         } catch (error) {
             showMessage(dispatch, "Erreur de connexion. Vérifie ton email et mot de passe.");
