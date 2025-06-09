@@ -4,6 +4,7 @@ import {  useDispatch, useSelector } from 'react-redux';
 import api from '../services/Axios';
 import AttentionAlertMesage, { showMessage } from '../components/AlertMessage';
 import { setCurrentNav } from '../slices/navigateSlice';
+import { addToCart } from '../slices/cartSlice';
 
 
 const UpdateProduct = () => {
@@ -25,6 +26,9 @@ const UpdateProduct = () => {
 
     const [dataProduct, setDataProduct] = useState({
         date_emprunt: "",
+        price_product: 0.0,
+        Currency_price:"",
+        color_product :"",
         date_fin_emprunt: "",
         categorie_product: "",
         code_reference: "",
@@ -107,6 +111,9 @@ const UpdateProduct = () => {
             // ✅ Préparation des données à envoyer
             const formData = new FormData();
             formData.append("categorie_product", dataProduct.categorie_product);
+            formData.append("Currency_price", dataProduct.Currency_price);
+            formData.append("price_product", dataProduct.price_product);
+            formData.append("color_product", dataProduct.color_product);
             formData.append("operation_product", dataProduct.operation_product);
             formData.append("code_reference", dataProduct.code_reference.trim());
             formData.append("description_product", dataProduct.description_product.trim());
@@ -121,26 +128,55 @@ const UpdateProduct = () => {
             }
 
             // ✅ Envoi à l'API
-            await api.post("/produits/", formData, {
+            const resp_product=await api.post("/produits/", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 }
             });
 
+            console.log("Produit créer ", resp_product?.data)
+
+            dispatch(addToCart({ ...resp_product?.data, methode: true }));
+
             showMessage(dispatch, "Produit créé avec succès !");
+
+            handleFileSelect(null)
+
+            setDataProduct(
+                {
+                    date_emprunt: "",
+                    price_product: 0.0,
+                    Currency_price:"",
+                    color_product: "",
+                    date_fin_emprunt: "",
+                    categorie_product: "",
+                    code_reference: "",
+                    operation_product: "",
+                    image_product: imageFile,
+                    description_product: "",
+                    fournisseur: ""
+                }
+            )
             // Optionnel : reset du formulaire
 
         } catch (error) {
+
             showMessage(dispatch, error);
 
             if (error.response && error.response.data) {
+
                 const errors = error.response.data;
+
                 const messages = Object.entries(errors)
+
                     .map(([field, msg]) => `${field}: ${Array.isArray(msg) ? msg.join(', ') : msg}`)
+
                     .join('\n');
 
                 showMessage(dispatch, `Erreur lors de la création du produit :\n${messages}`);
+
             } else {
+
                 showMessage(dispatch, "Erreur inconnue lors de la création du produit.");
             }
         }
@@ -162,7 +198,7 @@ const UpdateProduct = () => {
 
                     <div className="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
 
-                        <div className="sm:col-span-2">
+                        <div className="w-full">
 
                             <label htmlFor="code_reference" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Code Référence</label>
 
@@ -176,6 +212,66 @@ const UpdateProduct = () => {
                                 placeholder="Ex: ABC-123"
                                 required
                             />
+
+                        </div>
+
+                        <div className="w-full">
+
+                            <div>
+
+                                <label htmlFor="color_product" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Couleur produit</label>
+
+                                <input
+                                    type="text"
+                                    name="color_product"
+                                    id="color_product"
+                                    value={dataProduct.color_product}
+                                    onChange={onChangeClick}
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                    placeholder="Jaune"
+                                    required
+                                />
+
+                            </div>
+                        </div>
+
+
+                        <div className="w-full">
+
+                            <label htmlFor="Currency_price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choisir la monnaie</label>
+
+                            <select
+                                id="Currency_price"
+                                name="Currency_price"
+                                value={dataProduct.Currency_price}
+                                onChange={onChangeClick}
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                            >
+                                <option value="">-- Choisir la monnaie --</option>
+                                <option value="EURO">Euro</option>
+                                <option value="DOLLAR">Dollar</option>
+                                <option value="FRANC">Franc</option>
+    
+                            </select>
+                        </div>
+
+                        <div className="w-full">
+                            <div>
+
+                                <label htmlFor="price_product" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Prix du produit</label>
+
+                                <input
+                                    type="text"
+                                    name="price_product"
+                                    id="price_product"
+                                    value={dataProduct.price_product}
+                                    onChange={onChangeClick}
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                    placeholder="120$"
+                                    required
+                                />
+
+                            </div>
 
                         </div>
 

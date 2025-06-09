@@ -1,61 +1,82 @@
-// slices/cartSlice.js
+﻿// slices/cartSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-
-    items: [], // { id, name, price, quantity }
-    nbItem: 0
-
+    items: [],          // Produits normaux
+    cardCreated: [],    // Produits personnalisés
+    nbItem: 0,          // Total global
+    nbItemCustom: 0,    // Total des produits personnalisés (cardCreated)
 };
 
 const cartSlice = createSlice({
-
     name: 'cart',
-
     initialState,
-
     reducers: {
-
+        // ➕ Ajouter un produit
         addToCart: (state, action) => {
+            const isCustom = action.payload.methode;
+            const targetArray = isCustom ? state.cardCreated : state.items;
 
-            const existingItem = state.items.find(item => item.id === action.payload.id);
+            const existingItem = targetArray.find(item => item.id === action.payload.id);
 
             if (existingItem) {
-
                 existingItem.quantity += 1;
-
             } else {
-
-                state.items.push({ ...action.payload, quantity: 1 });
+                targetArray.push({ ...action.payload, quantity: 1 });
             }
-            state.nbItem = state.items.reduce((sum, item) => sum + item.quantity, 0);
+
+            // Met à jour les compteurs
+            updateItemCounts(state);
         },
 
+        // ➖ Supprimer complètement un produit
         removeFromCart: (state, action) => {
+            const isCustom = action.payload.methode;
+            const targetArray = isCustom ? state.cardCreated : state.items;
 
-            state.items = state.items.filter(item => item.id !== action.payload.id);
-            state.nbItem = state.items.reduce((sum, item) => sum + item.quantity, 0);
+            const filtered = targetArray.filter(item => item.id !== action.payload.id);
+            if (isCustom) state.cardCreated = filtered;
+            else state.items = filtered;
+
+            updateItemCounts(state);
         },
 
+        // ➖ Réduire la quantité
         decreaseQuantity: (state, action) => {
-            const existingItem = state.items.find(item => item.id === action.payload.id);
+            const isCustom = action.payload.methode;
+            const targetArray = isCustom ? state.cardCreated : state.items;
+
+            const existingItem = targetArray.find(item => item.id === action.payload.id);
+
             if (existingItem) {
                 if (existingItem.quantity > 1) {
                     existingItem.quantity -= 1;
                 } else {
-                    state.items = state.items.filter(item => item.id !== action.payload.id);
+                    const filtered = targetArray.filter(item => item.id !== action.payload.id);
+                    if (isCustom) state.cardCreated = filtered;
+                    else state.items = filtered;
                 }
             }
-            state.nbItem = state.items.reduce((sum, item) => sum + item.quantity, 0);
+
+            updateItemCounts(state);
         },
 
+        // 🧹 Vider tout le panier
         clearCart: (state) => {
-
             state.items = [];
-            state.nbItem = 0
+            state.cardCreated = [];
+            state.nbItem = 0;
+            state.nbItemCustom = 0;
         },
     },
 });
+
+// 🔢 Helpers pour recalculer les quantités
+const updateItemCounts = (state) => {
+    const sum = (arr) => arr.reduce((total, item) => total + item.quantity, 0);
+    state.nbItem = sum(state.items) + sum(state.cardCreated);
+    state.nbItemCustom = sum(state.cardCreated);
+};
 
 export const { addToCart, removeFromCart, decreaseQuantity, clearCart } = cartSlice.actions;
 

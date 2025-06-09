@@ -3,7 +3,7 @@ import PrivacyPolicy from "./PrivacyPolicy";
 import { useEffect, useRef, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentNav } from "../slices/navigateSlice";
-import { useAuth } from "../AuthContext";
+//import { useAuth } from "../AuthContext";
 import { updateCompteUser, updateUserData } from "../slices/authSlice";
 import ProfileCard from "./ProfilUser";
 import UpdateProduct from "./UpdateProduct";

@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import {setCurrentNav } from '../slices/navigateSlice'
 import { logout } from "../slices/authSlice";
 import api from "../services/Axios";
+import { clearCart } from "../slices/cartSlice";
 
 export default function AccountDropdown3() {
 
@@ -87,6 +88,8 @@ export default function AccountDropdown3() {
                 });
 
                 dispatch(logout())
+
+                dispatch(clearCart())
 
                 return navigate("/logIn", { replace: true });
 

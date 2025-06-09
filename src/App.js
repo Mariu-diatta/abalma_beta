@@ -5,6 +5,7 @@ import routes from './router/Routers';
 import { useRoutes} from "react-router-dom"
 import CookieBanner from './components/CookieBanner';
 import { AuthProvider } from './AuthContext';
+import LoadingCard from './components/LoardingSpin';
 
 const AppRoutes = () => {
 
@@ -19,7 +20,7 @@ function App() {
 
       <AuthProvider>
 
-          <Suspense fallback={"Loarding..."}>
+          <Suspense fallback={<LoadingCard />}>
             
               <AppRoutes />
 
