@@ -152,15 +152,17 @@ const GridLayoutProduct = () => {
             {/* Modal */}
             {modalData && (
                 <div
-                    className="fixed inset-0 z-50 bg-black bg-opacity-40 flex items-center justify-center p-4"
+                    className="fixed inset-0 z-50 bg-gray-100 bg-transparent  bg-opacity-100 flex items-center justify-center"
                     onClick={closeModal}
                 >
                     <div
                         onClick={(e) => e.stopPropagation()}
-                        className="bg-white dark:bg-gray-900 rounded-xl p-6 w-full max-w-lg shadow-lg"
+                        className="bg-white dark:bg-white-900 rounded-xl p-0 lg-w-full  shadow-lg"
                     >
                         <HorizontalCard item={modalData}>
+
                             <GridSlideProduct />
+
                         </HorizontalCard>
                     </div>
                 </div>
