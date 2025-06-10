@@ -10,6 +10,16 @@ const ListProductShoppingCart = () => {
 
     const data = useSelector(state => state.cart);
 
+    const max_value = (prod) => {
+
+        const selectedQty = parseInt(prod.quantity_selected, 10);
+
+        const availableQty = parseInt(prod.quantity_product, 10);
+
+        return selectedQty < availableQty
+
+    }
+
     const handleIncreaseQuantity = (prod) => {
 
         const selectedQty = parseInt(prod.quantity_selected, 10);
@@ -93,7 +103,7 @@ const ListProductShoppingCart = () => {
                                         <svg className="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2"><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h16" /></svg>
                                     </button>
 
-                                    <input type="number" value={quantity_selected} readOnly className="bg-gray-50 w-14 border text-sm rounded-lg block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                                    <input type="number" value={quantity_selected} readOnly className={`${max_value({ quantity_product, quantity_selected }) ? "bg-gray-50" : "bg-red-100"}  w-14 border text-sm rounded-lg block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:text-white `} />
 
                                     <button
                                         onClick={() => handleIncreaseQuantity({ id, quantity_product, quantity_selected })} className="cursor-pointer inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600">
@@ -150,19 +160,23 @@ const BuyButtonWithPaymentForm = ({ total_price }) => {
     return (
         <div className="text-right p-4">
 
-            <button onClick={() => setShowPaymentForm(true)} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center">
+            {
+                parseInt(total_price) !== 0 &&
 
-                <svg className="w-3.5 h-3.5 me-2" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 21">
-                    <path d="M15 12a1 1 0 0 0 .962-.726l2-7A1 1 0 0 0 17 3H3.77L3.175.745A1 1 0 0 0 2.208 0H1a1 1 0 0 0 0 2h.438l.6 2.255v.019l2 7 .746 2.986A3 3 0 1 0 9 17a2.966 2.966 0 0 0-.184-1h2.368c-.118.32-.18.659-.184 1a3 3 0 1 0 3-3H6.78l-.5-2H15Z" />
-                </svg>
+                <button onClick={() => setShowPaymentForm(true)} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center">
+
+                    <svg className="w-3.5 h-3.5 me-2" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 21">
+                        <path d="M15 12a1 1 0 0 0 .962-.726l2-7A1 1 0 0 0 17 3H3.77L3.175.745A1 1 0 0 0 2.208 0H1a1 1 0 0 0 0 2h.438l.6 2.255v.019l2 7 .746 2.986A3 3 0 1 0 9 17a2.966 2.966 0 0 0-.184-1h2.368c-.118.32-.18.659-.184 1a3 3 0 1 0 3-3H6.78l-.5-2H15Z" />
+                    </svg>
                      
-                Acheter (${total_price})
+                    Acheter (${total_price})
 
-            </button>
+                </button>
+            }
 
-            {showPaymentForm && (
+            {showPaymentForm && parseInt(total_price)!==0 && (
 
-                <div className="fixed inset-0 z-50 bg-black bg-opacity-70 flex items-center justify-center" onClick={() => setShowPaymentForm(false)}>
+                <div className="fixed inset-0 z-50 bg-gray-100 bg-transparent  bg-opacity-100 flex items-center justify-center" onClick={() => setShowPaymentForm(false)}>
 
                     <div className="bg-white rounded-lg p-6 w-full max-w-xl shadow-xl" onClick={(e) => e.stopPropagation()}>
 
