@@ -81,13 +81,14 @@ const GridLayoutProduct = () => {
 
     return (
         <div className="p-4 space-y-4">
+
             <ScrollableCategoryButtons
                 activeCategory={activeCategory}
                 setActiveCategory={setActiveCategory}
             />
 
             {filteredItems.length > 0 ? (
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 ">
                     {filteredItems.map(item => {
                         const isInCart = cartItems.some(product => product.id === item.id);
                         const owner = owners[item.fournisseur];
@@ -105,7 +106,7 @@ const GridLayoutProduct = () => {
                                     <img
                                         src={item.image_product}
                                         alt={item.description_product}
-                                        className="w-full h-55 object-cover rounded-lg mb-2"
+                                        className="w-full h-55 object-cover rounded-lg mb-2  transition duration-300 ease-in-out hover:brightness-75 hover:grayscale"
                                         onError={(e) => { e.target.src = "/default-product.jpg"; }}
                                     />
                                 </button>
@@ -134,14 +135,14 @@ const GridLayoutProduct = () => {
                                         <button
                                             title="Ajouter au panier"
                                             onClick={() => addProductToCart(item)}
-                                            className="p-1 bg-green-100 rounded-full hover:bg-green-200 transition"
+                                            className="cursor-pointer p-1 bg-green-100 rounded-full hover:bg-green-200 transition"
                                         >
                                             🛒
                                         </button>
                                         <button
                                             title="Ajouter en cadeau"
                                             onClick={() => alert(`Cadeau ajouté: ${item.description_product}`)}
-                                            className="p-1 bg-yellow-100 rounded-full hover:bg-yellow-200 transition"
+                                            className="cursor-pointer p-1 bg-yellow-100 rounded-full hover:bg-yellow-200 transition"
                                         >
                                             🎁
                                         </button>
@@ -157,12 +158,12 @@ const GridLayoutProduct = () => {
 
             {modalData && (
                 <div
-                    className="fixed inset-0 z-50 bg-gray-100 bg-opacity-90 flex items-center justify-center"
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-sm transition-opacity duration-300"
                     onClick={closeModal}
                 >
                     <div
                         onClick={(e) => e.stopPropagation()}
-                        className="bg-white rounded-xl shadow-lg p-4"
+                        className="bg-white rounded-xl shadow-lg transform scale-95 opacity-100 animate-fade-in-up p-4"
                     >
                         <HorizontalCard item={modalData}>
                             <GridSlideProduct />
