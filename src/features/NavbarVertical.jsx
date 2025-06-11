@@ -223,9 +223,13 @@ const VertcalNavbar = ({ children }) => {
 
         "products": <ProductList />, 
         "profile": <ProfileCard/>,
-        "payment": <SelectedProduct/>,
-        2: <ProductList />,
+        "payment": <SelectedProduct />,
         "home": <UserMenuAccount />,
+        "add_prod": <UpdateProduct />,
+        "home_content": <Tabs />,
+        "message_inbox": <MessageCard />,
+        "Help": <PrivacyPolicy />,
+        2: <GridProductDefault />,
 
         3: <ProductList />,
 
@@ -235,11 +239,7 @@ const VertcalNavbar = ({ children }) => {
 
         6: <ProductList />,
 
-        7: <ProductList />,
-        "add_prod": <UpdateProduct/>,
-        "home_content": <Tabs />,
-        "message_inbox": <MessageCard/>,
-        "Help": <PrivacyPolicy />
+        7: <ProductList />
 
     };
 
@@ -445,6 +445,9 @@ export const SelectedProduct = () => {
 export const ProductList = () => {
 
     return (
-        <><GridLayoutProduct /> <GridProductDefault/></>
+        <>
+            <GridLayoutProduct />
+            
+        </>
     )
 }
