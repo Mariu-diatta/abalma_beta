@@ -233,7 +233,7 @@ export default function AccountDropdown3() {
 
                             <div>
                                 <button
-                                    onClick={() => dispatch(setCurrentNav("profile")) }
+                                    onClick={() => dispatch(setCurrentNav("user_profil")) }
                                     className="cursor-pointer flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
                                 >
                                     Voir compte

@@ -1,52 +1,28 @@
 import React from 'react';
 
-const GridSlideProduct = () => {
+const GridSlideProduct = ({ srcs }) => {
     return (
-        <div id="gallery" className="relative w-full " data-carousel="slide">
+        <div id="gallery" className="relative w-full h-full" data-carousel="slide">
             {/* Carousel wrapper */}
             <div className="relative h-56 overflow-hidden rounded-lg md:h-100 lg:h-100 md:w-100 lg:w-auto">
                 {/* Item 1 */}
                 <div className=" duration-700 ease-in-out w-auto" data-carousel-item>
                     <img
-                        src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg"
-                        className="absolute block w-[600px] h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                        src={srcs}
+                        className="absolute block w-auto h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
                         alt=""
                     />
                 </div>
-                {/* Item 2 */}
-                <div className=" duration-700 ease-in-out w-full" data-carousel-item="active">
-                    <img
-                        src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg"
-                        className="absolute block w-[600px] h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                        
-                        alt=""
-                    />
-                </div>
-                {/* Item 3 */}
-                <div className=" duration-700 ease-in-out w-full" data-carousel-item>
-                    <img
-                        src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg"
-                        className="absolute block w-[600px] h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                        alt=""
-                    />
-                </div>
-                {/* Item 4 */}
-                <div className=" duration-700 ease-in-out w-full" data-carousel-item>
-                    <img
-                        src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg"
-                        className="absolute block w-[600px] h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                        alt=""
-                    />
-                </div>
-                {/* Item 5 */}
-                <div className=" duration-700 ease-in-out w-full" data-carousel-item>
-                    <img
-                        src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-5.jpg"
 
-                        className="absolute block w-[600px] h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                {/* Item 1 */}
+                <div className=" duration-700 ease-in-out w-auto" data-carousel-item>
+                    <img
+                        src={srcs}
+                        className="absolute block w-auto  h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
                         alt=""
                     />
                 </div>
+
             </div>
 
             {/* Slider controls */}

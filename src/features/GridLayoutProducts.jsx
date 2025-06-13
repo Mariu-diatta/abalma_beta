@@ -158,15 +158,29 @@ const GridLayoutProduct = () => {
 
             {modalData && (
                 <div
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-50 backdrop-blur-sm transition-opacity duration-300"
+                    className="fixed inset-0 z-100 flex items-center justify-center bg-white opacity-95  transition-opacity duration-300 "
                     onClick={closeModal}
+                    role="dialog"
+                    aria-modal="true"
+                    data-modal-backdrop="static"
                 >
                     <div
                         onClick={(e) => e.stopPropagation()}
-                        className="bg-white rounded-xl shadow-lg transform scale-95 opacity-100 animate-fade-in-up p-4"
+
+                        className="z-100  bg-black  shadow-lg transform scale-100 p-0 animate-fade-in-up  "
                     >
-                        <HorizontalCard item={modalData}>
-                            <GridSlideProduct />
+                        <HorizontalCard
+
+                            item={{
+                                id: modalData?.id,
+                                src: modalData?.image_product,
+                                price: modalData?.price_product,
+                                title: modalData?.description_product,
+                                description: `Quantité: ${modalData?.quantity_product}`,
+                            }}
+                        >
+                            <GridSlideProduct srcs={[modalData?.image_product]} />
+
                         </HorizontalCard>
                     </div>
                 </div>
@@ -176,3 +190,9 @@ const GridLayoutProduct = () => {
 };
 
 export default GridLayoutProduct;
+
+
+
+
+
+
