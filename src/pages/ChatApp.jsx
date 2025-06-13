@@ -12,94 +12,96 @@ const ChatApp = ({ roomName = "general" }) => {
         const socketUrl = `ws://localhost:8000/ws/chats/${roomName}/`;
         ws.current = new WebSocket(socketUrl);
 
-        ws.current.onopen = () => {
-            console.log("✅ WebSocket connecté à :", roomName);
-        };
+        ws.current.onopen = () => console.log("✅ WebSocket connecté :", roomName);
 
         ws.current.onmessage = (e) => {
             try {
                 const data = JSON.parse(e.data);
-
                 if (data.type === "chat_message" && data.payload) {
                     setMessages(prev => [...prev, data.payload]);
-                } else {
-                    console.warn("⚠️ Message ignoré :", data);
                 }
             } catch (err) {
-                console.error("❌ Erreur parsing JSON :", err);
+                console.error("❌ Erreur JSON :", err);
             }
         };
 
-        ws.current.onerror = (e) => {
-            console.error("❌ WebSocket error :", e);
-        };
+        ws.current.onerror = (e) => console.error("❌ WebSocket error :", e);
+        ws.current.onclose = () => console.log("🔌 WebSocket fermé");
 
-        ws.current.onclose = () => {
-            console.log("🔌 WebSocket fermé");
-        };
-
-        return () => {
-            if (ws.current) {
-                ws.current.close();
-            }
-        };
+        return () => ws.current?.close();
     }, [roomName]);
 
     useEffect(() => {
-        // Scroll auto vers le bas
-        if (messagesEndRef.current) {
-            messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-        }
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
 
     const sendMessage = () => {
-        if (ws.current && ws.current.readyState === WebSocket.OPEN && input.trim() !== "") {
-            const messageData = {
+        const trimmed = input.trim();
+        if (ws.current?.readyState === WebSocket.OPEN && trimmed) {
+            ws.current.send(JSON.stringify({
                 sender: currentUser,
-                message: input.trim(),
-            };
-            ws.current.send(JSON.stringify(messageData));
+                message: trimmed,
+            }));
             setInput("");
-        } else {
-            console.warn("❗ WebSocket non connecté ou message vide");
         }
     };
 
     return (
-        <div className="max-w-xl mx-auto p-4 bg-white rounded-2xl shadow-lg flex flex-col h-[85vh]">
-            <h2 className="text-xl font-semibold mb-4 text-gray-700">
+        <div className="flex flex-col h-auto w-full p-4 md:p-6 bg-white rounded-2xl shadow-md overflow-hidden">
+            {/* Header */}
+            <h2 className="text-xl font-semibold text-gray-700 mb-4">
                 💬 Chat Room : <span className="text-blue-600">{roomName}</span>
             </h2>
 
-            <ul className="scrollbor_hidden flex-1 overflow-y-auto mb-4 space-y-2 pr-2">
+            {/* Messages */}
+            <ul className="scrollbor_hidden_ flex-1 overflow-y-auto space-y-3 pr-2 ">
                 {messages.map((msg, idx) => {
                     const isCurrentUser = msg.sender?.email === currentUser?.email;
+
                     return (
                         <li
                             key={idx}
-                            className={`flex ${isCurrentUser ? 'justify-end' : 'justify-start'}`}
+                            className={`flex items-end gap-2 ${isCurrentUser ? 'justify-end' : 'justify-start'}`}
                         >
+                            {!isCurrentUser && (
+                                <img
+                                    src={msg.sender?.image}
+                                    alt={`${msg.sender?.name || "Utilisateur"} avatar`}
+                                    className="h-7 w-7 rounded-full object-cover"
+                                />
+                            )}
+
                             <div
-                                className={`max-w-[70%] px-4 py-2 rounded-2xl text-sm shadow transition-all duration-200 ease-in-out
-                                    ${isCurrentUser
+                                className={`max-w-[70%] px-4 py-2 rounded-2xl text-sm shadow 
+                  ${isCurrentUser
                                         ? 'bg-blue-500 text-white rounded-br-none'
-                                        : 'bg-gray-200 text-gray-800 rounded-bl-none'
-                                    }`}
-                            >    <p>{msg.sender?.email}</p>
+                                        : 'bg-gray-200 text-gray-800 rounded-bl-none'}
+                `}
+                            >
                                 <p>{msg.message}</p>
                             </div>
+
+                            {isCurrentUser && (
+                                <img
+                                    src={msg.sender?.image}
+                                    alt={`${msg.sender?.name || "Moi"} avatar`}
+                                    className="h-7 w-7 rounded-full object-cover"
+                                />
+                            )}
                         </li>
                     );
                 })}
                 <div ref={messagesEndRef} />
             </ul>
 
-            <div className="flex gap-2">
+            {/* Input */}
+            <div className="mt-4 flex gap-2">
                 <input
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && sendMessage()}
                     placeholder="Votre message..."
-                    className="flex-1 px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
+                    className="flex-1 px-4 py-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
                 <button
                     onClick={sendMessage}

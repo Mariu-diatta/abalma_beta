@@ -44,3 +44,7 @@
 .scrollbor_hidden:hover {
     scrollbar-width:thin !important;
 }
+
+.scrollbor_hidden_ {
+    scrollbar-width: none !important;
+}

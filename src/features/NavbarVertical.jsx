@@ -14,6 +14,8 @@ import GridProductDefault from "./GridProductDefaultSize";
 import AccountDropdown3 from "../components/DropDownAccount";
 import MessageCard from "../components/MessageCard";
 import { lesAccount, menuItems } from "../components/MenuItem";
+import ChatApp from "../pages/ChatApp";
+import ChatLayout from "../layouts/ChatLayout";
 
 
 const VertcalNavbar = ({ children }) => {
@@ -167,7 +169,7 @@ const VertcalNavbar = ({ children }) => {
 
         home_content: <Tabs />,
 
-        message_inbox: <MessageCard />,
+        message_inbox: < ChatLayout/>,
 
         Help: <PrivacyPolicy />,
 
