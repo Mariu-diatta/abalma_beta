@@ -4,11 +4,13 @@ import HorizontalCard from "./HorizontalCard";
 import api from "../services/Axios";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../slices/cartSlice";
+import OwnerAvatar from "../components/OwnerProfil";
 
 const GridProductDefault = ({data}) => {
 
     const dispatch = useDispatch();
     const cartItems = useSelector((state) => state.cart.items);
+    const currentUser = useSelector((state) => state.auth.user);
 
     const [productData, setProductData] = useState(data || []);
     const [owners, setOwners] = useState({});
@@ -72,77 +74,80 @@ const GridProductDefault = ({data}) => {
         <>
             {/* PRODUIT GRID */}
             <div className="grid grid-cols-3 md:grid-cols-3 gap-1 mt-2">
-                {cols.map((products, colIdx) => (
-                    <div key={colIdx} className="grid gap-4">
-                        {products.map((product) => {
-                            const isInCart = cartItems.some((p) => p.id === product.id);
-                            const owner = owners[product.fournisseur];
+                {cols.length > 0 && cols.flat().length > 0 && (
+                    cols.map((products, colIdx) => (
+                        <div key={colIdx} className="grid gap-4">
+                            {products.map((product) => {
+                                const isInCart = cartItems.some((p) => p.id === product.id);
+                                const owner = owners[product.fournisseur];
 
-                            return (
-                                <div
-                                    key={product.id}
-                                    className={`rounded-lg p-1 transition transform hover:-translate-y-1 ${isInCart ? "opacity-50 pointer-events-none bg-gray-100" : "bg-white"
-                                        }`}
-                                >
-                                    <button
-                                        type="button"
-                                        className="relative w-full block rounded-lg overflow-hidden"
-                                        onClick={(e) => openModal(e, product)}
-                                        aria-label={`Voir le produit ${product.description_product}`}
+                                return (
+                                    <div
+                                        key={product.id}
+                                        className={`rounded-lg p-1 transition transform hover:-translate-y-1 ${isInCart ? "opacity-50 pointer-events-none bg-gray-100" : "bg-white"
+                                            }`}
                                     >
-                                        <img
-                                            src={product.image_product}
-                                            alt={`Produit ${product.description_product}`}
-                                            className="h-auto w-full rounded-lg transition duration-300 ease-in-out hover:brightness-75 hover:grayscale"
-                                        />
-                                    </button>
-
-                                    <div className="flex justify-between items-center mt-2 mb-1">
-                                        {owner?.image && (
+                                        <button
+                                            type="button"
+                                            className="relative w-full block rounded-lg overflow-hidden"
+                                            onClick={(e) => openModal(e, product)}
+                                            aria-label={`Voir le produit ${product.description_product}`}
+                                        >
                                             <img
-                                                src={owner.image}
-                                                alt="Fournisseur"
-                                                className="h-6 w-6 rounded-full object-cover cursor-pointer"
-                                                onClick={() => alert("USER BLOCK")}
+                                                src={product.image_product}
+                                                alt={`Produit ${product.description_product}`}
+                                                className="h-auto w-full rounded-lg transition duration-300 ease-in-out hover:brightness-75 hover:grayscale"
                                             />
-                                        )}
-                                        {product.quantity_product !== "1" && (
-                                            <span className="text-sm text-gray-700">Quantité {product.quantity_product}</span>
-                                        )}
-                                    </div>
+                                        </button>
 
-                                    <p className="text-center text-gray-600 dark:text-gray-300 text-sm md:text-base">
-                                        {product.description_product}
-                                    </p>
+                                        <div className="flex justify-between items-center mt-2 mb-1">
+                                            {owner?.image && <OwnerAvatar owner={owner} />}
+                                            {product.quantity_product !== "1" && (
+                                                <span className="text-sm text-gray-700">
+                                                    Quantité {product.quantity_product}
+                                                </span>
+                                            )}
+                                        </div>
 
-                                    <div className="flex justify-between items-center mt-1">
-                                        <span className="text-blue-700 font-semibold text-sm">${product.price_product}</span>
-                                        <div className="flex gap-2">
-                                            <button
-                                                title="Ajouter au panier"
-                                                onClick={() => addProductToCart(product)}
-                                                className="p-1 bg-green-100 rounded-full hover:bg-green-200"
-                                            >
-                                                🛒
-                                            </button>
-                                            <button
-                                                title="Ajouter en cadeau"
-                                                onClick={() => alert(`Cadeau ajouté: ${product.description_product}`)}
-                                                className="p-1 bg-yellow-100 rounded-full hover:bg-yellow-200"
-                                            >
-                                                🎁
-                                            </button>
+                                        <p className="text-center text-gray-600 dark:text-gray-300 text-sm md:text-base">
+                                            {product.description_product}
+                                        </p>
+
+                                        <div className="flex justify-between items-center mt-1">
+                                            <span className="text-blue-700 font-semibold text-sm">
+                                                ${product.price_product}
+                                            </span>
+                                            <div className="flex gap-2">
+                                                <button
+                                                    title="Ajouter au panier"
+                                                    onClick={() => addProductToCart(product)}
+                                                    className="p-1 bg-green-100 rounded-full hover:bg-green-200"
+                                                >
+                                                    🛒
+                                                </button>
+                                                <button
+                                                    title="Ajouter en cadeau"
+                                                    onClick={() =>
+                                                        alert(`Cadeau ajouté: ${product.description_product}`)
+                                                    }
+                                                    className="p-1 bg-yellow-100 rounded-full hover:bg-yellow-200"
+                                                >
+                                                    🎁
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            );
-                        })}
-                    </div>
-                ))}
+                                );
+                            })}
+                        </div>
+                    ))
+
+                )}
             </div>
 
             {/* MODAL */}
             {modalData && (
+
                 <div
                     className="fixed inset-0 z-100 flex items-center justify-center bg-white opacity-95  transition-opacity duration-300 "
                     onClick={closeModal}
@@ -171,6 +176,22 @@ const GridProductDefault = ({data}) => {
                     </div>
                 </div>
             )}
+
+            {
+                !(cols.length > 0 && cols.flat().length > 0) &&
+                <div className="flex flex-col items-center justify-center min-h-[300px] text-center text-gray-500 text-lg">
+                    <img
+                        alt=""
+                        src={currentUser?.image}
+                        title={currentUser?.description}
+                        className="h-30 w-30 rounded-full object-cover cursor-pointer ring-1 ring-gray-300 hover:ring-blue-500 transition mb-4"
+                    />
+
+                    <p className="mb-1">Aucun produit disponible.</p>
+
+                    <div className="w-full h-px bg-gray-300" />
+                </div>
+            }
         </>
     );
 };

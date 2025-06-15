@@ -99,11 +99,11 @@ const data = [
 
 const Tabs = () => {
 
-    const [activeTab, setActiveTab] = useState('profile');
+    const [activeTab, setActiveTab] = useState('dashboard');
 
 
     const tabs = [
-        { id: 'profile', label: 'Profil' },
+        //{ id: 'profile', label: 'Profil' },
         { id: 'dashboard', label: 'Dashboard' },
         { id: 'settings', label: 'Paramètres' },
         { id: 'contacts', label: 'Contacts' },
@@ -111,7 +111,7 @@ const Tabs = () => {
 
     const tabContent = {
 
-        profile: <ProfileCard/>,
+        //profile: <ProfileCard/>,
 
         dashboard: (
 
@@ -149,13 +149,13 @@ const Tabs = () => {
 
         contacts: (
             <div className="p-1 max-full mx-auto text-gray-700 dark:text-gray-300">
-                <UserTable users={users} />
+                <UserTable />
             </div>
         ),
     };
 
     return (
-        <div className="min-h-screen w-full bg-gray-100 dark:bg-gray-900 px-1 py-1">
+        <div className="h-full w-full bg-gray-100 dark:bg-gray-900 px-1 py-1">
 
             <div className="">
 
@@ -194,7 +194,7 @@ const Tabs = () => {
                     id={`${activeTab}-tab`}
                     role="tabpanel"
                     aria-labelledby={`${activeTab}-tab-button`}
-                    className="bg-white dark:bg-gray-800 rounded-lg shadow-md min-h-[400px] overflow-auto"
+                    className="bg-white dark:bg-gray-800 rounded-lg  min-h-auto overflow-auto"
                 >
                     {tabContent[activeTab]}
                 </section>

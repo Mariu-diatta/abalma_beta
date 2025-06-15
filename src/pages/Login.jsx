@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import HomeLayout from '../layouts/HomeLayout';
 import { useNavigate } from 'react-router-dom';
@@ -13,7 +13,7 @@ import AttentionAlertMesage, { showMessage } from '../components/AlertMessage';
 const loginClient = async (data, dispatch, setMessageError) => {
 
     try {
-        const response = await api.post('token/', data, {
+        const response = await api.post('login/', data, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             }
@@ -36,16 +36,32 @@ const loginClient = async (data, dispatch, setMessageError) => {
 };
 
 const Signin = () => {
+
+
     const [email, setEmail] = useState("");
     const [pwd, setPwd] = useState("");
-    const [messageError, setMessageError] = useState("");
+;
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    const [messageError, setMessageError] = useState("")
     const userConnected = useSelector((state) => state.auth.isAuthenticated);
     const firebaseToken = useSelector((state) => state.auth.firebaseToken);
+
     const messageAlert = useSelector((state) => state.navigate.messageAlert);
+
+    const emailRef = useRef(null);
+
+    useEffect(() => {
+        // Petite pause pour laisser le navigateur autofill
+        setTimeout(() => {
+            if (emailRef.current) {
+                const value = emailRef.current.value;
+                if (value) setEmail(value);
+            }
+        }, 500); // 500ms pour laisser le navigateur compléter
+    }, [])
 
     const handleGoogleLogin = async () => {
         try {
@@ -79,44 +95,61 @@ const Signin = () => {
     };
 
     const handleSignIn = async () => {
+
         if (!email || !pwd) {
+
             showMessage(dispatch, "Veuillez remplir tous les champs.");
+
             return;
+
+        } else {
+
+            setEmail(email)
         }
 
+
         try {
+
             const formData = new FormData();
+
             formData.append("email", email);
+
             formData.append("password", pwd);
 
             const userData = await loginClient(formData, dispatch, setMessageError);
 
-            if (userData) {
+            await api.get(`/clients/?email=${email}`).then(
 
+                resp => {
 
-                const response = await api.get(`/clients/?email=${email}`);
+                    console.log("USER DATA USER ", resp)
 
-                if (response?.data[0]) {
+                    const dataUser = resp?.data[0]
 
-                    dispatch(login(userData));
+                    if (dataUser){
 
-                    dispatch(updateUserData(response?.data[0]));
+                        dispatch(updateUserData(dataUser));
 
-                    return navigate("/account", { replace: true });
+                        dispatch(login(dataUser));
+
+                        return navigate("/account", { replace: true });
+
+                    }
+
+                 
                 }
 
-                return 
-            }
+            ).catch(
+
+                err=>console.log("ERROR DATA", err)
+            )
+
         } catch (error) {
+
             showMessage(dispatch, "Erreur de connexion. Vérifie ton email et mot de passe.");
         }
     };
 
-    useEffect(() => {
-        if (userConnected) {
-            navigate("/account", { replace: true });
-        }
-    }, [userConnected, navigate]);
 
     return (
         <section className="bg-gray-1 py-20 dark:bg-dark lg:py-[120px]">
@@ -143,6 +176,7 @@ const Signin = () => {
                                     value={pwd}
                                     onChange={(e) => setPwd(e.target.value)}
                                     placeholder="Password"
+                                    ref={emailRef}
                                     required
                                 />
                                 <div className="mb-10">

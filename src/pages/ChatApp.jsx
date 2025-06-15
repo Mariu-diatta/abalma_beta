@@ -2,14 +2,18 @@
 import { useSelector } from 'react-redux';
 import api from '../services/Axios';
 
-const ChatApp = ({ roomName = "general" }) => {
+const ChatApp = ({ roomName}) => {
     const ws = useRef(null);
     const messagesEndRef = useRef(null);
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState("");
     const currentUser = useSelector(state => state.auth.user);
 
+
+
     useEffect(() => {
+
+        if (!roomName) return 
 
         setMessages([])
 
@@ -89,7 +93,7 @@ const ChatApp = ({ roomName = "general" }) => {
         <div className="flex flex-col h-full p-4 md:p-6 bg-white rounded-2xl shadow-md overflow-hidden">
             {/* Header */}
             <h2 className="text-xl font-semibold text-gray-700 mb-4">
-                💬 Chat avec  <span className="text-blue-600">{roomName}</span>
+                {roomName? "💬 Chat avec":"Selectionner une discussion" } <span className="text-blue-600">{roomName}</span>
             </h2>
 
             {/* Messages */}
@@ -97,7 +101,9 @@ const ChatApp = ({ roomName = "general" }) => {
 
                 {messages.map((msg, idx) => {
 
-                const isCurrentUser = msg.sender?.email === currentUser?.email;
+                    const isCurrentUser = msg.sender?.email === currentUser?.email;
+
+                    if (!roomName) return 
 
                     return (
 

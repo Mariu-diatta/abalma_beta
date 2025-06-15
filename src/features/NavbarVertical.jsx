@@ -16,6 +16,7 @@ import MessageCard from "../components/MessageCard";
 import { lesAccount, menuItems } from "../components/MenuItem";
 import ChatApp from "../pages/ChatApp";
 import ChatLayout from "../layouts/ChatLayout";
+import { addRoom } from "../slices/chatSlice";
 
 
 const VertcalNavbar = ({ children }) => {
@@ -26,9 +27,40 @@ const VertcalNavbar = ({ children }) => {
 
     const dispatch = useDispatch();
 
-    const current = useSelector(state => state.navigate.currentNav);
+    const currentNav = useSelector(state => state.navigate.currentNav);
+
+    const allRooms = useSelector(state => state.chat.currentChats)
 
     const sidebarRef = useRef();
+
+
+    useEffect(() => {
+
+
+        const fetchRooms = async () => {
+
+            try {
+
+                const resp = await api.get(`/rooms/`);
+
+                console.log("rooms", resp?.data)
+
+                resp?.data.map((el, _) => {
+
+                    dispatch(addRoom({ "name": el?.name, "label": el?.name, "pk": el?.pk }));
+
+                })
+
+
+            } catch (err) {
+
+            }
+        }
+
+        fetchRooms()
+
+    }, [])
+
 
     const getProductFilter = async (url) => {
 
@@ -157,13 +189,17 @@ const VertcalNavbar = ({ children }) => {
     const tabContent = {
 
         // Composants fixes
+        home: <ProductList />,
+
         all_products: <ProductList />,
 
         user_profil: <ProfileCard />,
 
+        user_profil_product: <ProfileCard />,
+
         payment: <SelectedProduct />,
 
-        home: <UserMenuAccount />,
+        dashboard: <UserMenuAccount />,
 
         add_product: <UpdateProduct />,
 
@@ -174,7 +210,7 @@ const VertcalNavbar = ({ children }) => {
         Help: <PrivacyPolicy />,
 
         // Composants dynamiques par catégorie
-        ...['jouets', 'sacs', 'materiels', 'electronique', 'livres', 'Jeux_vidéo', 'Meubles', 'Véhicules', 'Fournitures_scolaires',
+        ...['jouets', 'sacs', 'materiels', 'electronique','habits', 'livres', 'Jeux_vidéo', 'Meubles', 'Véhicules', 'Fournitures_scolaires',
        'divers'
         ].reduce((acc, key) => {
 
@@ -255,7 +291,9 @@ const VertcalNavbar = ({ children }) => {
 
                                 <span className="flex-1 ms-3 whitespace-nowrap">Messages</span>
 
-                                <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">3</span>
+                                <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
+                                    {allRooms.length}
+                                </span>
 
                             </span>
 
@@ -288,7 +326,7 @@ const VertcalNavbar = ({ children }) => {
                                     <path d="M7.958 19.393a7.7 7.7 0 0 1-6.715-3.439c-2.868-4.832 0-9.376.944-10.654l.091-.122a3.286 3.286 0 0 0 .765-3.288A1 1 0 0 1 4.6.8c.133.1.313.212.525.347A10.451 10.451 0 0 1 10.6 9.3c.5-1.06.772-2.213.8-3.385a1 1 0 0 1 1.592-.758c1.636 1.205 4.638 6.081 2.019 10.441a8.177 8.177 0 0 1-7.053 3.795Z" />
                                 </svg>
 
-                                <span className="ms-3">Upgrade to Pro</span>
+                                <span className="ms-3" onClick={()=>alert("SERVICE PAS ENCORE DISPONIBLE") }>Upgrade to Pro</span>
 
                             </span>
                         </li>
@@ -307,14 +345,14 @@ const VertcalNavbar = ({ children }) => {
                                         <button
                                             type="button"
                                             role="tab"
-                                            aria-selected={current === id}
+                                            aria-selected={currentNav === id}
                                             aria-controls={`${id}-tab`}
                                             id={`${id}-tab-button`}
                                             onClick={() => {
                                                 updateActiveTab(id,to);
                                             }}
                                             className={`cursor-pointer ml-3 inline-block px-1 py-3 border-b-2 rounded-t-md transition-colors duration-300 
-                                                    ${current === id
+                                                    ${currentNav === id
                                                     ? 'border-b-purple-600 text-purple-600 dark:border-b-purple-500 dark:text-purple-500'
                                                     : 'border-b-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
                                                 } focus:outline-none`}
@@ -343,14 +381,14 @@ const VertcalNavbar = ({ children }) => {
                         <button
                             type="button"
                             role="tab"
-                            aria-selected={current === 9}
+                            aria-selected={currentNav === 9}
                             aria-controls={`${9}-tab`}
                             id={`${9}-tab-button`}
                             onClick={() => {
                                 updateActiveTab(9);;
                             }}
                             className={`cursor-pointer ml-3 inline-block px-1 py-3 border-b-2 rounded-t-md transition-colors duration-300 
-                                                        ${current === 9
+                                                        ${currentNav === 9
                                     ? 'border-b-purple-600 text-purple-600 dark:border-b-purple-500 dark:text-purple-500'
                                     : 'border-b-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
                                 } focus:outline-none`}
@@ -377,19 +415,19 @@ const VertcalNavbar = ({ children }) => {
 
                     </div>
 
-                    {!current && children}
+                    {!currentNav && children}
 
                     <section
 
-                        id={`${current}-tab`}
+                        id={`${currentNav}-tab`}
                         role="tabpanel"
 
-                        aria-labelledby={`${current}-tab-button`}
+                        aria-labelledby={`${currentNav}-tab-button`}
 
                         className="bg-white dark:bg-gray-800 rounded-lg w-auto h-full"
 
                     >
-                        {tabContent[current]}  
+                        {tabContent[currentNav]}  
 
 
                     </section>

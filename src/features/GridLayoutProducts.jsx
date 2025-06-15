@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../slices/cartSlice';
 import HorizontalCard from './HorizontalCard';
 import api from '../services/Axios';
+import OwnerAvatar from '../components/OwnerProfil';
 
 const categories = [
     'All', 'JOUET', 'HABITS', 'MATERIELS_INFORMATIQUES', 'CAHIERS', 'SACS', 'LIVRES',
@@ -83,24 +84,36 @@ const GridLayoutProduct = () => {
         <div className="p-4 space-y-4">
 
             <ScrollableCategoryButtons
+
                 activeCategory={activeCategory}
+
                 setActiveCategory={setActiveCategory}
             />
 
             {filteredItems.length > 0 ? (
+
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 ">
+
                     {filteredItems.map(item => {
+
                         const isInCart = cartItems.some(product => product.id === item.id);
+
                         const owner = owners[item.fournisseur];
 
                         return (
+
                             <div
+
                                 key={item.id}
+
                                 className={`rounded-lg p-1 shadow-md transition transform hover:-translate-y-1 hover:shadow-lg 
-                                    ${isInCart ? 'opacity-50 pointer-events-none bg-gray-100' : 'bg-white'}`}
+
+                                ${isInCart ? 'opacity-50 pointer-events-none bg-gray-100' : 'bg-white'}`}
                             >
                                 <button
+
                                     onClick={() => openModal(item)}
+
                                     className="block w-full rounded-lg overflow-hidden"
                                 >
                                     <img
@@ -109,20 +122,17 @@ const GridLayoutProduct = () => {
                                         className="w-full h-55 object-cover rounded-lg mb-2  transition duration-300 ease-in-out hover:brightness-75 hover:grayscale"
                                         onError={(e) => { e.target.src = "/default-product.jpg"; }}
                                     />
+
                                 </button>
 
                                 <div className="flex justify-between items-center mb-1">
-                                    {owner?.image && (
-                                        <img
-                                            src={owner.image}
-                                            alt={owner.nom || "Fournisseur"}
-                                            className="h-6 w-6 rounded-full object-cover"
-                                            title={owner.nom}
-                                        />
-                                    )}
+
+                                    {owner?.image && <OwnerAvatar owner={owner} />}
+
                                     {item.quantity_product !== "1" && (
                                         <span className="text-xs text-gray-600">Quantité {item.quantity_product}</span>
                                     )}
+
                                 </div>
 
                                 <p className="text-sm text-center font-medium text-gray-800 truncate mb-1">

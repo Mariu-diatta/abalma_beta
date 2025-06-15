@@ -1,78 +1,130 @@
-﻿import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { useAuth } from '../AuthContext';
+//import { useAuth } from '../AuthContext';
 import api from '../services/Axios';
 import { logout, updateCompteUser, updateUserData } from '../slices/authSlice';
-import MessageForm from '../components/MessageForm';
+//import MessageForm from '../components/MessageForm';
 import InputBox from '../components/InputBoxFloat';
+import { newRoom } from '../slices/chatSlice';
+import { setCurrentNav } from '../slices/navigateSlice';
 
 const ProfileCard = () => {
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const currentUserData = useSelector((state) => state.auth.user);
-    const { currentUser } = useAuth();
+    const profileData = useSelector((state) => state.auth.user);
+    const selectedProductOwner = useSelector((state) => state.chat.userSlected);
+    const currentNav = useSelector((state) => state.navigate.currentNav);
 
+    const userProfile = useMemo(() =>
+        (currentNav === "user_profil" || currentNav === "home") ? profileData :
+        currentNav === "user_profil_product" ? selectedProductOwner :
+        null,
+        [currentNav, profileData, selectedProductOwner]
+    );
+
+    //const { currentUser } = useAuth();
     const [isEditing, setIsEditing] = useState(false);
     const [isEditingPhotoBg, setIsEditingPhotoBg] = useState(false);
     const [isProFormVisible, setIsProFormVisible] = useState(false);
     const [messageVisible, setMessageVisible] = useState(false);
-    const [isUserFournisseur, setIsUserFournisseur] = useState(false);
+    //const [isUserFournisseur, ] = useState(false);
 
-    const [name, setName] = useState(currentUserData?.nom || '');
-    const [prenom, setPrenom] = useState(currentUserData?.prenom || 'Utilisateur');
-    const [email, setEmail] = useState(currentUserData?.email || '');
-    const [adress, setAdress] = useState(currentUserData?.adresse || '');
-    const [tel, setTel] = useState(currentUserData?.telephone || '');
-    const [comment, setComment] = useState(currentUserData?.description || '');
+    const isCurrentUser = useMemo(() => {
 
-    const [previewUrl, setPreviewUrl] = useState(currentUserData?.image || null);
-    const [previewUrlBackground, setPreviewUrlBackground] = useState(currentUserData?.image_cover || null);
+        return userProfile?.email === profileData?.email;
+
+    }, [userProfile, profileData]);
+
+    const [previewUrl, setPreviewUrl] = useState(userProfile?.image || null);
+    const [previewUrlBackground, setPreviewUrlBackground] = useState(userProfile?.image_cover || null);
     const [updateImage, setUpdateImage] = useState(null);
     const [updateImageCover, setUpdateImageCover] = useState(null);
     const [fileProof, setFileProof] = useState(null);
 
+    const [formData, setFormData] = useState({
+        nom: userProfile?.nom || '',
+        prenom: userProfile?.prenom || 'Utilisateur',
+        email: userProfile?.email || '',
+        adresse: userProfile?.adresse || '',
+        telephone: userProfile?.telephone || '',
+        description: userProfile?.description || ''
+    });
+
     useEffect(() => {
-        if (currentUserData) {
-            setName(currentUserData.nom || '');
-            setPrenom(currentUserData.prenom || 'Utilisateur');
-            setEmail(currentUserData.email || '');
-            setAdress(currentUserData.adresse || '');
-            setTel(currentUserData.telephone || '');
-            setComment(currentUserData.description || '');
-            setPreviewUrl(currentUserData.image || null);
-            setPreviewUrlBackground(currentUserData.image_cover || null);
-            setIsUserFournisseur(currentUserData.is_fournisseur || false);
+
+        if (userProfile) {
+
+            setFormData({
+
+                nom: userProfile.nom || '',
+                prenom: userProfile.prenom || '',
+                email: userProfile.email || '',
+                adresse: userProfile.adresse || '',
+                telephone: userProfile.telephone || '',
+                description: userProfile.description || ''
+            });
+
+            setPreviewUrl(userProfile.image || null);
+
+            setPreviewUrlBackground(userProfile.image_cover || null);
         }
-    }, [currentUserData]);
+    }, [userProfile])
+
+
+    useEffect(() => {
+
+        if (messageVisible && userProfile?.nom) {
+
+            const createRoom = async () => {
+
+                try {
+
+                    await api.post('rooms/', { name: `room_${userProfile.nom}` });
+
+                    dispatch(newRoom({ name: `room_${userProfile.nom}` }));
+
+                    dispatch(setCurrentNav("message_inbox"));
+
+                } catch (err) {
+
+                    console.error("ERREUR DE LA CREATION DU CHAT", err?.response?.data?.name);
+
+                    if (err?.response?.data?.name[0] === 'room with this name already exists.') dispatch(setCurrentNav("message_inbox"));
+                }
+            };
+
+            createRoom();
+        }
+    });
+
+
 
     const getUserCompte = async () => {
 
         try {
 
-            const fournisseursRes = await api.get('fournisseurs/');
+            if (!profileData?.is_fournisseur) {
 
-            const userFournisseur = fournisseursRes.data.filter(
+                try {
 
-                (f) => f.compte?.user === currentUserData?.id && f.id != null
-            );
+                    await api.put(`/clients/${profileData?.id}/`, { is_fournisseur: true });
 
-            if (userFournisseur[0]) {
+                    const user = profileData;
 
-                if (!currentUserData?.is_fournisseur) {
+                    user["is_fournisseur"] = true;
 
-                    try {
-                        await api.put(`/clients/${currentUserData?.id}/`, { is_fournisseur: true });
-                    } catch {
-                        console.log("Erreur lors de la mise à jour de l'utilisateur");
-                    }
+                    dispatch(updateUserData(user))
+
+                } catch {
+
+                    console.log("Erreur lors de la mise à jour de l'utilisateur");
                 }
-
+              
                 alert("L'utilisateur est déjà un fournisseur");
-
-                setIsUserFournisseur(true);
 
                 return;
             }
@@ -81,7 +133,7 @@ const ProfileCard = () => {
 
             const userCompte = comptesRes.data.find(
 
-                (c) => c.user === currentUserData?.id && c.id != null
+                (c) => c.user === profileData?.id && c.id != null
             );
 
             if (userCompte) {
@@ -89,43 +141,62 @@ const ProfileCard = () => {
                 dispatch(updateCompteUser(userCompte));
 
                 const formData = new FormData();
+
                 formData.append('compte_id', userCompte.id);
+
                 formData.append('activite', 'Fournisseur');
+
                 formData.append('is_verified', 'true');
 
                 try {
                     const fournisseurResp = await api.post('fournisseurs/', formData, {
+
                         headers: { 'Content-Type': 'multipart/form-data' },
                     });
 
                     const updatedUser = fournisseurResp.data.compte.user;
+
                     updatedUser.is_fournisseur = true;
-                    setIsUserFournisseur(true);
+
                     dispatch(updateUserData(updatedUser));
+
                     console.log('Création de fournisseur:', updatedUser);
+
                 } catch (err) {
+
                     console.log('Erreur création fournisseur:', err);
                 }
             } else {
+
                 console.warn('Aucun compte utilisateur trouvé.');
             }
+
         } catch (error) {
+
             console.error('Erreur getUserCompte:', error);
         }
     };
 
     const handleImageUpload = (e, isBackground = false) => {
+
         const file = e.target.files?.[0];
+
         if (!file) return;
 
         const url = URL.createObjectURL(file);
 
         if (isBackground) {
+
             setUpdateImageCover(file);
+
             setPreviewUrlBackground(url);
+
             setIsEditingPhotoBg(false);
+
         } else {
+
             setUpdateImage(file);
+
             setPreviewUrl(url);
         }
 
@@ -133,154 +204,209 @@ const ProfileCard = () => {
     };
 
     const handleSave = async () => {
-        if (!currentUserData?.id) {
+
+        if (!userProfile?.id) {
             alert('Erreur : ID utilisateur manquant');
             return;
         }
 
         try {
-            const formData = new FormData();
-            formData.append('nom', name);
-            formData.append('prenom', prenom);
-            formData.append('description', comment);
-            formData.append('email', email);
-            formData.append('adresse', adress);
-            formData.append('telephone', tel);
-            if (updateImage) formData.append('image', updateImage);
-            if (updateImageCover) formData.append('image_cover', updateImageCover);
+            const fd = new FormData();
+            Object.entries(formData).forEach(([key, value]) => fd.append(key, value));
+            if (updateImage) fd.append('image', updateImage);
+            if (updateImageCover) fd.append('image_cover', updateImageCover);
 
-            const response = await api.put(`clients/${currentUserData.id}/`, formData, {
+            const response = await api.put(`clients/${userProfile?.id}/`, fd, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
 
             dispatch(updateUserData(response.data.data));
             setIsEditing(false);
             alert('✅ Profil mis à jour !');
-            console.log('✅ Mise à jour réussie :', response.data);
         } catch (error) {
             console.error('❌ Erreur mise à jour :', error);
             alert('Erreur lors de la mise à jour du profil.');
         }
     };
 
+
     const handleFileChange = (e) => {
+
         const file = e.target.files?.[0];
+
         if (file) {
+
             setFileProof(file);
+
             console.log('Fichier sélectionné :', file);
         }
     };
 
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
     const handleSaveDoc = async () => {
+
         if (!fileProof) {
+
             alert('Veuillez sélectionner un fichier avant de sauvegarder.');
+
             return;
         }
 
         try {
             const formData = new FormData();
+
             formData.append('is_pro', true);
+
             formData.append('doc_proof', fileProof);
 
-            const response = await api.put(`clients/${currentUserData.id}/`, formData, {
+            const response = await api.put(`clients/${userProfile?.id}/`, formData, {
+
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
 
             dispatch(updateUserData(response.data.data));
+
             alert('✅ Justificatif envoyé avec succès !');
+
         } catch (error) {
+
             console.error('❌ Erreur d\'envoi :', error);
+
             alert('Erreur lors de l\'envoi du justificatif.');
         }
     };
 
     const handleUpgradeToPro = async (e) => {
+
         e.preventDefault();
 
         try {
+
             await handleSaveDoc();
+
             setIsProFormVisible(false);
+
             alert('🎉 Votre compte est maintenant professionnel.');
+
         } catch (error) {
+
             console.error('❌ Erreur mise à jour :', error);
+
             alert('Erreur lors de la mise à jour du profil.');
         }
     };
 
     const delAccountUser = async () => {
+
         try {
+
             if (window.confirm('Voulez-vous vraiment supprimer ce compte ?')) {
-                await api.delete(`clients/${currentUserData.id}/`);
+
+                await api.delete(`clients/${userProfile?.id}/`);
+
                 alert('Votre compte a été supprimé avec succès');
+
                 dispatch(logout());
+
                 navigate('/logIn', { replace: true });
             }
+
         } catch (err) {
+
             console.error('Erreur de la suppression du compte', err);
         }
     };
 
     const handleNewMessage = (message) => {
+
         console.log('Message créé :', message);
     };
 
 
     return (
         <div className="w-full max-w-full mx-auto bg-white rounded-md overflow-hidden shadow-md">
+
             {/* Image de couverture */}
             <div
                 className="relative h-56 bg-cover bg-center bg-gray-200"
+
                 style={{ backgroundImage: `url(${previewUrlBackground || 'https://images.unsplash.com/photo-1612832020897-593fae15346e'})` }}
             >
                 {isEditingPhotoBg && (
+
                     <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+
                         <input
                             type="file"
                             accept="image/*"
                             onChange={(e) => handleImageUpload(e, true)}
                             className="bg-gray rounded-md p-2 shadow-md text-sm"
                         />
+
                     </div>
                 )}
 
-                <button
-                    onClick={() => setIsEditingPhotoBg(!isEditingPhotoBg)}
-                    className="absolute top-4 right-4 bg-white p-2 rounded-full shadow hover:bg-gray-100"
-                    aria-label="Modifier image de couverture"
-                >
-                    📷
-                </button>
+                {
+                    isCurrentUser &&
+
+                    <button
+                        onClick={() => setIsEditingPhotoBg(!isEditingPhotoBg)}
+                        className="absolute top-4 right-4 bg-white p-2 rounded-full shadow hover:bg-gray-100"
+                        aria-label="Modifier image de couverture"
+                    >
+                        📷
+                    </button>
+                }
+
             </div>
 
             {/* Section profil */}
             <div className="relative px-6 pb-6">
+
                 {/* Photo de profil */}
                 <div className="absolute -top-16 left-1/2 sm:left-6 transform -translate-x-1/2 sm:translate-x-0">
+
                     <div className="relative">
+
                         <img
                             src={previewUrl || 'https://randomuser.me/api/portraits/men/32.jpg'}
                             alt="Photo de profil"
                             className="w-28 h-28 sm:w-32 sm:h-32 rounded-full border-4 border-white shadow-md object-cover"
                         />
-                        <label className="absolute bottom-0 right-0 bg-white p-1 rounded-full shadow cursor-pointer hover:bg-gray-100" aria-label="Modifier photo de profil">
-                            📷
-                            <input
-                                type="file"
-                                accept="image/*"
-                                onChange={(e) => handleImageUpload(e)}
-                                className="hidden"
-                            />
-                        </label>
+
+                        {
+                            isCurrentUser &&
+
+                                <label className="absolute bottom-0 right-0 bg-white p-1 rounded-full shadow cursor-pointer hover:bg-gray-100" aria-label="Modifier photo de profil">
+                                📷
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e) => handleImageUpload(e)}
+                                    className="hidden"
+                                />
+
+                            </label>
+                        }
+
                     </div>
                 </div>
 
                 {/* Infos utilisateur */}
                 <div className="pt-20 sm:pt-6 sm:ml-40">
+
                     {!isEditing ? (
                         <>
                             <div className="flex items-center gap-2">
-                                <h1>{name}</h1>
-                                {currentUserData?.is_pro && currentUserData?.doc_proof && (
+
+                                <h1>{formData?.nom}</h1>
+
+                                {userProfile?.is_pro && userProfile?.doc_proof && (
                                     <svg
                                         className="w-5 h-5 text-blue-800 dark:text-white"
                                         aria-hidden="true"
@@ -299,54 +425,64 @@ const ProfileCard = () => {
                                         />
                                     </svg>
                                 )}
+
                             </div>
-                            <p className="text-sm text-gray-500">{prenom}</p>
-                            <p className="mt-4 text-gray-600 text-sm leading-relaxed">{comment}</p>
+
+                            <p className="text-sm text-gray-500">{formData?.prenom}</p>
+
+                            <p className="mt-4 text-gray-600 text-sm leading-relaxed">{formData?.comment}</p>
                         </>
                     ) : (
                         <form className="space-y-3 mt-4" onSubmit={(e) => { e.preventDefault(); handleSave(); }}>
+
                             <InputBox
                                 type="text"
                                 name="name"
                                 placeholder="Nom"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                            />
+                                    value={formData?.nom}
+                                onChange={handleChange}
+                             />
+
                             <InputBox
                                 type="text"
                                 name="prenom"
-                                value={prenom}
-                                onChange={(e) => setPrenom(e.target.value)}
+                                    value={formData?.prenom}
+                                onChange={handleChange}
                                 placeholder="Prénom"
-                            />
+                             />
+
                             <InputBox
                                 type="email"
                                 name="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                    value={formData?.email}
+                                onChange={handleChange}
                                 placeholder="Email"
                             />
+
                             <InputBox
                                 type="text"
                                 name="adress"
-                                value={adress}
-                                onChange={(e) => setAdress(e.target.value)}
+                                    value={formData?.adresse}
+                                onChange={handleChange}
                                 placeholder="Adresse"
-                            />
+                             />
+
                             <InputBox
                                 type="tel"
                                 name="tel"
-                                value={tel}
-                                onChange={(e) => setTel(e.target.value)}
+                                    value={formData?.telephone}
+                                onChange={handleChange}
                                 placeholder="Téléphone"
-                            />
+                             />
+
                             <textarea
                                 name="comment"
-                                value={comment}
-                                onChange={(e) => setComment(e.target.value)}
+                                value={formData?.comment}
+                                onChange={handleChange}
                                 className="w-full h-24 rounded-md border border-gray-300 p-2 resize-none"
                                 placeholder="Description"
-                            />
+                                />
+
                             <div className="flex gap-4">
                                 <button
                                     type="submit"
@@ -362,50 +498,67 @@ const ProfileCard = () => {
                                     Annuler
                                 </button>
                             </div>
+
                         </form>
                     )}
 
                     <div className="mt-6 space-x-2 mb-3">
-                        {!isEditing && (
+
+                        {
+
+                            (!isEditing) && (
                             <>
-                                <button
-                                    onClick={() => setIsEditing(true)}
-                                    className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 m-1"
-                                >
-                                    Modifier profil
-                                </button>
-                                <button
-                                    onClick={() => setMessageVisible(!messageVisible)}
-                                    className="bg-yellow-600 text-white px-3 py-1 rounded hover:bg-yellow-700 m-1"
-                                >
-                                    {!messageVisible?"Message":"X"}
-                                </button>
-                                {!currentUserData?.is_fournisseur && isUserFournisseur && <button
-                                    onClick={getUserCompte}
-                                    className="bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700 m-1"
-                                >
-                                    Devenir fournisseur
-                                </button>}
-                                <button
-                                    onClick={delAccountUser}
-                                    className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 m-1"
-                                >
-                                    Supprimer compte
-                                </button>
+                                {
+                                    isCurrentUser &&
+                                    <button
+                                        onClick={() => setIsEditing(true)}
+                                        className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 m-1"
+                                    >
+                                        Modifier profil
+                                    </button>
+                                }
+
+                                {
+                                    !isCurrentUser &&
+                                    <button
+
+                                        onClick={() => setMessageVisible(!messageVisible)}
+
+                                        className="bg-yellow-600 text-white px-3 py-1 rounded hover:bg-yellow-700 m-1"
+                                    >
+                                        {!messageVisible ? "Message" : "X"}
+
+                                    </button>
+                                }
+
+                                {
+                                    (!userProfile?.is_fournisseur && isCurrentUser) &&
+                                    <button
+                                        onClick={getUserCompte}
+                                        className="bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700 m-1"
+                                    >
+                                        Devenir fournisseur
+                                    </button>
+                                }
+
+                                {
+                                    isCurrentUser &&
+                                    <button
+                                        onClick={delAccountUser}
+                                        className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 m-1"
+                                    >
+                                        Supprimer compte
+                                    </button>
+                                }
                             </>
-                        )}
+                         )}
+
                     </div>
 
-                    {messageVisible && (
-                        <MessageForm
-                            userId={currentUserData?.id}
-                            onMessageCreated={handleNewMessage}
-                            onClose={() => setMessageVisible(false)}
-                        />
-                    )}
+                    {isProFormVisible && isCurrentUser && (
 
-                    {isProFormVisible && (
                         <form onSubmit={handleUpgradeToPro} className="mt-6">
+
                             <input
                                 type="file"
                                 onChange={handleFileChange}
@@ -413,21 +566,27 @@ const ProfileCard = () => {
                                 required
                                 className="mb-2"
                             />
+
                             <button
                                 type="submit"
                                 className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
                             >
                                 Envoyer justificatif
                             </button>
+
                         </form>
                     )}
 
-                    {!currentUserData?.is_pro && !isProFormVisible && (
+                    {(!profileData?.is_pro && !isProFormVisible && isCurrentUser) && (
+
                         <button
+
                             onClick={() => setIsProFormVisible(true)}
+
                             className="mt-4 bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800"
                         >
                             Passer en compte professionnel
+
                         </button>
                     )}
                 </div>

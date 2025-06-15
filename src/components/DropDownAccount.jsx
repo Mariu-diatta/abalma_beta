@@ -5,6 +5,7 @@ import {setCurrentNav } from '../slices/navigateSlice'
 import { logout } from "../slices/authSlice";
 import api from "../services/Axios";
 import { clearCart } from "../slices/cartSlice";
+import { clearRooms } from "../slices/chatSlice";
 
 export default function AccountDropdown3() {
 
@@ -91,6 +92,8 @@ export default function AccountDropdown3() {
 
                 dispatch(clearCart())
 
+                dispatch(clearRooms())
+
                 return navigate("/logIn", { replace: true });
 
             }catch (error) {
@@ -136,7 +139,9 @@ export default function AccountDropdown3() {
 
                                         d="M8 3.464V1.1m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175C15 15.4 15 16 14.462 16H1.538C1 16 1 15.4 1 14.807c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 8 3.464ZM4.54 16a3.48 3.48 0 0 0 6.92 0H4.54Z"
                                     />
+
                                 </svg>
+
                             </div>
 
                             {/* Icon 2 */}
@@ -186,19 +191,28 @@ export default function AccountDropdown3() {
                                                 <span className="absolute -right-0.5 -top-0.5 block h-[14px] w-[14px] rounded-full border-[2.3px] border-white bg-[#219653] dark:border-dark"></span>
                                             }
                                     </div>
-                                    :
-                                    <svg
-                                        className="w-6 h-6 text-gray-800 dark:text-white"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            fillRule="evenodd"
-                                            d="M12 20a7.966 7.966 0 0 1-5.002-1.756l.002.001v-.683c0-1.794 1.492-3.25 3.333-3.25h3.334c1.84 0 3.333 1.456 3.333 3.25v.683A7.966 7.966 0 0 1 12 20ZM2 12C2 6.477 6.477 2 12 2s10 4.477 10 10c0 5.5-4.44 9.963-9.932 10h-.138C6.438 21.962 2 17.5 2 12Zm10-5c-1.84 0-3.333 1.455-3.333 3.25S10.159 13.5 12 13.5c1.84 0 3.333-1.455 3.333-3.25S13.841 7 12 7Z"
-                                            clipRule="evenodd"
-                                        />
-                                    </svg>
+                                        :
+                                        <div className="relative h-[30px] w-[30px] rounded-full">
+
+                                        <svg
+                                            className="w-6 h-6 text-gray-800 dark:text-white"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="currentColor"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M12 20a7.966 7.966 0 0 1-5.002-1.756l.002.001v-.683c0-1.794 1.492-3.25 3.333-3.25h3.334c1.84 0 3.333 1.456 3.333 3.25v.683A7.966 7.966 0 0 1 12 20ZM2 12C2 6.477 6.477 2 12 2s10 4.477 10 10c0 5.5-4.44 9.963-9.932 10h-.138C6.438 21.962 2 17.5 2 12Zm10-5c-1.84 0-3.333 1.455-3.333 3.25S10.159 13.5 12 13.5c1.84 0 3.333-1.455 3.333-3.25S13.841 7 12 7Z"
+                                                clipRule="evenodd"
+                                            />
+                                            </svg>
+
+                                         {
+                                            currentUser?.is_connected &&
+                                            <span className="absolute -right-0.5 -top-0.5 block h-[14px] w-[14px] rounded-full border-[2.3px] border-white bg-[#219653] dark:border-dark"></span>
+                                            }
+
+                                     </div>
                                 }
 
                                 <span className={`duration-100 ${dropdownOpen ? "-scale-y-100" : ""}`}>
@@ -236,17 +250,17 @@ export default function AccountDropdown3() {
                                     onClick={() => dispatch(setCurrentNav("user_profil")) }
                                     className="cursor-pointer flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
                                 >
-                                    Voir compte
+                                    Voir profile
                                 </button>
 
                             </div>
 
                             <div>
                                 <button
-                                    onClick={() => dispatch(setCurrentNav("entreprise"))}
+                                    onClick={() => dispatch(setCurrentNav("dashboard"))}
                                     className="cursor-pointer  flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
                                 >
-                                    Entreprise
+                                    Vos activités
                                 </button>
                             </div>
 
