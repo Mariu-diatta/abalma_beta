@@ -5,6 +5,7 @@ import api from "../services/Axios";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../slices/cartSlice";
 import OwnerAvatar from "../components/OwnerProfil";
+import { setCurrentNav } from "../slices/navigateSlice";
 
 const GridProductDefault = ({data}) => {
 
@@ -190,6 +191,28 @@ const GridProductDefault = ({data}) => {
                     <p className="mb-1">Aucun produit disponible.</p>
 
                     <div className="w-full h-px bg-gray-300" />
+
+                        <button
+                            onClick={() => dispatch(setCurrentNav("add_product")) }
+                            title="Ajouter un nouveau produit"
+                            className="mt-5 flex items-center justify-center rounded-full border border-gray-300 h-50 w-50 bg-white hover:bg-gray-100 transition">
+                        <svg
+                            className="text-gray-800 dark:text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                        >
+                            <path
+                                fillRule="evenodd"
+                                d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4.243a1 1 0 1 0-2 0V11H7.757a1 1 0 1 0 0 2H11v3.243a1 1 0 1 0 2 0V13h3.243a1 1 0 1 0 0-2H13V7.757Z"
+                                clipRule="evenodd"
+                            />
+                        </svg>
+                    </button>
+
                 </div>
             }
         </>
