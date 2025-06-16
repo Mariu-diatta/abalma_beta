@@ -3,6 +3,7 @@ import React from 'react';
 const GridSlideProduct = ({ srcs }) => {
     return (
         <div id="gallery" className="relative w-full h-full" data-carousel="slide">
+
             {/* Carousel wrapper */}
             <div className="relative h-56 overflow-hidden rounded-lg md:h-100 lg:h-100 md:w-100 lg:w-auto">
                 {/* Item 1 */}
@@ -50,6 +51,7 @@ const GridSlideProduct = ({ srcs }) => {
                     <span className="sr-only">Previous</span>
                 </span>
             </button>
+
             <button
                 type="button"
                 className="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
@@ -74,6 +76,7 @@ const GridSlideProduct = ({ srcs }) => {
                     <span className="sr-only">Next</span>
                 </span>
             </button>
+
         </div>
     );
 };

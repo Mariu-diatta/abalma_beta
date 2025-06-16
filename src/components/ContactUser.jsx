@@ -10,7 +10,7 @@ const UserTable = () => {
     const [statusFilter, setStatusFilter] = useState("Tous");
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [users, setUsers] = useState([]);
-    const currentUser = useSelector(state => state.auth.user)
+    const userSelected = useSelector(state => state.chat.userSlected)
 
     useEffect(
         () => {
@@ -97,7 +97,7 @@ const UserTable = () => {
 
     return (
 
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <div className="relative overflow-x-auto shadow-md sm:rounded-lg h-screen">
 
             <h2 className="text-2xl font-bold text-gray-800 dark:text-white px-4 pt-4 pb-2">
                 Liste des contacts
@@ -110,13 +110,19 @@ const UserTable = () => {
                 <div className="relative">
 
                     <button
+
                         onClick={toggleDropdown}
+
                         className="inline-flex items-center text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
                     >
                         {statusFilter === "Tous" ? "Filtrer par statut" : statusFilter}
+
                         <svg className="w-2.5 h-2.5 ms-2.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+
                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
+
                         </svg>
+
                     </button>
 
                     {isDropdownOpen && (
@@ -130,10 +136,13 @@ const UserTable = () => {
                                     <li key={status}>
 
                                         <button
+
                                             onClick={() => handleStatusFilter(status)}
+
                                             className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                                         >
                                             {status === "Tous" ? "Tous les utilisateurs" : status}
+
                                         </button>
 
                                     </li>
@@ -198,15 +207,19 @@ const UserTable = () => {
 
                     {filteredUsers.map((user, i) => (
 
-                        !(user?.id === currentUser?.id) &&
+                        !(user?.id === userSelected?.id) &&
                         <tr key={i} className="bg-white  dark:bg-gray-800  hover:bg-gray-50 dark:hover:bg-gray-600">
 
                             <td className="p-4">
 
                                 <input
+
                                     type="checkbox"
+
                                     checked={selectedUsers.includes(user.email)}
+
                                     onChange={() => toggleSelectOne(user.email)}
+
                                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm dark:bg-gray-700 dark:border-gray-600"
                                 />
                             </td>
@@ -235,9 +248,11 @@ const UserTable = () => {
                             {/*</td>*/}
 
                             <td className="px-6 py-4">
+
                                 <svg className="w-6 h-5 text-red-800 dark:text-white cursor-pointer" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                                     <path fillRule="evenodd" d="M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z" clipRule="evenodd" />
                                 </svg>
+
                             </td>
 
                         </tr>

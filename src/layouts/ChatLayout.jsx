@@ -136,7 +136,9 @@ const ChatLayout = () => {
 
             {/* Main Chat Area */}
             <div className="flex-1 flex flex-col overflow-hidden">
+
                 <ChatApp roomName={currentChat} />
+
             </div>
         </div>
     );

@@ -112,9 +112,9 @@ const ProfileCard = () => {
 
                                     err => {
 
-                                        console.log("ERREUR DE LA CREATION DU CHAT", err?.response?.data?.name)
+                                        console.log("ERREUR DE LA CREATION DU CHAT", err?.response?.data)
 
-                                        if (err?.response?.data?.name.includes("room with this name already exists.")) {
+                                        if (err?.response?.data?.name[0]==="room with this name already exists.") {
 
                                             dispatch(setCurrentNav("message_inbox"))
                                         }

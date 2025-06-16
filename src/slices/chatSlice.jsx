@@ -36,7 +36,7 @@ const chatSlice = createSlice({
 
                     console.log("deleted item ", action.payload?.pk)
 
-                    const resp = await api.delete(`/rooms/${action.payload?.pk}/`);
+                     await api.delete(`/rooms/${action.payload?.pk}/`);
 
 
                 } catch (err) {

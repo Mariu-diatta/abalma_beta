@@ -75,11 +75,17 @@ const GridProductDefault = ({data}) => {
         <>
             {/* PRODUIT GRID */}
             <div className="grid grid-cols-3 md:grid-cols-3 gap-1 mt-2">
+
                 {cols.length > 0 && cols.flat().length > 0 && (
+
                     cols.map((products, colIdx) => (
+
                         <div key={colIdx} className="grid gap-4">
+
                             {products.map((product) => {
+
                                 const isInCart = cartItems.some((p) => p.id === product.id);
+
                                 const owner = owners[product.fournisseur];
 
                                 return (
@@ -102,7 +108,10 @@ const GridProductDefault = ({data}) => {
                                         </button>
 
                                         <div className="flex justify-between items-center mt-2 mb-1">
-                                            {owner?.image && <OwnerAvatar owner={owner} />}
+                                            {owner?.image
+                                                &&
+                                                <OwnerAvatar owner={owner} />
+                                            }
                                             {product.quantity_product !== "1" && (
                                                 <span className="text-sm text-gray-700">
                                                     Quantité {product.quantity_product}

@@ -12,9 +12,7 @@ import Logo from "../components/LogoApp";
 import GridLayoutProduct from "./GridLayoutProducts";
 import GridProductDefault from "./GridProductDefaultSize";
 import AccountDropdown3 from "../components/DropDownAccount";
-import MessageCard from "../components/MessageCard";
 import { lesAccount, menuItems } from "../components/MenuItem";
-import ChatApp from "../pages/ChatApp";
 import ChatLayout from "../layouts/ChatLayout";
 import { addRoom } from "../slices/chatSlice";
 
@@ -41,28 +39,25 @@ const VertcalNavbar = ({ children }) => {
 
             try {
 
-                await api.get(`/rooms/`).then(
+                try {
+                    const response = await api.get("/rooms/");
+                    const rooms = response?.data || [];
 
-                    response => {
+                    console.log("LES ROOMS", rooms);
 
-                        console.log("LES ROOMS", response?.data)
+                    const userRooms = rooms.filter(room =>
+                        room?.current_receiver === currentUser?.id ||
+                        room?.current_owner === currentUser?.id
+                    );
 
-                        response?.data.map(
+                    userRooms.forEach(room => {
+                        dispatch(addRoom(room));
+                    });
 
-                            (room, _) => {
+                } catch (error) {
 
-                                if (room?.current_receiver === currentUser?.id || room?.current_owner === currentUser?.id) {
-
-                                    dispatch(addRoom(room));
-
-                                }
-
-                            }
-                        )
-
-                    }
-
-                )
+                    console.error("Erreur lors de la récupération des rooms :", error);
+                }
 
             } catch (err) {
 
@@ -76,27 +71,11 @@ const VertcalNavbar = ({ children }) => {
 
 
     const getProductFilter = async (url) => {
-
         try {
-
-            await api.get(url).then(
-
-                resp => {
-
-                    setProducts(resp?.data)
-                }
-
-            ).catch(
-
-                err => {
-
-                    console.log("DATA PRODUCTS ERROR", err)
-                }
-            )
-
+            const response = await api.get(url);
+            setProducts(response?.data);
         } catch (err) {
-
-            console.log("Erreur")
+            console.error("Erreur lors de la récupération des produits :", err);
         }
     }
 
@@ -115,24 +94,35 @@ const VertcalNavbar = ({ children }) => {
 
     useEffect(() => {
 
-        api.get(`/clients/?email=${currentUserEmail?.email}`).then(
+        const fetchClient = async () => {
 
-            resp => {
+            try {
 
-                console.log("UTILISATEUR CR2R", `/utilisateurs/?email=${currentUserEmail?.email}`, resp?.data[0])
+                const response = await api.get(`/clients/?email=${currentUserEmail.email}`);
 
-                dispatch(updateUserData(resp?.data[0]))
+                const userData = response?.data?.[0];
+
+                if (userData) {
+
+                    dispatch(updateUserData(userData));
+
+                    console.log("USER FETCHED:", userData);
+
+                } else {
+
+                    console.warn("Aucun utilisateur trouvé pour l'email :", currentUserEmail.email);
+                }
+
+            } catch (error) {
+
+                console.error("Erreur lors de la récupération du client :", error);
             }
+        };
 
-        ).catch(
+        fetchClient();
 
-            err => {
+    }, [currentUserEmail?.email]);
 
-                console.log("Erreur de ", err)
-            }
-        )
-
-    }, [])
 
 
     useEffect(() => {

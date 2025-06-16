@@ -5,6 +5,8 @@ import { addToCart } from '../slices/cartSlice';
 import HorizontalCard from './HorizontalCard';
 import api from '../services/Axios';
 import OwnerAvatar from '../components/OwnerProfil';
+import { useRef,  } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const categories = [
     'All', 'JOUET', 'HABITS', 'MATERIELS_INFORMATIQUES', 'CAHIERS', 'SACS', 'LIVRES',
@@ -12,25 +14,96 @@ const categories = [
     'MEUBLES', 'VEHICULES', 'FOURNITURES_SCOLAIRES', 'DIVERS'
 ];
 
-const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory }) => (
-    <div className="scrollbor_hidden overflow-x-auto w-full mb-4">
-        <div className="flex gap-2 min-w-max">
-            {categories.map((cat) => (
+const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory }) => {
+    const scrollRef = useRef(null);
+    const [showLeft, setShowLeft] = useState(false);
+    const [showRight, setShowRight] = useState(false);
+
+    const updateButtonsVisibility = () => {
+        const container = scrollRef.current;
+        if (!container) return;
+
+        const { scrollLeft, scrollWidth, clientWidth } = container;
+
+        setShowLeft(scrollLeft > 0);
+        setShowRight(scrollLeft + clientWidth < scrollWidth - 1); // -1 to handle rounding issues
+    };
+
+    const scroll = (direction) => {
+        const container = scrollRef.current;
+        if (!container) return;
+
+        const scrollAmount = 200;
+        container.scrollBy({
+            left: direction === 'left' ? -scrollAmount : scrollAmount,
+            behavior: 'smooth',
+        });
+    };
+
+    useEffect(() => {
+        const container = scrollRef.current;
+        if (!container) return;
+
+        updateButtonsVisibility(); // Initial state
+
+        container.addEventListener("scroll", updateButtonsVisibility);
+        window.addEventListener("resize", updateButtonsVisibility); // Handle screen resize
+
+        return () => {
+            container.removeEventListener("scroll", updateButtonsVisibility);
+            window.removeEventListener("resize", updateButtonsVisibility);
+        };
+    }, []);
+
+    return (
+        <div className="relative w-full mb-4">
+            {/* Bouton gauche */}
+            {showLeft && (
                 <button
-                    key={cat}
-                    onClick={() => setActiveCategory(cat)}
-                    className={`whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium transition 
-                        ${activeCategory === cat
-                            ? 'bg-blue-700 text-white'
-                            : 'bg-white text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white'
-                        }`}
+                    className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white p-2 shadow rounded-full"
+                    onClick={() => scroll('left')}
                 >
-                    {cat.replace('_', ' ')}
+                    <ChevronLeft className="w-5 h-5 text-gray-600" />
                 </button>
-            ))}
+            )}
+
+            {/* Conteneur scrollable */}
+            <div
+                ref={scrollRef}
+                className="scrollbor_hidden_ overflow-x-auto  px-10"
+            >
+                <div className="flex gap-2 min-w-max py-2">
+                    {categories.map((cat) => (
+                        <button
+                            key={cat}
+                            onClick={() => setActiveCategory(cat)}
+                            className={`whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium transition 
+                                ${activeCategory === cat
+                                    ? 'bg-blue-700 text-white'
+                                    : 'bg-white text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white'
+                                }`}
+                        >
+                            {cat.replace('_', ' ')}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            {/* Bouton droit */}
+            {showRight && (
+                <button
+                    className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white p-2 shadow rounded-full"
+                    onClick={() => scroll('right')}
+                >
+                    <ChevronRight className="w-5 h-5 text-gray-600" />
+                </button>
+            )}
         </div>
-    </div>
-);
+    );
+};
+
+
+
 
 const GridLayoutProduct = () => {
     const dispatch = useDispatch();

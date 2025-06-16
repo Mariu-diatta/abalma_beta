@@ -1,8 +1,7 @@
 ﻿import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { setCurrentNav } from '../slices/navigateSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { addUser, newRoom } from '../slices/chatSlice';
+import { addCUrrentChat, addUser, newRoom } from '../slices/chatSlice';
 import api from '../services/Axios';
 
 export async function hashPassword(password) {
@@ -20,7 +19,9 @@ const OwnerPopover = ({ owner, onClose }) => {
 
     const dispatch = useDispatch()
 
-    const currentUser=useSelector(state=>state.auth.user)
+    const currentUser = useSelector(state => state.auth.user)
+
+    const selectedProductOwner = useSelector(state => state.chat.userSlected)
 
     useEffect(() => {
 
@@ -38,7 +39,7 @@ const OwnerPopover = ({ owner, onClose }) => {
 
     }, [onClose]);
 
-    const chatWithOwner = () => {
+    const chatWithOwner = async () => {
 
         hashPassword(owner?.telephone).then(
 
@@ -49,17 +50,41 @@ const OwnerPopover = ({ owner, onClose }) => {
 
                         {
                             "name": `room_${owner?.nom}_${res}`,
+
                             "current_owner": currentUser?.id,
+
                             "current_receiver": owner?.id
                         }
 
                     ).then(
 
-                        resp => console.log("ERREUR DE LA CREATION DU CHAT", resp)
+                        resp => {
+                                
+                            dispatch(newRoom({ name: `room_${owner?.nom}_${res}` }))
+
+                            dispatch(addCUrrentChat(`room_${owner?.nom}_${res}`))
+                            
+                        }
 
                     ).catch(
 
-                        err => console.log("ERREUR DE LA CREATION DU CHAT", err)
+                        err => {
+                            console.log("ERREUR DE LA CREATION DU CHAT", err?.response?.data?.name[0])
+
+                            if (err?.response?.data?.name[0] === "room with this name already exists.") {
+
+
+                                hashPassword(selectedProductOwner?.telephone).then(
+
+                                    res => {
+                                        dispatch(newRoom({ name: `room_${currentUser?.telephone}_${res}` }))
+                                    }
+                                )
+                            }
+
+                        }
+
+                       
                     )
 
                 } catch (err) {
@@ -68,6 +93,7 @@ const OwnerPopover = ({ owner, onClose }) => {
                 }
 
                 dispatch(newRoom({ name: `room_${owner?.nom}_${res}` }))
+
             }
 
         )
@@ -94,17 +120,22 @@ const OwnerPopover = ({ owner, onClose }) => {
                 </div>
             </div>
 
-            <div className="flex gap-1 z-100 ">
+            <div className="flex gap-1 z-100 w-50">
 
                 {/* Voir le profil */}
                 <button
+
                     onClick={() => {
+
                         dispatch(addUser(owner));
+
                         dispatch(setCurrentNav("user_profil_product"));
-                        chatWithOwner()
+
                         onClose();
                     }}
+
                     className="p-1.5 rounded-md text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800 cursor-pointer"
+
                     title="Voir le profil"
                 >
                     <svg
@@ -122,24 +153,33 @@ const OwnerPopover = ({ owner, onClose }) => {
                 </button>
 
                 {/* Écrire un message */}
-                <button
-                    onClick={() => chatWithOwner()}
-                    className="p-1.5 rounded-md text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800 cursor-pointer"
-                    title="Écrire un message"
-                >
-                    <svg
-                        className="w-6 h-6"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
+                {
+                    !(currentUser?.id === owner?.id) &&
+                    <button
+
+                        onClick={() => {
+                                chatWithOwner();
+                            }
+                        }
+
+                        className="p-1.5 rounded-md text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800 cursor-pointer"
+
+                        title="Écrire un message"
                     >
-                        <path
-                            fillRule="evenodd"
-                            d="M4.9 4c-.5 0-.9.2-1.3.6C3.2 5 3 5.5 3 6v9c0 .5.2 1 .6 1.3.4.4.8.6 1.3.6h4.6l2.4 3.2a1 1 0 0 0 1.6 0l2.4-3.2h4.6c.5 0 .9-.2 1.3-.6.4-.4.6-.8.6-1.3V6c0-.5-.2-1-.6-1.4-.4-.4-.8-.6-1.3-.6H4.9ZM8 8a1 1 0 0 0 0 2h8a1 1 0 1 0 0-2H8Zm0 3a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2H8Z"
-                            clipRule="evenodd"
-                        />
-                    </svg>
-                </button>
+                        <svg
+                            className="w-6 h-6"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                fillRule="evenodd"
+                                d="M4.9 4c-.5 0-.9.2-1.3.6C3.2 5 3 5.5 3 6v9c0 .5.2 1 .6 1.3.4.4.8.6 1.3.6h4.6l2.4 3.2a1 1 0 0 0 1.6 0l2.4-3.2h4.6c.5 0 .9-.2 1.3-.6.4-.4.6-.8.6-1.3V6c0-.5-.2-1-.6-1.4-.4-.4-.8-.6-1.3-.6H4.9ZM8 8a1 1 0 0 0 0 2h8a1 1 0 1 0 0-2H8Zm0 3a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2H8Z"
+                                clipRule="evenodd"
+                            />
+                        </svg>
+                    </button>
+                }
 
 
             </div>
@@ -158,23 +198,51 @@ const OwnerAvatar = ({ owner }) => {
 
         <div className="relative inline-block" ref={containerRef}>
 
-            <img
-                src={owner.image}
-                alt={owner.nom || 'Fournisseur'}
-                className="h-8 w-8 rounded-full object-cover cursor-pointer ring-1 ring-gray-300 hover:ring-blue-500 transition"
-                title={owner.nom}
-                onClick={() => setShowPopover((prev) => !prev)}
-            />
+            {
+                owner.image?
+                    <img
+
+                        src={owner.image}
+
+                        alt={owner.nom || 'Fournisseur'}
+
+                        className="h-8 w-8 rounded-full object-cover cursor-pointer ring-1 ring-gray-300 hover:ring-blue-500 transition"
+
+                        title={owner.nom}
+
+                        onClick={() => {
+
+                            setShowPopover((prev) => !prev);
+                        }}
+                    />
+                :
+                    <svg
+                        className="w-6 h-6 text-gray-800 dark:text-white cursor-pointer"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+
+                    >
+                        <path
+                            fillRule="evenodd"
+                            d="M12 20a7.966 7.966 0 0 1-5.002-1.756l.002.001v-.683c0-1.794 1.492-3.25 3.333-3.25h3.334c1.84 0 3.333 1.456 3.333 3.25v.683A7.966 7.966 0 0 1 12 20ZM2 12C2 6.477 6.477 2 12 2s10 4.477 10 10c0 5.5-4.44 9.963-9.932 10h-.138C6.438 21.962 2 17.5 2 12Zm10-5c-1.84 0-3.333 1.455-3.333 3.25S10.159 13.5 12 13.5c1.84 0 3.333-1.455 3.333-3.25S13.841 7 12 7Z"
+                            clipRule="evenodd"
+                        />
+                    </svg>
+            }
 
             {
                 owner?.is_connected &&
+
                 <span className="absolute -right-0.5 -top-0.5 block h-[14px] w-[14px] rounded-full border-[2.3px] border-white bg-[#219653] dark:border-dark"></span>
             }
 
-            {showPopover && (
+            {
+                showPopover && (
 
-                <OwnerPopover owner={owner} onClose={() => setShowPopover(false)} />
-            )}
+                     <OwnerPopover owner={owner} onClose={() => setShowPopover(false)} />
+                )
+            }
         </div>
     );
 };
