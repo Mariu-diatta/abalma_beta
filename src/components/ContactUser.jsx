@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../services/Axios";
 import OwnerAvatar from "./OwnerProfil";
+import { useSelector } from "react-redux";
 
 const UserTable = () => {
 
@@ -9,6 +10,7 @@ const UserTable = () => {
     const [statusFilter, setStatusFilter] = useState("Tous");
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [users, setUsers] = useState([]);
+    const currentUser = useSelector(state => state.auth.user)
 
     useEffect(
         () => {
@@ -20,7 +22,9 @@ const UserTable = () => {
                     api.get("/clients/").then(
 
                         resp => {
+
                             console.log("LES USERs", resp?.data)
+
                             setUsers(resp?.data)
                         }
 
@@ -45,30 +49,43 @@ const UserTable = () => {
     const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
     const handleStatusFilter = (status) => {
+
         setStatusFilter(status);
+
         setIsDropdownOpen(false);
     };
 
     const filteredUsers = users.filter((user) => {
+
         const matchesSearch =
+
             user.nom.toLowerCase().includes(searchTerm) ||
+
             user.email.toLowerCase().includes(searchTerm);
-        const matchesStatus = statusFilter === "Tous" || user?.is_connected;
-        return matchesSearch && matchesStatus;
+
+            const matchesStatus = statusFilter === "Tous" || user?.is_connected;
+
+            return matchesSearch && matchesStatus;
     });
 
     const isAllSelected = filteredUsers.length > 0 && filteredUsers.every(user => selectedUsers.includes(user.email));
 
     const toggleSelectAll = () => {
+
         if (isAllSelected) {
+
             setSelectedUsers([]);
+
         } else {
+
             setSelectedUsers(filteredUsers.map(user => user?.email));
         }
     };
 
     const toggleSelectOne = (email) => {
+
         setSelectedUsers(prev =>
+
             prev.includes(email) ? prev.filter(e => e !== email) : [...prev, email]
         );
     };
@@ -88,8 +105,10 @@ const UserTable = () => {
 
             {/* Bar d'action */}
             <div className="flex items-center justify-between flex-wrap md:flex-nowrap space-y-4 md:space-y-0 pb-4 bg-white dark:bg-gray-900 px-4">
+
                 {/* Dropdown de filtre */}
                 <div className="relative">
+
                     <button
                         onClick={toggleDropdown}
                         className="inline-flex items-center text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
@@ -101,18 +120,25 @@ const UserTable = () => {
                     </button>
 
                     {isDropdownOpen && (
+
                         <div className="absolute mt-2 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600">
+
                             <ul className="py-1 text-sm text-gray-700 dark:text-gray-200">
+
                                 {["Tous", "Online"].map((status) => (
+
                                     <li key={status}>
+
                                         <button
                                             onClick={() => handleStatusFilter(status)}
                                             className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                                         >
                                             {status === "Tous" ? "Tous les utilisateurs" : status}
                                         </button>
+
                                     </li>
                                 ))}
+
                             </ul>
                         </div>
                     )}
@@ -120,6 +146,7 @@ const UserTable = () => {
 
                 {/* Recherche + Bouton supprimer */}
                 <div className="flex items-center gap-4">
+
                     {selectedUsers.length >= 2 && (
                         <button
                             onClick={handleDeleteSelected}
@@ -128,6 +155,7 @@ const UserTable = () => {
                             Supprimer les selectionnes
                         </button>
                     )}
+
                     <div className="relative">
                         <input
                             type="text"
@@ -142,11 +170,13 @@ const UserTable = () => {
                             </svg>
                         </div>
                     </div>
+
                 </div>
             </div>
 
             {/* Tableau */}
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th className="p-4">
@@ -165,11 +195,14 @@ const UserTable = () => {
                 </thead>
 
                 <tbody>
+
                     {filteredUsers.map((user, i) => (
 
+                        !(user?.id === currentUser?.id) &&
                         <tr key={i} className="bg-white  dark:bg-gray-800  hover:bg-gray-50 dark:hover:bg-gray-600">
 
                             <td className="p-4">
+
                                 <input
                                     type="checkbox"
                                     checked={selectedUsers.includes(user.email)}

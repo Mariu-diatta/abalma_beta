@@ -1,14 +1,26 @@
 ﻿import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { setCurrentNav } from '../slices/navigateSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addUser, newRoom } from '../slices/chatSlice';
 import api from '../services/Axios';
+
+export async function hashPassword(password) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hash = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(hash))
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('');
+}
 
 const OwnerPopover = ({ owner, onClose }) => {
 
     const ref = useRef();
+
     const dispatch = useDispatch()
+
+    const currentUser=useSelector(state=>state.auth.user)
 
     useEffect(() => {
 
@@ -28,22 +40,37 @@ const OwnerPopover = ({ owner, onClose }) => {
 
     const chatWithOwner = () => {
 
-        try {
-            api.post('rooms/', { name: `room_${owner.nom}` }).then(
+        hashPassword(owner?.telephone).then(
 
-                resp => console.log("ERREUR DE LA CREATION DU CHAT", resp)
+            res => {
 
-            ).catch(
+                try {
+                    api.post('rooms/',
 
-                err => console.log("ERREUR DE LA CREATION DU CHAT", err)
-            )
+                        {
+                            "name": `room_${owner?.nom}_${res}`,
+                            "current_owner": currentUser?.id,
+                            "current_receiver": owner?.id
+                        }
 
-        } catch (err) {
+                    ).then(
 
-            console.log("ERREUR DE LA CREATION DU CHAT", err)
-        }
+                        resp => console.log("ERREUR DE LA CREATION DU CHAT", resp)
 
-        dispatch(newRoom({ name: `room_${owner.nom}` }))
+                    ).catch(
+
+                        err => console.log("ERREUR DE LA CREATION DU CHAT", err)
+                    )
+
+                } catch (err) {
+
+                    console.log("ERREUR DE LA CREATION DU CHAT", err)
+                }
+
+                dispatch(newRoom({ name: `room_${owner?.nom}_${res}` }))
+            }
+
+        )
 
         dispatch(addUser(owner))
 
@@ -68,11 +95,13 @@ const OwnerPopover = ({ owner, onClose }) => {
             </div>
 
             <div className="flex gap-1 z-100 ">
+
                 {/* Voir le profil */}
                 <button
                     onClick={() => {
                         dispatch(addUser(owner));
                         dispatch(setCurrentNav("user_profil_product"));
+                        chatWithOwner()
                         onClose();
                     }}
                     className="p-1.5 rounded-md text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800 cursor-pointer"
@@ -111,6 +140,8 @@ const OwnerPopover = ({ owner, onClose }) => {
                         />
                     </svg>
                 </button>
+
+
             </div>
 
         </div>
@@ -124,6 +155,7 @@ const OwnerAvatar = ({ owner }) => {
     const containerRef = useRef(null);
 
     return (
+
         <div className="relative inline-block" ref={containerRef}>
 
             <img
@@ -133,11 +165,14 @@ const OwnerAvatar = ({ owner }) => {
                 title={owner.nom}
                 onClick={() => setShowPopover((prev) => !prev)}
             />
+
             {
                 owner?.is_connected &&
                 <span className="absolute -right-0.5 -top-0.5 block h-[14px] w-[14px] rounded-full border-[2.3px] border-white bg-[#219653] dark:border-dark"></span>
             }
+
             {showPopover && (
+
                 <OwnerPopover owner={owner} onClose={() => setShowPopover(false)} />
             )}
         </div>

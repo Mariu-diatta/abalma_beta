@@ -4,7 +4,8 @@ import api from '../services/Axios';
 const initialState = {
     currentChats: [], // Liste des rooms actuellement actives (sans doublon)
     newChat: "",
-    userSlected:null
+    currentChat:"",
+    userSlected:""
 };
 
 const chatSlice = createSlice({
@@ -49,7 +50,8 @@ const chatSlice = createSlice({
         // 🧹 Vider toutes les rooms
         clearRooms: (state) => {
             state.currentChats = [];
-            state.userSlected= null
+            state.userSlected = null;
+            state.currentChat=""
         },
 
         newRoom: (state, payload) => {
@@ -62,9 +64,16 @@ const chatSlice = createSlice({
             state.userSlected = action?.payload
            
         },
+
+        // ➕ Ajouter une room s'il n'existe pas déjà
+        addCUrrentChat: (state, action) => {
+
+            state.currentChat= action?.payload
+
+        },
     },
 });
 
-export const { addRoom, removeRoom, clearRooms, newRoom, addUser } = chatSlice.actions;
+export const { addRoom, removeRoom, clearRooms, newRoom, addUser, addCUrrentChat } = chatSlice.actions;
 
 export default chatSlice.reducer;

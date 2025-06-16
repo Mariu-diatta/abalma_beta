@@ -9,6 +9,7 @@ import { logout, updateCompteUser, updateUserData } from '../slices/authSlice';
 import InputBox from '../components/InputBoxFloat';
 import { newRoom } from '../slices/chatSlice';
 import { setCurrentNav } from '../slices/navigateSlice';
+import { hashPassword } from '../components/OwnerProfil';
 
 const ProfileCard = () => {
 
@@ -18,6 +19,8 @@ const ProfileCard = () => {
     const profileData = useSelector((state) => state.auth.user);
     const selectedProductOwner = useSelector((state) => state.chat.userSlected);
     const currentNav = useSelector((state) => state.navigate.currentNav);
+    const currentUser = useSelector((state) => state.auth.user);
+
 
     const userProfile = useMemo(() =>
         (currentNav === "user_profil" || currentNav === "home") ? profileData :
@@ -83,15 +86,56 @@ const ProfileCard = () => {
 
                 try {
 
-                    await api.post('rooms/', { name: `room_${userProfile.nom}` });
+                    await hashPassword(selectedProductOwner?.telephone).then(
 
-                    dispatch(newRoom({ name: `room_${userProfile.nom}` }));
+                        res => {
 
-                    dispatch(setCurrentNav("message_inbox"));
+                            try {
+                                api.post('rooms/', 
+
+                                    {
+                                        "name": `room_${currentUser?.telephone}_${res}`,
+                                        "current_owner": currentUser?.id,
+                                        "current_receiver": selectedProductOwner?.id
+                                    }
+
+                                ).then(
+
+                                    resp => {
+
+                                        console.log("LA CREATION DU CHAT", resp)
+
+                                        return dispatch(setCurrentNav("message_inbox"))
+                                    }
+
+                                ).catch(
+
+                                    err => {
+
+                                        console.log("ERREUR DE LA CREATION DU CHAT", err?.response?.data?.name)
+
+                                        if (err?.response?.data?.name.includes("room with this name already exists.")) {
+
+                                            dispatch(setCurrentNav("message_inbox"))
+                                        }
+
+                                    }
+                                    
+                                )
+
+                            } catch (err) {
+
+                                console.log("0 ERREUR DE LA CREATION DU CHAT", err?.response?.data)
+                            }
+
+                            dispatch(newRoom({ name: `room_${currentUser?.telephone }_${res}` }))
+                        }
+
+                    )
 
                 } catch (err) {
 
-                    console.error("ERREUR DE LA CREATION DU CHAT", err?.response?.data?.name);
+                    console.error("1 ERREUR DE LA CREATION DU CHAT", err?.response?.data?.name);
 
                     if (err?.response?.data?.name[0] === 'room with this name already exists.') dispatch(setCurrentNav("message_inbox"));
                 }
@@ -113,18 +157,21 @@ const ProfileCard = () => {
 
                     await api.put(`/clients/${profileData?.id}/`, { is_fournisseur: true });
 
-                    const user = profileData;
+                    const user = {...profileData};
 
                     user["is_fournisseur"] = true;
 
                     dispatch(updateUserData(user))
 
+                    alert("Votre compte est passé à fournisseur");
+
                 } catch {
 
                     console.log("Erreur lors de la mise à jour de l'utilisateur");
+
+                    alert("L'utilisateur est déjà un fournisseur");
                 }
               
-                alert("L'utilisateur est déjà un fournisseur");
 
                 return;
             }
@@ -532,7 +579,7 @@ const ProfileCard = () => {
                                 }
 
                                 {
-                                    (!userProfile?.is_fournisseur && isCurrentUser) &&
+                                        (!userProfile?.is_fournisseur || !userProfile?.is_fournisseur) &&
                                     <button
                                         onClick={getUserCompte}
                                         className="bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700 m-1"

@@ -31,26 +31,38 @@ const VertcalNavbar = ({ children }) => {
 
     const allRooms = useSelector(state => state.chat.currentChats)
 
+    const currentUser = useSelector(state => state.auth.user)
+
     const sidebarRef = useRef();
 
-
     useEffect(() => {
-
 
         const fetchRooms = async () => {
 
             try {
 
-                const resp = await api.get(`/rooms/`);
+                await api.get(`/rooms/`).then(
 
-                console.log("rooms", resp?.data)
+                    response => {
 
-                resp?.data.map((el, _) => {
+                        console.log("LES ROOMS", response?.data)
 
-                    dispatch(addRoom({ "name": el?.name, "label": el?.name, "pk": el?.pk }));
+                        response?.data.map(
 
-                })
+                            (room, _) => {
 
+                                if (room?.current_receiver === currentUser?.id || room?.current_owner === currentUser?.id) {
+
+                                    dispatch(addRoom(room));
+
+                                }
+
+                            }
+                        )
+
+                    }
+
+                )
 
             } catch (err) {
 
@@ -60,6 +72,7 @@ const VertcalNavbar = ({ children }) => {
         fetchRooms()
 
     }, [])
+
 
 
     const getProductFilter = async (url) => {
