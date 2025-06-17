@@ -59,32 +59,46 @@ const OwnerPopover = ({ owner, onClose }) => {
                     ).then(
 
                         resp => {
-                                
+
                             dispatch(newRoom({ name: `room_${owner?.nom}_${res}` }))
 
                             dispatch(addCUrrentChat(`room_${owner?.nom}_${res}`))
-                            
+
                         }
 
                     ).catch(
 
                         err => {
-                            console.log("ERREUR DE LA CREATION DU CHAT", err?.response?.data?.name[0])
+                            const errorMsg = err?.response?.data;
+                            console.error("Erreur lors de la création du chat:", errorMsg);
 
-                            if (err?.response?.data?.name[0] === "room with this name already exists.") {
+                            const roomExistMessages = [
+                                'room with this current owner already exists.',
+                                'room with this name already exists.'
+                            ];
 
+                            // Vérifie si l'erreur reçue correspond à une des erreurs connues
+                            if (roomExistMessages.includes(errorMsg)) {
+                                const ownerPhone = selectedProductOwner?.telephone;
+                                const ownerName = owner?.nom;
 
-                                hashPassword(selectedProductOwner?.telephone).then(
-
-                                    res => {
-                                        dispatch(newRoom({ name: `room_${owner?.nom}_${res}` }))
-                                    }
-                                )
+                                if (ownerPhone && ownerName) {
+                                    hashPassword(ownerPhone)
+                                        .then(hashed => {
+                                            const roomName = `room_${ownerName}_${hashed}`;
+                                            dispatch(newRoom({ name: roomName }));
+                                        })
+                                        .catch(hashErr => {
+                                            console.error("Erreur lors du hachage du numéro de téléphone:", hashErr);
+                                        });
+                                } else {
+                                    console.warn("Données manquantes pour créer une room de fallback.");
+                                }
                             }
-
                         }
 
-                       
+
+
                     )
 
                 } catch (err) {
@@ -158,8 +172,8 @@ const OwnerPopover = ({ owner, onClose }) => {
                     <button
 
                         onClick={() => {
-                                chatWithOwner();
-                            }
+                            chatWithOwner();
+                        }
                         }
 
                         className="p-1.5 rounded-md text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800 cursor-pointer"
@@ -199,7 +213,7 @@ const OwnerAvatar = ({ owner }) => {
         <div className="relative inline-block" ref={containerRef}>
 
             {
-                owner.image?
+                owner.image ?
                     <img
 
                         src={owner.image}
@@ -215,12 +229,17 @@ const OwnerAvatar = ({ owner }) => {
                             setShowPopover((prev) => !prev);
                         }}
                     />
-                :
+                    :
                     <svg
                         className="w-6 h-6 text-gray-800 dark:text-white cursor-pointer"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="currentColor"
                         viewBox="0 0 24 24"
+                        title={owner.nom}
+                        onClick={() => {
+
+                            setShowPopover((prev) => !prev);
+                        }}
 
                     >
                         <path
@@ -240,7 +259,7 @@ const OwnerAvatar = ({ owner }) => {
             {
                 showPopover && (
 
-                     <OwnerPopover owner={owner} onClose={() => setShowPopover(false)} />
+                    <OwnerPopover owner={owner} onClose={() => setShowPopover(false)} />
                 )
             }
         </div>
