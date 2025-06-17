@@ -187,7 +187,9 @@ const UserTable = () => {
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
 
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+
                     <tr>
+
                         <th className="p-4">
                             <input
                                 type="checkbox"
@@ -196,11 +198,15 @@ const UserTable = () => {
                                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm dark:bg-gray-700 dark:border-gray-600"
                             />
                         </th>
+
                         <th className="px-6 py-3">Nom</th>
+
                         <th className="px-6 py-3">About</th>
-                        {/*<th className="px-6 py-3">Statut</th>*/}
+
                         <th className="px-6 py-3">Supprimer</th>
+
                     </tr>
+
                 </thead>
 
                 <tbody>
@@ -208,6 +214,7 @@ const UserTable = () => {
                     {filteredUsers.map((user, i) => (
 
                         !(user?.id === userSelected?.id) &&
+
                         <tr key={i} className="bg-white  dark:bg-gray-800  hover:bg-gray-50 dark:hover:bg-gray-600">
 
                             <td className="p-4">
@@ -238,19 +245,14 @@ const UserTable = () => {
 
                             </td>
 
-                            <td className="px-6 py-4">{user?.description}</td>
-
-                            {/*<td className="px-6 py-4">*/}
-                            {/*    <div className="flex items-center">*/}
-                            {/*        <div className={`h-2.5 w-2.5 rounded-full mr-2 ${user?.is_connected ? "bg-green-500" : "bg-red-500"}`}></div>*/}
-                               
-                            {/*    </div>*/}
-                            {/*</td>*/}
+                                <td className="px-6 py-4">{user?.description}</td>
 
                             <td className="px-6 py-4">
 
                                 <svg className="w-6 h-5 text-red-800 dark:text-white cursor-pointer" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                    <path fillRule="evenodd" d="M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z" clipRule="evenodd" />
+                                    
+                                     <path fillRule="evenodd" d="M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z" clipRule="evenodd" />
+
                                 </svg>
 
                             </td>

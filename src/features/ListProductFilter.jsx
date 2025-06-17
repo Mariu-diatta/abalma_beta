@@ -8,10 +8,15 @@ const DataTable = () => {
 
     return (
         <div className="mb-2 relative overflow-x-auto shadow-md sm:rounded-lg">
+
             <div className="flex flex-col sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
+
                 <div className="relative">
+
                     <button
+
                         onClick={toggleDropdown}
+
                         className="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                     >
                         <svg
@@ -40,6 +45,7 @@ const DataTable = () => {
                             />
                         </svg>
                     </button>
+
                     {dropdownOpen && (
                         <div className="absolute z-10 mt-2 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700 dark:divide-gray-600">
                             <ul className="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200">
@@ -64,6 +70,7 @@ const DataTable = () => {
                             </ul>
                         </div>
                     )}
+
                 </div>
 
                 <div className="relative">

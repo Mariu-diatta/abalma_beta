@@ -15,17 +15,23 @@ const categories = [
 ];
 
 const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory }) => {
+
     const scrollRef = useRef(null);
+
     const [showLeft, setShowLeft] = useState(false);
+
     const [showRight, setShowRight] = useState(false);
 
     const updateButtonsVisibility = () => {
+
         const container = scrollRef.current;
+
         if (!container) return;
 
         const { scrollLeft, scrollWidth, clientWidth } = container;
 
         setShowLeft(scrollLeft > 0);
+
         setShowRight(scrollLeft + clientWidth < scrollWidth - 1); // -1 to handle rounding issues
     };
 
@@ -41,22 +47,28 @@ const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory }) => {
     };
 
     useEffect(() => {
+
         const container = scrollRef.current;
+
         if (!container) return;
 
         updateButtonsVisibility(); // Initial state
 
         container.addEventListener("scroll", updateButtonsVisibility);
+
         window.addEventListener("resize", updateButtonsVisibility); // Handle screen resize
 
         return () => {
+
             container.removeEventListener("scroll", updateButtonsVisibility);
+
             window.removeEventListener("resize", updateButtonsVisibility);
         };
     }, []);
 
     return (
         <div className="relative w-full mb-4">
+
             {/* Bouton gauche */}
             {showLeft && (
                 <button
@@ -70,20 +82,31 @@ const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory }) => {
             {/* Conteneur scrollable */}
             <div
                 ref={scrollRef}
+
                 className="scrollbor_hidden_ overflow-x-auto  px-10"
             >
                 <div className="flex gap-2 min-w-max py-2">
+
                     {categories.map((cat) => (
+
                         <button
+
                             key={cat}
+
                             onClick={() => setActiveCategory(cat)}
+
                             className={`whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium transition 
+
                                 ${activeCategory === cat
-                                    ? 'bg-blue-700 text-white'
-                                    : 'bg-white text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white'
+
+                                ? 'bg-blue-700 text-white'
+
+                                : 'bg-white text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white'
+
                                 }`}
                         >
                             {cat.replace('_', ' ')}
+
                         </button>
                     ))}
                 </div>
@@ -91,11 +114,15 @@ const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory }) => {
 
             {/* Bouton droit */}
             {showRight && (
+
                 <button
+
                     className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white p-2 shadow rounded-full"
+
                     onClick={() => scroll('right')}
                 >
                     <ChevronRight className="w-5 h-5 text-gray-600" />
+
                 </button>
             )}
         </div>
@@ -119,9 +146,13 @@ const GridLayoutProduct = () => {
     const closeModal = () => setModalData(null);
 
     useEffect(() => {
+
         const fetchProductsAndOwners = async () => {
+
             try {
+
                 const { data: products } = await api.get("produits/");
+
                 setProductData(products);
 
                 // Récupère tous les IDs uniques de fournisseurs
@@ -129,25 +160,34 @@ const GridLayoutProduct = () => {
 
                 // Appelle tous les owners en parallèle
                 const responses = await Promise.all(
+
                     uniqueOwnerIds.map(id =>
+
                         api.get(`clients/${id}/`).then(res => ({ id, data: res.data })).catch(() => ({ id, data: null }))
                     )
                 );
 
                 // Construit un objet clé-valeur pour un accès rapide
                 const ownerMap = responses.reduce((acc, { id, data }) => {
+
                     if (data) acc[id] = data;
+
                     return acc;
+
                 }, {});
 
                 setOwners(ownerMap);
+
             } catch (error) {
+
                 console.error("Erreur lors du chargement des produits ou des propriétaires :", error);
             }
         };
 
         fetchProductsAndOwners();
+
     }, []);
+
 
     const filteredItems = activeCategory === 'All'
         ? productData
@@ -203,6 +243,7 @@ const GridLayoutProduct = () => {
                                     {owner?.image && <OwnerAvatar owner={owner} />}
 
                                     {item.quantity_product !== "1" && (
+
                                         <span className="text-xs text-gray-600">Quantité {item.quantity_product}</span>
                                     )}
 
@@ -213,8 +254,11 @@ const GridLayoutProduct = () => {
                                 </p>
 
                                 <div className="flex justify-between items-center">
+
                                     <span className="text-blue-700 font-semibold text-sm">${item.price_product}</span>
+
                                     <div className="flex gap-2">
+
                                         <button
                                             title="Ajouter au panier"
                                             onClick={() => addProductToCart(item)}
@@ -222,6 +266,7 @@ const GridLayoutProduct = () => {
                                         >
                                             🛒
                                         </button>
+
                                         <button
                                             title="Ajouter en cadeau"
                                             onClick={() => alert(`Cadeau ajouté: ${item.description_product}`)}
@@ -229,7 +274,9 @@ const GridLayoutProduct = () => {
                                         >
                                             🎁
                                         </button>
+
                                     </div>
+
                                 </div>
                             </div>
                         );

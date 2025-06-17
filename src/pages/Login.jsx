@@ -153,15 +153,21 @@ const Signin = () => {
 
     return (
         <section className="bg-gray-1 py-20 dark:bg-dark lg:py-[120px]">
+
             <div className="container mx-auto">
+
                 <div className="-mx-4 flex flex-wrap">
+
                     <div className="w-full px-4">
+
                         <div className="relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white px-10 py-16 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]">
+
                             <h1 className="mb-10 text-2xl font-bold text-dark dark:text-white">
                                 Connectez-vous!
                             </h1>
 
                             <form onSubmit={(e) => { e.preventDefault(); handleSignIn(); }}>
+
                                 <InputBox
                                     type="email"
                                     name="email"
@@ -170,6 +176,7 @@ const Signin = () => {
                                     placeholder="Email"
                                     required
                                 />
+
                                 <InputBox
                                     type="password"
                                     name="password"
@@ -179,6 +186,7 @@ const Signin = () => {
                                     ref={emailRef}
                                     required
                                 />
+
                                 <div className="mb-10">
                                     <input
                                         type="submit"
@@ -186,6 +194,7 @@ const Signin = () => {
                                         className="w-full cursor-pointer rounded-md border border-blue-600 bg-blue-600 px-5 py-3 text-base font-medium text-white transition hover:bg-blue-700"
                                     />
                                 </div>
+
                             </form>
 
                             <p className="mb-6 text-base text-secondary-color dark:text-dark-7">
@@ -194,12 +203,15 @@ const Signin = () => {
 
                             <ul className="-mx-2 mb-12 flex justify-between">
                                 <li className="w-full px-2">
+
                                     <button
                                         onClick={handleFacebookLogin}
                                         className="flex h-11 w-full items-center justify-center rounded-md bg-[#4064AC] hover:bg-opacity-90">
                                         {/* Facebook SVG */}
                                     </button>
+
                                 </li>
+
                                 <li className="w-full px-2">
                                     <button
                                         onClick={handleTwitter}
@@ -207,6 +219,7 @@ const Signin = () => {
                                         {/* Twitter SVG */}
                                     </button>
                                 </li>
+
                                 <li className="w-full px-2">
                                     <button
                                         onClick={handleGoogleLogin}
@@ -214,6 +227,7 @@ const Signin = () => {
                                         {/* Google SVG */}
                                     </button>
                                 </li>
+
                             </ul>
 
                             <a href="/#" className="mb-2 inline-block text-base text-dark hover:text-primary hover:underline dark:text-white">
@@ -221,11 +235,15 @@ const Signin = () => {
                             </a>
 
                             <p className="text-base text-body-color dark:text-dark-6">
+
                                 <span className="pr-0.5">Pas encore inscrit ?</span>
+
                                 <a href="/#" className="text-primary hover:underline">S'inscrire</a>
+
                             </p>
 
                             {messageAlert && (
+
                                 <AttentionAlertMesage title="Erreur" content={messageAlert} />
                             )}
                         </div>

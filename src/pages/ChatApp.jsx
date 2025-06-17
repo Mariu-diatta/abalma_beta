@@ -4,6 +4,7 @@ import api from '../services/Axios';
 import { addCUrrentChat } from '../slices/chatSlice';
 
 const ChatApp = ({ roomName }) => {
+
     const ws = useRef(null);
     const messagesEndRef = useRef(null);
     const [messages, setMessages] = useState([]);
@@ -11,31 +12,41 @@ const ChatApp = ({ roomName }) => {
 
     const currentUser = useSelector(state => state.auth.user);
     const allRoomsChats = useSelector(state => state.chat.currentChats);
-    const newroom = useSelector(state => state.chat.newChat);
+    //const newroom = useSelector(state => state.chat.newChat);
     const currentChat = useSelector(state => state.chat.currentChat);
 
     const fetchOldMessages = async () => {
+
         try {
+
             const resp = await api.get(`/rooms/?name=${roomName}`);
+
             const loadedMessages = [];
 
             resp?.data?.forEach(el => {
+
                 el?.messages?.forEach(msg => {
-                    loadedMessages.push({
-                        message: msg?.text,
-                        sender: msg?.user,
-                        date: msg?.created_at_formatted,
-                    });
+
+                    loadedMessages.push(
+                        {
+                            message: msg?.text,
+                            sender: msg?.user,
+                            date: msg?.created_at_formatted,
+                        }
+                    );
                 });
             });
 
             setMessages(loadedMessages);
+
         } catch (err) {
+
             console.error("Erreur lors du chargement des anciens messages", err);
         }
     };
 
     useEffect(() => {
+
         if (!roomName) return;
 
         setMessages([]);
@@ -118,11 +129,15 @@ const ChatApp = ({ roomName }) => {
                         const isCurrentUser = msg.sender?.email === currentUser?.email;
 
                         return (
+
                             <li
                                 key={`${msg?.date}-${idx}`}
+
                                 className={`flex items-end gap-2 ${isCurrentUser ? 'justify-end' : 'justify-start'}`}
+
                             >
                                 {!isCurrentUser && (
+
                                     <img
                                         src={msg.sender?.image}
                                         alt={`${msg.sender?.name || "Utilisateur"} avatar`}
@@ -131,30 +146,38 @@ const ChatApp = ({ roomName }) => {
                                 )}
 
                                 <div
+
                                     className={`max-w-[70%] px-4 py-2 rounded-2xl text-sm shadow 
+
                                     ${isCurrentUser
                                             ? 'bg-blue-500 text-white rounded-br-none'
                                             : 'bg-gray-200 text-gray-800 rounded-bl-none'}`
                                     }
                                 >
                                     <p>{msg.message}</p>
+
                                 </div>
 
                                 {isCurrentUser && (
+
                                     <img
                                         src={msg.sender?.image}
                                         alt={`${msg.sender?.name || "Moi"} avatar`}
                                         className="h-7 w-7 rounded-full object-cover"
                                     />
                                 )}
+
                             </li>
                         );
                     })}
+
                 <div ref={messagesEndRef} />
+
             </ul>
 
             {/* Input */}
             <div className="mt-4 flex gap-2">
+
                 <input
                     disabled={allRoomsChats.length === 0}
                     value={input}
@@ -163,12 +186,14 @@ const ChatApp = ({ roomName }) => {
                     placeholder="Votre message..."
                     className="flex-1 px-4 py-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
+
                 <button
                     onClick={sendMessage}
                     className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl text-sm font-medium"
                 >
                     Envoyer
                 </button>
+
             </div>
         </div>
     );

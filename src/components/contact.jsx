@@ -1,6 +1,7 @@
 import React from "react";
 
 const Contact = () => {
+
     return (
         <>
             <section className="relative z-10 overflow-hidden bg-white py-20 dark:bg-dark lg:py-[120px]">
@@ -42,14 +43,19 @@ const Contact = () => {
                                             />
                                         </svg>
                                     </div>
+
                                     <div className="w-full">
+
                                         <h4 className="mb-1 text-xl font-bold text-dark dark:text-white">
                                             Our Location
                                         </h4>
+
                                         <p className="text-base text-body-color dark:text-dark-6">
                                             99 S.t Jomblo Park Pekanbaru 28292. Indonesia
                                         </p>
+
                                     </div>
+
                                 </div>
 
                                 <div className="mb-8 flex w-full max-w-[370px]">
@@ -979,7 +985,9 @@ const Contact = () => {
 export default Contact;
 
 const ContactTextArea = ({ row, placeholder, name, defaultValue }) => {
+
     return (
+
         <>
             <div className="mb-6">
                 <textarea
@@ -995,6 +1003,7 @@ const ContactTextArea = ({ row, placeholder, name, defaultValue }) => {
 };
 
 const ContactInputBox = ({ type, placeholder, name }) => {
+
     return (
         <>
             <div className="mb-6">

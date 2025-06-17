@@ -110,7 +110,9 @@ const ProductTablePagination = ({data }) => {
             <nav className="flex flex-row items-center gap-2 m-2">
 
                 <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+
                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 8h6m-6 4h6m-6 4h6M6 3v18l2-2 2 2 2-2 2 2 2-2 2 2V3l-2 2-2-2-2 2-2-2-2 2-2-2Z" />
+
                 </svg>
 
                 <h2 className="text-2xl font-semibold  text-gray-800 dark:text-white">Mes ventes</h2>
@@ -118,8 +120,10 @@ const ProductTablePagination = ({data }) => {
             </nav>
 
             <div className="m-2 flex flex-col sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
+
                 {/* Filtre statut */}
                 <div className="relative">
+
                     <button
                         onClick={() => setDropdownOpen(!dropdownOpen)}
                         className="inline-flex items-center text-gray-700 bg-gray-100 border border-gray-300 rounded-lg px-3 py-1.5 dark:bg-gray-700 dark:text-white"
@@ -127,6 +131,7 @@ const ProductTablePagination = ({data }) => {
                         aria-expanded={dropdownOpen}
                     >
                         <span className="capitalize">{filterStatut}</span>
+
                         <svg
                             className="w-3 h-3 ms-2"
                             fill="none"
@@ -137,7 +142,9 @@ const ProductTablePagination = ({data }) => {
                         >
                             <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"></path>
                         </svg>
+
                     </button>
+
                     {dropdownOpen && (
                         <ul
                             className="absolute z-10 mt-1 w-40 bg-white rounded shadow-lg dark:bg-gray-700"
@@ -161,6 +168,7 @@ const ProductTablePagination = ({data }) => {
                             ))}
                         </ul>
                     )}
+
                 </div>
 
                 {/* Bouton supprimer si sélection */}
@@ -249,6 +257,7 @@ const ProductTablePagination = ({data }) => {
                         
                     </tr>
                 </thead>
+
                 <tbody>
                     {currentItems.length === 0 ? (
                         <tr>
@@ -365,6 +374,7 @@ const ProductTablePagination = ({data }) => {
                     </li>
                 </ul>
             </nav>
+
             {popoverOpen && (
                 <>
                     {/* Fond semi-transparent */}

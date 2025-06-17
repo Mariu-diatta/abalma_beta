@@ -27,12 +27,26 @@ const SettingsForm = () => {
     const [cartData, setCartData] = useState({});
 
 
-    const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        setForm({
-            ...form,
+    const tryRequest = async (requestFn, successMessage) => {
+        try {
+            await requestFn();
+            alert(successMessage);
+        } catch (err) {
+            console.warn("Request failed:", err);
+            alert("Une erreur est survenue. Veuillez réessayer.");
+        }
+    };
+
+    const handleChange = ({ target }) => {
+
+        const { name, value, type, checked } = target;
+
+        setForm((prev) => ({
+
+            ...prev,
+
             [name]: type === 'checkbox' ? checked : value,
-        });
+        }));
     };
 
     const handleImageUpload = (e) => {
@@ -49,45 +63,44 @@ const SettingsForm = () => {
         e.preventDefault();
 
         if (!currentUserCompte?.id) {
+
             alert("Aucun ID de compte trouvé.");
+
             return;
         }
 
-        try {
-            await api.patch(`/comptes/${currentUserCompte.id}/`, {
+        await tryRequest(
+            () => api.patch(`/comptes/${currentUserCompte.id}/`,
+            {
                 theme: form.theme,
                 is_notif_active: form.notifications,
-            });
+            }
+        ), 'Paramètres du compte enregistrés avec succès!')
 
-            alert('Paramètres du compte enregistrés avec succès !');
-        } catch (error) {
-            console.error("Erreur lors de l'enregistrement des données :", error);
-            alert("Une erreur est survenue. Vérifie les données ou contacte le support.");
-        }
     };
 
     const updatePassword = async (e) => {
 
         e.preventDefault();
 
-        if (!currentUserData?.id) return;
-
-        try {
-
-            await api.patch(`/clients/${currentUserData?.id}/`, {
-                password: form.password,
-            });
-
-            alert('Mot de passe modifié avec succès !');
-
-        } catch (error) {
-
-            console.error("Erreur lors de l'enregistrement des données :", error);
-        }
+        await tryRequest(
+            () => api.patch(`/clients/${currentUserData?.id}/`,
+                {
+                    password: form.password,
+                }
+            ), 'Mot de passe modifié avec succès !')
 
     }
 
     const GetClientCard = async () => {
+
+
+        await tryRequest(
+            () => api.patch(`/clients/${currentUserData?.id}/`,
+                {
+                    password: form.password,
+                }
+            ), 'Mot de passe modifié avec succès !')
 
         if (!currentUserData?.id) return;
 
@@ -147,7 +160,42 @@ const SettingsForm = () => {
             GetClientCard();
         }
 
-    }, [currentUserData?.id]);
+    }, [currentUserData]);
+
+
+    useEffect(() => {
+        return () => {
+            if (previewUrl) URL.revokeObjectURL(previewUrl);
+        };
+    }, [previewUrl]);
+
+
+    useEffect(() => {
+
+        if (cartData) {
+
+            setForm((prev) => ({
+
+                ...prev,
+
+                cardNumber: cartData?.number_card || '',
+
+                expiry: cartData?.date_expiration || '',
+
+                cvv: cartData?.number_cvv || '',
+
+                address: cartData?.adresse_pay || '',
+
+                city: cartData?.ville_pay || '',
+
+                zip: parseInt(cartData?.code_postal_pay) || '',
+
+                country: cartData?.pays_pay || '',
+
+            }));
+        }
+
+    }, [cartData])
 
 
     return (
@@ -215,9 +263,9 @@ const SettingsForm = () => {
                 <FloatingInput
                     id="password"
                     name="password"
-                    label="Mot de passe"
+                    label="Nouveau mot de passe"
                     type="password"
-                    value={form.password || currentUserData?.password}
+                    value={form.password}
                     onChange={handleChange}
                 />
 
@@ -307,6 +355,7 @@ const SettingsForm = () => {
                 />
 
                 <div className="flex gap-4">
+
                     <FloatingInput
                         type="date"
                         id="expiry"
@@ -317,6 +366,7 @@ const SettingsForm = () => {
                         onChange={handleChange}
                         wrapperClass="w-1/2"
                     />
+
                     <FloatingInput
                         type="number"
                         id="cvv"
@@ -327,6 +377,7 @@ const SettingsForm = () => {
                         onChange={handleChange}
                         wrapperClass="w-1/2"
                     />
+
                 </div>
 
                 {/* 🧾 Adresse de facturation */}

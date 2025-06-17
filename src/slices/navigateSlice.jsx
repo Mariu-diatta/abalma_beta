@@ -19,19 +19,24 @@ const navigateSlice = createSlice({
     reducers: {
 
         setPreviousNav: (state) => {
+
             state.previousNav = state.currentNav;
         },
 
         setCurrentNav: (state, action) => {
+
             state.previousNav = state.currentNav; // on garde aussi l'ancien
+
             state.currentNav = action.payload;    // payload = nouvelle valeur simple, ex: "shop"
         },
 
         setCurrentMessage: (state, action) => {
+
             state.messageAlert = action.payload;    // payload = nouvelle valeur simple, ex: "shop"
         },
 
         clearMessage: (state) => {
+
             state.messageAlert = null;
         }
     }

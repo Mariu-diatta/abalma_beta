@@ -15,8 +15,11 @@ const HorizontalCard = ({ children, item }) => {
 
 
             <div className="absolute bottom-1 right-50 border-0">
+
                 <div
+
                     className="cursor-pointer border-0 flex h-full w-full items-center justify-center rounded-lg  bg-white dark:border-dark-3 dark:bg-dark-2"
+
                     onClick={() => dispatch(addToCart(item))}
                 >
                     <svg

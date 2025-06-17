@@ -486,14 +486,14 @@ const ProfileCard = () => {
                                 type="text"
                                 name="name"
                                 placeholder="Nom"
-                                    value={formData?.nom}
+                                value={formData?.nom}
                                 onChange={handleChange}
                              />
 
                             <InputBox
                                 type="text"
                                 name="prenom"
-                                    value={formData?.prenom}
+                                value={formData?.prenom}
                                 onChange={handleChange}
                                 placeholder="Prénom"
                              />
@@ -501,15 +501,15 @@ const ProfileCard = () => {
                             <InputBox
                                 type="email"
                                 name="email"
-                                    value={formData?.email}
+                                value={formData?.email}
                                 onChange={handleChange}
                                 placeholder="Email"
                             />
 
                             <InputBox
                                 type="text"
-                                name="adress"
-                                    value={formData?.adresse}
+                                name="adresse"
+                                value={formData?.adresse}
                                 onChange={handleChange}
                                 placeholder="Adresse"
                              />
@@ -517,14 +517,14 @@ const ProfileCard = () => {
                             <InputBox
                                 type="tel"
                                 name="tel"
-                                    value={formData?.telephone}
+                                value={formData?.telephone}
                                 onChange={handleChange}
                                 placeholder="Téléphone"
                              />
 
                             <textarea
-                                name="comment"
-                                value={formData?.comment}
+                                name="description"
+                                value={formData?.description}
                                 onChange={handleChange}
                                 className="w-full h-24 rounded-md border border-gray-300 p-2 resize-none"
                                 placeholder="Description"
