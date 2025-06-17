@@ -73,7 +73,6 @@ const OwnerPopover = ({ owner, onClose }) => {
 
                             if (err?.response?.data?.name[0] === "room with this name already exists.") {
 
-
                                 hashPassword(selectedProductOwner?.telephone).then(
 
                                     res => {

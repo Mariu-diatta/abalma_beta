@@ -12,7 +12,7 @@ const ChatApp = ({ roomName }) => {
 
     const currentUser = useSelector(state => state.auth.user);
     const allRoomsChats = useSelector(state => state.chat.currentChats);
-    //const newroom = useSelector(state => state.chat.newChat);
+    const newroom = useSelector(state => state.chat.newChat);
     const currentChat = useSelector(state => state.chat.currentChat);
 
     const fetchOldMessages = async () => {
@@ -81,7 +81,7 @@ const ChatApp = ({ roomName }) => {
 
         return () => ws.current?.close(); 
 
-    }, [roomName]);
+    }, [newroom]);
 
     useEffect(() => {
 
@@ -91,7 +91,7 @@ const ChatApp = ({ roomName }) => {
 
     useEffect(() => {
 
-        addCUrrentChat(allRoomsChats[0]?.name);
+        addCUrrentChat(allRoomsChats[0]?.name || newroom);
 
     }, []);
 
