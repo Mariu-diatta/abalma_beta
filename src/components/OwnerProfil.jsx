@@ -73,10 +73,11 @@ const OwnerPopover = ({ owner, onClose }) => {
 
                             if (err?.response?.data?.name[0] === "room with this name already exists.") {
 
+
                                 hashPassword(selectedProductOwner?.telephone).then(
 
                                     res => {
-                                        dispatch(newRoom({ name: `room_${currentUser?.telephone}_${res}` }))
+                                        dispatch(newRoom({ name: `room_${owner?.nom}_${res}` }))
                                     }
                                 )
                             }

@@ -81,7 +81,7 @@ const ChatApp = ({ roomName }) => {
 
         return () => ws.current?.close(); 
 
-    }, [newroom]);
+    }, []);
 
     useEffect(() => {
 
