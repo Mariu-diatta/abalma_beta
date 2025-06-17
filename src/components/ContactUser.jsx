@@ -11,6 +11,7 @@ const UserTable = () => {
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [users, setUsers] = useState([]);
     const userSelected = useSelector(state => state.chat.userSlected)
+    const currentuser = useSelector(state => state.auth.user)
 
     useEffect(
         () => {
@@ -213,7 +214,7 @@ const UserTable = () => {
 
                     {filteredUsers.map((user, i) => (
 
-                        !(user?.id === userSelected?.id) &&
+                        !(user?.id === currentuser?.id) &&
 
                         <tr key={i} className="bg-white  dark:bg-gray-800  hover:bg-gray-50 dark:hover:bg-gray-600">
 

@@ -69,20 +69,34 @@ const OwnerPopover = ({ owner, onClose }) => {
                     ).catch(
 
                         err => {
-                            console.log("ERREUR DE LA CREATION DU CHAT", err?.response?.data?.name[0])
+                            const errorMsg = err?.response?.data;
+                            console.error("Erreur lors de la création du chat:", errorMsg);
 
-                            if (err?.response?.data?.name[0] === "room with this name already exists.") {
+                            const roomExistMessages = [
+                                'room with this current owner already exists.',
+                                'room with this name already exists.'
+                            ];
 
+                            // Vérifie si l'erreur reçue correspond à une des erreurs connues
+                            if (roomExistMessages.includes(errorMsg)) {
+                                const ownerPhone = selectedProductOwner?.telephone;
+                                const ownerName = owner?.nom;
 
-                                hashPassword(selectedProductOwner?.telephone).then(
-
-                                    res => {
-                                        dispatch(newRoom({ name: `room_${currentUser?.telephone}_${res}` }))
-                                    }
-                                )
+                                if (ownerPhone && ownerName) {
+                                    hashPassword(ownerPhone)
+                                        .then(hashed => {
+                                            const roomName = `room_${ownerName}_${hashed}`;
+                                            dispatch(newRoom({ name: roomName }));
+                                        })
+                                        .catch(hashErr => {
+                                            console.error("Erreur lors du hachage du numéro de téléphone:", hashErr);
+                                        });
+                                } else {
+                                    console.warn("Données manquantes pour créer une room de fallback.");
+                                }
                             }
-
                         }
+
 
                        
                     )
