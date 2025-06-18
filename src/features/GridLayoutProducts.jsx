@@ -7,6 +7,7 @@ import api from '../services/Axios';
 import OwnerAvatar from '../components/OwnerProfil';
 import { useRef,  } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { addMessageNotif } from '../slices/chatSlice';
 
 const categories = [
     'All', 'JOUET', 'HABITS', 'MATERIELS_INFORMATIQUES', 'CAHIERS', 'SACS', 'LIVRES',
@@ -21,6 +22,7 @@ const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory }) => {
     const [showLeft, setShowLeft] = useState(false);
 
     const [showRight, setShowRight] = useState(false);
+
 
     const updateButtonsVisibility = () => {
 
@@ -145,6 +147,8 @@ const GridLayoutProduct = () => {
     const openModal = (item) => setModalData(item);
     const closeModal = () => setModalData(null);
 
+
+
     useEffect(() => {
 
         const fetchProductsAndOwners = async () => {
@@ -261,7 +265,10 @@ const GridLayoutProduct = () => {
 
                                         <button
                                             title="Ajouter au panier"
-                                            onClick={() => addProductToCart(item)}
+                                            onClick={() => {
+                                                addProductToCart(item);
+                                                dispatch(addMessageNotif(`Produit ${item?.code_reference} sélectionné le ${Date.now()}`))
+                                            }}
                                             className="cursor-pointer p-1 bg-green-100 rounded-full hover:bg-green-200 transition"
                                         >
                                             🛒
@@ -288,7 +295,7 @@ const GridLayoutProduct = () => {
 
             {modalData && (
                 <div
-                    className="fixed inset-0 z-100 flex items-center justify-center bg-white opacity-95  transition-opacity duration-300 "
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm  sm:px-4"
                     onClick={closeModal}
                     role="dialog"
                     aria-modal="true"
@@ -296,25 +303,18 @@ const GridLayoutProduct = () => {
                 >
                     <div
                         onClick={(e) => e.stopPropagation()}
-
-                        className="z-100  bg-black  shadow-lg transform scale-100 p-0 animate-fade-in-up  "
+                        className="w-full max-w-4xl bg-white dark:bg-gray-900 rounded-2xl shadow-xl  animate-fade-in-up"
                     >
                         <HorizontalCard
-
-                            item={{
-                                id: modalData?.id,
-                                src: modalData?.image_product,
-                                price: modalData?.price_product,
-                                title: modalData?.description_product,
-                                description: `Quantité: ${modalData?.quantity_product}`,
-                            }}
+                            item={modalData}
                         >
-                            <GridSlideProduct srcs={[modalData?.image_product]} />
+                            <GridSlideProduct srcs={[modalData.image_product]} />
 
                         </HorizontalCard>
                     </div>
                 </div>
             )}
+
         </div>
     );
 };

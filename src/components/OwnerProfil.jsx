@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addCUrrentChat, addUser, newRoom } from '../slices/chatSlice';
 import api from '../services/Axios';
 
+
 export async function hashPassword(password) {
     const encoder = new TextEncoder();
     const data = encoder.encode(password);

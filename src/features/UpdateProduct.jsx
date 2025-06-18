@@ -5,6 +5,7 @@ import api from '../services/Axios';
 import AttentionAlertMesage, { showMessage } from '../components/AlertMessage';
 import { setCurrentNav } from '../slices/navigateSlice';
 import { addToCart } from '../slices/cartSlice';
+import { addMessageNotif } from '../slices/chatSlice';
 
 
 const UpdateProduct = () => {
@@ -143,6 +144,8 @@ const UpdateProduct = () => {
             dispatch(addToCart({ ...resp_product?.data, methode: true }));
 
             showMessage(dispatch, "Produit créé avec succès !");
+
+            dispatch(addMessageNotif(`Produit ${ dataProduct?.code_reference} crée le ${Date.now()}`))
 
             handleFileSelect(null)
 

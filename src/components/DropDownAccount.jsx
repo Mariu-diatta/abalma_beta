@@ -5,48 +5,51 @@ import {setCurrentNav } from '../slices/navigateSlice'
 import { logout } from "../slices/authSlice";
 import api from "../services/Axios";
 import { clearCart } from "../slices/cartSlice";
-import { clearRooms } from "../slices/chatSlice";
+import { addMessageNotif, clearRooms, removeMessageNotif } from "../slices/chatSlice";
+import toast, { Toaster } from 'react-hot-toast';
 
 const NotificationsComponent = ({ userId }) => {
+
+    const currentNotifMessages = useSelector(state => state.chat.messageNotif)
+
+    const dispatch = useDispatch()
 
     useEffect(() => {
 
         const socket = new WebSocket(`ws://localhost:8000/ws/notifications/${userId}/`);
 
         socket.onopen = () => {
-            console.log("WebSocket connected ✅");
+            console.log("✅ WebSocket connecté");
         };
 
         socket.onmessage = (event) => {
-            if (!event || !event.data) {
-                console.warn("WebSocket message received without data:", event);
-                return;
-            }
-
             try {
                 const data = JSON.parse(event.data);
-                console.log("WebSocket data:", data);
-                // ⚡ traiter les données ici
+
+                if (data.type === "send_notification" && data.payload) {
+
+                    console.log("🔔 Notification reçue:", data);
+
+                    dispatch(addMessageNotif(data.message))
+                }
+
             } catch (e) {
-                console.error("Erreur parsing JSON WebSocket:", e);
+                console.error("Erreur JSON:", e);
             }
         };
 
         socket.onclose = () => {
-            console.warn("Socket closed unexpectedly ❌");
+            console.warn("❌ WebSocket fermé");
         };
 
-        socket.onerror = (error) => {
-            console.error("WebSocket error:", error);
+        socket.onerror = (err) => {
+            console.error("❗ WebSocket erreur:", err);
         };
 
-        // Nettoyage à la désactivation du composant
-        return () => {
-            socket.close();
-        };
+        return () => socket.close();
     }, [userId]);
 
-    return <div>🔔 {1}</div>;
+    return <div>🔔 {currentNotifMessages.length}</div>;
 };
 
 
@@ -61,13 +64,20 @@ export default function AccountDropdown3() {
 
     const currentUser = useSelector(state => state.auth.user)
 
+    const currentNotifMessages = useSelector(state => state.chat.messageNotif)
+
     const trigger = useRef(null);
 
     const dropdown = useRef(null);
 
     const navigate = useNavigate();
 
+    const notify = () => {
 
+        toast(currentNotifMessages[0]);
+
+        dispatch(removeMessageNotif())
+    };
 
     // close on click outside
     useEffect(() => {
@@ -164,35 +174,17 @@ export default function AccountDropdown3() {
 
                         <div className="mb-3.5 flex items-center gap-4">
 
-                            {/* Icon 1 */}
-                            {/*<div className="flex h-12 w-12 items-center justify-center rounded-lg border-0 bg-white dark:border-dark-3 dark:bg-dark-2">*/}
 
-                            {/*    <svg*/}
-                            {/*        className="h-5 text-gray-800 dark:text-white"*/}
+                            <div>
+                                {
+                                    (currentNotifMessages.length > 0) &&
+                                    <button onClick={notify}>
+                                        <NotificationsComponent userId={currentUser?.id} />
+                                    </button>
+                                }
+                                <Toaster />
+                            </div>
 
-                            {/*        xmlns="http://www.w3.org/2000/svg"*/}
-
-                            {/*        fill="none"*/}
-
-                            {/*        viewBox="0 0 16 21"*/}
-                            {/*    >*/}
-                            {/*        <path*/}
-                            {/*            stroke="currentColor"*/}
-
-                            {/*            strokeLinecap="round"*/}
-
-                            {/*            strokeLinejoin="round"*/}
-
-                            {/*            strokeWidth="2"*/}
-
-                            {/*            d="M8 3.464V1.1m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175C15 15.4 15 16 14.462 16H1.538C1 16 1 15.4 1 14.807c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 8 3.464ZM4.54 16a3.48 3.48 0 0 0 6.92 0H4.54Z"*/}
-                            {/*        />*/}
-
-                            {/*    </svg>*/}
-
-                            {/*</div>*/}
-
-                            <NotificationsComponent userId={currentUser?.id} />
 
                             {/* Icon 2 */}
 

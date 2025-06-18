@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../slices/cartSlice";
 import OwnerAvatar from "../components/OwnerProfil";
 import { setCurrentNav } from "../slices/navigateSlice";
+import { addCUrrentChat, addMessageNotif } from "../slices/chatSlice";
 
 const GridProductDefault = ({data}) => {
 
@@ -16,6 +17,7 @@ const GridProductDefault = ({data}) => {
     const [productData, setProductData] = useState(data || []);
     const [owners, setOwners] = useState({});
     const [modalData, setModalData] = useState(null);
+
 
     const addProductToCart = (product) => dispatch(addToCart(product));
 
@@ -97,7 +99,13 @@ const GridProductDefault = ({data}) => {
                                         <button
                                             type="button"
                                             className="relative w-full block rounded-lg overflow-hidden"
-                                            onClick={(e) => openModal(e, product)}
+                                            onClick={(e) => {
+
+                                                dispatch(addCUrrentChat(owner))
+
+                                                openModal(e, product);
+
+                                            }}
                                             aria-label={`Voir le produit ${product.description_product}`}
                                         >
                                             <img
@@ -130,7 +138,10 @@ const GridProductDefault = ({data}) => {
                                             <div className="flex gap-2">
                                                 <button
                                                     title="Ajouter au panier"
-                                                    onClick={() => addProductToCart(product)}
+                                                    onClick={() => {
+                                                        addProductToCart(product)
+                                                        dispatch(addMessageNotif(`Produit ${product?.code_reference} crée le ${Date.now()}`))
+                                                    }}
                                                     className="p-1 bg-green-100 rounded-full hover:bg-green-200"
                                                 >
                                                     🛒
@@ -157,9 +168,8 @@ const GridProductDefault = ({data}) => {
 
             {/* MODAL */}
             {modalData && (
-
                 <div
-                    className="fixed inset-0 z-100 flex items-center justify-center bg-white opacity-95  transition-opacity duration-300 "
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm  sm:px-1"
                     onClick={closeModal}
                     role="dialog"
                     aria-modal="true"
@@ -167,20 +177,12 @@ const GridProductDefault = ({data}) => {
                 >
                     <div
                         onClick={(e) => e.stopPropagation()}
-
-                        className="z-100  bg-black  shadow-lg transform scale-100 p-0 animate-fade-in-up  "
+                        className="w-full max-w-4xl bg-white dark:bg-gray-900 rounded-2xl shadow-xl  animate-fade-in-up"
                     >
                         <HorizontalCard
-
-                            item={{
-                                id: modalData?.id,
-                                src: modalData?.image_product,
-                                price: modalData?.price_product,
-                                title: modalData?.description_product,
-                                description: `Quantité: ${modalData?.quantity_product}`,
-                            }}
+                            item={modalData}
                         >
-                            <GridSlideProduct srcs={[modalData?.image_product]} />
+                            <GridSlideProduct srcs={[modalData.image_product]} />
 
                         </HorizontalCard>
                     </div>

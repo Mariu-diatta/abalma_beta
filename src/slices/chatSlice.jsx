@@ -5,7 +5,8 @@ const initialState = {
     currentChats: [], // Liste des rooms actuellement actives (sans doublon)
     newChat: "",
     currentChat:"",
-    userSlected:""
+    userSlected: "",
+    messageNotif:[]
 };
 
 const chatSlice = createSlice({
@@ -71,9 +72,20 @@ const chatSlice = createSlice({
             state.currentChat= action?.payload
 
         },
+
+        addMessageNotif: (state, action) => {
+
+            state.messageNotif.push(action?.payload)
+
+        },
+
+        removeMessageNotif: (state) => {
+            state.messageNotif = state.messageNotif.slice(1);
+        }
     },
 });
 
-export const { addRoom, removeRoom, clearRooms, newRoom, addUser, addCUrrentChat } = chatSlice.actions;
+export const { addRoom, removeRoom, clearRooms, newRoom, addUser, addCUrrentChat, addMessageNotif,
+    removeMessageNotif } = chatSlice.actions;
 
 export default chatSlice.reducer;
