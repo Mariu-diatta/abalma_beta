@@ -23,7 +23,7 @@ const HorizontalCard = ({ children, item }) => {
     };
 
     return (
-        <section className="p-0 relative flex flex-col md:flex-row items-center bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-md p-0 transition hover:shadow-lg">
+        <section className="overflow-y-auto p-0 relative flex flex-col md:flex-row items-center bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-md p-0 transition hover:shadow-lg">
             {/* Toggle button petits écrans */}
             <button
                 onClick={() => setShowActions((prev) => !prev)}
@@ -35,7 +35,7 @@ const HorizontalCard = ({ children, item }) => {
 
             {/* Actions petits écrans */}
             {showActions && (
-                <div className="absolute bottom-14 left-3 z-10 flex flex-wrap items-center gap-3 lg:hidden bg-gray-50 dark:bg-gray-900 rounded-lg p-2 shadow-md">
+                <div className="absolute bottom-14 right-3 bottom-3 z-10 flex flex-wrap items-center gap-3 lg:hidden bg-gray-50 dark:bg-gray-900 rounded-lg p-2 shadow-md">
                     {!isProductAdd && (
                         <button
                             onClick={handleAddToCart}
@@ -57,14 +57,12 @@ const HorizontalCard = ({ children, item }) => {
                         </button>
                     </WalletModal>
 
-                    <div
-                        title="Profil Produit Popov"
-                        className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus-within:ring-2 focus-within:ring-blue-500"
-                        tabIndex={0}
-                        aria-label="Profil Produit Popov"
-                    >
-                        <ProfilPopPov />
+                    <div className="md:relative md:right-3 z-10 top:2 flex justify-center">
+                     
+                            <ProfilPopPov />
+                       
                     </div>
+
                 </div>
             )}
 

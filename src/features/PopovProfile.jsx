@@ -35,7 +35,7 @@ const ProfilPopPov = () => {
     }, [isVisible]);
 
     return (
-        <div className="relative inline-block">
+        <div className="relative inline-block justify-center">
             <button
                 ref={buttonRef}
                 onClick={togglePopover}
