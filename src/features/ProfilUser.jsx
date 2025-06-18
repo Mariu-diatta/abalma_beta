@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useMemo, useState } from 'react';
+﻿import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,7 +7,7 @@ import api from '../services/Axios';
 import { logout, updateCompteUser, updateUserData } from '../slices/authSlice';
 //import MessageForm from '../components/MessageForm';
 import InputBox from '../components/InputBoxFloat';
-import { newRoom } from '../slices/chatSlice';
+import { addCurrentChat, addRoom, newRoom } from '../slices/chatSlice';
 import { setCurrentNav } from '../slices/navigateSlice';
 import { hashPassword } from '../components/OwnerProfil';
 
@@ -15,12 +15,12 @@ const ProfileCard = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
     const profileData = useSelector((state) => state.auth.user);
     const selectedProductOwner = useSelector((state) => state.chat.userSlected);
     const currentNav = useSelector((state) => state.navigate.currentNav);
     const currentUser = useSelector((state) => state.auth.user);
-
+    const allChats = useSelector(state => state.chat.currentChats);
+    const currentChat = useSelector(state => state.chat.currentChat);
 
     const userProfile = useMemo(() =>
         (currentNav === "user_profil" || currentNav === "home") ? profileData :
@@ -78,73 +78,101 @@ const ProfileCard = () => {
     }, [userProfile])
 
 
-    useEffect(() => {
+    const getRoomByName = useCallback(async (room) => {
+        try {
+            const response = await api.get(`/rooms/?name=${room?.name}`);
 
-        if (messageVisible && userProfile?.nom) {
+            dispatch(addCurrentChat(response[0]))
 
-            const createRoom = async () => {
+        } catch (err) {
+            console.error("❌ Erreur chargement messages :", err);
+        }
+    }, []);
+
+
+    const creatNewRoom= async () => {
+
+            try {
 
                 try {
+                    const hashedPhone = await hashPassword(selectedProductOwner?.telephone);
 
-                    await hashPassword(selectedProductOwner?.telephone).then(
+                    const roomName = `room_${selectedProductOwner?.nom}_${hashedPhone}`;
 
-                        res => {
+                    await getRoomByName(roomName);
+
+                    const roomExists = allChats?.some(room => room?.name === currentChat?.nom);
+
+                    if (roomExists) {
+ 
+                        return dispatch(setCurrentNav("message_inbox"));
+                    }
+
+                    try {
+                        const response = await api.post('rooms/', {
+
+                            name: `room_${selectedProductOwner?.nom}_${hashedPhone}`,
+
+                            current_owner: currentUser?.id,
+
+                            current_receiver: selectedProductOwner?.id
+                        });
+
+                        console.log("✅ Création du chat réussie:", response);
+
+                        return dispatch(setCurrentNav("message_inbox"));
+
+                    } catch (err) {
+
+                        const errorMsg = err?.response?.data;
+
+                        console.error("❌ Erreur création chat:", errorMsg);
+
+                        const roomAlreadyExists = [
+
+                            errorMsg?.name?.[0],
+
+                            errorMsg?.current_receiver?.[0],
+
+                            errorMsg?.current_owner?.[0]
+
+                        ].some(msg => msg?.includes("already exists"));
+
+                        if (roomAlreadyExists) {
 
                             try {
-                                api.post('rooms/', 
 
-                                    {
-                                        "name": `room_${currentUser?.telephone}_${res}`,
-                                        "current_owner": currentUser?.id,
-                                        "current_receiver": selectedProductOwner?.id
-                                    }
+                                const fallbackHash = await hashPassword(selectedProductOwner?.telephone);
 
-                                ).then(
+                                const fallbackRoom = `room_${selectedProductOwner?.nom}_${fallbackHash}`;
 
-                                    resp => {
+                                console.log("ℹ️ Room déjà existante, fallback :", fallbackRoom);
 
-                                        console.log("LA CREATION DU CHAT", resp)
+                                dispatch(addRoom(fallbackRoom));
 
-                                        return dispatch(setCurrentNav("message_inbox"))
-                                    }
+                                dispatch(addCurrentChat(fallbackRoom));
 
-                                ).catch(
+                            } catch (hashErr) {
 
-                                    err => {
-
-                                        console.log("ERREUR DE LA CREATION DU CHAT", err?.response?.data)
-
-                                        if (err?.response?.data?.name[0]==="room with this name already exists.") {
-
-                                            dispatch(setCurrentNav("message_inbox"))
-                                        }
-
-                                    }
-                                    
-                                )
-
-                            } catch (err) {
-
-                                console.log("0 ERREUR DE LA CREATION DU CHAT", err?.response?.data)
+                                console.error("❌ Erreur fallback (hash):", hashErr);
                             }
-
-                            dispatch(newRoom({ name: `room_${currentUser?.telephone }_${res}` }))
+                        } else {
+                            console.error("❌ Erreur inconnue création chat:", errorMsg);
                         }
-
-                    )
+                    }
 
                 } catch (err) {
-
-                    console.error("1 ERREUR DE LA CREATION DU CHAT", err?.response?.data?.name);
-
-                    if (err?.response?.data?.name[0] === 'room with this name already exists.') dispatch(setCurrentNav("message_inbox"));
+                    console.error("❌ Erreur globale création de chat:", err);
                 }
-            };
 
-            createRoom();
-        }
-    });
+            } catch (err) {
 
+                console.error("1 ERREUR DE LA CREATION DU CHAT", err?.response?.data?.name);
+
+                if (err?.response?.data?.name[0] === 'room with this name already exists.') dispatch(setCurrentNav("message_inbox"));
+            }
+
+    };
 
 
     const getUserCompte = async () => {
@@ -391,7 +419,10 @@ const ProfileCard = () => {
                         <input
                             type="file"
                             accept="image/*"
-                            onChange={(e) => handleImageUpload(e, true)}
+                            onChange={(e) => {
+                                    handleImageUpload(e, true)
+                                }
+                            }
                             className="bg-gray rounded-md p-2 shadow-md text-sm"
                         />
 
@@ -569,7 +600,12 @@ const ProfileCard = () => {
                                     !isCurrentUser &&
                                     <button
 
-                                        onClick={() => setMessageVisible(!messageVisible)}
+                                        onClick={
+                                            () => {
+                                                setMessageVisible(!messageVisible);
+                                                creatNewRoom()
+                                            }
+                                        }
 
                                         className="bg-yellow-600 text-white px-3 py-1 rounded hover:bg-yellow-700 m-1"
                                     >

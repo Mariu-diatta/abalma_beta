@@ -1,7 +1,7 @@
 ﻿import React, { useState, useRef, useEffect } from 'react';
 import { setCurrentNav } from '../slices/navigateSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCUrrentChat, addUser, newRoom } from '../slices/chatSlice';
+import { addCurrentChat, addRoom, addUser, newRoom } from '../slices/chatSlice';
 import api from '../services/Axios';
 
 
@@ -63,7 +63,7 @@ const OwnerPopover = ({ owner, onClose }) => {
 
                             dispatch(newRoom({ name: `room_${owner?.nom}_${res}` }))
 
-                            dispatch(addCUrrentChat(`room_${owner?.nom}_${res}`))
+                            dispatch(addCurrentChat(`room_${owner?.nom}_${res}`))
 
                         }
 
@@ -73,13 +73,12 @@ const OwnerPopover = ({ owner, onClose }) => {
                             const errorMsg = err?.response?.data;
                             console.error("Erreur lors de la création du chat:", errorMsg);
 
-                            const roomExistMessages = [
-                                'room with this current owner already exists.',
-                                'room with this name already exists.'
-                            ];
+                            const roomAlreadyExists =
+                                errorMsg?.name?.[0]?.includes("already exists") ||
+                                errorMsg?.current_receiver?.[0]?.includes("already exists");
+                                errorMsg?.current_owner?.[0]?.includes("already exists");
 
-                            // Vérifie si l'erreur reçue correspond à une des erreurs connues
-                            if (roomExistMessages.includes(errorMsg)) {
+                            if (roomAlreadyExists) {
                                 const ownerPhone = selectedProductOwner?.telephone;
                                 const ownerName = owner?.nom;
 
@@ -87,7 +86,10 @@ const OwnerPopover = ({ owner, onClose }) => {
                                     hashPassword(ownerPhone)
                                         .then(hashed => {
                                             const roomName = `room_${ownerName}_${hashed}`;
-                                            dispatch(newRoom({ name: roomName }));
+                                            console.log("le room", roomName);
+
+                                            dispatch(addRoom({name:roomName}));
+                                            dispatch(addCurrentChat({name:roomName}));
                                         })
                                         .catch(hashErr => {
                                             console.error("Erreur lors du hachage du numéro de téléphone:", hashErr);
@@ -95,11 +97,10 @@ const OwnerPopover = ({ owner, onClose }) => {
                                 } else {
                                     console.warn("Données manquantes pour créer une room de fallback.");
                                 }
+                            } else {
+                                console.error("Erreur inconnue lors de la création du chat:", errorMsg);
                             }
                         }
-
-
-
                     )
 
                 } catch (err) {

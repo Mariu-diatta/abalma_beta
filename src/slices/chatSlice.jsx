@@ -3,9 +3,9 @@ import api from '../services/Axios';
 
 const initialState = {
     currentChats: [], // Liste des rooms actuellement actives (sans doublon)
-    newChat: "",
-    currentChat:"",
-    userSlected: "",
+    newChat: {},
+    currentChat:{},
+    userSlected: null,
     messageNotif:[]
 };
 
@@ -19,8 +19,11 @@ const chatSlice = createSlice({
 
         // ➕ Ajouter une room s'il n'existe pas déjà
         addRoom: (state, action) => {
+
             const exists = state.currentChats.some(room => room.name === action.payload.name);
+
             if (!exists) {
+
                 state.currentChats.push(action.payload);
             }
         },
@@ -28,31 +31,42 @@ const chatSlice = createSlice({
         // ➖ Supprimer une room par nom
         removeRoom: (state, action) => {
 
-            state.currentChats = state.currentChats.filter(room => room.name !== action.payload.name);
+            const roomName = action.payload;
 
             const fetchRooms = async () => {
 
+                // Réinitialiser le chat courant si supprimé
+                if (state.currentChat?.name === roomName) {
+
+                    state.currentChat = {};
+                }
+
+                state.currentChats = state.currentChats.filter(room => room?.name !== roomName);
+
                 try {
 
+                    const resp = await api.get(`/rooms/?name=${roomName}`)
 
-                    console.log("deleted item ", action.payload?.pk)
+                    const pk_id = resp?.data[0].pk
 
-                     await api.delete(`/rooms/${action.payload?.pk}/`);
-
+                    await api.delete(`/rooms/${pk_id}/`);
 
                 } catch (err) {
+
                     console.log(err)
                 }
             }
 
             fetchRooms()
+
+
         },
 
         // 🧹 Vider toutes les rooms
         clearRooms: (state) => {
             state.currentChats = [];
             state.userSlected = null;
-            state.currentChat=""
+            state.currentChat=null
         },
 
         newRoom: (state, payload) => {
@@ -67,7 +81,7 @@ const chatSlice = createSlice({
         },
 
         // ➕ Ajouter une room s'il n'existe pas déjà
-        addCUrrentChat: (state, action) => {
+        addCurrentChat: (state, action) => {
 
             state.currentChat= action?.payload
 
@@ -85,7 +99,7 @@ const chatSlice = createSlice({
     },
 });
 
-export const { addRoom, removeRoom, clearRooms, newRoom, addUser, addCUrrentChat, addMessageNotif,
+export const { addRoom, removeRoom, clearRooms, newRoom, addUser, addCurrentChat, addMessageNotif,
     removeMessageNotif } = chatSlice.actions;
 
 export default chatSlice.reducer;
