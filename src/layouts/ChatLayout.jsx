@@ -45,12 +45,14 @@ const ChatLayout = () => {
         };
 
         fetchRooms();
+
     }, [dispatch, currentUser, currentChat]);
 
     const handleDeleteRoom = room => {
-        dispatch(removeRoom(room?.name));
-        dispatch(addCurrentChat(null));
+
         dispatch(addMessageNotif(`Discussion ${room?.name.slice(5, 15)} supprimée`));
+
+        return dispatch(removeRoom(room?.name));
     };
 
     return (
@@ -72,10 +74,10 @@ const ChatLayout = () => {
                                 <li
                                     key={room.name || index}
                                     className={`flex items-center justify-between p-2 rounded-lg text-sm font-medium transition-colors
-                  ${currentChat?.name === room?.name
-                                            ? 'bg-blue-500 text-white'
-                                            : 'hover:bg-gray-100 text-gray-800'
-                                        }`}
+                                    ${currentChat?.name === room?.name
+                                    ? 'bg-blue-500 text-white'
+                                    : 'hover:bg-gray-100 text-gray-800'
+                                    }`}
                                 >
                                     <span
                                         onClick={() => {
@@ -88,7 +90,7 @@ const ChatLayout = () => {
                                     </span>
 
                                     <button
-                                        onClick={() => handleDeleteRoom(room)}
+                                        onClick={() =>handleDeleteRoom(room)}
                                         className="ml-2 text-red-600 hover:text-red-800 text-xs"
                                         aria-label={`Supprimer ${room.name}`}
                                     >

@@ -33,15 +33,14 @@ const chatSlice = createSlice({
 
             const roomName = action.payload;
 
+
             const fetchRooms = async () => {
+
 
                 // Réinitialiser le chat courant si supprimé
                 if (state.currentChat?.name === roomName) {
-
                     state.currentChat = {};
                 }
-
-                state.currentChats = state.currentChats.filter(room => room?.name !== roomName);
 
                 try {
 
@@ -57,8 +56,9 @@ const chatSlice = createSlice({
                 }
             }
 
-            fetchRooms()
+            state.currentChats = state.currentChats.filter(room => room?.name !== roomName);
 
+            fetchRooms()
 
         },
 
