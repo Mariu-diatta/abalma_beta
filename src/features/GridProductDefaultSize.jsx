@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../slices/cartSlice";
 import OwnerAvatar from "../components/OwnerProfil";
 import { setCurrentNav } from "../slices/navigateSlice";
-import { addCUrrentChat, addMessageNotif } from "../slices/chatSlice";
+import {  addMessageNotif, addUser } from "../slices/chatSlice";
 
 const GridProductDefault = ({data}) => {
 
@@ -101,7 +101,7 @@ const GridProductDefault = ({data}) => {
                                             className="relative w-full block rounded-lg overflow-hidden"
                                             onClick={(e) => {
 
-                                                dispatch(addCUrrentChat(owner))
+                                                dispatch(addUser(owners[product.fournisseur]))
 
                                                 openModal(e, product);
 

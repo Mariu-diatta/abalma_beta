@@ -7,7 +7,7 @@ import api from '../services/Axios';
 import OwnerAvatar from '../components/OwnerProfil';
 import { useRef,  } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { addMessageNotif } from '../slices/chatSlice';
+import {  addMessageNotif, addUser } from '../slices/chatSlice';
 
 const categories = [
     'All', 'JOUET', 'HABITS', 'MATERIELS_INFORMATIQUES', 'CAHIERS', 'SACS', 'LIVRES',
@@ -229,7 +229,11 @@ const GridLayoutProduct = () => {
                             >
                                 <button
 
-                                    onClick={() => openModal(item)}
+                                    onClick={() => {
+                                        openModal(item)
+                                        dispatch(addUser(owners[item.fournisseur]))
+
+                                    }}
 
                                     className="block w-full rounded-lg overflow-hidden"
                                 >
