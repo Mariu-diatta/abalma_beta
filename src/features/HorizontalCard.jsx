@@ -93,7 +93,7 @@ const HorizontalCard = ({ children, item }) => {
 
                 <div
                     title="Profil Produit Popov"
-                    className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus-within:ring-2 focus-within:ring-blue-500"
+                    className=" rounded-full hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus-within:ring-2 focus-within:ring-blue-500"
                     tabIndex={0}
                     aria-label="Profil Produit Popov"
                 >
