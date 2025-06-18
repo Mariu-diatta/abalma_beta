@@ -62,7 +62,7 @@ const WalletModal = ({ Connectwallet }) => {
                     id="wallet-modal"
                     role="dialog"
                     aria-modal="true"
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+                    className="backdrop-blur-sm fixed inset-0 z-50 flex items-center justify-center bg-gray bg-opacity-50"
                     onClick={toggleModal}
                 >
                     <div

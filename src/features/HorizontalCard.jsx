@@ -27,7 +27,7 @@ const HorizontalCard = ({ children, item }) => {
             {/* Toggle button petits écrans */}
             <button
                 onClick={() => setShowActions((prev) => !prev)}
-                className="absolute bottom-3 right-3 z-20 p-2 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 lg:hidden focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="absolute bottom-3 right-3 z-10 p-2 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 lg:hidden focus:outline-none focus:ring-2 focus:ring-blue-500"
                 aria-label={showActions ? "Cacher les actions" : "Afficher les actions"}
             >
                 {showActions ? "✕" : "☰"}
@@ -35,7 +35,9 @@ const HorizontalCard = ({ children, item }) => {
 
             {/* Actions petits écrans */}
             {showActions && (
+
                 <div className="absolute bottom-14 right-3 bottom-3 z-10 flex flex-wrap items-center gap-3 lg:hidden bg-gray-50 dark:bg-gray-900 rounded-lg p-2 shadow-md">
+
                     {!isProductAdd && (
                         <button
                             onClick={handleAddToCart}
