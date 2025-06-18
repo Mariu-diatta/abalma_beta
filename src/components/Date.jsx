@@ -4,7 +4,7 @@ export default function DatePickerWithFullWidthButtons() {
 
     const [currentDate, setCurrentDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(null);
-    const [isCalendarOpen, setIsCalendarOpen] = useState(true);
+    const [isCalendarOpen, setIsCalendarOpen] = useState(false);
     const daysContainerRef = useRef(null);
     const datepickerContainerRef = useRef(null);
 
@@ -63,7 +63,7 @@ export default function DatePickerWithFullWidthButtons() {
 
     const handleApply = () => {
         if (selectedDate) {
-            setIsCalendarOpen(false);
+            setIsCalendarOpen(true);
         }
     };
 
@@ -250,7 +250,7 @@ export default function DatePickerWithFullWidthButtons() {
                                 <button
                                     id="cancelBtn"
                                     className="flex h-[50px] w-full items-center justify-center rounded-md bg-primary text-base font-medium text-grey hover:bg-blue-dark"
-                                    onClick={handleApply}
+                                    onClick={()=>handleApply()}
                                 >
                                     Done
                                 </button>

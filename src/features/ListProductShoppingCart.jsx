@@ -176,9 +176,9 @@ const BuyButtonWithPaymentForm = ({ total_price }) => {
 
             {showPaymentForm && parseInt(total_price)!==0 && (
 
-                <div className="fixed inset-0 z-50 bg-gray-100 bg-transparent  bg-opacity-100 flex items-center justify-center" onClick={() => setShowPaymentForm(false)}>
+                <div className="backdrop-blur-sm fixed inset-0 z-50 bg-gray-100 bg-transparent  bg-opacity-100 flex items-center justify-center" onClick={() => setShowPaymentForm(false)}>
 
-                    <div className="bg-white rounded-lg p-6 w-full max-w-xl shadow-xl" onClick={(e) => e.stopPropagation()}>
+                    <div className=" bg-white rounded-lg p-6 w-full max-w-xl shadow-xl" onClick={(e) => e.stopPropagation()}>
 
                         <div className="flex justify-between items-center mb-4">
 
@@ -188,6 +188,7 @@ const BuyButtonWithPaymentForm = ({ total_price }) => {
                         </div>
 
                         <Payment />
+
                     </div>
 
                 </div>

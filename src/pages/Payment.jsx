@@ -44,7 +44,7 @@ const PaymentForm = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className=" lg:py-[1px] max-w-5xl mx-auto pt-0 mt-1 bg-white  rounded-lg">
+        <form onSubmit={handleSubmit} className="backdrop-blur-sm  lg:py-[1px] max-w-5xl mx-auto pt-0 mt-1   rounded-lg">
        
             <h2 className="text-2xl font-bold mb-6 text-center">Payment Form</h2>
 
