@@ -58,7 +58,7 @@ const HorizontalCard = ({ children, item }) => {
                             title="Payer"
                             className="p-2 sm:p-2.5 md:p-3 text-sm sm:text-base rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600"
                         >
-                            💳
+                            💰
                         </button>
                     </WalletModal>
 
@@ -98,7 +98,7 @@ const HorizontalCard = ({ children, item }) => {
                         title="Payer"
                         className="p-2 sm:p-2.5 md:p-3 text-sm sm:text-base rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600"
                     >
-                        💳
+                        💰
                     </button>
                 </WalletModal>
 
