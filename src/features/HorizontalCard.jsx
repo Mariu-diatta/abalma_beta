@@ -46,7 +46,7 @@ const HorizontalCard = ({ children, item }) => {
                                 dispatch(addMessageNotif(`Produit ${item?.code_reference} sélectionné le ${Date.now()}`))
                             }}
                             title="Ajouter au panier"
-                            className="p-2 sm:p-2.5 md:p-3 text-sm sm:text-base rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600"
+                                className="bg-blue-100 hover:bg-blue-200 p-2 sm:p-2.5 md:p-3 text-sm sm:text-base rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600"
                         >
                             🛒
                         </button>
@@ -86,7 +86,7 @@ const HorizontalCard = ({ children, item }) => {
                             dispatch(addMessageNotif(`Produit ${item?.code_reference} sélectionné le ${Date.now()}`))
                         }}
                         title="Ajouter au panier"
-                        className="p-2 sm:p-2.5 md:p-3 text-sm sm:text-base rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600"
+                        className="bg-blue-100 hover:bg-blue-200 p-2 sm:p-2.5 md:p-3 text-sm sm:text-base rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600"
                     >
                         🛒
                     </button>
