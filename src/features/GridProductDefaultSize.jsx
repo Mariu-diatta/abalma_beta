@@ -177,7 +177,7 @@ const GridProductDefault = ({data}) => {
                 >
                     <div
                         onClick={(e) => e.stopPropagation()}
-                        className="w-full max-w-4xl bg-white dark:bg-gray-900 rounded-2xl shadow-xl  animate-fade-in-up"
+                        className="w-full m-0 p-0 max-w-4xl bg-white dark:bg-gray-900 rounded-2xl shadow-xl  animate-fade-in-up"
                     >
                         <HorizontalCard
                             item={modalData}
