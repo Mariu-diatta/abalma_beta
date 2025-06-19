@@ -215,16 +215,16 @@ const OwnerAvatar = ({ owner }) => {
         <div className="relative inline-block" ref={containerRef}>
 
             {
-                owner.image ?
+                owner?.image ?
                     <img
 
-                        src={owner.image}
+                        src={owner?.image}
 
-                        alt={owner.nom || 'Fournisseur'}
+                        alt={owner?.nom || 'Fournisseur'}
 
                         className="h-8 w-8 rounded-full object-cover cursor-pointer ring-1 ring-gray-300 hover:ring-blue-500 transition"
 
-                        title={owner.nom}
+                        title={owner?.nom}
 
                         onClick={() => {
 
@@ -237,7 +237,7 @@ const OwnerAvatar = ({ owner }) => {
                         xmlns="http://www.w3.org/2000/svg"
                         fill="currentColor"
                         viewBox="0 0 24 24"
-                        title={owner.nom}
+                        title={owner?.nom}
                         onClick={() => {
 
                             setShowPopover((prev) => !prev);

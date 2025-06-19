@@ -119,7 +119,7 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                 <img
                                     src={dataProduct?.image_product}
                                     alt="Product"
-                                    className="aspect-2/3 w-ful bg-gray-100 object-cover sm:col-span-6 lg:col-span-6"
+                                    className="aspect-4/5 w-full bg-gray-100 object-cover sm:col-span-6 lg:col-span-6"
                                 />
 
                                 <div className="sm:col-span-6 lg:col-span-6 lg:mt-8 lg:pt-8 p-5">
