@@ -69,6 +69,8 @@ const ChatLayout = () => {
 
                     <h2 className="text-lg mb-6 h-3">Discussions</h2>
 
+                    <div className="w-full h-px bg-gray-300 mb-6  mt-6" />
+
                     {allChats.length === 0 ? (
                         <p className="text-center text-md font-bold">Vous n'avez aucun message</p>
                     ) : (

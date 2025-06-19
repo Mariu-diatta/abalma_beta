@@ -37,7 +37,6 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
         );
     };
 
-
     if (!isOpen) return null;
 
     return (

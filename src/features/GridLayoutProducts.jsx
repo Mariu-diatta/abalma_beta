@@ -1,8 +1,6 @@
 ﻿import React, { useEffect, useState } from 'react';
-import GridSlideProduct from './GridProductSlide';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../slices/cartSlice';
-import HorizontalCard from './HorizontalCard';
 import api from '../services/Axios';
 import OwnerAvatar from '../components/OwnerProfil';
 import { useRef,  } from "react";
