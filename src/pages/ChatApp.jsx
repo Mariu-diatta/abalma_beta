@@ -12,15 +12,21 @@ const ChatApp = ({ roomName }) => {
     const currentUser = useSelector(state => state.auth.user);
     const currentChat = useSelector(state => state.chat.currentChat);
     const allRoomsChats = useSelector(state => state.chat.currentChats);
+    const selectedUser = useSelector(state => state.chat.userSlected);
+
 
     // 🔁 Récupération des anciens messages
     const fetchOldMessages = useCallback(async () => {
+
         try {
             const response = await api.get(`/rooms/?name=${roomName?.name}`);
+
             const loaded = [];
 
             response?.data?.forEach(room =>
+
                 room?.messages?.forEach(msg => {
+
                     loaded.push({
                         message: msg?.text,
                         sender: msg?.user,
@@ -30,9 +36,12 @@ const ChatApp = ({ roomName }) => {
             );
 
             setMessages(loaded);
+
         } catch (err) {
+
             console.error("❌ Erreur chargement messages :", err);
         }
+
     }, [roomName]);
 
     // 🔌 Connexion WebSocket
@@ -83,13 +92,25 @@ const ChatApp = ({ roomName }) => {
         <div className="flex flex-col h-full p-4 md:p-6 bg-white rounded-2xl shadow-md overflow-hidden">
 
             {/* Titre */}
-            <h2 className="text-xl font-semibold text-gray-700 mb-4">
+            <h2 className="flex text-xl font-semibold text-gray-700 mb-4">
 
-                {(currentChat && Object.keys(currentChat).length > 0) ? "💬 Chat :" : "Sélectionner une discussion"}{" "}
+                {/*{(currentChat && Object.keys(currentChat).length > 0) ? "💬 Chat :" : "Sélectionner une discussion"}{" "}*/}
 
-                <span className="text-blue-600">{currentChat?.name?.slice(5, 15)}</span>
+                <span className="text-blue-600 flex gap-1">
+
+                    <img
+                        src={selectedUser?.image}
+                        alt={`${selectedUser?.nom || "Moi"} avatar`}
+                        className="h-7 w-7 rounded-full object-cover"
+                    />
+
+                    {selectedUser?.nom} {selectedUser?.prenom}
+
+                </span>
 
             </h2>
+
+            <div className="w-full h-px bg-gray-300 mb-3" />
 
             {/* Liste des messages */}
             <ul className="overflow-y-auto flex-1 space-y-3 pr-2">
@@ -143,6 +164,7 @@ const ChatApp = ({ roomName }) => {
 
             {/* Input */}
             <div className="mt-4 flex gap-2">
+
                 <input
                     disabled={allRoomsChats.length === 0}
                     value={input}
@@ -151,12 +173,14 @@ const ChatApp = ({ roomName }) => {
                     placeholder="Votre message..."
                     className="flex-1 px-4 py-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
+
                 <button
                     onClick={sendMessage}
                     className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl text-sm font-medium"
                 >
                     Envoyer
                 </button>
+
             </div>
         </div>
     );

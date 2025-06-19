@@ -98,7 +98,7 @@ const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory }) => {
 
                             onClick={() => setActiveCategory(cat)}
 
-                            className={`whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium transition 
+                            className={`whitespace-nowrap px-4 py-2 rounded-full text-sm  transition 
 
                                 ${activeCategory === cat
 
@@ -231,7 +231,9 @@ const GridLayoutProduct = () => {
                                 <button
 
                                     onClick={() => {
+
                                         openModal(item)
+
                                         dispatch(addUser(owners[item.fournisseur]))
 
                                     }}
@@ -249,7 +251,7 @@ const GridLayoutProduct = () => {
 
                                 <div className="flex justify-between items-center mb-1">
 
-                                    {owner?.image && <OwnerAvatar owner={owner} />}
+                                    <OwnerAvatar owner={owner} />
 
                                     {item.quantity_product !== "1" && (
 
@@ -258,7 +260,7 @@ const GridLayoutProduct = () => {
 
                                 </div>
 
-                                <p className="text-sm text-center font-medium text-gray-800 truncate mb-1">
+                                <p className="text-sm text-center  text-gray-800 truncate mb-1">
                                     {item.description_product}
                                 </p>
 

@@ -12,13 +12,15 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
     const dispatch = useDispatch();
 
     const [isProductAdd, setIsProductAdd] = useState(false);
-    const [showActions, setShowActions] = useState(false);
+    //const [showActions, setShowActions] = useState(false);
 
     // Sans paramètre, pour un appel manuel
     const handleAddToCart_ = () => {
+
         if (!dataProduct) return;
 
         dispatch(addToCart(dataProduct));
+
         setIsProductAdd(true);
 
         const dateAjout = new Date().toLocaleString("fr-FR", {
@@ -64,6 +66,7 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                     className="z-0 flex items-center justify-center p-3  bg-white hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 >
                                     <span className="sr-only">Close</span>
+
                                     <svg
                                         className="z-0  size-6"
                                         fill="none"
@@ -77,6 +80,7 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                             d="M6 18L18 6M6 6l12 12"
                                         />
                                     </svg>
+
                                 </button>
 
                             </div>
@@ -108,7 +112,8 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                     tabIndex={0}
                                     aria-label="Profil Produit Popov"
                                 >
-                                    <ProfilPopPov />
+                                    <ProfilPopPov/>
+
                                 </div>
 
                             </div>
@@ -125,7 +130,7 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                 <div className="sm:col-span-6 lg:col-span-6 lg:mt-8 lg:pt-8 p-5">
 
                                     <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">
-                                        {dataProduct?.description_product}
+                                        {dataProduct?.categorie_product}
                                     </h2>
 
                                     <section className="mt-2 ">
@@ -201,6 +206,10 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                             ))}
                                         </div>
                                     </fieldset>
+
+                                    <h2 className="text-sm  text-gray-900  mt-5">
+                                        {dataProduct?.description_product}
+                                    </h2>
 
                                     {/* Size Options */}
                                     <fieldset className="mt-10">

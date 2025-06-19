@@ -11,6 +11,8 @@ const ChatLayout = () => {
     const allChats = useSelector(state => state.chat.currentChats);
     const currentUser = useSelector(state => state.auth.user);
     const currentChat = useSelector(state => state.chat.currentChat);
+    const selectedUser = useSelector(state => state.chat.userSlected);
+
 
     useEffect(() => {
 
@@ -63,13 +65,15 @@ const ChatLayout = () => {
         ${showSidebar ? 'translate-x-0' : '-translate-x-full'}
         md:static md:translate-x-0 md:w-1/4 md:block`}
             >
-                <div className="p-4 pt-6">
-                    <h2 className="text-lg font-bold mb-4">💬 Discussions</h2>
+                <div className="p-1 gap-5 pt-6">
+
+                    <h2 className="text-lg mb-6 h-3">Discussions</h2>
 
                     {allChats.length === 0 ? (
                         <p className="text-center text-md font-bold">Vous n'avez aucun message</p>
                     ) : (
-                        <ul className="space-y-2">
+                        <ul className="mt-5 space-y-2">
+
                             {allChats.map((room, index) => (
                                 <li
                                     key={room.name || index}
@@ -84,9 +88,14 @@ const ChatLayout = () => {
                                             dispatch(addCurrentChat(room));
                                             setShowSidebar(false);
                                         }}
-                                        className="cursor-pointer flex-grow"
+                                        className="flex gap-2 cursor-pointer flex-grow"
                                     >
-                                        {room?.name?.slice(5, 15)}
+                                        <img
+                                            src={selectedUser?.image}
+                                            alt={`${selectedUser?.nom || "Moi"} avatar`}
+                                            className="h-7 w-7 rounded-full object-cover"
+                                        />
+                                        {selectedUser?.nom} {selectedUser?.prenom}  
                                     </span>
 
                                     <button
