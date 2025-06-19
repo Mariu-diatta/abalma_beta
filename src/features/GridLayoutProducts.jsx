@@ -272,23 +272,24 @@ const GridLayoutProduct = () => {
                                             title="Ajouter au panier"
                                             onClick={() => {
                                                 addProductToCart(item);
-                                                dispatch(addMessageNotif(`Produit ${item?.code_reference} sélectionné le ${Date.now()}`))
+                                                dispatch(addMessageNotif(`Produit ${item?.code_reference} sélectionné le ${Date.now()}`));
                                             }}
-                                            className="cursor-pointer p-1 bg-green-100 rounded-full hover:bg-green-200 transition"
+                                            className="cursor-pointer p-1 rounded-full border border-green-200 bg-green-50 hover:bg-green-100 transition"
                                         >
-                                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
+                                            <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
                                             </svg>
 
                                         </button>
 
-                                        <button
-                                            title="Ajouter en cadeau"
-                                            onClick={() => alert(`Cadeau ajouté: ${item.description_product}`)}
-                                            className="cursor-pointer p-1 bg-yellow-100 rounded-full hover:bg-yellow-200 transition"
-                                        >
-                                            🎁
-                                        </button>
+
+                                        {/*<button*/}
+                                        {/*    title="Ajouter en cadeau"*/}
+                                        {/*    onClick={() => alert(`Cadeau ajouté: ${item.description_product}`)}*/}
+                                        {/*    className="cursor-pointer p-1 bg-yellow-100 rounded-full hover:bg-yellow-200 transition"*/}
+                                        {/*>*/}
+                                        {/*    🎁*/}
+                                        {/*</button>*/}
 
                                     </div>
 

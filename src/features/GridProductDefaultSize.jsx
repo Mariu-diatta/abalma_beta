@@ -156,21 +156,24 @@ const GridProductDefault = ({data}) => {
                                                     }}
                                                     className="p-1 bg-green-100 rounded-full hover:bg-green-200"
                                                 >
-                                                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
+                                                    <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
                                                     </svg>
 
                                                 </button>
 
-                                                <button
-                                                    title="Ajouter en cadeau"
-                                                    onClick={() =>
-                                                        alert(`Cadeau ajouté: ${product.description_product}`)
-                                                    }
-                                                    className="p-1 bg-yellow-100 rounded-full hover:bg-yellow-200"
-                                                >
-                                                    🎁
-                                                </button>
+                                                {/*<button*/}
+                                                {/*    title="Ajouter en cadeau"*/}
+                                                {/*    onClick={() =>*/}
+                                                {/*        alert(`Cadeau ajouté: ${product.description_product}`)*/}
+                                                {/*    }*/}
+                                                {/*    className="p-1 rounded-full border border-yellow-300 hover:border-yellow-400 hover:bg-yellow-50 transition-colors"*/}
+                                                {/*>*/}
+                                                {/*    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">*/}
+                                                {/*        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.65692 9.41494h.01M7.27103 13h.01m7.67737 1.9156h.01M10.9999 17h.01m3.178-10.90671c-.8316.38094-1.8475.22903-2.5322-.45571-.3652-.36522-.5789-.82462-.6409-1.30001-.0574-.44-.0189-.98879.1833-1.39423-1.99351.20001-3.93304 1.06362-5.46025 2.59083-3.51472 3.51472-3.51472 9.21323 0 12.72793 3.51471 3.5147 9.21315 3.5147 12.72795 0 1.5601-1.5602 2.4278-3.5507 2.6028-5.5894-.2108.008-.6725.0223-.8328.0157-.635.0644-1.2926-.1466-1.779-.633-.3566-.3566-.5651-.8051-.6257-1.2692-.0561-.4293.0145-.87193.2117-1.26755-.1159.20735-.2619.40237-.4381.57865-1.0283 1.0282-2.6953 1.0282-3.7235 0-1.0282-1.02824-1.0282-2.69531 0-3.72352.0977-.09777.2013-.18625.3095-.26543" />*/}
+                                                {/*    </svg>*/}
+
+                                                {/*</button>*/}
 
                                             </div>
                                         </div>
@@ -182,7 +185,6 @@ const GridProductDefault = ({data}) => {
 
                 )}
             </div>
-
 
             <ProductModal isOpen={!!modalData} onClose={closeModal} dataProduct={modalData} />
 
