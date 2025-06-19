@@ -8,6 +8,7 @@ import OwnerAvatar from '../components/OwnerProfil';
 import { useRef,  } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import {  addMessageNotif, addUser } from '../slices/chatSlice';
+import ProductModal from '../pages/ProductViewsDetails';
 
 const categories = [
     'All', 'JOUET', 'HABITS', 'MATERIELS_INFORMATIQUES', 'CAHIERS', 'SACS', 'LIVRES',
@@ -297,27 +298,8 @@ const GridLayoutProduct = () => {
                 <div className="text-center text-gray-500">Aucun produit disponible</div>
             )}
 
-            {modalData && (
-                <div
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm  sm:px-4"
-                    onClick={closeModal}
-                    role="dialog"
-                    aria-modal="true"
-                    data-modal-backdrop="static"
-                >
-                    <div
-                        onClick={(e) => e.stopPropagation()}
-                        className="w-full max-w-4xl bg-white dark:bg-gray-900 rounded-2xl shadow-xl  animate-fade-in-up"
-                    >
-                        <HorizontalCard
-                            item={modalData}
-                        >
-                            <GridSlideProduct srcs={[modalData.image_product]} />
+            <ProductModal isOpen={!!modalData} onClose={closeModal} dataProduct={modalData} />
 
-                        </HorizontalCard>
-                    </div>
-                </div>
-            )}
 
         </div>
     );
