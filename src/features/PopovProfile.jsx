@@ -12,7 +12,9 @@ const ProfilPopPov = () => {
     const togglePopover = () => setIsVisible((prev) => !prev);
 
     useEffect(() => {
+
         const handleClickOutside = (event) => {
+
             if (
                 popoverRef.current &&
                 !popoverRef.current.contains(event.target) &&
@@ -35,7 +37,9 @@ const ProfilPopPov = () => {
     }, [isVisible]);
 
     return (
-        <div className="relative inline-block justify-center">
+
+        <div className="z-30 relative inline-block justify-center ">
+
             <button
                 ref={buttonRef}
                 onClick={togglePopover}
@@ -58,7 +62,9 @@ const ProfilPopPov = () => {
                 >
                     <path d="M5 7h14M5 12h14M5 17h10" />
                 </svg>
+
                 <span className="sr-only">Toggle user profile popover</span>
+
             </button>
 
             {isVisible && (
@@ -70,6 +76,7 @@ const ProfilPopPov = () => {
                     className="absolute right-0 mt-2 w-64 text-sm text-gray-700 bg-white border border-gray-200 rounded-lg shadow-lg dark:text-gray-300 dark:bg-gray-800 dark:border-gray-600 z-50"
                 >
                     <div className="p-4">
+
                         <div className="flex items-center justify-between mb-3">
                             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">  <OwnerAvatar owner={currentOwnUser} />{currentOwnUser?.nom} {currentOwnUser?.prenom}</h3>
                             <button
@@ -79,7 +86,9 @@ const ProfilPopPov = () => {
                                 Follow
                             </button>
                         </div>
+
                         <p className="mb-2 text-sm">@{currentOwnUser?.nom}</p>
+
                         <p className="mb-4 text-sm">
                             Open-source contributor. Building{' '}
                             <a
@@ -92,6 +101,7 @@ const ProfilPopPov = () => {
                             </a>
                             .
                         </p>
+
                         <ul className="flex gap-6 text-sm">
                             <li>
                                 <span className="font-semibold text-gray-900 dark:text-white">799</span> Following
@@ -100,6 +110,7 @@ const ProfilPopPov = () => {
                                 <span className="font-semibold text-gray-900 dark:text-white">3,758</span> Followers
                             </li>
                         </ul>
+
                     </div>
                 </div>
             )}

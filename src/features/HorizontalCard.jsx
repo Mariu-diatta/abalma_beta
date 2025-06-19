@@ -99,6 +99,7 @@ const HorizontalCard = ({ children, item }) => {
                 >
                     <ProfilPopPov />
                 </div>
+
             </div>
 
             {/* Image / contenu */}

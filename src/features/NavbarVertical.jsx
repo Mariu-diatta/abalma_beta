@@ -15,6 +15,7 @@ import AccountDropdown3 from "../components/DropDownAccount";
 import { lesAccount, menuItems } from "../components/MenuItem";
 import ChatLayout from "../layouts/ChatLayout";
 import { addRoom } from "../slices/chatSlice";
+import { ProductModal } from "../pages/Payment";
 
 
 const VertcalNavbar = ({ children }) => {
@@ -248,7 +249,7 @@ const VertcalNavbar = ({ children }) => {
             <aside
                 id="separator-sidebar"
                 ref={sidebarRef}
-                className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${isSidebarOpen ? '' : '-translate-x-full'} sm:translate-x-0`}
+                className={`fixed top-0 left-0 z-10 w-64 h-screen transition-transform ${isSidebarOpen ? '' : '-translate-x-full'} sm:translate-x-0`}
                 aria-label="Sidebar"
             >
                 <div className="scrollbor_hidden h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 ">
@@ -405,7 +406,9 @@ const VertcalNavbar = ({ children }) => {
             </aside>
 
             <div className="p-0 m-0  sm:ml-64 h-full">
-         
+
+                
+
                 <div className="p-0 m-0 border-2 border-white-200 border-white rounded-lg dark:border-gray-700  h-full">
 
                     <div className="grid  gap-0 ">
@@ -432,6 +435,7 @@ const VertcalNavbar = ({ children }) => {
                     >
                         {tabContent[currentNav]}  
 
+                  
 
                     </section>
                     

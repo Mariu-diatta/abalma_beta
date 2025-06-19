@@ -7,6 +7,7 @@ import { addToCart } from "../slices/cartSlice";
 import OwnerAvatar from "../components/OwnerProfil";
 import { setCurrentNav } from "../slices/navigateSlice";
 import {  addMessageNotif, addUser } from "../slices/chatSlice";
+import ProductModal from "../pages/ProductViewsDetails";
 
 const GridProductDefault = ({data}) => {
 
@@ -133,7 +134,7 @@ const GridProductDefault = ({data}) => {
 
                                         <div className="flex justify-between items-center mt-1">
                                             <span className="text-blue-700 font-semibold text-sm">
-                                                ${product.price_product}
+                                                ${product?.price_product}
                                             </span>
                                             <div className="flex gap-2">
                                                 <button
@@ -166,28 +167,33 @@ const GridProductDefault = ({data}) => {
                 )}
             </div>
 
-            {/* MODAL */}
-            {modalData && (
-                <div
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm  sm:px-1"
-                    onClick={closeModal}
-                    role="dialog"
-                    aria-modal="true"
-                    data-modal-backdrop="static"
-                >
-                    <div
-                        onClick={(e) => e.stopPropagation()}
-                        className="w-full m-0 p-0 max-w-4xl bg-white dark:bg-gray-900 rounded-2xl shadow-xl  animate-fade-in-up"
-                    >
-                        <HorizontalCard
-                            item={modalData}
-                        >
-                            <GridSlideProduct srcs={[modalData.image_product]} />
 
-                        </HorizontalCard>
-                    </div>
-                </div>
-            )}
+            <ProductModal isOpen={!!modalData} onClose={closeModal} dataProduct={modalData} />
+
+            {/* MODAL */}
+            {
+                //modalData && (
+                //<div
+                //    className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm  sm:px-1"
+                //    onClick={closeModal}
+                //    role="dialog"
+                //    aria-modal="true"
+                //    data-modal-backdrop="static"
+                //>
+                //    <div
+                //        onClick={(e) => e.stopPropagation()}
+                //        className="w-full m-0 p-0 max-w-4xl bg-white dark:bg-gray-900 rounded-2xl shadow-xl  animate-fade-in-up"
+                //    >
+                //        <HorizontalCard
+                //            item={modalData}
+                //        >
+                //            <GridSlideProduct srcs={[modalData.image_product]} />
+
+                //        </HorizontalCard>
+                //    </div>
+                //</div>
+                //)
+            }
 
             {
                 !(cols.length > 0 && cols.flat().length > 0) &&
