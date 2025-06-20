@@ -98,6 +98,7 @@ const ListProductShoppingCart = () => {
                             <td className="px-6 py-4  text-gray-900 dark:text-white">{categorie_product}</td>
 
                             <td className="px-6 py-4">
+
                                 <div className="flex items-center">
 
                                     <button onClick={() => handleDecreaseQuantity({ id })} className="cursor-pointer inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600">
@@ -112,6 +113,7 @@ const ListProductShoppingCart = () => {
                                     </button>
 
                                 </div>
+
                             </td>
 
                             <td className="px-6 py-4  text-gray-900 dark:text-white">
@@ -123,13 +125,15 @@ const ListProductShoppingCart = () => {
                             </td>
 
                             <td className="px-6 py-4">
+
                                 <button
                                     onClick={() => dispatch(removeFromCart({ id}))}
                                     className="font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer">
-                                    <svg className="w-[25px] h-[22px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8" d="M6.31531 7c1.41852 0 1.41852 1.5 2.83703 1.5C10.5709 8.5 10.5709 7 11.9894 7s1.4185 1.5 2.837 1.5S17.6635 7 17.6635 7M6 3l1.07554 16.133C7.14558 20.1836 8.01818 21 9.07111 21h5.85779c1.0529 0 1.9255-.8164 1.9956-1.867L18 3H6Z" />
+                                    <svg className="w-[25px] h-[20px] text-gray-800 boder-red-200 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
                                     </svg>
                                 </button>
+
                             </td>
 
                         </tr>

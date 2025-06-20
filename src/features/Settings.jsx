@@ -33,7 +33,6 @@ const SettingsForm = () => {
             alert(successMessage);
         } catch (err) {
             console.warn("Request failed:", err);
-            alert("Une erreur est survenue. Veuillez réessayer.");
         }
     };
 
@@ -84,6 +83,7 @@ const SettingsForm = () => {
         e.preventDefault();
 
         await tryRequest(
+
             () => api.patch(`/clients/${currentUserData?.id}/`,
                 {
                     password: form.password,
@@ -95,14 +95,15 @@ const SettingsForm = () => {
     const GetClientCard = async () => {
 
 
+        if (!currentUserData?.id) return;
+
         await tryRequest(
+
             () => api.patch(`/clients/${currentUserData?.id}/`,
                 {
                     password: form.password,
                 }
             ), 'Mot de passe modifié avec succès !')
-
-        if (!currentUserData?.id) return;
 
         try {
 
@@ -160,7 +161,7 @@ const SettingsForm = () => {
             GetClientCard();
         }
 
-    }, [currentUserData]);
+    }, []);
 
 
     useEffect(() => {
@@ -204,11 +205,11 @@ const SettingsForm = () => {
 
             <form
 
-                onSubmit={updatePassword}
+                onSubmit={(e)=>updatePassword(e)}
 
                 className="w-auto bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6"
             >
-                <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Paramètres du compte</h2>
+                <h2 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">Paramètres du compte</h2>
 
                 {/* 📷 Photo de profil */}
                 <div className="flex items-center gap-4">
@@ -282,14 +283,14 @@ const SettingsForm = () => {
 
             <form
 
-                onSubmit={handleSubmit}
+                onSubmit={(e)=>handleSubmit(e)}
 
                 className="w-auto bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6"
             >
                 {/* 🌙 Thème */}
                 <div className="flex flex-col sm:flex-row sm:items-center gap-4">
 
-                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Thème :</label>
+                    <label className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">Thème:</label>
 
                     <select
                         name="theme"
@@ -338,11 +339,12 @@ const SettingsForm = () => {
             </form>
 
             <form
-                onSubmit={handleSubmitCard}
+                onSubmit={(e)=>handleSubmitCard(e)}
                 className="w-auto bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6"
             >
+
                 {/* 💳 Paiement */}
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-white mt-4">Mode de paiement</h3>
+                <h3 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">Mode de paiement</h3>
 
                 <FloatingInput
                     type="number"
@@ -381,7 +383,7 @@ const SettingsForm = () => {
                 </div>
 
                 {/* 🧾 Adresse de facturation */}
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-white mt-4">Adresse de facturation</h3>
+                <h3 className="text-lg  text-gray-800 dark:text-white mt-4">Adresse de facturation</h3>
 
                 <FloatingInput
                     type="text"

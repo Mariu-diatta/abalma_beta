@@ -109,13 +109,11 @@ const ProductTablePagination = ({data }) => {
 
             <nav className="flex flex-row items-center gap-2 m-2">
 
-                <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-
-                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 8h6m-6 4h6m-6 4h6M6 3v18l2-2 2 2 2-2 2 2 2-2 2 2V3l-2 2-2-2-2 2-2-2-2 2-2-2Z" />
-
+                <svg className="w-[25px] h-[25px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8" d="M9 8h6m-6 4h6m-6 4h6M6 3v18l2-2 2 2 2-2 2 2 2-2 2 2V3l-2 2-2-2-2 2-2-2-2 2-2-2Z" />
                 </svg>
 
-                <h2 className="text-2xl font-semibold  text-gray-800 dark:text-white">Mes ventes</h2>
+                <h2 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">Mes ventes</h2>
 
             </nav>
 
@@ -173,17 +171,24 @@ const ProductTablePagination = ({data }) => {
 
                 {/* Bouton supprimer si sélection */}
                 {selectedIds.size > 0 && (
+
                     <button
+
                         onClick={() => {
+
                             if (window.confirm(`Confirmer la suppression de ${selectedIds.size} élément(s) ?`)) {
+
                                 alert(`Suppression des IDs : ${Array.from(selectedIds).join(", ")}`);
                                 // Ici, tu pourras déclencher une vraie suppression si nécessaire.
+
                                 setSelectedIds(new Set());
                             }
                         }}
+
                         className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-200"
                     >
                         Supprimer {selectedIds.size === 1 ? "l element" : "la selection"}
+
                     </button>
                 )}
 
@@ -199,10 +204,12 @@ const ProductTablePagination = ({data }) => {
                         aria-label="Recherche dans la table"
                     />
                 </div>
+
             </div>
 
             {/* Tableau */}
             <table className="w-full text-sm text-left text-gray-700 dark:text-gray-300">
+
                 <thead className="bg-gray-100 dark:bg-gray-700">
                     <tr>
                         <th className="p-3">
@@ -269,7 +276,7 @@ const ProductTablePagination = ({data }) => {
                         currentItems.map((item) => (
                             <tr
                                 key={item.id}
-                                className={`border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 ${selectedIds.has(item.id) ? "bg-blue-100 dark:bg-blue-800" : ""
+                                className={` dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 ${selectedIds.has(item.id) ? "bg-blue-100 dark:bg-blue-800" : ""
                                     }`}
                             >
                                 <td className="p-3">
@@ -285,30 +292,36 @@ const ProductTablePagination = ({data }) => {
                                 <td className="px-4 py-3">{item.category}</td>
                                 <td className="px-4 py-3">{item.price.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}</td>
                                 <td className="px-4 py-3 capitalize">{item.statut}</td>
+
                                 <td className="px-6 py-3">
+
                                     <button
                                         className="text-blue-600 hover:underline dark:text-blue-400 cursor-pointer"
                                         onClick={() => alert(`Modifier: ${item.name}`)}
                                         aria-label={`Modifier ${item.name}`}
                                     >
-                                        <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z" />
+                                        <svg className="w-[25px] h-[20px] text-gray-800 boder-red-200 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
                                         </svg>
 
                                     </button>
+
                                 </td>
+
                                 <td className="px-6 py-3">
+
                                     <button
                                         className="text-blue-600 hover:underline dark:text-blue-400 cursor-pointer"
                                         onClick={() => setPoverOpen(true)}
                                         aria-label={`Voir ${item.name}`}
                                     >
-                                        <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" strokeWidth="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
-                                            <path stroke="currentColor" strokeWidth="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                        <svg className="w-[25px] h-[25px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" strokeWidth="0.8" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
+                                            <path stroke="currentColor" strokeWidth="0.8" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                                         </svg>
 
                                     </button>
+
                                 </td>
                            
                             </tr>
