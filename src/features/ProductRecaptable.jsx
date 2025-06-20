@@ -75,19 +75,24 @@ const ProductsRecapTable = ({ products }) => {
             </div>
 
             <div className="overflow-x-auto rounded-md shadow">
+
                 <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm text-left">
-                    <thead className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 uppercase text-xs">
+
+                    <thead className="bg-gray-100 dark:bg-gray-700">
+
                         <tr>
                             <th className="px-4 py-3">Nom</th>
-                            <th className="px-4 py-3">Categorie</th>
+                            <th className="px-4 py-3">Catégories</th>
                             <th className="px-4 py-3">Statut</th>
                             <th className="px-4 py-3">Prix</th>
-                            <th className="px-4 py-3">Date d operation</th>
+                            <th className="px-4 py-3">Date d'operation</th>
                             <th className="px-4 py-3">Date de fin</th>
                             <th className="px-4 py-3">Actions</th>
                             <th scope="col" className="px-6 py-3">Consulter</th>
                         </tr>
+
                     </thead>
+
                     <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                         {paginatedProducts.length === 0 ? (
                             <tr>

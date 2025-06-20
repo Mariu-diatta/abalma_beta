@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+ï»¿import React, { useState, useMemo } from "react";
 import ViewProduct from "../components/ViewProduct";
 
 const ProductTablePagination = ({data }) => {
@@ -16,7 +16,7 @@ const ProductTablePagination = ({data }) => {
 
     const closePopover = () => setPoverOpen(false)
 
-    // Filtrage par statut réel
+    // Filtrage par statut rÃ©el
     const statutsOptions = ["Tous", "en cours", "vendu", "offert", "prete"];
 
     // Filtrage et recherche
@@ -71,7 +71,7 @@ const ProductTablePagination = ({data }) => {
         setSortConfig({ key, direction });
     };
 
-    // Gestion sélection
+    // Gestion sÃ©lection
     const toggleSelectAll = () => {
         const visibleIds = currentItems.map(item => item.id);
         const allSelected = visibleIds.every(id => selectedIds.has(id));
@@ -169,17 +169,17 @@ const ProductTablePagination = ({data }) => {
 
                 </div>
 
-                {/* Bouton supprimer si sélection */}
+                {/* Bouton supprimer si sÃ©lection */}
                 {selectedIds.size > 0 && (
 
                     <button
 
                         onClick={() => {
 
-                            if (window.confirm(`Confirmer la suppression de ${selectedIds.size} élément(s) ?`)) {
+                            if (window.confirm(`Confirmer la suppression de ${selectedIds.size} Ã©lÃ©ment(s) ?`)) {
 
                                 alert(`Suppression des IDs : ${Array.from(selectedIds).join(", ")}`);
-                                // Ici, tu pourras déclencher une vraie suppression si nécessaire.
+                                // Ici, tu pourras dÃ©clencher une vraie suppression si nÃ©cessaire.
 
                                 setSelectedIds(new Set());
                             }
@@ -211,16 +211,22 @@ const ProductTablePagination = ({data }) => {
             <table className="w-full text-sm text-left text-gray-700 dark:text-gray-300">
 
                 <thead className="bg-gray-100 dark:bg-gray-700">
+
                     <tr>
+
                         <th className="p-3">
+
                             <input
                                 type="checkbox"
                                 onChange={toggleSelectAll}
                                 checked={selectedIds.size === currentItems.length && currentItems.length > 0}
-                                aria-label="Sélectionner tout"
+                                aria-label="SÃ©lectionner tout"
                             />
+
                         </th>
-                        {["name", "color", "category", "price", "statut",'action',"consulter"].map((key) => (
+
+                        {["name", "color", "category", "price", "statut", 'action', "consulter"].map((key) => (
+
                             <th
                                 key={key}
                                 className="px-4 py-3 cursor-pointer select-none"
@@ -236,13 +242,14 @@ const ProductTablePagination = ({data }) => {
                                 onKeyDown={e => e.key === "Enter" && requestSort(key)}
                             >
                                 <div className="flex items-center space-x-1 capitalize">
+
                                     <span>
                                         {key === "name"
                                             ? "Nom"
                                             : key === "color"
                                                 ? "Couleur"
                                                 : key === "category"
-                                                    ? "Categorie"
+                                                    ? "CatÃ©gorie"
                                                     : key === "price"
                                                         ? "Prix"
                                                         : key === "statut"
@@ -251,29 +258,39 @@ const ProductTablePagination = ({data }) => {
                                                                 ? "Action"
                                                                     :"Consulter"}
                                     </span>
-                                    {sortConfig.key === key ? (
-                                        sortConfig.direction === "asc" ? (
-                                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M5 15l5-5 5 5H5z" /></svg>
-                                        ) : (
-                                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M5 7l5 5 5-5H5z" /></svg>
-                                        )
-                                    ) : null}
+
+                                    {
+                                        sortConfig.key === key ? (
+                                            sortConfig.direction === "asc" ? (
+                                                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M5 15l5-5 5 5H5z" /></svg>
+                                            ) : (
+                                                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M5 7l5 5 5-5H5z" /></svg>
+                                            )
+                                        ) : null
+                                    }
+
                                 </div>
                             </th>
                         ))}
                         
                     </tr>
+
                 </thead>
 
                 <tbody>
-                    {currentItems.length === 0 ? (
-                        <tr>
-                            <td colSpan="7" className="text-center py-4 dark:text-white">
-                                Aucun resultat trouve.
-                            </td>
-                        </tr>
-                    ) : (
-                        currentItems.map((item) => (
+
+                    {
+                        currentItems.length === 0 ?
+                        (
+                            <tr>
+                                <td colSpan="7" className="text-center py-4 dark:text-white">
+                                    Aucun resultat trouve.
+                                </td>
+                            </tr>
+                        ) :
+                        (
+                            currentItems.map((item) => (
+
                             <tr
                                 key={item.id}
                                 className={` dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 ${selectedIds.has(item.id) ? "bg-blue-100 dark:bg-blue-800" : ""
@@ -284,9 +301,10 @@ const ProductTablePagination = ({data }) => {
                                         type="checkbox"
                                         checked={selectedIds.has(item.id)}
                                         onChange={() => toggleSelectOne(item.id)}
-                                        aria-label={`Sélectionner ${item.name}`}
+                                        aria-label={`SÃ©lectionner ${item.name}`}
                                     />
                                 </td>
+
                                 <td className="px-4 py-3 font-medium">{item.name}</td>
                                 <td className="px-4 py-3">{item.color}</td>
                                 <td className="px-4 py-3">{item.category}</td>
@@ -351,7 +369,7 @@ const ProductTablePagination = ({data }) => {
                             onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
                             disabled={currentPage === 1}
                             className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed dark:border-gray-600 dark:hover:bg-gray-700"
-                            aria-label="Page précédente"
+                            aria-label="Page prÃ©cÃ©dente"
                         >
                             Precedent
                         </button>
