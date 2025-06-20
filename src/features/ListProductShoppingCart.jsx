@@ -57,11 +57,12 @@ const ListProductShoppingCart = () => {
 
             <nav className="flex flex-row items-center gap-2 ">
 
-                <svg className="text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 24 24">
-                    <path fillRule="evenodd" d="M4 4a1 1 0 0 1 1-1h1.5a1 1 0 0 1 .979.796L7.939 6H19a1 1 0 0 1 .979 1.204l-1.25 6a1 1 0 0 1-.979.796H9.605l.208 1H17a3 3 0 1 1-2.83 2h-2.34a3 3 0 1 1-4.009-1.76L5.686 5H5a1 1 0 0 1-1-1Z" clipRule="evenodd" />
+                <svg className="w-[25px] h-[25px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8" d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
                 </svg>
 
-                <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">Produits selectionnes</h2>
+                <h2 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">Produits sélectionnés</h2>
+
             </nav>
 
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -92,9 +93,9 @@ const ListProductShoppingCart = () => {
                                 </div>
                             </td>
 
-                            <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">{description_product}</td>
+                            <td className="px-6 py-4  text-gray-900 dark:text-white">{description_product}</td>
 
-                            <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">{categorie_product}</td>
+                            <td className="px-6 py-4  text-gray-900 dark:text-white">{categorie_product}</td>
 
                             <td className="px-6 py-4">
                                 <div className="flex items-center">
@@ -113,11 +114,11 @@ const ListProductShoppingCart = () => {
                                 </div>
                             </td>
 
-                            <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                            <td className="px-6 py-4  text-gray-900 dark:text-white">
                                 ${!isNaN(Number(price_product)) ? Number(price_product).toFixed(2) : "0.00"}
                             </td>
 
-                            <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                            <td className="px-6 py-4 text-gray-900 dark:text-white">
                                 ${(!isNaN(Number(price_product)) && !isNaN(Number(quantity_selected)) ? (Number(price_product) * Number(quantity_selected)).toFixed(2) : "0.00")}
                             </td>
 
@@ -125,8 +126,8 @@ const ListProductShoppingCart = () => {
                                 <button
                                     onClick={() => dispatch(removeFromCart({ id}))}
                                     className="font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer">
-                                    <svg className="w-6 h-5 text-red-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                        <path fillRule="evenodd" d="M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z" clipRule="evenodd" />
+                                    <svg className="w-[25px] h-[22px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8" d="M6.31531 7c1.41852 0 1.41852 1.5 2.83703 1.5C10.5709 8.5 10.5709 7 11.9894 7s1.4185 1.5 2.837 1.5S17.6635 7 17.6635 7M6 3l1.07554 16.133C7.14558 20.1836 8.01818 21 9.07111 21h5.85779c1.0529 0 1.9255-.8164 1.9956-1.867L18 3H6Z" />
                                     </svg>
                                 </button>
                             </td>

@@ -222,7 +222,7 @@ const OwnerAvatar = ({ owner }) => {
 
                         alt={owner?.nom || 'Fournisseur'}
 
-                        className="h-8 w-8 rounded-full object-cover cursor-pointer ring-1 ring-gray-300 hover:ring-blue-500 transition"
+                        className="h-6 w-6 rounded-full object-cover cursor-pointer ring-1 ring-gray-300 hover:ring-blue-500 transition"
 
                         title={owner?.nom}
 
