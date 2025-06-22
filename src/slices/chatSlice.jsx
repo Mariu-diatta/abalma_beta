@@ -95,11 +95,14 @@ const chatSlice = createSlice({
 
         removeMessageNotif: (state) => {
             state.messageNotif = state.messageNotif.slice(1);
+        },
+        cleanAllMessageNotif: (state) => {
+            state.messageNotif = [];
         }
     },
 });
 
 export const { addRoom, removeRoom, clearRooms, newRoom, addUser, addCurrentChat, addMessageNotif,
-    removeMessageNotif } = chatSlice.actions;
+    removeMessageNotif, cleanAllMessageNotif } = chatSlice.actions;
 
 export default chatSlice.reducer;

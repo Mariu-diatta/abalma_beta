@@ -97,7 +97,10 @@ const ChatLayout = () => {
                                             alt={`${selectedUser?.nom || "Moi"} avatar`}
                                             className="h-7 w-7 rounded-full object-cover"
                                         />
-                                        {selectedUser?.nom} {selectedUser?.prenom}  
+                                        <div className="flex flex-col leading-tight">
+                                            <span className="text-md font-medium text-gray-600">{selectedUser?.prenom || "Prénom"} </span>
+                                            <span className="text-xs text-gray-500">{selectedUser?.nom?.toLowerCase() || "Nom"}</span>
+                                        </div>
                                     </span>
 
                                     <button
@@ -124,7 +127,7 @@ const ChatLayout = () => {
             </button>
 
             {/* Main Chat Area */}
-            <div className="flex-1 flex flex-col overflow-hidden">
+            <div className="lg:me-5 lg:pe-5 lg:ps-5 flex-1 flex flex-col overflow-hidden">
                 <ChatApp roomName={currentChat} />
             </div>
         </div>

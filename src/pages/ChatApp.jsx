@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import api from '../services/Axios';
 
 const ChatApp = ({ roomName }) => {
+
     const ws = useRef(null);
     const messagesEndRef = useRef(null);
 
@@ -10,7 +11,7 @@ const ChatApp = ({ roomName }) => {
     const [input, setInput] = useState("");
 
     const currentUser = useSelector(state => state.auth.user);
-    const currentChat = useSelector(state => state.chat.currentChat);
+    //const currentChat = useSelector(state => state.chat.currentChat);
     const allRoomsChats = useSelector(state => state.chat.currentChats);
     const selectedUser = useSelector(state => state.chat.userSlected);
 
@@ -89,26 +90,24 @@ const ChatApp = ({ roomName }) => {
     }, [input, currentUser]);
 
     return (
+
         <div className="flex flex-col h-full p-4 md:p-6 bg-white rounded-2xl shadow-md overflow-hidden">
 
             {/* Titre */}
-            <h2 className="flex text-xl font-semibold text-gray-700 mb-4">
+            <nav className="flex items-center gap-2 text-gray-700 mb-1">
 
-                {/*{(currentChat && Object.keys(currentChat).length > 0) ? "💬 Chat :" : "Sélectionner une discussion"}{" "}*/}
+                <img
+                    src={selectedUser?.image || "/default-avatar.png"} // image par défaut si nécessaire
+                    alt={`${selectedUser?.nom || "Utilisateur"} avatar`}
+                    className="h-8 w-8 rounded-full object-cover"
+                />
 
-                <span className="text-blue-600 flex gap-1">
+                <div className="flex flex-col leading-tight">
+                    <span className="text-md font-medium text-blue-600">{selectedUser?.prenom || "Prénom"} </span>
+                    <span className="text-xs text-gray-500">{selectedUser?.nom?.toLowerCase()|| "Nom"}</span>
+                </div>
 
-                    <img
-                        src={selectedUser?.image}
-                        alt={`${selectedUser?.nom || "Moi"} avatar`}
-                        className="h-7 w-7 rounded-full object-cover"
-                    />
-
-                    {selectedUser?.nom} {selectedUser?.prenom}
-
-                </span>
-
-            </h2>
+            </nav>
 
             <div className="w-full h-px bg-gray-300 mb-3" />
 
@@ -178,7 +177,10 @@ const ChatApp = ({ roomName }) => {
                     onClick={sendMessage}
                     className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl text-sm font-medium"
                 >
-                    Envoyer
+                    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd" d="M12 2a1 1 0 0 1 .932.638l7 18a1 1 0 0 1-1.326 1.281L13 19.517V13a1 1 0 1 0-2 0v6.517l-5.606 2.402a1 1 0 0 1-1.326-1.281l7-18A1 1 0 0 1 12 2Z" clip-rule="evenodd" />
+                    </svg>
+
                 </button>
 
             </div>
