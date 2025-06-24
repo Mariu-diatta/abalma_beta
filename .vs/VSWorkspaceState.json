@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\abalma_beta",
+    "\\abalma_beta\\public",
+    "\\abalma_beta\\src",
+    "\\abalma_beta\\src\\hooks",
+    "\\abalma_beta\\src\\layouts",
+    "\\abalma_beta\\src\\router",
+    "\\abalma_beta\\src\\store",
+    "\\abalma_beta\\src\\styles",
+    "\\abalma_beta\\src\\utils"
+  ],
+  "PreviewInSolutionExplorer": false
+}

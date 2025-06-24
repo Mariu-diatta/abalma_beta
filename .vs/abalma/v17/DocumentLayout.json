@@ -1,0 +1,473 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\features\\GridProductDefaultSize.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:abalma_beta\\src\\features\\GridProductDefaultSize.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\slices\\navigateSlice.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:abalma_beta\\src\\slices\\navigateSlice.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\features\\NavbarVertical.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:abalma_beta\\src\\features\\NavbarVertical.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\features\\GridLayoutProducts.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:abalma_beta\\src\\features\\GridLayoutProducts.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\components\\OwnerProfil.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:abalma_beta\\src\\components\\OwnerProfil.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\components\\ContactUser.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:abalma_beta\\src\\components\\ContactUser.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\features\\DashbordProfileUser.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:abalma_beta\\src\\features\\DashbordProfileUser.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\features\\ProfilUser.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:abalma_beta\\src\\features\\ProfilUser.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\components\\DropDownAccount.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:abalma_beta\\src\\components\\DropDownAccount.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\slices\\chatSlice.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:abalma_beta\\src\\slices\\chatSlice.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\pages\\Login.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:abalma_beta\\src\\pages\\Login.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\layouts\\ChatLayout.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:abalma_beta\\src\\layouts\\ChatLayout.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\pages\\ChatApp.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:abalma_beta\\src\\pages\\ChatApp.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\App.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:abalma_beta\\src\\App.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\components\\MessageCard.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:abalma_beta\\src\\components\\MessageCard.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\features\\HorizontalCard.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:abalma_beta\\src\\features\\HorizontalCard.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\features\\UpdateProduct.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:abalma_beta\\src\\features\\UpdateProduct.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\features\\GridProductSlide.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:abalma_beta\\src\\features\\GridProductSlide.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\public\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:abalma_beta\\public\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\pages\\Register.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:abalma_beta\\src\\pages\\Register.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\layouts\\AdminLayout.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:abalma_beta\\src\\layouts\\AdminLayout.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\services\\Axios.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:abalma_beta\\src\\services\\Axios.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\hooks\\useAuth.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:abalma_beta\\src\\hooks\\useAuth.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\components\\Form.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:abalma_beta\\src\\components\\Form.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 15,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:2:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:3:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:10:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:6:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:11:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:9:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:7:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:8:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:5:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:14:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "NavbarVertical.jsx",
+              "DocumentMoniker": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\features\\NavbarVertical.jsx",
+              "RelativeDocumentMoniker": "abalma_beta\\src\\features\\NavbarVertical.jsx",
+              "ToolTip": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\features\\NavbarVertical.jsx",
+              "RelativeToolTip": "abalma_beta\\src\\features\\NavbarVertical.jsx",
+              "ViewState": "AgIAALQAAAAAAAAAAAAmwMsAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-06-08T16:36:43.785Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "GridProductDefaultSize.jsx",
+              "DocumentMoniker": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\features\\GridProductDefaultSize.jsx",
+              "RelativeDocumentMoniker": "abalma_beta\\src\\features\\GridProductDefaultSize.jsx",
+              "ToolTip": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\features\\GridProductDefaultSize.jsx",
+              "RelativeToolTip": "abalma_beta\\src\\features\\GridProductDefaultSize.jsx",
+              "ViewState": "AgIAALAAAAAAAAAAAAAmwMMAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-06-12T00:48:18.409Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "navigateSlice.jsx",
+              "DocumentMoniker": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\slices\\navigateSlice.jsx",
+              "RelativeDocumentMoniker": "abalma_beta\\src\\slices\\navigateSlice.jsx",
+              "ToolTip": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\slices\\navigateSlice.jsx",
+              "RelativeToolTip": "abalma_beta\\src\\slices\\navigateSlice.jsx",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAjwBgAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-06-09T01:11:11.786Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "GridLayoutProducts.jsx",
+              "DocumentMoniker": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\features\\GridLayoutProducts.jsx",
+              "RelativeDocumentMoniker": "abalma_beta\\src\\features\\GridLayoutProducts.jsx",
+              "ToolTip": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\features\\GridLayoutProducts.jsx",
+              "RelativeToolTip": "abalma_beta\\src\\features\\GridLayoutProducts.jsx",
+              "ViewState": "AgIAAEEAAAAAAAAAAAAjwCcAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-06-12T00:03:48.652Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "OwnerProfil.jsx",
+              "DocumentMoniker": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\components\\OwnerProfil.jsx",
+              "RelativeDocumentMoniker": "abalma_beta\\src\\components\\OwnerProfil.jsx",
+              "ToolTip": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\components\\OwnerProfil.jsx",
+              "RelativeToolTip": "abalma_beta\\src\\components\\OwnerProfil.jsx",
+              "ViewState": "AgIAAGUAAAAAAAAAAAAmwIMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-06-15T00:44:29.843Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ContactUser.jsx",
+              "DocumentMoniker": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\components\\ContactUser.jsx",
+              "RelativeDocumentMoniker": "abalma_beta\\src\\components\\ContactUser.jsx",
+              "ToolTip": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\components\\ContactUser.jsx",
+              "RelativeToolTip": "abalma_beta\\src\\components\\ContactUser.jsx",
+              "ViewState": "AgIAAJcAAAAAAAAAAAAjwLYAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-06-15T06:23:48.514Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "DashbordProfileUser.jsx",
+              "DocumentMoniker": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\features\\DashbordProfileUser.jsx",
+              "RelativeDocumentMoniker": "abalma_beta\\src\\features\\DashbordProfileUser.jsx",
+              "ToolTip": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\features\\DashbordProfileUser.jsx",
+              "RelativeToolTip": "abalma_beta\\src\\features\\DashbordProfileUser.jsx",
+              "ViewState": "AgIAAK8AAAAAAAAAAAAmwMoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-06-15T05:10:29.632Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ProfilUser.jsx",
+              "DocumentMoniker": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\features\\ProfilUser.jsx",
+              "RelativeDocumentMoniker": "abalma_beta\\src\\features\\ProfilUser.jsx",
+              "ToolTip": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\features\\ProfilUser.jsx",
+              "RelativeToolTip": "abalma_beta\\src\\features\\ProfilUser.jsx",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAmwF8AAABeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-06-09T02:17:13.704Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "DropDownAccount.jsx",
+              "DocumentMoniker": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\components\\DropDownAccount.jsx",
+              "RelativeDocumentMoniker": "abalma_beta\\src\\components\\DropDownAccount.jsx",
+              "ToolTip": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\components\\DropDownAccount.jsx",
+              "RelativeToolTip": "abalma_beta\\src\\components\\DropDownAccount.jsx",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAWwAMBAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-06-09T02:36:15.26Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "chatSlice.jsx",
+              "DocumentMoniker": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\slices\\chatSlice.jsx",
+              "RelativeDocumentMoniker": "abalma_beta\\src\\slices\\chatSlice.jsx",
+              "ToolTip": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\slices\\chatSlice.jsx",
+              "RelativeToolTip": "abalma_beta\\src\\slices\\chatSlice.jsx",
+              "ViewState": "AgIAADEAAAAAAAAAAAAmwEMAAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-06-15T00:49:21.842Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Login.jsx",
+              "DocumentMoniker": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\pages\\Login.jsx",
+              "RelativeDocumentMoniker": "abalma_beta\\src\\pages\\Login.jsx",
+              "ToolTip": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\pages\\Login.jsx",
+              "RelativeToolTip": "abalma_beta\\src\\pages\\Login.jsx",
+              "ViewState": "AgIAAGsAAAAAAAAAAAAmwH0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-06-08T23:47:19.387Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "ChatLayout.jsx",
+              "DocumentMoniker": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\layouts\\ChatLayout.jsx",
+              "RelativeDocumentMoniker": "abalma_beta\\src\\layouts\\ChatLayout.jsx",
+              "ToolTip": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\layouts\\ChatLayout.jsx",
+              "RelativeToolTip": "abalma_beta\\src\\layouts\\ChatLayout.jsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-06-13T22:28:28.089Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "MessageCard.jsx",
+              "DocumentMoniker": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\components\\MessageCard.jsx",
+              "RelativeDocumentMoniker": "abalma_beta\\src\\components\\MessageCard.jsx",
+              "ToolTip": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\components\\MessageCard.jsx",
+              "RelativeToolTip": "abalma_beta\\src\\components\\MessageCard.jsx",
+              "ViewState": "AgIAAG0AAAAAAAAAAAAmwH8AAABPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-06-13T20:13:57.501Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "ChatApp.jsx",
+              "DocumentMoniker": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\pages\\ChatApp.jsx",
+              "RelativeDocumentMoniker": "abalma_beta\\src\\pages\\ChatApp.jsx",
+              "ToolTip": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\pages\\ChatApp.jsx",
+              "RelativeToolTip": "abalma_beta\\src\\pages\\ChatApp.jsx",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAjwDEAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-06-13T14:36:49.947Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "App.css",
+              "DocumentMoniker": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\App.css",
+              "RelativeDocumentMoniker": "abalma_beta\\src\\App.css",
+              "ToolTip": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\App.css",
+              "RelativeToolTip": "abalma_beta\\src\\App.css",
+              "ViewState": "AgIAABQAAAAAAAAAAAAiwC8AAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-06-13T21:52:08.964Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "HorizontalCard.jsx",
+              "DocumentMoniker": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\features\\HorizontalCard.jsx",
+              "RelativeDocumentMoniker": "abalma_beta\\src\\features\\HorizontalCard.jsx",
+              "ToolTip": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\features\\HorizontalCard.jsx",
+              "RelativeToolTip": "abalma_beta\\src\\features\\HorizontalCard.jsx",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAjwEkAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-06-12T00:30:53.453Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "UpdateProduct.jsx",
+              "DocumentMoniker": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\features\\UpdateProduct.jsx",
+              "RelativeDocumentMoniker": "abalma_beta\\src\\features\\UpdateProduct.jsx",
+              "ToolTip": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\features\\UpdateProduct.jsx",
+              "RelativeToolTip": "abalma_beta\\src\\features\\UpdateProduct.jsx",
+              "ViewState": "AgIAAGQAAAAAAAAAAAAmwHcAAABQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-06-08T15:59:31.186Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "GridProductSlide.jsx",
+              "DocumentMoniker": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\features\\GridProductSlide.jsx",
+              "RelativeDocumentMoniker": "abalma_beta\\src\\features\\GridProductSlide.jsx",
+              "ToolTip": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\features\\GridProductSlide.jsx",
+              "RelativeToolTip": "abalma_beta\\src\\features\\GridProductSlide.jsx",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAAAAQAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-06-12T00:35:38.984Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "index.html",
+              "DocumentMoniker": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\public\\index.html",
+              "RelativeDocumentMoniker": "abalma_beta\\public\\index.html",
+              "ToolTip": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\public\\index.html",
+              "RelativeToolTip": "abalma_beta\\public\\index.html",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAAAB0AAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-06-11T23:44:06.33Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Register.jsx",
+              "DocumentMoniker": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\pages\\Register.jsx",
+              "RelativeDocumentMoniker": "abalma_beta\\src\\pages\\Register.jsx",
+              "ToolTip": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\pages\\Register.jsx",
+              "RelativeToolTip": "abalma_beta\\src\\pages\\Register.jsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-06-08T18:54:52.837Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "AdminLayout.jsx",
+              "DocumentMoniker": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\layouts\\AdminLayout.jsx",
+              "RelativeDocumentMoniker": "abalma_beta\\src\\layouts\\AdminLayout.jsx",
+              "ToolTip": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\layouts\\AdminLayout.jsx",
+              "RelativeToolTip": "abalma_beta\\src\\layouts\\AdminLayout.jsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-06-08T21:07:20.132Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "Axios.jsx",
+              "DocumentMoniker": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\services\\Axios.jsx",
+              "RelativeDocumentMoniker": "abalma_beta\\src\\services\\Axios.jsx",
+              "ToolTip": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\services\\Axios.jsx",
+              "RelativeToolTip": "abalma_beta\\src\\services\\Axios.jsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAjwA8AAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-06-08T21:07:35.856Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "useAuth.jsx",
+              "DocumentMoniker": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\hooks\\useAuth.jsx",
+              "RelativeDocumentMoniker": "abalma_beta\\src\\hooks\\useAuth.jsx",
+              "ToolTip": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\hooks\\useAuth.jsx",
+              "RelativeToolTip": "abalma_beta\\src\\hooks\\useAuth.jsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-06-09T00:33:14.728Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "Form.jsx",
+              "DocumentMoniker": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\components\\Form.jsx",
+              "RelativeDocumentMoniker": "abalma_beta\\src\\components\\Form.jsx",
+              "ToolTip": "C:\\PROJET_START_UP\\frontend_frontend\\abalma\\abalma_beta\\src\\components\\Form.jsx",
+              "RelativeToolTip": "abalma_beta\\src\\components\\Form.jsx",
+              "ViewState": "AgIAAIgAAAAAAAAAAAAmwJsAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-06-08T18:55:03.784Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:12:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:13:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
