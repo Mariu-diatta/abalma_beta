@@ -126,16 +126,21 @@ const Tabs = () => {
                     <p className="mt-2 text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
                         Gérez vos produits, suivez vos activités et accédez rapidement aux informations essentielles pour optimiser votre expérience.
                     </p>
+
                 </div>
 
                 <div className="overflow-x-auto">
+
                     <ProductTable initialProducts={initialProducts} />
+
                 </div>
 
                 <ProductTablePagination data={data} />
 
                 <div className="">
+
                     <ProductsRecapTable products={mockProducts} />
+
                 </div>
 
             </div>
@@ -164,27 +169,30 @@ const Tabs = () => {
 
                     <ul className="flex space-x-2 overflow-x-auto text-sm font-medium text-center">
 
-                        {tabs.map((tab) => (
+                        {
+                            tabs.map((tab) => (
 
-                            <li key={tab.id} role="presentation">
+                                <li key={tab.id} role="presentation">
 
-                                <button
-                                    type="button"
-                                    role="tab"
-                                    aria-selected={activeTab === tab.id}
-                                    aria-controls={`${tab.id}-tab`}
-                                    id={`${tab.id}-tab-button`}
-                                    onClick={() => setActiveTab(tab.id)}
-                                    className={`inline-block px-4 py-3 rounded-t-md transition-colors duration-300 cursor-pointer ${activeTab === tab.id
-                                        ? 'border-b-purple-600 text-purple-600 border-b-2 dark:border-b-purple-500 dark:text-purple-500'
-                                            : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
-                                        } focus:outline-none `}
-                                >
-                                    {tab.label}
-                                </button>
+                                    <button
+                                        type="button"
+                                        role="tab"
+                                        aria-selected={activeTab === tab.id}
+                                        aria-controls={`${tab.id}-tab`}
+                                        id={`${tab.id}-tab-button`}
+                                        onClick={() => setActiveTab(tab.id)}
+                                        className={`inline-block px-4 py-3 rounded-t-md transition-colors duration-300 cursor-pointer ${activeTab === tab.id
+                                            ? 'border-b-purple-600 text-purple-600 border-b-2 dark:border-b-purple-500 dark:text-purple-500'
+                                                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
+                                            } focus:outline-none `}
+                                    >
+                                        {tab.label}
 
-                            </li>
-                        ))}
+                                    </button>
+
+                                </li>
+                            ))
+                        }
                     </ul>
 
                 </nav>

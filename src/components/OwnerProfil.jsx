@@ -24,6 +24,7 @@ const OwnerPopover = ({ owner, onClose }) => {
 
     const selectedProductOwner = useSelector(state => state.chat.userSlected)
 
+
     useEffect(() => {
 
         const handleClickOutside = (event) => {

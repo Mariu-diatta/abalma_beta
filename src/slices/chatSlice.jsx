@@ -33,33 +33,14 @@ const chatSlice = createSlice({
 
             const roomName = action.payload;
 
+            // Si le chat supprimé est le chat courant, on le réinitialise
+            if (state.currentChat?.name === roomName) {
 
-            const fetchRooms = async () => {
-
-
-                // Réinitialiser le chat courant si supprimé
-                if (state.currentChat?.name === roomName) {
-                    state.currentChat = {};
-                }
-
-                try {
-
-                    const resp = await api.get(`/rooms/?name=${roomName}`)
-
-                    const pk_id = resp?.data[0].pk
-
-                    await api.delete(`/rooms/${pk_id}/`);
-
-                } catch (err) {
-
-                    console.log(err)
-                }
+                state.currentChat = {};
             }
 
+            // Supprimer localement le chat de la liste
             state.currentChats = state.currentChats.filter(room => room?.name !== roomName);
-
-            fetchRooms()
-
         },
 
         // 🧹 Vider toutes les rooms
@@ -104,5 +85,22 @@ const chatSlice = createSlice({
 
 export const { addRoom, removeRoom, clearRooms, newRoom, addUser, addCurrentChat, addMessageNotif,
     removeMessageNotif, cleanAllMessageNotif } = chatSlice.actions;
+
+export const deleteRoomAsync = (roomName) => async (dispatch) => {
+    try {
+        const resp = await api.get(`/rooms/?name=${roomName}`);
+        const pk_id = resp?.data[0]?.pk;
+
+        if (pk_id) {
+            await api.delete(`/rooms/${pk_id}/`);
+        }
+
+        // Mise à jour du store après succès
+        dispatch(removeRoom(roomName));
+
+    } catch (err) {
+        console.error("Erreur de suppression :", err);
+    }
+};
 
 export default chatSlice.reducer;
