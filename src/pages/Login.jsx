@@ -41,35 +41,43 @@ const loginClient = async (data, dispatch) => {
 
 const Signin = () => {
 
-
     const [email, setEmail] = useState("");
     const [pwd, setPwd] = useState("");
-;
-
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
     const messageAlert = useSelector((state) => state.navigate.messageAlert);
-
     const emailRef = useRef(null);
 
     useEffect(() => {
+
         // Petite pause pour laisser le navigateur autofill
         setTimeout(() => {
+
             if (emailRef.current) {
+
                 const value = emailRef.current.value;
+
                 if (value) setEmail(value);
             }
+
         }, 500); // 500ms pour laisser le navigateur compléter
+
     }, [])
 
     const handleGoogleLogin = async () => {
+
         try {
+
             const user = await signInWithGoogle();
+
             dispatch(login(user));
+
             dispatch(getFirebaseToken(user?.accessToken));
+
             navigate("/account", { replace: true });
+
         } catch (error) {
+
             showMessage(dispatch, "Erreur de connexion Google");
         }
     };

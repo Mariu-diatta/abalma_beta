@@ -193,8 +193,8 @@ const GridLayoutProduct = () => {
 
 
     const filteredItems = activeCategory === 'All'
-        ? productData
-        : productData.filter(item => item.categorie_product === activeCategory);
+        ? productData.filter(item => parseInt(item?.quantity_product) !== 0)
+        : productData.filter(item => item.categorie_product === activeCategory && parseInt(item?.quantity_product)!==0);
 
     return (
         <div className="p-4 space-y-4">
@@ -297,6 +297,7 @@ const GridLayoutProduct = () => {
                             </div>
                         );
                     })}
+
                 </div>
             ) : (
                 <div className="text-center text-gray-500">Aucun produit disponible</div>

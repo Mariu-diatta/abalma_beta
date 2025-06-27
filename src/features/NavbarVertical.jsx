@@ -36,16 +36,24 @@ const VertcalNavbar = ({ children }) => {
 
     // 🔎 Fetch Rooms
     useEffect(() => {
+
         const fetchRooms = async () => {
+
             try {
                 const { data = [] } = await api.get("/rooms/");
+
                 const userRooms = data.filter(
+
                     room =>
                         room?.current_receiver === currentUser?.id ||
+
                         room?.current_owner === currentUser?.id
                 );
+
                 userRooms.forEach(room => dispatch(addRoom(room)));
+
             } catch (error) {
+
                 console.error("Erreur lors de la récupération des rooms :", error);
             }
         };
@@ -55,18 +63,26 @@ const VertcalNavbar = ({ children }) => {
 
     // 🔎 Fetch Produits d'une catégorie
     const getProductFilter = async url => {
+
         try {
+
             const response = await api.get(url);
+
             setProducts(response?.data);
+
         } catch (err) {
+
             console.error("Erreur lors de la récupération des produits :", err);
         }
     };
 
     // 🔄 Mise à jour de l’onglet actif
     const updateActiveTab = (tab, to = null) => {
+
         if (to) getProductFilter(to);
+
         dispatch(setCurrentNav(tab));
+
         lesAccount(); // ⚠️ Potentiellement inutile ici
     };
 
@@ -75,45 +91,70 @@ const VertcalNavbar = ({ children }) => {
 
     // 🔎 Fetch infos utilisateur (clients)
     useEffect(() => {
+
         const fetchClient = async () => {
+
             try {
+
                 const response = await api.get(`/clients/?email=${currentUserEmail.email}`);
+
                 const userData = response?.data?.[0];
+
                 if (userData) dispatch(updateUserData(userData));
+
                 else console.warn("Utilisateur non trouvé :", currentUserEmail.email);
+
             } catch (error) {
+
                 console.error("Erreur lors de la récupération du client :", error);
             }
         };
+
         fetchClient();
+
     }, [currentUserEmail?.email]);
 
 
     // 🔎 Fetch compte utilisateur
     useEffect(() => {
+
         const fetchCompte = async () => {
+
             if (!currentUserEmail?.id) return;
+
             try {
+
                 const { data } = await api.get('/comptes/');
+
                 const userAccount = data.find(acc => acc?.user === currentUserEmail.id);
+
                 if (userAccount) dispatch(updateCompteUser(userAccount));
+
             } catch (error) {
+
                 console.error("Erreur lors de la récupération des comptes :", error);
             }
         };
+
         fetchCompte();
+
     }, [currentUserEmail, dispatch]);
 
 
     // 📦 Click en dehors de la sidebar
     useEffect(() => {
+
         const handleClickOutside = (e) => {
+
             if (sidebarRef.current && !sidebarRef.current.contains(e.target)) {
+
                 setSidebarOpen(false);
             }
         };
         if (isSidebarOpen) {
+
             document.addEventListener("mousedown", handleClickOutside);
+
             return () => document.removeEventListener("mousedown", handleClickOutside);
         }
     }, [isSidebarOpen]);
@@ -121,16 +162,27 @@ const VertcalNavbar = ({ children }) => {
 
     // 🔄 Contenu dynamique selon l’onglet
     const tabContent = {
+
         home: <ProductList />,
+
         all_products: <ProductList />,
+
         user_profil: <ProfileCard />,
+
         user_profil_product: <ProfileCard />,
-        payment: <SelectedProduct/>,
-        dashboard: <UserMenuAccount/>,
+
+        payment: <SelectedProduct />,
+
+        dashboard: <UserMenuAccount />,
+
         add_product: <UpdateProduct />,
+
         home_content: <Tabs />,
+
         message_inbox: <ChatLayout />,
+
         Help: <PrivacyPolicy />,
+
         ...[
             'jouets', 'sacs', 'materiels', 'electronique', 'habits',
             'livres', 'Jeux_vidéo', 'Meubles', 'Véhicules',
@@ -140,6 +192,7 @@ const VertcalNavbar = ({ children }) => {
             return acc;
         }, {})
     };
+
 
 
     return (

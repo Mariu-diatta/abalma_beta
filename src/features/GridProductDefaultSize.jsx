@@ -1,6 +1,4 @@
 ﻿import React, { useEffect, useState, useMemo } from "react";
-import GridSlideProduct from "./GridProductSlide";
-import HorizontalCard from "./HorizontalCard";
 import api from "../services/Axios";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../slices/cartSlice";
@@ -15,7 +13,7 @@ const GridProductDefault = ({data}) => {
     const cartItems = useSelector((state) => state.cart.items);
     const currentUser = useSelector((state) => state.auth.user);
 
-    const [productData, setProductData] = useState(data || []);
+    const [productData, setProductData] = useState(() => data.filter((product, _) => product.quantity_product!==0) || []);
     const [owners, setOwners] = useState({});
     const [modalData, setModalData] = useState(null);
 
@@ -23,6 +21,7 @@ const GridProductDefault = ({data}) => {
     const addProductToCart = (product) => dispatch(addToCart(product));
 
     const cols = useMemo(() => {
+
         if (!Array.isArray(productData) || productData.length === 0) return [];
 
         return productData.reduce((acc, product, idx) => {
@@ -44,26 +43,37 @@ const GridProductDefault = ({data}) => {
     useEffect(() => {setProductData(data)}, [data])
 
     useEffect(() => {
-
         const fetchProductsAndOwners = async () => {
-
             try {
-
                 const { data: products } = await api.get("produits/");
-                setProductData(products);
 
-                const uniqueOwnerIds = [...new Set(products.map(p => p.fournisseur))].filter(Boolean);
+                // Ne garder que les produits avec une quantité > 0
+                const filteredProducts = products.filter(product => parseInt(product.quantity_product) !== 0);
+
+                // Met à jour l'état avec les produits filtrés
+                setProductData(filteredProducts);
+
+                // Récupère les fournisseurs uniques
+                const uniqueOwnerIds = [
+                    ...new Set(filteredProducts.map(p => p.fournisseur).filter(Boolean))
+                ];
+
+                // Récupère les données des fournisseurs
                 const responses = await Promise.all(
                     uniqueOwnerIds.map(id =>
-                        api.get(`clients/${id}/`).then(res => ({ id, data: res.data })).catch(() => ({ id, data: null }))
+                        api.get(`clients/${id}/`)
+                            .then(res => ({ id, data: res.data }))
+                            .catch(() => ({ id, data: null }))
                     )
                 );
 
+                // Crée une map { id: data } pour les fournisseurs valides
                 const ownerMap = responses.reduce((acc, { id, data }) => {
                     if (data) acc[id] = data;
                     return acc;
                 }, {});
 
+                // Met à jour l'état des fournisseurs
                 setOwners(ownerMap);
 
             } catch (error) {
@@ -72,8 +82,8 @@ const GridProductDefault = ({data}) => {
         };
 
         fetchProductsAndOwners();
-
     }, []);
+
 
     return (
         <>

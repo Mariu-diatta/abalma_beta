@@ -2,22 +2,27 @@
 import React, { useState } from 'react';
 
 const GridSlideProduct = ({ srcs = [] }) => {
+
     const [current, setCurrent] = useState(0);
 
     const prevSlide = () => {
+
         setCurrent((prev) => (prev === 0 ? srcs.length - 1 : prev - 1));
     };
 
     const nextSlide = () => {
+
         setCurrent((prev) => (prev === srcs.length - 1 ? 0 : prev + 1));
     };
 
     if (!srcs.length) return null;
 
     return (
+
         <div className="relative w-full h-100 md:h-100 rounded-lg overflow-hidden bg-gray-100 shadow-lg m-0 p-0">
 
             {srcs.map((src, index) => (
+
                 <div
                     key={index}
                     className={`absolute w-full h-full inset-0 transition-opacity duration-700 ease-in-out ${index === current ? 'opacity-100 z-10' : 'opacity-0 z-0'
