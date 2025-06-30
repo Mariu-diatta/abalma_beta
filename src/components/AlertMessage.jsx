@@ -1,4 +1,4 @@
-﻿import React from "react";
+import React from "react";
 
 import { clearMessage, setCurrentMessage } from "../slices/navigateSlice";
 

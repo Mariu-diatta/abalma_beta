@@ -45,15 +45,15 @@ export default function DatePickerWithFullWidthButtons() {
                 const selectedDateValue = `${month + 1}/${day}/${year}`;
                 setSelectedDate(selectedDateValue);
 
-                // Retirer la sélection précédente
+                // Retirer la sÃ©lection prÃ©cÃ©dente
                 daysContainer.querySelectorAll("div").forEach((d) =>
                     d.classList.remove("bg-primary", "text-white", "dark:text-white")
                 );
 
-                // Appliquer la classe de sélection
+                // Appliquer la classe de sÃ©lection
                 dayDiv.classList.add("bg-primary", "text-white", "dark:text-white");
 
-                // Fermer le calendrier après sélection
+                // Fermer le calendrier aprÃ¨s sÃ©lection
                 setIsCalendarOpen(false);
             });
 

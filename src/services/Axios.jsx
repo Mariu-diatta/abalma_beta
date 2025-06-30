@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// Création de l'instance Axios
+// CrÃ©ation de l'instance Axios
 const api = axios.create({
     baseURL: 'http://127.0.0.1:8000/',
     headers: {
@@ -10,10 +10,10 @@ const api = axios.create({
     timeout: 10000,
 });
 
-// Intercepteur de requête : ajout du token à la main
+// Intercepteur de requÃªte : ajout du token Ã  la main
 api.interceptors.request.use(
     (config) => {
-        const accessToken = localStorage.getItem("token"); // récupération directe
+        const accessToken = localStorage.getItem("token"); // rÃ©cupÃ©ration directe
         if (accessToken) {
             config.headers.Authorization = `Bearer ${accessToken}`;
         }
@@ -22,7 +22,7 @@ api.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
-// Rafraîchissement du token
+// RafraÃ®chissement du token
 const refreshAccessToken = async (refreshToken) => {
     try {
         const response = await axios.post("http://127.0.0.1:8000/refresh/", {
@@ -34,13 +34,13 @@ const refreshAccessToken = async (refreshToken) => {
 
         return newAccessToken;
     } catch (error) {
-        console.error("Erreur lors du rafraîchissement du token :", error);
+        console.error("Erreur lors du rafraÃ®chissement du token :", error);
         // Vous pouvez rediriger ici vers la page de connexion
         return null;
     }
 };
 
-// Intercepteur de réponse pour gérer les erreurs 401
+// Intercepteur de rÃ©ponse pour gÃ©rer les erreurs 401
 api.interceptors.response.use(
     (response) => response,
     async (error) => {
@@ -54,7 +54,7 @@ api.interceptors.response.use(
                 const newAccessToken = await refreshAccessToken(refreshToken);
                 if (newAccessToken) {
                     originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-                    return axios(originalRequest); // relance la requête
+                    return axios(originalRequest); // relance la requÃªte
                 }
             }
         }

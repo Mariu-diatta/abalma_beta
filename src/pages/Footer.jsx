@@ -1,4 +1,4 @@
-﻿import React from "react";
+import React from "react";
 import Logo from "../components/LogoApp";
 
 const Footer = () => {

@@ -1,11 +1,10 @@
 
-import React, { Suspense } from 'react'
+import React from 'react'
 import './App.css';
 import routes from './router/Routers';
 import { useRoutes} from "react-router-dom"
 import CookieBanner from './components/CookieBanner';
 import { AuthProvider } from './AuthContext';
-import LoadingCard from './components/LoardingSpin';
 
 const AppRoutes = () => {
 
@@ -19,12 +18,8 @@ function App() {
   return (
 
       <AuthProvider>
-
-          {/*<Suspense fallback={"...loading"}>*/}
-            
-              <AppRoutes />
-
-          {/*</Suspense>*/}
+  
+          <AppRoutes />
 
           <CookieBanner />
 

@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { collection, addDoc, serverTimestamp, query, getDocs , doc, deleteDoc} from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../AuthContext';
@@ -127,126 +127,8 @@ const MessageCard = () => {
     return (
         <div className="flex flex-col justify-center items-center h-full w-full">
 
-            {/* Header */}
-            {/*<div className="flex items-center mb-6 space-x-4 relative">*/}
-            {/*    <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Messages</h2>*/}
-            {/*    <button*/}
-            {/*        onClick={() => setShowFilterMenu(!showFilterMenu)}*/}
-            {/*        className="p-2 bg-gray-200 dark:bg-gray-700 rounded-md"*/}
-            {/*    >*/}
-            {/*        Filtres*/}
-            {/*    </button>*/}
-            {/*    {showFilterMenu && (*/}
-            {/*        <div className="absolute right-0 top-10 bg-white dark:bg-gray-800 p-2 rounded shadow z-10">*/}
-            {/*            {['Nouveaux', 'Lus', 'Supprimés'].map((label) => (*/}
-            {/*                <button*/}
-            {/*                    key={label}*/}
-            {/*                    onClick={() => handleFilter(label)}*/}
-            {/*                    className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600"*/}
-            {/*                >*/}
-            {/*                    {label}*/}
-            {/*                </button>*/}
-            {/*            ))}*/}
-            {/*        </div>*/}
-            {/*    )}*/}
-            {/*</div>*/}
+            <ChatApp />
 
-            {/* Messages */}
-            {/*{filteredParents.map((msg) => (*/}
-            {/*    <div*/}
-            {/*        key={msg.id}*/}
-            {/*        className="relative w-full max-w-md bg-gray-100 dark:bg-gray-700 rounded-xl space-y-2 p-4"*/}
-            {/*    >*/}
- 
-
-            {/*        */}{/* Message parent avant les réponses */}
-            {/*        <ChatComponent conversationId={msg.conversationId} />*/}
-
-            {/*        */}{/* Réponses au-dessous du message parent */}
-            {/*        {[...(groupedReplies[msg.id] || [])].reverse().map((reply) => (*/}
-            {/*            <div*/}
-            {/*                key={reply.id}*/}
-            {/*                className="mb-2 p-3 bg-white dark:bg-gray-800 rounded-md border-l-4 border-blue-500 shadow-sm"*/}
-            {/*            >*/}
-            {/*                <div className="flex justify-between items-center">*/}
-            {/*                    <p className="text-sm text-gray-800 dark:text-gray-100">*/}
-            {/*                        <strong>{reply.nomEnvoyeur} :</strong> {reply.texte}*/}
-            {/*                    </p>*/}
-            {/*                    <button*/}
-            {/*                        onClick={() => supprimerMessage(reply.id)}*/}
-            {/*                        title="Supprimer la réponse"*/}
-            {/*                        className="text-red-600 hover:text-red-800 ml-2"*/}
-            {/*                    >*/}
-            {/*                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24">*/}
-            {/*                            <path stroke="currentColor" strokeWidth="2" d="M5 7h14M10 11v6m4-6v6M9 3h6v2H9V3Z" />*/}
-            {/*                        </svg>*/}
-            {/*                    </button>*/}
-            {/*                </div>*/}
-            {/*            </div>*/}
-            {/*        ))}*/}
-
-
-
-            {/*        */}{/* Actions */}
-            {/*        <div className="flex justify-end">*/}
-            {/*            <button*/}
-            {/*                onClick={() => setDropdownId(dropdownId === msg.id ? null : msg.id)}*/}
-            {/*                className="text-gray-500"*/}
-            {/*            >*/}
-            {/*                ...*/}
-            {/*            </button>*/}
-            {/*            {dropdownId === msg.id && (*/}
-            {/*                <div className="absolute right-4 top-4 bg-white dark:bg-gray-700 shadow-md rounded z-20 p-2">*/}
-            {/*                    {['Répondre', 'Copier', 'Supprimer'].map((action) => (*/}
-            {/*                        <button*/}
-            {/*                            key={action}*/}
-            {/*                            className="block w-full text-left text-sm px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-600"*/}
-            {/*                            onClick={() => {*/}
-            {/*                                if (action === 'Supprimer') deleteMessage(msg.id);*/}
-            {/*                                if (action === 'Répondre') setReplyingTo(msg.id);*/}
-            {/*                                setDropdownId(null);*/}
-            {/*                            }}*/}
-            {/*                        >*/}
-            {/*                            {action}*/}
-            {/*                        </button>*/}
-            {/*                    ))}*/}
-            {/*                </div>*/}
-            {/*            )}*/}
-            {/*        </div>*/}
-
-            {/*        */}{/* Formulaire de réponse */}
-            {/*        {replyingTo === msg.id && (*/}
-            {/*            <form*/}
-            {/*                onSubmit={(e) => {*/}
-            {/*                    e.preventDefault();*/}
-            {/*                    envoyerMessage(replies[msg.id] || '', msg.id);*/}
-            {/*                }}*/}
-            {/*                className="mt-2 flex flex-col gap-1"*/}
-            {/*            >*/}
-            {/*                <input*/}
-            {/*                    type="text"*/}
-            {/*                    value={replies[msg.id] || ''}*/}
-            {/*                    onChange={(e) =>*/}
-            {/*                        setReplies({ ...replies, [msg.id]: e.target.value })*/}
-            {/*                    }*/}
-            {/*                    placeholder="Répondre à ce message..."*/}
-            {/*                    className="px-3 py-1 border border-gray-300 rounded-md text-sm"*/}
-            {/*                />*/}
-
-            {/*                <button*/}
-            {/*                    type="submit"*/}
-            {/*                    className="self-end bg-blue-600 text-white text-sm px-3 py-1 rounded hover:bg-blue-700"*/}
-            {/*                >*/}
-            {/*                    Envoyer*/}
-            {/*                </button>*/}
-
-            {/*            </form>*/}
-            {/*        )}*/}
-            {/*    </div>*/}
-
-            {/*))}*/}
-
-            <ChatApp/>
         </div>
     );
 };

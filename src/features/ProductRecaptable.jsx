@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import ViewProduct from '../components/ViewProduct';
 
 const ProductsRecapTable = ({ products }) => {

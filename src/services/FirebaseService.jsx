@@ -1,7 +1,7 @@
 interface RequestData {
     title: string;
     content: string;
-    // Ajouter ici d'autres champs si nécessaire
+    // Ajouter ici d'autres champs si nÃ©cessaire
 }
 
 interface ApiError {
@@ -12,7 +12,7 @@ interface ApiError {
 const API_BASE_URL = 'http://localhost:8000/api';
 
 /**
- * Envoie des données à Django en incluant le token Firebase dans les en-têtes.
+ * Envoie des donnÃ©es Ã  Django en incluant le token Firebase dans les en-tÃªtes.
  */
 export async function sendDataToDjango(
     endpoint: string,
@@ -22,7 +22,7 @@ export async function sendDataToDjango(
 ): Promise<any> {
     if (!idToken) {
         console.error("Token Firebase introuvable.");
-        throw new Error("Vous devez être connecté pour effectuer cette action.");
+        throw new Error("Vous devez Ãªtre connectÃ© pour effectuer cette action.");
     }
 
     const url = `${API_BASE_URL}/${endpoint}/`;

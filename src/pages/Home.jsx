@@ -1,4 +1,4 @@
-﻿import HomeContain from "../components/Home";
+import HomeContain from "../components/Home";
 import HomeLayout from "../layouts/HomeLayout";
 
 const Home = () => {

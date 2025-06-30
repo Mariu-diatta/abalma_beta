@@ -15,7 +15,7 @@ const TakePhoto = () => {
         context.drawImage(videoRef.current, 0, 0, 640, 480);
         const imageUrl = canvas.toDataURL('image/png');
 
-        // Télécharger l'image
+        // TÃ©lÃ©charger l'image
         const link = document.createElement('a');
         link.href = imageUrl;
         link.download = 'photo.png';
@@ -27,7 +27,7 @@ const TakePhoto = () => {
             <video ref={videoRef} autoPlay width="640" height="480" />
             <canvas ref={canvasRef} width="640" height="480" style={{ display: 'none' }} />
             <br />
-            <button onClick={startCamera}>Démarrer la caméra</button>
+            <button onClick={startCamera}>DÃ©marrer la camÃ©ra</button>
             <button onClick={takePhoto}>Prendre une photo</button>
         </div>
     );

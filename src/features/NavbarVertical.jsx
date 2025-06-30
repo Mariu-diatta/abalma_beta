@@ -1,4 +1,4 @@
-﻿import ProductTable from "./ListProductShoppingCart";
+import ProductTable from "./ListProductShoppingCart";
 import PrivacyPolicy from "./PrivacyPolicy";
 import { useEffect, useRef, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,7 +15,6 @@ import AccountDropdown3 from "../components/DropDownAccount";
 import { lesAccount, menuItems } from "../components/MenuItem";
 import ChatLayout from "../layouts/ChatLayout";
 import { addRoom } from "../slices/chatSlice";
-import ProductModal from "../pages/Payment";
 
 
 const VertcalNavbar = ({ children }) => {

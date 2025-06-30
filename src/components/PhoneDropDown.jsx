@@ -1,4 +1,4 @@
-﻿import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 const PhoneDropdown = () => {
     const [isOpen, setIsOpen] = useState(false);

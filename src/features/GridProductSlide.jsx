@@ -1,4 +1,4 @@
-﻿
+
 import React, { useState } from 'react';
 
 const GridSlideProduct = ({ srcs = [] }) => {
@@ -75,31 +75,4 @@ const GridSlideProduct = ({ srcs = [] }) => {
 export default GridSlideProduct;
 
 
-const PaymentSticker = ({ status }) => {
-    const statusConfig = {
-        success: {
-            text: "Paiement réussi",
-            color: "bg-green-100 text-green-800",
-            icon: "✅",
-        },
-        pending: {
-            text: "En attente de paiement",
-            color: "bg-yellow-100 text-yellow-800",
-            icon: "⏳",
-        },
-        failed: {
-            text: "Paiement échoué",
-            color: "bg-red-100 text-red-800",
-            icon: "❌",
-        },
-    };
-
-    const { text, color, icon } = statusConfig[status] || statusConfig.pending;
-
-    return (
-        <span className={`inline-flex items-center px-3 py-1 text-sm font-semibold rounded-full ${color}`}>
-            {icon} <span className="ml-2">{text}</span>
-        </span>
-    );
-};
 

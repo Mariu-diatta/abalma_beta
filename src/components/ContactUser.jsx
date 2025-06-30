@@ -92,7 +92,7 @@ const UserTable = () => {
 
     const handleDeleteSelected = () => {
         alert(`Supprimer les utilisateurs : ${selectedUsers.join(", ")}`);
-        // logique de suppression à intégrer ici
+        // logique de suppression Ã  intÃ©grer ici
     };
 
     return (

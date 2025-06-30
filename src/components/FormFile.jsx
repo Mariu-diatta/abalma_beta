@@ -4,7 +4,7 @@ const FormElementFileUpload = ({
     label = "Uploader une image",
     onFileSelect,
     getFile,
-    maxSizeMB = 5 // Limite de taille par défaut
+    maxSizeMB = 5 // Limite de taille par dÃ©faut
 }) => {
     const [previewUrl, setPreviewUrl] = useState(null);
     const [fileName, setFileName] = useState(null);
@@ -14,10 +14,10 @@ const FormElementFileUpload = ({
         const file = e.target.files[0];
         if (!file) return;
 
-        // Vérifie la taille du fichier
+        // VÃ©rifie la taille du fichier
         const fileSizeMB = file.size / (1024 * 1024);
         if (fileSizeMB > maxSizeMB) {
-            setError(`Le fichier dépasse la taille maximale de ${maxSizeMB} Mo.`);
+            setError(`Le fichier dÃ©passe la taille maximale de ${maxSizeMB} Mo.`);
             setPreviewUrl(null);
             setFileName(null);
             getFile(null);
@@ -33,7 +33,7 @@ const FormElementFileUpload = ({
         onFileSelect && onFileSelect(file);
     };
 
-    // Nettoyage de l’URL après démontage
+    // Nettoyage de lâ€™URL aprÃ¨s dÃ©montage
     useEffect(() => {
         return () => {
             if (previewUrl) {
@@ -69,7 +69,7 @@ const FormElementFileUpload = ({
 
             {fileName && !error && (
                 <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                    Fichier sélectionné : <strong>{fileName}</strong>
+                    Fichier sÃ©lectionnÃ© : <strong>{fileName}</strong>
                 </p>
             )}
 
@@ -83,7 +83,7 @@ const FormElementFileUpload = ({
                 <div className="mt-4">
                     <img
                         src={previewUrl}
-                        alt="Aperçu de l'image sélectionnée"
+                        alt="AperÃ§u de l'image sÃ©lectionnÃ©e"
                         className="w-32 h-32 rounded border border-gray-300 shadow object-cover"
                     />
                 </div>
