@@ -1,33 +1,35 @@
 # Étape 1 : Build de l'application React
 FROM node:20-alpine AS builder
 
-# Crée le dossier de travail (utilise un chemin absolu)
+# Définir le dossier de travail absolu
 WORKDIR /app
 
-# Copie les fichiers nécessaires
+# Copier uniquement les fichiers package.json et package-lock.json (si présent)
 COPY package*.json ./
 
-# Nettoie le cache npm et installe les dépendances
-RUN npm cache clean --force
-RUN npm install
+# Nettoyer le cache npm et installer les dépendances
+RUN npm cache clean --force && npm install --legacy-peer-deps
 
-# Copie le reste de l'application
+# Copier tout le reste du code source
 COPY . .
 
-# Build l'app React
+# Construire l'application React en mode production
 RUN npm run build
 
-# Étape 2 : Serveur NGINX pour servir l'app React
+# Étape 2 : Serveur NGINX pour servir l'application React
 FROM nginx:alpine
 
-# Supprime les fichiers de configuration par défaut
+# Supprimer le contenu par défaut de NGINX
 RUN rm -rf /usr/share/nginx/html/*
 
-# Copie les fichiers build de React dans le répertoire nginx
+# Copier le build React depuis l'étape builder vers le dossier NGINX
 COPY --from=builder /app/build /usr/share/nginx/html
 
-# Expose le port 80
+# Copier un fichier nginx.conf personnalisé si besoin (optionnel)
+# COPY nginx.conf /etc/nginx/nginx.conf
+
+# Exposer le port 80
 EXPOSE 80
 
-# Lance nginx en mode non-détaché
+# Lancer NGINX au premier plan (non-détaché)
 CMD ["nginx", "-g", "daemon off;"]
