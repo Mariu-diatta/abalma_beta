@@ -45,10 +45,15 @@ export async function sendDataToDjango(
             let errorDetails: ApiError = { error: response.statusText };
 
             if (contentType.includes('application/json')) {
-                errorDetails = await response.json();
+                // Essaye de parser l'erreur JSON
+                try {
+                    errorDetails = await response.json();
+                } catch {
+                    // Si le parsing échoue, on garde errorDetails par défaut
+                }
             }
 
-            throw new Error(`Erreur API ${response.status}: ${errorDetails.error}`);
+            throw new Error(`Erreur API ${response.status}: ${errorDetails.error || response.statusText}`);
         }
 
         return await response.json();

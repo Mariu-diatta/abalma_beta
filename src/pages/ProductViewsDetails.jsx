@@ -166,7 +166,7 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                                     </svg>
                                                 </div>
                                                 <a
-                                                    href="#"
+                                                    href="/home"
                                                     className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
                                                 >
                                                     117 reviews
@@ -218,13 +218,6 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                             <div className="text-sm font-medium text-gray-900">
                                                 {dataProduct?.color_prouct}
                                             </div>
-
-                                            {/*<a*/}
-                                            {/*    href="#"*/}
-                                            {/*    className="text-sm font-medium text-indigo-600 hover:text-indigo-500"*/}
-                                            {/*>*/}
-                                            {/*    Size guide*/}
-                                            {/*</a>*/}
 
                                         </div>
 
