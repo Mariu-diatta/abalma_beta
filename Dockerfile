@@ -2,7 +2,7 @@
 FROM node:20-alpine AS builder
 
 # Crée le dossier de travail
-WORKDIR /app
+WORKDIR .
 
 # Copie les fichiers nécessaires
 COPY package*.json ./
