@@ -1,95 +1,105 @@
-import React from 'react';
+﻿
+import React, { useState } from 'react';
 
-const GridSlideProduct = ({ srcs }) => {
+const GridSlideProduct = ({ srcs = [] }) => {
+
+    const [current, setCurrent] = useState(0);
+
+    const prevSlide = () => {
+
+        setCurrent((prev) => (prev === 0 ? srcs.length - 1 : prev - 1));
+    };
+
+    const nextSlide = () => {
+
+        setCurrent((prev) => (prev === srcs.length - 1 ? 0 : prev + 1));
+    };
+
+    if (!srcs.length) return null;
 
     return (
 
-        <div id="gallery" className="relative w-full h-full" data-carousel="slide">
+        <div className="relative w-full h-100 md:h-100 rounded-lg overflow-hidden bg-gray-100 shadow-lg m-0 p-0">
 
-            {/* Carousel wrapper */}
-            <div className="relative h-56 overflow-hidden rounded-lg md:h-100 lg:h-100 md:w-100 lg:w-auto">
+            {srcs.map((src, index) => (
 
-                {/* Item 1 */}
-                <div className=" duration-700 ease-in-out w-auto" data-carousel-item>
+                <div
+                    key={index}
+                    className={`absolute w-full h-full inset-0 transition-opacity duration-700 ease-in-out ${index === current ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                        }`}
+                >
                     <img
-                        src={srcs}
-                        className="absolute block w-auto h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                        alt=""
+                        src={src}
+                        alt={`Slide ${index}`}
+                        className="w-full h-full object-cover"
                     />
+
                 </div>
+            ))}
 
-                {/* Item 1 */}
-                <div className=" duration-700 ease-in-out w-auto" data-carousel-item>
-                    <img
-                        src={srcs}
-                        className="absolute block w-auto  h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                        alt=""
-                    />
-                </div>
-
-            </div>
-
-            {/* Slider controls */}
+            {/* Prev Button */}
             <button
-                type="button"
-                className="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-                data-carousel-prev
+                onClick={prevSlide}
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-80 rounded-full p-0 shadow-md"
             >
-                <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-
-                    <svg
-                        className="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 6 10"
-                    >
-                        <path
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M5 1 1 5l4 4"
-                        />
-                    </svg>
-
-                    <span className="sr-only">Previous</span>
-
-                </span>
-
+                <svg className="w-6 h-6 text-gray-700" fill="none" viewBox="0 0 24 24">
+                    <path
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15 18l-6-6 6-6"
+                    />
+                </svg>
             </button>
 
+            {/* Next Button */}
             <button
-                type="button"
-                className="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-                data-carousel-next
+                onClick={nextSlide}
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-80 rounded-full p-2 shadow-md"
             >
-                <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-
-                    <svg
-                        className="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 6 10"
-                    >
-                        <path
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="m1 9 4-4-4-4"
-                        />
-                    </svg>
-
-                    <span className="sr-only">Next</span>
-
-                </span>
-
+                <svg className="w-6 h-6 text-gray-700" fill="none" viewBox="0 0 24 24">
+                    <path
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 6l6 6-6 6"
+                    />
+                </svg>
             </button>
-
         </div>
     );
 };
 
 export default GridSlideProduct;
+
+
+const PaymentSticker = ({ status }) => {
+    const statusConfig = {
+        success: {
+            text: "Paiement réussi",
+            color: "bg-green-100 text-green-800",
+            icon: "✅",
+        },
+        pending: {
+            text: "En attente de paiement",
+            color: "bg-yellow-100 text-yellow-800",
+            icon: "⏳",
+        },
+        failed: {
+            text: "Paiement échoué",
+            color: "bg-red-100 text-red-800",
+            icon: "❌",
+        },
+    };
+
+    const { text, color, icon } = statusConfig[status] || statusConfig.pending;
+
+    return (
+        <span className={`inline-flex items-center px-3 py-1 text-sm font-semibold rounded-full ${color}`}>
+            {icon} <span className="ml-2">{text}</span>
+        </span>
+    );
+};
+

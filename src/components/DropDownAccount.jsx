@@ -1,13 +1,75 @@
 ﻿import React, { useEffect, useRef, useState } from "react";
-import { useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
-import {setCurrentNav } from '../slices/navigateSlice'
+import { setCurrentNav } from '../slices/navigateSlice'
 import { logout } from "../slices/authSlice";
 import api from "../services/Axios";
 import { clearCart } from "../slices/cartSlice";
-import { clearRooms } from "../slices/chatSlice";
+import { addMessageNotif, cleanAllMessageNotif, clearRooms, removeMessageNotif } from "../slices/chatSlice";
+import toast, { Toaster } from 'react-hot-toast';
 
-export default function AccountDropdown3() {
+const NotificationsComponent = ({ userId }) => {
+
+    const currentNotifMessages = useSelector(state => state.chat.messageNotif)
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+
+        const socket = new WebSocket(`ws://localhost:8000/ws/notifications/${userId}/`);
+
+        socket.onopen = () => {
+
+            console.log("✅ WebSocket connecté");
+        };
+
+        socket.onmessage = (event) => {
+
+            try {
+
+                const data = JSON.parse(event.data);
+
+                if (data.type === "send_notification" && data.payload) {
+
+                    console.log("🔔 Notification reçue:", data);
+
+                    dispatch(addMessageNotif(data.message))
+                }
+
+            } catch (e) {
+
+                console.error("Erreur JSON:", e);
+            }
+        };
+
+        socket.onclose = () => {
+
+            console.warn("❌ WebSocket fermé");
+        };
+
+        socket.onerror = (err) => {
+
+            console.error("❗ WebSocket erreur:", err);
+        };
+
+        return () => socket.close();
+
+    }, [userId]);
+
+    return <div className="flex">
+
+                <svg className="w-[26px] h-[25px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8" d="M12 5.365V3m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175 0 .593 0 1.292-.538 1.292H5.538C5 18 5 17.301 5 16.708c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 12 5.365ZM8.733 18c.094.852.306 1.54.944 2.112a3.48 3.48 0 0 0 4.646 0c.638-.572 1.236-1.26 1.33-2.112h-6.92Z" />
+                </svg>
+
+                {currentNotifMessages.length}
+
+           </div>;
+};
+
+
+
+export default function AccountDropdownUserProfil() {
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -17,11 +79,20 @@ export default function AccountDropdown3() {
 
     const currentUser = useSelector(state => state.auth.user)
 
+    const currentNotifMessages = useSelector(state => state.chat.messageNotif)
+
     const trigger = useRef(null);
 
     const dropdown = useRef(null);
 
     const navigate = useNavigate();
+
+    const notify = () => {
+
+        toast(currentNotifMessages[0]);
+
+        dispatch(removeMessageNotif())
+    };
 
     // close on click outside
     useEffect(() => {
@@ -65,7 +136,7 @@ export default function AccountDropdown3() {
     });
 
 
-    const getUserLogOut =async () => {
+    const getUserLogOut = async () => {
 
         if (window.confirm("Voulez-vous vous deconnecter???")) {
 
@@ -83,7 +154,7 @@ export default function AccountDropdown3() {
 
                 formData.append("is_connected", false);
 
-                 await api.put(`clients/${currentUser?.id}/`, formData, {
+                await api.put(`clients/${currentUser?.id}/`, formData, {
 
                     headers: { "Content-Type": "multipart/form-data" },
                 });
@@ -94,9 +165,11 @@ export default function AccountDropdown3() {
 
                 dispatch(clearRooms())
 
+                dispatch(cleanAllMessageNotif())
+
                 return navigate("/logIn", { replace: true });
 
-            }catch (error) {
+            } catch (error) {
 
                 console.log("error..................", error)
             }
@@ -106,54 +179,119 @@ export default function AccountDropdown3() {
     };
 
     return (
-        <section className="bg-gray-2 py-20 dark:bg-dark">
+        <section className="absolute top-2 bg-gray-2 dark:bg-dark">
 
-            <div className="container">
+             <div className="flex justify-center items-center ">
 
-                <div className="flex justify-center">
+                <div className="flex justify-center items-center">
 
-                    <div className="relative inline-block">
+                    <div className="flex items-center justify-center gap-3">
 
-                        <div className="mb-3.5 flex items-center gap-4">
+                        {/* Bouton Notifications */}
+                        {
+                            (currentNotifMessages.length > 0) && (
 
-                            {/* Icon 1 */}
-                            <div className="flex h-12 w-12 items-center justify-center rounded-lg border-0 bg-white dark:border-dark-3 dark:bg-dark-2">
-
-                                <svg
-                                    className="h-5 text-gray-800 dark:text-white"
-
-                                    xmlns="http://www.w3.org/2000/svg"
-
-                                    fill="none"
-
-                                    viewBox="0 0 16 21"
+                                <button
+                                    onClick={notify}
+                                    className="cursor-pointer relative flex h-12 w-12 items-center justify-center rounded-lg bg-white dark:bg-dark-2 text-dark dark:text-white"
                                 >
-                                    <path
-                                        stroke="currentColor"
+                                    <NotificationsComponent userId={currentUser?.id} />
+                                </button>
+                            )
+                        }
 
-                                        strokeLinecap="round"
+                        {/* Toaster */}
+                        <Toaster />
 
-                                        strokeLinejoin="round"
+                        {/* Bouton Paiement */}
+                        <button
 
-                                        strokeWidth="2"
+                            onClick={() => dispatch(setCurrentNav("payment"))}
 
-                                        d="M8 3.464V1.1m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175C15 15.4 15 16 14.462 16H1.538C1 16 1 15.4 1 14.807c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 8 3.464ZM4.54 16a3.48 3.48 0 0 0 6.92 0H4.54Z"
+                            className="cursor-pointer  relative flex h-12 w-12 mt-0 pt-0 items-center justify-center rounded-lg bg-white dark:bg-dark-2 text-dark dark:text-white"
+                        >
+                            <svg
+                                className="w-[26px] h-[26px] text-gray-800 dark:text-white"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke="currentColor"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="0.8"
+                                    d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7h-1M8 7h-.688M13 5v4m-2-2h4"
+                                />
+
+                            </svg>
+
+                            <span className="absolute top-2 right-2 text-xs text-green-600 font-bold">
+
+                                {nbItems}
+
+                            </span>
+
+                        </button>
+
+                        {/* Dropdown utilisateur */}
+                        <button
+                            ref={trigger}
+                            onClick={() => setDropdownOpen(!dropdownOpen)}
+                            className="relative inline-flex h-12  items-center justify-center gap-2 rounded-lg bg-white dark:bg-dark-2 px-4 py-1 text-base font-medium text-dark dark:text-white"
+                        >
+                            {currentUser?.image ? (
+
+                                <div className="relative h-[30px] w-[30px] rounded-full">
+
+                                    <img
+                                        src={currentUser?.image}
+
+                                        alt="avatar"
+
+                                        title={currentUser?.email}
+
+                                        className="h-full w-full rounded-full object-cover object-center cursor-pointer"
                                     />
 
-                                </svg>
+                                    {currentUser?.is_connected && (
 
-                            </div>
+                                        <span className="absolute -right-0.5 -top-0.5 block h-[14px] w-[14px] rounded-full border-[2.3px] border-white bg-[#219653] dark:border-dark"></span>
+                                    )}
 
-                            {/* Icon 2 */}
+                                </div>
 
-                            <button
+                            ) : (
+                                <div className="relative h-[30px] w-[30px] rounded-full" title={currentUser?.email}>
 
-                                onClick={() => dispatch(setCurrentNav("payment"))}
+                                    <svg
+                                        className="w-[26px] h-[25px] text-gray-800 dark:text-white"
 
-                                className="cursor-pointer flex h-12 w-12 items-center justify-center rounded-lg border-0 bg-white dark:border-dark-3 dark:bg-dark-2 text-dark"
-                            >
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke="currentColor"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="0.8"
+                                            d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 13 16h-2a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 12 21Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                                        />
+
+                                    </svg>
+
+                                    {currentUser?.is_connected && (
+                                        <span className="absolute -right-0.5 -top-0.5 block h-[14px] w-[14px] rounded-full border-[2.3px] border-white bg-[#219653] dark:border-dark"></span>
+                                    )}
+
+                                </div>
+                            )}
+
+                            <span className={`transition-transform duration-100 ${dropdownOpen ? "-scale-y-100" : ""}`}>
+
                                 <svg
-                                    className="h-5 text-gray-800 dark:text-white"
+                                    className="w-[26px] h-[26px] text-gray-800 dark:text-white"
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
                                     viewBox="0 0 24 24"
@@ -162,132 +300,94 @@ export default function AccountDropdown3() {
                                         stroke="currentColor"
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6"
+                                        strokeWidth="0.8"
+                                        d="m8 10 4 4 4-4"
                                     />
+
                                 </svg>
-                                {nbItems}
+
+                            </span>
+
+                        </button>
+
+                    </div>
+
+                    <div
+                        ref={dropdown}
+                        onFocus={() => setDropdownOpen(true)}
+                        onBlur={() => setDropdownOpen(false)}
+                        className={`absolute right-0 top-full me-3 overflow-hidden rounded-lg bg-white dark:divide-dark-3 dark:bg-dark-2 z-[70] ${dropdownOpen ? "block" : "hidden"}`}
+                    >
+
+                        <div className="px-4 py-3">
+                            <p className="text-sm font-semibold text-dark dark:text-white">
+                            {currentUser?.email}
+                            </p>
+                        </div>
+
+                        <div>
+                            <button
+                                onClick={() => dispatch(setCurrentNav("user_profil"))}
+                                className="flex gap-1 cursor-pointer flex w-full items-center justify-between px-4 py-2.5 text-sm  text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
+                            >
+                                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 9h3m-3 3h3m-3 3h3m-6 1c-.306-.613-.933-1-1.618-1H7.618c-.685 0-1.312.387-1.618 1M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm7 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" />
+                                </svg>
+
+                                Voir profile
                             </button>
 
+                        </div>
 
-                            {/* Dropdown Button */}
+                        <div>
                             <button
-                                ref={trigger}
-                                onClick={() => setDropdownOpen(!dropdownOpen)}
-                                className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border-0  bg-white px-4 py-2 text-base font-medium text-dark dark:border-dark-3 dark:bg-dark-2 dark:text-white"
+                                onClick={() => dispatch(setCurrentNav("dashboard"))}
+                                className="flex cursor-pointer  flex w-full items-center justify-between px-4 py-2.5 text-sm  text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
                             >
+                                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h14" />
+                                </svg>
 
-                                {
-                                    currentUser?.image ?
-                                       
-                                    <div className="relative h-[30px] w-[30px] rounded-full">
-                                        <img
-                                            src={currentUser?.image}
-                                            alt="avatar"
-                                            title={currentUser?.email}
-                                            className="h-full w-full rounded-full object-cover object-center cursor-pointer"
-                                        />
-                                        {
-                                            currentUser?.is_connected && 
-                                                <span className="absolute -right-0.5 -top-0.5 block h-[14px] w-[14px] rounded-full border-[2.3px] border-white bg-[#219653] dark:border-dark"></span>
-                                            }
-                                    </div>
-                                        :
-                                        <div className="relative h-[30px] w-[30px] rounded-full" title={currentUser?.email}>
-
-                                            <svg
-                                                className="w-6 h-6 text-gray-800 dark:text-white cursor-pointer"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                fill="currentColor"
-                                                viewBox="0 0 24 24"
-                                                
-                                            >
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M12 20a7.966 7.966 0 0 1-5.002-1.756l.002.001v-.683c0-1.794 1.492-3.25 3.333-3.25h3.334c1.84 0 3.333 1.456 3.333 3.25v.683A7.966 7.966 0 0 1 12 20ZM2 12C2 6.477 6.477 2 12 2s10 4.477 10 10c0 5.5-4.44 9.963-9.932 10h-.138C6.438 21.962 2 17.5 2 12Zm10-5c-1.84 0-3.333 1.455-3.333 3.25S10.159 13.5 12 13.5c1.84 0 3.333-1.455 3.333-3.25S13.841 7 12 7Z"
-                                                    clipRule="evenodd"
-                                                />
-                                             </svg>
-
-                                         {
-                                            currentUser?.is_connected &&
-                                            <span className="absolute -right-0.5 -top-0.5 block h-[14px] w-[14px] rounded-full border-[2.3px] border-white bg-[#219653] dark:border-dark"></span>
-                                            }
-
-                                     </div>
-                                }
-
-                                <span className={`duration-100 ${dropdownOpen ? "-scale-y-100" : ""}`}>
-                                    <svg
-                                        width="20"
-                                        height="20"
-                                        viewBox="0 0 20 20"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            d="M10 14.25C9.8125 14.25 9.65625 14.1875 9.5 14.0625L2.3125 7C2.03125 6.71875 2.03125 6.28125 2.3125 6C2.59375 5.71875 3.03125 5.71875 3.3125 6L10 12.5312L16.6875 5.9375C16.9688 5.65625 17.4062 5.65625 17.6875 5.9375C17.9688 6.21875 17.9688 6.65625 17.6875 6.9375L10.5 14C10.3437 14.1562 10.1875 14.25 10 14.25Z"
-                                            fill="currentColor"
-                                        />
-                                    </svg>
-                                </span>
+                                Vos activités
                             </button>
                         </div>
 
-                        <div
-                            ref={dropdown}
-                            onFocus={() => setDropdownOpen(true)}
-                            onBlur={() => setDropdownOpen(false)}
-                            className={`absolute right-0 top-full w-[240px] divide-y divide-stroke overflow-hidden rounded-lg bg-white dark:divide-dark-3 dark:bg-dark-2 z-[70] ${dropdownOpen ? "block" : "hidden"}`}
-                        >
+                        <div>
+                            <button
+                                onClick={() => dispatch(setCurrentNav("support"))}
+                                disabled
+                                className=" flex cursor-pointer flex w-full items-center justify-between px-4 py-2.5 text-sm  text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
+                            >
+                                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.079 6.839a3 3 0 0 0-4.255.1M13 20h1.083A3.916 3.916 0 0 0 18 16.083V9A6 6 0 1 0 6 9v7m7 4v-1a1 1 0 0 0-1-1h-1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1Zm-7-4v-6H5a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h1Zm12-6h1a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-1v-6Z" />
+                                </svg>
+                                Support
+                            </button>
+                        </div>
 
-                            <div className="px-4 py-3">
-                                <p className="text-sm font-semibold text-dark dark:text-white">
-                                    Account menu
-                                </p>
-                            </div>
+                        <div>
+                            <button
+                                onClick={() => getUserLogOut()}
+                                className="flex  w-full items-center justify-between px-4 py-2.5 text-sm  text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
+                            >
 
-                            <div>
-                                <button
-                                    onClick={() => dispatch(setCurrentNav("user_profil")) }
-                                    className="cursor-pointer flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
-                                >
-                                    Voir profile
-                                </button>
+                                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2" />
+                                </svg>
 
-                            </div>
-
-                            <div>
-                                <button
-                                    onClick={() => dispatch(setCurrentNav("dashboard"))}
-                                    className="cursor-pointer  flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
-                                >
-                                    Vos activités
-                                </button>
-                            </div>
-
-                            <div>
-                                <button
-                                    onClick={() => dispatch(setCurrentNav("support"))}
-                                    className="cursor-pointer flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
-                                >
-                                    Support
-                                </button>
-                            </div>
-
-                            <div>
-                                <button
-                                    onClick={() => getUserLogOut()}
-                                    className="flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5">
-                                    Log out
-                                </button>
-                            </div>
-
+                                Log out
+                            </button>
                         </div>
 
                     </div>
+
                 </div>
-            </div>
+
+             </div>
+
         </section>
     );
 }
+
+
+

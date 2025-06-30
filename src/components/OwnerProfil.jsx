@@ -1,8 +1,9 @@
 ﻿import React, { useState, useRef, useEffect } from 'react';
 import { setCurrentNav } from '../slices/navigateSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCUrrentChat, addUser, newRoom } from '../slices/chatSlice';
+import { addCurrentChat, addRoom, addUser, newRoom } from '../slices/chatSlice';
 import api from '../services/Axios';
+
 
 export async function hashPassword(password) {
     const encoder = new TextEncoder();
@@ -22,6 +23,7 @@ const OwnerPopover = ({ owner, onClose }) => {
     const currentUser = useSelector(state => state.auth.user)
 
     const selectedProductOwner = useSelector(state => state.chat.userSlected)
+
 
     useEffect(() => {
 
@@ -59,11 +61,11 @@ const OwnerPopover = ({ owner, onClose }) => {
                     ).then(
 
                         resp => {
-                                
+
                             dispatch(newRoom({ name: `room_${owner?.nom}_${res}` }))
 
-                            dispatch(addCUrrentChat(`room_${owner?.nom}_${res}`))
-                            
+                            dispatch(addCurrentChat(`room_${owner?.nom}_${res}`))
+
                         }
 
                     ).catch(
@@ -72,13 +74,14 @@ const OwnerPopover = ({ owner, onClose }) => {
                             const errorMsg = err?.response?.data;
                             console.error("Erreur lors de la création du chat:", errorMsg);
 
-                            const roomExistMessages = [
-                                'room with this current owner already exists.',
-                                'room with this name already exists.'
-                            ];
 
-                            // Vérifie si l'erreur reçue correspond à une des erreurs connues
-                            if (roomExistMessages.includes(errorMsg)) {
+                            const roomAlreadyExists =
+                                errorMsg?.name?.[0]?.includes("already exists") ||
+                                errorMsg?.current_receiver?.[0]?.includes("already exists");
+                                errorMsg?.current_owner?.[0]?.includes("already exists");
+
+                            if (roomAlreadyExists) {
+
                                 const ownerPhone = selectedProductOwner?.telephone;
                                 const ownerName = owner?.nom;
 
@@ -86,7 +89,12 @@ const OwnerPopover = ({ owner, onClose }) => {
                                     hashPassword(ownerPhone)
                                         .then(hashed => {
                                             const roomName = `room_${ownerName}_${hashed}`;
-                                            dispatch(newRoom({ name: roomName }));
+
+                                            console.log("le room", roomName);
+
+                                            dispatch(addRoom({name:roomName}));
+                                            dispatch(addCurrentChat({name:roomName}));
+
                                         })
                                         .catch(hashErr => {
                                             console.error("Erreur lors du hachage du numéro de téléphone:", hashErr);
@@ -94,11 +102,11 @@ const OwnerPopover = ({ owner, onClose }) => {
                                 } else {
                                     console.warn("Données manquantes pour créer une room de fallback.");
                                 }
+
+                            } else {
+                                console.error("Erreur inconnue lors de la création du chat:", errorMsg);
                             }
                         }
-
-
-                       
                     )
 
                 } catch (err) {
@@ -172,8 +180,8 @@ const OwnerPopover = ({ owner, onClose }) => {
                     <button
 
                         onClick={() => {
-                                chatWithOwner();
-                            }
+                            chatWithOwner();
+                        }
                         }
 
                         className="p-1.5 rounded-md text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800 cursor-pointer"
@@ -213,29 +221,31 @@ const OwnerAvatar = ({ owner }) => {
         <div className="relative inline-block" ref={containerRef}>
 
             {
-                owner.image?
+                owner?.image ?
                     <img
 
-                        src={owner.image}
+                        src={owner?.image}
 
-                        alt={owner.nom || 'Fournisseur'}
+                        alt={owner?.nom || 'Fournisseur'}
 
-                        className="h-8 w-8 rounded-full object-cover cursor-pointer ring-1 ring-gray-300 hover:ring-blue-500 transition"
+                        className="h-6 w-6 rounded-full object-cover cursor-pointer ring-1 ring-gray-300 hover:ring-blue-500 transition"
 
-                        title={owner.nom}
+                        title={owner?.nom}
 
                         onClick={() => {
 
                             setShowPopover((prev) => !prev);
                         }}
                     />
-                :
+                    :
                     <svg
                         className="w-6 h-6 text-gray-800 dark:text-white cursor-pointer"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="currentColor"
                         viewBox="0 0 24 24"
-                        title={owner.nom}
+
+                        title={owner?.nom}
+
                         onClick={() => {
 
                             setShowPopover((prev) => !prev);
@@ -259,7 +269,7 @@ const OwnerAvatar = ({ owner }) => {
             {
                 showPopover && (
 
-                     <OwnerPopover owner={owner} onClose={() => setShowPopover(false)} />
+                    <OwnerPopover owner={owner} onClose={() => setShowPopover(false)} />
                 )
             }
         </div>

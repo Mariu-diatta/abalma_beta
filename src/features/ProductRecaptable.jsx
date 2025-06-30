@@ -10,7 +10,7 @@ const ProductsRecapTable = ({ products }) => {
     const [popoverOpen, setPoverOpen] = useState(false)
 
     const closePopover = () => setPoverOpen(false)
-    const displayedStatus = ['en cours', 'offert', 'preter'];
+    const displayedStatus = ['en cours', 'offert', 'preter', 'acheter', 'vendu'];
     const itemsPerPage = 5;
 
     const handleDelete = (id) => {
@@ -19,9 +19,9 @@ const ProductsRecapTable = ({ products }) => {
     };
 
     const filteredProducts = productList.filter(product => {
-        const matchesStatus = selectedStatus === '' || product.statut.toLowerCase() === selectedStatus.toLowerCase();
-        const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
-        return displayedStatus.includes(product.statut.toLowerCase()) && matchesStatus && matchesSearch;
+        const matchesStatus = selectedStatus === '' || product.statut?.toLowerCase() === selectedStatus?.toLowerCase();
+        const matchesSearch = product.categorie_product?.toLowerCase().includes(searchTerm?.toLowerCase());
+        return displayedStatus?.includes(product.statut?.toLowerCase()) && matchesStatus && matchesSearch;
     });
 
     const paginatedProducts = filteredProducts.slice(
@@ -31,16 +31,18 @@ const ProductsRecapTable = ({ products }) => {
 
     const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
+    { console.log("Les données de la transaction", paginatedProducts) }
+
     return (
         <div className="mt-6 w-full">
 
             <nav className="flex flex-row items-center gap-2 m-2">
 
-                <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                    <path fillRule="evenodd" d="M14 7h-4v3a1 1 0 0 1-2 0V7H6a1 1 0 0 0-.997.923l-.917 11.924A2 2 0 0 0 6.08 22h11.84a2 2 0 0 0 1.994-2.153l-.917-11.924A1 1 0 0 0 18 7h-2v3a1 1 0 1 1-2 0V7Zm-2-3a2 2 0 0 0-2 2v1H8V6a4 4 0 0 1 8 0v1h-2V6a2 2 0 0 0-2-2Z" clipRule="evenodd" />
+                <svg className="w-[25px] h-[25px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8" d="M9 10V6a3 3 0 0 1 3-3v0a3 3 0 0 1 3 3v4m3-2 .917 11.923A1 1 0 0 1 17.92 21H6.08a1 1 0 0 1-.997-1.077L6 8h12Z" />
                 </svg>
 
-                <h2 className="text-2xl font-semibold  text-gray-800 dark:text-white">Mes achats</h2>
+                <h2 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">Mes achats</h2>
 
             </nav>
 
@@ -75,60 +77,74 @@ const ProductsRecapTable = ({ products }) => {
             </div>
 
             <div className="overflow-x-auto rounded-md shadow">
+
                 <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm text-left">
-                    <thead className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 uppercase text-xs">
+
+                    <thead className="bg-gray-100 dark:bg-gray-700">
+
                         <tr>
                             <th className="px-4 py-3">Nom</th>
-                            <th className="px-4 py-3">Categorie</th>
+                            <th className="px-4 py-3">Catégories</th>
                             <th className="px-4 py-3">Statut</th>
                             <th className="px-4 py-3">Prix</th>
-                            <th className="px-4 py-3">Date d operation</th>
+                            <th className="px-4 py-3">Date d'operation</th>
                             <th className="px-4 py-3">Date de fin</th>
+                            <th className="px-4 py-3">Opération</th>
                             <th className="px-4 py-3">Actions</th>
                             <th scope="col" className="px-6 py-3">Consulter</th>
                         </tr>
+
                     </thead>
+
                     <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+
                         {paginatedProducts.length === 0 ? (
+
                             <tr>
+
                                 <td colSpan="7" className="text-center p-4 text-gray-500 dark:text-gray-300">
                                     Aucun produit a afficher.
                                 </td>
+
                             </tr>
+
                         ) : (
-                            paginatedProducts.map(product => (
-                                <tr key={product.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                                    <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">{product.name}</td>
-                                    <td className="px-4 py-3">{product.category}</td>
-                                    <td className="px-4 py-3 capitalize">{product.statut}</td>
-                                    <td className="px-4 py-3">{product.price}</td>
-                                    <td className="px-4 py-3">{product.date || 'N/A'}</td>
-                                    <td className="px-4 py-3">{product.endDate || '-'}</td>
-                                    <td className="px-4 py-3">
-                                        <button
-                                            onClick={() => handleDelete(product.id)}
-                                            className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-600 text-sm cursor-pointer"
-                                        >
-                                            <svg className="w-6 h-5 text-red-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                                <path fillRule="evenodd" d="M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z" clipRule="evenodd" />
-                                            </svg>
+                                paginatedProducts.map((item, _) => (
 
-                                        </button>
-                                    </td>
-                                    <td className="px-6 py-3">
-                                        <button
-                                            className="text-blue-600 hover:underline dark:text-blue-400 cursor-pointer" onClick={() => setPoverOpen(true)}
-                                            aria-label={`Voir ${product.id}`}
+                                   <tr key={item?.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                                        <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">{item?.description_product}</td>
+                                        <td className="px-4 py-3">{item?.categorie_product}</td>
+                                        <td className="px-4 py-3 capitalize">{"en cours "}</td>
+                                        <td className="px-4 py-3">{item?.price_product}</td>
+                                        <td className="px-4 py-3">{item?.date_emprunt || 'N/A'}</td>
+                                        <td className="px-4 py-3">{item?.date_fin_emprunt || '-'}</td>
+                                        <td className="px-4 py-3">{item?.operation_product || '-'}</td>
+                                        <td className="px-4 py-3">
+                                            <button
+                                                onClick={() => handleDelete(item?.id)}
+                                                className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-600 text-sm cursor-pointer"
+                                            >
+                                                <svg className="w-[25px] h-[20px] text-gray-800 boder-red-200 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
+                                                </svg>
+
+                                            </button>
+                                        </td>
+
+                                        <td className="px-6 py-3">
+                                            <button
+                                                className="text-blue-600 hover:underline dark:text-blue-400 cursor-pointer" onClick={() => setPoverOpen(true)}
+                                                    aria-label={`Voir ${item?.id}`}
                                             
-                                        >
-                                            <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                <path stroke="currentColor" strokeWidth="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
-                                                <path stroke="currentColor" strokeWidth="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                            </svg>
+                                            >
+                                                <svg className="w-[25px] h-[25px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                    <path stroke="currentColor" strokeWidth="0.8" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
+                                                    <path stroke="currentColor" strokeWidth="0.8" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                </svg>
 
-                                        </button>
-                                    </td>
-                                </tr>
+                                            </button>
+                                        </td>
+                                    </tr>
                             ))
                         )}
                     </tbody>

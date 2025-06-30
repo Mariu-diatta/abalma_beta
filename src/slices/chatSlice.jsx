@@ -3,9 +3,10 @@ import api from '../services/Axios';
 
 const initialState = {
     currentChats: [], // Liste des rooms actuellement actives (sans doublon)
-    newChat: "",
-    currentChat:"",
-    userSlected:""
+    newChat: {},
+    currentChat:{},
+    userSlected: null,
+    messageNotif:[]
 };
 
 const chatSlice = createSlice({
@@ -18,8 +19,11 @@ const chatSlice = createSlice({
 
         // ➕ Ajouter une room s'il n'existe pas déjà
         addRoom: (state, action) => {
+
             const exists = state.currentChats.some(room => room.name === action.payload.name);
+
             if (!exists) {
+
                 state.currentChats.push(action.payload);
             }
         },
@@ -27,31 +31,23 @@ const chatSlice = createSlice({
         // ➖ Supprimer une room par nom
         removeRoom: (state, action) => {
 
-            state.currentChats = state.currentChats.filter(room => room.name !== action.payload.name);
+            const roomName = action.payload;
 
-            const fetchRooms = async () => {
+            // Si le chat supprimé est le chat courant, on le réinitialise
+            if (state.currentChat?.name === roomName) {
 
-                try {
-
-
-                    console.log("deleted item ", action.payload?.pk)
-
-                     await api.delete(`/rooms/${action.payload?.pk}/`);
-
-
-                } catch (err) {
-                    console.log(err)
-                }
+                state.currentChat = {};
             }
 
-            fetchRooms()
+            // Supprimer localement le chat de la liste
+            state.currentChats = state.currentChats.filter(room => room?.name !== roomName);
         },
 
         // 🧹 Vider toutes les rooms
         clearRooms: (state) => {
             state.currentChats = [];
             state.userSlected = null;
-            state.currentChat=""
+            state.currentChat=null
         },
 
         newRoom: (state, payload) => {
@@ -66,14 +62,45 @@ const chatSlice = createSlice({
         },
 
         // ➕ Ajouter une room s'il n'existe pas déjà
-        addCUrrentChat: (state, action) => {
+        addCurrentChat: (state, action) => {
 
             state.currentChat= action?.payload
 
         },
+
+        addMessageNotif: (state, action) => {
+
+            state.messageNotif.push(action?.payload)
+
+        },
+
+        removeMessageNotif: (state) => {
+            state.messageNotif = state.messageNotif.slice(1);
+        },
+        cleanAllMessageNotif: (state) => {
+            state.messageNotif = [];
+        }
     },
 });
 
-export const { addRoom, removeRoom, clearRooms, newRoom, addUser, addCUrrentChat } = chatSlice.actions;
+export const { addRoom, removeRoom, clearRooms, newRoom, addUser, addCurrentChat, addMessageNotif,
+    removeMessageNotif, cleanAllMessageNotif } = chatSlice.actions;
+
+export const deleteRoomAsync = (roomName) => async (dispatch) => {
+    try {
+        const resp = await api.get(`/rooms/?name=${roomName}`);
+        const pk_id = resp?.data[0]?.pk;
+
+        if (pk_id) {
+            await api.delete(`/rooms/${pk_id}/`);
+        }
+
+        // Mise à jour du store après succès
+        dispatch(removeRoom(roomName));
+
+    } catch (err) {
+        console.error("Erreur de suppression :", err);
+    }
+};
 
 export default chatSlice.reducer;

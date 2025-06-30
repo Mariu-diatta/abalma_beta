@@ -5,7 +5,8 @@ const initialState = {
     items: [],          // Produits normaux
     cardCreated: [],    // Produits personnalisés
     nbItem: 0,          // Total global
-    nbItemCustom: 0,    // Total des produits personnalisés (cardCreated)
+    nbItemCustom: 0,    // Total des produits personnalisés (cardCreated
+    totalPrice:0,
 };
 
 const cartSlice = createSlice({
@@ -15,6 +16,7 @@ const cartSlice = createSlice({
     initialState,
 
     reducers: {
+
         // ➕ Ajouter un produit
         addToCart: (state, action) => {
 
@@ -26,10 +28,10 @@ const cartSlice = createSlice({
 
             if (existingItem) {
 
-                existingItem.quantity_selected += 1;
+                existingItem.quanttity_product_sold += 1;
 
             } else {
-                targetArray.push({ ...action.payload, quantity_selected: 1 });
+                targetArray.push({ ...action.payload, quanttity_product_sold: 1 });
             }
 
             // Met à jour les compteurs
@@ -50,16 +52,19 @@ const cartSlice = createSlice({
 
         // ➖ Réduire la quantité
         decreaseQuantity: (state, action) => {
+
             const isCustom = action.payload.methode;
+
             const targetArray = isCustom ? state.cardCreated : state.items;
 
             const existingItem = targetArray.find(item => item.id === action.payload.id);
 
+
             if (existingItem) {
 
-                if (existingItem.quantity_selected > 1) {
+                if (existingItem.quanttity_product_sold > 1) {
 
-                    existingItem.quantity_selected -= 1;
+                    existingItem.quanttity_product_sold -= 1;
 
                 } else {
 
@@ -80,18 +85,25 @@ const cartSlice = createSlice({
             state.cardCreated = [];
             state.nbItem = 0;
             state.nbItemCustom = 0;
+            state.totalPrice = 0;
+            state.totalPrice= 0
         },
+
+        getTotalPrice: (state, action) => {
+
+            state.totalPrice=action.payload
+        }
     },
 });
 
 // 🔢 Helpers pour recalculer les quantités
 const updateItemCounts = (state) => {
-    const sum = (arr) => arr.reduce((total, item) => total + item.quantity_selected, 0);
+    const sum = (arr) => arr.reduce((total, item) => total + item.quanttity_product_sold, 0);
     state.nbItem = sum(state.items) + sum(state.cardCreated);
     state.nbItemCustom = sum(state.cardCreated);
 };
 
-export const { addToCart, removeFromCart, decreaseQuantity, clearCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, decreaseQuantity, clearCart, getTotalPrice } = cartSlice.actions;
 
 export default cartSlice.reducer;
 

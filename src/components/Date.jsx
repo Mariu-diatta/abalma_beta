@@ -4,7 +4,7 @@ export default function DatePickerWithFullWidthButtons() {
 
     const [currentDate, setCurrentDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(null);
-    const [isCalendarOpen, setIsCalendarOpen] = useState(true);
+    const [isCalendarOpen, setIsCalendarOpen] = useState(false);
     const daysContainerRef = useRef(null);
     const datepickerContainerRef = useRef(null);
 
@@ -25,29 +25,44 @@ export default function DatePickerWithFullWidthButtons() {
 
         daysContainer.innerHTML = "";
 
+        const fragment = document.createDocumentFragment();
+
+        // Ajouter des "cases vides" pour aligner le 1er jour du mois
         for (let i = 0; i < firstDayOfMonth; i++) {
             const emptyDiv = document.createElement("div");
-            daysContainer.appendChild(emptyDiv);
+            fragment.appendChild(emptyDiv);
         }
 
-        for (let i = 1; i <= daysInMonth; i++) {
+        for (let day = 1; day <= daysInMonth; day++) {
             const dayDiv = document.createElement("div");
+
             dayDiv.className =
-                "flex h-[38px] w-[38px] items-center justify-center rounded-[7px] border-[.5px] border-transparent text-dark hover:border-stroke hover:bg-gray-2 sm:h-[46px] sm:w-[47px] dark:text-white dark:hover:border-dark-3 dark:hover:bg-dark ";
-            dayDiv.textContent = i.toString();
+                "flex h-[38px] w-[38px] items-center justify-center rounded-[7px] border-[.5px] border-transparent text-dark hover:border-stroke hover:bg-gray-2 sm:h-[46px] sm:w-[47px] dark:text-white dark:hover:border-dark-3 dark:hover:bg-dark";
+
+            dayDiv.textContent = day.toString();
+
             dayDiv.addEventListener("click", () => {
-                const selectedDateValue = `${month + 1}/${i}/${year}`;
+                const selectedDateValue = `${month + 1}/${day}/${year}`;
                 setSelectedDate(selectedDateValue);
-                if (daysContainer) {
-                    daysContainer
-                        .querySelectorAll("div")
-                        .forEach((d) => d.classList.remove("bg-primary", "text-white"));
-                    dayDiv.classList.add("bg-primary", "text-white", "dark:text-white");
-                }
+
+                // Retirer la sélection précédente
+                daysContainer.querySelectorAll("div").forEach((d) =>
+                    d.classList.remove("bg-primary", "text-white", "dark:text-white")
+                );
+
+                // Appliquer la classe de sélection
+                dayDiv.classList.add("bg-primary", "text-white", "dark:text-white");
+
+                // Fermer le calendrier après sélection
+                setIsCalendarOpen(false);
             });
-            daysContainer.appendChild(dayDiv);
+
+            fragment.appendChild(dayDiv);
         }
+
+        daysContainer.appendChild(fragment);
     };
+
 
     const handlePrevMonth = () => {
         setCurrentDate(
@@ -63,7 +78,7 @@ export default function DatePickerWithFullWidthButtons() {
 
     const handleApply = () => {
         if (selectedDate) {
-            setIsCalendarOpen(false);
+            setIsCalendarOpen(true);
         }
     };
 
@@ -250,7 +265,7 @@ export default function DatePickerWithFullWidthButtons() {
                                 <button
                                     id="cancelBtn"
                                     className="flex h-[50px] w-full items-center justify-center rounded-md bg-primary text-base font-medium text-grey hover:bg-blue-dark"
-                                    onClick={handleApply}
+                                    onClick={()=>handleApply()}
                                 >
                                     Done
                                 </button>

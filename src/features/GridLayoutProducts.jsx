@@ -1,12 +1,12 @@
 ﻿import React, { useEffect, useState } from 'react';
-import GridSlideProduct from './GridProductSlide';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../slices/cartSlice';
-import HorizontalCard from './HorizontalCard';
 import api from '../services/Axios';
 import OwnerAvatar from '../components/OwnerProfil';
 import { useRef,  } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import {  addMessageNotif, addUser } from '../slices/chatSlice';
+import ProductModal from '../pages/ProductViewsDetails';
 
 const categories = [
     'All', 'JOUET', 'HABITS', 'MATERIELS_INFORMATIQUES', 'CAHIERS', 'SACS', 'LIVRES',
@@ -21,6 +21,7 @@ const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory }) => {
     const [showLeft, setShowLeft] = useState(false);
 
     const [showRight, setShowRight] = useState(false);
+
 
     const updateButtonsVisibility = () => {
 
@@ -95,7 +96,7 @@ const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory }) => {
 
                             onClick={() => setActiveCategory(cat)}
 
-                            className={`whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium transition 
+                            className={`whitespace-nowrap px-4 py-2 rounded-full text-sm  transition 
 
                                 ${activeCategory === cat
 
@@ -145,6 +146,8 @@ const GridLayoutProduct = () => {
     const openModal = (item) => setModalData(item);
     const closeModal = () => setModalData(null);
 
+
+
     useEffect(() => {
 
         const fetchProductsAndOwners = async () => {
@@ -190,8 +193,8 @@ const GridLayoutProduct = () => {
 
 
     const filteredItems = activeCategory === 'All'
-        ? productData
-        : productData.filter(item => item.categorie_product === activeCategory);
+        ? productData.filter(item => parseInt(item?.quantity_product) !== 0)
+        : productData.filter(item => item.categorie_product === activeCategory && parseInt(item?.quantity_product)!==0);
 
     return (
         <div className="p-4 space-y-4">
@@ -225,7 +228,13 @@ const GridLayoutProduct = () => {
                             >
                                 <button
 
-                                    onClick={() => openModal(item)}
+                                    onClick={() => {
+
+                                        openModal(item)
+
+                                        dispatch(addUser(owners[item.fournisseur]))
+
+                                    }}
 
                                     className="block w-full rounded-lg overflow-hidden"
                                 >
@@ -240,7 +249,7 @@ const GridLayoutProduct = () => {
 
                                 <div className="flex justify-between items-center mb-1">
 
-                                    {owner?.image && <OwnerAvatar owner={owner} />}
+                                    <OwnerAvatar owner={owner} />
 
                                     {item.quantity_product !== "1" && (
 
@@ -249,7 +258,7 @@ const GridLayoutProduct = () => {
 
                                 </div>
 
-                                <p className="text-sm text-center font-medium text-gray-800 truncate mb-1">
+                                <p className="text-sm text-center  text-gray-800 truncate mb-1">
                                     {item.description_product}
                                 </p>
 
@@ -261,19 +270,26 @@ const GridLayoutProduct = () => {
 
                                         <button
                                             title="Ajouter au panier"
-                                            onClick={() => addProductToCart(item)}
-                                            className="cursor-pointer p-1 bg-green-100 rounded-full hover:bg-green-200 transition"
+                                            onClick={() => {
+                                                addProductToCart(item);
+                                                dispatch(addMessageNotif(`Produit ${item?.code_reference} sélectionné le ${Date.now()}`));
+                                            }}
+                                            className="cursor-pointer p-1 rounded-full border border-green-200 bg-green-50 hover:bg-green-100 transition"
                                         >
-                                            🛒
+                                            <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
+                                            </svg>
+
                                         </button>
 
-                                        <button
-                                            title="Ajouter en cadeau"
-                                            onClick={() => alert(`Cadeau ajouté: ${item.description_product}`)}
-                                            className="cursor-pointer p-1 bg-yellow-100 rounded-full hover:bg-yellow-200 transition"
-                                        >
-                                            🎁
-                                        </button>
+
+                                        {/*<button*/}
+                                        {/*    title="Ajouter en cadeau"*/}
+                                        {/*    onClick={() => alert(`Cadeau ajouté: ${item.description_product}`)}*/}
+                                        {/*    className="cursor-pointer p-1 bg-yellow-100 rounded-full hover:bg-yellow-200 transition"*/}
+                                        {/*>*/}
+                                        {/*    🎁*/}
+                                        {/*</button>*/}
 
                                     </div>
 
@@ -281,40 +297,15 @@ const GridLayoutProduct = () => {
                             </div>
                         );
                     })}
+
                 </div>
             ) : (
                 <div className="text-center text-gray-500">Aucun produit disponible</div>
             )}
 
-            {modalData && (
-                <div
-                    className="fixed inset-0 z-100 flex items-center justify-center bg-white opacity-95  transition-opacity duration-300 "
-                    onClick={closeModal}
-                    role="dialog"
-                    aria-modal="true"
-                    data-modal-backdrop="static"
-                >
-                    <div
-                        onClick={(e) => e.stopPropagation()}
+            <ProductModal isOpen={!!modalData} onClose={closeModal} dataProduct={modalData} />
 
-                        className="z-100  bg-black  shadow-lg transform scale-100 p-0 animate-fade-in-up  "
-                    >
-                        <HorizontalCard
 
-                            item={{
-                                id: modalData?.id,
-                                src: modalData?.image_product,
-                                price: modalData?.price_product,
-                                title: modalData?.description_product,
-                                description: `Quantité: ${modalData?.quantity_product}`,
-                            }}
-                        >
-                            <GridSlideProduct srcs={[modalData?.image_product]} />
-
-                        </HorizontalCard>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };

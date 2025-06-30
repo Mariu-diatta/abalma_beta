@@ -6,7 +6,7 @@ const AttentionAlertMesage = ({ content, title }) => {
 
     return (
 
-        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-xl px-4">
+        <div className="fixed top-10 left-1/2 transform -translate-x-1/2 z-80 w-full max-w-xl px-4">
 
             <div className="border-yellow bg-yellow-light-4 flex w-full rounded-lg border-l-[6px] px-7 py-4 md:py-6 shadow-md dark:bg-dark">
 
@@ -47,6 +47,7 @@ const AttentionAlertMesage = ({ content, title }) => {
                 </div>
 
             </div>
+
         </div>
     );
 };

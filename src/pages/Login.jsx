@@ -10,26 +10,30 @@ import { login, getFirebaseToken, updateUserData, updateUserToken } from '../sli
 import AttentionAlertMesage, { showMessage } from '../components/AlertMessage';
 
 // Fonction de login avec l'API
-const loginClient = async (data, dispatch, setMessageError) => {
+const loginClient = async (data, dispatch) => {
 
     try {
         const response = await api.post('login/', data, {
+
             headers: {
+
                 'Content-Type': 'multipart/form-data',
             }
         });
 
         if (response?.data) {
+
             dispatch(updateUserToken(response?.data));
+
             localStorage.setItem("token", response?.data?.access)
             localStorage.setItem("refresh", response?.data?.refresh)
             return response.data;
         }
 
     } catch (error) {
+
         console.log('Erreur lors de la connexion', error?.response);
         const message = error?.response?.data?.detail || "Erreur inconnue.";
-        setMessageError(message);
         showMessage(dispatch, message);
         throw error;
     }
@@ -37,39 +41,43 @@ const loginClient = async (data, dispatch, setMessageError) => {
 
 const Signin = () => {
 
-
     const [email, setEmail] = useState("");
     const [pwd, setPwd] = useState("");
-;
-
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
-    const [messageError, setMessageError] = useState("")
-    const userConnected = useSelector((state) => state.auth.isAuthenticated);
-    const firebaseToken = useSelector((state) => state.auth.firebaseToken);
-
     const messageAlert = useSelector((state) => state.navigate.messageAlert);
-
     const emailRef = useRef(null);
 
     useEffect(() => {
+
         // Petite pause pour laisser le navigateur autofill
         setTimeout(() => {
+
             if (emailRef.current) {
+
                 const value = emailRef.current.value;
+
                 if (value) setEmail(value);
             }
+
         }, 500); // 500ms pour laisser le navigateur compléter
+
     }, [])
 
     const handleGoogleLogin = async () => {
+
         try {
+
             const user = await signInWithGoogle();
+
             dispatch(login(user));
+
             dispatch(getFirebaseToken(user?.accessToken));
+
             navigate("/account", { replace: true });
+
         } catch (error) {
+
             showMessage(dispatch, "Erreur de connexion Google");
         }
     };
@@ -116,7 +124,7 @@ const Signin = () => {
 
             formData.append("password", pwd);
 
-            const userData = await loginClient(formData, dispatch, setMessageError);
+            await loginClient(formData, dispatch);
 
             await api.get(`/clients/?email=${email}`).then(
 
