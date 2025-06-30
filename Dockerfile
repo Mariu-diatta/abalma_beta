@@ -5,7 +5,7 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # Copier uniquement les fichiers package.json et package-lock.json (si présent)
-COPY package*.json ./
+COPY package*.json ./app
 
 
 RUN ls -l /app
