@@ -1,4 +1,4 @@
-﻿import React, { useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import ViewProduct from "../components/ViewProduct";
 
 const ProductTablePagination = ({data }) => {

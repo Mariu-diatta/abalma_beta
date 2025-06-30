@@ -54,7 +54,7 @@ const NotificationsComponent = ({ userId }) => {
 
         return () => socket.close();
 
-    }, [userId]);
+    }, [userId, dispatch]);
 
     return <div className="flex">
 

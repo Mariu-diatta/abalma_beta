@@ -1,12 +1,10 @@
-import React from 'react'
+import React from 'react';
 
 const SingleImage = ({ href, imgSrc }) => {
     return (
-        <>
-            <a href={href} className="flex w-full items-center justify-center">
-                <img src={imgSrc} alt="brand image" className="h-10 w-full" />
-            </a>
-        </>
+        <a href={href} className="flex w-full items-center justify-center">
+            <img src={imgSrc} alt="Brand logo" className="h-10 w-full" />
+        </a>
     );
 };
 

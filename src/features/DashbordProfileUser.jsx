@@ -26,61 +26,39 @@ const Tabs = () => {
         { id: 'contacts', label: 'Contacts' },
     ];
 
-    useEffect(
+    useEffect(() => {
+        const getTransactionProduct = async () => {
+            try {
+                const responseBought = await api.get(`/transactions/products/?client=${currentUser?.id}`);
 
-        () => {
-
-            const getTransactionProduct = async () => {
-
-                try {
-
-                    const responseBought = await api.get(`/transactions/products/?client=${currentUser?.id}`)
-
-                    responseBought?.data?.map(
-
-                        (data_, _) => {
-
-                            if (data_?.client === currentUser?.id) {
-
-                                const data_product = { ...data_?.product, statut: "En cours" }
-
-                                setProductsTrasactionBought((prev) => [...prev, data_product])
-                            }
-                        }
-                    )
-
-                } catch (e) {
-
-                }
-
-                try {
-
-                    const response = await api.get(`/transactions/products/?owner=${currentUser?.id}`)
-
-                    response?.data?.map(
-
-                        (data_, _) => {
-
-                            if (data_?.owner === currentUser?.id) {
-
-                                const data_product = { ...data_?.product, statut: "En cours" }
-
-                                setProductsTrasactionSold((prev) => [...prev, data_product])
-                            }
-                        }
-                    )
-                  
-                } catch (e) {
-
-                }
-
+                responseBought?.data?.forEach((data_) => {
+                    if (data_?.client === currentUser?.id) {
+                        const data_product = { ...data_?.product, statut: "En cours" };
+                        setProductsTrasactionBought((prev) => [...prev, data_product]);
+                    }
+                });
+            } catch (e) {
+                console.error(e);
             }
 
-            getTransactionProduct()
+            try {
+                const response = await api.get(`/transactions/products/?owner=${currentUser?.id}`);
 
-        }, []
+                response?.data?.forEach((data_) => {
+                    if (data_?.owner === currentUser?.id) {
+                        const data_product = { ...data_?.product, statut: "En cours" };
+                        setProductsTrasactionSold((prev) => [...prev, data_product]);
+                    }
+                });
+            } catch (e) {
+                console.error(e);
+            }
+        };
 
-    )
+        if (currentUser?.id) {
+            getTransactionProduct();
+        }
+    }, [currentUser?.id]);
 
  
 

@@ -92,7 +92,7 @@ const ProfilPopPov = () => {
                         <p className="mb-4 text-sm">
                             Open-source contributor. Building{' '}
                             <a
-                                href="#"
+                                href="/home"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-blue-600 dark:text-blue-500 hover:underline"

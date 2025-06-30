@@ -57,7 +57,7 @@ const VertcalNavbar = ({ children }) => {
             }
         };
         fetchRooms();
-    }, []);
+    }, [currentUser?.id, dispatch]);
 
 
     // 🔎 Fetch Produits d'une catégorie
@@ -111,7 +111,7 @@ const VertcalNavbar = ({ children }) => {
 
         fetchClient();
 
-    }, [currentUserEmail?.email]);
+    }, [currentUserEmail?.email, currentUser?.id, dispatch]);
 
 
     // 🔎 Fetch compte utilisateur

@@ -58,7 +58,7 @@ const ListProductShoppingCart = () => {
 
         dispatch(getTotalPrice(grandTotal))
 
-    }, [grandTotal])
+    }, [grandTotal, dispatch])
 
 
     return (

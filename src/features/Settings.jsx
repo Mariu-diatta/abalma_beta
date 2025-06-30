@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import api from '../services/Axios';
 
@@ -20,7 +20,6 @@ const SettingsForm = () => {
         country: '',
     });
 
-    const [profilePhoto, setProfilePhoto] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(null);
     const currentUserData = useSelector((state) => state.auth.user);
     const currentUserCompte = useSelector((state) => state.auth.compteUser);
@@ -51,8 +50,6 @@ const SettingsForm = () => {
     const handleImageUpload = (e) => {
 
         const file = e.target.files[0];
-
-        setProfilePhoto(file);
 
         setPreviewUrl(URL.createObjectURL(file));
     };
@@ -92,35 +89,19 @@ const SettingsForm = () => {
 
     }
 
-    const GetClientCard = async () => {
-
-
+    const GetClientCard = useCallback(async () => {
         if (!currentUserData?.id) return;
 
-        await tryRequest(
-
-            () => api.patch(`/clients/${currentUserData?.id}/`,
-                {
-                    password: form.password,
-                }
-            ), 'Mot de passe modifié avec succès !')
-
         try {
-
             const resp = await api.get("/cardPaid/");
-
-            // Correction ici : elem est un élément, pas un index
-            const dataCard = resp?.data?.filter((elem) => elem?.client === currentUserData.id);
-
-            setCartData(dataCard[0])
-
-            console.log('Paramètres de la carte enregistrés avec succès !', dataCard[0]);
-
+            const dataCard = resp?.data?.filter(elem => elem?.client === currentUserData.id);
+            const firstCard = dataCard.length > 0 ? dataCard[0] : null;
+            setCartData(firstCard);
         } catch (error) {
-
-            console.error("Erreur lors de l'enregistrement des données :", error);
+            console.error("Erreur lors de la récupération des données de la carte :", error);
         }
-    };
+    }, [currentUserData?.id]);
+
 
 
     const handleSubmitCard = async (e) => {
@@ -161,7 +142,7 @@ const SettingsForm = () => {
             GetClientCard();
         }
 
-    }, []);
+    }, [currentUserData?.id, GetClientCard]);
 
 
     useEffect(() => {

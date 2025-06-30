@@ -344,7 +344,7 @@ const ProfileCard = () => {
 
                         <img
                             src={previewUrl || 'https://randomuser.me/api/portraits/men/32.jpg'}
-                            alt="Photo de profil"
+                            alt="Profil utilisateur"
                             className="w-28 h-28 sm:w-32 sm:h-32 rounded-full border-4 border-white shadow-md object-cover"
                         />
 

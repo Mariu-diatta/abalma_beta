@@ -14,7 +14,7 @@ const Footer = () => {
                         <div className="w-full px-4 sm:w-2/3 lg:w-3/12">
                             <div className="mb-10 w-full">
 
-                                <a href="/#" className="block w-full py-2">
+                                <a href="/home" className="block w-full py-2">
                                     <Logo/>
                                 </a>
 
@@ -102,7 +102,7 @@ const Footer = () => {
                                 </h4>
                                 <div className="mb-6 flex items-center">
                                     <a
-                                        href="javascript:void(0)"
+                                        href="/home"
                                         className="mr-3 flex h-8 w-8 items-center justify-center rounded-full border border-stroke text-dark hover:border-primary hover:bg-primary hover:text-white dark:border-dark-3 dark:text-white dark:hover:border-primary sm:mr-4 lg:mr-3 xl:mr-4"
                                     >
                                         <svg
@@ -115,7 +115,7 @@ const Footer = () => {
                                         </svg>
                                     </a>
                                     <a
-                                        href="javascript:void(0)"
+                                        href="/home"
                                         className="mr-3 flex h-8 w-8 items-center justify-center rounded-full border border-stroke text-dark hover:border-primary hover:bg-primary hover:text-white dark:border-dark-3 dark:text-white dark:hover:border-primary sm:mr-4 lg:mr-3 xl:mr-4"
                                     >
                                         <svg
@@ -128,7 +128,7 @@ const Footer = () => {
                                         </svg>
                                     </a>
                                     <a
-                                        href="javascript:void(0)"
+                                        href="/home"
                                         className="mr-3 flex h-8 w-8 items-center justify-center rounded-full border border-stroke text-dark hover:border-primary hover:bg-primary hover:text-white dark:border-dark-3 dark:text-white dark:hover:border-primary sm:mr-4 lg:mr-3 xl:mr-4"
                                     >
                                         <svg
@@ -141,7 +141,7 @@ const Footer = () => {
                                         </svg>
                                     </a>
                                     <a
-                                        href="javascript:void(0)"
+                                        href="/home"
                                         className="mr-3 flex h-8 w-8 items-center justify-center rounded-full border border-stroke text-dark hover:border-primary hover:bg-primary hover:text-white dark:border-dark-3 dark:text-white dark:hover:border-primary sm:mr-4 lg:mr-3 xl:mr-4"
                                     >
                                         <svg

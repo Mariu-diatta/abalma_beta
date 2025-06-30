@@ -31,8 +31,6 @@ const ProductsRecapTable = ({ products }) => {
 
     const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
-    { console.log("Les données de la transaction", paginatedProducts) }
-
     return (
         <div className="mt-6 w-full">
 

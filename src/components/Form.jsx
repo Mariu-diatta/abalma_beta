@@ -2,19 +2,12 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import InputBox from './InputBoxFloat';
 import axios from "axios"
-//import { signUpWithEmail } from '../firebase';
-
-import { login, getFirebaseToken } from '../slices/authSlice';
-
-
-import api from '../services/Axios';
-import PhoneDropdown from './PhoneDropDown';
 
 
 const CreateClient = async (data) => {
 
     try {
-        const response = await axios.post('http://127.0.0.1:8000/clients/', data,
+         await axios.post('http://127.0.0.1:8000/clients/', data,
             {
             headers: {
                 'Content-Type': 'application/json',
@@ -22,10 +15,6 @@ const CreateClient = async (data) => {
             },
             timeout: 10000, // facultatif : délai d'attente en ms
         })
-
-        //console.log(response.data)
-
-        //localStorage.setItem("USER", JSON.stringify(response.data))
 
     } catch (error) {
 
