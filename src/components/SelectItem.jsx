@@ -17,5 +17,5 @@ const SelectOptionItem = () => {
     )
 }
 
-export default electOptionItem;
+export default SelectOptionItem;
 

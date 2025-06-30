@@ -10,10 +10,6 @@ const UserTable = () => {
     const [statusFilter, setStatusFilter] = useState("Tous");
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [users, setUsers] = useState([]);
-<<<<<<< HEAD
-    const userSelected = useSelector(state => state.chat.userSlected)
-=======
->>>>>>> feartures/facture_pdf
     const currentuser = useSelector(state => state.auth.user)
 
     useEffect(
