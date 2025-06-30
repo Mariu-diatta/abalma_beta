@@ -7,6 +7,9 @@ WORKDIR /app
 # Copier uniquement les fichiers package.json et package-lock.json (si présent)
 COPY package*.json ./
 
+
+RUN ls -l /app
+
 # Nettoyer le cache npm et installer les dépendances
 RUN npm cache clean --force && npm install --legacy-peer-deps
 
