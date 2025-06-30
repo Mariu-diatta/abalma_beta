@@ -2,7 +2,6 @@
 import ProtectedRoute from "../ProtectedRoute";
 
 // Layouts
-import AdminPage from "../layouts/AdminLayout";
 import AuthPage from "../layouts/AuthLayout";
 
 // Pages
@@ -55,7 +54,6 @@ const routes = [
 
                         children: [
                             { path: "account", element: <AuthPage /> },
-                            { path: "admin", element: <AdminPage /> },
                             { path: "payment", element: <Payment /> },
                         ]
                     }
