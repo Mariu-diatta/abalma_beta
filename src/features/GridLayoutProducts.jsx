@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import GridSlideProduct from './GridProductSlide';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../slices/cartSlice';
-import HorizontalCard from './HorizontalCard';
 import api from '../services/Axios';
 import OwnerAvatar from '../components/OwnerProfil';
 import { useRef, } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { addMessageNotif, addUser } from '../slices/chatSlice';
+import ProductModal from '../pages/ProductViewsDetails';
 
 const categories = [
     'All', 'JOUET', 'HABITS', 'MATERIELS_INFORMATIQUES', 'CAHIERS', 'SACS', 'LIVRES',
@@ -38,17 +37,12 @@ const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory }) => {
     };
 
     const scroll = (direction) => {
-
         const container = scrollRef.current;
-
         if (!container) return;
 
         const scrollAmount = 200;
-
         container.scrollBy({
-
             left: direction === 'left' ? -scrollAmount : scrollAmount,
-
             behavior: 'smooth',
         });
     };
@@ -78,15 +72,11 @@ const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory }) => {
 
             {/* Bouton gauche */}
             {showLeft && (
-
                 <button
-
                     className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white p-2 shadow rounded-full"
-
                     onClick={() => scroll('left')}
                 >
                     <ChevronLeft className="w-5 h-5 text-gray-600" />
-
                 </button>
             )}
 
@@ -106,7 +96,7 @@ const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory }) => {
 
                             onClick={() => setActiveCategory(cat)}
 
-                            className={`whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium transition 
+                            className={`whitespace-nowrap px-4 py-2 rounded-full text-sm  transition 
 
                                 ${activeCategory === cat
 
@@ -144,24 +134,19 @@ const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory }) => {
 
 
 const GridLayoutProduct = () => {
-
     const dispatch = useDispatch();
-
     const cartItems = useSelector(state => state.cart.items);
 
     const [productData, setProductData] = useState([]);
-
     const [activeCategory, setActiveCategory] = useState('All');
-
     const [modalData, setModalData] = useState(null);
-
     const [owners, setOwners] = useState({});
 
     const addProductToCart = (item) => dispatch(addToCart(item));
-
     const openModal = (item) => setModalData(item);
-
     const closeModal = () => setModalData(null);
+
+
 
     useEffect(() => {
 
@@ -207,14 +192,11 @@ const GridLayoutProduct = () => {
     }, []);
 
 
-    const filteredItems = (activeCategory === 'All')
-
-        ? productData
-
-        : productData.filter(item => item.categorie_product === activeCategory);
+    const filteredItems = activeCategory === 'All'
+        ? productData.filter(item => parseInt(item?.quantity_product) !== 0)
+        : productData.filter(item => item.categorie_product === activeCategory && parseInt(item?.quantity_product) !== 0);
 
     return (
-
         <div className="p-4 space-y-4">
 
             <ScrollableCategoryButtons
@@ -247,7 +229,9 @@ const GridLayoutProduct = () => {
                                 <button
 
                                     onClick={() => {
+
                                         openModal(item)
+
                                         dispatch(addUser(owners[item.fournisseur]))
 
                                     }}
@@ -265,7 +249,7 @@ const GridLayoutProduct = () => {
 
                                 <div className="flex justify-between items-center mb-1">
 
-                                    {owner?.image && <OwnerAvatar owner={owner} />}
+                                    <OwnerAvatar owner={owner} />
 
                                     {item.quantity_product !== "1" && (
 
@@ -274,10 +258,8 @@ const GridLayoutProduct = () => {
 
                                 </div>
 
-                                <p className="text-sm text-center font-medium text-gray-800 truncate mb-1">
-
+                                <p className="text-sm text-center  text-gray-800 truncate mb-1">
                                     {item.description_product}
-
                                 </p>
 
                                 <div className="flex justify-between items-center">
@@ -287,31 +269,27 @@ const GridLayoutProduct = () => {
                                     <div className="flex gap-2">
 
                                         <button
-
                                             title="Ajouter au panier"
-
                                             onClick={() => {
-
                                                 addProductToCart(item);
-
-                                                dispatch(addMessageNotif(`Produit ${item?.code_reference} sélectionné le ${Date.now()}`))
+                                                dispatch(addMessageNotif(`Produit ${item?.code_reference} sélectionné le ${Date.now()}`));
                                             }}
-
-                                            className="cursor-pointer p-1 bg-green-100 rounded-full hover:bg-green-200 transition"
+                                            className="cursor-pointer p-1 rounded-full border border-green-200 bg-green-50 hover:bg-green-100 transition"
                                         >
-                                            🛒
+                                            <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
+                                            </svg>
+
                                         </button>
 
-                                        <button
 
-                                            title="Ajouter en cadeau"
-
-                                            onClick={() => alert(`Cadeau ajouté: ${item.description_product}`)}
-
-                                            className="cursor-pointer p-1 bg-yellow-100 rounded-full hover:bg-yellow-200 transition"
-                                        >
-                                            🎁
-                                        </button>
+                                        {/*<button*/}
+                                        {/*    title="Ajouter en cadeau"*/}
+                                        {/*    onClick={() => alert(`Cadeau ajouté: ${item.description_product}`)}*/}
+                                        {/*    className="cursor-pointer p-1 bg-yellow-100 rounded-full hover:bg-yellow-200 transition"*/}
+                                        {/*>*/}
+                                        {/*    🎁*/}
+                                        {/*</button>*/}
 
                                     </div>
 
@@ -319,43 +297,14 @@ const GridLayoutProduct = () => {
                             </div>
                         );
                     })}
+
                 </div>
             ) : (
                 <div className="text-center text-gray-500">Aucun produit disponible</div>
             )}
 
-            {modalData && (
+            <ProductModal isOpen={!!modalData} onClose={closeModal} dataProduct={modalData} />
 
-                <div
-
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm  sm:px-4"
-
-                    onClick={closeModal}
-
-                    role="dialog"
-
-                    aria-modal="true"
-
-                    data-modal-backdrop="static"
-                >
-                    <div
-                        onClick={(e) => e.stopPropagation()}
-
-                        className="w-full max-w-4xl bg-white dark:bg-gray-900 rounded-2xl shadow-xl  animate-fade-in-up"
-                    >
-                        <HorizontalCard
-
-                            item={modalData}
-                        >
-                            <GridSlideProduct
-                                srcs={[modalData.image_product]}
-                            />
-
-                        </HorizontalCard>
-
-                    </div>
-                </div>
-            )}
 
         </div>
     );
