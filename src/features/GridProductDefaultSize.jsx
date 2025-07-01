@@ -15,7 +15,7 @@ const GridProductDefault = ({data}) => {
 
     const currentUser = useSelector((state) => state.auth.user);
 
-    const [productData, setProductData] = useState(() => Array.isArray(data) ? data.filter((product, _) => product.quantity_product !== 0): []);
+    const [productData, setProductData] = useState([]);
 
     const [owners, setOwners] = useState({});
 
@@ -50,8 +50,14 @@ const GridProductDefault = ({data}) => {
 
     const closeModal = () => setModalData(null);
 
-    //update data
-    useEffect(() => {setProductData(data)}, [data])
+    useEffect(() => {
+        if (Array.isArray(data)) {
+            setProductData(data);
+        } else {
+            console.warn("Expected data to be an array, but got:", data);
+            setProductData([]); // or leave as-is
+        }
+    }, [data]);
 
     useEffect(() => {
 

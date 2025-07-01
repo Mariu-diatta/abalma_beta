@@ -56,7 +56,9 @@ const VertcalNavbar = ({ children }) => {
                 console.error("Erreur lors de la récupération des rooms :", error);
             }
         };
+
         fetchRooms();
+
     }, [currentUser?.id, dispatch]);
 
 
