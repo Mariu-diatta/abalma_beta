@@ -7,12 +7,12 @@ const GridSlideProduct = ({ srcs = [] }) => {
 
     const prevSlide = () => {
 
-        setCurrent((prev) => (prev === 0 ? srcs.length - 1 : prev - 1));
+        setCurrent((prev) => (prev === 0 ? (srcs.length - 1) : prev - 1));
     };
 
     const nextSlide = () => {
 
-        setCurrent((prev) => (prev === srcs.length - 1 ? 0 : prev + 1));
+        setCurrent((prev) => (prev === (srcs.length - 1) ? 0 : prev + 1));
     };
 
     if (!srcs.length) return null;

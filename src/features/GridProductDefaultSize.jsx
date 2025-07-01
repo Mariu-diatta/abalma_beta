@@ -10,13 +10,16 @@ import ProductModal from "../pages/ProductViewsDetails";
 const GridProductDefault = ({data}) => {
 
     const dispatch = useDispatch();
+
     const cartItems = useSelector((state) => state.cart.items);
+
     const currentUser = useSelector((state) => state.auth.user);
 
-    const [productData, setProductData] = useState(() => data.filter((product, _) => product.quantity_product!==0) || []);
-    const [owners, setOwners] = useState({});
-    const [modalData, setModalData] = useState(null);
+    const [productData, setProductData] = useState(() => Array.isArray(data) ? data.filter((product, _) => product.quantity_product !== 0): []);
 
+    const [owners, setOwners] = useState({});
+
+    const [modalData, setModalData] = useState(null);
 
     const addProductToCart = (product) => dispatch(addToCart(product));
 
@@ -25,15 +28,23 @@ const GridProductDefault = ({data}) => {
         if (!Array.isArray(productData) || productData.length === 0) return [];
 
         return productData.reduce((acc, product, idx) => {
+
             const colIndex = Math.floor(idx / 3);
+
             if (!acc[colIndex]) acc[colIndex] = [];
+
             acc[colIndex].push(product);
+
             return acc;
+
         }, []);
+
     }, [productData]);
 
     const openModal = (e, product) => {
+
         e.preventDefault();
+
         setModalData(product);
     };
 
@@ -43,7 +54,9 @@ const GridProductDefault = ({data}) => {
     useEffect(() => {setProductData(data)}, [data])
 
     useEffect(() => {
+
         const fetchProductsAndOwners = async () => {
+
             try {
                 const { data: products } = await api.get("produits/");
 
@@ -60,28 +73,37 @@ const GridProductDefault = ({data}) => {
 
                 // Récupère les données des fournisseurs
                 const responses = await Promise.all(
+
                     uniqueOwnerIds.map(id =>
+
                         api.get(`clients/${id}/`)
+
                             .then(res => ({ id, data: res.data }))
+
                             .catch(() => ({ id, data: null }))
                     )
                 );
 
                 // Crée une map { id: data } pour les fournisseurs valides
                 const ownerMap = responses.reduce((acc, { id, data }) => {
+
                     if (data) acc[id] = data;
+
                     return acc;
+
                 }, {});
 
                 // Met à jour l'état des fournisseurs
                 setOwners(ownerMap);
 
             } catch (error) {
+
                 console.error("Erreur lors du chargement des produits :", error);
             }
         };
 
         fetchProductsAndOwners();
+
     }, []);
 
 
@@ -103,14 +125,20 @@ const GridProductDefault = ({data}) => {
                                 const owner = owners[product.fournisseur];
 
                                 return (
+
                                     <div
+
                                         key={product.id}
+
                                         className={`rounded-lg p-1 transition transform hover:-translate-y-1 ${isInCart ? "opacity-50 pointer-events-none bg-gray-100" : "bg-white"
                                             }`}
                                     >
                                         <button
+
                                             type="button"
+
                                             className="relative w-full block rounded-lg overflow-hidden"
+
                                             onClick={(e) => {
 
                                                 dispatch(addUser(owners[product.fournisseur]))
@@ -118,11 +146,15 @@ const GridProductDefault = ({data}) => {
                                                 openModal(e, product);
 
                                             }}
+                                            uu
                                             aria-label={`Voir le produit ${product.description_product}`}
                                         >
                                             <img
+
                                                 src={product.image_product}
+
                                                 alt={`Produit ${product.description_product}`}
+
                                                 className="h-auto w-full rounded-lg transition duration-300 ease-in-out hover:brightness-75 hover:grayscale"
                                             />
 
@@ -134,8 +166,11 @@ const GridProductDefault = ({data}) => {
                                             
                                             {
                                                 product.quantity_product !== "1" && (
+
                                                     <span className="text-sm text-gray-700">
+
                                                         Quantité {product.quantity_product}
+
                                                     </span>
                                                 )
                                             }
@@ -159,15 +194,22 @@ const GridProductDefault = ({data}) => {
                                             <div className="flex gap-2">
 
                                                 <button
+
                                                     title="Ajouter au panier"
+
                                                     onClick={() => {
+
                                                         addProductToCart(product)
+
                                                         dispatch(addMessageNotif(`Produit ${product?.code_reference} crée le ${Date.now()}`))
                                                     }}
+
                                                     className="p-1 bg-green-100 rounded-full hover:bg-green-200"
                                                 >
                                                     <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+
                                                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
+
                                                     </svg>
 
                                                 </button>
@@ -204,7 +246,9 @@ const GridProductDefault = ({data}) => {
                         <button
                             onClick={() => dispatch(setCurrentNav("add_product")) }
                             title="Ajouter un nouveau produit"
-                            className="mt-5 flex items-center justify-center rounded-full border border-gray-300 h-50 w-50 bg-white hover:bg-gray-100 transition">
+                            className="mt-5 flex items-center justify-center rounded-full border border-gray-300 h-50 w-50 bg-white hover:bg-gray-100 transition"
+                        >
+
                         <svg
                             className="text-gray-800 dark:text-white"
                             xmlns="http://www.w3.org/2000/svg"
