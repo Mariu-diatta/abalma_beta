@@ -4,7 +4,7 @@ import {  useDispatch, useSelector } from 'react-redux';
 import api from '../services/Axios';
 import AttentionAlertMesage, { showMessage } from '../components/AlertMessage';
 import { setCurrentNav } from '../slices/navigateSlice';
-import { addToCart } from '../slices/cartSlice';
+//import { addToCart } from '../slices/cartSlice';
 import { addMessageNotif } from '../slices/chatSlice';
 
 
@@ -141,7 +141,7 @@ const UpdateProduct = () => {
 
             console.log("Produit créer ", resp_product?.data)
 
-            dispatch(addToCart({ ...resp_product?.data, methode: true }));
+            //dispatch(addToCart({ ...resp_product?.data, methode: true }));
 
             showMessage(dispatch, "Produit créé avec succès !");
 
@@ -190,9 +190,6 @@ const UpdateProduct = () => {
             }
         }
     };
-
-
-
 
     return (
         <section className="bg-white dark:bg-gray-900">
@@ -323,7 +320,7 @@ const UpdateProduct = () => {
                                 <option value="MEUBLES">Meubles</option>
                                 <option value="VEHICULES">Véhicules</option>
                                 <option value="FOURNITURES_SCOLAIRES">Fournitures scolaires</option>
-                                <option value="DIVERS">Autres / Divers</option>>
+                                <option value="DIVERS">Autres / Divers</option>
                                 <option value="HB">Habits</option>
                             </select>
                         </div>

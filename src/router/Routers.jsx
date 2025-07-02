@@ -26,6 +26,7 @@ import PrivacyPolicy from "../features/PrivacyPolicy";
 const routes = [
     {
         errorElement: <ErrorPage />,
+
         children: [
             { index: true, element: <Home /> },
             { path: "logIn", element: <LogIn /> },
@@ -38,22 +39,28 @@ const routes = [
 
             {
                 path: "user_profil",
+
                 element: (
+
                     <VerticalNavbar>
+
                         <ProfileCard/>
+
                     </VerticalNavbar>
                 )
             },
             {
-                element: <PersistLogIn />,
+                element: <ProtectedRoute/>,
 
                 children: [
 
                     {
-                        element: <ProtectedRoute />,
+                        element: <PersistLogIn/>,
 
                         children: [
+
                             { path: "account", element: <AuthPage /> },
+
                             { path: "payment", element: <Payment /> },
                         ]
                     }
