@@ -152,12 +152,14 @@ const VertcalNavbar = ({ children }) => {
                 setSidebarOpen(false);
             }
         };
+
         if (isSidebarOpen) {
 
             document.addEventListener("mousedown", handleClickOutside);
 
             return () => document.removeEventListener("mousedown", handleClickOutside);
         }
+
     }, [isSidebarOpen]);
 
 
@@ -305,7 +307,7 @@ const VertcalNavbar = ({ children }) => {
                     </ul>
 
                     {
-                        !currentUser?.is_pro &&
+                        (!currentUser?.is_pro ) &&
                         <ul className="pt-4 mt-4 space-y-2  border-t border-gray-200 dark:border-gray-700 cursor-pointer">
 
                             <li>
@@ -332,7 +334,9 @@ const VertcalNavbar = ({ children }) => {
                             <li key={index}>
 
                                 <div className="flex items-center p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+
                                     {svg}
+
                                     {to ? (
                                         <button
                                             type="button"
@@ -349,11 +353,18 @@ const VertcalNavbar = ({ children }) => {
                                                     : 'border-b-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
                                                 } focus:outline-none`}
                                         >
+
                                             {name}
+
                                         </button>
-                                    ) : (
-                                        <span className="ml-3">{name}</span>
+                                    )
+                                    :
+                                    (
+                                        <span className="ml-3">
+                                            {name}
+                                        </span>
                                     )}
+
                                 </div>
                             </li>
 

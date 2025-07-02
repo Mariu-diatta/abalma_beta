@@ -134,6 +134,7 @@ const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory }) => {
 
 
 const GridLayoutProduct = () => {
+
     const dispatch = useDispatch();
     const cartItems = useSelector(state => state.cart.items);
 
@@ -145,8 +146,6 @@ const GridLayoutProduct = () => {
     const addProductToCart = (item) => dispatch(addToCart(item));
     const openModal = (item) => setModalData(item);
     const closeModal = () => setModalData(null);
-
-
 
     useEffect(() => {
 
@@ -304,7 +303,6 @@ const GridLayoutProduct = () => {
             )}
 
             <ProductModal isOpen={!!modalData} onClose={closeModal} dataProduct={modalData} />
-
 
         </div>
     );
