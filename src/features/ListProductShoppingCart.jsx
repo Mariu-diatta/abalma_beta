@@ -113,7 +113,7 @@ const ListProductShoppingCart = () => {
                     {data.items.map(({ id, description_product, categorie_product, image_product, price_product, quantity_product, quanttity_product_sold }) => (
 
                         <tr key={id}
-                            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
+                            className=" dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
 
                             style={{
                                 backgroundColor: "var(--color-bg)",
@@ -136,47 +136,58 @@ const ListProductShoppingCart = () => {
 
                             </td>
 
-                            <td className="px-6 py-4  text-gray-900 dark:text-white">{description_product}</td>
+                            <td className="px-6 py-4  ">{description_product}</td>
 
-                            <td className="px-6 py-4  text-gray-900 dark:text-white">{categorie_product}</td>
+                            <td className="px-6 py-4  ">{categorie_product}</td>
 
                             <td className="px-6 py-4">
 
                                 <div className="flex items-center">
 
-                                    <button onClick={() => handleDecreaseQuantity({ id })} className="cursor-pointer inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600">
+                                    <button onClick={() => handleDecreaseQuantity({ id })} className="cursor-pointer inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 border border-gray-300 rounded-full dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600">
 
                                         <svg className="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2"><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h16" /></svg>
 
                                     </button>
 
-                                    <input type="number" value={quanttity_product_sold} readOnly className={`${max_value({ quantity_product, quanttity_product_sold }) ? "bg-gray-50" : "bg-red-100"}  w-14 border text-sm rounded-lg block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:text-white `} />
+                                    <input type="number" value={quanttity_product_sold} readOnly className={`${max_value({ quantity_product, quanttity_product_sold }) ? "" : "bg-red-100"}  w-14 border text-sm rounded-lg block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:text-white `} />
 
                                     <button
-                                        onClick={() => handleIncreaseQuantity({ id, quantity_product, quanttity_product_sold })} className="cursor-pointer inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600">
+
+                                        onClick={() => handleIncreaseQuantity({ id, quantity_product, quanttity_product_sold })} className="cursor-pointer inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500  border border-gray-300 rounded-full dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600">
+
                                         <svg className="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18"><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 1v16M1 9h16" /></svg>
+
                                     </button>
 
                                 </div>
 
                             </td>
 
-                            <td className="px-6 py-4  text-gray-900 dark:text-white">
+                            <td className="px-6 py-4">
+
                                 ${!isNaN(Number(price_product)) ? Number(price_product).toFixed(2) : "0.00"}
+
                             </td>
 
-                            <td className="px-6 py-4 text-gray-900 dark:text-white">
+                            <td className="px-6 py-4 ">
+
                                 ${(!isNaN(Number(price_product)) && !isNaN(Number(quanttity_product_sold)) ? (Number(price_product) * Number(quanttity_product_sold)).toFixed(2) : "0.00")}
+
                             </td>
 
                             <td className="px-6 py-4">
 
                                 <button
-                                    onClick={() => dispatch(removeFromCart({ id}))}
-                                    className="font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer"
+
+                                    onClick={() => dispatch(removeFromCart({ id }))}
+
+                                    className="font-medium  hover:underline cursor-pointer"
                                 >
-                                    <svg className="w-[25px] h-[20px] text-gray-800 boder-red-200 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <svg className="w-[25px] h-[20px] text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+
                                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
+
                                     </svg>
 
                                 </button>
@@ -190,7 +201,7 @@ const ListProductShoppingCart = () => {
 
                 <tfoot>
 
-                    <tr className="  style-bg">
+                    <tr className="style-bg">
 
                         <td colSpan="4" className="text-right px-6 py-3 font-bold">Total</td>
 

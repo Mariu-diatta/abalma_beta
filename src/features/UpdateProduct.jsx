@@ -199,7 +199,7 @@ const UpdateProduct = () => {
 
             <div className="max-w-2xl px-4 py-8 mx-auto lg:py-16" >
 
-                <h2 className="text-2xl font-extrabold text-gray-900 dark:text-white mb-4">
+                <h2 className="text-2xl font-extrabold  mb-4">
                     Ajouter / Modifier un produit
                 </h2>
 
@@ -209,7 +209,7 @@ const UpdateProduct = () => {
 
                         <div className="w-full">
 
-                            <label htmlFor="code_reference" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            <label htmlFor="code_reference" className="block mb-2 text-sm font-medium ">
 
                                 Code Référence
 
@@ -234,7 +234,7 @@ const UpdateProduct = () => {
 
                             <div>
 
-                                <label htmlFor="color_product" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Couleur produit</label>
+                                <label htmlFor="color_product" className="block mb-2 text-sm font-medium ">Couleur produit</label>
 
                                 <input
                                     type="text"
@@ -253,7 +253,7 @@ const UpdateProduct = () => {
 
                         <div className="w-full">
 
-                            <label htmlFor="Currency_price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choisir la monnaie defaul Francs</label>
+                            <label htmlFor="Currency_price" className="block mb-2 text-sm font-medium ">Choisir la monnaie defaul Francs</label>
 
                             <select
                                 id="Currency_price"
@@ -273,7 +273,7 @@ const UpdateProduct = () => {
                         <div className="w-full">
                             <div>
 
-                                <label htmlFor="price_product" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                <label htmlFor="price_product" className="block mb-2 text-sm font-medium ">
                                     Prix du produit
                                     <span className="text-red-500">*</span>
                                 </label>
@@ -295,7 +295,7 @@ const UpdateProduct = () => {
 
                         <div className="w-full">
 
-                            <label htmlFor="categorie_product" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            <label htmlFor="categorie_product" className="block mb-2 text-sm font-medium ">
                                 Catégorie
                                 <span className="text-red-500">*</span>
                             </label>
@@ -330,7 +330,7 @@ const UpdateProduct = () => {
 
                         <div className="w-full">
 
-                            <label htmlFor="operation_product" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            <label htmlFor="operation_product" className="block mb-2 text-sm font-medium">
                                 Type d'opération
                                 <span className="text-red-500">*</span>
                             </label>
@@ -357,7 +357,7 @@ const UpdateProduct = () => {
                         {isLoanOptionSelected && (
                             <>
                                 <div>
-                                    <label htmlFor="date_emprunt" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    <label htmlFor="date_emprunt" className="block mb-2 text-sm font-medium ">
                                         Date de début d'emprunt
                                     </label>
                                     <input
@@ -371,7 +371,7 @@ const UpdateProduct = () => {
                                 </div>
 
                                 <div>
-                                    <label htmlFor="date_fin_emprunt" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    <label htmlFor="date_fin_emprunt" className="block mb-2 text-sm font-medium ">
                                         Date de fin d'emprunt
                                     </label>
                                     <input
@@ -387,7 +387,7 @@ const UpdateProduct = () => {
                         )}
 
                         <div className="sm:col-span-2 hidden">
-                            <label htmlFor="fournisseur" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fournisseur</label>
+                            <label htmlFor="fournisseur" className="block mb-2 text-sm font-medium ">Fournisseur</label>
                             <input
                                 type="text"
                                 id="fournisseur"
@@ -401,7 +401,7 @@ const UpdateProduct = () => {
 
                         <div className="sm:col-span-2">
 
-                            <label htmlFor="description_product" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            <label htmlFor="description_product" className="block mb-2 text-sm font-medium ">
                                 Description
                                 <span className="text-red-500">*</span>
                             </label>
@@ -412,7 +412,7 @@ const UpdateProduct = () => {
                                 value={dataProduct.description_product}
                                 onChange={onChangeClick}
                                 rows="6"
-                                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg "
                                 placeholder="Description du produit..."
                                 required
                             />
@@ -421,7 +421,7 @@ const UpdateProduct = () => {
 
                         <div className="w-full">
 
-                            <label htmlFor="image_product" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            <label htmlFor="image_product" className="block mb-2 text-sm font-medium ">
                                 Image du produit
                                 <span className="text-red-500">*</span>
                             </label>
@@ -440,7 +440,7 @@ const UpdateProduct = () => {
                             {/* Taille produit */}
                             <div>
 
-                                <label htmlFor="taille_product" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                <label htmlFor="taille_product" className="block mb-2 text-sm font-medium ">
                                     Taille du produit (default moyen)
                                 </label>
 
@@ -463,7 +463,7 @@ const UpdateProduct = () => {
                             {/* Quantité */}
                             <div>
 
-                                <label htmlFor="quantity_product" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                <label htmlFor="quantity_product" className="block mb-2 text-sm font-medium ">
                                     Quantité (default 1)
                                 </label>
 

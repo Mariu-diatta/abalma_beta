@@ -128,7 +128,7 @@ const OwnerPopover = ({ owner, onClose }) => {
     return (
         <div
             ref={ref}
-            className="absolute left-0 mt-3 w-auto p-3 rounded-xl border border-gray-200 bg-white p-1 shadow-xl z-100 animate-fade-in"
+            className="absolute left-0 mt-3 w-auto p-3 rounded-xl border border-gray-200 opacity-100 z-20 p-1 shadow-xl z-100 animate-fade-in"
         >
             <div className="flex items-center gap-3 ">
                 <img
@@ -142,7 +142,7 @@ const OwnerPopover = ({ owner, onClose }) => {
                 </div>
             </div>
 
-            <div className="flex gap-1 z-100 w-50">
+            <div className="flex gap-1 z-100 w-50 style-bg">
 
                 {/* Voir le profil */}
                 <button

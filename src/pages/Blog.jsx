@@ -2,10 +2,14 @@ import React from 'react';
 import HomeLayout from '../layouts/HomeLayout';
 
 const BlogPage = () => {
+
     return (
+
         <HomeLayout>
-            <section className="mt-5 bg-white dark:bg-gray-900">
-                <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+
+            <section className="mt-5     dark:bg-gray-900">
+
+                <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6 style-bg">
 
                     <div className="mx-auto max-w-screen-sm text-center lg:mb-16 mb-8">
                         <h2 className="mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Our Blog</h2>
@@ -14,7 +18,7 @@ const BlogPage = () => {
 
                     <div className="grid gap-8 lg:grid-cols-2">
 
-                        <article className="p-6 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+                        <article className="p-6  rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
 
                             <div className="flex justify-between items-center mb-5 text-gray-500">
                                 <span className="bg-primary-100 text-primary-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-primary-200 dark:text-primary-800">
@@ -52,7 +56,7 @@ const BlogPage = () => {
 
                         </article>
 
-                        <article className="p-6 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+                        <article className="p-6  rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
 
                             <div className="flex justify-between items-center mb-5 text-gray-500">
                                 <span className="bg-primary-100 text-primary-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-primary-200 dark:text-primary-800">
@@ -89,8 +93,11 @@ const BlogPage = () => {
                             </div>
                         </article>
                     </div>
+
                 </div>
+
             </section>
+
         </HomeLayout>
     );
 };

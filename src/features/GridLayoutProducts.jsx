@@ -102,7 +102,7 @@ const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory }) => {
 
                                     ? 'bg-blue-700 text-white'
 
-                                    : 'bg-white text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white'
+                                    : 'text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white'
 
                                 }`}
                         >
@@ -196,8 +196,10 @@ const GridLayoutProduct = () => {
         : productData.filter(item => item.categorie_product === activeCategory && parseInt(item?.quantity_product) !== 0);
 
     return (
+
         <div
             className="p-4 space-y-4 dark:bg-gray-900 dark:text-white"
+
             style={{
                 backgroundColor: "var(--color-bg)",
                 color: "var(--color-text)"
@@ -213,10 +215,17 @@ const GridLayoutProduct = () => {
 
             {filteredItems.length > 0 ? (
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 " style={{
-                    backgroundColor: "var(--color-bg)",
-                    color: "var(--color-text)"
-                }}>
+                <div
+                    className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 "
+
+                    style={
+                        {
+
+                            backgroundColor: "var(--color-bg)",
+                            color: "var(--color-text)"
+                        }
+                    }
+                >
 
                     {filteredItems.map(item => {
 
@@ -235,7 +244,9 @@ const GridLayoutProduct = () => {
                                 ${isInCart ? 'opacity-50 pointer-events-none bg-gray-100' : 'bg-white'}`}
 
                                 style={{
+
                                     backgroundColor: "var(--color-bg)",
+
                                     color: "var(--color-text)"
                                 }}
                             >
@@ -271,8 +282,10 @@ const GridLayoutProduct = () => {
 
                                 </div>
 
-                                <p className="text-sm text-center  text-gray-800 truncate mb-1">
+                                <p className="text-sm text-center  truncate mb-1">
+
                                     {item.description_product}
+
                                 </p>
 
                                 <div className="flex justify-between items-center">
@@ -282,19 +295,25 @@ const GridLayoutProduct = () => {
                                     <div className="flex gap-2">
 
                                         <button
+
                                             title="Ajouter au panier"
+
                                             onClick={() => {
+
                                                 addProductToCart(item);
+
                                                 dispatch(addMessageNotif(`Produit ${item?.code_reference} sélectionné le ${Date.now()}`));
                                             }}
-                                            className="cursor-pointer p-1 rounded-full border border-green-200 bg-green-50 hover:bg-green-100 transition"
+
+                                            className="cursor-pointer p-1 rounded-full  hover:bg-green-100 transition"
                                         >
                                             <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+
                                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
+
                                             </svg>
 
                                         </button>
-
 
                                         {/*<button*/}
                                         {/*    title="Ajouter en cadeau"*/}

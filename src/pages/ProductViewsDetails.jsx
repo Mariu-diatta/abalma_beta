@@ -40,7 +40,7 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="relative z-40  " role="dialog" aria-modal="true">
+        <div className="relative z-40 " role="dialog" aria-modal="true">
 
             <div
                 className="fixed inset-0 bg-gray-500/75 transition-opacity md:block"
@@ -62,7 +62,7 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                 <button
                                     type="button"
                                     onClick={onClose}
-                                    className="z-0 flex items-center justify-center p-3  bg-white hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="z-0 flex items-center justify-center p-3  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 >
                                     <span className="sr-only">Close</span>
 
@@ -89,7 +89,7 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                 {!isProductAdd && <button
                                     onClick={(e) => handleAddToCart_(e)}
                                     title="Ajouter au panier"
-                                    className="flex items-center justify-center p-3 rounded-full bg-white hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="flex items-center justify-center p-3 rounded-full  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     aria-label="Ajouter au panier"
                                 >
                                     🛒
