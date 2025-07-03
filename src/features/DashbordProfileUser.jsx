@@ -66,15 +66,15 @@ const Tabs = () => {
 
         dashboard: (
 
-            <div className="p-2 space-y-6 max-w-7xl mx-auto">
+            <div className="p-2 space-y-6 max-w-7xl mx-auto style_bg style-bg">
 
-                <div className="mb-6 text-center">
+                <div className="mb-6 text-center style_bg">
 
-                    <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white">
+                    <h1 className="style_bg text-4xl font-extrabold text-gray-400 dark:text-white">
                         Bienvenue sur votre tableau de bord !
                     </h1>
 
-                    <p className="mt-2 text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+                    <p className="mt-2 text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto style_bg">
                         Gérez vos produits, suivez vos activités et accédez rapidement aux informations essentielles pour optimiser votre expérience.
                     </p>
 
@@ -114,55 +114,52 @@ const Tabs = () => {
 
     return (
 
-        <div className="h-full w-full bg-gray-100 dark:bg-gray-900 px-1 py-1">
+        <div className="h-full w-full bg-gray-100 dark:bg-gray-900 px-1 py-1 style_bg">
 
-            <div className="">
 
-                {/* Tabs Navigation */}
-                <nav className="mb-4 border-b border-gray-200 dark:border-gray-700" role="tablist" aria-label="Main tabs">
+            {/* Tabs Navigation */}
+            <nav className="mb-4 border-0 border-gray-200 dark:border-gray-700 style_bg" role="tablist" aria-label="Main tabs">
 
-                    <ul className="flex space-x-2 overflow-x-auto text-sm font-medium text-center">
+                <ul className="flex space-x-2 overflow-x-auto text-sm font-medium text-center style_bg">
 
-                        {
-                            tabs.map((tab) => (
+                    {
+                        tabs.map((tab) => (
 
-                                <li key={tab.id} role="presentation">
+                            <li key={tab.id} role="presentation">
 
-                                    <button
-                                        type="button"
-                                        role="tab"
-                                        aria-selected={activeTab === tab.id}
-                                        aria-controls={`${tab.id}-tab`}
-                                        id={`${tab.id}-tab-button`}
-                                        onClick={() => setActiveTab(tab.id)}
-                                        className={`inline-block px-4 py-3 rounded-t-md transition-colors duration-300 cursor-pointer ${activeTab === tab.id
-                                            ? 'border-b-purple-600 text-purple-600 border-b-2 dark:border-b-purple-500 dark:text-purple-500'
-                                                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
-                                            } focus:outline-none `}
-                                    >
-                                        {tab.label}
+                                <button
+                                    type="button"
+                                    role="tab"
+                                    aria-selected={activeTab === tab.id}
+                                    aria-controls={`${tab.id}-tab`}
+                                    id={`${tab.id}-tab-button`}
+                                    onClick={() => setActiveTab(tab.id)}
+                                    className={`inline-block px-4 py-3 rounded-t-md transition-colors duration-300 cursor-pointer ${activeTab === tab.id
+                                        ? 'border-b-purple-600 text-purple-600 border-b-2 dark:border-b-purple-500 dark:text-purple-500'
+                                            : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
+                                        } focus:outline-none `}
+                                >
+                                    {tab.label}
 
-                                    </button>
+                                </button>
 
-                                </li>
-                            ))
-                        }
-                    </ul>
+                            </li>
+                        ))
+                    }
+                </ul>
 
-                </nav>
+            </nav>
 
-                {/* Tab Content */}
-                <section
-                    id={`${activeTab}-tab`}
-                    role="tabpanel"
-                    aria-labelledby={`${activeTab}-tab-button`}
-                    className="bg-white dark:bg-gray-800 rounded-lg  min-h-auto overflow-auto"
-                >
-                    {tabContent[activeTab]}
+            {/* Tab Content */}
+            <section
+                id={`${activeTab}-tab`}
+                role="tabpanel"
+                aria-labelledby={`${activeTab}-tab-button`}
+                className="style_bg bg-white dark:bg-gray-800 rounded-lg  min-h-auto overflow-auto"
+            >
+                {tabContent[activeTab]}
 
-                </section>
-
-            </div>
+            </section>
 
         </div>
     );

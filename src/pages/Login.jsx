@@ -3,16 +3,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import HomeLayout from '../layouts/HomeLayout';
 import { useNavigate } from 'react-router-dom';
 import InputBox from '../components/InputBoxFloat';
-import { signInWithGoogle, signInWithFacebook, signInWithTwitter } from '../firebase';
-
+//import { signInWithGoogle, signInWithFacebook, signInWithTwitter } from '../firebase';
+//getFirebaseToken, 
 import api from '../services/Axios';
-import { login, getFirebaseToken, updateUserData, updateUserToken } from '../slices/authSlice';
+import { login, updateUserData, updateUserToken } from '../slices/authSlice';
 import AttentionAlertMesage, { showMessage } from '../components/AlertMessage';
 
 // Fonction de login avec l'API
 const loginClient = async (data, dispatch) => {
 
     try {
+
+
+        localStorage.removeItem("refresh");
+
+        localStorage.removeItem("token");
+
         const response = await api.post('login/', data, {
 
             headers: {
@@ -64,43 +70,43 @@ const Signin = () => {
 
     }, [])
 
-    const handleGoogleLogin = async () => {
+    //const handleGoogleLogin = async () => {
 
-        try {
+    //    try {
 
-            const user = await signInWithGoogle();
+    //        const user = await signInWithGoogle();
 
-            dispatch(login(user));
+    //        dispatch(login(user));
 
-            dispatch(getFirebaseToken(user?.accessToken));
+    //        dispatch(getFirebaseToken(user?.accessToken));
 
-            navigate("/account", { replace: true });
+    //        navigate("/account", { replace: true });
 
-        } catch (error) {
+    //    } catch (error) {
 
-            showMessage(dispatch, "Erreur de connexion Google");
-        }
-    };
+    //        showMessage(dispatch, "Erreur de connexion Google");
+    //    }
+    //};
 
-    const handleTwitter = async () => {
-        try {
-            const user = await signInWithTwitter();
-            dispatch(login(user));
-            navigate("/account", { replace: true });
-        } catch (error) {
-            showMessage(dispatch, "Erreur de connexion Twitter");
-        }
-    };
+    //const handleTwitter = async () => {
+    //    try {
+    //        const user = await signInWithTwitter();
+    //        dispatch(login(user));
+    //        navigate("/account", { replace: true });
+    //    } catch (error) {
+    //        showMessage(dispatch, "Erreur de connexion Twitter");
+    //    }
+    //};
 
-    const handleFacebookLogin = async () => {
-        try {
-            const user = await signInWithFacebook();
-            dispatch(login(user));
-            navigate("/account", { replace: true });
-        } catch (error) {
-            showMessage(dispatch, "Erreur de connexion Facebook");
-        }
-    };
+    //const handleFacebookLogin = async () => {
+    //    try {
+    //        const user = await signInWithFacebook();
+    //        dispatch(login(user));
+    //        navigate("/account", { replace: true });
+    //    } catch (error) {
+    //        showMessage(dispatch, "Erreur de connexion Facebook");
+    //    }
+    //};
 
     const handleSignIn = async () => {
 
@@ -168,7 +174,10 @@ const Signin = () => {
 
                     <div className="w-full px-4">
 
-                        <div className="relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white px-10 py-16 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]">
+                        <div style={{
+                            backgroundColor: "var(--color-bg)",
+                            color: "var(--color-text)"
+                        }} className="relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white px-10 py-16 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]">
 
                             <h1 className="mb-10 text-2xl font-bold text-dark dark:text-white">
                                 Connectez-vous!
@@ -205,38 +214,38 @@ const Signin = () => {
 
                             </form>
 
-                            <p className="mb-6 text-base text-secondary-color dark:text-dark-7">
-                                Connect With
-                            </p>
+                            {/*<p className="mb-6 text-base text-secondary-color dark:text-dark-7">*/}
+                            {/*    Connect With*/}
+                            {/*</p>*/}
 
-                            <ul className="-mx-2 mb-12 flex justify-between">
-                                <li className="w-full px-2">
+                            {/*<ul className="-mx-2 mb-12 flex justify-between">*/}
+                            {/*    <li className="w-full px-2">*/}
 
-                                    <button
-                                        onClick={handleFacebookLogin}
-                                        className="flex h-11 w-full items-center justify-center rounded-md bg-[#4064AC] hover:bg-opacity-90">
-                                        {/* Facebook SVG */}
-                                    </button>
+                            {/*        <button*/}
+                            {/*            onClick={handleFacebookLogin}*/}
+                            {/*            className="flex h-11 w-full items-center justify-center rounded-md bg-[#4064AC] hover:bg-opacity-90">*/}
+                            {/*            */}{/* Facebook SVG */}
+                            {/*        </button>*/}
 
-                                </li>
+                            {/*    </li>*/}
 
-                                <li className="w-full px-2">
-                                    <button
-                                        onClick={handleTwitter}
-                                        className="flex h-11 w-full items-center justify-center rounded-md bg-[#1C9CEA] hover:bg-opacity-90">
-                                        {/* Twitter SVG */}
-                                    </button>
-                                </li>
+                            {/*    <li className="w-full px-2">*/}
+                            {/*        <button*/}
+                            {/*            onClick={handleTwitter}*/}
+                            {/*            className="flex h-11 w-full items-center justify-center rounded-md bg-[#1C9CEA] hover:bg-opacity-90">*/}
+                            {/*            */}{/* Twitter SVG */}
+                            {/*        </button>*/}
+                            {/*    </li>*/}
 
-                                <li className="w-full px-2">
-                                    <button
-                                        onClick={handleGoogleLogin}
-                                        className="flex h-11 w-full items-center justify-center rounded-md bg-[#D64937] hover:bg-opacity-90">
-                                        {/* Google SVG */}
-                                    </button>
-                                </li>
+                            {/*    <li className="w-full px-2">*/}
+                            {/*        <button*/}
+                            {/*            onClick={handleGoogleLogin}*/}
+                            {/*            className="flex h-11 w-full items-center justify-center rounded-md bg-[#D64937] hover:bg-opacity-90">*/}
+                            {/*            */}{/* Google SVG */}
+                            {/*        </button>*/}
+                            {/*    </li>*/}
 
-                            </ul>
+                            {/*</ul>*/}
 
                             <a href="/#" className="mb-2 inline-block text-base text-dark hover:text-primary hover:underline dark:text-white">
                                 Mot de passe oublié ?

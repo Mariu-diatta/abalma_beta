@@ -48,3 +48,51 @@
 .scrollbor_hidden_ {
     scrollbar-width: none !important;
 }
+
+/*body.light {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+}
+
+body.dark {
+    --bg-color: #000000;
+    --text-color: #ffffff!important;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+*/
+/* styles.css */
+
+body.light {
+    --color-bg: #ffffff;
+    --color-text: #000000;
+    --color-primary: #6200ee;
+    --color-code: #444444; /* Gris foncé pour le code en mode clair */
+}
+
+body.dark {
+    --color-bg: #121212;
+    --color-text: #e0e0e0; /* Gris clair pour le texte principal en dark */
+    --color-primary: #bb86fc;
+    --color-code: #ffffff !important; /* Blanc pour le code en mode dark */
+}
+
+body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+a, span, ul, nav, div, button, svg, style_bg {
+    color: var(--color-text);
+}
+
+body .style_bg{
+    background-color: var(--color-bg);
+}
+
+
+

@@ -127,6 +127,10 @@ const GridProductDefault = ({ data }) => {
                                 <div
                                     key={product.id}
                                     className={`rounded-lg p-1 transition transform hover:-translate-y-1 ${isInCart ? "opacity-50 pointer-events-none bg-gray-100" : "bg-white"}`}
+                                    style={{
+                                        backgroundColor: "var(--color-bg)",
+                                        color: "var(--color-text)"
+                                    }}
                                 >
                                     <button
                                         type="button"

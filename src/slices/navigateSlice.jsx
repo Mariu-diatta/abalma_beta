@@ -7,7 +7,9 @@ const initialState = {
 
     currentNav: 'home',
 
-    messageAlert:null
+    messageAlert: null,
+
+    theme:'light'
 };
 
 const navigateSlice = createSlice({
@@ -38,10 +40,15 @@ const navigateSlice = createSlice({
         clearMessage: (state) => {
 
             state.messageAlert = null;
-        }
+        },
+
+        updateTheme: (state, action) => {
+
+            state.theme = action.payload;
+        },
     }
 });
 
-export const { clearMessage, setCurrentMessage, setPreviousNav, setCurrentNav } = navigateSlice.actions;
+export const { clearMessage, setCurrentMessage, setPreviousNav, setCurrentNav, updateTheme } = navigateSlice.actions; 
 
 export default navigateSlice.reducer;

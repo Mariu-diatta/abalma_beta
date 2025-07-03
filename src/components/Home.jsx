@@ -6,7 +6,7 @@ const HomeContain = () => {
     return (
         <>
 
-            <div className="m-5 relative bg-white pb-[110px] pt-[120px] dark:bg-dark lg:pt-[150px] ">
+            <div className="m-5 relative pb-[110px] pt-[120px] dark:bg-dark lg:pt-[150px] style-bg">
 
                 <div className="container">
                     <div className="-mx-4 flex flex-wrap">

@@ -200,7 +200,7 @@ const VertcalNavbar = ({ children }) => {
 
     return (
 
-        < >
+        <>
 
             {/* Toggle Button */}
             <button
@@ -230,7 +230,10 @@ const VertcalNavbar = ({ children }) => {
 
                 aria-label="Sidebar"
             >
-                <div className="scrollbor_hidden h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 ">
+                <div className="scrollbor_hidden h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 " style={{
+                    backgroundColor: "var(--color-bg)",
+                    color: "var(--color-text)"
+                }}>
 
                     <ul className="space-y-2 ">
 
@@ -319,7 +322,7 @@ const VertcalNavbar = ({ children }) => {
 
                                     </svg>
 
-                                    <span className="ms-3" onClick={()=>alert("SERVICE PAS ENCORE DISPONIBLE") }>Upgrade to Pro</span>
+                                    <span className="ms-3 " onClick={()=>alert("SERVICE PAS ENCORE DISPONIBLE") }>Upgrade to Pro</span>
 
                                 </span>
                             </li>
@@ -327,7 +330,14 @@ const VertcalNavbar = ({ children }) => {
                         </ul>
                     }
 
-                    <ul className="scrollbor_hidden h-full lg:h-[300px] py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800  mt-1 space-y-1  border-t border-gray-200 dark:border-gray-700">
+                    <ul
+                        className="scrollbor_hidden h-full lg:h-[300px] py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800  mt-1 space-y-1  border-t border-gray-200 dark:border-gray-700"
+
+                        style={{
+                            backgroundColor: "var(--color-bg)",
+                            color: "var(--color-text)"
+                        }}
+                    >
 
                         {menuItems.map(({ name, to, svg, id }, index) => (
 
@@ -406,9 +416,19 @@ const VertcalNavbar = ({ children }) => {
                 </div>
             </aside>
 
-            <div className="p-0 m-0  sm:ml-64 h-full">
+            <div className="p-0 m-0  sm:ml-64 h-full" style={{
+                backgroundColor: "var(--color-bg)",
+                color: "var(--color-text)"
+            }}>
 
-                <div className="p-0 m-0 border-2 border-white-200 border-white rounded-lg dark:border-gray-700  h-full">
+                <div
+                    className="p-0 m-0 border-0  border-white rounded-lg dark:border-gray-700  h-full"
+
+                    style={{
+                        backgroundColor: "var(--color-bg)",
+                        color: "var(--color-text)"
+                    }}
+                >
 
                     <div className="grid  gap-0 ">
        
@@ -431,10 +451,13 @@ const VertcalNavbar = ({ children }) => {
 
                         className="bg-white dark:bg-gray-800 rounded-lg w-auto h-full"
 
+                        style={{
+                            backgroundColor: "var(--color-bg)",
+                            color: "var(--color-text)"
+                        }}
+
                     >
                         {tabContent[currentNav]}  
-
-                  
 
                     </section>
                     

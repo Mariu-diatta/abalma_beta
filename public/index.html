@@ -24,6 +24,18 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Abalma</title>
+
+    <script>
+        window.addEventListener("DOMContentLoaded", () => {
+            const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+            const saved = localStorage.getItem("theme");
+            const theme = saved || (prefersDark ? "dark" : "light");
+
+            // ✅ Maintenant, document.body est bien disponible
+            document.body.classList.add(theme);
+        });
+    </script>
+
 </head>
 <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

@@ -62,7 +62,14 @@ const ListProductShoppingCart = () => {
 
 
     return (
-        <div className="mb-2 relative overflow-x-auto shadow-md sm:rounded-lg">
+        <div
+            className="style_bg mb-2 relative overflow-x-auto shadow-md sm:rounded-lg style-bg"
+
+            style={{
+                backgroundColor: "var(--color-bg)",
+                color: "var(--color-text)"
+            }}
+        >
 
             <nav className="flex flex-row items-center gap-2 ">
 
@@ -76,9 +83,18 @@ const ListProductShoppingCart = () => {
 
             </nav>
 
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <table
+                className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                style={{
+                    backgroundColor: "var(--color-bg)",
+                    color: "var(--color-text)"
+                }}
+            >
 
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400" style={{
+                    backgroundColor: "var(--color-bg)",
+                    color: "var(--color-text)"
+                }}>
 
                     <tr>
                         <th scope="col" className="px-16 py-3"><span className="sr-only">Image</span></th>
@@ -96,7 +112,14 @@ const ListProductShoppingCart = () => {
 
                     {data.items.map(({ id, description_product, categorie_product, image_product, price_product, quantity_product, quanttity_product_sold }) => (
 
-                        <tr key={id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <tr key={id}
+                            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
+
+                            style={{
+                                backgroundColor: "var(--color-bg)",
+                                color: "var(--color-text)"
+                            }}
+                        >
 
                             <td className="p-1">
 
@@ -167,11 +190,11 @@ const ListProductShoppingCart = () => {
 
                 <tfoot>
 
-                    <tr className="bg-gray-100 dark:bg-gray-700">
+                    <tr className="  style-bg">
 
                         <td colSpan="4" className="text-right px-6 py-3 font-bold">Total</td>
 
-                        <td className="px-6 py-3 font-bold text-gray-900 dark:text-white">
+                        <td className="px-6 py-3 font-bold text-white-900 dark:text-white">
                             ${!isNaN(grandTotal) ? grandTotal.toFixed(2) : "0.00"}
                         </td>
 
@@ -198,7 +221,7 @@ const BuyButtonWithPaymentForm = ({ total_price }) => {
 
     return (
 
-        <div className="text-right p-4">
+        <div className="text-right p-4 ">
 
             {
                 (parseInt(total_price) !== 0) &&
@@ -217,11 +240,11 @@ const BuyButtonWithPaymentForm = ({ total_price }) => {
 
             {showPaymentForm && parseInt(total_price)!==0 && (
 
-                <div className="backdrop-blur-sm fixed inset-0 z-50 bg-gray-100 bg-transparent  bg-opacity-100 flex items-center justify-center" onClick={() => setShowPaymentForm(false)}>
+                <div className="backdrop-blur-sm fixed inset-0 z-50 bg-gray-100 bg-transparent  bg-opacity-100 flex items-center justify-center style-bg" onClick={() => setShowPaymentForm(false)}>
 
-                    <div className=" bg-white rounded-lg p-6 w-full max-w-xl shadow-xl" onClick={(e) => e.stopPropagation()}>
+                    <div className=" rounded-lg p-6 w-full max-w-xl shadow-xl " onClick={(e) => e.stopPropagation()}>
 
-                        <div className="flex justify-between items-center mb-4">
+                        <div className="flex justify-between items-center mb-4 style-bg">
 
                             <Logo />
 

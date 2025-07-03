@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
 import api from '../services/Axios';
+import { updateTheme } from '../slices/navigateSlice';
 
 
 const SettingsForm = () => {
@@ -24,7 +25,7 @@ const SettingsForm = () => {
     const currentUserData = useSelector((state) => state.auth.user);
     const currentUserCompte = useSelector((state) => state.auth.compteUser);
     const [cartData, setCartData] = useState({});
-
+    const dispatch = useDispatch()
 
     const tryRequest = async (requestFn, successMessage) => {
         try {
@@ -45,6 +46,8 @@ const SettingsForm = () => {
 
             [name]: type === 'checkbox' ? checked : value,
         }));
+
+        dispatch(updateTheme(value))
     };
 
     const handleImageUpload = (e) => {
@@ -146,9 +149,13 @@ const SettingsForm = () => {
 
 
     useEffect(() => {
+
         return () => {
+
             if (previewUrl) URL.revokeObjectURL(previewUrl);
+
         };
+
     }, [previewUrl]);
 
 
@@ -182,13 +189,13 @@ const SettingsForm = () => {
 
     return (
 
-        <div className="w-full flex flex-col lg:flex-row justify-center items-start gap-8 px-4 py-8">
+        <div className="w-full flex flex-col lg:flex-row justify-center items-start gap-8 px-4 py-8 style-bg">
 
             <form
 
                 onSubmit={(e)=>updatePassword(e)}
 
-                className="w-auto bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6"
+                className="w-auto  dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6"
             >
                 <h2 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">Paramètres du compte</h2>
 
@@ -266,7 +273,7 @@ const SettingsForm = () => {
 
                 onSubmit={(e)=>handleSubmit(e)}
 
-                className="w-auto bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6"
+                className="w-auto  dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6"
             >
                 {/* 🌙 Thème */}
                 <div className="flex flex-col sm:flex-row sm:items-center gap-4">
@@ -277,7 +284,7 @@ const SettingsForm = () => {
                         name="theme"
                         value={form.theme}
                         onChange={handleChange}
-                        className="border-0 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 p-2.5"
+                        className="style-bg border-0 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 p-2.5 "
                     >
                         <option value="light">Clair</option>
 
@@ -321,7 +328,7 @@ const SettingsForm = () => {
 
             <form
                 onSubmit={(e)=>handleSubmitCard(e)}
-                className="w-auto bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6"
+                className="w-auto dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6"
             >
 
                 {/* 💳 Paiement */}

@@ -179,11 +179,13 @@ export default function AccountDropdownUserProfil() {
     };
 
     return (
-        <section className="absolute top-2 bg-gray-2 dark:bg-dark">
+        <section
+            className="absolute top-2 bg-gray-2 dark:bg-dark"
+        >
 
              <div className="flex justify-center items-center ">
 
-                <div className="flex justify-center items-center">
+                <div className="flex justify-center items-center" >
 
                     <div className="flex items-center justify-center gap-3">
 
@@ -193,7 +195,11 @@ export default function AccountDropdownUserProfil() {
 
                                 <button
                                     onClick={notify}
-                                    className="cursor-pointer relative flex h-12 w-12 items-center justify-center rounded-lg bg-white dark:bg-dark-2 text-dark dark:text-white"
+                                    className="mb-4 cursor-pointer relative flex h-12 w-12 items-center justify-center rounded-lg bg-white dark:bg-dark-2 text-dark dark:text-white"
+                                    style={{
+                                        backgroundColor: "var(--color-bg)",
+                                        color: "var(--color-text)"
+                                    }}
                                 >
                                     <NotificationsComponent userId={currentUser?.id} />
                                 </button>
@@ -208,7 +214,12 @@ export default function AccountDropdownUserProfil() {
 
                             onClick={() => dispatch(setCurrentNav("payment"))}
 
-                            className="cursor-pointer  relative flex h-12 w-12 mt-0 pt-0 items-center justify-center rounded-lg bg-white dark:bg-dark-2 text-dark dark:text-white"
+                            className="cursor-pointer mb-2  relative flex h-12 w-12 mt-0 pt-0 items-center justify-center rounded-lg bg-white dark:bg-dark-2 text-dark dark:text-white"
+
+                            style={{
+                                backgroundColor: "var(--color-bg)",
+                                color: "var(--color-text)"
+                            }}
                         >
                             <svg
                                 className="w-[26px] h-[26px] text-gray-800 dark:text-white"
@@ -239,6 +250,10 @@ export default function AccountDropdownUserProfil() {
                             ref={trigger}
                             onClick={() => setDropdownOpen(!dropdownOpen)}
                             className="relative inline-flex h-12  items-center justify-center gap-2 rounded-lg bg-white dark:bg-dark-2 px-4 py-1 text-base font-medium text-dark dark:text-white"
+                            style={{
+                                backgroundColor: "var(--color-bg)",
+                                color: "var(--color-text)"
+                            }}
                         >
                             {currentUser?.image ? (
 
@@ -262,7 +277,10 @@ export default function AccountDropdownUserProfil() {
                                 </div>
 
                             ) : (
-                                <div className="relative h-[30px] w-[30px] rounded-full" title={currentUser?.email}>
+                                    <div className="relative h-[30px] w-[30px] rounded-full" title={currentUser?.email} style={{
+                                        backgroundColor: "var(--color-bg)",
+                                        color: "var(--color-text)"
+                                    }}>
 
                                     <svg
                                         className="w-[26px] h-[25px] text-gray-800 dark:text-white"
@@ -317,6 +335,10 @@ export default function AccountDropdownUserProfil() {
                         onFocus={() => setDropdownOpen(true)}
                         onBlur={() => setDropdownOpen(false)}
                         className={`absolute right-0 top-full me-3 overflow-hidden rounded-lg bg-white dark:divide-dark-3 dark:bg-dark-2 z-[70] ${dropdownOpen ? "block" : "hidden"}`}
+                        style={{
+                            backgroundColor: "var(--color-bg)",
+                            color: "var(--color-text)"
+                        }}
                     >
 
                         <div className="px-4 py-3">

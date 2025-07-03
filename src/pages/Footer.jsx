@@ -6,7 +6,13 @@ const Footer = () => {
     return (
 
         <>
-            <footer className="flex justify-center text-start ms-5 relative z-10 bg-white left-0 ms-5  pb-10 pt-20 dark:bg-dark lg:pb-20 lg:pt-[120px] ">
+            <footer
+                className="flex justify-center text-start ms-5 relative z-10 bg-white left-0 ms-5  pb-10 pt-20 dark:bg-dark lg:pb-20 lg:pt-[120px] "
+                style={{
+                    backgroundColor: "var(--color-bg)",
+                    color: "var(--color-text)"
+                }}
+            >
 
                 <div className="container">
 

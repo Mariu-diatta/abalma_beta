@@ -137,9 +137,9 @@ const ProductTablePagination = ({data }) => {
 
     return (
 
-        <div className="mt-5 relative overflow-x-auto shadow-md sm:rounded-lg p-4 bg-white dark:bg-gray-800">
+        <div className="mt-5 relative overflow-x-auto shadow-md sm:rounded-lg p-4  dark:bg-gray-800 style_bg">
 
-            <nav className="flex flex-row items-center gap-2 m-2">
+            <nav className="flex flex-row items-center gap-2 m-2 style_bg">
 
                 <svg className="w-[25px] h-[25px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
 
@@ -151,14 +151,14 @@ const ProductTablePagination = ({data }) => {
 
             </nav>
 
-            <div className="m-2 flex flex-col sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
+            <div className="m-2 flex flex-col sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4 style_bg">
 
                 {/* Filtre statut */}
                 <div className="relative">
 
                     <button
                         onClick={() => setDropdownOpen(!dropdownOpen)}
-                        className="inline-flex items-center text-gray-700 bg-gray-100 border border-gray-300 rounded-lg px-3 py-1.5 dark:bg-gray-700 dark:text-white"
+                        className="inline-flex items-center text-gray-700 bg-gray-100 border border-gray-300 rounded-lg px-3 py-1.5 dark:bg-gray-700 dark:text-white style_bg"
                         aria-haspopup="listbox"
                         aria-expanded={dropdownOpen}
                     >
@@ -181,7 +181,7 @@ const ProductTablePagination = ({data }) => {
                     {dropdownOpen && (
 
                         <ul
-                            className="absolute z-10 mt-1 w-40 bg-white rounded shadow-lg dark:bg-gray-700"
+                            className="absolute z-10 mt-1 w-40 bg-white rounded shadow-lg dark:bg-gray-700 "
                             role="listbox"
                             aria-label="Filtrer par statut"
                         >
@@ -238,7 +238,7 @@ const ProductTablePagination = ({data }) => {
 
 
                 {/* Recherche */}
-                <div className="relative w-full sm:w-auto">
+                <div className="relative w-full sm:w-auto style_bg">
 
                     <input
                         type="text"
@@ -260,7 +260,7 @@ const ProductTablePagination = ({data }) => {
 
                     <tr>
 
-                        <th className="p-3">
+                        <th className="p-3 style_bg">
 
                             <input
                                 type="checkbox"
@@ -275,7 +275,7 @@ const ProductTablePagination = ({data }) => {
 
                             <th
                                 key={key}
-                                className="px-4 py-3 cursor-pointer select-none"
+                                className="px-4 py-3 cursor-pointer select-none style_bg"
                                 onClick={() => requestSort(key)}
                                 aria-sort={
                                     sortConfig.key === key
@@ -287,7 +287,7 @@ const ProductTablePagination = ({data }) => {
                                 tabIndex={0}
                                 onKeyDown={e => e.key === "Enter" && requestSort(key)}
                             >
-                                <div className="flex items-center space-x-1 capitalize"> 
+                                <div className="flex items-center space-x-1 capitalize style_bg"> 
 
                                     <span>
                                         {key === "name"
@@ -339,7 +339,7 @@ const ProductTablePagination = ({data }) => {
 
                             <tr
                                 key={item.id}
-                                className={` dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 ${selectedIds.has(item.id) ? "bg-blue-100 dark:bg-blue-800" : ""
+                                    className={` style_bg dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 ${selectedIds.has(item.id) ? "bg-blue-100 dark:bg-blue-800" : "style_bg"
                                     }`}
                             >
                                 <td className="p-3">
@@ -357,7 +357,7 @@ const ProductTablePagination = ({data }) => {
                                 <td className="px-4 py-3">{item?.Currency_price?.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}</td>
                                 <td className="px-4 py-3 capitalize">{item.statut}</td>
 
-                                <td className="px-6 py-3">
+                                <td className="px-6 py-3 ">
 
                                     <button
                                         className="text-blue-600 hover:underline dark:text-blue-400 cursor-pointer"

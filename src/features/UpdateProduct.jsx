@@ -192,9 +192,12 @@ const UpdateProduct = () => {
     };
 
     return (
-        <section className="bg-white dark:bg-gray-900">
+        <section className="bg-white dark:bg-gray-900" style={{
+            backgroundColor: "var(--color-bg)",
+            color: "var(--color-text)"
+        }}>
 
-            <div className="max-w-2xl px-4 py-8 mx-auto lg:py-16">
+            <div className="max-w-2xl px-4 py-8 mx-auto lg:py-16" >
 
                 <h2 className="text-2xl font-extrabold text-gray-900 dark:text-white mb-4">
                     Ajouter / Modifier un produit

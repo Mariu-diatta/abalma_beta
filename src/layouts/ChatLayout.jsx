@@ -111,7 +111,16 @@ const ChatLayout = () => {
     };
 
     return (
-        <div className="flex h-screen w-auto overflow-hidden bg-white relative">
+
+        <div
+
+            className="flex h-screen w-auto overflow-hidden bg-white relative"
+
+            style={{
+                backgroundColor: "var(--color-bg)",
+                color: "var(--color-text)"
+            }}
+        >
 
             {/* Sidebar */}
             <div
@@ -119,30 +128,45 @@ const ChatLayout = () => {
                   `fixed top-0 left-0 h-full bg-gray-100 z-20 transform transition-transform duration-300 ease-in-out
                    ${showSidebar ? 'translate-x-0' : '-translate-x-full'}
                     md:static md:translate-x-0 md:w-1/4 md:block`
-              }
+                }
+
+                style={{
+                    backgroundColor: "var(--color-bg)",
+                    color: "var(--color-text)"
+                }}
             >
                 <div className="p-1 gap-5 pt-6">
+
                     <h2 className="text-lg mb-6 h-3">Discussions</h2>
+
                     <div className="w-full h-px bg-gray-300 mb-6 mt-6" />
 
                     {allChats.length === 0 ? (
+
                         <p className="text-center text-md font-bold">Vous n'avez aucun message</p>
+
                     ) : (
-                        <ul className="mt-5 space-y-2">
-                            {allChats.map((room, index) => (
+                            <ul className="mt-5 space-y-2">
+
+                                {allChats.map((room, index) => (
+
                                 <li
                                     key={room.name || index}
+
                                     className={`flex items-center justify-between p-2 rounded-lg text-sm font-medium transition-colors
-                    ${currentChat?.name === room?.name
-                                            ? 'bg-blue-500 text-white'
-                                            : 'hover:bg-gray-100 text-gray-800'
-                                        }`}
+
+                                    ${currentChat?.name === room?.name
+                                        ? 'bg-blue-500 text-white'
+                                        : 'hover:bg-gray-100 text-gray-800'
+                                    }`}
                                 >
                                     <span
+
                                         onClick={() => {
                                             dispatch(addCurrentChat(room));
                                             setShowSidebar(false);
                                         }}
+
                                         className="flex gap-2 cursor-pointer flex-grow"
                                     >
                                         <img
@@ -150,14 +174,19 @@ const ChatLayout = () => {
                                             alt={`${selectedUser?.nom || "Moi"} avatar`}
                                             className="h-7 w-7 rounded-full object-cover"
                                         />
+
                                         <div className="flex flex-col leading-tight">
+
                                             <span className="text-md font-medium text-gray-600">
                                                 {selectedUser?.prenom || "Prénom"}
                                             </span>
+
                                             <span className="text-xs text-gray-500">
                                                 {selectedUser?.nom?.toLowerCase() || "Nom"}
                                             </span>
+
                                         </div>
+
                                     </span>
 
                                     <button
@@ -167,6 +196,7 @@ const ChatLayout = () => {
                                     >
                                         ✕
                                     </button>
+
                                 </li>
                             ))}
                         </ul>
@@ -184,8 +214,15 @@ const ChatLayout = () => {
             </button>
 
             {/* Main Chat Area */}
-            <div className="lg:me-5 lg:pe-5 lg:ps-5 flex-1 flex flex-col overflow-hidden">
+            <div
+                className="lg:me-5 lg:pe-5 lg:ps-5 flex-1 flex flex-col overflow-hidden"
+                style={{
+                    backgroundColor: "var(--color-bg)",
+                    color: "var(--color-text)"
+                }}
+            >
                 <ChatApp roomName={currentChat} />
+
             </div>
         </div>
     );

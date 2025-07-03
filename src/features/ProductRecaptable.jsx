@@ -32,9 +32,9 @@ const ProductsRecapTable = ({ products }) => {
     const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
     return (
-        <div className="mt-6 w-full">
+        <div className="mt-6 w-full style_bg">
 
-            <nav className="flex flex-row items-center gap-2 m-2">
+            <nav className="flex flex-row items-center gap-2 m-2 style_bg">
 
                 <svg className="w-[25px] h-[25px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8" d="M9 10V6a3 3 0 0 1 3-3v0a3 3 0 0 1 3 3v4m3-2 .917 11.923A1 1 0 0 1 17.92 21H6.08a1 1 0 0 1-.997-1.077L6 8h12Z" />
@@ -44,12 +44,12 @@ const ProductsRecapTable = ({ products }) => {
 
             </nav>
 
-            <div className="m-2 flex flex-col sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
+            <div className="m-2 flex flex-col sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4 style_bg">
 
                 <select
                     value={selectedStatus}
                     onChange={(e) => setSelectedStatus(e.target.value)}
-                    className="px-3 py-2 border rounded-md shadow-sm  bg-gray-100 border border-gray-300 rounded-lg"
+                    className="px-3 py-2 border rounded-md shadow-sm  bg-gray-100 border border-gray-300 rounded-lg style_bg"
 
                 >
                     <option value="">Tous</option>
@@ -78,7 +78,7 @@ const ProductsRecapTable = ({ products }) => {
 
                 <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm text-left">
 
-                    <thead className="bg-gray-100 dark:bg-gray-700">
+                    <thead className="bg-gray-100 dark:bg-gray-700 style_bg">
 
                         <tr>
                             <th className="px-4 py-3">Nom</th>
@@ -94,7 +94,7 @@ const ProductsRecapTable = ({ products }) => {
 
                     </thead>
 
-                    <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                    <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700 style_bg">
 
                         {paginatedProducts.length === 0 ? (
 

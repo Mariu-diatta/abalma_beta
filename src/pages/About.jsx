@@ -15,12 +15,17 @@ export default About;
 const AboutContainer = () => {
     return (
         <>
-            <section className="overflow-hidden pt-20 pb-12 lg:pt-[120px] lg:pb-[90px] bg-white dark:bg-dark">
-                <div className="container mx-auto">
-                    <div className="flex flex-wrap items-center justify-between -mx-4">
+            <section className="style-bg overflow-hidden pt-20 pb-12 lg:pt-[120px] lg:pb-[90px]  dark:bg-dark style-bg">
+
+                <div className="container mx-auto style-bg">
+
+                    <div className="flex flex-wrap items-center justify-between -mx-4 style-bg">
+
                         <div className="w-full px-4 lg:w-6/12">
-                            <div className="flex items-center -mx-3 sm:-mx-4">
-                                <div className="w-full px-3 sm:px-4 xl:w-1/2">
+
+                            <div className="flex items-center -mx-3 sm:-mx-4 style-bg">
+
+                                <div className="w-full px-3 sm:px-4 xl:w-1/2 style-bg">
                                     <div className="py-3 sm:py-4">
                                         <img
                                             src="https://cdn.tailgrids.com/assets/images/marketing/about/about-01/image-1.jpg"
@@ -36,14 +41,19 @@ const AboutContainer = () => {
                                         />
                                     </div>
                                 </div>
-                                <div className="w-full px-3 sm:px-4 xl:w-1/2">
-                                    <div className="relative z-10 my-4">
+
+                                <div className="w-full px-3 sm:px-4 xl:w-1/2 style-bg">
+
+                                    <div className="relative z-10 my-4 style-bg">
+
                                         <img
                                             src="https://cdn.tailgrids.com/assets/images/marketing/about/about-01/image-3.jpg"
                                             alt=""
                                             className="w-full rounded-2xl"
                                         />
-                                        <span className="absolute -right-7 -bottom-7 z-[-1]">
+
+                                        <span className="absolute -right-7 -bottom-7 z-[-1] style-bg">
+
                                             <svg
                                                 width={134}
                                                 height={106}
@@ -618,7 +628,7 @@ const AboutContainer = () => {
                             </div>
                         </div>
 
-                        <div className="w-full px-4 lg:w-1/2 xl:w-5/12">
+                        <div className="w-full px-4 lg:w-1/2 xl:w-5/12 style-bg">
                             <div className="mt-10 lg:mt-0">
                                 <span className="block mb-4 text-lg font-semibold text-primary">
                                     Why Choose Us
@@ -646,6 +656,7 @@ const AboutContainer = () => {
                         </div>
                     </div>
                 </div>
+
             </section>
         </>
     );

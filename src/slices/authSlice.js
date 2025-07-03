@@ -39,7 +39,9 @@ const authSlice = createSlice({
 
             state.token = null;
 
-            localStorage.clear();
+            localStorage.removeItem("refresh");
+
+            localStorage.removeItem("token");
         },
 
         getFirebaseToken: (state, action) => {

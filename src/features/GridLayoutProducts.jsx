@@ -196,7 +196,13 @@ const GridLayoutProduct = () => {
         : productData.filter(item => item.categorie_product === activeCategory && parseInt(item?.quantity_product) !== 0);
 
     return (
-        <div className="p-4 space-y-4">
+        <div
+            className="p-4 space-y-4 dark:bg-gray-900 dark:text-white"
+            style={{
+                backgroundColor: "var(--color-bg)",
+                color: "var(--color-text)"
+            }}
+        >
 
             <ScrollableCategoryButtons
 
@@ -207,7 +213,10 @@ const GridLayoutProduct = () => {
 
             {filteredItems.length > 0 ? (
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 ">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 " style={{
+                    backgroundColor: "var(--color-bg)",
+                    color: "var(--color-text)"
+                }}>
 
                     {filteredItems.map(item => {
 
@@ -224,6 +233,11 @@ const GridLayoutProduct = () => {
                                 className={`rounded-lg p-1 shadow-md transition transform hover:-translate-y-1 hover:shadow-lg 
 
                                 ${isInCart ? 'opacity-50 pointer-events-none bg-gray-100' : 'bg-white'}`}
+
+                                style={{
+                                    backgroundColor: "var(--color-bg)",
+                                    color: "var(--color-text)"
+                                }}
                             >
                                 <button
 

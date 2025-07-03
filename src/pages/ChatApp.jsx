@@ -79,7 +79,13 @@ const ChatApp = ({ roomName }) => {
     }, [input, currentUser]);
 
     return (
-        <div className="flex flex-col h-full p-4 md:p-6 bg-white rounded-2xl shadow overflow-hidden">
+        <div
+            className="flex flex-col h-full p-4 md:p-6 bg-white rounded-2xl shadow overflow-hidden"
+            style={{
+                backgroundColor: "var(--color-bg)",
+                color: "var(--color-text)"
+            }}
+        >
 
             {/* 👤 En-tête utilisateur */}
             {selectedUser && (
@@ -99,7 +105,7 @@ const ChatApp = ({ roomName }) => {
             <div className="w-full h-px bg-gray-300 mb-3" />
 
             {/* 💬 Liste des messages */}
-            <ul className="flex-1 overflow-y-auto space-y-3 pr-2">
+            <ul className="flex-1 overflow-y-auto space-y-3 pr-2" >
                 {allRoomsChats.length > 0 && messages.map((msg, idx) => {
                     const isCurrentUser = msg.sender?.email === currentUser?.email;
                     const alignment = isCurrentUser ? "justify-end" : "justify-start";
@@ -135,7 +141,7 @@ const ChatApp = ({ roomName }) => {
             </ul>
 
             {/* 📥 Zone d’entrée */}
-            <div className="mt-4 flex gap-2">
+            <div className="mt-4 flex gap-2" >
                 <input
                     disabled={allRoomsChats.length === 0}
                     value={input}

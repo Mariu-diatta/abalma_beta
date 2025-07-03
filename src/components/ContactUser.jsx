@@ -97,23 +97,23 @@ const UserTable = () => {
 
     return (
 
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg h-screen">
+        <div className="relative overflow-x-auto shadow-md sm:rounded-lg h-screen style-bg">
 
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-white px-4 pt-4 pb-2">
+            <h2 className="text-2xl font-extrabold text-gray-500 dark:text-gray-400 px-4 pt-4 pb-2">
                 Liste des contacts
             </h2>
 
             {/* Bar d'action */}
-            <div className="flex items-center justify-between flex-wrap md:flex-nowrap space-y-4 md:space-y-0 pb-4 bg-white dark:bg-gray-900 px-4">
+            <div className="flex items-center justify-between flex-wrap md:flex-nowrap space-y-4 md:space-y-0 pb-4 dark:bg-gray-900 px-4 style-bg">
 
                 {/* Dropdown de filtre */}
-                <div className="relative">
+                <div className="relative style-bg">
 
                     <button
 
                         onClick={toggleDropdown}
 
-                        className="inline-flex items-center text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+                        className="inline-flex items-center text-gray-500  hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
                     >
                         {statusFilter === "Tous" ? "Filtrer par statut" : statusFilter}
 
@@ -127,7 +127,7 @@ const UserTable = () => {
 
                     {isDropdownOpen && (
 
-                        <div className="absolute mt-2 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600">
+                        <div className="absolute mt-2 z-10 divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600">
 
                             <ul className="py-1 text-sm text-gray-700 dark:text-gray-200">
 
@@ -184,11 +184,11 @@ const UserTable = () => {
             </div>
 
             {/* Tableau */}
-            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <table className="w-full text-sm text-left  style-bg">
 
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <thead className="text-xs uppercase  style-bg">
 
-                    <tr>
+                    <tr className="style-bg">
 
                         <th className="p-4">
                             <input
@@ -215,7 +215,7 @@ const UserTable = () => {
 
                         !(user?.id === currentuser?.id) &&
 
-                        <tr key={i} className="bg-white  dark:bg-gray-800  hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <tr key={i} className="  dark:bg-gray-800  hover:bg-gray-50 dark:hover:bg-gray-600">
 
                             <td className="p-4">
 

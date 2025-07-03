@@ -292,7 +292,7 @@ const ProfileCard = () => {
 
     return (
 
-        <div className="w-full max-w-full mx-auto bg-white rounded-md overflow-hidden shadow-md">
+        <div className="style_bg w-full max-w-full mx-auto bg-white rounded-md overflow-hidden shadow-md ">
 
             {/* Image de couverture */}
             <div
@@ -335,7 +335,7 @@ const ProfileCard = () => {
             </div>
 
             {/* Section profil */}
-            <div className="relative px-6 pb-6">
+            <div className="relative px-6 pb-6 style_bg">
 
                 {/* Photo de profil */}
                 <div className="absolute -top-16 left-1/2 sm:left-6 transform -translate-x-1/2 sm:translate-x-0">
@@ -663,6 +663,7 @@ const ProfileCard = () => {
 
             {
                 (profileData?.is_fournisseur && !profileData?.is_verified)&& 
+
                 <GetValidateUserFournisseur />
             }
 
