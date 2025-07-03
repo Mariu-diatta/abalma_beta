@@ -245,7 +245,7 @@ const GridProductDefault = ({ data }) => {
 
                                     </div>
 
-                                    <p className="text-center text-gray-600 dark:text-gray-300 text-sm md:text-base">
+                                    <p className="text-center text-sm md:text-base">
 
                                         {product.description_product}
 

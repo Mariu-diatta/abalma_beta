@@ -230,10 +230,19 @@ const VertcalNavbar = ({ children }) => {
 
                 aria-label="Sidebar"
             >
-                <div className="scrollbor_hidden h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 " style={{
-                    backgroundColor: "var(--color-bg)",
-                    color: "var(--color-text)"
-                }}>
+                <div
+
+                    className="scrollbor_hidden h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800" 
+
+                    style={
+
+                        {
+                            backgroundColor: "var(--color-bg)",
+
+                            color: "var(--color-text)"
+                        }
+                    }
+                >
 
                     <ul className="space-y-2 ">
 
@@ -279,7 +288,7 @@ const VertcalNavbar = ({ children }) => {
 
                                 <span className="flex-1 ms-3 whitespace-nowrap">Messages</span>
 
-                                <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm  text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
+                                <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm  text-blue-900 bg-blue-50 rounded-full dark:bg-blue-900 dark:text-blue-300">
 
                                     {allRooms.length}
 

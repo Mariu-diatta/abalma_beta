@@ -90,8 +90,9 @@ a, span, ul, nav, div, button, svg, style_bg {
     color: var(--color-text);
 }
 
-body .style_bg{
+body .style_bg {
     background-color: var(--color-bg);
+    color: var(--color-code);
 }
 
 
