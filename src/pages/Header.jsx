@@ -4,6 +4,102 @@ import WhiteRoundedButton from "../components/Button";
 import Logo from "../components/LogoApp";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTheme } from "../slices/navigateSlice";
+import { useTranslation } from 'react-i18next';
+import i18n from "i18next";
+
+export function LanguageDropdown({ changeLanguage }) {
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    const [selectedLang, setSelectedLang] = useState("Langue");
+
+    // Mise à jour automatique de l'affichage quand la langue change
+    useEffect(() => {
+
+        const lang = i18n.language || window.localStorage.i18nextLng || "fr";
+
+        setSelectedLang(
+
+            (lang === "fr") ?
+
+                <img src="https://flagcdn.com/w40/fr.png" alt="Fr" className="w-5 h-4" />
+
+                :
+
+                <img src="https://flagcdn.com/w40/gb.png" alt="En" className="w-5 h-4" />
+
+        );
+
+    }, []);
+
+    const handleChangeLanguage = (lang) => {
+
+        changeLanguage(lang);
+ 
+        setSelectedLang(lang === "fr" ? 
+            <img src="https://flagcdn.com/w40/fr.png" alt="Fr" className="w-5 h-4" />
+            : 
+            <img src="https://flagcdn.com/w40/gb.png" alt="En" className="w-5 h-4" />
+        );
+
+        setIsOpen(false);
+    };
+
+    return (
+
+        <div className="relative inline-block text-left z-100">
+
+            <button
+                onClick={() => setIsOpen(!isOpen)}
+                type="button"
+                className="inline-flex justify-center w-full rounded-full shadow-sm px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
+                aria-haspopup="true"
+                aria-expanded={isOpen}
+            >
+                {selectedLang}
+
+                <svg
+                    className="ml-2 -mr-1 h-5 w-5"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                >
+                    <path
+                        fillRule="evenodd"
+                        d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.23 8.27a.75.75 0 01.02-1.06z"
+                        clipRule="evenodd"
+                    />
+
+                </svg>
+
+            </button>
+
+            {isOpen && (
+                <div className="origin-top-right absolute right-0 mt-2 w-28 rounded-md shadow-lg ring-black ring-opacity-5 style-bg">
+                    <div className="py-1">
+                        <button
+                            onClick={() => handleChangeLanguage("fr")}
+                            className="flex gap-2  items-center block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+                            role="menuitem"
+                        >
+                            Fr
+                            <img src="https://flagcdn.com/w40/fr.png" alt="Fr" className="w-5 h-4" />
+                        </button>
+                        <button
+                            onClick={() => handleChangeLanguage("en")}
+                            className="flex  gap-2 items-center block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+                            role="menuitem"
+                        >
+                            En
+                            <img src="https://flagcdn.com/w40/gb.png" alt="En" className="w-5 h-4" />
+                        </button>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+}
+
 
 // ⚙️ Appliquer la classe dark/light au body et changer la balise meta
 export const ThemeToggle = () => {
@@ -111,13 +207,21 @@ export const ThemeToggle = () => {
 
 const NavbarHeader = () => {
 
+    const { t } = useTranslation();
+
+    const { i18n } = useTranslation();
+
+    const changeLanguage = (lang) => {
+        i18n.changeLanguage(lang);
+    };
+
     const [open, setOpen] = useState(false);
 
     const themeValue = useSelector((state) => state.navigate.theme)
 
     const tabs = [
-        { id: 'home', label: 'Home', endPoint: '/' },
-        { id: 'about', label: 'About', endPoint: '/About' },
+        { id: 'home', label: t('home'), endPoint: '/' },
+        { id: 'about', label: t('about'), endPoint: '/About' },
         { id: 'blog', label: 'Blog', endPoint: '/Blog' },
     ];
 
@@ -207,11 +311,13 @@ const NavbarHeader = () => {
 
                                     <div className="lg:hidden md:hidden justify-end pr-16 sm:flex lg:pr-0 gap-3 style-bg">
 
+                                        <LanguageDropdown changeLanguage={changeLanguage} />
+
                                         <ThemeToggle />
 
-                                        <WhiteRoundedButton titleButton="Se connecter" to="/logIn" />
+                                        <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
 
-                                        <WhiteRoundedButton titleButton="Créer un compte" to="/Register" />
+                                        <WhiteRoundedButton titleButton={t('register')} to="/Register" />
 
                                     </div>
 
@@ -220,11 +326,13 @@ const NavbarHeader = () => {
 
                             <div className="hidden sm:flex items-center justify-end gap-2 pr-16 lg:pr-0">
 
+                                <LanguageDropdown changeLanguage={changeLanguage} />
+
                                 <ThemeToggle />
 
-                                <WhiteRoundedButton titleButton="Se connecter" to="/logIn" />
+                                <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
 
-                                <WhiteRoundedButton titleButton="Créer un compte" to="/Register" />
+                                <WhiteRoundedButton titleButton={t('register')} to="/Register" />
                             </div>
 
                         </div>

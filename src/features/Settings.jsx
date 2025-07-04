@@ -2,9 +2,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import api from '../services/Axios';
 import { updateTheme } from '../slices/navigateSlice';
+import { useTranslation } from 'react-i18next';
 
 
 const SettingsForm = () => {
+
+    const { t } = useTranslation();
 
     const [form, setForm] = useState({
         name: '',
@@ -63,7 +66,7 @@ const SettingsForm = () => {
 
         if (!currentUserCompte?.id) {
 
-            alert("Aucun ID de compte trouvé.");
+            alert(t('settingsText.noAccountId'));
 
             return;
         }
@@ -74,7 +77,7 @@ const SettingsForm = () => {
                 theme: form.theme,
                 is_notif_active: form.notifications,
             }
-        ), 'Paramètres du compte enregistrés avec succès!')
+            ), t('settingsText.accountSaved'))
 
     };
 
@@ -88,7 +91,7 @@ const SettingsForm = () => {
                 {
                     password: form.password,
                 }
-            ), 'Mot de passe modifié avec succès !')
+            ), t('settingsText.passwordUpdated'))
 
     }
 
@@ -130,7 +133,7 @@ const SettingsForm = () => {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
 
-            alert('Paramètres de la carte enregistrés avec succès !');
+            alert(t('settingsText.cardSaved'));
 
         } catch (error) {
 
@@ -197,7 +200,7 @@ const SettingsForm = () => {
 
                 className="w-auto  dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6"
             >
-                <h2 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">Paramètres du compte</h2>
+                <h2 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">{t("settingsText.accountSettings")}</h2>
 
                 {/* 📷 Photo de profil */}
                 <div className="flex items-center gap-4">
@@ -233,7 +236,7 @@ const SettingsForm = () => {
                 <FloatingInput
                     id="name"
                     name="name"
-                    label={currentUserData?.nom || "Nom"}
+                    label={currentUserData?.nom || t('settingsText.nameLabel')}
                     value={form.name}
                     onChange={handleChange}
                     disabled={true}
@@ -242,7 +245,7 @@ const SettingsForm = () => {
                 <FloatingInput
                     id="email"
                     name="email"
-                    label="Adresse email"
+                    label={t('settingsText.emailLabel')}
                     type="email"
                     value={currentUserData?.email || form.email}
                     onChange={handleChange}
@@ -252,7 +255,7 @@ const SettingsForm = () => {
                 <FloatingInput
                     id="password"
                     name="password"
-                    label="Nouveau mot de passe"
+                    label={t('settingsText.passwordLabel')}
                     type="password"
                     value={form.password}
                     onChange={handleChange}
@@ -263,7 +266,7 @@ const SettingsForm = () => {
                     type="submit"
                     className="w-full py-2 px-4 mt-4 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
-                    Changer de mot de passe
+                    {t('settingsText.changePassword')}
 
                 </button>
 
@@ -278,7 +281,7 @@ const SettingsForm = () => {
                 {/* 🌙 Thème */}
                 <div className="flex flex-col sm:flex-row sm:items-center gap-4">
 
-                    <label className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">Thème:</label>
+                    <label className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">{t('settingsText.theme')}</label>
 
                     <select
                         name="theme"
@@ -286,9 +289,9 @@ const SettingsForm = () => {
                         onChange={handleChange}
                         className="style-bg border-0 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 p-2.5 "
                     >
-                        <option value="light">Clair</option>
+                        <option value="light">{t('settingsText.themeLight')}</option>
 
-                        <option value="dark">Sombre</option>
+                        <option value="dark">{t('settingsText.themeDark')}</option>
 
                     </select>
 
@@ -308,7 +311,7 @@ const SettingsForm = () => {
 
                     <label htmlFor="notifications" className="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">
 
-                        Activer les notifications
+                        {t('settingsText.notifications')}
 
                     </label>
 
@@ -320,7 +323,7 @@ const SettingsForm = () => {
 
                     className="w-full py-2 px-4 mt-4 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
-                    Enregistrer
+                    notifications
 
                 </button>
 
@@ -332,13 +335,13 @@ const SettingsForm = () => {
             >
 
                 {/* 💳 Paiement */}
-                <h3 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">Mode de paiement</h3>
+                <h3 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">{t("settingsText.paymentMethod")}</h3>
 
                 <FloatingInput
                     type="number"
                     id="cardNumber"
                     name="cardNumber"
-                    label="Numéro de carte"
+                    label={t('settingsText.cardNumberLabel')}
                     maxLength={19}
                     value={form.cardNumber || cartData?.number_card}
                     onChange={handleChange}
@@ -350,7 +353,7 @@ const SettingsForm = () => {
                         type="date"
                         id="expiry"
                         name="expiry"
-                        label="Exp. MM/AA"
+                        label={t('settingsText.expiryLabel')}
                         maxLength={5}
                         value={form.expiry}
                         onChange={handleChange}
@@ -371,13 +374,13 @@ const SettingsForm = () => {
                 </div>
 
                 {/* 🧾 Adresse de facturation */}
-                <h3 className="text-lg  text-gray-800 dark:text-white mt-4">Adresse de facturation</h3>
+                <h3 className="text-lg  text-gray-800 dark:text-white mt-4">{t('settingsText.billingAddress')}</h3>
 
                 <FloatingInput
                     type="text"
                     id="address"
                     name="address"
-                    label="Adresse"
+                    label={t('settingsText.addressLabel')}
                     value={form.address ||  cartData?.adresse_pay}
                     onChange={handleChange}
                 />
@@ -388,7 +391,7 @@ const SettingsForm = () => {
                         type="text"
                         id="city"
                         name="city"
-                        label="Ville"
+                        label={t('settingsText.cityLabel')}
                         value={form.city || cartData?.ville_pay}
                         onChange={handleChange}
                         wrapperClass="w-1/2"
@@ -398,7 +401,7 @@ const SettingsForm = () => {
                         type="number"
                         id="zip"
                         name="zip"
-                        label="Code postal"
+                        label={t('settingsText.zipLabel')}
                         value={form.zip || parseInt(cartData?.code_postal_pay)}
                         onChange={handleChange}
                         wrapperClass="w-1/2"
@@ -410,7 +413,7 @@ const SettingsForm = () => {
                     type="text"
                     id="country"
                     name="country"
-                    label="Pays"
+                    label={t('settingsText.countryLabel')}
                     value={form.country || cartData?.pays_pay}
                     onChange={handleChange}
                 />
@@ -419,7 +422,8 @@ const SettingsForm = () => {
                     type="submit"
                     className="w-full py-2 px-4 mt-4 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
-                    Enregistrer la carte
+                    {t('settingsText.saveCard')}
+
                 </button>
 
             </form>

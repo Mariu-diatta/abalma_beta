@@ -3,9 +3,12 @@ import Payment from "../pages/Payment";
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart, removeFromCart, decreaseQuantity, getTotalPrice } from '../slices/cartSlice';
 import Logo from "../components/LogoApp";
+import { useTranslation } from 'react-i18next';
 
 
 const ListProductShoppingCart = () => {
+
+    const { t } = useTranslation();
 
     const dispatch = useDispatch();
 
@@ -79,7 +82,7 @@ const ListProductShoppingCart = () => {
 
                 </svg>
 
-                <h2 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">Produits sélectionnés</h2>
+                <h2 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">{t('tableEntries.selectedProducts')}</h2>
 
             </nav>
 
@@ -91,19 +94,24 @@ const ListProductShoppingCart = () => {
                 }}
             >
 
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400" style={{
-                    backgroundColor: "var(--color-bg)",
-                    color: "var(--color-text)"
-                }}>
+                <thead
+                    className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+                    style={
+                        {
+                            backgroundColor: "var(--color-bg)",
+                            color: "var(--color-text)"
+                        }
+                    }
+                >
 
                     <tr>
-                        <th scope="col" className="px-16 py-3"><span className="sr-only">Image</span></th>
-                        <th scope="col" className="px-6 py-3">Product</th>
-                        <th scope="col" className="px-6 py-3">Category</th>
-                        <th scope="col" className="px-6 py-3">Qty</th>
-                        <th scope="col" className="px-6 py-3">Price</th>
-                        <th scope="col" className="px-6 py-3">Total</th>
-                        <th scope="col" className="px-6 py-3">Action</th>
+                        <th scope="col" className="px-16 py-3"><span className="sr-only">{t('tableEntries.image')}</span></th>
+                        <th scope="col" className="px-6 py-3">{t('tableEntries.product')}</th>
+                        <th scope="col" className="px-6 py-3">{t('tableEntries.category')}</th>
+                        <th scope="col" className="px-6 py-3">{t('tableEntries.quantity')}</th>
+                        <th scope="col" className="px-6 py-3">{t('tableEntries.price')}</th>
+                        <th scope="col" className="px-6 py-3">{t('tableEntries.total')}</th>
+                        <th scope="col" className="px-6 py-3">{t('tableEntries.action')}</th>
                     </tr>
 
                 </thead>

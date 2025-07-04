@@ -6,10 +6,11 @@ import UserTable from '../components/ContactUser';
 import SettingsForm from './Settings';
 import api from '../services/Axios';
 import { useSelector } from 'react-redux';
-
-
+import { useTranslation } from 'react-i18next';
 
 const Tabs = () => {
+
+    const { t } = useTranslation();
 
     const [activeTab, setActiveTab] = useState('dashboard');
 
@@ -21,9 +22,9 @@ const Tabs = () => {
 
 
     const tabs = [
-        { id: 'dashboard', label: 'Dashboard' },
-        { id: 'settings', label: 'Paramètres' },
-        { id: 'contacts', label: 'Contacts' },
+        { id: 'dashboard', label: t('Dashboard.dashboard') },
+        { id: 'settings', label: t('Dashboard.settings') },
+        { id: 'contacts', label: t('Dashboard.contacts') },
     ];
 
     useEffect(() => {
@@ -71,11 +72,11 @@ const Tabs = () => {
                 <div className="mb-6 text-center style_bg">
 
                     <h1 className="style_bg text-4xl font-extrabold text-gray-400 dark:text-white">
-                        Bienvenue sur votre tableau de bord !
+                        {t('Dashboard.welcomeTitle')}
                     </h1>
 
                     <p className="mt-2 text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto style_bg">
-                        Gérez vos produits, suivez vos activités et accédez rapidement aux informations essentielles pour optimiser votre expérience.
+                        {t('Dashboard.welcomeText')}
                     </p>
 
                 </div>

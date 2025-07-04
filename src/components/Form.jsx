@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import InputBox from './InputBoxFloat';
 import axios from "axios"
+import { useTranslation } from 'react-i18next';
 
 
 const CreateClient = async (data) => {
@@ -25,6 +26,9 @@ const CreateClient = async (data) => {
 
 
 const RegisterForm = () => {
+
+    const { t } = useTranslation();
+
 
     const navigate = useNavigate();
 
@@ -136,35 +140,39 @@ const RegisterForm = () => {
                         >
 
                             <h1 className="mb-10 text-2xl font-bold text-dark dark:text-white">
-                                Inscrivez-vous!
+                                {t('register')}
                             </h1>
 
                             <form onSubmit={handleSignUp}>
+
                                 <InputBox
                                     type="text"
-                                    name="nom"
-                                    placeholder="Nom "
+                                    name={"nom"}
+                                    placeholder={t('form.lastName')}
                                     value={form.nom}
                                     onChange={handleChange}
                                 />
+
                                 <InputBox
                                     type="text"
                                     name="prenom"
-                                    placeholder="Prenom"
+                                    placeholder={t('form.firstName')}
                                     value={form.prenom}
                                     onChange={handleChange}
                                 />
+
                                 <InputBox
                                     type="email"
                                     name="email"
-                                    placeholder="Email"
+                                    placeholder={t('form.email')}
                                     value={form.email}
                                     onChange={handleChange}
                                 />
+
                                 <InputBox
                                     type="tel"
-                                    name="telephone"
-                                    placeholder="Numéro de téléphone"
+                                    name={t("form.phone")}
+                                    placeholder={t('form.phone')}
                                     value={form.telephone}
                                     onChange={handleChange}
                                 />
@@ -179,7 +187,7 @@ const RegisterForm = () => {
                                 <InputBox
                                     type="password"
                                     name="confirmPassword"
-                                    placeholder="Confirmez le mot de passe"
+                                    placeholder={t('form.confirmPassword')}
                                     value={form.confirmPassword}
                                     onChange={handleChange}
                                 />
@@ -187,16 +195,16 @@ const RegisterForm = () => {
                                 <div className="mb-10">
                                     <input
                                         type="submit"
-                                        value="S'inscrire"
+                                        value={t("register")}
                                         className="w-full cursor-pointer rounded-md border border-blue-600 bg-blue-600 px-5 py-3 text-base font-medium text-white transition hover:bg-blue-700"
                                     />
                                 </div>
                             </form>
 
                             <p className="text-base text-body-color dark:text-dark-6">
-                                <span>Déjà inscrit ? </span>
+                                <span>{t("alredyRegister")} </span>
                                 <Link to="/login" className="text-primary hover:underline">
-                                    Se connecter
+                                    {t("login")}
                                 </Link>
                             </p>
 

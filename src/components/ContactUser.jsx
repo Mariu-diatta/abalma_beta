@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import api from "../services/Axios";
 import OwnerAvatar from "./OwnerProfil";
 import { useSelector } from "react-redux";
+import { useTranslation } from 'react-i18next';
 
 const UserTable = () => {
 
+    const { t } = useTranslation();
     const [searchTerm, setSearchTerm] = useState("");
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [statusFilter, setStatusFilter] = useState("Tous");
@@ -100,7 +102,7 @@ const UserTable = () => {
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg h-screen style-bg">
 
             <h2 className="text-2xl font-extrabold text-gray-500 dark:text-gray-400 px-4 pt-4 pb-2">
-                Liste des contacts
+                {t('ParamText.title')}
             </h2>
 
             {/* Bar d'action */}
@@ -141,7 +143,7 @@ const UserTable = () => {
 
                                             className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                                         >
-                                            {status === "Tous" ? "Tous les utilisateurs" : status}
+                                            {status === "Tous" ? t('ParamText.filterAll') : status}
 
                                         </button>
 
@@ -157,26 +159,36 @@ const UserTable = () => {
                 <div className="flex items-center gap-4">
 
                     {selectedUsers.length >= 2 && (
+
                         <button
+
                             onClick={handleDeleteSelected}
+
                             className="text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 rounded-lg px-4 py-2 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-800"
                         >
-                            Supprimer les selectionnes
+                            {t('ParamText.alertDelete')}
+
                         </button>
                     )}
 
                     <div className="relative">
+
                         <input
                             type="text"
                             value={searchTerm}
                             onChange={handleSearchChange}
                             className="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-                            placeholder="Rechercher un utilisateur"
+                            placeholder={t('ParamText.searchPlaceholder')}
                         />
+
                         <div className="absolute inset-y-0 left-0 flex items-center ps-3 pointer-events-none">
+
                             <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+
                             </svg>
+
                         </div>
                     </div>
 
@@ -199,11 +211,11 @@ const UserTable = () => {
                             />
                         </th>
 
-                        <th className="px-6 py-3">Nom</th>
+                        <th className="px-6 py-3">{t('ParamText.table.name')}</th>
 
-                        <th className="px-6 py-3">About</th>
+                        <th className="px-6 py-3">{t('ParamText.table.about')}</th>
 
-                        <th className="px-6 py-3">Supprimer</th>
+                        <th className="px-6 py-3">{t('ParamText.table.delete')}</th>
 
                     </tr>
 

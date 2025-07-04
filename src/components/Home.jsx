@@ -1,11 +1,15 @@
 import React from 'react'
 import SingleImage from '../components/Image';
+import { useTranslation } from 'react-i18next';
+
 
 const HomeContain = () => {
 
-    return (
-        <>
+    const { t } = useTranslation();
 
+    return (
+
+        <>
             <div className="m-5 relative pb-[110px] pt-[120px] dark:bg-dark lg:pt-[150px] style-bg">
 
                 <div className="container">
@@ -13,10 +17,10 @@ const HomeContain = () => {
                         <div className="w-full px-4 lg:w-5/12">
                             <div className="hero-content">
                                 <h4 className="mb-5 text-4xl font-bold !leading-[1.208] text-dark dark:text-white sm:text-[42px] lg:text-[40px] xl:text-5xl">
-                                    Faites passer vos biens au premier plan.
+                                    {t("homePage.headline")}
                                 </h4>
                                 <p className="mb-8 max-w-[480px] text-base text-body-color dark:text-dark-6">
-                                    Donnez une seconde vie a vos biens (matériels, vêtements, jouets, ...) grâce a Abalma.
+                                    {t("homePage.subheadline")}
                                 </p>
                                 <ul className="flex flex-wrap items-center">
                                     <li>
@@ -24,7 +28,7 @@ const HomeContain = () => {
                                             href="/#"
                                             className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-center text-base font-medium text-white hover:bg-blue-dark lg:px-7"
                                         >
-                                            Get Started
+                                            {t("homePage.getStarted")}
                                         </a>
                                     </li>
                                     <li>
@@ -61,13 +65,15 @@ const HomeContain = () => {
                                                     />
                                                 </svg>
                                             </span>
-                                            Download App
+                                            {t("homePage.downloadApp")}
                                         </button>
                                     </li>
                                 </ul>
+
                                 <div className="clients pt-16">
+
                                     <h6 className="mb-6 flex items-center text-xs font-normal text-body-color dark:text-dark-6">
-                                        Ils nous font confiance
+                                        {t("homePage.trustTitle")}
                                         <span className="ml-3 inline-block h-px w-8 bg-body-color"></span>
                                     </h6>
 
@@ -90,10 +96,15 @@ const HomeContain = () => {
                                 </div>
                             </div>
                         </div>
+
                         <div className="hidden px-4 lg:block lg:w-1/12"></div>
+
                         <div className="w-full px-4 lg:w-6/12">
+
                             <div className="lg:ml-auto lg:text-right">
+
                                 <div className="relative z-10 inline-block pt-11 lg:pt-0">
+
                                     <img
                                         src="https://cdn.tailgrids.com/assets/images/marketing/hero/hero-image-01.png"
                                         alt="hero"

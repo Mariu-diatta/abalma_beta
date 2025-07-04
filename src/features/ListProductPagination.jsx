@@ -1,8 +1,10 @@
 import React, { useState, useMemo } from "react";
 import ViewProduct from "../components/ViewProduct";
+import { useTranslation } from 'react-i18next';
 
-const ProductTablePagination = ({data }) => {
+const ProductTablePagination = ({ data }) => {
 
+    const { t } = useTranslation();
     const ITEMS_PER_PAGE = 5;
     const [currentPage, setCurrentPage] = useState(1);
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -16,7 +18,7 @@ const ProductTablePagination = ({data }) => {
     const closePopover = () => setPoverOpen(false)
 
     // Filtrage par statut réel
-    const statutsOptions = ["Tous", "en cours", "vendu", "offert", "prete"];
+    const statutsOptions = [t('TableRecap.statusAll'), "en cours", "vendu", "offert", "prete"];
 
     // Filtrage et recherche
     const filteredData = useMemo(() => {
@@ -25,10 +27,12 @@ const ProductTablePagination = ({data }) => {
 
             const search = searchTerm?.toLowerCase();
 
-            const matchesSearch =
-                item.name?.toLowerCase().includes(search) ||
+            const matchesSearch =item.name?.toLowerCase().includes(search) ||
+
                 item.color?.toLowerCase().includes(search) ||
+
                 item.category?.toLowerCase().includes(search) ||
+
                 item.statut?.toLowerCase().includes(search);
 
             const matchesStatut = filterStatut === "Tous" || item.statut.toLowerCase() === filterStatut.toLowerCase();
@@ -123,6 +127,7 @@ const ProductTablePagination = ({data }) => {
 
             newSelected.add(id);
         }
+
         setSelectedIds(newSelected);
     };
 
@@ -147,7 +152,7 @@ const ProductTablePagination = ({data }) => {
 
                 </svg>
 
-                <h2 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">Mes ventes</h2>
+                <h2 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">{t('TableRecap.title')}</h2>
 
             </nav>
 
@@ -157,19 +162,29 @@ const ProductTablePagination = ({data }) => {
                 <div className="relative">
 
                     <button
+
                         onClick={() => setDropdownOpen(!dropdownOpen)}
+
                         className="inline-flex items-center text-gray-700 bg-gray-100 border border-gray-300 rounded-lg px-3 py-1.5 dark:bg-gray-700 dark:text-white style_bg"
+
                         aria-haspopup="listbox"
+
                         aria-expanded={dropdownOpen}
                     >
                         <span className="capitalize">{filterStatut}</span>
 
                         <svg
+
                             className="w-3 h-3 ms-2"
+
                             fill="none"
+
                             stroke="currentColor"
+
                             strokeWidth="2"
+
                             viewBox="0 0 24 24"
+
                             xmlns="http://www.w3.org/2000/svg"
                         >
                             <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"></path>
@@ -182,7 +197,9 @@ const ProductTablePagination = ({data }) => {
 
                         <ul
                             className="absolute z-10 mt-1 w-40 bg-white rounded shadow-lg dark:bg-gray-700 "
+
                             role="listbox"
+
                             aria-label="Filtrer par statut"
                         >
                             {statutsOptions.map((statut) => (
@@ -194,7 +211,9 @@ const ProductTablePagination = ({data }) => {
                                         } capitalize`}
 
                                     onClick={() => {
+
                                         setFilterStatut(statut);
+
                                         setDropdownOpen(false);
                                     }}
 
@@ -231,7 +250,7 @@ const ProductTablePagination = ({data }) => {
 
                         className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-200"
                     >
-                        Supprimer {selectedIds.size === 1 ? "l element" : "la selection"}
+                        {t('ParamText.table.delete')} {selectedIds.size === 1 ? "l element" : "la selection"}
 
                     </button>
                 )}
@@ -241,11 +260,17 @@ const ProductTablePagination = ({data }) => {
                 <div className="relative w-full sm:w-auto style_bg">
 
                     <input
+
                         type="text"
-                        placeholder="Rechercher..."
+
+                        placeholder={t('TableRecap.searchPlaceholder')}
+
                         value={searchTerm}
+
                         onChange={e => setSearchTerm(e.target.value)}
+
                         className="w-full sm:w-80 rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+
                         aria-label="Recherche dans la table"
                     />
 
@@ -291,18 +316,18 @@ const ProductTablePagination = ({data }) => {
 
                                     <span>
                                         {key === "name"
-                                            ? "Nom"
+                                            ? t('tableAchat.name')
                                             : key === "color"
-                                                ? "Couleur"
+                                                ? t('tableAchat.color')
                                                 : key === "category"
-                                                    ? "Catégorie"
+                                                    ? t('tableAchat.category')
                                                     : key === "price"
-                                                        ? "Prix"
+                                                        ? t('tableAchat.price')
                                                         : key === "statut"
-                                                            ? "Statut"
+                                                            ? t('tableAchat.statut')
                                                             : key === "action"
-                                                                ? "Action"
-                                                                    :"Consulter"}
+                                                                ? t('tableAchat.action')
+                                                                : t('tableAchat.consulter')}
                                     </span>
 
                                     {
@@ -329,9 +354,12 @@ const ProductTablePagination = ({data }) => {
                         currentItems.length === 0 ?
                         (
                             <tr>
+
                                 <td colSpan="7" className="text-center py-4 dark:text-white">
-                                    Aucun resultat trouve.
+
+                                    {t('TableRecap. noProducts')}
                                 </td>
+
                             </tr>
                         ) :
                         (
@@ -406,19 +434,24 @@ const ProductTablePagination = ({data }) => {
                         -
                         {Math.min(currentPage * ITEMS_PER_PAGE, filteredData.length)}
                     </span>{" "}
-                    sur <span className="font-semibold">{filteredData.length}</span> resultats
+                    {t('TableRecap.pagination.of')} <span className="font-semibold">{filteredData.length}</span> resultats
                 </span>
 
                 <ul className="inline-flex items-center space-x-1">
 
                     <li>
                         <button
+
                             onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+
                             disabled={currentPage === 1}
+
                             className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed dark:border-gray-600 dark:hover:bg-gray-700"
+
                             aria-label="Page précédente"
                         >
-                            Precedent
+                            {t('TableRecap.pagination.previous')}
+
                         </button>
                     </li>
 
@@ -431,30 +464,42 @@ const ProductTablePagination = ({data }) => {
                             <li key={page}>
 
                                 <button
+
                                     onClick={() => setCurrentPage(page)}
+
                                     className={`px-3 py-1 rounded border hover:bg-gray-100 dark:hover:bg-gray-700 dark:border-gray-600 ${currentPage === page
                                         ? "bg-blue-600 text-white border-blue-600"
                                         : "border-gray-300 text-gray-700 dark:text-gray-300"
                                         }`}
+
                                     aria-current={currentPage === page ? "page" : undefined}
                                 >
                                     {page}
 
                                 </button>
+
                             </li>
                         );
                     })}
 
                     <li>
+
                         <button
+
                             onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+
                             disabled={currentPage === totalPages}
+
                             className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed dark:border-gray-600 dark:hover:bg-gray-700"
+
                             aria-label="Page suivante"
                         >
-                            Suivant
+                            {t('TableRecap.pagination.next')}
+
                         </button>
+
                     </li>
+
                 </ul>
             </nav>
 
