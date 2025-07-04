@@ -181,6 +181,58 @@ i18n
                  cardFetchError: "Error while fetching card data:",
                  cardSaveError: "Error while saving card data:",
              },
+
+             ProfilText: {
+                 modifierCouverture: "Edit cover image",
+                 modifierProfil: "Edit your profile",
+                 supprimerProfil: "Delete your profile",
+                 passerPro: "Switch to professional account",
+                 devenirFournisseur: "Become a supplier",
+                 envoyerJustificatif: "Send document",
+                 annuler: "Cancel",
+                 descriptionPlaceholder: "Description",
+                 nomPlaceholder: "Last name",
+                 prenomPlaceholder: "First name",
+                 emailPlaceholder: "Email",
+                 adressePlaceholder: "Address",
+                 telephonePlaceholder: "Phone number",
+                 messageBtn: {
+                     envoyer: "Message",
+                     fermer: "Close"
+                 },
+                 erreurTitre: "Error",
+                 labels: {
+                     justificatif: "Identity document (PDF, JPG, PNG, JPEG)"
+                 },
+                 boutons: {
+                     enregistrer: "Save",
+                     annuler: "Cancel"
+                 },
+                 titreComptePro: "Switch to professional account",
+                 titreFournisseur: "Become a supplier",
+                 confirmCode: "Enter the verification code:",
+                 validate: "Validate"
+             },
+
+             ListItemsFilterProduct: {
+                 All: "All",
+                 JOUET: "Toys",
+                 HABITS: "Clothing",
+                 MATERIELS_INFORMATIQUES: "Computer Equipment",
+                 CAHIERS: "Notebooks",
+                 SACS: "Bags",
+                 LIVRES: "Books",
+                 ELECTROMENAGER: "Home Appliances",
+                 TELEPHONIE: "Phones & Telecom",
+                 ACCESSOIRES: "Accessories",
+                 SPORT: "Sports",
+                 JEUX_VIDEO: "Video Games",
+                 MEUBLES: "Furniture",
+                 VEHICULES: "Vehicles",
+                 FOURNITURES_SCOLAIRES: "School Supplies",
+                 DIVERS: "Miscellaneous",
+                 noProduct:"No product available"
+             },
         }
      },
 
@@ -354,7 +406,59 @@ i18n
                 cardSaved: "Paramètres de la carte enregistrés avec succès !",
                 cardFetchError: "Erreur lors de la récupération des données de la carte :",
                 cardSaveError: "Erreur lors de l'enregistrement des données :",
-            },
+              },
+
+            ProfilText: {
+                  modifierCouverture: "Modifier image de couverture",
+                  modifierProfil: "Modifier votre profil",
+                  supprimerProfil: "Supprimer votre profil",
+                  passerPro: "Passer en compte professionnel",
+                  devenirFournisseur: "Devenir fournisseur",
+                  envoyerJustificatif: "Envoyer justificatif",
+                  annuler: "Annuler",
+                  descriptionPlaceholder: "Description",
+                  nomPlaceholder: "Nom",
+                  prenomPlaceholder: "Prénom",
+                  emailPlaceholder: "Email",
+                  adressePlaceholder: "Adresse",
+                  telephonePlaceholder: "Téléphone",
+                  messageBtn: {
+                      envoyer: "Message",
+                      fermer: "Fermer"
+                  },
+                  erreurTitre: "Erreur",
+                  labels: {
+                      justificatif: "Justificatif d'identité (PDF, JPG, PNG, JPEG)"
+                  },
+                  boutons: {
+                      enregistrer: "Enregistrer",
+                      annuler: "Annuler"
+                  },
+                  titreComptePro: "Passer en compte professionnel",
+                  titreFournisseur: "Devenir fournisseur",
+                  confirmCode: "Entrez le code de confirmation",
+                  validate:"Validate"
+              },
+
+              ListItemsFilterProduct:{
+                  All: "Tous",
+                  JOUET: "Jouets",
+                  HABITS: "Vêtements",
+                  MATERIELS_INFORMATIQUES: "Matériels informatiques",
+                  CAHIERS: "Cahiers",
+                  SACS: "Sacs",
+                  LIVRES: "Livres",
+                  ELECTROMENAGER: "Électroménager",
+                  TELEPHONIE: "Téléphonie",
+                  ACCESSOIRES: "Accessoires",
+                  SPORT: "Sport",
+                  JEUX_VIDEO: "Jeux vidéo",
+                  MEUBLES: "Meubles",
+                  VEHICULES: "Véhicules",
+                  FOURNITURES_SCOLAIRES: "Fournitures scolaires",
+                  DIVERS: "Divers",
+                  noProduct: "Aucun produit n'est disponible"
+              }
         }
       }
    }

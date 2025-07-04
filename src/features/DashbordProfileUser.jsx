@@ -28,17 +28,24 @@ const Tabs = () => {
     ];
 
     useEffect(() => {
+
         const getTransactionProduct = async () => {
+
             try {
                 const responseBought = await api.get(`/transactions/products/?client=${currentUser?.id}`);
 
                 responseBought?.data?.forEach((data_) => {
+
                     if (data_?.client === currentUser?.id) {
+
                         const data_product = { ...data_?.product, statut: "En cours" };
+
                         setProductsTrasactionBought((prev) => [...prev, data_product]);
                     }
                 });
+
             } catch (e) {
+
                 console.error(e);
             }
 
@@ -46,19 +53,26 @@ const Tabs = () => {
                 const response = await api.get(`/transactions/products/?owner=${currentUser?.id}`);
 
                 response?.data?.forEach((data_) => {
+
                     if (data_?.owner === currentUser?.id) {
+
                         const data_product = { ...data_?.product, statut: "En cours" };
+
                         setProductsTrasactionSold((prev) => [...prev, data_product]);
                     }
                 });
+
             } catch (e) {
+
                 console.error(e);
             }
         };
 
         if (currentUser?.id) {
+
             getTransactionProduct();
         }
+
     }, [currentUser?.id]);
 
  
@@ -67,11 +81,11 @@ const Tabs = () => {
 
         dashboard: (
 
-            <div className="p-2 space-y-6 max-w-7xl mx-auto style_bg style-bg">
+            <div className="p-2 space-y-6 max-w-7xl mx-auto  style-bg">
 
                 <div className="mb-6 text-center style_bg">
 
-                    <h1 className="style_bg text-4xl font-extrabold text-gray-400 dark:text-white">
+                    <h1 className="text-2xl font-extrabold text-gray-500 dark:text-white px-4 pt-4 pb-2">
                         {t('Dashboard.welcomeTitle')}
                     </h1>
 

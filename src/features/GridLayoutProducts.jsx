@@ -7,14 +7,33 @@ import { useRef, } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { addMessageNotif, addUser } from '../slices/chatSlice';
 import ProductModal from '../pages/ProductViewsDetails';
+import { useTranslation } from 'react-i18next';
 
-const categories = [
-    'All', 'JOUET', 'HABITS', 'MATERIELS_INFORMATIQUES', 'CAHIERS', 'SACS', 'LIVRES',
-    'ELECTROMENAGER', 'TELEPHONIE', 'ACCESSOIRES', 'SPORT', 'JEUX_VIDEO',
-    'MEUBLES', 'VEHICULES', 'FOURNITURES_SCOLAIRES', 'DIVERS'
-];
+
 
 const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory }) => {
+
+    const { t } = useTranslation();
+
+
+    const categories = [
+        t('ListItemsFilterProduct.All'),
+        t('ListItemsFilterProduct.JOUET'),
+        t('ListItemsFilterProduct.HABITS'),
+        t('ListItemsFilterProduct.MATERIELS_INFORMATIQUES'),
+        t('ListItemsFilterProduct.CAHIERS'),
+        t('ListItemsFilterProduct.SACS'),
+        t('ListItemsFilterProduct.LIVRES'),
+        t('ListItemsFilterProduct.ELECTROMENAGER'),
+        t('ListItemsFilterProduct.TELEPHONIE'),
+        t('ListItemsFilterProduct.ACCESSOIRES'),
+        t('ListItemsFilterProduct.SPORT'),
+        t('ListItemsFilterProduct.JEUX_VIDEO'),
+        t('ListItemsFilterProduct.MEUBLES'),
+        t('ListItemsFilterProduct.VEHICULES'),
+        t('ListItemsFilterProduct.FOURNITURES_SCOLAIRES'),
+        t('ListItemsFilterProduct.DIVERS')
+    ];
 
     const scrollRef = useRef(null);
 
@@ -134,6 +153,8 @@ const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory }) => {
 
 
 const GridLayoutProduct = () => {
+
+    const { t } = useTranslation();
 
     const dispatch = useDispatch();
     const cartItems = useSelector(state => state.cart.items);
@@ -331,8 +352,10 @@ const GridLayoutProduct = () => {
                     })}
 
                 </div>
+
             ) : (
-                <div className="text-center text-gray-500">Aucun produit disponible</div>
+
+                <div className="text-center text-gray-500">{t('ListItemsFilterProduct.noProduct')}</div>
             )}
 
             <ProductModal isOpen={!!modalData} onClose={closeModal} dataProduct={modalData} />
