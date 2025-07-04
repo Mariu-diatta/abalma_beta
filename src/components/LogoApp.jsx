@@ -5,7 +5,7 @@ const Logo = () => {
 
     return (
 
-        <nav className=" text-2xl font-extrabold text-gray-500 dark:text-gray-400"
+        <nav className=" text-2xl  text-gray-400 dark:text-gray-400 font-serif  font-semibold italic"
 >
         {/*<img*/}
         {/*    src={logoApp}*/}

@@ -213,16 +213,21 @@ const GridLayoutProduct = () => {
 
 
     const filteredItems = activeCategory === 'All'
+
         ? productData.filter(item => parseInt(item?.quantity_product) !== 0)
+
         : productData.filter(item => item.categorie_product === activeCategory && parseInt(item?.quantity_product) !== 0);
 
     return (
 
         <div
+
             className="p-4 space-y-4 dark:bg-gray-900 dark:text-white"
 
             style={{
+
                 backgroundColor: "var(--color-bg)",
+
                 color: "var(--color-text)"
             }}
         >
