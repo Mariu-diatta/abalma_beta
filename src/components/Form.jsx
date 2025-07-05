@@ -171,7 +171,7 @@ const RegisterForm = () => {
 
                                 <InputBox
                                     type="tel"
-                                    name={t("form.phone")}
+                                    name="telephone"
                                     placeholder={t('form.phone')}
                                     value={form.telephone}
                                     onChange={handleChange}
