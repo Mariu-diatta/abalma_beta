@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Création de l'instance Axios
 const api = axios.create({
-    baseURL: 'http://127.0.0.1:8000/',
+    baseURL: 'https://backend-6iql.onrender.com/',
     headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
@@ -25,7 +25,7 @@ api.interceptors.request.use(
 // Rafraîchissement du token
 const refreshAccessToken = async (refreshToken) => {
     try {
-        const response = await axios.post("http://127.0.0.1:8000/refresh/", {
+        const response = await axios.post("https://backend-6iql.onrender.com/", {
             refresh: refreshToken,
         });
 
