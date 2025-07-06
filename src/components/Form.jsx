@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import InputBox from './InputBoxFloat';
-import axios from "axios"
 import { useTranslation } from 'react-i18next';
+import api from '../services/Axios';
 
 
 const CreateClient = async (data) => {
 
     try {
 
-        const result= await axios.post('http://127.0.0.1:8000/clients/', data,
+        const result= await api.post('clients/', data,
             {
 
-            headers: {
-                'Content-Type': 'application/json',
+                headers: {
+
+                    'Content-Type': 'application/json',
+
                 Accept: 'application/json',
              },
 
@@ -125,9 +127,13 @@ const RegisterForm = () => {
 
     return (
         <section className="bg-gray-1 py-20 dark:bg-dark lg:py-[120px]" >
+
             <div className="container mx-auto">
+
                 <div className="-mx-4 flex flex-wrap">
+
                     <div className="w-full px-4">
+
                         <div
                             className="relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white px-10 py-16 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]"
                             style={{
@@ -207,11 +213,17 @@ const RegisterForm = () => {
 
                             {/* Decorations (optionnels) */}
                             <div className="absolute right-1 top-1" />
+
                             <div className="absolute bottom-1 left-1" />
+
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
+
         </section>
     );
 };
