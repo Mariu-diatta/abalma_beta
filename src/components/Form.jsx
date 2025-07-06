@@ -8,18 +8,25 @@ import { useTranslation } from 'react-i18next';
 const CreateClient = async (data) => {
 
     try {
-         await axios.post('http://127.0.0.1:8000/clients/', data,
+
+        const result= await axios.post('http://127.0.0.1:8000/clients/', data,
             {
+
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
-            },
+             },
+
             timeout: 10000, // facultatif : délai d'attente en ms
         })
+
+        return result
 
     } catch (error) {
 
         console.error('Erreur lors de la récupération des clients', error)
+
+        alert('Erreur lors de la récupération des clients', error?.response?.data?.email[0] || error?.response?.data?.telephone[0])
     }
 }
 
@@ -74,55 +81,45 @@ const RegisterForm = () => {
         try {
 
 
-            CreateClient(
-                {
-                    "password": form.password,
-                    "last_login": null,
-                    "is_superuser": false,
-                    "email": form.email,
-                    "prenom": form.prenom,
-                    "nom": form.nom,
-                    "image": null,
-                    "telephone": form.telephone,
-                    "description": "",
-                    "adresse": "",
-                    "is_connected": false,
-                    "is_active": true,
-                    "is_staff": false,
-                    "is_pro": false,
-                    "is_verified": false,
-                    "groups": [],
-                    "user_permissions": []
-                }
-            ).then(
+            const userData = {
+                password: form.password,
+                last_login: null,
+                is_superuser: false,
+                email: form.email,
+                prenom: form.prenom,
+                nom: form.nom,
+                image: null,
+                telephone: form.telephone,
+                description: "",
+                adresse: "",
+                is_connected: false,
+                is_active: true,
+                is_staff: false,
+                is_pro: false,
+                is_verified: false,
+                groups: [],
+                user_permissions: []
+            };
 
-                resp => {
+            const response = await CreateClient(userData);
 
-                    console.log("REPONSE INSCRIPTION", resp)
+            console.log("Utilisateur créé :", response);
 
-                    //api.get(`/utilisateurs/?email=${form.email}`).then(
-                    //    resp=>console.log("UTILISATEUR CR2R", resp)
-                    //)
-
-                    alert("Utilisateur créé avec succès !!!")
-
-                    navigate("/login", { replace: true });
-                }
-
-            ).catch(
-
-                req => {
-
-                    console.log("REPONSE ERREUR", req)
-                }
-            )
+            if (response) {
 
 
-            //console.log("Inscription réussie:", user);
+                alert("Utilisateur créé avec succès !!!")
+           
+                navigate("/login", { replace: true });
+            }
+            
+         //console.log("Inscription réussie:", user);
         //    navigate("/account", { replace: true });
         } catch (error) {
+
             console.error("Erreur:", error.message);
-            alert("Erreur d'inscription : " + error.message);
+
+            alert("Erreur d'inscription : ",  error.message);
         }
     };
 
