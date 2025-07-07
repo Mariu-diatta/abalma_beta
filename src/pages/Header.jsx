@@ -47,7 +47,7 @@ export function LanguageDropdown({ changeLanguage }) {
 
     return (
 
-        <div className="relative inline-block text-left z-100">
+        <div className="relative inline-block text-left ">
 
             <button
                 onClick={() => setIsOpen(!isOpen)}
@@ -77,7 +77,7 @@ export function LanguageDropdown({ changeLanguage }) {
             {isOpen && (
 
                 <div
-                    className="origin-top-right absolute right-0 mt-2 w-28 rounded-md shadow-lg ring-black ring-opacity-5 style-bg z-[80]"
+                    className="origin-top-right  absolute right-0 mt-2 w-28 rounded-md shadow-lg ring-black ring-opacity-5 style-bg z-[80]"
                     style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                 >
 
@@ -326,7 +326,7 @@ const NavbarHeader = () => {
 
                                     </ul>
 
-                                    <div className="lg:hidden md:hidden justify-end pr-16 sm:flex lg:pr-0 gap-3 style-bg">
+                                    <div className="flex flex-col lg:hidden md:hidden justify-end pr-16 sm:flex lg:pr-0 gap-2 style-bg">
 
                                         <LanguageDropdown changeLanguage={changeLanguage} />
 
