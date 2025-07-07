@@ -280,8 +280,10 @@ const NavbarHeader = () => {
 
                                     id="navbarCollapse"
 
-                                    className={`z-[70] opacity-100 absolute right-4 top-full w-full max-w-[250px] rounded-lg px-6 py-5 shadow dark:bg-dark-2 bg-white
-                                                lg:static lg:block lg:w-full lg:max-w-full lg:bg-transparent lg:shadow-none lg:dark:bg-transparent ${!open && "hidden"}`}
+                                    className={`z-[70]  absolute right-4 top-full w-full max-w-[250px] rounded-lg px-6 py-5   dark:divide-dark-3 dark:bg-dark-2
+                                                lg:static lg:block lg:w-full lg:max-w-full   ${!open && "hidden"}`}
+
+                                    style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                                 >
                                     <ul className="block lg:flex">
 
