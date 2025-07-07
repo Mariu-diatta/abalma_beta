@@ -186,7 +186,7 @@ export default function AccountDropdownUserProfil() {
     };
 
     return (
-        <section className="absolute top-2 bg-gray-2 dark:bg-dark z-50">
+        <section className="absolute top-2 bg-gray-2 dark:bg-dark z-5">
 
             <div className="flex justify-center items-center">
 
@@ -289,7 +289,7 @@ export default function AccountDropdownUserProfil() {
 
                         onBlur={() => setDropdownOpen(false)}
 
-                        className={`absolute right-0 top-full me-3 overflow-hidden rounded-lg bg-white dark:divide-dark-3 dark:bg-dark-2 z-[70] ${dropdownOpen ? "block" : "hidden"}`}
+                        className={`absolute right-0 top-full me-3 overflow-hidden rounded-lg bg-white dark:divide-dark-3 dark:bg-dark-2 z-[700] ${dropdownOpen ? "block" : "hidden"}`}
 
                         style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                     >
