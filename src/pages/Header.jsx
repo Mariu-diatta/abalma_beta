@@ -75,27 +75,38 @@ export function LanguageDropdown({ changeLanguage }) {
             </button>
 
             {isOpen && (
-                <div className="origin-top-right absolute right-0 mt-2 w-28 rounded-md shadow-lg ring-black ring-opacity-5 style-bg">
+
+                <div className="origin-top-right absolute right-0 mt-2 w-28 rounded-md shadow-lg ring-black ring-opacity-5 style-bg z-50">
+
                     <div className="py-1">
+
                         <button
                             onClick={() => handleChangeLanguage("fr")}
                             className="flex gap-2  items-center block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
                             role="menuitem"
                         >
                             Fr
+
                             <img src="https://flagcdn.com/w40/fr.png" alt="Fr" className="w-5 h-4" />
+
                         </button>
+
                         <button
                             onClick={() => handleChangeLanguage("en")}
                             className="flex  gap-2 items-center block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
                             role="menuitem"
                         >
                             En
+
                             <img src="https://flagcdn.com/w40/gb.png" alt="En" className="w-5 h-4" />
+
                         </button>
+
                     </div>
+
                 </div>
             )}
+
         </div>
     );
 }
