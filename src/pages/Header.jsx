@@ -52,7 +52,7 @@ export function LanguageDropdown({ changeLanguage }) {
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 type="button"
-                className="inline-flex justify-center w-full rounded-full shadow-sm px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
+                className="inline-flex justify-center w-full rounded-full px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
                 aria-haspopup="true"
                 aria-expanded={isOpen}
             >
@@ -76,7 +76,7 @@ export function LanguageDropdown({ changeLanguage }) {
 
             {isOpen && (
 
-                <div className="origin-top-right absolute right-0 mt-2 w-28 rounded-md shadow-lg ring-black ring-opacity-5 style-bg z-50">
+                <div className="origin-top-right absolute right-0 mt-2 w-28 rounded-md shadow-lg ring-black ring-opacity-5 style-bg z-[80]">
 
                     <div className="py-1">
 
@@ -280,7 +280,8 @@ const NavbarHeader = () => {
 
                                     id="navbarCollapse"
 
-                                    className={`style-bg absolute right-4 top-full w-full max-w-[250px] rounded-lg  px-6 py-5 shadow dark:bg-dark-2 lg:static lg:block lg:w-full lg:max-w-full lg:bg-transparent lg:shadow-none lg:dark:bg-transparent ${!open && "hidden"}`}
+                                    className={`z-[70] opacity-100 absolute right-4 top-full w-full max-w-[250px] rounded-lg px-6 py-5 shadow dark:bg-dark-2 bg-white
+                                                lg:static lg:block lg:w-full lg:max-w-full lg:bg-transparent lg:shadow-none lg:dark:bg-transparent ${!open && "hidden"}`}
                                 >
                                     <ul className="block lg:flex">
 
@@ -335,7 +336,7 @@ const NavbarHeader = () => {
                                 </nav>
                             </div>
 
-                            <div className="hidden sm:flex items-center justify-end gap-2 pr-16 lg:pr-0">
+                            <div className="hidden sm:flex items-center justify-end gap-3 pr-16 lg:pr-0">
 
                                 <LanguageDropdown changeLanguage={changeLanguage} />
 
