@@ -20,7 +20,14 @@ const NotificationsComponent = ({ userId }) => {
 
     useEffect(() => {
 
-        const socket = new WebSocket(`ws://localhost:8000/ws/notifications/${userId}/`);
+        //process.env.NODE_ENV === 'production'
+        const backendBase = true
+            ? 'wss://backend-mpb0.onrender.com'
+            : 'ws://localhost:8000';
+
+        const socketUrl = `${backendBase}/chat/notifications/${userId}/`;
+
+        const socket = new WebSocket(socketUrl);
 
         socket.onopen = () => {
 

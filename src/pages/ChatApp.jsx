@@ -55,8 +55,12 @@ const ChatApp = ({ roomName }) => {
     useEffect(() => {
 
         if (!roomName?.name) return;
+        //process.env.NODE_ENV === 'production'
+        const backendBase = true
+            ? 'wss://backend-mpb0.onrender.com'
+            : 'ws://localhost:8000';
 
-        const socketUrl = `wss://backend-mpb0.onrender.com/ws/chats/${roomName.name}/`;
+        const socketUrl = `${backendBase}/chat/${roomName.name}/`;
 
         ws.current = new WebSocket(socketUrl);
 
@@ -121,7 +125,9 @@ const ChatApp = ({ roomName }) => {
             className="flex flex-col h-full p-4 md:p-6 bg-white rounded-2xl shadow overflow-hidden"
 
             style={{
+
                 backgroundColor: "var(--color-bg)",
+
                 color: "var(--color-text)"
             }}
         >
@@ -132,14 +138,20 @@ const ChatApp = ({ roomName }) => {
                 <div className="flex items-center gap-3 text-gray-700 mb-3">
 
                     <img
+
                         src={selectedUser?.image || "/default-avatar.png"}
+
                         alt={`${selectedUser?.nom || "Utilisateur"} avatar`}
+
                         className="h-8 w-8 rounded-full object-cover"
                     />
 
                     <div>
+
                         <p className="text-md font-semibold text-blue-600">{selectedUser?.prenom || "Prénom"}</p>
+
                         <p className="text-xs text-gray-500">{selectedUser?.nom?.toLowerCase() || "Nom"}</p>
+
                     </div>
 
                 </div>
@@ -157,13 +169,17 @@ const ChatApp = ({ roomName }) => {
                     const alignment = isCurrentUser ? "justify-end" : "justify-start";
 
                     const bubbleColor = isCurrentUser
+
                         ? "bg-blue-500 text-white rounded-br-none"
+
                         : "bg-gray-200 text-gray-800 rounded-bl-none";
 
                     return (
+
                         <li key={`${msg.date}-${idx}`} className={`flex items-end gap-2 ${alignment}`}>
 
                             {!isCurrentUser && (
+
                                 <img
                                     src={msg.sender?.image}
                                     alt="avatar"
@@ -172,7 +188,9 @@ const ChatApp = ({ roomName }) => {
                             )}
 
                             <div className={`max-w-[70%] px-4 py-2 text-sm shadow rounded-2xl ${bubbleColor}`}>
+
                                 <p>{msg.message}</p>
+
                             </div>
 
                             {isCurrentUser && (
@@ -186,7 +204,9 @@ const ChatApp = ({ roomName }) => {
                         </li>
                     );
                 })}
+
                 <div ref={messagesEndRef} />
+
             </ul>
 
             {/* 📥 Zone d’entrée */}
@@ -207,8 +227,11 @@ const ChatApp = ({ roomName }) => {
                     aria-label="Envoyer"
                 >
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+
                         <path fillRule="evenodd" clipRule="evenodd" d="M12 2a1 1 0 0 1 .932.638l7 18a1 1 0 0 1-1.326 1.281L13 19.517V13a1 1 0 1 0-2 0v6.517l-5.606 2.402a1 1 0 0 1-1.326-1.281l7-18A1 1 0 0 1 12 2Z" />
+
                     </svg>
+
                 </button>
 
             </div>
