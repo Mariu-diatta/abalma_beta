@@ -41,7 +41,7 @@ const loginClient = async (data, dispatch) => {
 
     } catch (error) {
 
-        console.log('Erreur lors de la connexion', error?.response);
+        console.log('Erreur lors de la connexion', error || error?.response);
         const message = error?.response?.data?.detail || "Erreur inconnue.";
         showMessage(dispatch, message);
         throw error;
