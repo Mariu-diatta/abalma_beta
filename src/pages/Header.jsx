@@ -76,7 +76,10 @@ export function LanguageDropdown({ changeLanguage }) {
 
             {isOpen && (
 
-                <div className="origin-top-right absolute right-0 mt-2 w-28 rounded-md shadow-lg ring-black ring-opacity-5 style-bg z-[80]">
+                <div
+                    className="origin-top-right absolute right-0 mt-2 w-28 rounded-md shadow-lg ring-black ring-opacity-5 style-bg z-[80]"
+                    style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
+                >
 
                     <div className="py-1">
 
