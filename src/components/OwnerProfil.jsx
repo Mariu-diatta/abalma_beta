@@ -129,6 +129,10 @@ const OwnerPopover = ({ owner, onClose }) => {
         <div
             ref={ref}
             className="absolute left-0 mt-3 w-auto p-3 rounded-xl border border-gray-200 opacity-100 z-20 p-1 shadow-xl z-100 animate-fade-in"
+            style={{
+                backgroundColor: "var(--color-bg)",
+                color: "var(--color-text)"
+            }}
         >
             <div className="flex items-center gap-3 ">
                 <img
