@@ -179,7 +179,7 @@ export default function AccountDropdownUserProfil() {
     };
 
     return (
-        <section className="absolute top-2 bg-gray-2 dark:bg-dark">
+        <section className="absolute top-2 bg-gray-2 dark:bg-dark bg-gray-100">
 
             <div className="flex justify-center items-center">
 
