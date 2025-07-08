@@ -215,9 +215,9 @@ const GridLayoutProduct = () => {
 
     const filteredItems = activeCategory === 'All'
 
-        ? productData.filter(item => parseInt(item?.quantity_product) !== 0)
+        ? productData.filter(item => parseInt(item?.quantity_product) !== 0 && item.image_product)
 
-        : productData.filter(item => item.categorie_product === activeCategory && parseInt(item?.quantity_product) !== 0);
+        : productData.filter(item => item.categorie_product === activeCategory && parseInt(item?.quantity_product) !== 0 && item.image_product);
 
     return (
 
