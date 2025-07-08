@@ -65,11 +65,14 @@ const ListProductShoppingCart = () => {
 
 
     return (
+
         <div
             className="style_bg mb-2 relative overflow-x-auto shadow-md sm:rounded-lg style-bg"
 
             style={{
+
                 backgroundColor: "var(--color-bg)",
+
                 color: "var(--color-text)"
             }}
         >
@@ -87,31 +90,47 @@ const ListProductShoppingCart = () => {
             </nav>
 
             <table
+
                 className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+
                 style={{
+
                     backgroundColor: "var(--color-bg)",
+
                     color: "var(--color-text)"
                 }}
             >
 
                 <thead
+
                     className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+
                     style={
+
                         {
                             backgroundColor: "var(--color-bg)",
+
                             color: "var(--color-text)"
                         }
                     }
                 >
 
                     <tr>
+
                         <th scope="col" className="px-16 py-3"><span className="sr-only">{t('tableEntries.image')}</span></th>
+
                         <th scope="col" className="px-6 py-3">{t('tableEntries.product')}</th>
+
                         <th scope="col" className="px-6 py-3">{t('tableEntries.category')}</th>
+
                         <th scope="col" className="px-6 py-3">{t('tableEntries.quantity')}</th>
+
                         <th scope="col" className="px-6 py-3">{t('tableEntries.price')}</th>
+
                         <th scope="col" className="px-6 py-3">{t('tableEntries.total')}</th>
+
                         <th scope="col" className="px-6 py-3">{t('tableEntries.action')}</th>
+
                     </tr>
 
                 </thead>
@@ -121,10 +140,13 @@ const ListProductShoppingCart = () => {
                     {data.items.map(({ id, description_product, categorie_product, image_product, price_product, quantity_product, quanttity_product_sold }) => (
 
                         <tr key={id}
+
                             className=" dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
 
                             style={{
+
                                 backgroundColor: "var(--color-bg)",
+
                                 color: "var(--color-text)"
                             }}
                         >
@@ -135,8 +157,11 @@ const ListProductShoppingCart = () => {
 
                                     <img
                                         src={image_product}
+
                                         alt={description_product || "Image du produit"}
+
                                         className="object-contain w-full h-full"
+
                                         loading="lazy"
                                     />
 
@@ -214,7 +239,9 @@ const ListProductShoppingCart = () => {
                         <td colSpan="4" className="text-right px-6 py-3 font-bold">Total</td>
 
                         <td className="px-6 py-3 font-bold text-white-900 dark:text-white">
+
                             ${!isNaN(grandTotal) ? grandTotal.toFixed(2) : "0.00"}
+
                         </td>
 
                         <td></td>

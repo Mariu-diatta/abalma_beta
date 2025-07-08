@@ -89,11 +89,17 @@ const ProductsRecapTable = ({ products }) => {
                 <div className="relative w-full sm:w-auto">
 
                     <input
+
                         type="text"
+
                         placeholder={t('TableRecap.searchPlaceholder')}
+
                         value={searchTerm}
+
                         onChange={e => setSearchTerm(e.target.value)}
+
                         className="w-full sm:w-80 rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+
                         aria-label="Recherche dans la table"
                     />
 

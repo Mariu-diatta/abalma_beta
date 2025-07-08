@@ -9,18 +9,25 @@ export default function DatePickerWithFullWidthButtons() {
     const datepickerContainerRef = useRef(null);
 
     useEffect(() => {
+
         if (daysContainerRef.current) {
+
             renderCalendar();
         }
     });
 
     const renderCalendar = () => {
+
         const year = currentDate.getFullYear();
+
         const month = currentDate.getMonth();
+
         const firstDayOfMonth = new Date(year, month, 1).getDay();
+
         const daysInMonth = new Date(year, month + 1, 0).getDate();
 
         const daysContainer = daysContainerRef.current;
+
         if (!daysContainer) return;
 
         daysContainer.innerHTML = "";
@@ -29,11 +36,14 @@ export default function DatePickerWithFullWidthButtons() {
 
         // Ajouter des "cases vides" pour aligner le 1er jour du mois
         for (let i = 0; i < firstDayOfMonth; i++) {
+
             const emptyDiv = document.createElement("div");
+
             fragment.appendChild(emptyDiv);
         }
 
         for (let day = 1; day <= daysInMonth; day++) {
+
             const dayDiv = document.createElement("div");
 
             dayDiv.className =
@@ -42,11 +52,14 @@ export default function DatePickerWithFullWidthButtons() {
             dayDiv.textContent = day.toString();
 
             dayDiv.addEventListener("click", () => {
+
                 const selectedDateValue = `${month + 1}/${day}/${year}`;
+
                 setSelectedDate(selectedDateValue);
 
                 // Retirer la sélection précédente
                 daysContainer.querySelectorAll("div").forEach((d) =>
+
                     d.classList.remove("bg-primary", "text-white", "dark:text-white")
                 );
 
@@ -65,49 +78,78 @@ export default function DatePickerWithFullWidthButtons() {
 
 
     const handlePrevMonth = () => {
+
         setCurrentDate(
+
             (prevDate) => new Date(prevDate.setMonth(prevDate.getMonth() - 1)),
         );
     };
 
     const handleNextMonth = () => {
+
         setCurrentDate(
+
             (prevDate) => new Date(prevDate.setMonth(prevDate.getMonth() + 1)),
         );
     };
 
     const handleApply = () => {
+
         if (selectedDate) {
+
             setIsCalendarOpen(true);
         }
     };
 
     const handleCancel = () => {
+
         setSelectedDate(null);
+
         setIsCalendarOpen(false);
     };
 
     const handleToggleCalendar = () => {
+
         setIsCalendarOpen(!isCalendarOpen);
     };
 
     return (
-        <section className="bg-white  dark:bg-dark border-0">
+
+        <section
+
+            className="bg-white  dark:bg-dark border-0"
+
+        >
+
             <div className="">
+
                 <div className="mx-auto ">
+
                     <div className="relative mb-3 w-full">
+
                         <input
+
                             id="datepicker"
+
                             type="text"
+
                             placeholder="Pick a date"
-                            className="border-0 h-12 w-full appearance-none rounded-lg border border-stroke bg-white pl-12 pr-4 text-dark outline-none focus:border-primary dark:border-dark-3 dark:bg-dark-2 dark:text-white"
+
+                            className="cursor-pointer border-0 h-12 w-full appearance-none rounded-lg border border-stroke bg-white pl-12 pr-4 text-dark outline-none focus:border-primary dark:border-dark-3 dark:bg-dark-2 dark:text-white"
+
                             value={selectedDate || ""}
+
                             readOnly
+
                             onClick={handleToggleCalendar}
                         />
+
                         <span
+
                             id="toggleDatepicker"
+
                             onClick={handleToggleCalendar}
+
                             className="absolute inset-y-0 flex h-12 w-12 items-center justify-center text-dark-5"
                         >
                             <svg
@@ -162,19 +204,34 @@ export default function DatePickerWithFullWidthButtons() {
                                     fill="currentColor"
                                 />
                             </svg>
+
                         </span>
+
                     </div>
 
                     {isCalendarOpen && (
                         <div
                             ref={datepickerContainerRef}
+
                             id="datepicker-container"
+
                             className="flex w-full flex-col rounded-xl bg-white p-4 shadow-four sm:p-[30px] dark:bg-dark-2 dark:shadow-box-dark"
+
+                            style={{
+
+                                backgroundColor: "var(--color-bg)",
+
+                                color: "var(--color-text)"
+                            }}
                         >
                             <div className="flex items-center justify-between pb-4">
+
                                 <button
+
                                     id="prevMonth"
+
                                     className="flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[7px] border-[.5px] border-stroke bg-gray-2 text-dark hover:border-primary hover:bg-primary hover:text-white sm:h-[46px] sm:w-[46px] dark:border-dark-3 dark:bg-dark dark:text-white"
+
                                     onClick={handlePrevMonth}
                                 >
                                     <svg
@@ -186,22 +243,32 @@ export default function DatePickerWithFullWidthButtons() {
                                         className="fill-current"
                                     >
                                         <path d="M16.2375 21.4875C16.0125 21.4875 15.7875 21.4125 15.6375 21.225L7.16249 12.6C6.82499 12.2625 6.82499 11.7375 7.16249 11.4L15.6375 2.77498C15.975 2.43748 16.5 2.43748 16.8375 2.77498C17.175 3.11248 17.175 3.63748 16.8375 3.97498L8.96249 12L16.875 20.025C17.2125 20.3625 17.2125 20.8875 16.875 21.225C16.65 21.375 16.4625 21.4875 16.2375 21.4875Z" />
+
                                     </svg>
+
                                 </button>
 
                                 <span
+
                                     id="currentMonth"
+
                                     className="text-xl font-medium capitalize text-dark dark:text-white"
                                 >
                                     {currentDate.toLocaleDateString("en-US", {
+
                                         month: "long",
+
                                         year: "numeric",
                                     })}
+
                                 </span>
 
                                 <button
+
                                     id="nextMonth"
-                                    className="flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[7px] border-[.5px] border-stroke bg-gray-2 text-dark hover:border-primary hover:bg-primary hover:text-white sm:h-[46px] sm:w-[46px] dark:border-dark-3 dark:bg-dark dark:text-white"
+
+                                    className=" flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-[7px] border-[.5px] border-stroke bg-gray-2 text-dark hover:border-primary hover:bg-primary hover:text-white sm:h-[46px] sm:w-[46px] dark:border-dark-3 dark:bg-dark dark:text-white"
+
                                     onClick={handleNextMonth}
                                 >
                                     <svg
@@ -213,10 +280,15 @@ export default function DatePickerWithFullWidthButtons() {
                                         className="fill-current"
                                     >
                                         <path d="M7.7625 21.4875C7.5375 21.4875 7.35 21.4125 7.1625 21.2625C6.825 20.925 6.825 20.4 7.1625 20.0625L15.0375 12L7.1625 3.97498C6.825 3.63748 6.825 3.11248 7.1625 2.77498C7.5 2.43748 8.025 2.43748 8.3625 2.77498L16.8375 11.4C17.175 11.7375 17.175 12.2625 16.8375 12.6L8.3625 21.225C8.2125 21.375 7.9875 21.4875 7.7625 21.4875Z" />
+
                                     </svg>
+
                                 </button>
+
                             </div>
+
                             <div className="grid grid-cols-7 justify-between text-center pb-2 pt-4 text-sm font-medium capitalize text-body-color sm:text-lg dark:text-dark-6">
+
                                 <span className="flex h-[38px] w-[38px] items-center justify-center sm:h-[46px] sm:w-[47px]">
                                     Mo
                                 </span>
@@ -248,28 +320,41 @@ export default function DatePickerWithFullWidthButtons() {
 
                             <div
                                 ref={daysContainerRef}
+
                                 id="days-container"
-                                className="grid grid-cols-7 text-center text-sm font-medium sm:text-lg"
+
+                                className="cursor-pointer grid grid-cols-7 text-center text-sm font-medium sm:text-lg"
                             >
                                 {/* Days will be rendered here */}
                             </div>
 
                             <div className="flex items-center space-x-3 pt-4 sm:space-x-5">
+
                                 <button
+
                                     id="cancelBtn"
-                                    className="flex h-[50px] w-full items-center justify-center rounded-md bg-dark text-base font-medium text-grey hover:bg-opacity-90"
+
+                                    className="cursor-pointer flex h-[50px] w-full items-center justify-center rounded-md bg-dark text-base font-medium text-grey hover:bg-opacity-90"
+
                                     onClick={handleCancel}
                                 >
                                     Remove
                                 </button>
+
                                 <button
+
                                     id="cancelBtn"
-                                    className="flex h-[50px] w-full items-center justify-center rounded-md bg-primary text-base font-medium text-grey hover:bg-blue-dark"
-                                    onClick={()=>handleApply()}
+
+                                    className="cursor-pointer flex h-[50px] w-full items-center justify-center rounded-md bg-primary text-base font-medium text-grey hover:bg-blue-dark"
+
+                                    onClick={() => handleApply()}
                                 >
                                     Done
+
                                 </button>
+
                             </div>
+
                         </div>
                     )}
                 </div>
