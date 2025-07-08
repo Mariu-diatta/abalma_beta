@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addMessageNotif } from "../slices/chatSlice";
 import WalletModal from "../features/WalletModal";
@@ -7,12 +7,14 @@ import { addToCart } from "../slices/cartSlice";
 
 const ProductModal = ({ isOpen, onClose, dataProduct }) => {
 
-
-
     const dispatch = useDispatch();
 
     const [isProductAdd, setIsProductAdd] = useState(false);
     //const [showActions, setShowActions] = useState(false);
+
+    const buttonRef = useRef(null)
+
+    const popovRef = useRef(null)
 
     // Sans paramètre, pour un appel manuel
     const handleAddToCart_ = () => {
@@ -40,12 +42,13 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="relative z-40 " role="dialog" aria-modal="true">
+        <div className="relative z-40 " role="dialog" aria-modal="true" ref={popovRef}>
 
             <div
                 className="fixed inset-0 bg-gray-500/75 transition-opacity md:block"
                 aria-hidden="true"
                 onClick={onClose}
+                ref={buttonRef}
             >
             </div>
 
@@ -55,23 +58,40 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
 
                     <div className="flex w-full transform text-left text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-4xl">
 
-                        <div className="relative flex w-full items-center overflow-hidden bg-white">
+                        <div
+
+                            className="relative flex w-full items-center overflow-hidden "
+
+                            style={{
+                                backgroundColor: "var(--color-bg)",
+                                color: "var(--color-text)"
+                            }}
+
+                        >
 
                             <div className="z-0 absolute top-1 right-2 ">
 
                                 <button
+
                                     type="button"
+
                                     onClick={onClose}
+
                                     className="z-0 flex items-center justify-center p-3  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 >
                                     <span className="sr-only">Close</span>
 
                                     <svg
                                         className="z-0  size-6"
+
                                         fill="none"
+
                                         viewBox="0 0 24 24"
+
                                         strokeWidth={1.5}
+
                                         stroke="currentColor"
+
                                     >
                                         <path
                                             strokeLinecap="round"
@@ -86,30 +106,53 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
 
                             <div className="absolute top-1 right-20  flex items-center gap-4 ">
 
-                                {!isProductAdd && <button
-                                    onClick={(e) => handleAddToCart_(e)}
-                                    title="Ajouter au panier"
-                                    className="flex items-center justify-center p-3 rounded-full  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    aria-label="Ajouter au panier"
-                                >
-                                    🛒
-                                </button>}
+                                {
+                                    !isProductAdd &&
+                                    <button
+
+                                        onClick={(e) => handleAddToCart_(e)}
+
+                                        title="Ajouter au panier"
+
+                                        className="flex items-center justify-center p-3 rounded-full  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+
+                                        aria-label="Ajouter au panier"
+
+                                    >
+                                        <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
+                                        </svg>
+
+                                    </button>
+                                }
 
                                 <WalletModal>
+
                                     <button
+
                                         title="Payer"
-                                        className="flex items-center justify-center p-3 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+
+                                        className="flex items-center justify-center p-3 rounded-full  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+
                                         aria-label="Payer"
                                     >
-                                        💳
+                                        <svg style={{ color: "black" }}  className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="M8 7V6a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-1M3 18v-7a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Zm8-3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
+                                        </svg>
+
                                     </button>
+
                                 </WalletModal>
 
                                 <div
                                     title="Profil Produit Popov"
-                                    className="z-20 rounded-full hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus-within:ring-2 focus-within:ring-blue-500"
+
+                                    className="z-20 rounded-full "
+
                                     tabIndex={0}
+
                                     aria-label="Profil Produit Popov"
+
                                 >
                                     <ProfilPopPov/>
 
@@ -123,23 +166,27 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                 <img
                                     src={dataProduct?.image_product}
                                     alt="Product"
-                                    className="aspect-4/5 w-full bg-gray-100 object-cover sm:col-span-6 lg:col-span-6"
+                                    className="aspect-4/5 w-full  object-cover sm:col-span-6 lg:col-span-6"
                                 />
 
                                 <div className="sm:col-span-6 lg:col-span-6 lg:mt-8 lg:pt-8 p-5">
 
-                                    <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">
+                                    <h2 className="text-2xl font-bold  sm:pr-12">
                                         {dataProduct?.categorie_product}
                                     </h2>
 
                                     <section className="mt-2 ">
 
-                                        <p className="text-2xl text-gray-900">${dataProduct?.price_product}</p>
+                                        <p className="text-2xl 0">${dataProduct?.price_product}</p>
 
                                         <div className="mt-6">
+
                                             <div className="flex items-center">
+
                                                 <div className="flex items-center">
+
                                                     {[...Array(4)].map((_, i) => (
+
                                                         <svg
                                                             key={i}
                                                             className="size-5 text-gray-900"
@@ -153,6 +200,7 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                                             />
                                                         </svg>
                                                     ))}
+
                                                     <svg
                                                         className="size-5 text-gray-200"
                                                         fill="currentColor"
@@ -164,27 +212,34 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                                             clipRule="evenodd"
                                                         />
                                                     </svg>
+
                                                 </div>
+
                                                 <a
                                                     href="/home"
                                                     className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
                                                 >
                                                     117 reviews
                                                 </a>
+
                                             </div>
+
                                         </div>
+
                                     </section>
 
 
                                     {/* Color Options */}
                                     <fieldset>
 
-                                        <legend className="text-sm font-medium text-gray-900">
+                                        <legend className="text-sm font-medium ">
                                             {dataProduct?.color_prouct}
                                         </legend>
 
                                         <div className="mt-4 flex items-center gap-x-3">
+
                                             {["white", "gray", "black"].map((color) => (
+
                                                 <div
                                                     key={color}
                                                     className="flex rounded-full outline outline-black/10"
@@ -201,12 +256,15 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                                             } checked:outline-2 checked:outline-offset-2 checked:outline-gray-400 focus-visible:outline-3 focus-visible:outline-offset-3`}
                                                         defaultChecked={color === "white"}
                                                     />
+
                                                 </div>
                                             ))}
+
                                         </div>
+
                                     </fieldset>
 
-                                    <h2 className="text-sm  text-gray-900  mt-5">
+                                    <h2 className="text-sm  mt-5">
                                         {dataProduct?.description_product}
                                     </h2>
 
@@ -215,7 +273,7 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
 
                                         <div className="flex items-center justify-between">
 
-                                            <div className="text-sm font-medium text-gray-900">
+                                            <div className="text-sm font-medium">
                                                 {dataProduct?.color_prouct}
                                             </div>
 
@@ -229,12 +287,13 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                                 { label: "Taille", value: dataProduct?.taille_product },
                                                 { label: "Opération", value: dataProduct?.operation_product },
                                                 { label: "Catégorie", value: dataProduct?.categorie_product },
+
                                             ].map(({ label, value }, idx) => (
 
                                                 <label
                                                     key={`${label}-${idx}`}
                                                     htmlFor={`${label}-${value}`}
-                                                    className="group relative flex flex-col items-center justify-center border border-gray-300 bg-white rounded-md px-4 py-3 text-sm font-medium text-gray-800 hover:bg-gray-100 transition-all duration-150"
+                                                    className="group relative flex flex-col items-center justify-center border border-gray-300  rounded-md px-4 py-3 text-sm font-medium text-gray-800 hover:bg-gray-100 transition-all duration-150"
                                                 >
                                                     <input
                                                         type="radio"
@@ -244,19 +303,23 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                                         className="sr-only lowercase"
                                                     />
 
-                                                    <span className="text-xs text-gray-500">{label}</span>
+                                                    <span className="text-xs">{label}</span>
 
                                                     <span className="">{value.toLowerCase() || "N/A"}</span>
 
                                                 </label>
                                             ))}
+
                                         </div>
 
                                     </fieldset>
 
                                     <fieldset className="absolute bottom-2 right-2 text-xs text-gray-500">
+
                                         {(() => {
+
                                             const createdDate = new Date(dataProduct?.created);
+
                                             const now = new Date();
 
                                             const isToday =
@@ -273,6 +336,7 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                                 ? `Aujourd'hui à ${formattedTime}`
                                                 : `${formattedDate} à ${formattedTime}`;
                                         })()}
+
                                     </fieldset>
 
 

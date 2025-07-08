@@ -509,7 +509,8 @@ const ProductTablePagination = ({ data }) => {
                     <div
                         className="fixed inset-0  bg-opacity-30 z-40"
                         onClick={closePopover}
-                    ></div>
+                    >
+                    </div>
 
                     {/* Popover */}
                     <div
