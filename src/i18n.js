@@ -37,14 +37,16 @@ i18n
             forgetPwd: " Forget password ?",
             notRegistered: "Not registered?",
              alredyRegister: 'Already register ?',
-
-            "form": {
-                "lastName": "Last name",
-                "firstName": "First name",
-                "email": "Email",
-                "phone": "Phone number",
-                "password": "Password",
-                "confirmPassword": "Confirm password"
+             "form": {
+                 "lastName": "Last Name",
+                 "firstName": "First Name",
+                 "phone": "Phone Number",
+                 "password": "Password",
+                 "confirmPassword": "Confirm Password",
+                 "email": "Email Address",
+                 "emailRequired": "Email address is required",
+                 "newPassword": "New Password",
+                 "allFieldsRequired": "All fields are required"
              },
 
              homePage: {
@@ -236,9 +238,15 @@ i18n
 
 
              forgetPswd: {
-
-                 title: "Forget password",
-                 getCode: "Get code"
+                 "title": "Forgot Password",
+                 "getCode": "Send Code",
+                 "code": "Received Code",
+                 "reset": "Reset Password",
+                 "success": "Password successfully reset!",
+                 "step1": "Enter Email",
+                 "step2": "Code & New Password",
+                 "step3": "Confirmation",
+                 "redirectIn": "Redirecting to login page in"
              }
         }
      },
@@ -265,10 +273,13 @@ i18n
             form: {
                 "lastName": "Nom",
                 "firstName": "Prénom",
-                "email": "Email",
                 "phone": "Numéro de téléphone",
                 "password": "Mot de passe",
-                "confirmPassword": "Confirmez le mot de passe"
+                "confirmPassword": "Confirmez le mot de passe",
+                "email": "Adresse e-mail",
+                "emailRequired": "L'adresse e-mail est requise",
+                "newPassword": "Nouveau mot de passe",
+                "allFieldsRequired": "Tous les champs sont obligatoires"
             },
 
             homePage: {
@@ -468,10 +479,16 @@ i18n
               },
 
               forgetPswd: {
-
-                  title: "Mot de passe oublié",
-                  getCode:"Recevoir le code"
-             }
+                  "title": "Mot de passe oublié",
+                  "getCode": "Envoyer le code",
+                  "code": "Code reçu",
+                  "reset": "Réinitialiser le mot de passe",
+                  "success": "Mot de passe réinitialisé avec succès !",
+                  "step1": "Saisie de l'email",
+                  "step2": "Code & Nouveau mot de passe",
+                  "step3": "Confirmation",
+                  "redirectIn": "Redirection vers la page de connexion dans"
+              }
         }
       }
    }

@@ -1,67 +1,157 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from 'react-i18next';
 import InputBox from "../components/InputBoxFloat";
 import HomeLayout from "../layouts/HomeLayout";
 
 const PwdForget = () => {
-    const [email, setEmail] = useState("");
     const { t } = useTranslation();
+    const [step, setStep] = useState(1);
+    const [email, setEmail] = useState("");
+    const [code, setCode] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [countdown, setCountdown] = useState(100); // 5 minutes en secondes
 
-    const handleForgetPswd = () => {
+    const handleRequestCode = () => {
         if (!email) {
             alert(t("form.emailRequired"));
             return;
         }
-
-        // Exemple de traitement (à adapter)
-        console.log("Demande de réinitialisation pour :", email);
+        // Exemple de traitement
+        console.log("Demande de code de réinitialisation pour :", email);
+        setStep(2);
     };
 
+    const handleResetPassword = () => {
+        if (!code || !newPassword) {
+            alert(t("form.allFieldsRequired"));
+            return;
+        }
+        console.log("Réinitialisation avec:", { email, code, newPassword });
+        setStep(3);
+    };
+
+    const StepIndicator = () => (
+
+        <ol className="flex items-center justify-around w-full mb-10">
+
+            {[1, 2, 3].map((s, idx) => (
+                <li key={s} className="relative w-full mb-6" >
+
+                    <div className="flex items-center">
+                        <div className={`z-10 flex items-center justify-center w-6 h-6 rounded-full ring-0 ring-white sm:ring-8 shrink-0 
+                            ${s <= step ? 'bg-blue-600 text-white' : 'bg-gray-20 dark:bg-gray-700'}`}>
+                            <span className={`w-2.5 h-2.5 ${s <= step ? 'bg-white' : 'bg-gray-400'} rounded-full`}></span>
+                        </div>
+                        {idx < 2 && <div className="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>}
+                    </div>
+
+                    <div
+
+                        className="mt-3 text-center"
+
+                    >
+                        <small className="font-medium text-black-900 dark:text-white">{t(`forgetPswd.step${s}`)}</small>
+
+                    </div>
+
+                </li>
+            ))}
+        </ol>
+    );
+
+    useEffect(() => {
+        if (step === 3) {
+            const timer = setInterval(() => {
+                setCountdown((prev) => {
+                    if (prev <= 1) {
+                        clearInterval(timer);
+                        window.location.href = "/login"; // ou navigate("/login") si tu utilises react-router
+                    }
+                    return prev - 1;
+                });
+            }, 1000);
+            return () => clearInterval(timer);
+        }
+    }, [step]);
+
     return (
-        <section className="bg-gray-1 py-20 dark:bg-dark lg:py-[120px]">
+        <section className="bg-gray-1 py-20 dark:bg-dark lg:py-[120px]" >
             <div className="container mx-auto">
-                <div className="-mx-4 flex flex-wrap justify-center">
+                <div className="-mx-1 flex flex-wrap justify-center">
                     <div className="w-full max-w-md px-4">
-                        <div
-                            className="rounded-lg p-8 shadow-lg"
-                            style={{
-                                backgroundColor: "var(--color-bg)",
-                                color: "var(--color-text)",
-                            }}
-                        >
+                        <div className="rounded-lg p-8 shadow-lg" style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}>
                             <h1 className="mb-10 text-2xl font-bold text-dark dark:text-white text-center">
-
                                 {t("forgetPswd.title")}
-
                             </h1>
 
-                            <form onSubmit={(e) => { e.preventDefault(); handleForgetPswd(); }}>
+                            <StepIndicator />
 
-                                <InputBox
-                                    type="email"
-                                    name="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    placeholder={t("form.email")}
-                                    required
-                                />
-
-                                <div className="mb-10 mt-6">
-
-                                    <input
-                                        type="submit"
-                                        value={t("forgetPswd.getCode")}
-                                        className="w-full cursor-pointer rounded-md border border-blue-600 bg-blue-600 px-5 py-3 text-base font-medium text-white transition hover:bg-blue-700"
+                            {step === 1 && (
+                                <form onSubmit={(e) => { e.preventDefault(); handleRequestCode(); }}>
+                                    <InputBox
+                                        type="email"
+                                        name="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        placeholder={t("form.email")}
+                                        required
                                     />
+                                    <div className="mb-10 mt-6">
+                                        <input
+                                            type="submit"
+                                            value={t("forgetPswd.getCode")}
+                                            className="w-full cursor-pointer rounded-md border border-blue-600 bg-blue-600 px-5 py-3 text-base font-medium text-white transition hover:bg-blue-700"
+                                        />
+                                    </div>
+                                </form>
+                            )}
 
+                            {step === 2 && (
+                                <form onSubmit={(e) => { e.preventDefault(); handleResetPassword(); }}>
+                                    <InputBox
+                                        type="text"
+                                        name="code"
+                                        value={code}
+                                        onChange={(e) => setCode(e.target.value)}
+                                        placeholder={t("forgetPswd.code")}
+                                        required
+                                    />
+                                    <InputBox
+                                        type="password"
+                                        name="newPassword"
+                                        value={newPassword}
+                                        onChange={(e) => setNewPassword(e.target.value)}
+                                        placeholder={t("form.newPassword")}
+                                        required
+                                    />
+                                    <div className="mb-10 mt-6">
+                                        <input
+                                            type="submit"
+                                            value={t("forgetPswd.reset")}
+                                            className="w-full cursor-pointer rounded-md border border-blue-600 bg-blue-600 px-5 py-3 text-base font-medium text-white transition hover:bg-blue-700"
+                                        />
+                                    </div>
+                                </form>
+                            )}
+
+
+                            {step === 3 && (
+                                <div className="text-center">
+                                    <p className="text-lg font-medium text-green-600 dark:text-green-400">
+                                        {t("forgetPswd.success")}
+                                    </p>
+                                    <p className="mt-4 text-sm text-gray-700 dark:text-gray-300">
+                                        {t("forgetPswd.redirectIn")} {Math.floor(countdown / 60)}:{String(countdown % 60).padStart(2, "0")}...
+                                    </p>
                                 </div>
-
-                            </form>
+                            )}
 
                         </div>
                     </div>
                 </div>
             </div>
+
+
         </section>
     );
 };
@@ -69,9 +159,7 @@ const PwdForget = () => {
 const LayoutPwdForget = () => (
 
     <HomeLayout>
-
         <PwdForget />
-
     </HomeLayout>
 );
 
