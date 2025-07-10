@@ -9,6 +9,7 @@ import api from '../services/Axios';
 import { login, updateUserData, updateUserToken } from '../slices/authSlice';
 import AttentionAlertMesage, { showMessage } from '../components/AlertMessage';
 import { useTranslation } from 'react-i18next';
+import { Outlet, NavLink } from 'react-router-dom';
 
 
 // Fonction de login avec l'API
@@ -184,40 +185,58 @@ const Signin = () => {
                             color: "var(--color-text)"
                         }} className="relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white px-10 py-16 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]">
 
-                            <h1 className="mb-10 text-2xl font-bold text-dark dark:text-white">
-                               {t("connecTitle")}
-                            </h1>
+                            <>
+                                <h1 className="mb-10 text-2xl font-bold text-dark dark:text-white">
+                                    {t("connecTitle")}
+                                </h1>
 
-                            <form onSubmit={(e) => { e.preventDefault(); handleSignIn(); }}>
+                                <form onSubmit={(e) => { e.preventDefault(); handleSignIn(); }}>
 
-                                <InputBox
-                                    type="email"
-                                    name="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    placeholder={t('form.email')}
-                                    required
-                                />
-
-                                <InputBox
-                                    type="password"
-                                    name="password"
-                                    value={pwd}
-                                    onChange={(e) => setPwd(e.target.value)}
-                                    placeholder={t('form.password')}
-                                    ref={emailRef}
-                                    required
-                                />
-
-                                <div className="mb-10">
-                                    <input
-                                        type="submit"
-                                        value="Sign In"
-                                        className="w-full cursor-pointer rounded-md border border-blue-600 bg-blue-600 px-5 py-3 text-base font-medium text-white transition hover:bg-blue-700"
+                                    <InputBox
+                                        type="email"
+                                        name="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        placeholder={t('form.email')}
+                                        required
                                     />
-                                </div>
 
-                            </form>
+                                    <InputBox
+                                        type="password"
+                                        name="password"
+                                        value={pwd}
+                                        onChange={(e) => setPwd(e.target.value)}
+                                        placeholder={t('form.password')}
+                                        ref={emailRef}
+                                        required
+                                    />
+
+                                    <div className="mb-10">
+
+                                        <input
+                                            type="submit"
+                                            value="Sign In"
+                                            className="w-full cursor-pointer rounded-md border border-blue-600 bg-blue-600 px-5 py-3 text-base font-medium text-white transition hover:bg-blue-700"
+                                        />
+
+                                    </div>
+
+                                    </form>
+
+                                <NavLink to="/forgetPassword"  className="mb-2 inline-block text-base text-dark hover:text-primary hover:underline dark:text-white">
+
+                                    {t("forgetPwd")}
+
+                                </NavLink>
+
+                                <p className="text-base text-body-color dark:text-dark-6 flex items-center justify-center gap-2">
+
+                                    <span className="pr-0.5">{t("notRegistered")}</span>
+
+                                    <NavLink to="/Register" className="text-gray-800 hover:underline">{t("register")}</NavLink>
+
+                                </p>
+                            </>
 
                             {/*<p className="mb-6 text-base text-secondary-color dark:text-dark-7">*/}
                             {/*    Connect With*/}
@@ -252,34 +271,35 @@ const Signin = () => {
 
                             {/*</ul>*/}
 
-                            <a href="/#" className="mb-2 inline-block text-base text-dark hover:text-primary hover:underline dark:text-white">
-                                {t("forgetPwd")}
-                            </a>
-
-                            <p className="text-base text-body-color dark:text-dark-6">
-
-                                <span className="pr-0.5">{t("notRegistered")}</span>
-
-                                <a href="/#" className="text-primary hover:underline">{t("register")}</a>
-
-                            </p>
+                         
 
                             {messageAlert && (
 
                                 <AttentionAlertMesage title="Erreur" content={messageAlert} />
                             )}
+
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
+
+            <Outlet/>
+
         </section>
     );
 };
 
 const LogIn = () => (
+
     <HomeLayout>
+
         <Signin />
+
     </HomeLayout>
 );
 
 export default LogIn;
+

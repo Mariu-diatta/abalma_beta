@@ -21,6 +21,7 @@ import VerticalNavbar, {
 import PersistLogIn from "../features/auth/PersistLogin";
 import ProfileCard from "../features/ProfilUser";
 import PrivacyPolicy from "../features/PrivacyPolicy";
+import LayoutPwdForget from "../pages/forgetPassword";
 
 // Routes Configuration
 const routes = [
@@ -35,7 +36,8 @@ const routes = [
             { path: "politique-confidentialite", element: <PrivacyPolicy/> },
             { path: "products", element: <ProductList /> },
             { path: "payment_card", element: <SelectedProduct /> },
-            { path: "blog", element: <BlogPage /> },
+            { path: "blog", element: <BlogPage /> }, 
+            { path: "forgetPassword", element: <LayoutPwdForget /> },
 
             {
                 path: "user_profil",

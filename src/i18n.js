@@ -233,6 +233,13 @@ i18n
                  DIVERS: "Miscellaneous",
                  noProduct:"No product available"
              },
+
+
+             forgetPswd: {
+
+                 title: "Forget password",
+                 getCode: "Get code"
+             }
         }
      },
 
@@ -458,7 +465,13 @@ i18n
                   FOURNITURES_SCOLAIRES: "Fournitures scolaires",
                   DIVERS: "Divers",
                   noProduct: "Aucun produit n'est disponible"
-              }
+              },
+
+              forgetPswd: {
+
+                  title: "Mot de passe oublié",
+                  getCode:"Recevoir le code"
+             }
         }
       }
    }
