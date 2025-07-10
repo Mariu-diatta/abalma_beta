@@ -236,9 +236,35 @@ const NavbarHeader = () => {
     const ref = useRef(null);
 
     const tabs = [
-        { id: 'home', label: t('home'), endPoint: '/' },
-        { id: 'about', label: t('about'), endPoint: '/About' },
-        { id: 'blog', label: 'Blog', endPoint: '/Blog' },
+        {
+            id: 'home',
+            label: t('home'),
+            endPoint: '/',
+            logo: <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 25 25">
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m4 12 8-8 8 8M6 10.5V19a1 1 0 0 0 1 1h3v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h3a1 1 0 0 0 1-1v-8.5" />
+            </svg>
+
+        },
+
+        {
+            id: 'about',
+            label: t('about'),
+            endPoint: '/About',
+            logo: <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 25 25">
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7.556 8.5h8m-8 3.5H12m7.111-7H4.89a.896.896 0 0 0-.629.256.868.868 0 0 0-.26.619v9.25c0 .232.094.455.26.619A.896.896 0 0 0 4.89 16H9l3 4 3-4h4.111a.896.896 0 0 0 .629-.256.868.868 0 0 0 .26-.619v-9.25a.868.868 0 0 0-.26-.619.896.896 0 0 0-.63-.256Z" />
+            </svg>
+
+        },
+
+        {
+            id: 'blog',
+            label: 'Blog',
+            endPoint: '/Blog',
+            logo: <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 25 25">
+                <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="M16 19h4a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-2m-2.236-4a3 3 0 1 0 0-4M3 18v-1a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Zm8-10a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+
+        },
     ];
 
     useEffect(() => {
@@ -282,6 +308,8 @@ const NavbarHeader = () => {
                             </a>
                         </div>
 
+                        <ButtonNavigate tabs={tabs} />
+
                         {/* Toggle Button for Mobile */}
                         <button
                             onClick={() => setOpen(!open)}
@@ -310,49 +338,36 @@ const NavbarHeader = () => {
                             lg:static lg:block lg:max-w-full lg:w-auto`}
                             style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                         >
-                            <ul className="flex flex-col lg:flex-row items-center justify-center gap-4 px-4 py-2">
-
-                                {tabs.map((tab) => (
-                                    <li key={tab.id}>
-                                        <NavLink
-                                            to={tab.endPoint}
-                                            className={({ isActive }) =>
-                                                `text-base font-medium px-3 py-2 rounded-t-lg border-b-2 ${isActive
-                                                    ? 'text-purple-600 border-purple-600 dark:text-purple-500 dark:border-purple-500'
-                                                    : 'text-gray-500 border-transparent hover:text-gray-600 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
-                                                }`
-                                            }
-                                        >
-                                            {tab.label}
-                                        </NavLink>
-                                    </li>
-                                ))}
-
-                            </ul>
 
                             {/* Boutons et Dropdown (Mobile) */}
                             <div className="flex flex-col items-center justify-center gap-2 mt-4 sm:hidden">
+
                                 <LanguageDropdown changeLanguage={changeLanguage} />
                                 <ThemeToggle />
                                 <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
                                 <WhiteRoundedButton titleButton={t('register')} to="/Register" />
+
                             </div>
 
                         </nav>
 
                         {/* Boutons et Dropdown (Desktop) */}
                         <div className="hidden sm:flex items-center justify-center gap-3">
+
                             <LanguageDropdown changeLanguage={changeLanguage} />
                             <ThemeToggle />
                             <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
                             <WhiteRoundedButton titleButton={t('register')} to="/Register" />
+
                         </div>
 
                     </div>
 
                 </div>
 
+
             </header>
+
 
             <Outlet />
         </>
@@ -360,3 +375,50 @@ const NavbarHeader = () => {
 };
 
 export default NavbarHeader;
+
+const ButtonNavigate = ({ tabs }) => {
+
+    return (
+
+        <ul
+            className="
+                fixed bottom-0 left-0 w-full flex gap-2
+                border-0
+                sm:items-center
+                lg:static lg:flex 
+                lg:flex-row 
+                lg:w-auto
+                lg:justify-between
+                dark:bg-dark-2
+                px-4 py-2 z-50 
+             "
+        >
+            {tabs.map((tab) => (
+
+                <li key={tab.id} className="w-full sm:w-auto">
+
+                    <NavLink
+                        to={tab.endPoint}
+                        className={
+                                ({ isActive }) =>
+                                `
+                                w-full text-center items-center flex flex-col lg:flex-row 
+                                text-base font-medium px-4 py-1
+                                transition rounded-md
+                                ${isActive
+                                ? 'bg-gray-50 dark:bg-dark-100 text-black'
+                                : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-dark-3'}
+    `
+                        }
+                    >
+                        <>{tab.logo}</>
+                        <>{tab.label}</>
+
+                    </NavLink>
+
+                </li>
+            ))}
+        </ul>
+    );
+};
+
