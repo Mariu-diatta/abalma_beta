@@ -26,62 +26,49 @@ const Tabs = () => {
         { id: 'settings', label: t('Dashboard.settings') },
         { id: 'contacts', label: t('Dashboard.contacts') },
     ];
-
     useEffect(() => {
+        if (!currentUser?.id) {
+            console.log("Pas d'utilisateur");
+            return;
+        }
 
         const getTransactionProduct = async () => {
-
             try {
-                const responseBought = await api.get(`/transactions/products/?client=${currentUser?.id}`);
+                const [boughtRes, soldRes] = await Promise.all([
+                    api.get(`/transactions/products/?client=${currentUser.id}`),
+                    api.get(`/transactions/products/?owner=${currentUser.id}`)
+                ]);
 
-                responseBought?.data?.forEach((data_) => {
+                console.log("Bought response:", boughtRes.data);
+                console.log("Sold response:", soldRes.data);
 
-                    if (data_?.client === currentUser?.id) {
+                const bought = boughtRes?.data
+                    ?.filter((item) => item?.client === currentUser.id && item?.code)
+                    ?.map((item) => ({ ...item, statut: "En cours" }));
 
-                        const data_product = { ...data_?.product, statut: "En cours" };
+                const sold = soldRes?.data
+                    ?.filter((item) => item?.owner === currentUser.id && item?.code && item?.transaction_type === "Achat")
+                    ?.map((item) => ({ ...item, statut: "En cours" }));
 
-                        setProductsTrasactionBought((prev) => [...prev, data_product]);
-                    }
-                });
+                console.log("Mapped bought:", bought);
+                console.log("Mapped sold:", sold);
 
+                setProductsTrasactionBought(bought);
+                setProductsTrasactionSold(sold);
             } catch (e) {
-
-                console.error(e);
-            }
-
-            try {
-                const response = await api.get(`/transactions/products/?owner=${currentUser?.id}`);
-
-                response?.data?.forEach((data_) => {
-
-                    if (data_?.owner === currentUser?.id) {
-
-                        const data_product = { ...data_?.product, statut: "En cours" };
-
-                        setProductsTrasactionSold((prev) => [...prev, data_product]);
-                    }
-                });
-
-            } catch (e) {
-
-                console.error(e);
+                console.error("Erreur lors de la récupération :", e);
             }
         };
 
-        if (currentUser?.id) {
-
-            getTransactionProduct();
-        }
-
+        getTransactionProduct();
     }, [currentUser?.id]);
 
- 
 
     const tabContent = {
 
         dashboard: (
 
-            <div className="p-2 space-y-6 max-w-7xl mx-auto  style-bg">
+            <div className="p-2 space-y-6 max-w-7xl mx-auto  style-bg mb-2">
 
                 <div className="mb-6 text-center style_bg">
 
@@ -101,9 +88,17 @@ const Tabs = () => {
 
                 </div>
 
-                <ProductTablePagination data={productsTrasactionSold} />
+                {
+                    productsTrasactionSold?.length > 0 && (
+                        <ProductTablePagination data={productsTrasactionSold} />
+                    )
+                }
 
-                <ProductsRecapTable products={productsTrasactionBought} />
+                {
+                    productsTrasactionBought?.length > 0 && (
+                        <ProductsRecapTable products={productsTrasactionBought} />
+                    )
+                }
 
             </div>
         ),

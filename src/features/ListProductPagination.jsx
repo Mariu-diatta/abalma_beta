@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import ViewProduct from "../components/ViewProduct";
 import { useTranslation } from 'react-i18next';
 
@@ -18,7 +18,7 @@ const ProductTablePagination = ({ data }) => {
     const closePopover = () => setPoverOpen(false)
 
     // Filtrage par statut réel
-    const statutsOptions = [t('TableRecap.statusAll'), "en cours", "vendu", "offert", "prete"];
+    const statutsOptions = ["Tous", "en cours", "vendu", "offert", "prete"]; //t('TableRecap.statusAll')
 
     // Filtrage et recherche
     const filteredData = useMemo(() => {
@@ -132,13 +132,20 @@ const ProductTablePagination = ({ data }) => {
     };
 
     // Reset page si filtre/search change
-    React.useEffect(() => {
+    useEffect(() => {
 
         setCurrentPage(1);
 
         setSelectedIds(new Set());
 
     }, [searchTerm, filterStatut]);
+
+    // Reset page si filtre/search change
+    useEffect(() => {
+
+       console.log("toutes les données", data)
+
+    });
 
     return (
 
@@ -231,7 +238,7 @@ const ProductTablePagination = ({ data }) => {
                 </div>
 
                 {/* Bouton supprimer si sélection */}
-                {selectedIds.size > 0 && (
+                {data.size > 0 && (
 
                     <button
 
@@ -371,29 +378,40 @@ const ProductTablePagination = ({ data }) => {
                                     }`}
                             >
                                 <td className="p-3">
+
                                     <input
                                         type="checkbox"
                                         checked={selectedIds.has(item.id)}
                                         onChange={() => toggleSelectOne(item.id)}
                                         aria-label={`Sélectionner ${item?.description_product}`}
                                     />
+
                                 </td>
 
                                 <td className="px-4 py-3 font-medium">{item?.description_product}</td>
+
                                 <td className="px-4 py-3">{item?.color_product}</td>
+
                                 <td className="px-4 py-3">{item?.categorie_product}</td>
+
                                 <td className="px-4 py-3">{item?.Currency_price?.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}</td>
+                                
                                 <td className="px-4 py-3 capitalize">{item.statut}</td>
 
                                 <td className="px-6 py-3 ">
 
                                     <button
+
                                         className="text-blue-600 hover:underline dark:text-blue-400 cursor-pointer"
+
                                         onClick={() => alert(`Modifier: ${item?.description_product}`)}
+
                                         aria-label={`Modifier ${item?.description_product}`}
                                     >
                                         <svg className="w-[25px] h-[20px] text-gray-800 boder-red-200 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            
                                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
+                                        
                                         </svg>
 
                                     </button>
@@ -403,13 +421,20 @@ const ProductTablePagination = ({ data }) => {
                                 <td className="px-6 py-3">
 
                                     <button
+
                                         className="text-blue-600 hover:underline dark:text-blue-400 cursor-pointer"
+
                                         onClick={() => setPoverOpen(true)}
+
                                         aria-label={`Voir ${item?.description_product}`}
+
                                     >
                                         <svg className="w-[25px] h-[25px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            
                                             <path stroke="currentColor" strokeWidth="0.8" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
+                                            
                                             <path stroke="currentColor" strokeWidth="0.8" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+
                                         </svg>
 
                                     </button>
@@ -425,16 +450,23 @@ const ProductTablePagination = ({ data }) => {
             {/* Pagination */}
             <nav
                 className="flex items-center justify-between py-3"
+
                 aria-label="Navigation de la pagination"
             >
                 <span className="text-sm text-gray-700 dark:text-gray-300">
+
                     Affichage{" "}
+
                     <span className="font-semibold">
+
                         {filteredData.length === 0 ? 0 : (currentPage - 1) * ITEMS_PER_PAGE + 1}
                         -
                         {Math.min(currentPage * ITEMS_PER_PAGE, filteredData.length)}
+
                     </span>{" "}
+
                     {t('TableRecap.pagination.of')} <span className="font-semibold">{filteredData.length}</span> resultats
+
                 </span>
 
                 <ul className="inline-flex items-center space-x-1">
@@ -514,9 +546,13 @@ const ProductTablePagination = ({ data }) => {
 
                     {/* Popover */}
                     <div
+
                         className="fixed top-1/2 left-1/2 z-50 max-w-full  bg-white  rounded-md shadow-lg p-4 transform -translate-x-1/2 -translate-y-1/2"
+
                         role="dialog"
+
                         aria-modal="true"
+
                         aria-labelledby="popover-title"
                     >
                         <div className="flex  items-center  max-w-full ">

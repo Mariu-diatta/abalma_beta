@@ -326,7 +326,7 @@ const NavbarHeader = () => {
 
                                     </ul>
 
-                                    <div className="flex flex-col lg:hidden md:hidden justify-end pr-16 sm:flex lg:pr-0 gap-2 style-bg">
+                                    <div className="flex flex-col lg:hidden md:hidden sm:hidden justify-end pr-16 sm:flex lg:pr-0 gap-2 style-bg">
 
                                         <LanguageDropdown changeLanguage={changeLanguage} />
 
@@ -341,7 +341,7 @@ const NavbarHeader = () => {
                                 </nav>
                             </div>
 
-                            <div className="hidden sm:flex items-center justify-end gap-3 pr-16 lg:pr-0">
+                            <div className="hidden sm:flex md:hidden items-center justify-end gap-3 pr-16 lg:pr-0">
 
                                 <LanguageDropdown changeLanguage={changeLanguage} />
 
