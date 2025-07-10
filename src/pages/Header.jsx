@@ -252,112 +252,80 @@ const NavbarHeader = () => {
 
     return (
         <>
-            <header className="absolute left-0 right-0 top-2 z-20 flex w-full items-center justify-between style-bg">
+            <header className="w-full z-20 flex items-center style-bg py-2">
+                <div className="container mx-auto px-4">
+                    <div className="flex items-center justify-between relative">
 
-                <div className="container style-bg">
-
-                    <div className="relative -mx-4 flex items-center justify-between ">
-
-                        <div className="w-50 max-w-full px-6">
-                            <a href="/" className="block w-full py-2">
+                        {/* Logo */}
+                        <div className="flex-shrink-0">
+                            <a href="/" className="block py-2">
                                 <Logo />
                             </a>
                         </div>
 
-                        <div className="flex w-full items-center justify-between px-4">
+                        {/* Toggle Button for Mobile */}
+                        <button
+                            onClick={() => setOpen(!open)}
+                            id="navbarToggler"
+                            className={`
+                            ${open && "navbarTogglerActive"} 
+                            sm:hidden absolute right-4 top-1/2 transform -translate-y-1/2 
+                            z-[71] px-3 py-[6px] rounded-lg 
+                             text-black shadow-md
+                            dark:bg-dark-3 dark:text-white
+                            focus:outline-none
+                          `}
 
-                            <div>
+                            style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
+                        >
+                            <span className="block w-[30px] h-[2px] bg-gray-700 dark:bg-gray-200 my-[6px]"></span>
+                            <span className="block w-[30px] h-[2px] bg-gray-700 dark:bg-gray-200 my-[6px]"></span>
+                            <span className="block w-[30px] h-[2px] bg-gray-700 dark:bg-gray-200 my-[6px]"></span>
+                        </button>
 
-                                <button
-                                    onClick={() => setOpen(!open)}
-                                    id="navbarToggler"
-                                    className={`${open && "navbarTogglerActive"} absolute right-4 top-1/2 block -translate-y-1/2 rounded-lg px-3 py-[6px] bg-white-500 focus:ring-0 ring-primary lg:hidden  focus:bg-gray-200`}
-                                >
-                                    <span className="relative my-[6px] block h-[2px] w-[30px] bg-grey border-1"></span>
-                                    <span className="relative my-[6px] block h-[2px] w-[30px] bg-grey border-1"></span>
-                                    <span className="relative my-[6px] block h-[2px] w-[30px] bg-grey border-1"></span>
-
-                                </button>
-
-                                <nav
-
-                                    id="navbarCollapse"
-
-                                    className={`z-[70]  absolute right-4 top-full w-full max-w-[250px] rounded-lg px-6 py-5   dark:divide-dark-3 dark:bg-dark-2
-                                                lg:static lg:block lg:w-full lg:max-w-full   ${!open && "hidden"}`}
-
-                                    style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
-                                >
-                                    <ul className="block lg:flex">
-
-                                        <ul className="lg:flex md:block">
-
-                                            {
-                                                tabs.map(
-                                                    (tab) => (
-
-                                                        <li className="me-1" key={tab.id}>
-
-                                                            <NavLink
-
-                                                                to={tab.endPoint}
-
-                                                                className={({ isActive }) =>
-
-                                                                    `inline-block p-2 border-b-2 rounded-t-lg ${isActive
-
-                                                                        ? 'text-purple-600 border-purple-600 dark:text-purple-500 dark:border-purple-500'
-
-                                                                        : 'text-gray-500 border-transparent hover:text-gray-600 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
-
-                                                                    } flex text-base font-medium text-dark dark:text-white lg:ml-10 lg:inline-flex`
-                                                                }
-                                                            >
-                                                                {tab.label}
-
-                                                            </NavLink>
-
-                                                        </li>
-                                                    )
-                                                )
+                        {/* Navigation */}
+                        <nav
+                            id="navbarCollapse"
+                            className={`sm:hidden absolute right-4 top-full w-full max-w-[250px] z-[70] rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${!open && "hidden"}
+                            lg:static lg:block lg:max-w-full lg:w-auto`}
+                            style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
+                        >
+                            <ul className="flex flex-col lg:flex-row items-center justify-center gap-4 px-4 py-2">
+                                {tabs.map((tab) => (
+                                    <li key={tab.id}>
+                                        <NavLink
+                                            to={tab.endPoint}
+                                            className={({ isActive }) =>
+                                                `text-base font-medium px-3 py-2 rounded-t-lg border-b-2 ${isActive
+                                                    ? 'text-purple-600 border-purple-600 dark:text-purple-500 dark:border-purple-500'
+                                                    : 'text-gray-500 border-transparent hover:text-gray-600 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
+                                                }`
                                             }
+                                        >
+                                            {tab.label}
+                                        </NavLink>
+                                    </li>
+                                ))}
+                            </ul>
 
-                                        </ul>
-
-                                    </ul>
-
-                                    <div className="flex flex-col lg:hidden md:hidden sm:hidden justify-end pr-16 sm:flex lg:pr-0 gap-2 style-bg">
-
-                                        <LanguageDropdown changeLanguage={changeLanguage} />
-
-                                        <ThemeToggle />
-
-                                        <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
-
-                                        <WhiteRoundedButton titleButton={t('register')} to="/Register" />
-
-                                    </div>
-
-                                </nav>
-                            </div>
-
-                            <div className="hidden sm:flex md:hidden items-center justify-end gap-3 pr-16 lg:pr-0">
-
+                            {/* Boutons et Dropdown (Mobile) */}
+                            <div className="flex flex-col items-center justify-center gap-2 mt-4 sm:hidden">
                                 <LanguageDropdown changeLanguage={changeLanguage} />
-
                                 <ThemeToggle />
-
                                 <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
-
                                 <WhiteRoundedButton titleButton={t('register')} to="/Register" />
                             </div>
+                        </nav>
 
+                        {/* Boutons et Dropdown (Desktop) */}
+                        <div className="hidden sm:flex items-center justify-center gap-3">
+                            <LanguageDropdown changeLanguage={changeLanguage} />
+                            <ThemeToggle />
+                            <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
+                            <WhiteRoundedButton titleButton={t('register')} to="/Register" />
                         </div>
-
                     </div>
-
                 </div>
-
             </header>
 
             <Outlet />
