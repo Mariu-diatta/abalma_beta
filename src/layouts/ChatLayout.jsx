@@ -114,7 +114,7 @@ const ChatLayout = () => {
 
         <div
 
-            className="flex h-screen w-auto overflow-hidden bg-white relative"
+            className="container flex h-screen w-auto overflow-hidden bg-white relative "
 
             style={{
                 backgroundColor: "var(--color-bg)",

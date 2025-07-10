@@ -5,7 +5,7 @@ import NavbarHeader from '../pages/Header';
 const HomeLayout = ({children}) => {
 
     return (
-        <div className="d-flex flex-coulumn style-bg">
+        <div className="items-center justify-center d-flex flex-coulumn style-bg overflow-x-hidden ">
             <NavbarHeader/>
             <>{children}  </ >
             <Footer/>
