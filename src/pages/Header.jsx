@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Outlet, NavLink } from 'react-router-dom';
 import WhiteRoundedButton from "../components/Button";
 import Logo from "../components/LogoApp";
@@ -47,7 +47,7 @@ export function LanguageDropdown({ changeLanguage }) {
 
     return (
 
-        <div className="relative inline-block text-left ">
+        <div className="relative inline-block text-left " >
 
             <button
                 onClick={() => setIsOpen(!isOpen)}
@@ -233,14 +233,31 @@ const NavbarHeader = () => {
 
     const themeValue = useSelector((state) => state.navigate.theme)
 
+    const ref = useRef(null);
+
     const tabs = [
         { id: 'home', label: t('home'), endPoint: '/' },
         { id: 'about', label: t('about'), endPoint: '/About' },
         { id: 'blog', label: 'Blog', endPoint: '/Blog' },
     ];
 
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (ref.current && !ref.current.contains(event.target)) {
+                setOpen(false); // Fermer si clic en dehors
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+
+    }, [])
 
     useEffect(() => {
+
         const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
         const saved = localStorage.getItem("theme");
         const theme = saved || themeValue || (prefersDark ? "dark" : "light");
@@ -252,8 +269,10 @@ const NavbarHeader = () => {
 
     return (
         <>
-            <header className="w-full z-20 flex items-center style-bg py-2">
+            <header className="w-full z-20 flex items-center style-bg py-2" ref={ref}>
+
                 <div className="container mx-auto px-4">
+
                     <div className="flex items-center justify-between relative">
 
                         {/* Logo */}
@@ -281,6 +300,7 @@ const NavbarHeader = () => {
                             <span className="block w-[30px] h-[2px] bg-gray-700 dark:bg-gray-200 my-[6px]"></span>
                             <span className="block w-[30px] h-[2px] bg-gray-700 dark:bg-gray-200 my-[6px]"></span>
                             <span className="block w-[30px] h-[2px] bg-gray-700 dark:bg-gray-200 my-[6px]"></span>
+
                         </button>
 
                         {/* Navigation */}
@@ -291,6 +311,7 @@ const NavbarHeader = () => {
                             style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                         >
                             <ul className="flex flex-col lg:flex-row items-center justify-center gap-4 px-4 py-2">
+
                                 {tabs.map((tab) => (
                                     <li key={tab.id}>
                                         <NavLink
@@ -306,6 +327,7 @@ const NavbarHeader = () => {
                                         </NavLink>
                                     </li>
                                 ))}
+
                             </ul>
 
                             {/* Boutons et Dropdown (Mobile) */}
@@ -315,6 +337,7 @@ const NavbarHeader = () => {
                                 <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
                                 <WhiteRoundedButton titleButton={t('register')} to="/Register" />
                             </div>
+
                         </nav>
 
                         {/* Boutons et Dropdown (Desktop) */}
@@ -324,8 +347,11 @@ const NavbarHeader = () => {
                             <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
                             <WhiteRoundedButton titleButton={t('register')} to="/Register" />
                         </div>
+
                     </div>
+
                 </div>
+
             </header>
 
             <Outlet />
