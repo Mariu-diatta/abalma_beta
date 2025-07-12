@@ -152,7 +152,7 @@ const Signin = () => {
 
                         dispatch(login(dataUser));
 
-                        return navigate("/account", { replace: true });
+                        return navigate("/UserLayout", { replace: true });
 
                     }
 

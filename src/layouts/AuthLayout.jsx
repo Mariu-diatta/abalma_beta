@@ -7,11 +7,8 @@ const AuthPage = () => {
     return (
 
         <div
-            style={{
-                marginBottom: "30px",
 
-                paddingBottom:"50px"
-            }}
+            className="sm:mb-[30px] sm:pb-[50px]"
         >
             <VertcalNavbar />
 

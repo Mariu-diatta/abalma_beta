@@ -122,7 +122,7 @@ const ChatApp = ({ roomName }) => {
     return (
 
         <div
-            className="flex flex-col h-full p-4 md:p-6 bg-white rounded-2xl shadow overflow-hidden mb-0 pb-5"
+            className="flex flex-col h-full p-4 md:p-6 bg-white rounded-2xl shadow overflow-hidden mb-0"
 
             style={{
 
@@ -218,7 +218,7 @@ const ChatApp = ({ roomName }) => {
             </ul>
 
             {/* 📥 Zone d’entrée */}
-            <div className="mt-4 flex gap-2 z-[2000] transparent" >
+            <div className="mt-4 flex gap-2 transparent" >
 
                 <input
 
