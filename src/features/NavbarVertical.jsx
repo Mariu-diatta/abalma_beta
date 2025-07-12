@@ -427,7 +427,7 @@ const VertcalNavbar = ({ children }) => {
 
                         aria-labelledby={`${currentNav}-tab-button`}
 
-                        className="bg-white dark:bg-gray-800 rounded-lg w-auto h-full"
+                        className="bg-white dark:bg-gray-800 rounded-lg w-auto h-full sm:mb-[30px] sm:pb-[50px]"
 
                         style={{
                             backgroundColor: "var(--color-bg)",
@@ -435,10 +435,6 @@ const VertcalNavbar = ({ children }) => {
                         }}
 
                     >
-                    {/*    {!currentNav && children}*/}
-
-                        {/*    {tabContent[currentNav]}  */}
-
                         {children}
 
                     </section>

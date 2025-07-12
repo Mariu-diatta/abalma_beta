@@ -6,10 +6,7 @@ const AuthPage = () => {
 
     return (
 
-        <div
-
-            className="sm:mb-[30px] sm:pb-[50px]"
-        >
+        <div>
             <VertcalNavbar />
 
         </div>
