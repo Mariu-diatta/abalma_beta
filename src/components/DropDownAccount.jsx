@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCurrentNav } from '../slices/navigateSlice';
 import { logout } from "../slices/authSlice";
 import api from "../services/Axios";
 import { clearCart } from "../slices/cartSlice";
@@ -10,7 +9,54 @@ import toast, { Toaster } from 'react-hot-toast';
 import { LanguageDropdown, ThemeToggle } from "../pages/Header";
 import i18n from "i18next";
 import { useTranslation } from 'react-i18next';
+import { NavLink } from 'react-router-dom';
 
+
+const NotificationGroup = ({ currentUser, currentNotifMessages, notify, changeLanguage, nbItems }) => (
+
+    <>
+        {currentNotifMessages.length > 0 && (
+
+            <button
+
+                onClick={notify}
+
+                className="relative flex items-center justify-center h-12 w-12 rounded-lg bg-white dark:bg-dark-2 text-dark dark:text-white"
+
+                style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
+            >
+                <NotificationsComponent userId={currentUser?.id} />
+
+            </button>
+        )}
+
+        <Toaster />
+
+        <ThemeToggle />
+
+        <LanguageDropdown changeLanguage={changeLanguage} />
+
+        {/* Paiement */}
+        <NavLink
+
+            to="/payment_product"
+
+            className="relative flex items-center justify-center h-12 w-12 rounded-lg bg-white dark:bg-dark-2 text-dark dark:text-white"
+
+            style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
+        >
+            <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8"
+                    d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7h-1M8 7h-.688M13 5v4m-2-2h4" />
+            </svg>
+
+            <span className="absolute top-2 right-2 text-xs text-green-600 font-bold">{nbItems}</span>
+
+        </NavLink>
+
+    </>
+);
 
 const NotificationsComponent = ({ userId }) => {
 
@@ -66,6 +112,7 @@ const NotificationsComponent = ({ userId }) => {
     }, [userId, dispatch]);
 
     return (
+
         <div className="flex">
 
             <svg className="w-[26px] h-[25px] text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -192,41 +239,31 @@ export default function AccountDropdownUserProfil() {
 
                 <div className="flex items-center p-2 bg-transparent rounded-lg">
 
-                    {/* Notifications */}
-                    {currentNotifMessages.length > 0 && (
+                    {/* Mobile only - fixed bottom bar */}
+                    <div className="fixed bottom-0 w-max-100 left-0 right-0 z-0 flex items-center justify-around sm:flex md:hidden lg:hidden">
 
-                        <button
-                            onClick={notify}
-                            className="relative flex items-center justify-center h-12 w-12 rounded-lg bg-white dark:bg-dark-2 text-dark dark:text-white"
-                            style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
-                        >
-                            <NotificationsComponent userId={currentUser?.id} />
-                        </button>
-                    )}
+                        <NotificationGroup
+                            currentUser={currentUser}
+                            currentNotifMessages={currentNotifMessages}
+                            notify={notify}
+                            changeLanguage={changeLanguage}
+                            nbItems={nbItems}
+                        />
 
-                    {/* Notifications tost */}
-                    <Toaster />
+                    </div>
 
-                    {/* theme mode */}
-                    <ThemeToggle />
+                    {/* Desktop (md and up) */}
+                    <div className="hidden md:flex lg:flex items-center gap-2">
 
-                    <LanguageDropdown changeLanguage={changeLanguage} />
+                        <NotificationGroup
+                            currentUser={currentUser}
+                            currentNotifMessages={currentNotifMessages}
+                            notify={notify}
+                            changeLanguage={changeLanguage}
+                            nbItems={nbItems}
+                        />
 
-                    {/* Paiement */}
-                    <button
-                        onClick={() => dispatch(setCurrentNav("payment"))}
-                        className="relative flex items-center justify-center h-12 w-12 rounded-lg bg-white dark:bg-dark-2 text-dark dark:text-white"
-                        style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
-                    >
-                        <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-
-                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8"
-                                d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7h-1M8 7h-.688M13 5v4m-2-2h4" />
-                        </svg>
-
-                        <span className="absolute top-2 right-2 text-xs text-green-600 font-bold">{nbItems}</span>
-
-                    </button>
+                    </div>
 
                     {/* Avatar + dropdown */}
                     <button
@@ -298,21 +335,21 @@ export default function AccountDropdownUserProfil() {
                         </div>
 
                         <div>
-                            <button onClick={() => dispatch(setCurrentNav("user_profil"))} className="flex gap-1 w-full items-center justify-between px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5">
+                            <NavLink to="/user_profil" className="flex gap-1 w-full items-center justify-between px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5">
                                 <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 9h3m-3 3h3m-3 3h3M5 5h14v14H5z" />
                                 </svg>
                                 {t("profil")}
-                            </button>
+                            </NavLink>
                         </div>
 
                         <div>
-                            <button onClick={() => dispatch(setCurrentNav("dashboard"))} className="flex w-full items-center justify-between px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5">
+                            <NavLink to="/dashboard" className="flex w-full items-center justify-between px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5">
                                 <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" d="M5 7h14M5 12h14M5 17h14" />
                                 </svg>
                                 {t("activity")}
-                            </button>
+                            </NavLink>
                         </div>
 
                         <div>
@@ -334,8 +371,11 @@ export default function AccountDropdownUserProfil() {
                         </div>
 
                     </div>
+
                 </div>
+
             </div>
+
         </section>
     );
 }

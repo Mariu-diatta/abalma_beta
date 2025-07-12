@@ -8,48 +8,53 @@ import { useTranslation } from 'react-i18next';
 import i18n from "i18next";
 
 export function LanguageDropdown({ changeLanguage }) {
-
     const [isOpen, setIsOpen] = useState(false);
-
     const [selectedLang, setSelectedLang] = useState("Langue");
+    const [openDirection, setOpenDirection] = useState("bottom"); // "bottom" ou "top"
+    const buttonRef = useRef(null);
 
-    // Mise à jour automatique de l'affichage quand la langue change
     useEffect(() => {
-
         const lang = i18n.language || window.localStorage.i18nextLng || "fr";
-
         setSelectedLang(
-
-            (lang === "fr") ?
-
+            lang === "fr" ? (
                 <img src="https://flagcdn.com/w40/fr.png" alt="Fr" className="w-5 h-4" />
-
-                :
-
+            ) : (
                 <img src="https://flagcdn.com/w40/gb.png" alt="En" className="w-5 h-4" />
-
+            )
         );
-
     }, []);
 
+    useEffect(() => {
+        if (isOpen && buttonRef.current) {
+            const rect = buttonRef.current.getBoundingClientRect();
+            const viewportHeight = window.innerHeight;
+            const dropdownHeight = 100; // approximatif ou mesurer dynamiquement
+            const spaceBelow = viewportHeight - rect.bottom;
+
+            if (spaceBelow < dropdownHeight) {
+                setOpenDirection("top");
+            } else {
+                setOpenDirection("bottom");
+            }
+        }
+    }, [isOpen]);
+
     const handleChangeLanguage = (lang) => {
-
         changeLanguage(lang);
-
-        setSelectedLang(lang === "fr" ?
-            <img src="https://flagcdn.com/w40/fr.png" alt="Fr" className="w-5 h-4" />
-            :
-            <img src="https://flagcdn.com/w40/gb.png" alt="En" className="w-5 h-4" />
+        setSelectedLang(
+            lang === "fr" ? (
+                <img src="https://flagcdn.com/w40/fr.png" alt="Fr" className="w-5 h-4" />
+            ) : (
+                <img src="https://flagcdn.com/w40/gb.png" alt="En" className="w-5 h-4" />
+            )
         );
-
         setIsOpen(false);
     };
 
     return (
-
-        <div className="relative inline-block text-left " >
-
+        <div className="relative inline-block text-left">
             <button
+                ref={buttonRef}
                 onClick={() => setIsOpen(!isOpen)}
                 type="button"
                 className="inline-flex justify-center w-full rounded-full px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
@@ -57,7 +62,6 @@ export function LanguageDropdown({ changeLanguage }) {
                 aria-expanded={isOpen}
             >
                 {selectedLang}
-
                 <svg
                     className="ml-2 -mr-1 h-5 w-5"
                     xmlns="http://www.w3.org/2000/svg"
@@ -69,47 +73,36 @@ export function LanguageDropdown({ changeLanguage }) {
                         d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.23 8.27a.75.75 0 01.02-1.06z"
                         clipRule="evenodd"
                     />
-
                 </svg>
-
             </button>
 
             {isOpen && (
-
                 <div
-                    className="origin-top-right  absolute right-0 mt-2 w-28 rounded-md shadow-lg ring-black ring-opacity-5 style-bg z-[80]"
+                    className={`absolute right-0 w-28 rounded-md shadow-lg z-[80] ring-black ring-opacity-5 ${openDirection === "top" ? "origin-bottom-right mb-2 bottom-full" : "origin-top-right mt-2 top-full"
+                        }`}
                     style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                 >
-
                     <div className="py-1">
-
                         <button
                             onClick={() => handleChangeLanguage("fr")}
-                            className="flex gap-2  items-center block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+                            className="flex gap-2 items-center block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
                             role="menuitem"
                         >
                             Fr
-
                             <img src="https://flagcdn.com/w40/fr.png" alt="Fr" className="w-5 h-4" />
-
                         </button>
 
                         <button
                             onClick={() => handleChangeLanguage("en")}
-                            className="flex  gap-2 items-center block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+                            className="flex gap-2 items-center block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
                             role="menuitem"
                         >
                             En
-
                             <img src="https://flagcdn.com/w40/gb.png" alt="En" className="w-5 h-4" />
-
                         </button>
-
                     </div>
-
                 </div>
             )}
-
         </div>
     );
 }
@@ -197,7 +190,7 @@ export const ThemeToggle = () => {
 
                                 <path fill="currentColor" d="M5.99997 17c-.55229 0-1 .4477-1 1s.44771 1 1 1h.01c.55228 0 1-.4477 1-1s-.44772-1-1-1h-.01ZM18 17c-.5523 0-1 .4477-1 1s.4477 1 1 1h.01c.5523 0 1-.4477 1-1s-.4477-1-1-1H18Z" />
 
-                                <path fill="currentColor" fill-rule="evenodd" d="M12 13c.5523 0 1 .4477 1 1v.5858l.4142-.4142c.3905-.3905 1.0237-.3905 1.4142 0 .3905.3905.3905 1.0237 0 1.4142L14.4141 16l.5859.0001c.5523 0 1 .4477 1 1s-.4478 1-1.0001 1L14.4141 18l.4143.4143c.3905.3906.3905 1.0237 0 1.4142-.3906.3906-1.0237.3905-1.4143 0L13 19.4143v.5858c0 .5522-.4477 1-1 1s-1-.4478-1-1v-.5859l-.4143.4142c-.3905.3906-1.02365.3906-1.41417 0-.39053-.3905-.39053-1.0236 0-1.4142L9.58571 18l-.58572.0001c-.55228 0-1.00001-.4477-1.00002-1-.00001-.5523.44769-1 .99998-1L9.58571 16l-.41416-.4141c-.39054-.3905-.39056-1.0237-.00005-1.4142.39052-.3905 1.0237-.3906 1.4142 0l.4143.4142V14c0-.5523.4477-1 1-1Z" clip-rule="evenodd" />
+                                <path fill="currentColor" fillRule="evenodd" d="M12 13c.5523 0 1 .4477 1 1v.5858l.4142-.4142c.3905-.3905 1.0237-.3905 1.4142 0 .3905.3905.3905 1.0237 0 1.4142L14.4141 16l.5859.0001c.5523 0 1 .4477 1 1s-.4478 1-1.0001 1L14.4141 18l.4143.4143c.3905.3906.3905 1.0237 0 1.4142-.3906.3906-1.0237.3905-1.4143 0L13 19.4143v.5858c0 .5522-.4477 1-1 1s-1-.4478-1-1v-.5859l-.4143.4142c-.3905.3906-1.02365.3906-1.41417 0-.39053-.3905-.39053-1.0236 0-1.4142L9.58571 18l-.58572.0001c-.55228 0-1.00001-.4477-1.00002-1-.00001-.5523.44769-1 .99998-1L9.58571 16l-.41416-.4141c-.39054-.3905-.39056-1.0237-.00005-1.4142.39052-.3905 1.0237-.3906 1.4142 0l.4143.4142V14c0-.5523.4477-1 1-1Z" clipRule="evenodd" />
 
                                 <path fill="currentColor" d="M9.21869 3.96216c1.18841-.77809 2.61801-1.10041 4.02531-.90756 1.4073.19285 2.6974.88787 3.6327 1.95696.8431.96375 1.3466 2.17293 1.4406 3.44244.6029.16797 1.1584.48908 1.6088.93946C20.6137 10.0811 21 11.0137 21 11.9862c0 .9449-.3677 1.9573-1.0739 2.6636-.6417.6416-1.4561.9281-2.2516.9899-.1439-.2824-.3312-.539-.5532-.761 0-.7677-.2929-1.5355-.8787-2.1213-.5858-.5858-1.3535-.8787-2.1213-.8787-.5429-.5429-1.2929-.8786-2.1213-.8786-.8285 0-1.5785.3358-2.12139.8787-.76778 0-1.53555.2929-2.12133.8788-.58574.5857-.87861 1.3535-.87862 2.1212-.18576.1858-.34727.3958-.47938.6249-.77455-.2033-1.48895-.6091-2.06499-1.1851C3.47996 13.4642 3 12.3055 3 11.0973c0-1.1581.38455-2.34287 1.27157-3.22989.74279-.74279 1.74607-1.18271 2.75928-1.2962.45424-1.06098 1.21293-1.97073 2.18784-2.60905Z" />
                             </svg>

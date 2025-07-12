@@ -14,14 +14,20 @@ import Payment from "../pages/Payment";
 import Register from "../pages/Register";
 
 // Components
-import VerticalNavbar, {
-    ProductList,
-    SelectedProduct,
-} from "../features/NavbarVertical";
+import VerticalNavbar from "../features/NavbarVertical";
 import PersistLogIn from "../features/auth/PersistLogin";
 import ProfileCard from "../features/ProfilUser";
 import PrivacyPolicy from "../features/PrivacyPolicy";
 import LayoutPwdForget from "../pages/forgetPassword";
+import VertcalNavbar from "../features/NavbarVertical";
+import UpdateProduct from "../features/UpdateProduct";
+import ChatLayout from "../layouts/ChatLayout";
+import GridProductDefault from "../features/GridProductDefaultSize";
+import Tabs from "../features/DashbordProfileUser";
+import GridLayoutProduct from "../features/GridLayoutProducts";
+import ProductsRecapTable from "../features/ProductRecaptable";
+import ListProductShoppingCart from "../features/ListProductShoppingCart";
+
 
 // Routes Configuration
 const routes = [
@@ -34,23 +40,11 @@ const routes = [
             { path: "register", element: <Register /> },
             { path: "about", element: <About /> },
             { path: "politique-confidentialite", element: <PrivacyPolicy/> },
-            { path: "products", element: <ProductList /> },
-            { path: "payment_card", element: <SelectedProduct /> },
+            { path: "products", element: <GridLayoutProduct /> },
+            { path: "payment_card", element: <ListProductShoppingCart/> },
             { path: "blog", element: <BlogPage /> }, 
             { path: "forgetPassword", element: <LayoutPwdForget /> },
 
-            {
-                path: "user_profil",
-
-                element: (
-
-                    <VerticalNavbar>
-
-                        <ProfileCard/>
-
-                    </VerticalNavbar>
-                )
-            },
             {
                 element: <ProtectedRoute/>,
 
@@ -61,10 +55,114 @@ const routes = [
 
                         children: [
 
-                            { path: "account", element: <AuthPage /> },
+                            { path: "account", element: <AuthPage /> }, 
 
-                            { path: "payment", element: <Payment /> },
+                            { path: "payment", element: <Payment /> }, 
+
+                            {
+                                path: "user_profil",
+
+                                element: (
+
+                                    <VerticalNavbar>
+
+                                        <ProfileCard />
+
+                                    </VerticalNavbar>
+                                )
+                            },
+
+                            {
+                                path: "dashboard",
+
+                                element: (
+
+                                    <VertcalNavbar>
+
+                                        <Tabs/>
+
+                                    </VertcalNavbar>
+                                ),
+                            }
+                            ,
+                            {
+                                path: "payment_product",
+
+                                element: (
+
+                                    <VertcalNavbar>
+
+                                        <ProductsRecapTable/>
+
+                                    </VertcalNavbar>
+                                ),
+                            }
+                            ,
+                            {
+                                path: "all_products",
+
+                                element: (
+
+                                    <VertcalNavbar>
+
+                                        <GridLayoutProduct/>
+
+                                    </VertcalNavbar>
+                                ),
+                            }
+                            ,
+                            {
+                                path: "UserLayout",
+
+                                element: (
+                                    <VertcalNavbar>
+
+                                        <GridLayoutProduct/>
+
+                                    </VertcalNavbar>
+                                ),
+                            },
+                            {
+                                path: "add_product",
+
+                                element: (
+                                    <VertcalNavbar>
+
+                                        <UpdateProduct />
+
+                                    </VertcalNavbar>
+                                ),
+                            }, 
+                            {
+                                path: "message_inbox",
+                                element: (
+                                    <VertcalNavbar>
+                                        <ChatLayout />
+                                    </VertcalNavbar>
+                                ),
+                            },
+                            {
+                                path: "user_profil",
+                                element: (
+                                    <VertcalNavbar>
+                                        <Tabs/>
+                                    </VertcalNavbar>
+                                ),
+                            },
+                            ...[
+                                "jouets", "sacs", "materiels", "electronique", "habits",
+                                "livres", "Jeux_video", "Meubles", "Vehicules",
+                                "Fournitures_scolaires", "divers",
+                            ].map((category) => ({
+                                path: category,
+                                element: (
+                                    <VertcalNavbar>
+                                        <GridProductDefault/>
+                                    </VertcalNavbar>
+                                ),
+                            })),
                         ]
+
                     }
                 ]
             },

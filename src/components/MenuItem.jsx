@@ -64,7 +64,7 @@ export const menuItems = [
     {
         name: 'Véhicules',
         to: '/products/filter/?categorie_product=VEHICULES',
-        id: 'Véhicules',
+        id: 'Vehicules',
         svg: (
             <svg className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 21 21">
                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v5m-3 0h6M4 11h16M5 15h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1Z" />
@@ -82,9 +82,9 @@ export const menuItems = [
         ),
     },
     {
-        name: 'Jeux vidéo',
+        name: 'Jeux vidéos',
         to: '/products/filter/?categorie_product=JEUX_VIDEO',
-        id: 'Jeux_vidéo',
+        id: 'Jeux_video',
         svg: (
             <svg className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 21 21">
                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v5m-3 0h6M4 11h16M5 15h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1Z" />

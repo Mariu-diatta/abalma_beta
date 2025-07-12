@@ -203,7 +203,7 @@ const UpdateProduct = () => {
                     Ajouter / Modifier un produit
                 </h2>
 
-                <form onSubmit={submitForm} className={` ${user.is_fournisseur ? "" : "opacity-50 pointer-events-none cursor-not-allowed"}`}>
+                <form onSubmit={submitForm} className={` ${user?.is_fournisseur ? "" : "opacity-50 pointer-events-none cursor-not-allowed"}`}>
 
                     <div className="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
 
@@ -258,7 +258,7 @@ const UpdateProduct = () => {
                             <select
                                 id="Currency_price"
                                 name="Currency_price"
-                                value={dataProduct.Currency_price}
+                                value={dataProduct?.Currency_price}
                                 onChange={onChangeClick}
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                             >
@@ -282,7 +282,7 @@ const UpdateProduct = () => {
                                     type="text"
                                     name="price_product"
                                     id="price_product"
-                                    value={dataProduct.price_product}
+                                    value={dataProduct?.price_product}
                                     onChange={onChangeClick}
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                                     placeholder="120$"
@@ -378,7 +378,7 @@ const UpdateProduct = () => {
                                         type="datetime-local"
                                         id="date_fin_emprunt"
                                         name="date_fin_emprunt"
-                                        value={dataProduct.date_fin_emprunt}
+                                        value={dataProduct?.date_fin_emprunt}
                                         onChange={onChangeClick}
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                                     />
@@ -392,7 +392,7 @@ const UpdateProduct = () => {
                                 type="text"
                                 id="fournisseur"
                                 name="fournisseur"
-                                value={dataProduct.fournisseur}
+                                value={dataProduct?.fournisseur}
                                 onChange={onChangeClick}
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                                 placeholder="Nom du fournisseur"
@@ -409,7 +409,7 @@ const UpdateProduct = () => {
                             <textarea
                                 id="description_product"
                                 name="description_product"
-                                value={dataProduct.description_product}
+                                value={dataProduct?.description_product}
                                 onChange={onChangeClick}
                                 rows="6"
                                 className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg "
@@ -447,7 +447,7 @@ const UpdateProduct = () => {
                                 <select
                                     id="taille_product"
                                     name="taille_product"
-                                    value={dataProduct.taille_product}
+                                    value={dataProduct?.taille_product}
                                     onChange={onChangeClick}
                                     className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:placeholder-gray-400"
                                 >
@@ -471,7 +471,7 @@ const UpdateProduct = () => {
                                     type="number"
                                     id="quantity_product"
                                     name="quantity_product"
-                                    value={dataProduct.quantity_product}
+                                    value={dataProduct?.quantity_product}
                                     onChange={onChangeClick}
                                     className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:placeholder-gray-400"
                                     placeholder="Quantité"
@@ -502,7 +502,7 @@ const UpdateProduct = () => {
                 </form>
 
                 {
-                    !(user.is_fournisseur) &&
+                    !(user?.is_fournisseur) &&
 
                     <button
 

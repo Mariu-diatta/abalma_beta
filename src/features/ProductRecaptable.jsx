@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 const ProductsRecapTable = ({ products }) => {
     const { t } = useTranslation();
     const [currentPage, setCurrentPage] = useState(1);
-    const [productList, setProductList] = useState(products);
+    const [productList, setProductList] = useState(products || []);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedStatus, setSelectedStatus] = useState('');
     const [popoverOpen, setPoverOpen] = useState(false);
@@ -17,31 +17,31 @@ const ProductsRecapTable = ({ products }) => {
     const itemsPerPage = 5;
 
     const handleDelete = (id) => {
-        const updatedList = products.filter(product => product.id !== id);
+        const updatedList = products?.filter(product => product.id !== id);
         setProductList(updatedList);
     };
 
-    const normalizedSearch = searchTerm.trim().toLowerCase();
-    const normalizedSelectedStatus = selectedStatus.trim().toLowerCase();
+    const normalizedSearch = searchTerm?.trim().toLowerCase();
+    const normalizedSelectedStatus = selectedStatus?.trim().toLowerCase();
 
-    const filteredProducts = products.filter(product => {
-        const productStatus = product.statut?.trim().toLowerCase() || '';
+    const filteredProducts = products?.filter(product => {
+        const productStatus = product?.statut?.trim().toLowerCase() || '';
 
         if (!displayedStatus.includes(productStatus)) return false;
 
         const matchesStatus = normalizedSelectedStatus === '' || productStatus === normalizedSelectedStatus;
 
-        const matchesSearch = product.categorie_product?.toLowerCase().includes(normalizedSearch);
+        const matchesSearch = product?.categorie_product?.toLowerCase().includes(normalizedSearch);
 
         return matchesStatus && matchesSearch;
     });
 
-    const paginatedProducts = filteredProducts.slice(
+    const paginatedProducts = filteredProducts?.slice(
         (currentPage - 1) * itemsPerPage,
         currentPage * itemsPerPage
     );
 
-    const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+    const totalPages = Math.ceil(filteredProducts?.length / itemsPerPage);
 
     return (
         <div className="mt-6 w-full style_bg">
@@ -93,14 +93,14 @@ const ProductsRecapTable = ({ products }) => {
                     </thead>
 
                     <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700 style_bg">
-                        {paginatedProducts.length <= 0 ? (
+                        {paginatedProducts?.length <= 0 ? (
                             <tr>
                                 <td colSpan="9" className="text-center p-4 text-gray-500 dark:text-gray-300">
                                     {t('TableRecap.noProducts')}
                                 </td>
                             </tr>
                         ) : (
-                            paginatedProducts.map((item, _) => (
+                            paginatedProducts?.map((item, _) => (
                                 <tr key={item?.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                                     <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">{item?.description_product}</td>
                                     <td className="px-4 py-3">{item?.categorie_product}</td>

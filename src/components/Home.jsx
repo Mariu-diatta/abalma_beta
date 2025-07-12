@@ -13,16 +13,23 @@ const HomeContain = () => {
             <div className="m-5 relative pb-[110px] pt-[120px] dark:bg-dark lg:pt-[150px] style-bg">
 
                 <div className="container">
+
                     <div className="-mx-4 flex flex-wrap">
+
                         <div className="w-full px-4 lg:w-5/12">
+
                             <div className="hero-content">
+
                                 <h4 className="mb-5 text-4xl font-bold !leading-[1.208] text-dark dark:text-white sm:text-[42px] lg:text-[40px] xl:text-5xl">
                                     {t("homePage.headline")}
                                 </h4>
+
                                 <p className="mb-8 max-w-[480px] text-base text-body-color dark:text-dark-6">
                                     {t("homePage.subheadline")}
                                 </p>
+
                                 <ul className="flex flex-wrap items-center">
+
                                     <li>
                                         <a
                                             href="/#"
@@ -31,6 +38,7 @@ const HomeContain = () => {
                                             {t("homePage.getStarted")}
                                         </a>
                                     </li>
+
                                     <li>
                                         <button
                                             onClick={()=>alert("L'application sera bientôt disponible")}
@@ -67,7 +75,9 @@ const HomeContain = () => {
                                             </span>
                                             {t("homePage.downloadApp")}
                                         </button>
+
                                     </li>
+
                                 </ul>
 
                                 <div className="clients pt-16">
@@ -78,6 +88,7 @@ const HomeContain = () => {
                                     </h6>
 
                                     <div className="flex items-center space-x-4">
+
                                         <SingleImage
                                             href="#"
                                             imgSrc="https://cdn.tailgrids.com/assets/images/marketing/brands/ayroui.svg"
@@ -92,9 +103,13 @@ const HomeContain = () => {
                                             href="#"
                                             imgSrc="https://cdn.tailgrids.com/assets/images/marketing/brands/uideck.svg"
                                         />
+
                                     </div>
+
                                 </div>
+
                             </div>
+
                         </div>
 
                         <div className="hidden px-4 lg:block lg:w-1/12"></div>
@@ -110,10 +125,15 @@ const HomeContain = () => {
                                         alt="hero"
                                         className="max-w-full lg:ml-auto"
                                     />
+
                                 </div>
+
                             </div>
+
                         </div>
+
                     </div>
+
                 </div>
 
             </div>

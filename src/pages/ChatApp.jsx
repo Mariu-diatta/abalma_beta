@@ -122,13 +122,15 @@ const ChatApp = ({ roomName }) => {
     return (
 
         <div
-            className="flex flex-col h-full p-4 md:p-6 bg-white rounded-2xl shadow overflow-hidden"
+            className="flex flex-col h-full p-4 md:p-6 bg-white rounded-2xl shadow overflow-hidden mb-0 pb-5"
 
             style={{
 
                 backgroundColor: "var(--color-bg)",
 
-                color: "var(--color-text)"
+                color: "var(--color-text)",
+
+                
             }}
         >
 
@@ -181,8 +183,11 @@ const ChatApp = ({ roomName }) => {
                             {!isCurrentUser && (
 
                                 <img
+
                                     src={msg.sender?.image}
+
                                     alt="avatar"
+
                                     className="h-7 w-7 rounded-full object-cover"
                                 />
                             )}
@@ -196,8 +201,11 @@ const ChatApp = ({ roomName }) => {
                             {isCurrentUser && (
 
                                 <img
+
                                     src={msg.sender?.image}
+
                                     alt="avatar"
+
                                     className="h-7 w-7 rounded-full object-cover"
                                 />
                             )}
@@ -210,20 +218,29 @@ const ChatApp = ({ roomName }) => {
             </ul>
 
             {/* 📥 Zone d’entrée */}
-            <div className="mt-4 flex gap-2" >
+            <div className="mt-4 flex gap-2 z-[2000] transparent" >
 
                 <input
+
                     disabled={allRoomsChats.length === 0}
+
                     value={input}
+
                     onChange={e => setInput(e.target.value)}
+
                     onKeyDown={e => e.key === "Enter" && sendMessage()}
+
                     placeholder="Votre message..."
+
                     className="flex-1 px-4 py-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
 
                 <button
+
                     onClick={sendMessage}
+
                     className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl text-sm"
+
                     aria-label="Envoyer"
                 >
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -235,6 +252,7 @@ const ChatApp = ({ roomName }) => {
                 </button>
 
             </div>
+
         </div>
     );
 };

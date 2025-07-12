@@ -1,22 +1,15 @@
-import ProductTable from "./ListProductShoppingCart";
-import PrivacyPolicy from "./PrivacyPolicy";
+
 import { useEffect, useRef, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentNav } from "../slices/navigateSlice";
 import { updateCompteUser, updateUserData } from "../slices/authSlice";
-import ProfileCard from "./ProfilUser";
-import UpdateProduct from "./UpdateProduct";
-import Tabs from "./DashbordProfileUser";
 import api from "../services/Axios";
 import Logo from "../components/LogoApp";
-import GridLayoutProduct from "./GridLayoutProducts";
-import GridProductDefault from "./GridProductDefaultSize";
 import AccountDropdown3 from "../components/DropDownAccount";
-import { lesAccount, menuItems } from "../components/MenuItem";
-import ChatLayout from "../layouts/ChatLayout";
+import { menuItems } from "../components/MenuItem";
 import { addRoom } from "../slices/chatSlice";
 import { useTranslation } from 'react-i18next';
-
+import { useNavigate } from "react-router";
 
 
 const VertcalNavbar = ({ children }) => {
@@ -25,9 +18,9 @@ const VertcalNavbar = ({ children }) => {
 
     const [isSidebarOpen, setSidebarOpen] = useState(false);
 
-    const [dataProducts, setProducts] = useState(false);
-
     const dispatch = useDispatch();
+
+    let navigate = useNavigate();
 
     const currentNav = useSelector(state => state.navigate.currentNav);
 
@@ -37,6 +30,7 @@ const VertcalNavbar = ({ children }) => {
 
     const sidebarRef = useRef();
 
+
     // 🔎 Fetch Rooms
     useEffect(() => {
 
@@ -45,7 +39,7 @@ const VertcalNavbar = ({ children }) => {
             try {
                 const { data = [] } = await api.get("/rooms/");
 
-                const userRooms = data.filter(
+                const userRooms = data?.filter(
 
                     room =>
                         room?.current_receiver === currentUser?.id ||
@@ -66,30 +60,28 @@ const VertcalNavbar = ({ children }) => {
     }, [currentUser?.id, dispatch]);
 
 
-    // 🔎 Fetch Produits d'une catégorie
-    const getProductFilter = async url => {
+    //// 🔎 Fetch Produits d'une catégorie
+    //const getProductFilter = async url => {
 
-        try {
+    //    try {
 
-            const response = await api.get(url);
+    //        const response = await api.get(url);
 
-            setProducts(response?.data);
+    //    } catch (err) {
 
-        } catch (err) {
-
-            console.error("Erreur lors de la récupération des produits :", err);
-        }
-    };
+    //        console.error("Erreur lors de la récupération des produits :", err);
+    //    }
+    //};
 
     // 🔄 Mise à jour de l’onglet actif
-    const updateActiveTab = (tab, to = null) => {
+    //const updateActiveTab = (tab, to = null) => {
 
-        if (to) getProductFilter(to);
+    //    if (to) getProductFilter(to);
 
-        dispatch(setCurrentNav(tab));
+    //    dispatch(setCurrentNav(tab));
 
-        lesAccount(); // ⚠️ Potentiellement inutile ici
-    };
+    //    lesAccount(); // ⚠️ Potentiellement inutile ici
+    //};
 
     //const { currentUser } = useAuth()
     const currentUserEmail = useSelector((state) => state.auth.user)
@@ -167,44 +159,16 @@ const VertcalNavbar = ({ children }) => {
     }, [isSidebarOpen]);
 
 
-    // 🔄 Contenu dynamique selon l’onglet
-    const tabContent = {
-
-        home: <ProductList />,
-
-        all_products: <ProductList />,
-
-        user_profil: <ProfileCard />,
-
-        user_profil_product: <ProfileCard />,
-
-        payment: <SelectedProduct />,
-
-        dashboard: <UserMenuAccount />,
-
-        add_product: <UpdateProduct />,
-
-        home_content: <Tabs />,
-
-        message_inbox: <ChatLayout />,
-
-        Help: <PrivacyPolicy />,
-
-        ...[
-            'jouets', 'sacs', 'materiels', 'electronique', 'habits',
-            'livres', 'Jeux_vidéo', 'Meubles', 'Véhicules',
-            'Fournitures_scolaires', 'divers'
-        ].reduce((acc, key) => {
-            acc[key] = <GridProductDefault data={dataProducts} />;
-            return acc;
-        }, {})
-    };
-
-
-
     return (
 
-        <>
+        <div
+
+            style={{
+                marginBottom: "30px",
+
+                paddingBottom: "30px"
+            }}
+        >
 
             {/* Toggle Button */}
             <button
@@ -257,11 +221,11 @@ const VertcalNavbar = ({ children }) => {
                         </li>
 
                         <li>
-                            <span
+                            <button
 
                                 className="flex items-center p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer"
 
-                                onClick={() => updateActiveTab("home") }
+                                onClick={() => { navigate("/UserLayout"); dispatch(setCurrentNav("/message_inbox")) }}
                             >
 
                                 <svg className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 576 512">
@@ -272,17 +236,17 @@ const VertcalNavbar = ({ children }) => {
 
                                 {currentUser?.is_pro && <span className="inline-flex items-center justify-center px-2 ms-3 text-sm  text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">Pro</span>}
 
-                            </span>
+                            </button>
 
                         </li>
 
                         <li>
 
-                            <span
+                            <button
 
                                 className="flex items-center p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer"
 
-                                onClick={() => updateActiveTab("message_inbox")}
+                                onClick={() => { navigate("/message_inbox"); dispatch(setCurrentNav("/message_inbox")) }}
                             >
                                 <svg className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
 
@@ -298,16 +262,16 @@ const VertcalNavbar = ({ children }) => {
 
                                 </span>
 
-                            </span>
+                            </button>
 
                         </li>
 
                         <li>
-                            <span
+                            <button
 
                                 className="flex items-center p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer"
 
-                                onClick={() => updateActiveTab("add_product")}
+                                onClick={() => { navigate("/add_product"); dispatch(setCurrentNav("/add_product")) }}
                             >
                                 <svg className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 24">
 
@@ -317,7 +281,7 @@ const VertcalNavbar = ({ children }) => {
 
                                 <span className="flex-1 ms-3 whitespace-nowrap">{t('AccountPage.create')}</span>
 
-                            </span>
+                            </button>
                         </li>
        
                     </ul>
@@ -367,9 +331,7 @@ const VertcalNavbar = ({ children }) => {
                                             aria-selected={currentNav === id}
                                             aria-controls={`${id}-tab`}
                                             id={`${id}-tab-button`}
-                                            onClick={() => {
-                                                updateActiveTab(id,to);
-                                            }}
+                                            onClick={() => { navigate(`/${id}`); dispatch(setCurrentNav(`/${id}`)) }}
                                             className={`cursor-pointer ml-3 inline-block px-1 py-3 border-b-2 rounded-t-md transition-colors duration-300 
                                                     ${currentNav === id
                                                     ? 'border-b-purple-600 text-purple-600 dark:border-b-purple-500 dark:text-purple-500'
@@ -394,7 +356,7 @@ const VertcalNavbar = ({ children }) => {
                         ))}
                     </ul>
 
-                    <div className="absolute bottom-2  flex items-center p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <div className=" flex items-center p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
 
                         <svg className="shrink-0 w-5 h-5 ...">
 
@@ -412,9 +374,7 @@ const VertcalNavbar = ({ children }) => {
                             aria-selected={currentNav === 9}
                             aria-controls={`${9}-tab`}
                             id={`${9}-tab-button`}
-                            onClick={() => {
-                                updateActiveTab(9);;
-                            }}
+                            onClick={() => { navigate(`/help`); dispatch(setCurrentNav(`/help`)) }}
                             className={`cursor-pointer ml-3 inline-block px-1 py-3 border-b-2 rounded-t-md transition-colors duration-300 
                                     ${currentNav === 9
                                     ? 'border-b-purple-600 text-purple-600 dark:border-b-purple-500 dark:text-purple-500'
@@ -429,10 +389,15 @@ const VertcalNavbar = ({ children }) => {
                 </div>
             </aside>
 
-            <div className="p-0 m-0  sm:ml-64 h-full" style={{
-                backgroundColor: "var(--color-bg)",
-                color: "var(--color-text)"
-            }}>
+            <div
+
+                className="p-0 m-0  sm:ml-64 h-full" 
+            
+                style={{
+                    backgroundColor: "var(--color-bg)",
+                    color: "var(--color-text)"
+                }}
+            >
 
                 <div
                     className="p-0 m-0 border-0  border-white rounded-lg dark:border-gray-700  h-full"
@@ -453,7 +418,7 @@ const VertcalNavbar = ({ children }) => {
 
                     </div>
 
-                    {!currentNav && children}
+
 
                     <section
 
@@ -470,47 +435,23 @@ const VertcalNavbar = ({ children }) => {
                         }}
 
                     >
-                        {tabContent[currentNav]}  
+                    {/*    {!currentNav && children}*/}
+
+                        {/*    {tabContent[currentNav]}  */}
+
+                        {children}
 
                     </section>
                     
                 </div>
             </div>
 
-        </>
+        </div>
     )
 }
 
 export default VertcalNavbar;
 
-
-export const UserMenuAccount = () => {
-
-    return (
-
-        <> <Tabs/> </>
-    )
-}
-
-
-export const SelectedProduct = () => {
-
-    return (
-
-         <ProductTable/> 
-    )
-}
-
-export const ProductList = () => {
-
-    return (
-
-        <>
-            <GridLayoutProduct />
-            
-        </>
-    )
-}
 
 
 

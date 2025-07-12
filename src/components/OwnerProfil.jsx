@@ -3,6 +3,7 @@ import { setCurrentNav } from '../slices/navigateSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCurrentChat, addRoom, addUser, newRoom } from '../slices/chatSlice';
 import api from '../services/Axios';
+import { useNavigate } from "react-router";
 
 
 export async function hashPassword(password) {
@@ -17,6 +18,8 @@ export async function hashPassword(password) {
 const OwnerPopover = ({ owner, onClose }) => {
 
     const ref = useRef();
+
+    let navigate = useNavigate();
 
     const dispatch = useDispatch()
 
@@ -71,9 +74,10 @@ const OwnerPopover = ({ owner, onClose }) => {
                     ).catch(
 
                         err => {
-                            const errorMsg = err?.response?.data;
-                            console.error("Erreur lors de la création du chat:", errorMsg);
 
+                            const errorMsg = err?.response?.data;
+
+                            console.error("Erreur lors de la création du chat:", errorMsg);
 
                             const roomAlreadyExists =
                                 errorMsg?.name?.[0]?.includes("already exists") ||
@@ -83,20 +87,26 @@ const OwnerPopover = ({ owner, onClose }) => {
                             if (roomAlreadyExists) {
 
                                 const ownerPhone = selectedProductOwner?.telephone;
+
                                 const ownerName = owner?.nom;
 
                                 if (ownerPhone && ownerName) {
+
                                     hashPassword(ownerPhone)
+
                                         .then(hashed => {
+
                                             const roomName = `room_${ownerName}_${hashed}`;
 
                                             console.log("le room", roomName);
 
-                                            dispatch(addRoom({name:roomName}));
+                                            dispatch(addRoom({ name: roomName }));
+
                                             dispatch(addCurrentChat({name:roomName}));
 
                                         })
                                         .catch(hashErr => {
+
                                             console.error("Erreur lors du hachage du numéro de téléphone:", hashErr);
                                         });
                                 } else {
@@ -123,6 +133,8 @@ const OwnerPopover = ({ owner, onClose }) => {
         dispatch(addUser(owner))
 
         dispatch(setCurrentNav("message_inbox"))
+
+        navigate("/message_inbox")
     }
 
     return (
