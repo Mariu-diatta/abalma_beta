@@ -1,5 +1,4 @@
 import React, { useEffect, useState} from 'react';
-import ProductTable from './ListProductShoppingCart';
 import ProductTablePagination from './ListProductPagination';
 import ProductsRecapTable from './ProductRecaptable';
 import UserTable from '../components/ContactUser';
@@ -7,6 +6,7 @@ import SettingsForm from './Settings';
 import api from '../services/Axios';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import ListProductShoppingCart from './ListProductShoppingCart';
 
 const Tabs = () => {
 
@@ -84,7 +84,7 @@ const Tabs = () => {
 
                 <div className="overflow-x-auto">
 
-                    <ProductTable />
+                    <ListProductShoppingCart/>
 
                 </div>
 

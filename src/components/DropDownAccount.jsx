@@ -39,7 +39,7 @@ const NotificationGroup = ({ currentUser, currentNotifMessages, notify, changeLa
         {/* Paiement */}
         <NavLink
 
-            to="/payment_product"
+            to="/payment"
 
             className="relative flex items-center justify-center h-12 w-12 rounded-lg bg-white dark:bg-dark-2 text-dark dark:text-white"
 

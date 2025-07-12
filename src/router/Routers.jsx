@@ -10,7 +10,6 @@ import BlogPage from "../pages/Blog";
 import ErrorPage from "../pages/ErrorPage";
 import Home from "../pages/Home";
 import LogIn from "../pages/Login";
-import Payment from "../pages/Payment";
 import Register from "../pages/Register";
 
 // Components
@@ -57,7 +56,13 @@ const routes = [
 
                             { path: "account", element: <AuthPage /> }, 
 
-                            { path: "payment", element: <Payment /> }, 
+                            {
+                                path: "payment", element: (
+                                    <VertcalNavbar>
+                                        <ListProductShoppingCart />
+                                    </VertcalNavbar>
+                                ),
+                            }, 
 
                             {
                                 path: "user_profil",
