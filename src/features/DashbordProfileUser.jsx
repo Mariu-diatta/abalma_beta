@@ -47,6 +47,8 @@ const Tabs = () => {
                         }
                   )
 
+                console.log("Les datas produits", productBought)
+
                 const [boughtRes, soldRes] = await Promise.all([
                     api.get(`/transactions/products/?client=${currentUser.id}`),
                     api.get(`/transactions/products/?owner=${currentUser.id}`)
