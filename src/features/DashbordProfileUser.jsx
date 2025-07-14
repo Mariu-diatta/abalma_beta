@@ -43,7 +43,7 @@ const Tabs = () => {
 
                             const productFournisseur = dataResponse.filter(item => item.product.fournisseur === currentUser?.id)
 
-                            console.log("Producrs FOurnisseur", productFournisseur)
+                            console.log("Products Fournisseur", productFournisseur)
                         }
                   )
 
