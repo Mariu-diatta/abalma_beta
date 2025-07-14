@@ -33,7 +33,20 @@ const Tabs = () => {
         }
 
         const getTransactionProduct = async () => {
+
             try {
+
+                const productBought = await api.get('item/products/transaction/')
+                    .then(
+                        (resp) => {
+                            const dataResponse = resp?.data
+
+                            const productFournisseur = dataResponse.filter(item => item.product.fournisseur === currentUser?.id)
+
+                            console.log("Producrs FOurnisseur", productFournisseur)
+                        }
+                  )
+
                 const [boughtRes, soldRes] = await Promise.all([
                     api.get(`/transactions/products/?client=${currentUser.id}`),
                     api.get(`/transactions/products/?owner=${currentUser.id}`)
