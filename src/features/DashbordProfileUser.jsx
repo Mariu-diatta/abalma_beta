@@ -47,13 +47,13 @@ const Tabs = () => {
                         }
                   )
 
-                console.log("Les datas produits", productBought)
 
                 const [boughtRes, soldRes] = await Promise.all([
                     api.get(`/transactions/products/?client=${currentUser.id}`),
                     api.get(`/transactions/products/?owner=${currentUser.id}`)
                 ]);
 
+                console.log("Les datas produits", productBought.data)
                 console.log("Bought response:", boughtRes.data);
                 console.log("Sold response:", soldRes.data);
 
