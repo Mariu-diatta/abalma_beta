@@ -26,21 +26,19 @@ const Tabs = () => {
         { id: 'settings', label: t('Dashboard.settings') },
         { id: 'contacts', label: t('Dashboard.contacts') },
     ];
+
     useEffect(() => {
+
         if (!currentUser?.id) {
+
             console.log("Pas d'utilisateur");
+
             return;
         }
 
         const getTransactionProduct = async () => {
 
             try {
-
-
-
-                const productTransaction = await api.get('product/fournisseur/transaction/')
-
-                console.log("DashbordProfileUsr, LES PRODUITS DE LA TRANSACTION", productTransaction)
 
                 const productBought = await api.get('item/products/transaction/')
                     .then(
@@ -59,12 +57,12 @@ const Tabs = () => {
                     api.get(`/transactions/products/?owner=${currentUser.id}`)
                 ]);
 
-                console.log("Les datas produits", productBought.data)
-                console.log("Bought response:", boughtRes.data);
+                console.log("Les datas produits", productBought?.data)
+                console.log("Bought response:", boughtRes?.data);
                 console.log("Sold response:", soldRes.data);
 
                 const bought = boughtRes?.data
-                    ?.filter((item) => item?.client === currentUser.id && item?.code)
+                    ?.filter((item) => item?.client === currentUser?.id && item?.code)
                     ?.map((item) => ({ ...item, statut: "En cours" }));
 
                 const sold = soldRes?.data
@@ -82,7 +80,28 @@ const Tabs = () => {
         };
 
         getTransactionProduct();
+
     }, [currentUser?.id]);
+
+    useEffect(
+        () => {
+            const getProduct = async () => {
+
+                try {
+                    const productTransaction = await api.get('product/fournisseur/transaction/')
+
+                    console.log("DashbordProfileUsr, LES PRODUITS DE LA TRANSACTION", productTransaction)
+                } catch (e) {
+
+                    console.log("ERREUR LORS DE LA DEBUGGINg", e)
+                }
+
+            }
+
+            getProduct()
+
+        },[]
+    )
 
 
     const tabContent = {
