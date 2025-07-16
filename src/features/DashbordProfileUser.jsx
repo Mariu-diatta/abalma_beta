@@ -36,6 +36,12 @@ const Tabs = () => {
 
             try {
 
+
+
+                const productTransaction = await api.get('product/fournisseur/transaction/')
+
+                console.log("DashbordProfileUsr, LES PRODUITS DE LA TRANSACTION", productTransaction)
+
                 const productBought = await api.get('item/products/transaction/')
                     .then(
                         (resp) => {
@@ -71,7 +77,7 @@ const Tabs = () => {
                 setProductsTrasactionBought(bought);
                 setProductsTrasactionSold(sold);
             } catch (e) {
-                console.error("Erreur lors de la récupération :", e);
+                console.error("Erreur lors de la rÃ©cupÃ©ration :", e);
             }
         };
 
