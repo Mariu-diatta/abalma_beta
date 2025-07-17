@@ -47,24 +47,43 @@ const ProductsRecapTable = ({ products }) => {
     console.log("LES PRODUITS DE LA TRANSACTION", paginatedProducts, getFilteredProducts(products, selectedSubTransaction));
 
     return (
-        <div className="mt-6 w-full h-max-100 style_bg">
-            <nav className="flex items-center gap-2 m-2 style_bg">
+
+        <div
+            className="mt-6 w-full h-max-100 style_bg"
+            style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
+        >
+
+            <nav
+                className="flex items-center gap-2 m-2 style_bg"
+                style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
+            >
+
                 <svg className="w-[25px] h-[25px] text-gray-800 dark:text-white" viewBox="0 0 24 24">
                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8" d="M9 10V6a3 3 0 0 1 3-3v0a3 3 0 0 1 3 3v4m3-2 .917 11.923A1 1 0 0 1 17.92 21H6.08a1 1 0 0 1-.997-1.077L6 8h12Z" />
                 </svg>
+
                 <h2 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">{t('TableRecap.title')}</h2>
+
             </nav>
 
-            <div className="m-2 flex flex-col sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4 style_bg">
+            <div ù
+                className="m-2 flex flex-col sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4 style_bg"
+                style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
+            >
+
                 <select
                     value={selectedStatus}
                     onChange={(e) => setSelectedStatus(e.target.value)}
                     className="px-3 py-2 border rounded-lg bg-gray-100 border-gray-300"
+                    style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
+
                 >
                     <option value="">{t('TableRecap.statusAll')}</option>
+
                     {displayedStatus.map(status => (
                         <option key={status} value={status}>{status}</option>
                     ))}
+
                 </select>
 
                 <TransactionsDropdown
@@ -79,6 +98,7 @@ const ProductsRecapTable = ({ products }) => {
                     onChange={e => setSearchTerm(e.target.value)}
                     className="w-full sm:w-80 rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 />
+
             </div>
 
             {!selectedSubTransaction && (
@@ -87,9 +107,21 @@ const ProductsRecapTable = ({ products }) => {
                 </div>
             )}
 
-            <div className="overflow-x-auto rounded-md shadow">
-                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm text-left">
-                    <thead className="bg-gray-100 dark:bg-gray-700">
+            <div
+                className="overflow-x-auto rounded-md shadow"
+                style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
+            >
+
+                <table
+                    className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm text-left"
+                    style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
+                >
+
+                    <thead
+                        className="bg-gray-100 dark:bg-gray-700"
+                        style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
+                    >
+
                         <tr>
                             <th className="px-4 py-3">{t('TableRecap.tableHeaders.name')}</th>
                             <th className="px-4 py-3">{t('TableRecap.tableHeaders.categories')}</th>
@@ -101,17 +133,25 @@ const ProductsRecapTable = ({ products }) => {
                             <th className="px-4 py-3">{t('TableRecap.tableHeaders.actions')}</th>
                             <th className="px-4 py-3">{t('TableRecap.tableHeaders.view')}</th>
                         </tr>
+
                     </thead>
 
-                    <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                    <tbody
+                        className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700"
+                        style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
+                    >
+
                         {paginatedProducts.length === 0 ? (
+
                             <tr>
                                 <td colSpan="9" className="text-center p-4 text-gray-500 dark:text-gray-300">
                                     {t('TableRecap.noProducts')}
                                 </td>
                             </tr>
+
                         ) : (
-                            paginatedProducts.map(item => (
+                                paginatedProducts.map(item => (
+
                                 <tr key={item?.id}>
                                     <td className="px-4 py-3">{item?.description_product || '-'}</td>
                                     <td className="px-4 py-3">{item?.categorie_product || '-'}</td>
@@ -121,30 +161,39 @@ const ProductsRecapTable = ({ products }) => {
                                     <td className="px-4 py-3">{item?.date_fin_emprunt || '-'}</td>
                                     <td className="px-4 py-3">{item?.operation_product || '-'}</td>
                                     <td className="px-4 py-3">
+
                                         <button
                                             onClick={() => setPopoverOpen(true)}
                                             className="text-blue-600 hover:underline dark:text-blue-400"
                                         >
                                             Voir
                                         </button>
+
                                     </td>
+
                                     <td className="px-4 py-3">
+
                                         <button
                                             onClick={() => console.log("delete", item?.id)}
                                             className="text-red-600 hover:text-red-800"
                                         >
                                             Supprimer
                                         </button>
+
                                     </td>
+
                                 </tr>
                             ))
                         )}
                     </tbody>
+
                 </table>
 
                 {popoverOpen && (
+
                     <>
                         <div className="fixed inset-0 bg-opacity-30 z-40" onClick={closePopover}></div>
+
                         <div className="fixed top-1/2 left-1/2 z-50 max-w-full bg-white rounded-md shadow-lg p-4 transform -translate-x-1/2 -translate-y-1/2">
                             <ViewProduct />
                         </div>
@@ -152,19 +201,29 @@ const ProductsRecapTable = ({ products }) => {
                 )}
             </div>
 
-            <div className="mt-4 flex justify-between items-center text-sm text-gray-600 dark:text-gray-300">
+            <div
+                className="mt-4 flex justify-between items-center text-sm text-gray-600 dark:text-gray-300"
+                style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
+            >
+
                 <span>
                     {t('TableRecap.pagination.page')} {currentPage} {t('TableRecap.pagination.of')} {totalPages}
                 </span>
+
                 <div className="space-x-2">
+
                     <button onClick={() => setCurrentPage(Math.max(1, currentPage - 1))} disabled={currentPage === 1}>
                         {t('TableRecap.pagination.previous')}
                     </button>
+
                     <button onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))} disabled={currentPage === totalPages}>
                         {t('TableRecap.pagination.next')}
                     </button>
+
                 </div>
+
             </div>
+
         </div>
     );
 };
@@ -172,6 +231,7 @@ const ProductsRecapTable = ({ products }) => {
 export default ProductsRecapTable;
 
 function TransactionsDropdown({ transactionsData, onSubTransactionSelect }) {
+
     const [dropdownOpen1, setDropdownOpen1] = useState(false);
     const [dropdownOpen2, setDropdownOpen2] = useState(false);
 
@@ -237,7 +297,8 @@ function TransactionsDropdown({ transactionsData, onSubTransactionSelect }) {
                 <button
                     ref={trigger1}
                     onClick={() => setDropdownOpen1(!dropdownOpen1)}
-                    className="mb-3.5 inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-stroke bg-white px-6 py-3 text-base font-medium text-dark dark:border-dark-3 dark:bg-dark-2 dark:text-white"
+                    className="border rounded-lg bg-gray-100 border-gray-300 inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-stroke bg-white px-6 py-3 text-base font-medium text-dark dark:border-dark-3 dark:bg-dark-2 dark:text-white"
+                    style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                 >
                     Transactions
 
@@ -260,11 +321,14 @@ function TransactionsDropdown({ transactionsData, onSubTransactionSelect }) {
                 </button>
 
                 {dropdownOpen1 && (
+
                     <div
                         ref={dropdown1}
                         className="absolute z-10 mt-2 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 max-h-60 overflow-y-auto"
+                        style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                     >
                         <div className="py-1">
+
                             {transactionsData.map((transItem,_) => (
                                 <button
                                     key={transItem?.transaction?.id}
@@ -274,7 +338,9 @@ function TransactionsDropdown({ transactionsData, onSubTransactionSelect }) {
                                     {transItem?.transaction?.id} - {transItem?.transaction?.status}-{convertDate(transItem?.transaction?.created_at)}
                                 </button>
                             ))}
+
                         </div>
+
                     </div>
                 )}
             </div>
@@ -285,8 +351,9 @@ function TransactionsDropdown({ transactionsData, onSubTransactionSelect }) {
                 <button
                     ref={trigger2}
                     onClick={() => setDropdownOpen2(!dropdownOpen2)}
-                    className="mb-3.5 inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-stroke bg-white px-6 py-3 text-base font-medium text-dark dark:border-dark-3 dark:bg-dark-2 dark:text-white"
+                    className="border rounded-lg bg-gray-100 border-gray-300 inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-stroke bg-white px-6 py-3 text-base font-medium text-dark dark:border-dark-3 dark:bg-dark-2 dark:text-white"
                     disabled={!selectedTransaction}
+                    style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                 >
                     Sous-transactions
 
@@ -312,6 +379,7 @@ function TransactionsDropdown({ transactionsData, onSubTransactionSelect }) {
                     <div
                         ref={dropdown2}
                         className="absolute z-10 mt-2 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 max-h-60 overflow-y-auto"
+                        style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                     >
                         <div className="py-1">
                             {getSubTransactions().map((sub, i) => (
