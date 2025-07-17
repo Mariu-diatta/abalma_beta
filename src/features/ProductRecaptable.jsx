@@ -291,7 +291,7 @@ function TransactionsDropdown({ transactionsData, onSubTransactionSelect }) {
                     Sous-transactions
 
                     <span
-                        className={`duration-100 ${selectedTransaction ? "-scale-y-100" : ""}`}
+                        className={`duration-100 ${dropdownOpen2 ? "-scale-y-100" : ""}`}
                     >
                         <svg
                             width="20"
