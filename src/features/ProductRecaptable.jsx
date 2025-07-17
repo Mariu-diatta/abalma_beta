@@ -42,77 +42,40 @@ const ProductsRecapTable = ({ products }) => {
     };
 
     const filteredProducts = useMemo(() => {
+        if (!Array.isArray(products)) return [];
 
-        const productsFromSub = getFilteredProducts(products, selectedSubTransaction);
+        const allItems = products.flatMap(prod =>
+            Array.isArray(prod.items)
+                ? prod.items.flatMap(sub =>
+                    Array.isArray(sub.items)
+                        ? sub.items.map(i => i.product)
+                        : []
+                )
+                : []
+        );
 
+        // Si aucun statut sélectionné
         if (selectedStatus === '') {
-
-            return products.flatMap(prod =>
-
-                Array.isArray(prod.items)
-
-                    ? prod.items
-
-                        .filter(sub => sub?.subTransaction?.id)
-
-                        .flatMap(sub =>
-
-                            Array.isArray(sub.items)
-
-                                ? sub.items.map(i => i.product)
-
-                                : []
-                        )
-                    : []
-            );
-
-        } else if (selectedStatus === 'acheter') {
-
-            return products.flatMap(prod =>
-
-                Array.isArray(prod.items)
-
-                    ? prod.items
-
-                        .filter(sub => sub?.subTransaction)
-
-                        .flatMap(sub =>
-
-                            Array.isArray(sub.items)
-
-                                ? sub.items.filter(i => i.product.operation_product= "VENDRE")
-
-                                : []
-                        )
-                    : []
-            );
-
-        } else if (selectedStatus === 'vendu') {
-
-            return products.flatMap(prod =>
-
-                Array.isArray(prod.items)
-
-                    ? prod.items
-
-                        .filter(sub => sub?.subTransaction)
-
-                        .flatMap(sub =>
-
-                            Array.isArray(sub.items)
-
-                                ? sub.items.filter(i => i.product.operation_product="ACHETER")
-
-                                : []
-                        )
-                    : []
-            );
-
+            return allItems;
         }
+
+        // Statut : acheter → on filtre les produits qui ont operation = "VENDRE"
+        if (selectedStatus === 'acheter') {
+            return allItems.filter(p => p?.operation_product === 'VENDRE');
+        }
+
+        // Statut : vendu → on filtre les produits qui ont operation = "ACHETER"
+        if (selectedStatus === 'vendu') {
+            return allItems.filter(p => p?.operation_product === 'ACHETER');
+        }
+
+        // Sinon, on filtre à partir de la sous-transaction sélectionnée
+        const productsFromSub = getFilteredProducts(products, selectedSubTransaction);
 
         return productsFromSub;
 
     }, [products, selectedSubTransaction, selectedStatus]);
+
 
     const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
