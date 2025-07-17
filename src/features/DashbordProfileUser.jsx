@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from 'react';
-import ProductTablePagination from './ListProductPagination';
+//import ProductTablePagination from './ListProductPagination';
 import ProductsRecapTable from './ProductRecaptable';
 import UserTable from '../components/ContactUser';
 import SettingsForm from './Settings';
@@ -14,11 +14,11 @@ const Tabs = () => {
 
     const [activeTab, setActiveTab] = useState('dashboard');
 
-    const [productsTrasactionSold, setProductsTrasactionSold] = useState([])
+    //const [productsTrasactionSold, setProductsTrasactionSold] = useState([])
 
     const [productsTrasactionBought, setProductsTrasactionBought] = useState([])
 
-    const currentUser=useSelector((state)=>state.auth.user)
+    //const currentUser=useSelector((state)=>state.auth.user)
 
 
     const tabs = [
@@ -27,70 +27,78 @@ const Tabs = () => {
         { id: 'contacts', label: t('Dashboard.contacts') },
     ];
 
-    useEffect(() => {
+    //useEffect(() => {
 
-        if (!currentUser?.id) {
+    //    if (!currentUser?.id) {
 
-            console.log("Pas d'utilisateur");
+    //        console.log("Pas d'utilisateur");
 
-            return;
-        }
+    //        return;
+    //    }
 
-        const getTransactionProduct = async () => {
+    //    const getTransactionProduct = async () => {
 
-            try {
+    //        try {
 
-                const productBought = await api.get('item/products/transaction/')
-                    .then(
-                        (resp) => {
-                            const dataResponse = resp?.data
+    //            await api.get('item/products/transaction/')
+    //                .then(
+    //                    (resp) => {
+    //                        const dataResponse = resp?.data
 
-                            const productFournisseur = dataResponse.filter(item => item.product.fournisseur === currentUser?.id)
+    //                        const productFournisseur = dataResponse.filter(item => item.product.fournisseur === currentUser?.id)
 
-                            console.log("Products Fournisseur", productFournisseur)
-                        }
-                  )
+    //                        console.log("Products Fournisseur", productFournisseur?.data)
 
 
-                const [boughtRes, soldRes] = await Promise.all([
-                    api.get(`/transactions/products/?client=${currentUser.id}`),
-                    api.get(`/transactions/products/?owner=${currentUser.id}`)
-                ]);
+    //                        setProductsTrasactionBought(productFournisseur?.data);
+    //                    }
+    //              )
 
-                console.log("Les datas produits", productBought?.data)
-                console.log("Bought response:", boughtRes?.data);
-                console.log("Sold response:", soldRes.data);
 
-                const bought = boughtRes?.data
-                    ?.filter((item) => item?.client === currentUser?.id && item?.code)
-                    ?.map((item) => ({ ...item, statut: "En cours" }));
+    //            //const [boughtRes, soldRes] = await Promise.all([
+    //            //    api.get(`/transactions/products/?client=${currentUser.id}`),
+    //            //    api.get(`/transactions/products/?owner=${currentUser.id}`)
+    //            //]);
 
-                const sold = soldRes?.data
-                    ?.filter((item) => item?.owner === currentUser.id && item?.code && item?.transaction_type === "Achat")
-                    ?.map((item) => ({ ...item, statut: "En cours" }));
+    //            //console.log("Les datas produits", productBought?.data)
+    //            //console.log("Bought response:", boughtRes?.data);
+    //            //console.log("Sold response:", soldRes.data);
 
-                console.log("Mapped bought:", bought);
-                console.log("Mapped sold:", sold);
+    //            //const bought = boughtRes?.data
+    //            //    ?.filter((item) => item?.client === currentUser?.id && item?.code)
+    //            //    ?.map((item) => ({ ...item, statut: "En cours" }));
 
-                setProductsTrasactionBought(bought);
-                setProductsTrasactionSold(sold);
-            } catch (e) {
-                console.error("Erreur lors de la récupération :", e);
-            }
-        };
+    //            //const sold = soldRes?.data
+    //            //    ?.filter((item) => item?.owner === currentUser.id && item?.code && item?.transaction_type === "Achat")
+    //            //    ?.map((item) => ({ ...item, statut: "En cours" }));
 
-        getTransactionProduct();
+    //            //console.log("Mapped bought:", bought);
+    //            //console.log("Mapped sold:", sold);
 
-    }, [currentUser?.id]);
+    //            //setProductsTrasactionBought(bought);
+    //            //setProductsTrasactionSold(sold);
+    //        } catch (e) {
+    //            console.error("Erreur lors de la récupération :", e);
+    //        }
+    //    };
+
+    //    getTransactionProduct();
+
+    //}, [currentUser?.id]);
 
     useEffect(
+
         () => {
+
             const getProduct = async () => {
 
                 try {
                     const productTransaction = await api.get('product/fournisseur/transaction/')
 
-                    console.log("DashbordProfileUsr, LES PRODUITS DE LA TRANSACTION", productTransaction)
+                    console.log("DashbordProfileUsr, LES PRODUITS DE LA TRANSACTION", productTransaction?.data)
+
+                    setProductsTrasactionBought(productTransaction?.data)
+
                 } catch (e) {
 
                     console.log("ERREUR LORS DE LA DEBUGGINg", e)
@@ -128,11 +136,11 @@ const Tabs = () => {
 
                 </div>
 
-                {
-                    productsTrasactionSold?.length > 0 && (
-                        <ProductTablePagination data={productsTrasactionSold} />
-                    )
-                }
+                {/*{*/}
+                {/*    productsTrasactionSold?.length > 0 && (*/}
+                {/*        <ProductTablePagination data={productsTrasactionSold} />*/}
+                {/*    )*/}
+                {/*}*/}
 
                 {
                     productsTrasactionBought?.length > 0 && (

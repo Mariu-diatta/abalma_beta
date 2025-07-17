@@ -1,52 +1,55 @@
-﻿import React, { useState } from 'react';
+﻿// ProductsRecapTable.jsx
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import ViewProduct from '../components/ViewProduct';
 import { useTranslation } from 'react-i18next';
 
 const ProductsRecapTable = ({ products }) => {
     const { t } = useTranslation();
     const [currentPage, setCurrentPage] = useState(1);
-    const [productList, setProductList] = useState(products || []);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedStatus, setSelectedStatus] = useState('');
-    const [popoverOpen, setPoverOpen] = useState(false);
-
-    const closePopover = () => setPoverOpen(false);
-
-    const displayedStatus = ['en cours', 'offert', 'preter', 'acheter', 'vendu'];
+    const [popoverOpen, setPopoverOpen] = useState(false);
+    const [selectedSubTransaction, setSelectedSubTransaction] = useState(null);
 
     const itemsPerPage = 5;
+    const displayedStatus = ['en cours', 'offert', 'preter', 'acheter', 'vendu'];
 
-    const handleDelete = (id) => {
-        const updatedList = products?.filter(product => product.id !== id);
-        setProductList(updatedList);
+    const closePopover = () => setPopoverOpen(false);
+
+    const getFilteredProducts = (products, selectedSubTransaction) => {
+        if (!Array.isArray(products) || !selectedSubTransaction?.id) return [];
+
+        return products.flatMap(prod =>
+            Array.isArray(prod.items)
+                ? prod.items
+                    .filter(sub => sub?.subTransaction?.id === selectedSubTransaction.id)
+                    .flatMap(sub =>
+                        Array.isArray(sub.items)
+                            ? sub.items.map(i => i.product)
+                            : []
+                    )
+                : []
+        );
     };
 
-    const normalizedSearch = searchTerm?.trim().toLowerCase();
-    const normalizedSelectedStatus = selectedStatus?.trim().toLowerCase();
+    const filteredProducts = useMemo(() => {
+        const productsFromSub = getFilteredProducts(products, selectedSubTransaction);
+        return productsFromSub;
+    }, [products, selectedSubTransaction]);
 
-    const filteredProducts = products?.filter(product => {
-        const productStatus = product?.statut?.trim().toLowerCase() || '';
+    const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
-        if (!displayedStatus.includes(productStatus)) return false;
+    const paginatedProducts = useMemo(() => {
+        const start = (currentPage - 1) * itemsPerPage;
+        return filteredProducts.slice(start, start + itemsPerPage);
+    }, [filteredProducts, currentPage]);
 
-        const matchesStatus = normalizedSelectedStatus === '' || productStatus === normalizedSelectedStatus;
-
-        const matchesSearch = product?.categorie_product?.toLowerCase().includes(normalizedSearch);
-
-        return matchesStatus && matchesSearch;
-    });
-
-    const paginatedProducts = filteredProducts?.slice(
-        (currentPage - 1) * itemsPerPage,
-        currentPage * itemsPerPage
-    );
-
-    const totalPages = Math.ceil(filteredProducts?.length / itemsPerPage);
+    console.log("LES PRODUITS DE LA TRANSACTION", paginatedProducts, getFilteredProducts(products, selectedSubTransaction));
 
     return (
-        <div className="mt-6 w-full style_bg">
-            <nav className="flex flex-row items-center gap-2 m-2 style_bg">
-                <svg className="w-[25px] h-[25px] text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <div className="mt-6 w-full h-max-100 style_bg">
+            <nav className="flex items-center gap-2 m-2 style_bg">
+                <svg className="w-[25px] h-[25px] text-gray-800 dark:text-white" viewBox="0 0 24 24">
                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8" d="M9 10V6a3 3 0 0 1 3-3v0a3 3 0 0 1 3 3v4m3-2 .917 11.923A1 1 0 0 1 17.92 21H6.08a1 1 0 0 1-.997-1.077L6 8h12Z" />
                 </svg>
                 <h2 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">{t('TableRecap.title')}</h2>
@@ -56,7 +59,7 @@ const ProductsRecapTable = ({ products }) => {
                 <select
                     value={selectedStatus}
                     onChange={(e) => setSelectedStatus(e.target.value)}
-                    className="px-3 py-2 border rounded-md shadow-sm bg-gray-100 border-gray-300 rounded-lg style_bg"
+                    className="px-3 py-2 border rounded-lg bg-gray-100 border-gray-300"
                 >
                     <option value="">{t('TableRecap.statusAll')}</option>
                     {displayedStatus.map(status => (
@@ -64,21 +67,29 @@ const ProductsRecapTable = ({ products }) => {
                     ))}
                 </select>
 
-                <div className="relative w-full sm:w-auto">
-                    <input
-                        type="text"
-                        placeholder={t('TableRecap.searchPlaceholder')}
-                        value={searchTerm}
-                        onChange={e => setSearchTerm(e.target.value)}
-                        className="w-full sm:w-80 rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                        aria-label="Recherche dans la table"
-                    />
-                </div>
+                <TransactionsDropdown
+                    transactionsData={products}
+                    onSubTransactionSelect={setSelectedSubTransaction}
+                />
+
+                <input
+                    type="text"
+                    placeholder={t('TableRecap.searchPlaceholder')}
+                    value={searchTerm}
+                    onChange={e => setSearchTerm(e.target.value)}
+                    className="w-full sm:w-80 rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                />
             </div>
+
+            {!selectedSubTransaction && (
+                <div className="text-center text-sm text-gray-500 dark:text-gray-300 my-4">
+                    {t('TableRecap.selectSubTransaction')}
+                </div>
+            )}
 
             <div className="overflow-x-auto rounded-md shadow">
                 <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm text-left">
-                    <thead className="bg-gray-100 dark:bg-gray-700 style_bg">
+                    <thead className="bg-gray-100 dark:bg-gray-700">
                         <tr>
                             <th className="px-4 py-3">{t('TableRecap.tableHeaders.name')}</th>
                             <th className="px-4 py-3">{t('TableRecap.tableHeaders.categories')}</th>
@@ -88,47 +99,41 @@ const ProductsRecapTable = ({ products }) => {
                             <th className="px-4 py-3">{t('TableRecap.tableHeaders.endDate')}</th>
                             <th className="px-4 py-3">{t('TableRecap.tableHeaders.operation')}</th>
                             <th className="px-4 py-3">{t('TableRecap.tableHeaders.actions')}</th>
-                            <th scope="col" className="px-6 py-3">{t('TableRecap.tableHeaders.view')}</th>
+                            <th className="px-4 py-3">{t('TableRecap.tableHeaders.view')}</th>
                         </tr>
                     </thead>
 
-                    <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700 style_bg">
-                        {paginatedProducts?.length <= 0 ? (
+                    <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                        {paginatedProducts.length === 0 ? (
                             <tr>
                                 <td colSpan="9" className="text-center p-4 text-gray-500 dark:text-gray-300">
                                     {t('TableRecap.noProducts')}
                                 </td>
                             </tr>
                         ) : (
-                            paginatedProducts?.map((item, _) => (
-                                <tr key={item?.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                                    <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">{item?.description_product}</td>
-                                    <td className="px-4 py-3">{item?.categorie_product}</td>
-                                    <td className="px-4 py-3 capitalize">{item?.statut}</td>
-                                    <td className="px-4 py-3">{item?.price_product}</td>
+                            paginatedProducts.map(item => (
+                                <tr key={item?.id}>
+                                    <td className="px-4 py-3">{item?.description_product || '-'}</td>
+                                    <td className="px-4 py-3">{item?.categorie_product || '-'}</td>
+                                    <td className="px-4 py-3 capitalize">{item?.statut || '-'}</td>
+                                    <td className="px-4 py-3">{item?.price_product || '-'}</td>
                                     <td className="px-4 py-3">{item?.date_emprunt || 'N/A'}</td>
                                     <td className="px-4 py-3">{item?.date_fin_emprunt || '-'}</td>
                                     <td className="px-4 py-3">{item?.operation_product || '-'}</td>
                                     <td className="px-4 py-3">
                                         <button
-                                            onClick={() => handleDelete(item?.id)}
-                                            className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-600 text-sm cursor-pointer"
+                                            onClick={() => setPopoverOpen(true)}
+                                            className="text-blue-600 hover:underline dark:text-blue-400"
                                         >
-                                            <svg className="w-[25px] h-[20px] text-gray-800 boder-red-200 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
-                                            </svg>
+                                            Voir
                                         </button>
                                     </td>
-                                    <td className="px-6 py-3">
+                                    <td className="px-4 py-3">
                                         <button
-                                            className="text-blue-600 hover:underline dark:text-blue-400 cursor-pointer"
-                                            onClick={() => setPoverOpen(true)}
-                                            aria-label={`Voir ${item?.id}`}
+                                            onClick={() => console.log("delete", item?.id)}
+                                            className="text-red-600 hover:text-red-800"
                                         >
-                                            <svg className="w-[25px] h-[25px] text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                <path stroke="currentColor" strokeWidth="0.8" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
-                                                <path stroke="currentColor" strokeWidth="0.8" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                            </svg>
+                                            Supprimer
                                         </button>
                                     </td>
                                 </tr>
@@ -140,10 +145,8 @@ const ProductsRecapTable = ({ products }) => {
                 {popoverOpen && (
                     <>
                         <div className="fixed inset-0 bg-opacity-30 z-40" onClick={closePopover}></div>
-                        <div className="fixed top-1/2 left-1/2 z-50 max-w-full bg-white rounded-md shadow-lg p-4 transform -translate-x-1/2 -translate-y-1/2" role="dialog" aria-modal="true">
-                            <div className="flex items-center max-w-full">
-                                <ViewProduct />
-                            </div>
+                        <div className="fixed top-1/2 left-1/2 z-50 max-w-full bg-white rounded-md shadow-lg p-4 transform -translate-x-1/2 -translate-y-1/2">
+                            <ViewProduct />
                         </div>
                     </>
                 )}
@@ -153,21 +156,11 @@ const ProductsRecapTable = ({ products }) => {
                 <span>
                     {t('TableRecap.pagination.page')} {currentPage} {t('TableRecap.pagination.of')} {totalPages}
                 </span>
-
                 <div className="space-x-2">
-                    <button
-                        onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                        disabled={currentPage === 1}
-                        className="px-3 py-1 border rounded-md disabled:opacity-50"
-                    >
+                    <button onClick={() => setCurrentPage(Math.max(1, currentPage - 1))} disabled={currentPage === 1}>
                         {t('TableRecap.pagination.previous')}
                     </button>
-
-                    <button
-                        onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-                        disabled={currentPage === totalPages}
-                        className="px-3 py-1 border rounded-md disabled:opacity-50"
-                    >
+                    <button onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))} disabled={currentPage === totalPages}>
                         {t('TableRecap.pagination.next')}
                     </button>
                 </div>
@@ -177,3 +170,163 @@ const ProductsRecapTable = ({ products }) => {
 };
 
 export default ProductsRecapTable;
+
+function TransactionsDropdown({ transactionsData, onSubTransactionSelect }) {
+    const [dropdownOpen1, setDropdownOpen1] = useState(false);
+    const [dropdownOpen2, setDropdownOpen2] = useState(false);
+
+     const [selectedTransaction, setSelectedTransaction] = useState(null);
+
+    const trigger1 = useRef(null);
+    const trigger2 = useRef(null);
+    const dropdown1 = useRef(null);
+    const dropdown2 = useRef(null);
+
+    // Close dropdowns on click outside
+    useEffect(() => {
+        const handler = ({ target }) => {
+            if (!dropdown1?.current || !dropdown2?.current) return;
+            if (
+                dropdown1?.current?.contains(target) ||
+                trigger1?.current?.contains(target) ||
+                dropdown2?.current?.contains(target) ||
+                trigger2?.current?.contains(target)
+            )
+                return;
+            setDropdownOpen1(false);
+            setDropdownOpen2(false);
+        };
+        document.addEventListener('click', handler);
+        return () => document.removeEventListener('click', handler);
+    }, []);
+
+    const handleTransactionSelect = (transactionItem) => {
+        setSelectedTransaction(transactionItem);
+        setDropdownOpen1(false);
+        setDropdownOpen2(true); // Automatically open second dropdown
+    };
+
+    const getSubTransactions = () => {
+        if (!selectedTransaction?.items) return [];
+        return selectedTransaction.items.map((entry) => entry.subTransaction);
+    };
+
+     const convertDate = (dat) => {
+
+         const date = new Date(dat);
+
+         const formatted = date.toLocaleString("fr-FR", {
+             day: "2-digit",
+             month: "2-digit",
+             year: "numeric",
+             hour: "2-digit",
+             minute: "2-digit",
+             second: "2-digit"
+         }); 
+
+         return formatted
+     }
+
+
+    return (
+        <div className="flex flex-col md:flex-row gap-4">
+
+            {/* Dropdown 1: Transactions */}
+            <div className="relative inline-block">
+
+                <button
+                    ref={trigger1}
+                    onClick={() => setDropdownOpen1(!dropdownOpen1)}
+                    className="mb-3.5 inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-stroke bg-white px-6 py-3 text-base font-medium text-dark dark:border-dark-3 dark:bg-dark-2 dark:text-white"
+                >
+                    Transactions
+
+                    <span
+                        className={`duration-100 ${dropdownOpen1 ? "-scale-y-100" : ""}`}
+                    >
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M10 14.25C9.8125 14.25 9.65625 14.1875 9.5 14.0625L2.3125 7C2.03125 6.71875 2.03125 6.28125 2.3125 6C2.59375 5.71875 3.03125 5.71875 3.3125 6L10 12.5312L16.6875 5.9375C16.9688 5.65625 17.4062 5.65625 17.6875 5.9375C17.9688 6.21875 17.9688 6.65625 17.6875 6.9375L10.5 14C10.3437 14.1562 10.1875 14.25 10 14.25Z"
+                                fill="currentColor"
+                            />
+                        </svg>
+                    </span>
+                </button>
+
+                {dropdownOpen1 && (
+                    <div
+                        ref={dropdown1}
+                        className="absolute z-10 mt-2 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 max-h-60 overflow-y-auto"
+                    >
+                        <div className="py-1">
+                            {transactionsData.map((transItem,_) => (
+                                <button
+                                    key={transItem?.transaction?.id}
+                                    onClick={() => handleTransactionSelect(transItem)}
+                                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                >
+                                    {transItem?.transaction?.id} - {transItem?.transaction?.status}-{convertDate(transItem?.transaction?.created_at)}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            {/* Dropdown 2: SubTransactions */}
+            <div className="relative inline-block">
+
+                <button
+                    ref={trigger2}
+                    onClick={() => setDropdownOpen2(!dropdownOpen2)}
+                    className="mb-3.5 inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-stroke bg-white px-6 py-3 text-base font-medium text-dark dark:border-dark-3 dark:bg-dark-2 dark:text-white"
+                    disabled={!selectedTransaction}
+                >
+                    Sous-transactions
+
+                    <span
+                        className={`duration-100 ${selectedTransaction ? "-scale-y-100" : ""}`}
+                    >
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M10 14.25C9.8125 14.25 9.65625 14.1875 9.5 14.0625L2.3125 7C2.03125 6.71875 2.03125 6.28125 2.3125 6C2.59375 5.71875 3.03125 5.71875 3.3125 6L10 12.5312L16.6875 5.9375C16.9688 5.65625 17.4062 5.65625 17.6875 5.9375C17.9688 6.21875 17.9688 6.65625 17.6875 6.9375L10.5 14C10.3437 14.1562 10.1875 14.25 10 14.25Z"
+                                fill="currentColor"
+                            />
+                        </svg>
+                    </span>
+                </button>
+
+                {dropdownOpen2 && selectedTransaction && (
+                    <div
+                        ref={dropdown2}
+                        className="absolute z-10 mt-2 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 max-h-60 overflow-y-auto"
+                    >
+                        <div className="py-1">
+                            {getSubTransactions().map((sub, i) => (
+                                <button
+                                    key={sub?.id || i}
+                                    className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                    onClick={() => onSubTransactionSelect(sub)} // notify parent
+                                >
+                                    {sub?.id} - {sub?.status || 'Sans nom'}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+}
