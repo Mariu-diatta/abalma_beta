@@ -4,7 +4,7 @@ import ProductsRecapTable from './ProductRecaptable';
 import UserTable from '../components/ContactUser';
 import SettingsForm from './Settings';
 import api from '../services/Axios';
-import { useSelector } from 'react-redux';
+//import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import ListProductShoppingCart from './ListProductShoppingCart';
 
@@ -86,30 +86,27 @@ const Tabs = () => {
 
     //}, [currentUser?.id]);
 
-    useEffect(
+    useEffect(() => {
 
-        () => {
+        const getProduct = async () => {
 
-            const getProduct = async () => {
+            try {
+                const productTransaction= await api.get('product/fournisseur/transaction/');
 
-                try {
-                    const productTransaction = await api.get('product/fournisseur/transaction/')
+                console.log("DashbordProfileUsr, LES PRODUITS BOUGHT DE LA TRANSACTION", productTransaction?.data);
 
-                    console.log("DashbordProfileUsr, LES PRODUITS DE LA TRANSACTION", productTransaction?.data)
+                setProductsTrasactionBought(productTransaction?.data);
 
-                    setProductsTrasactionBought(productTransaction?.data)
+            } catch (e) {
 
-                } catch (e) {
-
-                    console.log("ERREUR LORS DE LA DEBUGGINg", e)
-                }
-
+                console.log("ERREUR LORS DU DEBUGGING", e);
             }
+        };
 
-            getProduct()
+        getProduct();
 
-        },[]
-    )
+    }, []);
+
 
 
     const tabContent = {
@@ -144,6 +141,7 @@ const Tabs = () => {
 
                 {
                     productsTrasactionBought?.length > 0 && (
+
                         <ProductsRecapTable products={productsTrasactionBought} />
                     )
                 }

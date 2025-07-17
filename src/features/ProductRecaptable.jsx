@@ -4,6 +4,7 @@ import ViewProduct from '../components/ViewProduct';
 import { useTranslation } from 'react-i18next';
 
 const ProductsRecapTable = ({ products }) => {
+
     const { t } = useTranslation();
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
@@ -17,15 +18,23 @@ const ProductsRecapTable = ({ products }) => {
     const closePopover = () => setPopoverOpen(false);
 
     const getFilteredProducts = (products, selectedSubTransaction) => {
+
         if (!Array.isArray(products) || !selectedSubTransaction?.id) return [];
 
         return products.flatMap(prod =>
+
             Array.isArray(prod.items)
+
                 ? prod.items
+
                     .filter(sub => sub?.subTransaction?.id === selectedSubTransaction.id)
+
                     .flatMap(sub =>
+
                         Array.isArray(sub.items)
+
                             ? sub.items.map(i => i.product)
+
                             : []
                     )
                 : []
@@ -33,15 +42,86 @@ const ProductsRecapTable = ({ products }) => {
     };
 
     const filteredProducts = useMemo(() => {
+
         const productsFromSub = getFilteredProducts(products, selectedSubTransaction);
+
+        if (selectedStatus === '') {
+
+            return products.flatMap(prod =>
+
+                Array.isArray(prod.items)
+
+                    ? prod.items
+
+                        .filter(sub => sub?.subTransaction?.id)
+
+                        .flatMap(sub =>
+
+                            Array.isArray(sub.items)
+
+                                ? sub.items.map(i => i.product)
+
+                                : []
+                        )
+                    : []
+            );
+
+        } else if (selectedStatus === 'acheter') {
+
+            return products.flatMap(prod =>
+
+                Array.isArray(prod.items)
+
+                    ? prod.items
+
+                        .filter(sub => sub?.subTransaction)
+
+                        .flatMap(sub =>
+
+                            Array.isArray(sub.items)
+
+                                ? sub.items.filter(i => i.product.operation_product= "VENDRE")
+
+                                : []
+                        )
+                    : []
+            );
+
+        } else if (selectedStatus === 'vendu') {
+
+            return products.flatMap(prod =>
+
+                Array.isArray(prod.items)
+
+                    ? prod.items
+
+                        .filter(sub => sub?.subTransaction)
+
+                        .flatMap(sub =>
+
+                            Array.isArray(sub.items)
+
+                                ? sub.items.filter(i => i.product.operation_product="ACHETER")
+
+                                : []
+                        )
+                    : []
+            );
+
+        }
+
         return productsFromSub;
-    }, [products, selectedSubTransaction]);
+
+    }, [products, selectedSubTransaction, selectedStatus]);
 
     const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
     const paginatedProducts = useMemo(() => {
+
         const start = (currentPage - 1) * itemsPerPage;
+
         return filteredProducts.slice(start, start + itemsPerPage);
+
     }, [filteredProducts, currentPage]);
 
     console.log("LES PRODUITS DE LA TRANSACTION", paginatedProducts, getFilteredProducts(products, selectedSubTransaction));
