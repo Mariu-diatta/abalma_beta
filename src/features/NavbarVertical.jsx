@@ -59,30 +59,6 @@ const VertcalNavbar = ({ children }) => {
 
     }, [currentUser?.id, dispatch]);
 
-
-    //// 🔎 Fetch Produits d'une catégorie
-    //const getProductFilter = async url => {
-
-    //    try {
-
-    //        const response = await api.get(url);
-
-    //    } catch (err) {
-
-    //        console.error("Erreur lors de la récupération des produits :", err);
-    //    }
-    //};
-
-    // 🔄 Mise à jour de l’onglet actif
-    //const updateActiveTab = (tab, to = null) => {
-
-    //    if (to) getProductFilter(to);
-
-    //    dispatch(setCurrentNav(tab));
-
-    //    lesAccount(); // ⚠️ Potentiellement inutile ici
-    //};
-
     //const { currentUser } = useAuth()
     const currentUserEmail = useSelector((state) => state.auth.user)
 
@@ -387,6 +363,7 @@ const VertcalNavbar = ({ children }) => {
                     </div>
 
                 </div>
+
             </aside>
 
             <div
@@ -418,8 +395,6 @@ const VertcalNavbar = ({ children }) => {
 
                     </div>
 
-
-
                     <section
 
                         id={`${currentNav}-tab`}
@@ -440,6 +415,7 @@ const VertcalNavbar = ({ children }) => {
                     </section>
                     
                 </div>
+
             </div>
 
         </div>

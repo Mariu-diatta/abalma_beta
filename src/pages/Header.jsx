@@ -8,20 +8,26 @@ import { useTranslation } from 'react-i18next';
 import i18n from "i18next";
 
 export function LanguageDropdown({ changeLanguage }) {
+
     const [isOpen, setIsOpen] = useState(false);
     const [selectedLang, setSelectedLang] = useState("Langue");
     const [openDirection, setOpenDirection] = useState("bottom"); // "bottom" ou "top"
     const buttonRef = useRef(null);
 
     useEffect(() => {
+
         const lang = i18n.language || window.localStorage.i18nextLng || "fr";
+
         setSelectedLang(
+
             lang === "fr" ? (
+
                 <img src="https://flagcdn.com/w40/fr.png" alt="Fr" className="w-5 h-4" />
             ) : (
                 <img src="https://flagcdn.com/w40/gb.png" alt="En" className="w-5 h-4" />
             )
         );
+
     }, []);
 
     useEffect(() => {
@@ -219,6 +225,7 @@ const NavbarHeader = () => {
     const { i18n } = useTranslation();
 
     const changeLanguage = (lang) => {
+
         i18n.changeLanguage(lang);
     };
 
@@ -262,7 +269,9 @@ const NavbarHeader = () => {
 
     useEffect(() => {
         function handleClickOutside(event) {
+
             if (ref.current && !ref.current.contains(event.target)) {
+
                 setOpen(false); // Fermer si clic en dehors
             }
         }
@@ -327,17 +336,20 @@ const NavbarHeader = () => {
                         {/* Navigation */}
                         <nav
                             id="navbarCollapse"
-                            className={`sm:hidden absolute right-4 top-full w-full max-w-[250px] z-[70] rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${!open && "hidden"}
+                            className={`sm:hidden absolute top-1/2 right-4  w-full max-w-[250px] z-[70] rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${!open && "hidden"}
                             lg:static lg:block lg:max-w-full lg:w-auto`}
                             style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                         >
 
                             {/* Boutons et Dropdown (Mobile) */}
-                            <div className="flex flex-col items-center justify-center gap-2 mt-4 sm:hidden">
+                            <div className="absolute top-0 flex flex-col items-center justify-center gap-2  sm:hidden">
 
                                 <LanguageDropdown changeLanguage={changeLanguage} />
+
                                 <ThemeToggle />
+
                                 <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
+
                                 <WhiteRoundedButton titleButton={t('register')} to="/Register" />
 
                             </div>
@@ -348,8 +360,11 @@ const NavbarHeader = () => {
                         <div className="hidden sm:flex items-center justify-center gap-3">
 
                             <LanguageDropdown changeLanguage={changeLanguage} />
+
                             <ThemeToggle />
+
                             <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
+
                             <WhiteRoundedButton titleButton={t('register')} to="/Register" />
 
                         </div>
@@ -391,7 +406,9 @@ const ButtonNavigate = ({ tabs }) => {
                 <li key={tab.id} className="w-full sm:w-auto">
 
                     <NavLink
+
                         to={tab.endPoint}
+
                         className={
                                 ({ isActive }) =>
                                 `
@@ -405,6 +422,7 @@ const ButtonNavigate = ({ tabs }) => {
                         }
                     >
                         <>{tab.logo}</>
+
                         <>{tab.label}</>
 
                     </NavLink>

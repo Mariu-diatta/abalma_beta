@@ -21,8 +21,10 @@ i18n
 
      en: {
 
-        translation: {
-
+         translation: {
+            sub_transaction:"sub-transaction",
+            view: 'View',
+            delete: "Delete",
             welcome: "Welcome",
             login: "Log In",
             register: "Register",
@@ -254,7 +256,9 @@ i18n
       fr: {
 
         translation: {
-
+            sub_transaction: "sous-transaction",
+            view: 'Voir',
+            delete:"Supprimer",
             welcome: "Bienvenue",
             login: "Se connecter",
             register: "S'inscrire",

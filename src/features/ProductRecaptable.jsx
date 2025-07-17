@@ -144,11 +144,11 @@ const ProductsRecapTable = ({ products }) => {
 
             </div>
 
-            {!selectedSubTransaction && (
-                <div className="text-center text-sm text-gray-500 dark:text-gray-300 my-4">
-                    {t('TableRecap.selectSubTransaction')}
-                </div>
-            )}
+            {/*{!selectedSubTransaction && (*/}
+            {/*    <div className="text-center text-sm text-gray-500 dark:text-gray-300 my-4">*/}
+            {/*        {t('TableRecap.selectSubTransaction')}*/}
+            {/*    </div>*/}
+            {/*)}*/}
 
             <div
                 className="overflow-x-auto rounded-md shadow"
@@ -173,8 +173,8 @@ const ProductsRecapTable = ({ products }) => {
                             <th className="px-4 py-3">{t('TableRecap.tableHeaders.operationDate')}</th>
                             <th className="px-4 py-3">{t('TableRecap.tableHeaders.endDate')}</th>
                             <th className="px-4 py-3">{t('TableRecap.tableHeaders.operation')}</th>
-                            <th className="px-4 py-3">{t('TableRecap.tableHeaders.actions')}</th>
                             <th className="px-4 py-3">{t('TableRecap.tableHeaders.view')}</th>
+                            <th className="px-4 py-3">{t('TableRecap.tableHeaders.actions')}</th>
                         </tr>
 
                     </thead>
@@ -209,7 +209,7 @@ const ProductsRecapTable = ({ products }) => {
                                             onClick={() => setPopoverOpen(true)}
                                             className="text-blue-600 hover:underline dark:text-blue-400"
                                         >
-                                            Voir
+                                            {t('view')}
                                         </button>
 
                                     </td>
@@ -220,7 +220,7 @@ const ProductsRecapTable = ({ products }) => {
                                             onClick={() => console.log("delete", item?.id)}
                                             className="text-red-600 hover:text-red-800"
                                         >
-                                            Supprimer
+                                            {t('delete')}
                                         </button>
 
                                     </td>
@@ -275,11 +275,10 @@ export default ProductsRecapTable;
 
 function TransactionsDropdown({ transactionsData, onSubTransactionSelect }) {
 
+    const { t } = useTranslation();
     const [dropdownOpen1, setDropdownOpen1] = useState(false);
     const [dropdownOpen2, setDropdownOpen2] = useState(false);
-
-     const [selectedTransaction, setSelectedTransaction] = useState(null);
-
+    const [selectedTransaction, setSelectedTransaction] = useState(null);
     const trigger1 = useRef(null);
     const trigger2 = useRef(null);
     const dropdown1 = useRef(null);
@@ -398,7 +397,7 @@ function TransactionsDropdown({ transactionsData, onSubTransactionSelect }) {
                     disabled={!selectedTransaction}
                     style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                 >
-                    Sous-transactions
+                    {t('sub_transaction')}
 
                     <span
                         className={`duration-100 ${dropdownOpen2 ? "-scale-y-100" : ""}`}
