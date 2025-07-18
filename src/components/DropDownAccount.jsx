@@ -233,11 +233,11 @@ export default function AccountDropdownUserProfil() {
     };
 
     return (
-        <section className="absolute top-2 bg-gray-2 dark:bg-dark z-5">
+        <section className="absolute top-0 bg-gray-2 dark:bg-dark z-5">
 
             <div className="flex justify-center items-center">
 
-                <div className="flex items-center p-2 bg-transparent rounded-lg">
+                <div className="flex items-center pe-2 ps-2 pb-2 bg-transparent rounded-lg">
 
                     {/* Mobile only - fixed bottom bar */}
                     <div className="fixed bottom-0 w-max-100 left-0 right-0 z-0 flex items-center justify-around sm:flex md:hidden lg:hidden">
