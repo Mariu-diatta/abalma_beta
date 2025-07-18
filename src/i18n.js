@@ -111,7 +111,7 @@ i18n
              },
 
              TableRecap: {
-                 title: "My purchases",
+                 title: "My Transactions",
                  statusAll: "All",
                  searchPlaceholder: "Search...",
                  tableHeaders: {
@@ -347,7 +347,7 @@ i18n
             },
 
             TableRecap: {
-                title: "Mes achats",
+                title: "Mes opérations",
                 statusAll: "Tous",
                 searchPlaceholder: "Rechercher...",
                 tableHeaders: {

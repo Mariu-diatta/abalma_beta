@@ -1,12 +1,12 @@
 import React from 'react'
 
-const ViewProduct = () => {
+const ViewProduct = ({productSelected}) => {
 
     return (
 
         <div className="grid gap-4 mt-2">
             <div>
-                <img className="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg" alt="" />
+                <img className="h-auto max-w-full rounded-lg" src={productSelected.image_product} alt="" />
             </div>
             <div class="grid grid-cols-5 gap-4">
                 <div>
