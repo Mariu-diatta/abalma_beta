@@ -492,7 +492,7 @@ function TransactionsDropdown({ transactionsData, onSubTransactionSelect }) {
 
                         ref={dropdown1}
 
-                        className="absolute z-10 mt-2 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 max-h-60 overflow-y-auto"
+                        className="absolute z-10 mt-2 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 "
 
                         style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                     >
@@ -558,7 +558,7 @@ function TransactionsDropdown({ transactionsData, onSubTransactionSelect }) {
 
                     <div
                         ref={dropdown2}
-                        className="absolute z-10 mt-2 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 max-h-60 overflow-y-auto"
+                        className="absolute z-10 mt-2 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
                         style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                     >
                         <div className="py-1">
