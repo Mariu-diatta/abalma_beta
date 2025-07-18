@@ -192,7 +192,7 @@ const SettingsForm = () => {
 
     return (
 
-        <div className="w-full flex flex-col lg:flex-row justify-center items-start gap-8 px-4 py-8 style-bg">
+        <div className="w-auto flex flex-col lg:flex-row justify-center items-start gap-8 px-4 py-8 style-bg">
 
             <form
 

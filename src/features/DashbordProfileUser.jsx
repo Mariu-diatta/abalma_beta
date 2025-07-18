@@ -47,7 +47,7 @@ const Tabs = () => {
 
         dashboard: (
 
-            <div className="p-2 space-y-6 max-w-7xl mx-auto  style-bg mb-2">
+            <div className="p-2 space-y-6 max-w-7xl mx-auto  style-bg mb-2 h-full h-full mb-2 pb-3">
 
                 <div className="mb-6 text-center style_bg">
 
@@ -98,7 +98,7 @@ const Tabs = () => {
 
     return (
 
-        <div className="h-full w-full bg-gray-100 dark:bg-gray-900 px-1 py-1 style_bg">
+        <div className="h-full w-full bg-gray-100 dark:bg-gray-900 px-1 py-1 style_bg z-0">
 
 
             {/* Tabs Navigation */}
@@ -139,7 +139,7 @@ const Tabs = () => {
                 id={`${activeTab}-tab`}
                 role="tabpanel"
                 aria-labelledby={`${activeTab}-tab-button`}
-                className="style_bg bg-white dark:bg-gray-800 rounded-lg  min-h-auto overflow-auto"
+                className="style_bg bg-white dark:bg-gray-800 rounded-lg  min-h-100 overflow-x-auto z-0"
             >
                 {tabContent[activeTab]}
 
