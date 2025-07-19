@@ -140,7 +140,7 @@ const VertcalNavbar = ({ children }) => {
         <div
 
             style={{
-                marginBottom: "30px",
+                marginBottom: "50px",
 
                 paddingBottom: "30px"
             }}
@@ -198,19 +198,75 @@ const VertcalNavbar = ({ children }) => {
 
                         <li>
                             <button
+                                className="flex items-center justify-start gap-x-3 p-2 w-full text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-md"
+                                onClick={() => {
+                                    navigate("/account_home");
+                                    dispatch(setCurrentNav("account_home"));
+                                }}
+                            >
+                                {currentUser?.image ? (
+                                    <div className="relative h-[30px] w-[30px] rounded-full shrink-0">
+                                        <img
+                                            src={currentUser.image}
+                                            alt="avatar"
+                                            title={currentUser.email}
+                                            className="h-full w-full rounded-full object-cover object-center"
+                                        />
+                                        {currentUser?.is_connected && (
+                                            <span className="absolute -right-0.5 -top-0.5 block h-[14px] w-[14px] rounded-full border-[2.3px] border-white bg-[#219653] dark:border-dark"></span>
+                                        )}
+                                    </div>
+                                ) : (
+                                    <div className="relative h-[30px] w-[30px] rounded-full shrink-0" title={currentUser?.email}>
+                                        <svg
+                                            className="w-[26px] h-[26px] text-gray-800 dark:text-white"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                stroke="currentColor"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth="0.8"
+                                                d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 13 16h-2a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 12 21Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                                            />
+                                        </svg>
+                                        {currentUser?.is_connected && (
+                                            <span className="absolute -right-0.5 -top-0.5 block h-[14px] w-[14px] rounded-full border-[2.3px] border-white bg-[#219653] dark:border-dark"></span>
+                                        )}
+                                    </div>
+                                )}
+
+                                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1">
+                                    <span className="text-sm font-medium">{currentUser?.nom}</span>
+
+                                    {currentUser?.is_pro && (
+                                        <span className="inline-flex items-center justify-center px-2 text-xs text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                                            Pro
+                                        </span>
+                                    )}
+                                </div>
+                            </button>
+                        </li>
+
+                        <li>
+                            <button
+
+                                onClick={() => { navigate("/dashboard"); dispatch(setCurrentNav("dashboard")) }}
 
                                 className="flex items-center p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer"
-
-                                onClick={() => { navigate("/UserLayout"); dispatch(setCurrentNav("/message_inbox")) }}
                             >
 
-                                <svg className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 576 512">
-                                    <path d="M575.8 255.5c0 18-15 32.1-32 32.1l-32 0 .7 160.2c0 2.7-.2 5.4-.5 8.1l0 16.2c0 22.1-17.9 40-40 40l-16 0c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1L416 512l-24 0c-22.1 0-40-17.9-40-40l0-24 0-64c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32 14.3-32 32l0 64 0 24c0 22.1-17.9 40-40 40l-24 0-31.9 0c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2l-16 0c-22.1 0-40-17.9-40-40l0-112c0-.9 0-1.9 .1-2.8l0-69.7-32 0c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z" />
-                                </svg>
+                                <div className="flex gap-2">
 
-                                <span className="flex-1 ms-3 whitespace-nowrap">{t('AccountPage.home')}</span>
+                                    <svg className="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M18.045 3.007 12.31 3a1.965 1.965 0 0 0-1.4.585l-7.33 7.394a2 2 0 0 0 0 2.805l6.573 6.631a1.957 1.957 0 0 0 1.4.585 1.965 1.965 0 0 0 1.4-.585l7.409-7.477A2 2 0 0 0 21 11.479v-5.5a2.972 2.972 0 0 0-2.955-2.972Zm-2.452 6.438a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z" />
+                                    </svg>
 
-                                {currentUser?.is_pro && <span className="inline-flex items-center justify-center px-2 ms-3 text-sm  text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">Pro</span>}
+                                    <>{t("activity")}</>
+
+                                </div>
 
                             </button>
 
@@ -222,7 +278,7 @@ const VertcalNavbar = ({ children }) => {
 
                                 className="flex items-center p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer"
 
-                                onClick={() => { navigate("/message_inbox"); dispatch(setCurrentNav("/message_inbox")) }}
+                                onClick={() => { navigate("/message_inbox"); dispatch(setCurrentNav("message_inbox")) }}
                             >
                                 <svg className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
 
@@ -247,7 +303,7 @@ const VertcalNavbar = ({ children }) => {
 
                                 className="flex items-center p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer"
 
-                                onClick={() => { navigate("/add_product"); dispatch(setCurrentNav("/add_product")) }}
+                                onClick={() => { navigate("/add_product"); dispatch(setCurrentNav("add_product")) }}
                             >
                                 <svg className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 24">
 
@@ -350,14 +406,14 @@ const VertcalNavbar = ({ children }) => {
                             aria-selected={currentNav === 9}
                             aria-controls={`${9}-tab`}
                             id={`${9}-tab-button`}
-                            onClick={() => { navigate(`/help`); dispatch(setCurrentNav(`/help`)) }}
+                            onClick={() => { navigate(`/help`); dispatch(setCurrentNav(`help`)) }}
                             className={`cursor-pointer ml-3 inline-block px-1 py-3 border-b-2 rounded-t-md transition-colors duration-300 
                                     ${currentNav === 9
                                     ? 'border-b-purple-600 text-purple-600 dark:border-b-purple-500 dark:text-purple-500'
                                     : 'border-b-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
                                 } focus:outline-none`}
                         >
-                            {t('AccountPage.help')}
+                            {t('AccountPage.help')} - Support
                         </button>
 
                     </div>
@@ -402,7 +458,7 @@ const VertcalNavbar = ({ children }) => {
 
                         aria-labelledby={`${currentNav}-tab-button`}
 
-                        className="bg-white dark:bg-gray-800 rounded-lg w-auto h-full sm:mb-[30px] sm:pb-[50px]"
+                        className="dark:bg-gray-800 rounded-lg w-auto sm:mb-[30px] sm:pb-[50px] sm:z-[1000]"
 
                         style={{
                             backgroundColor: "var(--color-bg)",

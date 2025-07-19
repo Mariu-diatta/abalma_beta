@@ -105,7 +105,7 @@ const ChatLayout = () => {
     // 🗑 Supprimer une room
     const handleDeleteRoom = room => {
 
-        dispatch(addMessageNotif(`Discussion ${room?.name.slice(5, 15)} supprimée`));
+        dispatch(addMessageNotif(`Discussion ${room?.name?.slice(5, 15)} supprimée`));
 
         dispatch(deleteRoomAsync(room.name));
     };

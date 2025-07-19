@@ -1,11 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
-//import { useAuth } from '../AuthContext';
 import api from '../services/Axios';
 import { logout, updateCompteUser, updateUserData } from '../slices/authSlice';
-//import MessageForm from '../components/MessageForm';
 import InputBox from '../components/InputBoxFloat';
 import { addCurrentChat, addRoom} from '../slices/chatSlice';
 import { setCurrentNav } from '../slices/navigateSlice';
@@ -85,16 +82,25 @@ const ProfileCard = () => {
 
     // Gestion des fichiers (image et justificatif)
     const handleImageUpload = (e, isBackground = false) => {
+
         const file = e.target.files?.[0];
+
         if (!file) return;
 
         const url = URL.createObjectURL(file);
+
         if (isBackground) {
+
             setUpdateImageCover(file);
+
             setPreviewUrlBackground(url);
+
             setIsEditingPhotoBg(false);
+
         } else {
+
             setUpdateImage(file);
+
             setPreviewUrl(url);
         }
 
@@ -102,67 +108,97 @@ const ProfileCard = () => {
     };
 
     const handleFileChange = (e) => {
+
         const file = e.target.files?.[0];
+
         if (file) {
+
             setFileProof(file);
+
             console.log('Fichier sélectionné :', file);
         }
     };
 
     // Form handling
     const handleChange = (e) => {
+
         const { name, value } = e.target;
+
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
     // Enregistrer la mise à jour du profil
     const handleSave = async () => {
+
         if (!userProfile?.id) return alert('Erreur : ID utilisateur manquant');
 
         try {
             const fd = new FormData();
+
             Object.entries(formData).forEach(([key, value]) => fd.append(key, value));
+
             if (updateImage) fd.append('image', updateImage);
+
             if (updateImageCover) fd.append('image_cover', updateImageCover);
 
             const response = await api.put(`clients/${userProfile?.id}/`, fd, {
+
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
 
             dispatch(updateUserData(response.data.data));
+
             setIsEditing(false);
+
             alert('✅ Profil mis à jour !');
+
         } catch (error) {
+
             console.error('❌ Erreur mise à jour :', error);
+
             alert('Erreur lors de la mise à jour du profil.');
         }
     };
 
     // Envoi du document de justificatif pro
     const handleSaveDoc = async () => {
+
         if (!fileProof) return alert('Veuillez sélectionner un fichier avant de sauvegarder.');
 
         try {
+
             const formData = new FormData();
+
             formData.append('is_pro', true);
+
             formData.append('doc_proof', fileProof);
 
             const response = await api.put(`clients/${userProfile?.id}/`, formData, {
+
                 headers: { 'Content-Type': 'multipart/form-data' }
+
             });
 
             dispatch(updateUserData(response.data.data));
+
             alert('✅ Justificatif envoyé avec succès !');
+
         } catch (error) {
+
             console.error("❌ Erreur d'envoi :", error);
+
             alert("Erreur lors de l'envoi du justificatif.");
         }
     };
 
     const handleUpgradeToPro = async (e) => {
+
         e.preventDefault();
+
         await handleSaveDoc();
+
         setIsProFormVisible(false);
+
         alert('🎉 Votre compte est maintenant professionnel.');
     };
 
@@ -230,6 +266,7 @@ const ProfileCard = () => {
 
                         if (err?.response?.data?.detail.includes(Error)) showMessage(dispatch, Error);
                     }
+
                 } else {
 
                     console.warn('Aucun compte utilisateur trouvé.');
@@ -237,56 +274,89 @@ const ProfileCard = () => {
                     showMessage(dispatch, 'Aucun compte utilisateur trouvé.');
                 }
             }
+
         } catch (error) {
+
             console.error('Erreur getUserCompte:', error);
         }
     };
 
     // Création de chat
     const getRoomByName = useCallback(async (room) => {
+
         try {
+
             const response = await api.get(`/rooms/?name=${room?.name}`);
+
             dispatch(addCurrentChat(response[0]));
+
         } catch (err) {
+
             console.error("❌ Erreur chargement messages :", err);
         }
+
     }, [dispatch]);
 
     const creatNewRoom = async () => {
+
         try {
+
             const hashedPhone = await hashPassword(selectedProductOwner?.telephone);
+
             const roomName = `room_${selectedProductOwner?.nom}_${hashedPhone}`;
 
             await getRoomByName({ name: roomName });
 
             const roomExists = allChats?.some(room => room?.name === currentChat?.nom);
+
             if (roomExists) return dispatch(setCurrentNav("message_inbox"));
 
             const response = await api.post('rooms/', {
+
                 name: roomName,
+
                 current_owner: profileData?.id,
+
                 current_receiver: selectedProductOwner?.id
+
             });
 
             console.log("✅ Création du chat réussie:", response);
+
             dispatch(setCurrentNav("message_inbox"));
+
+            navigate("/message_inbox")
+
         } catch (err) {
+
             const errorMsg = err?.response?.data;
+
             const roomAlreadyExists = [
+
                 errorMsg?.name?.[0],
+
                 errorMsg?.current_receiver?.[0],
+
                 errorMsg?.current_owner?.[0]
+
             ].some(msg => msg?.includes("already exists"));
 
             if (roomAlreadyExists) {
+
                 try {
                     const fallbackHash = await hashPassword(selectedProductOwner?.telephone);
+
                     const fallbackRoom = `room_${selectedProductOwner?.nom}_${fallbackHash}`;
+
                     dispatch(addRoom(fallbackRoom));
+
                     dispatch(addCurrentChat(fallbackRoom));
+
                 } catch (hashErr) {
+
                     console.error("❌ Erreur fallback (hash):", hashErr);
                 }
+
             } else {
                 console.error("❌ Erreur création chat:", errorMsg);
             }
@@ -295,7 +365,12 @@ const ProfileCard = () => {
 
     return (
 
-        <div className="style_bg w-full max-w-full mx-auto bg-white rounded-md overflow-hidden shadow-md ">
+        <div
+
+            className="border-0 style_bg w-full max-w-full mx-auto bg-white rounded-md overflow-hidden"
+
+            style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
+        >
 
             {/* Image de couverture */}
             <div
@@ -308,9 +383,13 @@ const ProfileCard = () => {
                     <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
 
                         <input
+
                             type="file"
+
                             accept="image/*"
+
                             onChange={(e) => {
+
                                     handleImageUpload(e, true)
                                 }
                             }
@@ -324,13 +403,18 @@ const ProfileCard = () => {
                     isCurrentUser &&
 
                     <button
+
                         onClick={() => setIsEditingPhotoBg(!isEditingPhotoBg)}
+
                         className="absolute top-4 right-4 bg-white p-2 rounded-full shadow hover:bg-gray-100"
-                            aria-label={t('ProfilText.modifierCouverture')}
+
+                        aria-label={t('ProfilText.modifierCouverture')}
                     >
-                            <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m3 16 5-7 6 6.5m6.5 2.5L16 13l-4.286 6M14 10h.01M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
-                            </svg>
+                        <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            
+                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m3 16 5-7 6 6.5m6.5 2.5L16 13l-4.286 6M14 10h.01M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
+                        
+                        </svg>
 
                     </button>
                 }
@@ -371,6 +455,7 @@ const ProfileCard = () => {
                         }
 
                     </div>
+
                 </div>
 
                 {/* Infos utilisateur */}
@@ -425,14 +510,19 @@ const ProfileCard = () => {
                                         (!profileData?.is_pro && !isProFormVisible && isCurrentUser) && (
 
                                             <button
+
                                                 onClick={() => setIsProFormVisible(true)}
-                                                className='border-blue-400 border rounded-full inline-flex items-center justify-center py-2 px-4 text-center text-base font-medium text-primary hover:bg-blue-light-5 hover:text-body-color dark:hover:text-dark-3 disabled:bg-gray-3 disabled:border-gray-3 disabled:text-dark-5 active:bg-blue-light-3'
+
+                                                className='text-sm border-blue-400 border rounded-full inline-flex items-center justify-center py-2 px-4 text-center text-base font-medium text-primary hover:bg-blue-light-5 hover:text-body-color dark:hover:text-dark-3 disabled:bg-gray-3 disabled:border-gray-3 disabled:text-dark-5 active:bg-blue-light-3'
                                             >
                                                 <span className='mr-[10px]'>
 
                                                     <svg className="w-auto h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+
                                                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m8.032 12 1.984 1.984 4.96-4.96m4.55 5.272.893-.893a1.984 1.984 0 0 0 0-2.806l-.893-.893a1.984 1.984 0 0 1-.581-1.403V7.04a1.984 1.984 0 0 0-1.984-1.984h-1.262a1.983 1.983 0 0 1-1.403-.581l-.893-.893a1.984 1.984 0 0 0-2.806 0l-.893.893a1.984 1.984 0 0 1-1.403.581H7.04A1.984 1.984 0 0 0 5.055 7.04v1.262c0 .527-.209 1.031-.581 1.403l-.893.893a1.984 1.984 0 0 0 0 2.806l.893.893c.372.372.581.876.581 1.403v1.262a1.984 1.984 0 0 0 1.984 1.984h1.262c.527 0 1.031.209 1.403.581l.893.893a1.984 1.984 0 0 0 2.806 0l.893-.893a1.985 1.985 0 0 1 1.403-.581h1.262a1.984 1.984 0 0 0 1.984-1.984V15.7c0-.527.209-1.031.581-1.403Z" />
+
                                                     </svg>
+
                                                 </span>
 
                                                 {t('ProfilText.passerPro')}
@@ -445,11 +535,17 @@ const ProfileCard = () => {
                             </div>
 
                             <textarea
+
                                 name="description"
+
                                 value={formData?.description}
+
                                 onChange={handleChange}
+
                                 disabled
-                                className='w-full border-gray-200 border rounded-sm mt-2 inline-flex items-center justify-center py-2 px-4 text-center  text-primary hover:bg-blue-light-5 hover:text-body-color dark:hover:text-dark-3 disabled:bg-gray-3 disabled:border-gray-3 disabled:text-dark-5 active:bg-blue-light-3'
+
+                                className='border-0 w-full border-gray-200 border rounded-sm mt-2 inline-flex items-center justify-center py-2 px-4 text-center  text-primary hover:bg-blue-light-5 hover:text-body-color dark:hover:text-dark-3 disabled:bg-gray-3 disabled:border-gray-3 disabled:text-dark-5 active:bg-blue-light-3'
+
                                 placeholder={t('ProfilText.descriptionPlaceholder')}
                             />
                             
@@ -552,16 +648,21 @@ const ProfileCard = () => {
                                 {
                                     isCurrentUser &&
                                     <button
+
                                         onClick={() => setIsEditing(true)}
-                                        className="lg:flex gap-1 bg-gray-300 text-white px-3 py-1 rounded hover:bg-blue-700 m-1"
+
+                                        className="lg:flex gap-1 bg-gray-300 text-white  text-sm px-3 py-1 rounded hover:bg-blue-700 m-1"
+
                                         title="Modifier le profil"
 
                                     >
-                                        <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <svg className="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            
                                             <path stroke="currentColor" strokeLinecap="square" strokeLinejoin="round" strokeWidth="0.9" d="M7 19H5a1 1 0 0 1-1-1v-1a3 3 0 0 1 3-3h1m4-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm7.441 1.559a1.907 1.907 0 0 1 0 2.698l-6.069 6.069L10 19l.674-3.372 6.07-6.07a1.907 1.907 0 0 1 2.697 0Z" />
+                                       
                                         </svg>
 
-                                                {t('ProfilText.modifierProfil')}
+                                        {t('ProfilText.modifierProfil')}
 
                                     </button>
                                 }
@@ -571,13 +672,18 @@ const ProfileCard = () => {
                                     <button
 
                                         onClick={
+
                                             () => {
+
                                                 setMessageVisible(!messageVisible);
+
                                                 creatNewRoom()
+
+                                                navigate("/message_inbox")
                                             }
                                         }
 
-                                        className="bg-yellow-600 text-white px-3 py-1 rounded hover:bg-yellow-700 m-1"
+                                        className="bg-yellow-600 text-white text-sm px-3 py-1 rounded hover:bg-yellow-700 m-1"
                                     >
                                         {!messageVisible ? "Message" : "X"}
 
@@ -585,17 +691,20 @@ const ProfileCard = () => {
                                 }
 
                                 {
-                                    (!userProfile?.is_fournisseur || !userProfile?.is_fournisseur) &&
+                                   (!userProfile?.is_fournisseur || !userProfile?.is_fournisseur) && isCurrentUser &&
                                     <button
                                         onClick={getUserCompte}
-                                        className="lg:flex gap-1 bg-indigo-300 text-white px-3 py-1 rounded hover:bg-indigo-700 m-1"
+                                        className="text-sm  lg:flex gap-1 bg-indigo-300 text-white px-3 py-1 rounded hover:bg-indigo-700 m-1"
                                         title="Devenir un fournisseur"
                                     >
-                                        <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <svg className="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            
                                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.9" d="m7.171 12.906-2.153 6.411 2.672-.89 1.568 2.34 1.825-5.183m5.73-2.678 2.154 6.411-2.673-.89-1.568 2.34-1.825-5.183M9.165 4.3c.58.068 1.153-.17 1.515-.628a1.681 1.681 0 0 1 2.64 0 1.68 1.68 0 0 0 1.515.628 1.681 1.681 0 0 1 1.866 1.866c-.068.58.17 1.154.628 1.516a1.681 1.681 0 0 1 0 2.639 1.682 1.682 0 0 0-.628 1.515 1.681 1.681 0 0 1-1.866 1.866 1.681 1.681 0 0 0-1.516.628 1.681 1.681 0 0 1-2.639 0 1.681 1.681 0 0 0-1.515-.628 1.681 1.681 0 0 1-1.867-1.866 1.681 1.681 0 0 0-.627-1.515 1.681 1.681 0 0 1 0-2.64c.458-.361.696-.935.627-1.515A1.681 1.681 0 0 1 9.165 4.3ZM14 9a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" />
+                                        
                                         </svg>
 
                                         {t('ProfilText.devenirFournisseur')}
+
 
                                     </button>
                                 }
@@ -603,12 +712,17 @@ const ProfileCard = () => {
                                 {
                                     isCurrentUser &&
                                     <button
+
                                         onClick={delAccountUser}
-                                        className="lg:flex gap-1 bg-red-300 text-white px-3 py-1 rounded hover:bg-red-700 m-1"
+
+                                        className="lg:flex gap-1 bg-red-300 text-white text-sm px-3 py-1 rounded hover:bg-red-700 m-1"
+
                                         title="supprimer le compte"
                                     >
-                                        <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <svg className="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                           
                                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.9" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
+
                                         </svg>
 
                                         {t('ProfilText.supprimerProfil')}
@@ -635,7 +749,9 @@ const ProfileCard = () => {
                             <div className="flex gap-2">
 
                                 <button
+
                                     type="submit"
+
                                     className="bg-green-600 text-white px-4 py-1 rounded hover:bg-green-700"
                                 >
                                     {t('ProfilText.envoyerJustificatif')}
@@ -644,7 +760,9 @@ const ProfileCard = () => {
 
                                 <button
                                     type="submit"
+
                                     onClick={() => setIsProFormVisible(false)}
+
                                     className="bg-red-600 text-white px-4 py-1 rounded hover:bg-green-700"
                                 >
                                     {t('ProfilText.annuler')}
@@ -666,9 +784,9 @@ const ProfileCard = () => {
             )}
 
             {
-                (profileData?.is_fournisseur && !profileData?.is_verified)&& 
+                (profileData?.is_fournisseur && !profileData?.is_verified) &&
 
-                <GetValidateUserFournisseur />
+                <GetValidateUserFournisseur isCurrentUser={isCurrentUser} />
             }
 
         </div>
@@ -679,7 +797,7 @@ export default ProfileCard;
 
 
 //validation code pour la création d'un compte fournisseur
-const GetValidateUserFournisseur = () => {
+const GetValidateUserFournisseur = ({isCurrentUser }) => {
 
     const { t } = useTranslation();
 
@@ -752,18 +870,25 @@ const GetValidateUserFournisseur = () => {
         <>
        
             {
-                (!verified) ?
+                (!verified && isCurrentUser) ?
 
                 <form
 
                     onSubmit={handleSubmitCode}
 
                     className="w-full max-w-md mx-auto bg-white rounded-xl p-6 shadow-md space-y-4"
+
+                    style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                 >
                     <div>
 
-                        <label htmlFor="code" className="block text-sm font-semibold text-gray-700 mb-1">
-                           {t('ProfilText.confirmCode')}
+                        <label 
+                            htmlFor="code" className="block text-sm font-semibold text-gray-700 mb-1"
+
+                            style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
+                        >
+                            {t('ProfilText.confirmCode')}
+
                         </label>
 
                         <input

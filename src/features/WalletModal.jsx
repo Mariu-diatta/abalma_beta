@@ -64,7 +64,7 @@ const WalletModal = ({ Connectwallet }) => {
 
                 onClick={toggleModal}
 
-                className="cursor-pointer text-gray-900  hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700"
+                className="cursor-pointer text-gray-900  hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-1 inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700"
 
                 aria-haspopup="dialog"
 

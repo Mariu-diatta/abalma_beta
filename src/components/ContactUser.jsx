@@ -93,13 +93,14 @@ const UserTable = () => {
     };
 
     const handleDeleteSelected = () => {
+
         alert(`Supprimer les utilisateurs : ${selectedUsers.join(", ")}`);
         // logique de suppression à intégrer ici
     };
 
     return (
 
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg h-screen style-bg">
+        <div className="relative overflow-x-auto sm:rounded-lg h-screen style-bg">
 
             <h2 className="text-2xl font-extrabold text-gray-500 dark:text-white px-4 pt-4 pb-2"> 
                 {/*//text-gray-500 dark:text-gray-100 */}
@@ -228,7 +229,7 @@ const UserTable = () => {
 
                         !(user?.id === currentuser?.id) &&
 
-                        <tr key={i} className="  dark:bg-gray-800  hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <tr key={i} className="  dark:bg-gray-100  hover:bg-gray-50 dark:hover:bg-gray-40">
 
                             <td className="p-4">
 

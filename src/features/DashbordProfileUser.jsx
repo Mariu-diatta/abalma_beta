@@ -1,7 +1,6 @@
 import React, { useEffect, useState} from 'react';
 import ProductsRecapTable from './ProductRecaptable';
 import UserTable from '../components/ContactUser';
-import SettingsForm from './Settings';
 import api from '../services/Axios';
 import { useTranslation } from 'react-i18next';
 import ListProductShoppingCart from './ListProductShoppingCart';
@@ -16,7 +15,6 @@ const Tabs = () => {
 
     const tabs = [
         { id: 'dashboard', label: t('Dashboard.dashboard') },
-        { id: 'settings', label: t('Dashboard.settings') },
         { id: 'contacts', label: t('Dashboard.contacts') },
     ];
 
@@ -47,7 +45,7 @@ const Tabs = () => {
 
         dashboard: (
 
-            <div className="p-2 space-y-6 max-w-7xl mx-auto  style-bg mb-2 h-full h-full mb-2 pb-3">
+            <div className="p-2 pt-0 mt-0 space-y-6 max-w-7xl mx-auto  style-bg mb-2 h-full h-full mb-2 pb-3">
 
                 <div className="mb-6 text-center style_bg">
 
@@ -73,15 +71,6 @@ const Tabs = () => {
                         <ProductsRecapTable products={productsTrasactionBought} />
                     )
                 }
-
-            </div>
-        ),
-
-        settings: (
-
-            <div className="p-1 max-full mx-auto text-gray-700 dark:text-gray-300">
-
-                <SettingsForm />
 
             </div>
         ),

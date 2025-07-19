@@ -134,7 +134,7 @@ const OwnerPopover = ({ owner, onClose }) => {
 
         dispatch(setCurrentNav("message_inbox"))
 
-        navigate("/message_inbox")
+        return navigate("/message_inbox")
     }
 
     return (
@@ -143,22 +143,32 @@ const OwnerPopover = ({ owner, onClose }) => {
 
             className="absolute left-0 mt-3 w-auto p-3 rounded-xl border border-gray-200 opacity-100 z-20 p-1 shadow-xl z-100 animate-fade-in"
 
-            style={{
-                backgroundColor: "var(--color-bg)",
-                color: "var(--color-text)"
-            }}
+            style={
+                {
+
+                    backgroundColor: "var(--color-bg)",
+
+                    color: "var(--color-text)"
+                }
+            }
         >
             <div className="flex items-center gap-3 ">
 
                 <img
+
                     src={owner.image}
+
                     alt={owner.nom || 'Fournisseur'}
+
                     className="h-6 w-6 rounded-full object-cover shadow-sm"
                 />
 
                 <div>
+
                     <p className="text-sm font-semibold text-gray-800">{owner.nom || 'Nom inconnu'}</p>
+
                     <p className="text-xs text-gray-500">{owner.prenom || ''}</p>
+
                 </div>
 
             </div>
@@ -173,6 +183,8 @@ const OwnerPopover = ({ owner, onClose }) => {
                         dispatch(addUser(owner));
 
                         dispatch(setCurrentNav("user_profil_product"));
+
+                        navigate("/user_profil")
 
                         onClose();
                     }}
@@ -192,7 +204,9 @@ const OwnerPopover = ({ owner, onClose }) => {
                             d="M5 8C6.8 6.3 9.2 5 12 5s5.2 1.3 7 3c1.1 1 1.9 2 2.3 2.8.2.3.3.7.3 1.2s-.1.9-.3 1.2c-.4.8-1.2 1.8-2.3 2.8-1.8 1.7-4.2 3-7 3s-5.2-1.3-7-3C3.9 14 3.1 13 2.7 12.2c-.2-.3-.3-.7-.3-1.2s.1-.9.3-1.2C3.1 9.9 3.9 9 5 8Zm7 7a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
                             clipRule="evenodd"
                         />
+
                     </svg>
+
                 </button>
 
                 {/* Écrire un message */}
@@ -200,9 +214,11 @@ const OwnerPopover = ({ owner, onClose }) => {
                     !(currentUser?.id === owner?.id) &&
                     <button
 
-                        onClick={() => {
-                            chatWithOwner();
-                        }
+                        onClick={
+
+                            () => {
+                                chatWithOwner();
+                            }
                         }
 
                         className="p-1.5 rounded-md text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800 cursor-pointer"

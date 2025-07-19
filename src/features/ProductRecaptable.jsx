@@ -114,10 +114,8 @@ const ProductsRecapTable = ({ products }) => {
 
                 style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
             >
-                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-
-                    <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5Zm16 14a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2ZM4 13a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6Zm16-2a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v6Z" />
-
+                <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M5 18h14M5 18v3h14v-3M5 18l1-9h12l1 9M16 6v3m-4-3v3m-2-6h8v3h-8V3Zm-1 9h.01v.01H9V12Zm3 0h.01v.01H12V12Zm3 0h.01v.01H15V12Zm-6 3h.01v.01H9V15Zm3 0h.01v.01H12V15Zm3 0h.01v.01H15V15Z" />
                 </svg>
 
                 <h2 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">{t('TableRecap.title')}</h2>
@@ -184,11 +182,6 @@ const ProductsRecapTable = ({ products }) => {
 
             </div>
 
-            {/*{!selectedSubTransaction && (*/}
-            {/*    <div className="text-center text-sm text-gray-500 dark:text-gray-300 my-4">*/}
-            {/*        {t('TableRecap.selectSubTransaction')}*/}
-            {/*    </div>*/}
-            {/*)}*/}
 
             <div
 

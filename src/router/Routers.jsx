@@ -26,6 +26,7 @@ import Tabs from "../features/DashbordProfileUser";
 import GridLayoutProduct from "../features/GridLayoutProducts";
 import ProductsRecapTable from "../features/ProductRecaptable";
 import ListProductShoppingCart from "../features/ListProductShoppingCart";
+import SettingsForm from "../features/Settings";
 
 
 // Routes Configuration
@@ -58,11 +59,24 @@ const routes = [
 
                             {
                                 path: "payment", element: (
+
                                     <VertcalNavbar>
+
                                         <ListProductShoppingCart />
+
+                                    </VertcalNavbar> 
+                                ),
+                            },
+                            {
+                                path: "settings", element: (
+
+                                    <VertcalNavbar>
+
+                                        <SettingsForm/>
+
                                     </VertcalNavbar>
                                 ),
-                            }, 
+                            },
 
                             {
                                 path: "user_profil",
@@ -117,7 +131,7 @@ const routes = [
                             }
                             ,
                             {
-                                path: "UserLayout",
+                                path: "account_home",
 
                                 element: (
                                     <VertcalNavbar>
@@ -140,29 +154,46 @@ const routes = [
                             }, 
                             {
                                 path: "message_inbox",
+
                                 element: (
+
                                     <VertcalNavbar>
+
                                         <ChatLayout />
+
                                     </VertcalNavbar>
                                 ),
                             },
                             {
                                 path: "user_profil",
+
                                 element: (
+
                                     <VertcalNavbar>
-                                        <Tabs/>
+
+                                        <Tabs />
+
                                     </VertcalNavbar>
                                 ),
                             },
                             ...[
+
                                 "jouets", "sacs", "materiels", "electronique", "habits",
+
                                 "livres", "Jeux_video", "Meubles", "Vehicules",
+
                                 "Fournitures_scolaires", "divers",
+
                             ].map((category) => ({
+
                                 path: category,
+
                                 element: (
+
                                     <VertcalNavbar>
-                                        <GridProductDefault/>
+
+                                        <GridProductDefault />
+
                                     </VertcalNavbar>
                                 ),
                             })),

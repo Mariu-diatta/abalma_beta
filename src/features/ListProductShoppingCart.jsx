@@ -67,7 +67,7 @@ const ListProductShoppingCart = () => {
     return (
 
         <div
-            className="style_bg mb-2 relative overflow-x-auto shadow-md sm:rounded-lg style-bg"
+            className="style_bg mb-2 relative overflow-x-auto sm:rounded-lg style-bg"
 
             style={{
 

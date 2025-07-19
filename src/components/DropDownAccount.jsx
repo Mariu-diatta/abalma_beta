@@ -10,6 +10,7 @@ import { LanguageDropdown, ThemeToggle } from "../pages/Header";
 import i18n from "i18next";
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
+import { setCurrentNav } from "../slices/navigateSlice";
 
 
 const NotificationGroup = ({ currentUser, currentNotifMessages, notify, changeLanguage, nbItems }) => (
@@ -275,16 +276,20 @@ export default function AccountDropdownUserProfil() {
 
                         style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                     >
-                        {currentUser?.image ? (
+                        {
+                            currentUser?.image ? (
 
                             <div className="relative h-[30px] w-[30px] rounded-full">
 
-                                <img src={currentUser?.image} alt="avatar" title={currentUser?.email}
+                                    <img src={currentUser?.image} alt="avatar" title={currentUser?.email}
 
-                                    className="h-full w-full rounded-full object-cover object-center cursor-pointer" />
+                                        className="h-full w-full rounded-full object-cover object-center cursor-pointer" />
 
-                                    {currentUser?.is_connected && (
-                                    <span className="absolute -right-0.5 -top-0.5 block h-[14px] w-[14px] rounded-full border-[2.3px] border-white bg-[#219653] dark:border-dark"></span>
+                                        {currentUser?.is_connected && (
+
+                                    <span className="absolute -right-0.5 -top-0.5 block h-[14px] w-[14px] rounded-full border-[2.3px] border-white bg-[#219653] dark:border-dark">
+
+                                </span>
 
                                 )}
 
@@ -331,42 +336,80 @@ export default function AccountDropdownUserProfil() {
                         style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                     >
                         <div className="px-4 py-3">
+
                             <p className="text-sm font-semibold text-dark dark:text-white">{currentUser?.email}</p>
+
                         </div>
 
                         <div>
-                            <NavLink to="/user_profil" className="flex gap-1 w-full items-center justify-between px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5">
-                                <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 9h3m-3 3h3m-3 3h3M5 5h14v14H5z" />
-                                </svg>
-                                {t("profil")}
-                            </NavLink>
-                        </div>
+                            <button
 
-                        <div>
-                            <NavLink to="/dashboard" className="flex w-full items-center justify-between px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5">
-                                <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" d="M5 7h14M5 12h14M5 17h14" />
-                                </svg>
-                                {t("activity")}
-                            </NavLink>
-                        </div>
+                                className="flex gap-1 w-full items-center justify-between px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
 
-                        <div>
-                            <button disabled className="flex w-full items-center justify-between px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5">
-                                <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M14.079 6.839a3 3 0 0 0-4.255.1M13 20h1.083A3.916 3.916 0 0 0 18 16.083V9A6 6 0 1 0 6 9v7m7 4v-1a1 1 0 0 0-1-1h-1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1Zm-7-4v-6H5a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h1Zm12-6h1a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-1v-6Z" />
+                                onClick={() => { navigate("/user_profil");  dispatch(setCurrentNav("user_profil"))}}
+                            >
+
+                                <div className="flex gap-2 items-center">
+
+                                    <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+
+                                        <path stroke="currentColor" strokeWidth="1" d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+
+                                    </svg>
+
+                                    <>{t("profil")}</>
+
+                                </div>
+
+                                <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+
+                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m9 5 7 7-7 7" />
+
                                 </svg>
-                                Support
+
                             </button>
                         </div>
 
+
                         <div>
-                            <button onClick={getUserLogOut} className="flex w-full items-center justify-between px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5">
-                                <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2" />
+
+                            <button
+
+                                onClick={() => { navigate("/settings"); dispatch(setCurrentNav("settings")) }}
+
+                                className="d-flex gap-3 flex w-full items-center justify-between px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5">
+
+                                <div className="flex gap-2 items-center">
+
+                                    <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M21 13v-2a1 1 0 0 0-1-1h-.757l-.707-1.707.535-.536a1 1 0 0 0 0-1.414l-1.414-1.414a1 1 0 0 0-1.414 0l-.536.535L14 4.757V4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v.757l-1.707.707-.536-.535a1 1 0 0 0-1.414 0L4.929 6.343a1 1 0 0 0 0 1.414l.536.536L4.757 10H4a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h.757l.707 1.707-.535.536a1 1 0 0 0 0 1.414l1.414 1.414a1 1 0 0 0 1.414 0l.536-.535 1.707.707V20a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-.757l1.707-.708.536.536a1 1 0 0 0 1.414 0l1.414-1.414a1 1 0 0 0 0-1.414l-.535-.536.707-1.707H20a1 1 0 0 0 1-1Z" />
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                                    </svg>
+
+
+                                    <>{"Paramètres et convidentialités"} </>
+
+                                </div>
+
+                                <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+
+                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m9 5 7 7-7 7" />
+
                                 </svg>
+
+                            </button>
+
+                        </div>
+
+                        <div>
+                            <button onClick={getUserLogOut} className="flex w-full items-center justify-start gap-2 px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5">
+
+                                <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2" />
+                                </svg>
+
                                 {t("logOut")}
+
                             </button>
                         </div>
 
