@@ -10,6 +10,7 @@ import { login, updateUserData, updateUserToken } from '../slices/authSlice';
 import AttentionAlertMesage, { showMessage } from '../components/AlertMessage';
 import { useTranslation } from 'react-i18next';
 import { Outlet, NavLink } from 'react-router-dom';
+import { setCurrentNav } from '../slices/navigateSlice';
 
 
 // Fonction de login avec l'API
@@ -152,7 +153,9 @@ const Signin = () => {
 
                         dispatch(login(dataUser));
 
-                        return navigate("/UserLayout", { replace: true });
+                        dispatch(setCurrentNav("account_home"));
+
+                        return navigate("/account_home", { replace: true });
 
                     }
 
