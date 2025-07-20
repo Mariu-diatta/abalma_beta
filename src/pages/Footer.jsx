@@ -12,19 +12,18 @@ const Footer = () => {
         <>
             <footer
 
-                className="flex justify-center text-start ms-5 relative z-10 bg-white left-0 ms-5  pb-10 pt-20 dark:bg-dark lg:pb-20 lg:pt-[120px] "
-
+                className="flex items-center justify-center relative z-10 ps-2 pt-20 dark:bg-dark lg:pb-2 lg:pt-[120px]"
                 style={{
                     backgroundColor: "var(--color-bg)",
                     color: "var(--color-text)"
                 }}
             >
 
-                <div className="container">
+                <div className="w-screen flex items-center justify-center">
 
-                    <div className="-mx-4 flex flex-wrap">
+                    <div className="w-full max-w-7xl mx-auto flex flex-wrap">
 
-                        <div className="w-full px-4 sm:w-2/3 lg:w-3/12">
+                        <div className="w-full  sm:w-2/3 lg:w-3/12">
 
                             <div className="mb-10 w-full">
 
@@ -123,7 +122,7 @@ const Footer = () => {
                             {/*<NavLink link="/#" label="Download App" />*/}
                         </LinkGroup>
 
-                        <div className="w-full px-4 sm:w-1/2 lg:w-3/12">
+                        <div className="w-full  sm:w-1/2 lg:w-3/12">
 
                             <div className="mb-10 w-full">
 
