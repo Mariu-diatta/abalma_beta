@@ -8,7 +8,7 @@ const ProductsRecapTable = ({ products }) => {
     const { t } = useTranslation();
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
-    const [selectedStatus, setSelectedStatus] = useState(null);
+    const [selectedStatus, setSelectedStatus] = useState("");
     const [popoverOpen, setPopoverOpen] = useState(false);
     const [selectedSubTransaction, setSelectedSubTransaction] = useState(null);
     const itemsPerPage = 5;
@@ -250,9 +250,9 @@ const ProductsRecapTable = ({ products }) => {
                             </tr>
 
                         ) : (
-                                paginatedProducts.map(item => (
+                                paginatedProducts.map((item, cle ) => (
 
-                                <tr key={item?.id}>
+                                <tr key={cle}>
 
                                     <td className="px-4 py-3">{item?.description_product || '-'}</td>
 
