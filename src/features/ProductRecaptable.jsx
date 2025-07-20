@@ -159,7 +159,9 @@ const ProductsRecapTable = ({ products }) => {
                 </select>
 
                 {
-                    (selectedStatus==='') && <TransactionsDropdown
+                    (selectedStatus === '') &&
+
+                    <TransactionsDropdown
 
                         transactionsData={products}
 
@@ -270,7 +272,13 @@ const ProductsRecapTable = ({ products }) => {
 
                                         <button
 
-                                                onClick={() => { setPopoverOpen(true); setProductView(item) }}
+                                                onClick={
+
+                                                    () => {
+                                                        setPopoverOpen(true)
+                                                        setProductView(item)
+                                                    }
+                                                }
 
                                             className="text-blue-600 hover:underline dark:text-blue-400"
                                         >
@@ -304,7 +312,7 @@ const ProductsRecapTable = ({ products }) => {
                 </table>
 
                 {
-                    popoverOpen && (
+                    popoverOpen && product && (
 
                         <>
                             <div className="fixed inset-0 bg-opacity-30 z-40" onClick={closePopover}></div>

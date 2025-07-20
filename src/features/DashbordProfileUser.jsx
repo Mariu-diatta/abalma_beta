@@ -45,7 +45,7 @@ const Tabs = () => {
 
         dashboard: (
 
-            <div className="p-2 pt-0 mt-0 space-y-6 max-w-7xl mx-auto  style-bg mb-2 h-full h-full mb-2 pb-3 ">
+            <div className="p-2 pt-0 mt-0 space-y-6 max-w-7xl mx-auto style-bg mb-2  h-screan mb-2 pb-3 ">
 
                 <div className="mb-6 text-center style_bg">
 
@@ -77,7 +77,7 @@ const Tabs = () => {
 
         contacts: (
 
-            <div className="p-1 max-full mx-auto text-gray-700 dark:text-gray-300">
+            <div className="p-1 max-full mx-auto text-gray-700 dark:text-gray-300 h-screan">
 
                 <UserTable />
 
@@ -87,7 +87,7 @@ const Tabs = () => {
 
     return (
 
-        <div className="h-full w-full bg-gray-100 dark:bg-gray-900 px-1 py-1 style_bg z-0">
+        <div className="h-screan w-full bg-gray-100 dark:bg-gray-900 px-1 py-1 style_bg z-0">
 
 
             {/* Tabs Navigation */}
@@ -128,7 +128,7 @@ const Tabs = () => {
                 id={`${activeTab}-tab`}
                 role="tabpanel"
                 aria-labelledby={`${activeTab}-tab-button`}
-                className="style_bg bg-white dark:bg-gray-800 rounded-lg  min-h-100 overflow-x-auto z-0"
+                className="style_bg dark:bg-gray-800 rounded-lg  h-screan overflow-x-auto z-0"
             >
                 {tabContent[activeTab]}
 

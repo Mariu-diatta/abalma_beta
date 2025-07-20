@@ -101,7 +101,7 @@ const UserTable = () => {
 
     return (
 
-        <div className="relative overflow-x-auto sm:rounded-lg h-auto style-bg shadow-lg">
+        <div className="relative overflow-x-auto sm:rounded-lg style-bg h-screen shadow-lg">
 
             <h2 className="text-2xl font-extrabold text-gray-500 dark:text-white px-4 pt-4 pb-2"> 
                 {/*//text-gray-500 dark:text-gray-100 */}
@@ -199,9 +199,9 @@ const UserTable = () => {
             </div>
 
             {/* Tableau */}
-            <table className="w-full text-sm text-left  style-bg">
+            <table className="w-full text-sm text-left style-bg shadow-lg ">
 
-                <thead className="text-xs uppercase  style-bg">
+                <thead className="text-xs uppercase style-bg">
 
                     <tr className="style-bg">
 
@@ -230,7 +230,7 @@ const UserTable = () => {
 
                         !(user?.id === currentuser?.id) &&
 
-                        <tr key={i} className="  dark:bg-gray-100  hover:bg-gray-50 dark:hover:bg-gray-40">
+                        <tr key={i} className="dark:bg-gray-100  hover:bg-gray-50 dark:hover:bg-gray-40 shadow-lg">
 
                             <td className="p-4">
 
@@ -244,9 +244,10 @@ const UserTable = () => {
 
                                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm dark:bg-gray-700 dark:border-gray-600"
                                 />
+
                             </td>
 
-                            <td className="px-6 py-4 flex items-center space-x-3 whitespace-nowrap">
+                            <td className="px-6 py-4 flex items-center space-x-3 whitespace-nowrap ">
 
                                 <OwnerAvatar owner={user} />
 
@@ -274,8 +275,11 @@ const UserTable = () => {
 
                         </tr>
                     ))}
+
                 </tbody>
+
             </table>
+
         </div>
     );
 };

@@ -255,7 +255,7 @@ const OwnerAvatar = ({ owner }) => {
 
     return (
 
-        <div className="relative inline-block" ref={containerRef}>
+        <div className="relative inline-block z-[1000]" ref={containerRef}>
 
             {
                 owner?.image ?

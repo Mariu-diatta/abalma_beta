@@ -67,7 +67,7 @@ const ListProductShoppingCart = () => {
     return (
 
         <div
-            className="style_bg mb-2 relative overflow-x-auto sm:rounded-lg  shadow-lg p-2"
+            className="style_bg mb-2 relative overflow-x-auto sm:rounded-lg p-2"
 
             style={{
 
@@ -91,7 +91,7 @@ const ListProductShoppingCart = () => {
 
             <table
 
-                className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-lg p-2"
 
                 style={{
 

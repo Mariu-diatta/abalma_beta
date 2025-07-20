@@ -367,14 +367,14 @@ const ProfileCard = () => {
 
         <div
 
-            className="border-0 style_bg w-full max-w-full mx-auto bg-white rounded-md overflow-hidden "
+            className="border-0 style_bg w-full max-w-full mx-auto bg-white rounded-md overflow-hidden h-screen shadow-lg"
 
             style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
         >
 
             {/* Image de couverture */}
             <div
-                className="relative h-56 bg-cover bg-center bg-gray-200 shadow-lg"
+                className="relative h-56 bg-cover bg-center bg-gray-200"
 
                 style={{ backgroundImage: `url(${previewUrlBackground || 'https://images.unsplash.com/photo-1612832020897-593fae15346e'})` }}
             >
