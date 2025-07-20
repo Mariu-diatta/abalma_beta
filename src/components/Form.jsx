@@ -135,11 +135,15 @@ const RegisterForm = () => {
                     <div className="w-full px-4">
 
                         <div
-                            className="relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white px-10 py-16 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]"
-                            style={{
-                                backgroundColor: "var(--color-bg)",
-                                color: "var(--color-text)"
-                            }}
+
+                            className="shadow-lg relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white px-10 py-16 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]"
+
+                            style={
+                                {
+                                    backgroundColor: "var(--color-bg)",
+                                    color: "var(--color-text)"
+                                }
+                            }
                         >
 
                             <h1 className="mb-10 text-2xl font-bold text-dark dark:text-white">

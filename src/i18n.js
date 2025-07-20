@@ -21,7 +21,65 @@ i18n
 
      en: {
 
-         translation: {
+        translation: {
+
+
+             "title": "Privacy Policy",
+             "last_updated": "Last updated: May 20, 2025",
+             "section_1_title": "1. Who are we?",
+             "section_1_content": "The Abalma site is published by: Marius DIATTA, 1 villa des merveille, 77 Versailles (Your address in France), mariusgdiatta@gmail.com: contact@yourplatform.com",
+             "section_2_title": "2. Data Collected",
+             "section_2_list": {
+                 1:"First and last name",
+                 2:"Email address",
+                 3:"Password (encrypted)",
+                 4:"Order/cart history",
+                 5:"IP address, browser"
+             },
+             "section_3_title": "3. Data Usage",
+             "section_3_list": {
+                 1:"Account creation and management",
+                 2:"Order or request processing",
+                 3:"Improvement of our services",
+                 4:"Sending notifications or emails"
+             },
+             "section_4_title": "4. Cookies",
+             "section_4_content": "We use cookies to ensure proper site operation, measure audience, and improve user experience. You can decline them from the cookie banner.",
+             "section_5_title": "5. Data Sharing",
+             "section_5_content": "Your data is never sold. It is shared only with our service providers (hosting, email services, secure payment) or authorities if legally required.",
+             "section_6_title": "6. Data Retention Period",
+             "section_6_list": {
+                 1:"Active account: data retained",
+                 2:"Inactive account: up to 3 years",
+                 3:"Billing data: up to 10 years (legal obligations)"
+             },
+             "section_7_title": "7. Your Rights",
+             "section_7_content_1": "You have the right to access, rectify, delete, and transfer your data, as well as the right to object to its processing.",
+             "section_7_content_2": "To exercise these rights, contact us at: contact@yourplatform.com",
+             "section_8_title": "8. Security",
+             "section_8_content": "We protect your data using technical measures (encryption, secure server, etc.) to prevent unauthorized access.",
+             "section_9_title": "9. Changes",
+             "section_9_content": "This policy may be updated. You will be notified in the event of significant changes.",
+
+
+            title_policy: "Why Choose Abalma",
+            subtitle: "Make your customers happy by giving services.",
+            paragraph1: "Imagine you're a small business in commerce, but your presence on social media is limited or lost in a flood of information that makes your activities and ads invisible. Abalma is here to change that. We help you gain visibility and make your voice heard in a clearer, more targeted, and user-focused digital ecosystem.",
+            paragraph2:"Thanks to our platform, you can easily manage your products and data, grow your sales with confidence, and stay connected to your clients and collaborators.",
+            button: "Get Started",
+            quick_links: "Quick Links",
+            premium_support: "Premium Support",
+            our_services: "Our Services",
+            know_our_team: "Know Our Team",
+            company: "Company",
+            about_app: "About Abalma",
+            contact_support: "Contact & Support",
+            success_history: "Success History",
+            resource: "Resources",
+            footer_product: "Our Products",
+            footer_saas: "SaaS Development",
+            footer_userflow: "User Flow",
+            app_description: "Abalma, launched in 2025, is an application dedicated to promoting small businesses. By choosing Abalma, you become part of a connected, dynamic ecosystem that puts the user at its center.",
             sub_transaction:"sub-transaction",
             view: 'View',
             delete: "Delete",
@@ -255,7 +313,63 @@ i18n
 
       fr: {
 
-        translation: {
+          translation: {
+
+            "title_policy": "Politique de Confidentialité",
+            "last_updated": "Dernière mise à jour : 20 mai 2025",
+            "section_1_title": "1. Qui sommes-nous ?",
+            "section_1_content": "Le site Abalma est édité par : Marius DIATTA, 1 villa des merveille, 77 Versailles (Votre adresse en France), mariusgdiatta@gmail.com : contact@votreplateforme.com",
+            "section_2_title": "2. Données collectées",
+            "section_2_list": {
+                1:"Nom, prénom",
+                2:"Adresse e-mail",
+                3:"Mot de passe (chiffré)",
+                4:"Historique de commande / panier",
+                5:"Adresse IP, navigateur",
+            },
+            "section_3_title": "3. Utilisation des données",
+            "section_3_list": {
+                1:"Création et gestion de votre compte",
+                2:"Traitement des commandes ou demandes",
+                3:"Amélioration de nos services",
+                4: "Envoi de notifications ou emails",  
+            },
+            "section_4_title": "4. Cookies",
+            "section_4_content": "Nous utilisons des cookies pour assurer le bon fonctionnement du site, mesurer l’audience et améliorer l'expérience utilisateur. Vous pouvez les refuser depuis le bandeau cookies.",
+            "section_5_title": "5. Partage des données",
+            "section_5_content": "Vos données ne sont jamais revendues. Elles sont partagées uniquement avec nos prestataires (hébergeur, services d'email, paiement sécurisé) ou les autorités si requis légalement.",
+            "section_6_title": "6. Durée de conservation",
+            "section_6_list": {
+                1:"Compte actif : données conservées",
+                2:"Compte inactif : jusqu’à 3 ans",
+                3:"Données de facturation : jusqu’à 10 ans (obligations légales)"
+            },
+            "section_7_title": "7. Vos droits",
+            "section_7_content_1": "Vous disposez du droit d’accès, de rectification, de suppression, de portabilité de vos données, ainsi que du droit de vous opposer à leur traitement.",
+            "section_7_content_2": "Pour exercer ces droits, contactez-nous à : contact@votreplateforme.com",
+            "section_8_title": "8. Sécurité",
+            "section_8_content": "Nous protégeons vos données via des mesures techniques (chiffrement, serveur sécurisé, etc.) afin d’empêcher tout accès non autorisé.",
+            "section_9_title": "9. Modifications",
+            "section_9_content": "Cette politique peut être mise à jour. Vous serez notifié(e) en cas de changement important.",
+
+            title: "Pourquoi choisir Abalma",
+            subtitle: "Rendez vos clients heureux en offrant des services.",
+            paragraph1: "Imaginez que vous êtes une petite entreprise évoluant dans le commerce, mais que votre présence sur les réseaux sociaux est limitée ou encore noyée dans une masse d’informations qui rend vos activités et publicités invisibles. Abalma est là pour changer cela. Nous vous aidons à gagner en visibilité et à faire entendre votre voix dans un écosystème numérique plus clair, plus ciblé, et mieux adapté à vos besoins.",
+            paragraph2: "Grâce à notre plateforme, vous gérez facilement vos produits et données, développez vos ventes en toute confiance, et restez connecté·e à vos clients ainsi qu’à vos collaborateurs·trices",
+            button: "Commencer",
+            quick_links: "Liens rapides",
+            premium_support: "Support Premium",
+            our_services: "Nos services",
+            know_our_team: "Découvrez notre équipe",
+            company: "Entreprise",
+            about_app: "À propos d'Abalma",
+            contact_support: "Contact & Support",
+            success_history: "Historique de réussite",
+            resource: "Ressources",
+            footer_product: "Nos produits",
+            footer_saas: "Développement SaaS",
+            footer_userflow: "Parcours utilisateur",
+            app_description: "Abalma, lancée en 2025, est une application dédiée à la promotion des petites entreprises. En choisissant Abalma, vous intégrez un écosystème interconnecté, dynamique et centré sur l’utilisateur.",
             sub_transaction: "sous-transaction",
             view: 'Voir',
             delete:"Supprimer",
