@@ -11,7 +11,7 @@ const PrivacyPolicy = () => {
         <p>
           Le site <strong>Abalma</strong> est édité par :
           <br />
-          <strong>Marius DIATTA</strong> : Votre Nom ou Raison Sociale
+          <strong>Marius DIATTA</strong> 
           <br />
           <strong>1 villa des merveille, 77 Versailles</strong> : Votre adresse en France
           <br />
