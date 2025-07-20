@@ -85,7 +85,7 @@ const Footer = () => {
 
                             </div>
 
-                            <label className="flex items-start gap-2 text-sm text-gray-700">
+                            <label className="flex items-start gap-2 text-sm text-gray-700 mb-5">
 
                                 <input type="checkbox" required className="mt-1" />
 
@@ -122,7 +122,7 @@ const Footer = () => {
                             {/*<NavLink link="/#" label="Download App" />*/}
                         </LinkGroup>
 
-                        <div className="w-full  sm:w-1/2 lg:w-3/12">
+                        <div className="w-full px-4 sm:w-1/2 lg:w-3/12">
 
                             <div className="mb-10 w-full">
 
@@ -208,7 +208,9 @@ const Footer = () => {
 export default Footer;
 
 const LinkGroup = ({ children, header }) => {
+
     return (
+
         <>
             <div className="w-full px-4 sm:w-1/2 lg:w-2/12">
                 <div className="mb-10 w-full">
@@ -223,6 +225,7 @@ const LinkGroup = ({ children, header }) => {
 };
 
 const NavLink = ({ link, label }) => {
+
     return (
         <li>
             <a
