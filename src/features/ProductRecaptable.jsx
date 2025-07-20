@@ -104,7 +104,7 @@ const ProductsRecapTable = ({ products }) => {
     return (
 
         <div
-            className="mt-1 w-full"
+            className="mt-1 w-full shadow-lg p-2"
 
             style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
         >
@@ -185,7 +185,7 @@ const ProductsRecapTable = ({ products }) => {
 
             <div
 
-                className="overflow-x-auto rounded-md shadow"
+                className="overflow-x-auto rounded-md"
 
                 style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
             >

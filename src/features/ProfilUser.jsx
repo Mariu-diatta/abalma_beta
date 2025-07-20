@@ -367,14 +367,14 @@ const ProfileCard = () => {
 
         <div
 
-            className="border-0 style_bg w-full max-w-full mx-auto bg-white rounded-md overflow-hidden"
+            className="border-0 style_bg w-full max-w-full mx-auto bg-white rounded-md overflow-hidden "
 
             style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
         >
 
             {/* Image de couverture */}
             <div
-                className="relative h-56 bg-cover bg-center bg-gray-200"
+                className="relative h-56 bg-cover bg-center bg-gray-200 shadow-lg"
 
                 style={{ backgroundImage: `url(${previewUrlBackground || 'https://images.unsplash.com/photo-1612832020897-593fae15346e'})` }}
             >
@@ -422,7 +422,7 @@ const ProfileCard = () => {
             </div>
 
             {/* Section profil */}
-            <div className="relative px-6 pb-6 style_bg">
+            <div className="relative px-6 pb-6 style_bg shadow-lg mb-3">
 
                 {/* Photo de profil */}
                 <div className="absolute -top-16 left-1/2 sm:left-6 transform -translate-x-1/2 sm:translate-x-0">
@@ -876,7 +876,7 @@ const GetValidateUserFournisseur = ({isCurrentUser }) => {
 
                     onSubmit={handleSubmitCode}
 
-                    className="w-full max-w-md mx-auto bg-white rounded-xl p-6 shadow-md space-y-4"
+                        className="w-full max-w-md mx-auto bg-white rounded-xl p-6 shadow-md space-y-4 shadow-lg"
 
                     style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                 >

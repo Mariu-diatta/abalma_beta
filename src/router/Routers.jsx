@@ -164,18 +164,6 @@ const routes = [
                                     </VertcalNavbar>
                                 ),
                             },
-                            {
-                                path: "user_profil",
-
-                                element: (
-
-                                    <VertcalNavbar>
-
-                                        <Tabs />
-
-                                    </VertcalNavbar>
-                                ),
-                            },
                             ...[
 
                                 "jouets", "sacs", "materiels", "electronique", "habits",

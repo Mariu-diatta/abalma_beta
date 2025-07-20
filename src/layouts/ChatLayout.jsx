@@ -114,7 +114,7 @@ const ChatLayout = () => {
 
         <div
 
-            className="container flex h-screen w-auto overflow-hidden bg-white relative "
+            className="container flex h-screen w-auto overflow-hidden relative"
 
             style={{
                 backgroundColor: "var(--color-bg)",
@@ -207,10 +207,19 @@ const ChatLayout = () => {
             {/* Toggle button for mobile */}
             <button
                 onClick={() => setShowSidebar(!showSidebar)}
-                className="md:hidden fixed top-4 right-4 z-30 bg-blue-500 text-white px-3 py-2 rounded-full shadow-md"
+                className="md:hidden fixed top-[8] border-1 right-6 z-30  text-white px-3 py-2 rounded-full shadow-md"
                 aria-label="Toggle menu"
             >
-                {showSidebar ? "X" : "☰"}
+                {
+                    showSidebar ?
+                    <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="m15 19-7-7 7-7" />
+                    </svg>
+                    :
+                    <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="m9 5 7 7-7 7" />
+                    </svg>
+                }
             </button>
 
             {/* Main Chat Area */}

@@ -45,7 +45,7 @@ const Tabs = () => {
 
         dashboard: (
 
-            <div className="p-2 pt-0 mt-0 space-y-6 max-w-7xl mx-auto  style-bg mb-2 h-full h-full mb-2 pb-3">
+            <div className="p-2 pt-0 mt-0 space-y-6 max-w-7xl mx-auto  style-bg mb-2 h-full h-full mb-2 pb-3 ">
 
                 <div className="mb-6 text-center style_bg">
 

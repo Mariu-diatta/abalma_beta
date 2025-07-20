@@ -122,7 +122,7 @@ const ChatApp = ({ roomName }) => {
     return (
 
         <div
-            className="flex flex-col h-full p-4 md:p-6 bg-white rounded-2xl shadow overflow-hidden mb-0"
+            className="flex flex-col h-full p-4 md:p-6 bg-white rounded-2xl shadow-lg overflow-hidden mb-0"
 
             style={{
 

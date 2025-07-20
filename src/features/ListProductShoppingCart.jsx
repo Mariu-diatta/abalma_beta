@@ -67,7 +67,7 @@ const ListProductShoppingCart = () => {
     return (
 
         <div
-            className="style_bg mb-2 relative overflow-x-auto sm:rounded-lg style-bg"
+            className="style_bg mb-2 relative overflow-x-auto sm:rounded-lg  shadow-lg p-2"
 
             style={{
 
@@ -153,7 +153,7 @@ const ListProductShoppingCart = () => {
 
                             <td className="p-1">
 
-                                <div className="w-10 h-10 md:w-32 md:h-32 overflow-hidden rounded-lg border border-gray-200 dark:border-gray-600 shadow-sm">
+                                <div className="w-10 h-10 md:w-32 md:h-32 overflow-hidden rounded-lg border border-gray-200 dark:border-gray-600">
 
                                     <img
                                         src={image_product}
@@ -267,7 +267,7 @@ const BuyButtonWithPaymentForm = ({ total_price }) => {
 
     return (
 
-        <div className="text-right p-4 ">
+        <div className="text-right p-4">
 
             {
                 (parseInt(total_price) !== 0) &&
