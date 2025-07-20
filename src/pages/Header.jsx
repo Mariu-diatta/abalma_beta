@@ -31,23 +31,31 @@ export function LanguageDropdown({ changeLanguage }) {
     }, []);
 
     useEffect(() => {
+
         if (isOpen && buttonRef.current) {
+
             const rect = buttonRef.current.getBoundingClientRect();
             const viewportHeight = window.innerHeight;
             const dropdownHeight = 100; // approximatif ou mesurer dynamiquement
             const spaceBelow = viewportHeight - rect.bottom;
 
             if (spaceBelow < dropdownHeight) {
+
                 setOpenDirection("top");
+
             } else {
+
                 setOpenDirection("bottom");
             }
         }
     }, [isOpen]);
 
     const handleChangeLanguage = (lang) => {
+
         changeLanguage(lang);
+
         setSelectedLang(
+
             lang === "fr" ? (
                 <img src="https://flagcdn.com/w40/fr.png" alt="Fr" className="w-5 h-4" />
             ) : (
@@ -58,7 +66,9 @@ export function LanguageDropdown({ changeLanguage }) {
     };
 
     return (
+
         <div className="relative inline-block text-left">
+
             <button
                 ref={buttonRef}
                 onClick={() => setIsOpen(!isOpen)}
@@ -68,8 +78,9 @@ export function LanguageDropdown({ changeLanguage }) {
                 aria-expanded={isOpen}
             >
                 {selectedLang}
+
                 <svg
-                    className="ml-2 -mr-1 h-5 w-5"
+                    className="w-[22px] h-[22px] ml-2 -mr-1 h-5 w-5"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
                     fill="currentColor"
@@ -79,16 +90,20 @@ export function LanguageDropdown({ changeLanguage }) {
                         d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.23 8.27a.75.75 0 01.02-1.06z"
                         clipRule="evenodd"
                     />
+
                 </svg>
+
             </button>
 
-            {isOpen && (
+            {
+                isOpen && (
                 <div
                     className={`absolute right-0 w-28 rounded-md shadow-lg z-[80] ring-black ring-opacity-5 ${openDirection === "top" ? "origin-bottom-right mb-2 bottom-full" : "origin-top-right mt-2 top-full"
                         }`}
                     style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                 >
                     <div className="py-1">
+
                         <button
                             onClick={() => handleChangeLanguage("fr")}
                             className="flex gap-2 items-center block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
@@ -108,7 +123,9 @@ export function LanguageDropdown({ changeLanguage }) {
                         </button>
                     </div>
                 </div>
-            )}
+                )
+            }
+
         </div>
     );
 }
@@ -192,7 +209,7 @@ export const ThemeToggle = () => {
                     (theme === 'dark') ?
                         (
 
-                            <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <svg className="w-[22px] h-[22px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
 
                                 <path fill="currentColor" d="M5.99997 17c-.55229 0-1 .4477-1 1s.44771 1 1 1h.01c.55228 0 1-.4477 1-1s-.44772-1-1-1h-.01ZM18 17c-.5523 0-1 .4477-1 1s.4477 1 1 1h.01c.5523 0 1-.4477 1-1s-.4477-1-1-1H18Z" />
 
@@ -204,7 +221,7 @@ export const ThemeToggle = () => {
                         )
                         :
                         (
-                            <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <svg className="w-[22px] h-[22px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M17.3333 14.6528c.7073 0 1.3856-.2101 1.8857-.7101.5-.5001.781-1.2493.781-1.9565 0-.7073-.281-1.3856-.781-1.8857-.5001-.50007-1.1784-.78102-1.8857-.78102h-.0222c.0133-.14755.0222-.296.0222-.44444-.0033-1.17924-.4328-2.31753-1.2092-3.20508-.7765-.88756-1.8476-1.46455-3.0159-1.62465-1.1683-.1601-2.3551.10749-3.34174.75344-.98658.64596-1.70644 1.62675-2.0269 2.76162-.06223-.00355-.12089-.01866-.184-.01866-.943 0-1.91009.36598-2.57689 1.03277C4.31188 9.24128 4 10.1543 4 11.0973c0 .943.3746 1.8473 1.0414 2.5141.45292.4529 1.01546.7711 1.62527.9285M12 14v3m0 0v3m0-3-2.12134-2.1212M12 17l2.1213 2.1214M12 17H9m3 0h3m-3 0-2.12134 2.1213M12 17l2.1213-2.1213M6 18h.01M18 18h.01" />
                             </svg>
 
@@ -239,9 +256,10 @@ const NavbarHeader = () => {
             id: 'home',
             label: t('home'),
             endPoint: '/',
-            logo: <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 25 25">
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m4 12 8-8 8 8M6 10.5V19a1 1 0 0 0 1 1h3v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h3a1 1 0 0 0 1-1v-8.5" />
+            logo: <svg className="w-[22px] h-[22px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="m4 12 8-8 8 8M6 10.5V19a1 1 0 0 0 1 1h3v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h3a1 1 0 0 0 1-1v-8.5" />
             </svg>
+
 
         },
 
@@ -249,19 +267,19 @@ const NavbarHeader = () => {
             id: 'about',
             label: t('about'),
             endPoint: '/About',
-            logo: <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7h1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h11.5M7 14h6m-6 3h6m0-10h.5m-.5 3h.5M7 7h3v3H7V7Z" />
+            logo: <svg className="w-[22px] h-[22px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M10 11h2v5m-2 0h4m-2.592-8.5h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
             </svg>
-
         },
 
         {
             id: 'blog',
-            label: 'Blog',
-            endPoint: '/Blog',
-            logo: <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 25 25">
-                <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="M16 19h4a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-2m-2.236-4a3 3 0 1 0 0-4M3 18v-1a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Zm8-10a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            label: 'Blogs',
+            endPoint: '/blogs',
+            logo: <svg className="w-[22px] h-[22px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" strokeLinecap="round" strokeWidth="1" d="M16 19h4a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-2m-2.236-4a3 3 0 1 0 0-4M3 18v-1a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Zm8-10a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
             </svg>
+
 
         },
     ];
@@ -278,6 +296,7 @@ const NavbarHeader = () => {
         document.addEventListener("mousedown", handleClickOutside);
 
         return () => {
+
             document.removeEventListener("mousedown", handleClickOutside);
         };
 
@@ -286,15 +305,19 @@ const NavbarHeader = () => {
     useEffect(() => {
 
         const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
         const saved = localStorage.getItem("theme");
+
         const theme = saved || themeValue || (prefersDark ? "dark" : "light");
 
         document.body.classList.remove("dark", "light");
+
         document.body.classList.add(theme);
 
     }, [themeValue]);
 
     return (
+
         <>
             <header className="w-full z-20 flex items-center style-bg py-2" ref={ref}>
 
@@ -304,9 +327,11 @@ const NavbarHeader = () => {
 
                         {/* Logo */}
                         <div className="flex-shrink-0">
+
                             <a href="/" className="block py-2">
                                 <Logo />
                             </a>
+
                         </div>
 
                         <ButtonNavigate tabs={tabs} />
@@ -317,7 +342,7 @@ const NavbarHeader = () => {
                             id="navbarToggler"
                             className={`
                             ${open && "navbarTogglerActive"} 
-                            sm:hidden absolute right-4 top-1/2 transform -translate-y-1/2 
+                            sm:hidden absolute right-1 top-1/2 transform -translate-y-1/2 
                             z-[71] px-3 py-[6px] rounded-lg 
                             bg-whi text-black shadow-md
                             dark:bg-dark-3 dark:text-white
@@ -337,11 +362,15 @@ const NavbarHeader = () => {
                             id="navbarCollapse"
                             className={`sm:hidden absolute top-1/2 right-4  w-full max-w-[250px] z-[70] rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${!open && "hidden"}
                             lg:static lg:block lg:max-w-full lg:w-auto`}
-                            style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                         >
 
                             {/* Boutons et Dropdown (Mobile) */}
-                            <div className="absolute top-0 flex flex-col items-center justify-center gap-2  sm:hidden">
+                            <div
+                                className="absolute top-0 flex flex-col items-center justify-center gap-2  sm:hidden"
+
+                                style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
+
+                            >
 
                                 <LanguageDropdown changeLanguage={changeLanguage} />
 
@@ -356,7 +385,10 @@ const NavbarHeader = () => {
                         </nav>
 
                         {/* Boutons et Dropdown (Desktop) */}
-                        <div className="hidden sm:flex items-center justify-center gap-3">
+                        <div
+                            className="hidden sm:flex items-center justify-center gap-3"
+                            style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
+                        >
 
                             <LanguageDropdown changeLanguage={changeLanguage} />
 
@@ -397,8 +429,16 @@ const ButtonNavigate = ({ tabs }) => {
                 lg:w-auto
                 lg:justify-between
                 dark:bg-dark-2
-                px-4 py-2 z-50 
+                px-4 py-0 z-50 
              "
+            style={
+                {
+
+                    backgroundColor: "var(--color-bg)",
+
+                    color: "var(--color-text)"
+                }
+            }
         >
             {tabs.map((tab) => (
 
@@ -410,14 +450,13 @@ const ButtonNavigate = ({ tabs }) => {
 
                         className={
                                 ({ isActive }) =>
-                                `
-                                w-full text-center items-center flex flex-col lg:flex-row 
+                                `w-full text-center items-center flex flex-col lg:flex-row 
                                 px-4 py-1
-                                transition rounded-md
+                                transition 
                                 ${isActive
-                                ? 'bg-gray-50 dark:bg-dark-100 text-black'
+                                ? 'border-t border-gray-300'
                                 : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-dark-3'}
-    `
+                                `
                         }
                     >
                         <>{tab.logo}</>

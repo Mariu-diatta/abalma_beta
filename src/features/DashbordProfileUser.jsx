@@ -14,7 +14,9 @@ const Tabs = () => {
     const [productsTrasactionBought, setProductsTrasactionBought] = useState([])
 
     const tabs = [
+
         { id: 'dashboard', label: t('Dashboard.dashboard') },
+
         { id: 'contacts', label: t('Dashboard.contacts') },
     ];
 

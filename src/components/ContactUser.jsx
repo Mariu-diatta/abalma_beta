@@ -206,12 +206,14 @@ const UserTable = () => {
                     <tr className="style-bg">
 
                         <th className="p-4">
+
                             <input
                                 type="checkbox"
                                 checked={isAllSelected}
                                 onChange={toggleSelectAll}
                                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm dark:bg-gray-700 dark:border-gray-600"
                             />
+
                         </th>
 
                         <th className="px-6 py-3">{t('ParamText.table.name')}</th>

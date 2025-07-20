@@ -46,7 +46,7 @@ const NotificationGroup = ({ currentUser, currentNotifMessages, notify, changeLa
 
             style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
         >
-            <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <svg className="w-[20px] h-[20px] text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
 
                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8"
                     d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7h-1M8 7h-.688M13 5v4m-2-2h4" />
@@ -241,7 +241,12 @@ export default function AccountDropdownUserProfil() {
                 <div className="flex items-center pe-2 ps-2 pb-2 bg-transparent rounded-lg">
 
                     {/* Mobile only - fixed bottom bar */}
-                    <div className="fixed bottom-0 w-max-100 left-0 right-0 z-0 flex items-center justify-around sm:flex md:hidden lg:hidden">
+                    <div
+                        className="fixed bottom-0 w-max-100 left-0 right-0 z-0 flex items-center justify-around sm:flex md:hidden lg:hidden"
+
+                        style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
+
+                    >
 
                         <NotificationGroup
                             currentUser={currentUser}

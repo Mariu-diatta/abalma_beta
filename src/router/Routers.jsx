@@ -42,7 +42,7 @@ const routes = [
             { path: "politique-confidentialite", element: <PrivacyPolicy/> },
             { path: "products", element: <GridLayoutProduct /> },
             { path: "payment_card", element: <ListProductShoppingCart/> },
-            { path: "blog", element: <BlogPage /> }, 
+            { path: "blogs", element: <BlogPage /> }, 
             { path: "forgetPassword", element: <LayoutPwdForget /> },
 
             {
