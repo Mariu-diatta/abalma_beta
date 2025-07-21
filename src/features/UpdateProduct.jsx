@@ -4,13 +4,19 @@ import {  useDispatch, useSelector } from 'react-redux';
 import api from '../services/Axios';
 import AttentionAlertMesage, { showMessage } from '../components/AlertMessage';
 import { setCurrentNav } from '../slices/navigateSlice';
-//import { addToCart } from '../slices/cartSlice';
 import { addMessageNotif } from '../slices/chatSlice';
+import { useNavigate } from "react-router";
+import { useTranslation } from 'react-i18next';
+
 
 
 const UpdateProduct = () => {
 
     const [imageFile, setImageFile] = useState(null);
+
+    const { t } = useTranslation();
+
+    let navigate = useNavigate();
 
     const handleFileSelect = (file) => {
 
@@ -192,16 +198,24 @@ const UpdateProduct = () => {
     };
 
     return (
-        <section className="bg-white dark:bg-gray-900" style={{
-            backgroundColor: "var(--color-bg)",
-            color: "var(--color-text)"
-        }}>
 
-            <div className="max-w-2xl px-4 py-8 mx-auto lg:py-16" >
+        <div
 
-                <h2 className="text-2xl font-extrabold  mb-4">
-                    Ajouter / Modifier un produit
-                </h2>
+            className="bg-white dark:bg-gray-900 rounded-md"
+
+            style={
+                {
+                    backgroundColor: "var(--color-bg)",
+                    color: "var(--color-text)"
+                }
+            }
+        >
+
+            <div className="shadow-lg  max-w-2xl px-4 py-1 mx-auto lg:py-2" >
+
+                <h1 className="text-2xl font-extrabold text-gray-500 dark:text-white pt-4 pb-5 mb-5">
+                    {t('add_product.add_or_update_product')}
+                </h1>
 
                 <form onSubmit={submitForm} className={` ${user?.is_fournisseur ? "" : "opacity-50 pointer-events-none cursor-not-allowed"}`}>
 
@@ -211,7 +225,7 @@ const UpdateProduct = () => {
 
                             <label htmlFor="code_reference" className="block mb-2 text-sm font-medium ">
 
-                                Code Référence
+                                {t('add_product.code_reference')}
 
                                 <span className="text-red-500">*</span>
 
@@ -234,7 +248,7 @@ const UpdateProduct = () => {
 
                             <div>
 
-                                <label htmlFor="color_product" className="block mb-2 text-sm font-medium ">Couleur produit</label>
+                                <label htmlFor="color_product" className="block mb-2 text-sm font-medium "> {t('add_product.product_color')}</label>
 
                                 <input
                                     type="text"
@@ -253,7 +267,7 @@ const UpdateProduct = () => {
 
                         <div className="w-full">
 
-                            <label htmlFor="Currency_price" className="block mb-2 text-sm font-medium ">Choisir la monnaie defaul Francs</label>
+                            <label htmlFor="Currency_price" className="block mb-2 text-sm font-medium ">{t('add_product.default_currency_label')}</label>
 
                             <select
                                 id="Currency_price"
@@ -262,10 +276,10 @@ const UpdateProduct = () => {
                                 onChange={onChangeClick}
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                             >
-                                <option value="">-- Choisir la monnaie --</option>
-                                <option value="EURO">Euro</option>
-                                <option value="DOLLAR">Dollar</option>
-                                <option value="FRANC">Franc</option>
+                                <option value="">{t('add_product.select_currency')}</option>
+                                <option value="EURO">{t('add_product.euro')}</option>
+                                <option value="DOLLAR">{t('add_product.dollar')}</option>
+                                <option value="FRANC">{t('add_product.franc')}</option>
     
                             </select>
                         </div>
@@ -274,7 +288,7 @@ const UpdateProduct = () => {
                             <div>
 
                                 <label htmlFor="price_product" className="block mb-2 text-sm font-medium ">
-                                    Prix du produit
+                                    {t('add_product.product_price')}
                                     <span className="text-red-500">*</span>
                                 </label>
 
@@ -296,7 +310,7 @@ const UpdateProduct = () => {
                         <div className="w-full">
 
                             <label htmlFor="categorie_product" className="block mb-2 text-sm font-medium ">
-                                Catégorie
+                                {t('add_product.product_category')}
                                 <span className="text-red-500">*</span>
                             </label>
 
@@ -308,30 +322,30 @@ const UpdateProduct = () => {
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                                 required
                             >
-                                <option value="">-- Choisir une catégorie --</option>
-                                <option value="JOUET">Jouet</option>
-                                <option value="HABITS">Habits</option>
-                                <option value="MATERIELS_INFORMATIQUES">Matériels Informatiques</option>
-                                <option value="CAHIERS">Cahiers</option>
-                                <option value="SACS">Sacs</option>
-                                <option value="LIVRES">Livres</option>
-                                <option value="ELECTROMENAGER">Électroménager</option>
-                                <option value="TELEPHONIE">Téléphonie</option>
-                                <option value="ACCESSOIRES">Accessoires</option>
-                                <option value="SPORT">Équipements de sport</option>
-                                <option value="JEUX_VIDEO">Jeux vidéo</option>
-                                <option value="MEUBLES">Meubles</option>
-                                <option value="VEHICULES">Véhicules</option>
-                                <option value="FOURNITURES_SCOLAIRES">Fournitures scolaires</option>
-                                <option value="DIVERS">Autres / Divers</option>
-                                <option value="HB">Habits</option>
+                                <option value="">{t('add_product.select_category')}</option>
+                                <option value="JOUET">{t('add_product.categories.JOUET')}</option>
+                                <option value="HABITS">{t('add_product.categories.HABITS')}</option>
+                                <option value="MATERIELS_INFORMATIQUES">{t('add_product.categories.MATERIELS_INFORMATIQUES')}</option>
+                                <option value="CAHIERS">{t('add_product.categories.CAHIERS')}</option>
+                                <option value="SACS">{t('add_product.categories.SACS')}</option>
+                                <option value="LIVRES">{t('add_product.categories.LIVRES')} </option>
+                                <option value="ELECTROMENAGER">{t('add_product.categories.ELECTROMENAGER')}</option>
+                                <option value="TELEPHONIE">{t('add_product.categories.TELEPHONIE')}</option>
+                                <option value="ACCESSOIRES">{t('add_product.categories.ACCESSOIRES')}</option>
+                                <option value="SPORT">{t('add_product.categories.SPORT')}</option>
+                                <option value="JEUX_VIDEO">{t('add_product.categories.JEUX_VIDEO')}</option>
+                                <option value="MEUBLES">{t('add_product.categories.MEUBLES')}</option>
+                                <option value="VEHICULES">{t('add_product.categories.VEHICULES')}</option>
+                                <option value="FOURNITURES_SCOLAIRES">{t('add_product.categories.FOURNITURES_SCOLAIRES')}</option>
+                                <option value="DIVERS">{t('add_product.categories.DIVERS')}</option>
+                                <option value="HB">{t('add_product.categories.HB')}</option>
                             </select>
                         </div>
 
                         <div className="w-full">
 
                             <label htmlFor="operation_product" className="block mb-2 text-sm font-medium">
-                                Type d'opération
+                                {t('add_product.operation_type')}
                                 <span className="text-red-500">*</span>
                             </label>
 
@@ -343,13 +357,15 @@ const UpdateProduct = () => {
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                                 required
                             >
-                                <option value="">-- Choisir l'opération --</option>
-                                <option value="PRETER">Prêter</option>
-                                <option value="VENDRE">Vendre</option>
-                                <option value="DONNER">Donner</option>
-                                <option value="ECHANGER">Échanger</option>
-                                <option value="LOCATION">Louer</option>
-                                <option value="RESERVER">Réserver</option>
+                                <option value="">
+                                    {t('add_product.select_operation')}
+                                </option>
+                                <option value="PRETER">{t('add_product.PRETER')}</option>
+                                <option value="VENDRE">{t('add_product.VENDRE')}</option>
+                                <option value="DONNER">{t('add_product.DONNER')}</option>
+                                <option value="ECHANGER">{t('add_product.ECHANGER')}</option>
+                                <option value="LOCATION">{t('add_product.LOCATION')}</option>
+                                <option value="RESERVER">{t('add_product.RESERVER')}</option>
                             </select>
 
                         </div>
@@ -357,9 +373,11 @@ const UpdateProduct = () => {
                         {isLoanOptionSelected && (
                             <>
                                 <div>
+
                                     <label htmlFor="date_emprunt" className="block mb-2 text-sm font-medium ">
-                                        Date de début d'emprunt
+                                        {t('add_product.loan_start_date')}
                                     </label>
+
                                     <input
                                         type="datetime-local"
                                         id="date_emprunt"
@@ -368,12 +386,15 @@ const UpdateProduct = () => {
                                         onChange={onChangeClick}
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                                     />
+
                                 </div>
 
                                 <div>
+
                                     <label htmlFor="date_fin_emprunt" className="block mb-2 text-sm font-medium ">
-                                        Date de fin d'emprunt
+                                        {t('add_product.loan_end_date')}
                                     </label>
+
                                     <input
                                         type="datetime-local"
                                         id="date_fin_emprunt"
@@ -382,12 +403,15 @@ const UpdateProduct = () => {
                                         onChange={onChangeClick}
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                                     />
+
                                 </div>
                             </>
                         )}
 
                         <div className="sm:col-span-2 hidden">
-                            <label htmlFor="fournisseur" className="block mb-2 text-sm font-medium ">Fournisseur</label>
+
+                            <label htmlFor="fournisseur" className="block mb-2 text-sm font-medium ">{t('add_product.supplier')}</label>
+
                             <input
                                 type="text"
                                 id="fournisseur"
@@ -402,7 +426,7 @@ const UpdateProduct = () => {
                         <div className="sm:col-span-2">
 
                             <label htmlFor="description_product" className="block mb-2 text-sm font-medium ">
-                                Description
+                                {t('add_product.product_description')}
                                 <span className="text-red-500">*</span>
                             </label>
 
@@ -422,7 +446,7 @@ const UpdateProduct = () => {
                         <div className="w-full">
 
                             <label htmlFor="image_product" className="block mb-2 text-sm font-medium ">
-                                Image du produit
+                                {t('add_product.product_image')}
                                 <span className="text-red-500">*</span>
                             </label>
 
@@ -441,7 +465,7 @@ const UpdateProduct = () => {
                             <div>
 
                                 <label htmlFor="taille_product" className="block mb-2 text-sm font-medium ">
-                                    Taille du produit (default moyen)
+                                    {t('add_product.product_size')}
                                 </label>
 
                                 <select
@@ -451,10 +475,12 @@ const UpdateProduct = () => {
                                     onChange={onChangeClick}
                                     className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:placeholder-gray-400"
                                 >
-                                    <option value="">-- Choisir la taille --</option>
-                                    <option value="SMALL">Petit</option>
-                                    <option value="MEDIUM">Moyen</option>
-                                    <option value="BIG">Grand</option>
+                                    <option value="">
+                                        {t('add_product.select_size')}
+                                    </option>
+                                    <option value="SMALL">{t('add_product.SMALL')}</option>
+                                    <option value="MEDIUM">{t('add_product.MEDIUM')}</option>
+                                    <option value="BIG">{t('add_product.BIG')}</option>
 
                                 </select>
 
@@ -464,7 +490,7 @@ const UpdateProduct = () => {
                             <div>
 
                                 <label htmlFor="quantity_product" className="block mb-2 text-sm font-medium ">
-                                    Quantité (default 1)
+                                    {t('add_product.quantity')}
                                 </label>
 
                                 <input
@@ -493,7 +519,7 @@ const UpdateProduct = () => {
 
                             className={`cursor-pointer bg-blue-700 text-white rounded px-4 py-2`}
                         >
-                            Enregistrer le produit
+                            {t('add_product.save_product')}
 
                         </button>
 
@@ -508,9 +534,14 @@ const UpdateProduct = () => {
 
                         className={`bg-blue-700 text-white rounded px-4 py-2 mt-5`}
 
-                        onClick={() => dispatch(setCurrentNav("profile")) }
+                        onClick={
+                            () => {
+                                dispatch(setCurrentNav("user_profil"));
+                                navigate("/user_profil")
+                            }
+                        }
                     >
-                        Passer au compte fournisseur
+                        {t('add_product.switch_to_supplier')}
 
                     </button>
                 }
@@ -518,7 +549,7 @@ const UpdateProduct = () => {
 
             </div>
 
-        </section>
+        </div>
     );
 };
 

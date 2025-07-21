@@ -20,7 +20,7 @@ export function LanguageDropdown({ changeLanguage }) {
 
         setSelectedLang(
 
-            lang === "fr" ? (
+            (lang === "fr" )? (
 
                 <img src="https://flagcdn.com/w40/fr.png" alt="Fr" className="w-5 h-4" />
             ) : (
@@ -56,7 +56,7 @@ export function LanguageDropdown({ changeLanguage }) {
 
         setSelectedLang(
 
-            lang === "fr" ? (
+            (lang === "fr") ? (
                 <img src="https://flagcdn.com/w40/fr.png" alt="Fr" className="w-5 h-4" />
             ) : (
                 <img src="https://flagcdn.com/w40/gb.png" alt="En" className="w-5 h-4" />
@@ -67,13 +67,13 @@ export function LanguageDropdown({ changeLanguage }) {
 
     return (
 
-        <div className="relative inline-block text-left shadow-md">
+        <div className="relative inline-block text-left shadow-md rounded-full py-0">
 
             <button
                 ref={buttonRef}
                 onClick={() => setIsOpen(!isOpen)}
                 type="button"
-                className="inline-flex justify-center w-full rounded-full px-2 py-1 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
+                className="inline-flex justify-center w-full  px-2  text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
                 aria-haspopup="true"
                 aria-expanded={isOpen}
             >

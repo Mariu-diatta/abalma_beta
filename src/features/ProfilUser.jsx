@@ -367,7 +367,7 @@ const ProfileCard = () => {
 
         <div
 
-            className="border-0 style_bg w-full max-w-full mx-auto bg-white rounded-md overflow-hidden h-screen shadow-lg"
+            className="border-0 style_bg w-full max-w-full mx-auto bg-white rounded-md overflow-hidden h-screen"
 
             style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
         >
