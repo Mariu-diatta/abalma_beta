@@ -203,7 +203,7 @@ const VertcalNavbar = ({ children }) => {
                         <li>
                             <button
 
-                                className="flex items-center justify-start gap-x-3 p-2 w-full text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-md"
+                                className={`w-full flex items-center justify-between text-left gap-x-3 p-2 w-full text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-md ${ (currentNav==="account_home") && "bg-gray-100"}`}
 
                                 onClick={
                                     () => {
@@ -214,57 +214,58 @@ const VertcalNavbar = ({ children }) => {
                                     }
                                 }
                             >
-                                {currentUser?.image ? (
+                                <>
+                                    {currentUser?.image ? (
 
-                                    <div className="relative h-[30px] w-[30px] rounded-full shrink-0">
+                                        <div className="relative h-[30px] w-[30px] rounded-full shrink-0">
 
-                                        <img
-                                            src={currentUser.image}
-                                            alt="avatar"
-                                            title={currentUser.email}
-                                            className="h-full w-full rounded-full object-cover object-center"
-                                        />
-
-                                        {
-                                            currentUser?.is_connected && (
-
-                                                <span className="absolute -right-0.5 -top-0.5 block h-[14px] w-[14px] rounded-full border-[2.3px] border-white bg-[#219653] dark:border-dark"></span>
-                                            )
-                                        }
-
-                                    </div>
-
-                                ) : (
-
-                                    <div className="relative h-[30px] w-[30px] rounded-full shrink-0" title={currentUser?.email}>
-
-                                        <svg
-                                            className="w-[26px] h-[26px] text-gray-800 dark:text-white"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                stroke="currentColor"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth="0.8"
-                                                d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 13 16h-2a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 12 21Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                                            <img
+                                                src={currentUser.image}
+                                                alt="avatar"
+                                                title={currentUser.email}
+                                                className="h-full w-full rounded-full object-cover object-center"
                                             />
 
-                                        </svg>
+                                            {
+                                                currentUser?.is_connected && (
 
-                                        {
-                                            currentUser?.is_connected && (
-                                                <span className="absolute -right-0.5 -top-0.5 block h-[14px] w-[14px] rounded-full border-[2.3px] border-white bg-[#219653] dark:border-dark"></span>
+                                                    <span className="absolute -right-0.5 -top-0.5 block h-[14px] w-[14px] rounded-full border-[2.3px] border-white bg-[#219653] dark:border-dark"></span>
                                                 )
-                                        }
-                                    </div>
-                                )}
+                                            }
 
+                                        </div>
+
+                                    ) : (
+
+                                        <div className="relative h-[30px] w-[30px] rounded-full shrink-0" title={currentUser?.email}>
+
+                                            <svg
+                                                className="w-[26px] h-[26px] text-gray-800 dark:text-white"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path
+                                                    stroke="currentColor"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth="0.8"
+                                                    d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 13 16h-2a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 12 21Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                                                />
+
+                                            </svg>
+
+                                            {
+                                                currentUser?.is_connected && (
+                                                    <span className="absolute -right-0.5 -top-0.5 block h-[14px] w-[14px] rounded-full border-[2.3px] border-white bg-[#219653] dark:border-dark"></span>
+                                                    )
+                                            }
+                                        </div>
+                                    )}
+
+                                    <span className="text-sm font-medium text-left ml-0">{currentUser?.nom}</span>
+                                </>
                                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1">
-
-                                    <span className="text-sm font-medium">{currentUser?.nom}</span>
 
                                     {
                                         currentUser?.is_pro && (
@@ -283,7 +284,7 @@ const VertcalNavbar = ({ children }) => {
 
                             <button
 
-                                className="w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer"
+                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer ${(currentNav === "message_inbox") && "bg-gray-100"}`}
 
                                 onClick={() => { navigate("/message_inbox"); dispatch(setCurrentNav("message_inbox")) }}
                             >
@@ -315,7 +316,7 @@ const VertcalNavbar = ({ children }) => {
                         <li>
                             <button
 
-                                className="w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer"
+                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer ${(currentNav === "add_product") && "bg-gray-100"}`}
 
                                 onClick={() => { navigate("/add_product"); dispatch(setCurrentNav("add_product")) }}
                             >
@@ -337,6 +338,7 @@ const VertcalNavbar = ({ children }) => {
                                 <span className="flex-1 ms-3 whitespace-nowrap">{t('AccountPage.create')}</span>
 
                             </button>
+
                         </li>
 
                         <li>
@@ -344,8 +346,7 @@ const VertcalNavbar = ({ children }) => {
 
                                 onClick={() => { navigate("/dashboard"); dispatch(setCurrentNav("dashboard")) }}
 
-                                className="w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer"
-                            >
+                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer ${(currentNav === "dashboard") && "bg-gray-100"}`}                            >
 
                                 <div className="flex gap-2">
 
