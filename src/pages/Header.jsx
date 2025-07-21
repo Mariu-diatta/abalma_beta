@@ -3,7 +3,7 @@ import { Outlet, NavLink } from 'react-router-dom';
 import WhiteRoundedButton from "../components/Button";
 import Logo from "../components/LogoApp";
 import { useDispatch, useSelector } from "react-redux";
-import { updateTheme } from "../slices/navigateSlice";
+import { setCurrentNav, updateTheme } from "../slices/navigateSlice";
 import { useTranslation } from 'react-i18next';
 import i18n from "i18next";
 
@@ -73,7 +73,7 @@ export function LanguageDropdown({ changeLanguage }) {
                 ref={buttonRef}
                 onClick={() => setIsOpen(!isOpen)}
                 type="button"
-                className="inline-flex justify-center w-full  px-2  text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
+                className="flex justify-center items-center w-full  px-2  text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none rounded-full"
                 aria-haspopup="true"
                 aria-expanded={isOpen}
             >
@@ -239,6 +239,8 @@ export const ThemeToggle = () => {
 
 const NavbarHeader = () => {
 
+    const currentNav = useSelector(state => state.navigate.currentNav);
+
     const { t } = useTranslation();
 
     const { i18n } = useTranslation();
@@ -259,31 +261,98 @@ const NavbarHeader = () => {
             id: 'home',
             label: t('home'),
             endPoint: '/',
-            logo: <svg className="w-[22px] h-[22px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="m4 12 8-8 8 8M6 10.5V19a1 1 0 0 0 1 1h3v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h3a1 1 0 0 0 1-1v-8.5" />
-                  </svg>
+            logo: !(currentNav==="home") ? (
+                <svg
+                    className="w-[22px] h-[22px] text-gray-800 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1"
+                        d="m4 12 8-8 8 8M6 10.5V19a1 1 0 0 0 1 1h3v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h3a1 1 0 0 0 1-1v-8.5"
+                    />
+                </svg>
+            ) : (
+                    <svg class="w-[22px] h-[22px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd" d="M11.293 3.293a1 1 0 0 1 1.414 0l6 6 2 2a1 1 0 0 1-1.414 1.414L19 12.414V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2v-6.586l-.293.293a1 1 0 0 1-1.414-1.414l2-2 6-6Z" clip-rule="evenodd" />
+                    </svg>
 
-
+            ),
         },
-
         {
             id: 'about',
             label: t('about'),
             endPoint: '/about',
-            logo:<svg className="w-[22px] h-[22px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M10 11h2v5m-2 0h4m-2.592-8.5h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            logo:
+            (currentNav === "about") ?
+            (
+                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm9.408-5.5a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM10 10a1 1 0 1 0 0 2h1v3h-1a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-1v-4a1 1 0 0 0-1-1h-2Z" clip-rule="evenodd" />
                 </svg>
-        },
 
+            )
+            :
+            (
+                <svg
+                    className="w-[22px] h-[22px] text-gray-800 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1"
+                        d="M10 11h2v5m-2 0h4m-2.592-8.5h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                    />
+                </svg>
+            ),
+        },
         {
-            id: 'blog',
+            id: 'blogs',
             label: 'Blogs',
             endPoint: '/blogs',
-            logo:<svg className="w-[22px] h-[22px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                   <path stroke="currentColor" strokeLinecap="round" strokeWidth="1" d="M16 19h4a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-2m-2.236-4a3 3 0 1 0 0-4M3 18v-1a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Zm8-10a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            logo:
+            !(currentNav === "blogs") ?
+            (
+                <svg
+                    className="w-[22px] h-[22px] text-gray-800 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeWidth="1"
+                        d="M16 19h4a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-2m-2.236-4a3 3 0 1 0 0-4M3 18v-1a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Zm8-10a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                    />
                 </svg>
+            )
+            :
+            (
+                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M8 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4H6Zm7.25-2.095c.478-.86.75-1.85.75-2.905a5.973 5.973 0 0 0-.75-2.906 4 4 0 1 1 0 5.811ZM15.466 20c.34-.588.535-1.271.535-2v-1a5.978 5.978 0 0 0-1.528-4H18a4 4 0 0 1 4 4v1a2 2 0 0 1-2 2h-4.535Z" clip-rule="evenodd" />
+                </svg>
+            )
+,
         },
     ];
+
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -416,6 +485,8 @@ export default NavbarHeader;
 
 const ButtonNavigate = ({ tabs }) => {
 
+    const dispatch = useDispatch();
+
     return (
 
         <ul
@@ -441,22 +512,24 @@ const ButtonNavigate = ({ tabs }) => {
         >
             {tabs.map((tab) => (
 
-                <li key={tab.id} className="w-full sm:w-auto">
+                <li key={tab.id} className="w-full gap-3">
 
                     <NavLink
 
                         to={tab.endPoint}
 
                         className={
-                                ({ isActive }) =>
-                                `w-full text-center items-center flex flex-col lg:flex-row 
-                                px-4 py-1
-                                transition 
+                            ({ isActive }) =>
+                                `text-center items-center justify-center flex flex-col lg:flex-row
+                                px-2 py-2
+                                transition
                                 ${isActive
-                                ? 'border-t border-gray-300'
-                                : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-dark-3'}
+                                    ? 'border-t border-gray-400'
+                                    : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-dark-3 rounded-full'}
                                 `
                         }
+
+                        onClick={() => dispatch(setCurrentNav(tab.id))}
                     >
                         <>{tab.logo}</>
 

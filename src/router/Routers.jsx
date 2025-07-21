@@ -35,15 +35,15 @@ const routes = [
         errorElement: <ErrorPage />,
 
         children: [
-            { index: true, element: <Home /> },
-            { path: "logIn", element: <LogIn /> },
-            { path: "register", element: <Register /> },
-            { path: "about", element: <About /> },
+            { index: true, element: <Home/> },
+            { path: "logIn", element: <LogIn/> },
+            { path: "register", element: <Register/> },
+            { path: "about", element: <About/> },
             { path: "politique-confidentialite", element: <PrivacyPolicy/> },
-            { path: "products", element: <GridLayoutProduct /> },
+            { path: "products", element: <GridLayoutProduct/> },
             { path: "payment_card", element: <ListProductShoppingCart/> },
-            { path: "blogs", element: <BlogPage /> }, 
-            { path: "forgetPassword", element: <LayoutPwdForget /> },
+            { path: "blogs", element: <BlogPage/> }, 
+            { path: "forgetPassword", element: <LayoutPwdForget/> },
 
             {
                 element: <ProtectedRoute/>,
