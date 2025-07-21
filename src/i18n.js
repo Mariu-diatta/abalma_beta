@@ -22,6 +22,10 @@ i18n
      en: {
 
         translation: {
+             "blog":{
+                title: "Our Blog",
+                maint_text_content: "Creating a small blog is undoubtedly one of the most effective ways to get yourself known and showcase your activities to Abalma users."
+             },
              "buy": "Buy",
              "total_pay":"Total to pay",
              "title": "Privacy Policy",
@@ -314,6 +318,10 @@ i18n
       fr: {
 
           translation: {
+            "blog": {
+                title: "Notre Blog",
+                maint_text_content: "Créer un petit blog est sans doute l’un des moyens les plus efficaces pour vous faire connaître et présenter vos activités aux utilisateurs d’Abalma."
+            },
             "buy": "Acheter",
             "total_pay": "Total à payer",
             "title_policy": "Politique de Confidentialité",
