@@ -1,6 +1,6 @@
 import React, { useEffect, useState} from 'react';
 import ProductsRecapTable from './ProductRecaptable';
-import UserTable from '../components/ContactUser';
+import UsersContactsList from '../components/ContactUser';
 import api from '../services/Axios';
 import { useTranslation } from 'react-i18next';
 import ListProductShoppingCart from './ListProductShoppingCart';
@@ -81,7 +81,7 @@ const Tabs = () => {
 
             <div className="p-1 max-full mx-auto text-gray-700 dark:text-gray-300 h-screan">
 
-                <UserTable />
+                <UsersContactsList />
 
             </div>
         ),

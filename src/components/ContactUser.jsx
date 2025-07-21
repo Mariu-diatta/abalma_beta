@@ -4,7 +4,7 @@ import OwnerAvatar from "./OwnerProfil";
 import { useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
 
-const UserTable = () => {
+const UsersContactsList = () => {
 
     const { t } = useTranslation();
     const [searchTerm, setSearchTerm] = useState("");
@@ -101,11 +101,12 @@ const UserTable = () => {
 
     return (
 
-        <div className="relative overflow-x-auto sm:rounded-lg style-bg h-screen shadow-lg">
+        <div className="sm:rounded-lg style-bg h-screen">
 
             <h2 className="text-2xl font-extrabold text-gray-500 dark:text-white px-4 pt-4 pb-2"> 
-                {/*//text-gray-500 dark:text-gray-100 */}
+
                 {t('ParamText.title')}
+
             </h2>
 
             {/* Bar d'action */}
@@ -154,6 +155,7 @@ const UserTable = () => {
                                 ))}
 
                             </ul>
+
                         </div>
                     )}
                 </div>
@@ -196,10 +198,11 @@ const UserTable = () => {
                     </div>
 
                 </div>
+
             </div>
 
             {/* Tableau */}
-            <table className="w-full text-sm text-left style-bg shadow-lg ">
+            <table className="w-auto text-sm text-left style-bg shadow-lg ">
 
                 <thead className="text-xs uppercase style-bg">
 
@@ -226,7 +229,7 @@ const UserTable = () => {
 
                 </thead>
 
-                <tbody>
+                <tbody className="overflow-x-auto">
 
                     {filteredUsers.map((user, i) => (
 
@@ -267,7 +270,7 @@ const UserTable = () => {
 
                             <td className="px-6 py-4">
 
-                                <svg className="w-6 h-5 text-red-800 dark:text-white cursor-pointer" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                <svg className="w-6 h-5 text-red-1000 cursor-pointer" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
 
                                     <path fillRule="evenodd" d="M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z" clipRule="evenodd" />
 
@@ -276,6 +279,7 @@ const UserTable = () => {
                             </td>
 
                         </tr>
+
                     ))}
 
                 </tbody>
@@ -286,4 +290,4 @@ const UserTable = () => {
     );
 };
 
-export default UserTable;
+export default UsersContactsList;

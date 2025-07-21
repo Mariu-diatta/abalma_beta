@@ -22,8 +22,8 @@ i18n
      en: {
 
         translation: {
-
-
+             "buy": "Buy",
+             "total_pay":"Total to pay",
              "title": "Privacy Policy",
              "last_updated": "Last updated: May 20, 2025",
              "section_1_title": "1. Who are we?",
@@ -93,7 +93,7 @@ i18n
             activity: "Your activities",
             footCondition: "Acepte termes",
             politique: "Confidentiality",
-            connecTitle: " Registered !!",
+            connecTitle: " Log In !!",
             forgetPwd: " Forget password ?",
             notRegistered: "Not registered?",
              alredyRegister: 'Already register ?',
@@ -314,7 +314,8 @@ i18n
       fr: {
 
           translation: {
-
+            "buy": "Acheter",
+            "total_pay": "Total à payer",
             "title_policy": "Politique de Confidentialité",
             "last_updated": "Dernière mise à jour : 20 mai 2025",
             "section_1_title": "1. Qui sommes-nous ?",

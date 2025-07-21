@@ -195,7 +195,7 @@ const Signin = () => {
 
                             <>
                                 <h1 className="mb-10 text-2xl font-bold text-dark dark:text-white">
-                                    {t("connecTitle")}
+                                    {t("login")}
                                 </h1>
 
                                 <form onSubmit={(e) => { e.preventDefault(); handleSignIn(); }}>
