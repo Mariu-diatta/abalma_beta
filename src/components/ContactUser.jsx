@@ -204,9 +204,9 @@ const UsersContactsList = () => {
             {/* Tableau */}
             <table className="w-full text-sm text-left style-bg shadow-lg ">
 
-                <thead className="text-xs uppercase style-bg">
+                <thead className="text-md style_bg">
 
-                    <tr className="style-bg">
+                    <tr className="style_bg text-sm">
 
                         <th className="p-4">
 
@@ -219,11 +219,11 @@ const UsersContactsList = () => {
 
                         </th>
 
-                        <th className="px-6 py-3">{t('ParamText.table.name')}</th>
+                        <th className="px-6 py-3 ">{t('ParamText.table.name')}</th>
 
-                        <th className="px-6 py-3">{t('ParamText.table.about')}</th>
+                        <th className="px-6 py-3 ">{t('ParamText.table.about')}</th>
 
-                        <th className="px-6 py-3">{t('ParamText.table.delete')}</th>
+                        <th className="px-6 py-3 ">{t('ParamText.table.delete')}</th>
 
                     </tr>
 
@@ -271,7 +271,9 @@ const UsersContactsList = () => {
                             <td className="px-6 py-4">
 
                                 <svg className="w-6 h-6 text-gray-800 dark:text-red-100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+
                                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
+
                                 </svg>
 
                             </td>

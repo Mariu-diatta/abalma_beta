@@ -103,7 +103,7 @@ const ListProductShoppingCart = () => {
 
                 <thead
 
-                    className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+                    className="text-sm style_bg "
 
                     style={
 
@@ -114,8 +114,9 @@ const ListProductShoppingCart = () => {
                         }
                     }
                 >
-
-                    <tr>
+                    
+                    <tr> 
+                        {/*//uppercase*/}
 
                         <th scope="col" className="px-16 py-3"><span className="sr-only">{t('tableEntries.image')}</span></th>
 

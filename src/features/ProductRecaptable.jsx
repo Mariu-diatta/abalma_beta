@@ -6,12 +6,19 @@ import { useTranslation } from 'react-i18next';
 const ProductsRecapTable = ({ products }) => {
 
     const { t } = useTranslation();
+
     const [currentPage, setCurrentPage] = useState(1);
+
     const [searchTerm, setSearchTerm] = useState('');
+
     const [selectedStatus, setSelectedStatus] = useState("");
+
     const [popoverOpen, setPopoverOpen] = useState(false);
+
     const [selectedSubTransaction, setSelectedSubTransaction] = useState(null);
+
     const itemsPerPage = 5;
+
     const displayedStatus = ['en cours', 'prêtés', 'achetés', 'vendus']; //affichage des opérations sur les données
 
     const [product, setProductView]=useState(null)
@@ -49,8 +56,11 @@ const ProductsRecapTable = ({ products }) => {
 
         // 🔁 Extraction plate des produits
         const allItems = products.flatMap(prod =>
+
             Array.isArray(prod.items)
+
                 ? prod.items.flatMap(sub =>
+
                     Array.isArray(sub.items) ? sub.items.map(i => i.product) : []
                 )
                 : []
@@ -461,7 +471,7 @@ function TransactionsDropdown({ transactionsData, onSubTransactionSelect }) {
                 <button
                     ref={trigger1}
                     onClick={() => setDropdownOpen1(!dropdownOpen1)}
-                    className="border rounded-lg bg-gray-100 border-gray-300 inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-stroke px-6 py-3 text-base  text-dark dark:border-dark-3 dark:bg-dark-2 dark:text-white"
+                    className="border rounded-lg bg-gray-100 border-gray-300 inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-stroke px-6 py-3 text-base  text-dark dark:border-dark-3 dark:bg-dark-2 dark:text-white"
                     style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                 >
                     Transactions
@@ -528,7 +538,7 @@ function TransactionsDropdown({ transactionsData, onSubTransactionSelect }) {
                 <button
                     ref={trigger2}
                     onClick={() => setDropdownOpen2(!dropdownOpen2)}
-                    className="border rounded-lg bg-gray-100 border-gray-300 inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-stroke  px-6 py-3 text-base text-dark dark:border-dark-3 dark:bg-dark-2 dark:text-white"
+                    className="border rounded-lg bg-gray-100 border-gray-300 inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-stroke  px-6 py-3 text-base text-dark dark:border-dark-3 dark:bg-dark-2 dark:text-white"
                     disabled={!selectedTransaction}
                     style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                 >

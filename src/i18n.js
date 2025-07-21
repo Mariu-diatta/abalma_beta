@@ -637,7 +637,7 @@ i18n
                       delete: "Supprimer",
                   },
 
-                  alertDelete: "Supprimer les utilisateurs :",
+                  alertDelete: "Supprimer les utilisateurs",
             },
 
             settingsText: {
