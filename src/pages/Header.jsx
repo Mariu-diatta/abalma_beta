@@ -67,13 +67,13 @@ export function LanguageDropdown({ changeLanguage }) {
 
     return (
 
-        <div className="relative inline-block text-left">
+        <div className="relative inline-block text-left shadow-md">
 
             <button
                 ref={buttonRef}
                 onClick={() => setIsOpen(!isOpen)}
                 type="button"
-                className="inline-flex justify-center w-full rounded-full px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
+                className="inline-flex justify-center w-full rounded-full px-2 py-1 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
                 aria-haspopup="true"
                 aria-expanded={isOpen}
             >
@@ -201,7 +201,7 @@ export const ThemeToggle = () => {
 
             type="button"
 
-            className="inline-flex flex-col items-center rounded-full justify-center px-5 m-2 hover:bg-gray-50 dark:hover:bg-gray-800 group"
+            className="shadow-lg inline-flex flex-col items-center rounded-full justify-center px-5 m-2 hover:bg-gray-50 dark:hover:bg-gray-800 group"
         >
             <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500">
 

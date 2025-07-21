@@ -347,9 +347,10 @@ export default function AccountDropdownUserProfil() {
                         </div>
 
                         <div>
+
                             <button
 
-                                className="flex gap-1 w-full items-center justify-between px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
+                                className="shadow-md flex gap-1 w-full items-center justify-between px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
 
                                 onClick={() => { navigate("/user_profil");  dispatch(setCurrentNav("user_profil"))}}
                             >
@@ -373,6 +374,7 @@ export default function AccountDropdownUserProfil() {
                                 </svg>
 
                             </button>
+
                         </div>
 
 
@@ -382,7 +384,7 @@ export default function AccountDropdownUserProfil() {
 
                                 onClick={() => { navigate("/settings"); dispatch(setCurrentNav("settings")) }}
 
-                                className="d-flex gap-3 flex w-full items-center justify-between px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5">
+                                className="shadow-md d-flex gap-3 flex w-full items-center justify-between px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5">
 
                                 <div className="flex gap-2 items-center">
 
@@ -407,7 +409,8 @@ export default function AccountDropdownUserProfil() {
                         </div>
 
                         <div>
-                            <button onClick={getUserLogOut} className="flex w-full items-center justify-start gap-2 px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5">
+
+                            <button onClick={getUserLogOut} className="shadow-lg flex w-full items-center justify-start gap-2 px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5">
 
                                 <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2" />
@@ -416,6 +419,7 @@ export default function AccountDropdownUserProfil() {
                                 {t("logOut")}
 
                             </button>
+
                         </div>
 
                     </div>
