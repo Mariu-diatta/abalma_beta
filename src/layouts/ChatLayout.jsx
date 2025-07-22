@@ -137,7 +137,7 @@ const ChatLayout = () => {
             >
                 <div className="p-1 gap-5 pt-6">
 
-                    <h2 className="text-lg mb-6 h-3">Discussions</h2>
+                    <h2 className="font-bold text-gray-500 mb-6 h-3">Discussions</h2>
 
                     <div className="w-full h-px bg-gray-300 mb-6 mt-6" />
 

@@ -374,7 +374,7 @@ const ProfileCard = () => {
 
             {/* Image de couverture */}
             <div
-                className="relative h-56 bg-cover bg-center bg-gray-200"
+                className="relative h-1/2 bg-cover bg-center bg-gray-200"
 
                 style={{ backgroundImage: `url(${previewUrlBackground || 'https://images.unsplash.com/photo-1612832020897-593fae15346e'})` }}
             >
@@ -778,15 +778,12 @@ const ProfileCard = () => {
 
             </div>
 
-            {messageAlert && (
-
-                <AttentionAlertMesage title="Erreur" content={messageAlert} />
-            )}
+            {
+                messageAlert && <AttentionAlertMesage title="Erreur" content={messageAlert} /> 
+            }
 
             {
-                (profileData?.is_fournisseur && !profileData?.is_verified) &&
-
-                <GetValidateUserFournisseur isCurrentUser={isCurrentUser} />
+                (profileData?.is_fournisseur && !profileData?.is_verified) && <GetValidateUserFournisseur isCurrentUser={isCurrentUser} />
             }
 
         </div>
@@ -917,10 +914,14 @@ const GetValidateUserFournisseur = ({isCurrentUser }) => {
                     <button
                         type="submit"
                         disabled={!code}
-                        className={`w-full py-2 px-4 rounded-md text-white text-sm font-medium transition duration-200 ${code
-                            ? "bg-blue-600 hover:bg-blue-700"
-                            : "bg-gray-400 cursor-not-allowed"
-                            }`}
+                            className={
+                                `w-full py-2 px-4 rounded-md text-white text-sm font-medium transition duration-200
+                                ${
+                                    code
+                                    ? "bg-blue-600 hover:bg-blue-700"
+                                    : "bg-gray-400 cursor-not-allowed"
+                                }`
+                            }
                     >
                         {t('ProfilText.validate')}
 
@@ -931,6 +932,14 @@ const GetValidateUserFournisseur = ({isCurrentUser }) => {
                 <>
                 </>
             }
+
+            <button
+                type="submit"
+                className="fixed absolute bottom-[12] right-2 w-auto shadow-lg z-[9999]"
+            >
+                Ajouter blog
+
+            </button>
         </>
 
     )

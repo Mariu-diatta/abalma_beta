@@ -138,7 +138,7 @@ const VertcalNavbar = ({ children }) => {
     return (
 
         <div
-
+            className="overflow-y-auto h-full"
             style={{
                 marginBottom: "50px",
 
