@@ -367,14 +367,14 @@ const ProfileCard = () => {
 
         <div
 
-            className="border-0 style_bg w-full max-w-full mx-auto bg-white rounded-md  h-screen"
+            className="border-0 style_bg w-full max-w-full mx-auto  rounded-md  h-full"
 
             style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
         >
 
             {/* Image de couverture */}
             <div
-                className="relative h-1/2 bg-cover bg-center bg-gray-200"
+                className="relative h-[300px] bg-cover bg-center bg-gray-200"
 
                 style={{ backgroundImage: `url(${previewUrlBackground || 'https://images.unsplash.com/photo-1612832020897-593fae15346e'})` }}
             >
@@ -932,14 +932,6 @@ const GetValidateUserFournisseur = ({isCurrentUser }) => {
                 <>
                 </>
             }
-
-            <button
-                type="submit"
-                className="fixed absolute bottom-[12] right-2 w-auto shadow-lg z-[9999]"
-            >
-                Ajouter blog
-
-            </button>
         </>
 
     )

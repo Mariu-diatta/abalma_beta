@@ -22,6 +22,7 @@ i18n
      en: {
 
         translation: {
+             param: 'Settings and Privacy',
              add_product: {
                  "add_or_update_product": "Add / Edit a product",
                  "code_reference": "Reference Code",
@@ -380,6 +381,7 @@ i18n
       fr: {
 
           translation: {
+              param: 'Paramètres et convidentialités',
               add_product: {
                   "add_or_update_product": "Ajouter / Modifier un produit",
                   "code_reference": "Code Référence",
