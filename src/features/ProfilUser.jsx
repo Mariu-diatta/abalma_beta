@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/Axios';
@@ -708,7 +708,9 @@ const ProfileCard = () => {
 
                                     </button>
                                 }
-
+                                {
+                                    isCurrentUser && <ModalForm />
+                                }
                                 {
                                     isCurrentUser &&
                                     <button
@@ -719,8 +721,9 @@ const ProfileCard = () => {
 
                                         title="supprimer le compte"
                                     >
-                                        <svg className="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                           
+                                       <svg 
+                                            className="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                             
                                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.9" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
 
                                         </svg>
@@ -729,6 +732,7 @@ const ProfileCard = () => {
 
                                     </button>
                                 }
+
                             </>
                          )}
 
@@ -794,7 +798,7 @@ export default ProfileCard;
 
 
 //validation code pour la création d'un compte fournisseur
-const GetValidateUserFournisseur = ({isCurrentUser }) => {
+const GetValidateUserFournisseur = ({ isCurrentUser }) => {
 
     const { t } = useTranslation();
 
@@ -912,16 +916,19 @@ const GetValidateUserFournisseur = ({isCurrentUser }) => {
                     }
 
                     <button
+
                         type="submit"
+
                         disabled={!code}
-                            className={
-                                `w-full py-2 px-4 rounded-md text-white text-sm font-medium transition duration-200
-                                ${
-                                    code
-                                    ? "bg-blue-600 hover:bg-blue-700"
-                                    : "bg-gray-400 cursor-not-allowed"
-                                }`
-                            }
+
+                        className={
+                            `w-full py-2 px-4 rounded-md text-white text-sm font-medium transition duration-200
+                            ${
+                                code
+                                ? "bg-blue-600 hover:bg-blue-700"
+                                : "bg-gray-400 cursor-not-allowed"
+                            }`
+                        }
                     >
                         {t('ProfilText.validate')}
 
@@ -936,3 +943,169 @@ const GetValidateUserFournisseur = ({isCurrentUser }) => {
 
     )
 }
+
+const ModalForm = () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const buttonRef = useRef(null);
+    const modalRef = useRef(null);
+    const inputRef = useRef(null);
+
+    const handleToggleModal = () => setIsOpen(!isOpen);
+    const handleClose = () => setIsOpen(false);
+
+    // Focus input on open
+    useEffect(() => {
+        if (isOpen && inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, [isOpen]);
+
+    // Close modal on click outside
+    useEffect(() => {
+        function handleClickOutside(e) {
+            if (isOpen && modalRef.current && !modalRef.current.contains(e.target)) {
+                handleClose();
+            }
+        }
+
+        if (isOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        } else {
+            document.removeEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [isOpen]);
+
+    return (
+        <div
+            className="relative z-40"
+
+            role="dialog"
+
+            aria-modal="true"
+
+            style={
+
+            {
+                backgroundColor: "var(--color-bg)",
+
+                color: "var(--color-text)"
+            }
+        }>
+            {/* Toggle Button */}
+            <button
+                ref={buttonRef}
+                onClick={handleToggleModal}
+                className="lg:flex gap-1 bg-blue-500 text-white text-sm px-3 py-1 rounded hover:bg-blue-700 m-1 items-center"
+            >
+                <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24">
+                    <path
+                        stroke="currentColor"
+                        strokeLinecap="square"
+                        strokeLinejoin="round"
+                        strokeWidth="1"
+                        d="M7 19H5a1 1 0 0 1-1-1v-1a3 3 0 0 1 3-3h1m4-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm7.441 1.559a1.907 1.907 0 0 1 0 2.698l-6.069 6.069L10 19l.674-3.372 6.07-6.07a1.907 1.907 0 0 1 2.697 0Z"
+                    />
+                </svg>
+                <span>Bloguer</span>
+            </button>
+
+            {/* Modal */}
+            {isOpen && (
+                <div
+                    className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center"
+                >
+                    <div
+                        ref={modalRef}
+                        className="bg-white dark:bg-gray-700 rounded-lg shadow-lg w-full max-w-2xl p-6 relative"
+                    >
+                        {/* Header */}
+                        <div className="flex justify-between items-center pb-4 mb-4 dark:border-gray-600">
+
+                            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                                Créer un blog
+                            </h2>
+
+                            <button
+                                onClick={handleClose}
+                                className=" bg-white text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                            >
+                                <svg className="w-4 h-4" fill="none" viewBox="0 0 14 14">
+                                    <path
+                                        stroke="currentColor"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        d="M1 1l6 6m0 0l6 6M7 7l6-6M7 7L1 13"
+                                    />
+                                </svg>
+
+                            </button>
+
+                        </div>
+
+                        {/* Form */}
+                        <form className="space-y-4">
+
+                            <video class="w-full h-auto" controls>
+                                <source src="/docs/videos/flowbite.mp4" type="video/mp4" />
+                                Your browser does not support the video tag.
+                            </video>
+                            <div>
+
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    Titre
+                                </label>
+
+                                <input
+                                    ref={inputRef}
+                                    type="text"
+                                    className="mt-1 block w-full border px-3 py-2 rounded-md text-sm border-gray-300 focus:ring-blue-500 focus:border-blue-300"
+                                    placeholder="Tutorial Title"
+                                />
+
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    Description
+                                </label>
+
+                                <textarea
+                                    rows="4"
+                                    className="mt-1 block w-full border px-3 py-2 rounded-md text-sm border-gray-300 focus:ring-blue-500 focus:border-blue-300"
+                                    placeholder="Enter tutorial content..."
+                                ></textarea>
+
+                            </div>
+
+                            {/* Footer */}
+                            <div className="flex justify-end gap-2 pt-1 dark:border-gray-600">
+
+                                <button
+                                    type="submit"
+                                    className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700"
+                                >
+                                    Sumettre
+                                </button>
+
+                                <button
+                                    type="button"
+                                    onClick={handleClose}
+                                    className="px-4 py-2 rounded-md text-sm border bg-red-800 border-gray-300 text-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
+                                >
+                                    Supprimer
+                                </button>
+
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
+
