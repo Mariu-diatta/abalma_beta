@@ -396,14 +396,8 @@ const NavbarHeader = () => {
                     <div className="flex items-center justify-between relative">
 
                         {/* Logo */}
-                        <div className="flex-shrink-0">
-
-                            <a href="/" className="block py-2">
-                                <Logo />
-                            </a>
-
-                        </div>
-
+                        <Logo />
+                            
                         <ButtonNavigate tabs={tabs} />
 
                         {/* Toggle Button for Mobile */}
