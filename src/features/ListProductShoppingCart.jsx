@@ -266,7 +266,6 @@ const BuyButtonWithPaymentForm = ({ total_price }) => {
 
     const [showPaymentForm, setShowPaymentForm] = useState(false);
 
-
     const { t } = useTranslation();
 
     return (
@@ -288,7 +287,8 @@ const BuyButtonWithPaymentForm = ({ total_price }) => {
                 </button>
             }
 
-            {showPaymentForm && parseInt(total_price)!==0 && (
+            {
+                (showPaymentForm && parseInt(total_price) !== 0) && (
 
                 <div className="backdrop-blur-sm fixed inset-0 z-50 bg-gray-100 bg-transparent  bg-opacity-100 flex items-center justify-center style-bg" onClick={() => setShowPaymentForm(false)}>
 
@@ -306,7 +306,8 @@ const BuyButtonWithPaymentForm = ({ total_price }) => {
                     </div>
 
                 </div>
-            )}
+                )
+            }
 
         </div>
     );

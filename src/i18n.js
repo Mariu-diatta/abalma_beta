@@ -22,6 +22,7 @@ i18n
      en: {
 
         translation: {
+             connect_with: "Connect With",
              param: 'Settings and Privacy',
              add_product: {
                  "add_or_update_product": "Add / Edit a product",
@@ -386,9 +387,10 @@ i18n
         }
      },
 
-      fr: {
+     fr: {
 
           translation: {
+              connect_with: "Connecter avec",
               param: 'Paramètres et convidentialités',
               add_product: {
                   "add_or_update_product": "Ajouter / Modifier un produit",

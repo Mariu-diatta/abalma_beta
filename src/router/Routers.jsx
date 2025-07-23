@@ -28,7 +28,6 @@ import ProductsRecapTable from "../features/ProductRecaptable";
 import ListProductShoppingCart from "../features/ListProductShoppingCart";
 import SettingsForm from "../features/Settings";
 
-
 // Routes Configuration
 const routes = [
     {
