@@ -16,7 +16,10 @@ import {
     RecaptchaVerifier
 } from "firebase/auth";
 import api from "./services/Axios";
-
+import { useNavigate } from 'react-router-dom';
+import { login, updateUserData } from "./slices/authSlice";
+import { setCurrentNav } from "./slices/navigateSlice";
+import { useDispatch } from "react-redux";
 
 
 // Exemple d'utilisation (dans une fonction déclenchée par un bouton "Envoyer")
@@ -43,16 +46,33 @@ export const storage = getStorage(app);
 
 export function LoginWithGoogle() {
 
+    const navigate = useNavigate();
+
+    const dispatch = useDispatch();
+
     const handleLogin = async (credentialResponse) => {
 
         try {
-            const res = await api.post("auth/google-login/", {
+
+            const res = await api.post("auth/google-login/",
+                {
+
                 access_token: credentialResponse.credential, // token JWT Google
-            }
+                }
             );
 
             console.log("Connexion réussie :", res.data);
-            // Sauvegarder token ou rediriger...
+            if (res.data) {
+
+                dispatch(updateUserData(res.data));
+
+                dispatch(login(res.data));
+
+                dispatch(setCurrentNav("account_home"));
+
+                return navigate("/account_home", { replace: true });
+
+            }
         } catch (err) {
             console.error("Erreur de connexion :", err);
         }
@@ -120,18 +140,16 @@ export const signInWithGoogle = async () => {
 };
 
 // --- Connexion avec Facebook ---
-export const signInWithFacebook = async () => {
-    const provider = new FacebookAuthProvider();
-    try {
-        const result = await signInWithPopup(auth, provider);
-        const user = result.user;
-        console.log("Connexion Facebook réussie:");
-        return user;
-    } catch (error) {
-        console.error("Erreur Facebook Auth:", error.message);
-        throw error;
-    }
-};
+const provider = new FacebookAuthProvider();
+signInWithPopup(auth, provider).then(async (result) => {
+    const credential = FacebookAuthProvider.credentialFromResult(result);
+    const accessToken = credential.accessToken;
+
+    // Appel backend Django avec le token
+    await api.post('https://ton-backend.com/auth/facebook-login/', {
+        access_token: accessToken
+    });
+});
 
 // --- Connexion avec Twitter ---
 export const signInWithTwitter = async () => {
