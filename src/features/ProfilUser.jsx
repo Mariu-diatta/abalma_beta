@@ -619,7 +619,7 @@ const ProfileCard = () => {
 
                                 <button
                                     type="submit"
-                                    className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                                    className="rounded-lg bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
                                 >
                                     {t('ProfilText.boutons.enregistrer')}
 
@@ -627,7 +627,7 @@ const ProfileCard = () => {
 
                                 <button
                                     type="button"
-                                    className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
+                                    className="rounded-lg bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
                                     onClick={() => setIsEditing(false)}
                                 >
                                     {t('ProfilText.boutons.annuler')}
@@ -639,7 +639,7 @@ const ProfileCard = () => {
                         </form>
                     )}
 
-                    <div className="flex align-items-start mt-6 space-x-0 mb-3">
+                    <div className="lg:flex sm:flex-wrap: wrap align-items-start mt-6 space-x-0 mb-3 gap-5">
 
                         {
 
@@ -651,7 +651,7 @@ const ProfileCard = () => {
 
                                         onClick={() => setIsEditing(true)}
 
-                                        className="lg:flex gap-1 bg-gray-300 text-white  text-sm px-3 py-1 rounded hover:bg-blue-700 m-1"
+                                        className="w-full rounded-lg flex gap-1 bg-gray-300 text-white  text-sm px-3 py-1 rounded hover:bg-blue-700 m-1"
 
                                         title="Modifier le profil"
 
@@ -683,7 +683,7 @@ const ProfileCard = () => {
                                             }
                                         }
 
-                                        className="bg-yellow-600 text-white text-sm px-3 py-1 rounded hover:bg-yellow-700 m-1"
+                                        className="w-full rounded-lg bg-yellow-600 text-white text-sm px-3 py-1 rounded hover:bg-yellow-700 m-1"
                                     >
                                         {!messageVisible ? "Message" : "X"}
 
@@ -694,7 +694,7 @@ const ProfileCard = () => {
                                    (!userProfile?.is_fournisseur || !userProfile?.is_fournisseur) && isCurrentUser &&
                                     <button
                                         onClick={getUserCompte}
-                                        className="text-sm  lg:flex gap-1 bg-indigo-300 text-white px-3 py-1 rounded hover:bg-indigo-700 m-1"
+                                        className="w-full rounded-lg text-sm  flex gap-1 bg-indigo-300 text-white px-3 py-1 rounded hover:bg-indigo-700 m-1"
                                         title="Devenir un fournisseur"
                                     >
                                         <svg className="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -717,7 +717,7 @@ const ProfileCard = () => {
 
                                         onClick={delAccountUser}
 
-                                        className="lg:flex gap-1 bg-red-300 text-white text-sm px-3 py-1 rounded hover:bg-red-700 m-1"
+                                        className="w-full rounded-lg flex gap-1 bg-red-300 text-white text-sm px-3 py-1 rounded hover:bg-red-700 m-1"
 
                                         title="supprimer le compte"
                                     >
@@ -756,7 +756,7 @@ const ProfileCard = () => {
 
                                     type="submit"
 
-                                    className="bg-green-600 text-white px-4 py-1 rounded hover:bg-green-700"
+                                    className="rounded-lg bg-green-600 text-white px-4 py-1 rounded hover:bg-green-700"
                                 >
                                     {t('ProfilText.envoyerJustificatif')}
 
@@ -767,7 +767,7 @@ const ProfileCard = () => {
 
                                     onClick={() => setIsProFormVisible(false)}
 
-                                    className="bg-red-600 text-white px-4 py-1 rounded hover:bg-green-700"
+                                    className="rounded-lg bg-red-600 text-white px-4 py-1 rounded hover:bg-green-700"
                                 >
                                     {t('ProfilText.annuler')}
 
@@ -945,6 +945,8 @@ const GetValidateUserFournisseur = ({ isCurrentUser }) => {
 }
 
 const ModalForm = () => {
+
+    const { t } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
     const buttonRef = useRef(null);
     const modalRef = useRef(null);
@@ -955,26 +957,35 @@ const ModalForm = () => {
 
     // Focus input on open
     useEffect(() => {
+
         if (isOpen && inputRef.current) {
+
             inputRef.current.focus();
         }
+
     }, [isOpen]);
 
     // Close modal on click outside
     useEffect(() => {
         function handleClickOutside(e) {
+
             if (isOpen && modalRef.current && !modalRef.current.contains(e.target)) {
+
                 handleClose();
             }
         }
 
         if (isOpen) {
+
             document.addEventListener('mousedown', handleClickOutside);
+
         } else {
+
             document.removeEventListener('mousedown', handleClickOutside);
         }
 
         return () => document.removeEventListener('mousedown', handleClickOutside);
+
     }, [isOpen]);
 
     return (
@@ -997,7 +1008,7 @@ const ModalForm = () => {
             <button
                 ref={buttonRef}
                 onClick={handleToggleModal}
-                className="lg:flex gap-1 bg-blue-500 text-white text-sm px-3 py-1 rounded hover:bg-blue-700 m-1 items-center"
+                className="w-full rounded-full flex gap-1 bg-blue-500 text-white text-sm px-3 py-1 rounded hover:bg-blue-700 m-1 items-center"
             >
                 <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24">
                     <path
@@ -1008,7 +1019,9 @@ const ModalForm = () => {
                         d="M7 19H5a1 1 0 0 1-1-1v-1a3 3 0 0 1 3-3h1m4-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm7.441 1.559a1.907 1.907 0 0 1 0 2.698l-6.069 6.069L10 19l.674-3.372 6.07-6.07a1.907 1.907 0 0 1 2.697 0Z"
                     />
                 </svg>
-                <span>Bloguer</span>
+
+                <span>{t('blog.blog')}</span>
+
             </button>
 
             {/* Modal */}
@@ -1023,39 +1036,35 @@ const ModalForm = () => {
                         {/* Header */}
                         <div className="flex justify-between items-center pb-4 mb-4 dark:border-gray-600">
 
-                            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-                                Créer un blog
+                            <h2 className="text-2xl font-extrabold text-gray-500 dark:text-white px-4 pt-4">
+                                {t('blog.create_blog')}
                             </h2>
 
-                            <button
-                                onClick={handleClose}
-                                className=" bg-white text-gray-400 hover:text-gray-900 dark:hover:text-white"
-                            >
-                                <svg className="w-4 h-4" fill="none" viewBox="0 0 14 14">
-                                    <path
-                                        stroke="currentColor"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M1 1l6 6m0 0l6 6M7 7l6-6M7 7L1 13"
-                                    />
-                                </svg>
+                            {/*<button*/}
+                            {/*    onClick={handleClose}*/}
+                            {/*    className=" bg-white text-gray-400 hover:text-gray-900 dark:hover:text-white"*/}
+                            {/*>*/}
+                            {/*    <svg className="w-4 h-4" fill="none" viewBox="0 0 14 14">*/}
+                            {/*        <path*/}
+                            {/*            stroke="currentColor"*/}
+                            {/*            strokeLinecap="round"*/}
+                            {/*            strokeLinejoin="round"*/}
+                            {/*            strokeWidth="2"*/}
+                            {/*            d="M1 1l6 6m0 0l6 6M7 7l6-6M7 7L1 13"*/}
+                            {/*        />*/}
+                            {/*    </svg>*/}
 
-                            </button>
+                            {/*</button>*/}
 
                         </div>
 
                         {/* Form */}
                         <form className="space-y-4">
 
-                            <video class="w-full h-auto" controls>
-                                <source src="/docs/videos/flowbite.mp4" type="video/mp4" />
-                                Your browser does not support the video tag.
-                            </video>
                             <div>
 
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                    Titre
+                                    {t('blog.title_pop')}
                                 </label>
 
                                 <input
@@ -1087,7 +1096,7 @@ const ModalForm = () => {
                                     type="submit"
                                     className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700"
                                 >
-                                    Sumettre
+                                    {t('blog.submit')}
                                 </button>
 
                                 <button
@@ -1095,7 +1104,7 @@ const ModalForm = () => {
                                     onClick={handleClose}
                                     className="px-4 py-2 rounded-md text-sm border bg-red-800 border-gray-300 text-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
                                 >
-                                    Supprimer
+                                    {t('blog.delete')}
                                 </button>
 
                             </div>

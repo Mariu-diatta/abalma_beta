@@ -414,14 +414,13 @@ const NavbarHeader = () => {
                             ${open && "navbarTogglerActive"} 
                             sm:hidden absolute right-1 top-1/2 transform -translate-y-1/2 
                             z-[71] px-3 py-[6px] rounded-lg 
-                            bg-whi text-black
-                            dark:bg-dark-3 dark:text-white mb-2
+                            text-black
+                            dark:bg-dark-3 dark:text-white mb-2 dark:bg-white
                             focus:outline-none
                           `}
 
-                            style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                         >
-                            <span className="block w-[30px] h-[2px] bg-gray-700 dark:bg-gray-200 my-[6px]"></span>
+                            <span className="block w-[30px] h-[2px] bg-gray-700 dark:bg-gray-400 my-[6px]" ></span>
                             <span className="block w-[30px] h-[2px] bg-gray-700 dark:bg-gray-200 my-[6px]"></span>
                             <span className="block w-[30px] h-[2px] bg-gray-700 dark:bg-gray-200 my-[6px]"></span>
 
@@ -538,7 +537,8 @@ const ButtonNavigate = ({ tabs }) => {
                     </NavLink>
 
                 </li>
-            ))}
+            ))
+        }
         </ul>
     );
 };

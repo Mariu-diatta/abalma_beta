@@ -126,7 +126,7 @@ const RegisterForm = () => {
     };
 
     return (
-        <section className="bg-gray-1 py-20 dark:bg-dark lg:py-[120px]" >
+        <section className="bg-gray-1 py-2 dark:bg-dark lg:py-[120px]" >
 
             <div className="container mx-auto">
 
@@ -136,7 +136,7 @@ const RegisterForm = () => {
 
                         <div
 
-                            className="shadow-lg relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white px-10 py-16 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]"
+                            className="shadow-lg relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white px-10 py-4 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]"
 
                             style={
                                 {
@@ -146,7 +146,7 @@ const RegisterForm = () => {
                             }
                         >
 
-                            <h1 className="mb-10 text-2xl font-bold text-dark dark:text-white">
+                            <h1 className="text-2xl font-extrabold text-gray-500 dark:text-white px-4 pt-4 pb-4">
                                 {t('register')}
                             </h1>
 
@@ -208,11 +208,14 @@ const RegisterForm = () => {
                                 </div>
                             </form>
 
-                            <p className="text-base text-body-color dark:text-dark-6">
+                            <p className="text-sm lg:text-md text-base text-body-color dark:text-dark-6">
+
                                 <span>{t("alredyRegister")} </span>
-                                <Link to="/login" className="text-primary hover:underline">
+
+                                <Link to="/login" className="text-sm lg:text-md text-primary hover:underline">
                                     {t("login")}
                                 </Link>
+
                             </p>
 
                             {/* Decorations (optionnels) */}
