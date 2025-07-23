@@ -87,7 +87,7 @@ i18n
              },
              "blog": {
                  title: "Our Blog",
-                 title_pop:'Titre de votre blog',
+                 title_pop:'Title of blog',
                  blog: "Blog",
                  create_blog: "Create a blog",
                  title_placeholder: "Your blog title",
@@ -455,6 +455,7 @@ i18n
             "blog": {
                 title: "Notre Blog",
                 blog: 'Blog',
+                title_pop: 'Tire de votre blog',
                 create_blog: 'Créer un blog',
                 title_placeholder:"Titre de ton blog",
                 delete: 'Supprimer',
