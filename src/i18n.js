@@ -85,14 +85,17 @@ i18n
                  "unknown_error": "Unknown error while creating the product.",
                  "no_account": "No account"
              },
-             "blog":{
-                title: "Our Blog",
-                blog: 'Blog',
-                create_blog: 'Create a blog',
-                delete:'Delete',
-                submit:'Submit',
-                title_pop:"Title",
-                maint_text_content: "Creating a small blog is undoubtedly one of the most effective ways to get yourself known and showcase your activities to Abalma users."
+             "blog": {
+                 title: "Our Blog",
+                 title_pop:'Titre de votre blog',
+                 blog: "Blog",
+                 create_blog: "Create a blog",
+                 title_placeholder: "Your blog title",
+                 delete: "Delete",
+                 description: "Description of your blog",
+                 description_placeholder: "description",
+                 submit: "Submit",
+                 maint_text_content: "Creating a small blog is undoubtedly one of the most effective ways to get known and showcase your activities to Abalma users."
              },
              "buy": "Buy",
              "total_pay":"Total to pay",
@@ -453,7 +456,10 @@ i18n
                 title: "Notre Blog",
                 blog: 'Blog',
                 create_blog: 'Créer un blog',
+                title_placeholder:"Titre de ton blog",
                 delete: 'Supprimer',
+                description:"Description de ton blog",
+                description_placeholder:"description",
                 submit: 'Soumettret',
                 maint_text_content: "Créer un petit blog est sans doute l’un des moyens les plus efficaces pour vous faire connaître et présenter vos activités aux utilisateurs d’Abalma."
             },
