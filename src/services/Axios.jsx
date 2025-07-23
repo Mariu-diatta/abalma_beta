@@ -1,5 +1,13 @@
 import axios from "axios";
 
+import Cookies from "js-cookie"; // npm install js-cookie
+
+const csrftoken = Cookies.get('csrftoken');
+
+axios.defaults.headers.common['X-CSRFToken'] = csrftoken;
+
+axios.defaults.withCredentials = true;
+
 const BASE_URL = 'https://backend-mpb0.onrender.com/'
 
 // Création de l'instance Axios

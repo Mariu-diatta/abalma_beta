@@ -945,72 +945,116 @@ const GetValidateUserFournisseur = ({ isCurrentUser }) => {
 }
 
 const ModalForm = () => {
-
     const { t } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
-    const buttonRef = useRef(null);
     const modalRef = useRef(null);
     const inputRef = useRef(null);
 
-    const handleToggleModal = () => setIsOpen(!isOpen);
-    const handleClose = () => setIsOpen(false);
+    // États du formulaire
+    const [title, setTitle] = useState("");
+    const [message, setMessage] = useState("");
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
 
-    // Focus input on open
+    // Simule la récupération de l'utilisateur connecté
+    // À remplacer par ta logique d'authentification réelle
+    const getCurrentUser = () => {
+        return { id: 1, name: "Utilisateur Demo" };
+    };
+
+    const handleToggleModal = () => {
+        setError("");
+        setSuccess("");
+        setIsOpen(!isOpen);
+    };
+
+    const handleClose = () => {
+        setIsOpen(false);
+        setTitle("");
+        setMessage("");
+        setError("");
+        setSuccess("");
+    };
+
+    // Focus input quand modal s'ouvre
     useEffect(() => {
-
         if (isOpen && inputRef.current) {
-
             inputRef.current.focus();
         }
-
     }, [isOpen]);
 
-    // Close modal on click outside
+    // Fermer modal si clic à l'extérieur
     useEffect(() => {
-        function handleClickOutside(e) {
-
+        const handleClickOutside = (e) => {
             if (isOpen && modalRef.current && !modalRef.current.contains(e.target)) {
-
                 handleClose();
             }
-        }
+        };
 
         if (isOpen) {
-
-            document.addEventListener('mousedown', handleClickOutside);
-
-        } else {
-
-            document.removeEventListener('mousedown', handleClickOutside);
+            document.addEventListener("mousedown", handleClickOutside);
         }
 
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
     }, [isOpen]);
 
-    return (
-        <div
-            className="relative z-40"
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError("");
+        setSuccess("");
 
-            role="dialog"
+        if (!title.trim() || !message.trim()) {
+            setError(t("blog.fill_all_fields") || "Veuillez remplir tous les champs");
+            return;
+        }
 
-            aria-modal="true"
+        try {
+            const user = getCurrentUser();
 
-            style={
-
-            {
-                backgroundColor: "var(--color-bg)",
-
-                color: "var(--color-text)"
+            if (!user) {
+                setError(t("blog.user_not_authenticated") || "Utilisateur non authentifié");
+                return;
             }
-        }>
+
+            const payload = {
+                title_blog: title,
+                blog_message: message,
+            };
+
+            // Exemple : POST (ou PUT) vers ton API
+            await api.post("blogs/", payload);
+
+            setSuccess(t("blog.blog_created") || "Blog créé avec succès !");
+            setTitle("");
+            setMessage("");
+
+            // Fermer modal après délai (ex : 1.5s)
+            setTimeout(() => {
+                handleClose();
+            }, 1500);
+        } catch (err) {
+            console.error("Erreur lors de la création du blog", err);
+            setError(t("blog.error_creating") || "Erreur lors de la création du blog");
+        }
+    };
+
+    return (
+        <div className="relative z-40" role="dialog" aria-modal="true">
             {/* Toggle Button */}
             <button
-                ref={buttonRef}
                 onClick={handleToggleModal}
-                className="w-full rounded-full flex gap-1 bg-blue-500 text-white text-sm px-3 py-1 rounded hover:bg-blue-700 m-1 items-center"
+                className="w-full rounded-full flex gap-1 bg-blue-500 text-white text-sm px-3 py-1 hover:bg-blue-700 m-1 items-center"
+                aria-expanded={isOpen}
+                aria-controls="modal-blog-form"
             >
-                <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24">
+                <svg
+                    className="w-5 h-5 text-white"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                >
                     <path
                         stroke="currentColor"
                         strokeLinecap="square"
@@ -1019,96 +1063,113 @@ const ModalForm = () => {
                         d="M7 19H5a1 1 0 0 1-1-1v-1a3 3 0 0 1 3-3h1m4-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm7.441 1.559a1.907 1.907 0 0 1 0 2.698l-6.069 6.069L10 19l.674-3.372 6.07-6.07a1.907 1.907 0 0 1 2.697 0Z"
                     />
                 </svg>
-
-                <span>{t('blog.blog')}</span>
-
+                <span>{t("blog.blog")}</span>
             </button>
 
             {/* Modal */}
             {isOpen && (
                 <div
-                    className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center"
+                    className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+                    aria-labelledby="modal-title"
+                    aria-describedby="modal-description"
+                    role="dialog"
+                    id="modal-blog-form"
                 >
                     <div
                         ref={modalRef}
                         className="bg-white dark:bg-gray-700 rounded-lg shadow-lg w-full max-w-2xl p-6 relative"
                     >
                         {/* Header */}
-                        <div className="flex justify-between items-center pb-4 mb-4 dark:border-gray-600">
-
-                            <h2 className="text-2xl font-extrabold text-gray-500 dark:text-white px-4 pt-4">
-                                {t('blog.create_blog')}
+                        <div className="flex justify-between items-center mb-4">
+                            <h2
+                                id="modal-title"
+                                className="text-2xl font-extrabold text-gray-700 dark:text-white"
+                            >
+                                {t("blog.create_blog")}
                             </h2>
-
-                            {/*<button*/}
-                            {/*    onClick={handleClose}*/}
-                            {/*    className=" bg-white text-gray-400 hover:text-gray-900 dark:hover:text-white"*/}
-                            {/*>*/}
-                            {/*    <svg className="w-4 h-4" fill="none" viewBox="0 0 14 14">*/}
-                            {/*        <path*/}
-                            {/*            stroke="currentColor"*/}
-                            {/*            strokeLinecap="round"*/}
-                            {/*            strokeLinejoin="round"*/}
-                            {/*            strokeWidth="2"*/}
-                            {/*            d="M1 1l6 6m0 0l6 6M7 7l6-6M7 7L1 13"*/}
-                            {/*        />*/}
-                            {/*    </svg>*/}
-
-                            {/*</button>*/}
-
+                            <button
+                                onClick={handleClose}
+                                aria-label={t("blog.close_modal") || "Fermer la fenêtre"}
+                                className="text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                            >
+                                <svg
+                                    className="w-6 h-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M6 18L18 6M6 6l12 12"
+                                    />
+                                </svg>
+                            </button>
                         </div>
 
                         {/* Form */}
-                        <form className="space-y-4">
-
+                        <form className="space-y-4" onSubmit={handleSubmit}>
                             <div>
-
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                    {t('blog.title_pop')}
+                                <label
+                                    htmlFor="title-input"
+                                    className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                                >
+                                    {t("blog.title_pop")}
                                 </label>
-
                                 <input
+                                    id="title-input"
                                     ref={inputRef}
                                     type="text"
+                                    value={title}
+                                    onChange={(e) => setTitle(e.target.value)}
                                     className="mt-1 block w-full border px-3 py-2 rounded-md text-sm border-gray-300 focus:ring-blue-500 focus:border-blue-300"
-                                    placeholder="Tutorial Title"
+                                    placeholder={t("blog.title_placeholder") || "Titre du blog"}
+                                    required
                                 />
-
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                    Description
+                                <label
+                                    htmlFor="message-input"
+                                    className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                                >
+                                    {t("blog.description")}
                                 </label>
-
                                 <textarea
+                                    id="message-input"
                                     rows="4"
+                                    value={message}
+                                    onChange={(e) => setMessage(e.target.value)}
                                     className="mt-1 block w-full border px-3 py-2 rounded-md text-sm border-gray-300 focus:ring-blue-500 focus:border-blue-300"
-                                    placeholder="Enter tutorial content..."
-                                ></textarea>
-
+                                    placeholder={t("blog.description_placeholder") || "Contenu du blog..."}
+                                    required
+                                />
                             </div>
 
-                            {/* Footer */}
-                            <div className="flex justify-end gap-2 pt-1 dark:border-gray-600">
+                            {error && (
+                                <p className="text-red-600 dark:text-red-400">{error}</p>
+                            )}
+                            {success && (
+                                <p className="text-green-600 dark:text-green-400">{success}</p>
+                            )}
 
+                            {/* Footer */}
+                            <div className="flex justify-end gap-2 pt-1">
                                 <button
                                     type="submit"
                                     className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700"
                                 >
-                                    {t('blog.submit')}
+                                    {t("blog.submit")}
                                 </button>
-
                                 <button
                                     type="button"
                                     onClick={handleClose}
-                                    className="px-4 py-2 rounded-md text-sm border bg-red-800 border-gray-300 text-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
+                                    className="px-4 py-2 rounded-md text-sm border bg-red-800 border-gray-300 text-gray-100 hover:bg-red-900"
                                 >
-                                    {t('blog.delete')}
+                                    {t("blog.cancel")}
                                 </button>
-
                             </div>
-
                         </form>
                     </div>
                 </div>
@@ -1116,5 +1177,3 @@ const ModalForm = () => {
         </div>
     );
 };
-
-

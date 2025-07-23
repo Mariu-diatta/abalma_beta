@@ -1,11 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import HomeLayout from '../layouts/HomeLayout';
 import { useTranslation } from 'react-i18next';
+import api from '../services/Axios';
 
 
 const BlogPage = () => {
 
     const { t } = useTranslation();
+
+    const  [blogs, setBlogs] =useState([])
+
+    useEffect(
+
+        () => {
+
+            const getBlogs = async () => {
+
+                try {
+
+                    const blogs = await api.get("blogs/");
+
+                    console.log("get success blogs", blogs.data)
+
+                    setBlogs(blogs.data)
+
+                } catch (err) {
+
+                    console.log("Error get blogs, Blog.jsx: ", err)
+                }
+            }
+
+            getBlogs()
+
+        },[]
+    )
 
     return (
 
