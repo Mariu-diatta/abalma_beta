@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../../slices/authSlice";
 import api from "../../services/Axios";
+import { useNavigate } from 'react-router-dom';
+import { setCurrentNav } from "../../slices/navigateSlice";
 
 const getNewToken = async (refreshToken_) => {
 
@@ -40,6 +42,8 @@ const PersistLogIn = () => {
 
     const [isLoading, setIsLoading] = useState(isRealReload());
 
+    const navigate = useNavigate();
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -59,6 +63,10 @@ const PersistLogIn = () => {
                 const response = await api.get("about/me/");
 
                 dispatch(login(response.data));
+
+                dispatch(setCurrentNav("/account_home"));
+
+                navigate("/account_home", {replace:true})
 
             } catch (error) {
 

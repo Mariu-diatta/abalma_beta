@@ -98,6 +98,9 @@ export function LoginWithGoogle() {
 
             dispatch(setCurrentNav("account_home"));
 
+            localStorage.setItem("token", res.data?.access,)
+            localStorage.setItem("refresh", res.data?.refresh)
+
             // ✅ Redirection après succès
             navigate("/account_home", {replace:true}); // ou la page souhaitée
 
@@ -168,16 +171,16 @@ export const signInWithGoogle = async () => {
 };
 
 // --- Connexion avec Facebook ---
-const provider = new FacebookAuthProvider();
-signInWithPopup(auth, provider).then(async (result) => {
-    const credential = FacebookAuthProvider.credentialFromResult(result);
-    const accessToken = credential.accessToken;
+//const provider = new FacebookAuthProvider();
+//signInWithPopup(auth, provider).then(async (result) => {
+//    const credential = FacebookAuthProvider.credentialFromResult(result);
+//    const accessToken = credential.accessToken;
 
-    // Appel backend Django avec le token
-    await api.post('https://ton-backend.com/auth/facebook-login/', {
-        access_token: accessToken
-    });
-});
+//    // Appel backend Django avec le token
+//    await api.post('https://ton-backend.com/auth/facebook-login/', {
+//        access_token: accessToken
+//    });
+//});
 
 // --- Connexion avec Twitter ---
 export const signInWithTwitter = async () => {
