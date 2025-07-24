@@ -6,12 +6,14 @@ import OwnerAvatar from "../components/OwnerProfil";
 import { setCurrentNav } from "../slices/navigateSlice";
 import { addMessageNotif, addUser } from "../slices/chatSlice";
 import ProductModal from "../pages/ProductViewsDetails";
+import { useNavigate } from 'react-router-dom';
+
 
 const GridProductDefault = () => {
     const dispatch = useDispatch();
     const cartItems = useSelector(state => state.cart.items);
     const currentUser = useSelector(state => state.auth.user);
-
+    const navigate = useNavigate()
     const [productData, setProductData] = useState([]);
     const [owners, setOwners] = useState({});
     const [modalData, setModalData] = useState(null);
@@ -67,6 +69,7 @@ const GridProductDefault = () => {
         };
 
         fetchProductsAndOwners();
+
     }, []);
 
     return (
@@ -151,19 +154,31 @@ const GridProductDefault = () => {
                     ))}
                 </div>
             ) : (
-                <div className="flex flex-col items-center justify-center min-h-[300px] text-center text-gray-500 text-lg">
+                 <div className="flex flex-col items-center justify-center min-h-[300px] text-center text-gray-500 text-lg">
+
                     <img
                         alt=""
                         src={currentUser?.image}
                         title={currentUser?.description}
                         className="h-30 w-30 rounded-full object-cover cursor-pointer ring-1 ring-gray-300 hover:ring-blue-500 transition mb-4"
-                    />
-                    <p className="mb-1">Aucun produit disponible.</p>
+                     />
+
+                     <p className="mb-1">Aucun produit disponible.</p>
+
                     <div className="w-full h-px bg-gray-300" />
+
                     <button
-                        onClick={() => dispatch(setCurrentNav("add_product"))}
+
+                        onClick={
+
+                            () => {
+                                dispatch(setCurrentNav("add_product"));
+
+                                navigate("/add_product");
+                            }
+                        }
                         title="Ajouter un nouveau produit"
-                        className="mt-5 flex items-center justify-center rounded-full border border-gray-300 h-50 w-50 bg-white hover:bg-gray-100 transition"
+                        className="mt-5 flex items-center justify-center rounded-md shadow-lg border border-gray-300 h-20 w-20 bg-white hover:bg-gray-100 transition"
                     >
                         <svg
                             className="text-gray-800 dark:text-white"
