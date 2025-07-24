@@ -16,10 +16,6 @@ import {
     RecaptchaVerifier
 } from "firebase/auth";
 import api from "./services/Axios";
-import { useNavigate } from 'react-router-dom';
-import { login, updateUserData } from "./slices/authSlice";
-import { setCurrentNav } from "./slices/navigateSlice";
-import { useDispatch } from "react-redux";
 
 
 // Exemple d'utilisation (dans une fonction déclenchée par un bouton "Envoyer")
@@ -43,14 +39,26 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 export const storage = getStorage(app);
 
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            const trimmed = cookie.trim();
+            if (trimmed.startsWith(name + '=')) {
+                cookieValue = decodeURIComponent(trimmed.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 
 export function LoginWithGoogle() {
 
-    const navigate = useNavigate();
-
-    const dispatch = useDispatch();
-
     const handleLogin = async (credentialResponse) => {
+
+        const csrfToken = getCookie('csrftoken');
 
         try {
 
@@ -58,21 +66,17 @@ export function LoginWithGoogle() {
                 {
 
                 access_token: credentialResponse.credential, // token JWT Google
+                },
+                {
+                    headers: {
+                        "X-CSRFToken": csrfToken
+                    },
+                    withCredentials: true
                 }
             );
 
             console.log("Connexion réussie :", res.data);
-            if (res.data) {
 
-                dispatch(updateUserData(res.data));
-
-                dispatch(login(res.data));
-
-                dispatch(setCurrentNav("account_home"));
-
-                return navigate("/account_home", { replace: true });
-
-            }
         } catch (err) {
             console.error("Erreur de connexion :", err);
         }
