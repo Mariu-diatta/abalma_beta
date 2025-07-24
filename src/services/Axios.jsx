@@ -8,7 +8,8 @@ axios.defaults.headers.common['X-CSRFToken'] = csrftoken;
 
 axios.defaults.withCredentials = true;
 
-const BASE_URL = 'https://backend-mpb0.onrender.com/'
+const BASE_URL = 'http://localhost:8000/'
+//'https://backend-mpb0.onrender.com/'
 
 // Création de l'instance Axios
 const api = axios.create({

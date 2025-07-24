@@ -4,6 +4,7 @@ import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { GoogleLogin } from '@react-oauth/google';
+import { useNavigate } from 'react-router-dom'; // 
 import {
     getAuth,
     createUserWithEmailAndPassword,
@@ -16,6 +17,9 @@ import {
     RecaptchaVerifier
 } from "firebase/auth";
 import api from "./services/Axios";
+import { login, updateUserData, updateUserToken } from "./slices/authSlice";
+import { setCurrentNav } from "./slices/navigateSlice";
+import { useDispatch } from "react-redux";
 
 
 // Exemple d'utilisation (dans une fonction déclenchée par un bouton "Envoyer")
@@ -56,6 +60,10 @@ function getCookie(name) {
 
 export function LoginWithGoogle() {
 
+    const dispatch = useDispatch();
+
+    const navigate = useNavigate();
+
     const handleLogin = async (credentialResponse) => {
 
         const csrfToken = getCookie('csrftoken');
@@ -76,6 +84,22 @@ export function LoginWithGoogle() {
             );
 
             console.log("Connexion réussie :", res.data);
+
+            dispatch(updateUserData(res.data));
+
+            dispatch(login(res.data?.user));
+
+            dispatch(updateUserToken(
+                {
+                    refresh: res.data?.refresh,
+                    access: res.data?.access,
+                }
+            ))
+
+            dispatch(setCurrentNav("account_home"));
+
+            // ✅ Redirection après succès
+            navigate("/account_home", {replace:true}); // ou la page souhaitée
 
         } catch (err) {
             console.error("Erreur de connexion :", err);
