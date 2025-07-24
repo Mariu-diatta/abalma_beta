@@ -42,7 +42,8 @@ const routes = [
             { path: "products", element: <GridLayoutProduct/> },
             { path: "payment_card", element: <ListProductShoppingCart/> },
             { path: "blogs", element: <BlogPage/> }, 
-            { path: "forgetPassword", element: <LayoutPwdForget/> },
+            { path: "forgetPassword", element: <LayoutPwdForget /> },
+            { path:"forgetPassword/reset/:uidb64/:token", element:< LayoutPwdForget/> },
 
             {
                 element: <ProtectedRoute/>,
