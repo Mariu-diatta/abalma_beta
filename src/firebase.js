@@ -12,7 +12,7 @@ import {
     onAuthStateChanged,
     signInWithPopup,
     GoogleAuthProvider,
-    FacebookAuthProvider,
+    //FacebookAuthProvider,
     TwitterAuthProvider,
     RecaptchaVerifier
 } from "firebase/auth";

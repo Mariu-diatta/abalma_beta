@@ -39,8 +39,6 @@ const routes = [
             { path: "register", element: <Register/> },
             { path: "about", element: <About/> },
             { path: "politique-confidentialite", element: <PrivacyPolicy/> },
-            { path: "products", element: <GridLayoutProduct/> },
-            { path: "payment_card", element: <ListProductShoppingCart/> },
             { path: "blogs", element: <BlogPage/> }, 
             { path: "forgetPassword", element: <LayoutPwdForget /> },
             { path:"forgetPassword/reset/:uidb64/:token", element:< LayoutPwdForget/> },
@@ -56,6 +54,10 @@ const routes = [
                         children: [
 
                             { path: "account", element: <AuthPage /> }, 
+
+                            { path: "products", element: <GridLayoutProduct /> },
+
+                            { path: "payment_card", element: <ListProductShoppingCart /> },
 
                             {
                                 path: "payment", element: (

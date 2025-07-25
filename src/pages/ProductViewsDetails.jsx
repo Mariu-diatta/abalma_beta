@@ -10,7 +10,6 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
     const dispatch = useDispatch();
 
     const [isProductAdd, setIsProductAdd] = useState(false);
-    //const [showActions, setShowActions] = useState(false);
 
     const buttonRef = useRef(null)
 
@@ -42,6 +41,7 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
     if (!isOpen) return null;
 
     return (
+
         <div className="relative z-40 " role="dialog" aria-modal="true" ref={popovRef}>
 
             <div

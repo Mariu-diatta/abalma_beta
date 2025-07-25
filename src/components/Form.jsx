@@ -32,12 +32,9 @@ const CreateClient = async (data) => {
     }
 }
 
-
-
 const RegisterForm = () => {
 
     const { t } = useTranslation();
-
 
     const navigate = useNavigate();
 
@@ -126,6 +123,7 @@ const RegisterForm = () => {
     };
 
     return (
+
         <section className="bg-gray-1 py-2 dark:bg-dark lg:py-[120px]" >
 
             <div className="container mx-auto">
@@ -200,12 +198,15 @@ const RegisterForm = () => {
                                 />
 
                                 <div className="mb-10">
+
                                     <input
                                         type="submit"
                                         value={t("register")}
                                         className="w-full cursor-pointer rounded-md border border-blue-600 bg-blue-600 px-5 py-3 text-base font-medium text-white transition hover:bg-blue-700"
                                     />
+
                                 </div>
+
                             </form>
 
                             <p className="text-sm lg:text-md text-base text-body-color dark:text-dark-6">

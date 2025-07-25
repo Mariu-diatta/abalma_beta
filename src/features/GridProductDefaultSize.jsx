@@ -7,6 +7,7 @@ import { setCurrentNav } from "../slices/navigateSlice";
 import { addMessageNotif, addUser } from "../slices/chatSlice";
 import ProductModal from "../pages/ProductViewsDetails";
 import { useNavigate } from 'react-router-dom';
+import SuspenseCallback from "../components/SuspensCallback";
 
 
 const GridProductDefault = () => {
@@ -74,84 +75,99 @@ const GridProductDefault = () => {
 
     return (
 
-        <>
+        <SuspenseCallback>
+
             {
                 (productData?.length > 0) ? (
+
                 <div className="grid grid-cols-3 md:grid-cols-3 gap-1 mt-2">
-                    {cols.map((products, colIdx) => (
-                        <div key={colIdx} className="grid gap-4">
-                            {products.map(product => {
-                                const isInCart = cartItems.some(p => p.id === product.id);
-                                const owner = owners[product.fournisseur];
 
-                                return (
-                                    <div
-                                        key={product.id}
-                                        className={`rounded-lg p-1 transition transform hover:-translate-y-1 ${isInCart ? "opacity-50 pointer-events-none bg-gray-100" : "bg-white"
-                                            }`}
-                                        style={{
-                                            backgroundColor: "var(--color-bg)",
-                                            color: "var(--color-text)"
-                                        }}
-                                    >
-                                        <button
-                                            type="button"
-                                            className="relative w-full block rounded-lg overflow-hidden"
-                                            onClick={(e) => openModal(e, product)}
-                                            aria-label={`Voir le produit ${product.description_product}`}
-                                        >
-                                            <img
-                                                src={product.image_product}
-                                                alt={`${product.description_product}`}
-                                                loading="lazy"
-                                                className="h-auto w-full rounded-lg transition duration-300 ease-in-out hover:brightness-75 hover:grayscale"
-                                            />
-                                        </button>
+                    {
+                        cols.map(
+                            (products, colIdx) => (
 
-                                        <div className="flex justify-between items-center mt-2 mb-1">
-                                            <OwnerAvatar owner={owner} />
-                                            {parseInt(product.quantity_product) > 1 && (
-                                                <span className="text-sm text-gray-700">
-                                                    Quantité {product.quantity_product}
-                                                </span>
-                                            )}
-                                        </div>
+                                <div key={colIdx} className="grid gap-4">
 
-                                        <p className="text-center text-sm md:text-base">
-                                            {product.description_product}
-                                        </p>
+                                    <SuspenseCallback>
 
-                                        <div className="flex justify-between items-center mt-1">
-                                            <span className="text-blue-700 font-semibold text-sm">
-                                                ${product.price_product}
-                                            </span>
+                                        {products.map(product => {
+                                        const isInCart = cartItems.some(p => p.id === product.id);
+                                        const owner = owners[product.fournisseur];
 
-                                            <button
-                                                title="Ajouter au panier"
-                                                onClick={() => addProductToCart(product)}
-                                                className="p-1 rounded-full hover:bg-green-200"
+                                        return (
+                                            <div
+                                                key={product.id}
+                                                className={`rounded-lg p-1 transition transform hover:-translate-y-1 ${isInCart ? "opacity-50 pointer-events-none bg-gray-100" : "bg-white"
+                                                    }`}
+                                                style={{
+                                                    backgroundColor: "var(--color-bg)",
+                                                    color: "var(--color-text)"
+                                                }}
                                             >
-                                                <svg
-                                                    className="w-[26px] h-[26px] text-gray-800 dark:text-white"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
+                                                <button
+                                                    type="button"
+                                                    className="relative w-full block rounded-lg overflow-hidden"
+                                                    onClick={(e) => openModal(e, product)}
+                                                    aria-label={`Voir le produit ${product.description_product}`}
                                                 >
-                                                    <path
-                                                        stroke="currentColor"
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        strokeWidth="0.8"
-                                                        d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"
+                                                    <img
+                                                        src={product.image_product}
+                                                        alt={`${product.description_product}`}
+                                                        loading="lazy"
+                                                        className="h-auto w-full rounded-lg transition duration-300 ease-in-out hover:brightness-75 hover:grayscale"
                                                     />
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    ))}
+                                                </button>
+
+                                                <div className="flex justify-between items-center mt-2 mb-1">
+                                                    <OwnerAvatar owner={owner} />
+                                                    {parseInt(product.quantity_product) > 1 && (
+                                                        <span className="text-sm text-gray-700">
+                                                            Quantité {product.quantity_product}
+                                                        </span>
+                                                    )}
+                                                </div>
+
+                                                <p className="text-center text-sm md:text-base">
+                                                    {product.description_product}
+                                                </p>
+
+                                                <div className="flex justify-between items-center mt-1">
+                                                    <span className="text-blue-700 font-semibold text-sm">
+                                                        ${product.price_product}
+                                                    </span>
+
+                                                    <button
+                                                        title="Ajouter au panier"
+                                                        onClick={() => addProductToCart(product)}
+                                                        className="p-1 rounded-full hover:bg-green-200"
+                                                    >
+                                                        <svg
+                                                            className="w-[26px] h-[26px] text-gray-800 dark:text-white"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                        >
+                                                            <path
+                                                                stroke="currentColor"
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                strokeWidth="0.8"
+                                                                d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"
+                                                            />
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        );
+                                        })}
+
+                                    </SuspenseCallback>
+
+                                </div>
+                            )
+                        )
+                    }
+
                 </div>
             ) : (
                  <div className="flex flex-col items-center justify-center min-h-[300px] text-center text-gray-500 text-lg">
@@ -201,7 +217,8 @@ const GridProductDefault = () => {
             }
 
             <ProductModal isOpen={!!modalData} onClose={closeModal} dataProduct={modalData} />
-        </>
+
+        </SuspenseCallback>
     );
 };
 

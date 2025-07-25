@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import HomeLayout from '../layouts/HomeLayout';
 import { useNavigate } from 'react-router-dom';
 import InputBox from '../components/InputBoxFloat';
-//import { signInWithGoogle, signInWithFacebook, signInWithTwitter } from '../firebase';
-//getFirebaseToken, 
 import api from '../services/Axios';
 import { login, updateUserData, updateUserToken } from '../slices/authSlice';
 import AttentionAlertMesage, { showMessage } from '../components/AlertMessage';
@@ -14,7 +12,7 @@ import { setCurrentNav } from '../slices/navigateSlice';
 import { LoginWithGoogle} from '../firebase';
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
-
+import SuspenseCallback from '../components/SuspensCallback';
 
 // Fonction de login avec l'API
 const loginClient = async (data, dispatch) => {
@@ -255,36 +253,38 @@ const Signin = () => {
                                 {t('connect_with')}
                             </p>
 
-                            <ul className="flex items-center justify-center -mx-2 mb-12 flex justify-between">
+                            <ul className="flex flex-wrap justify-between items-center sm:justify-center lg:flex-nowrap -mx-2 mb-12 gap-6">
+
+                                <li className="flex justify-end items-center w-full px-2">
+
+                                    <button
+
+                                        onClick={()=>alert("Hops!... Ce service n'est pas encore disponible.") }
+                                        className="cursor-pointer flex h-10 w-full items-center justify-center rounded-md border hover:bg-opacity-90">
+
+                                        <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                            <path fill-rule="evenodd" d="M13.135 6H15V3h-1.865a4.147 4.147 0 0 0-4.142 4.142V9H7v3h2v9.938h3V12h2.021l.592-3H12V6.591A.6.6 0 0 1 12.592 6h.543Z" clip-rule="evenodd" />
+                                        </svg>
+
+                                    </button>
+
+                                </li>
 
                                 {/*<li className="w-full px-2">*/}
 
-                                {/*    <button*/}
-                                      
-                                {/*        className="flex h-11 w-full items-center justify-center rounded-md bg-[#4064AC] hover:bg-opacity-90">*/}
-
-                                {/*        <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">*/}
-                                {/*            <path fill-rule="evenodd" d="M13.135 6H15V3h-1.865a4.147 4.147 0 0 0-4.142 4.142V9H7v3h2v9.938h3V12h2.021l.592-3H12V6.591A.6.6 0 0 1 12.592 6h.543Z" clip-rule="evenodd" />*/}
-                                {/*        </svg>*/}
-
-                                {/*    </button>*/}
-
-                                {/*</li>*/}
-
-                                {/*<li className="w-full px-2">*/}
-
-                                {/*    <button*/}
+                                {/*    */}{/*<button*/}
                                      
-                                {/*        className="flex h-11 w-full items-center justify-center rounded-md bg-[#1C9CEA] hover:bg-opacity-90">*/}
+                                {/*    */}{/*    className="flex h-11 w-full items-center justify-center rounded-md bg-[#1C9CEA] hover:bg-opacity-90">*/}
 
-                                {/*        <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">*/}
-                                {/*            <path fill-rule="evenodd" d="M22 5.892a8.178 8.178 0 0 1-2.355.635 4.074 4.074 0 0 0 1.8-2.235 8.343 8.343 0 0 1-2.605.981A4.13 4.13 0 0 0 15.85 4a4.068 4.068 0 0 0-4.1 4.038c0 .31.035.618.105.919A11.705 11.705 0 0 1 3.4 4.734a4.006 4.006 0 0 0 1.268 5.392 4.165 4.165 0 0 1-1.859-.5v.05A4.057 4.057 0 0 0 6.1 13.635a4.192 4.192 0 0 1-1.856.07 4.108 4.108 0 0 0 3.831 2.807A8.36 8.36 0 0 1 2 18.184 11.732 11.732 0 0 0 8.291 20 11.502 11.502 0 0 0 19.964 8.5c0-.177 0-.349-.012-.523A8.143 8.143 0 0 0 22 5.892Z" clip-rule="evenodd" />*/}
-                                {/*        </svg>*/}
+                                {/*    */}{/*    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">*/}
+                                {/*    */}{/*        <path fill-rule="evenodd" d="M22 5.892a8.178 8.178 0 0 1-2.355.635 4.074 4.074 0 0 0 1.8-2.235 8.343 8.343 0 0 1-2.605.981A4.13 4.13 0 0 0 15.85 4a4.068 4.068 0 0 0-4.1 4.038c0 .31.035.618.105.919A11.705 11.705 0 0 1 3.4 4.734a4.006 4.006 0 0 0 1.268 5.392 4.165 4.165 0 0 1-1.859-.5v.05A4.057 4.057 0 0 0 6.1 13.635a4.192 4.192 0 0 1-1.856.07 4.108 4.108 0 0 0 3.831 2.807A8.36 8.36 0 0 1 2 18.184 11.732 11.732 0 0 0 8.291 20 11.502 11.502 0 0 0 19.964 8.5c0-.177 0-.349-.012-.523A8.143 8.143 0 0 0 22 5.892Z" clip-rule="evenodd" />*/}
+                                {/*    */}{/*    </svg>*/}
 
-                                {/*    </button>*/}
+                                {/*    */}{/*</button>*/}
+
                                 {/*</li>*/}
 
-                                <li className="w-auto px-2">
+                                <li className="w-full px-2">
 
                                     {/*<button*/}
 
@@ -330,7 +330,11 @@ const LogIn = () => (
 
     <HomeLayout>
 
-        <Signin />
+        <SuspenseCallback>
+
+            <Signin/>
+
+        </SuspenseCallback>
 
     </HomeLayout>
 );

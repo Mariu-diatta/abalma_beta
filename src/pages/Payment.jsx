@@ -12,14 +12,12 @@ const Payment = () => {
 
     return (
 
-        <>
+        <PaymentCard >
 
-            <PaymentCard >
+            <PaymentForm />
 
-                <PaymentForm />
-
-            </PaymentCard >
-        </>
+        </PaymentCard >
+        
     )
 }
 

@@ -17,3 +17,11 @@ export const handleLoginWithGoogle = async () => {
         console.error("Erreur de connexion Google:", err);
     }
 };
+
+
+const suspens = () => {
+
+    return (
+
+    )
+}
