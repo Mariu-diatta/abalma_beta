@@ -106,7 +106,7 @@ const Footer = () => {
 
             </div>
 
-            <div className="mb-10 w-full border-t border-gray-200 dark:border-dark-3 mt-10 bg-gray-200 text-center text-sm text-gray-600 dark:text-gray-400 px-4">
+            <div className="bg-[var(--color-bg)] text-[var(--color-text)] mb-10 w-full border-t border-gray-200 dark:border-dark-3 mt-10 bg-gray-200 text-center text-sm text-gray-600 dark:text-gray-400 px-4">
 
                 <div className="flex-wrap justify-center gap-2 items-center p-2">
 
@@ -118,7 +118,7 @@ const Footer = () => {
 
                         <a
                             href="/home"
-                            className="mr-3 flex h-8 w-8 items-center justify-center rounded-full border border-stroke text-dark hover:border-primary hover:bg-primary hover:text-white dark:border-dark-3 dark:text-white dark:hover:border-primary sm:mr-4 lg:mr-3 xl:mr-4"
+                            className="bg-[var(--color-bg)] text-[var(--color-text)] mr-3 flex h-8 w-8 items-center justify-center rounded-full border border-stroke text-dark hover:border-primary hover:bg-primary hover:text-white dark:border-dark-3 dark:text-white dark:hover:border-primary sm:mr-4 lg:mr-3 xl:mr-4"
                         >
                             <svg
                                 width="8"
@@ -131,9 +131,10 @@ const Footer = () => {
                             </svg>
 
                         </a>
+
                         <a
                             href="/home"
-                            className="mr-3 flex h-8 w-8 items-center justify-center rounded-full border border-stroke text-dark hover:border-primary hover:bg-primary hover:text-white dark:border-dark-3 dark:text-white dark:hover:border-primary sm:mr-4 lg:mr-3 xl:mr-4"
+                            className="bg-[var(--color-bg)] text-[var(--color-text)] mr-3 flex h-8 w-8 items-center justify-center rounded-full border border-stroke text-dark hover:border-primary hover:bg-primary hover:text-white dark:border-dark-3 dark:text-white dark:hover:border-primary sm:mr-4 lg:mr-3 xl:mr-4"
                         >
                             <svg
                                 width="16"
@@ -147,7 +148,7 @@ const Footer = () => {
 
                         <a
                             href="/home"
-                            className="mr-3 flex h-8 w-8 items-center justify-center rounded-full border border-stroke text-dark hover:border-primary hover:bg-primary hover:text-white dark:border-dark-3 dark:text-white dark:hover:border-primary sm:mr-4 lg:mr-3 xl:mr-4"
+                            className="bg-[var(--color-bg)] text-[var(--color-text)] mr-3 flex h-8 w-8 items-center justify-center rounded-full border border-stroke text-dark hover:border-primary hover:bg-primary hover:text-white dark:border-dark-3 dark:text-white dark:hover:border-primary sm:mr-4 lg:mr-3 xl:mr-4"
                         >
                             <svg
                                 width="16"
@@ -161,7 +162,7 @@ const Footer = () => {
 
                         <a
                             href="/home"
-                            className="mr-3 flex h-8 w-8 items-center justify-center rounded-full border border-stroke text-dark hover:border-primary hover:bg-primary hover:text-white dark:border-dark-3 dark:text-white dark:hover:border-primary sm:mr-4 lg:mr-3 xl:mr-4"
+                            className="bg-[var(--color-bg)] text-[var(--color-text)] mr-3 flex h-8 w-8 items-center justify-center rounded-full border border-stroke text-dark hover:border-primary hover:bg-primary hover:text-white dark:border-dark-3 dark:text-white dark:hover:border-primary sm:mr-4 lg:mr-3 xl:mr-4"
                         >
                             <svg
                                 width="14"
