@@ -11,7 +11,7 @@ const Footer = () => {
 
         <footer
 
-            className="text-sm w-screen items-center justify-center max-w-7xl mx-auto flex flex-wrap w-screen relative z-10  pt-20 dark:bg-dark lg:pb-2 lg:pt-[120px]"
+            className="w-full bg-[var(--color-bg)] text-[var(--color-text)] text-sm pt-20 pb-0 flex flex-col items-center justify-center z-10"
 
             style={
                 {
@@ -20,110 +20,101 @@ const Footer = () => {
                 }
             }
         >
-            <div className="px-8 sm:w-2/3 lg:w-3/12">
+            <div className="w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between px-4 gap-10">
 
-                <div className="mb-10">
+                <div className="w-full lg:w-1/3 text-center lg:text-left">
 
-                    <a href="/home" className="block w-full py-2">
-                        <Logo/>
-                    </a>
+                    <div className="mb-10">
 
-                    <p className="mb-7 text-base text-sm text-body-color dark:text-dark-6">
-                      {t("app_description")}
-                    </p>
+                        <a href="/home" className="block w-full py-2">
+                            <Logo/>
+                        </a>
 
-                    <p className="flex text-sm font-medium text-dark dark:text-white text-sm">
+                        <p className="mb-7 text-base text-sm text-body-color dark:text-dark-6">
+                          {t("app_description")}
+                        </p>
 
-                        <span className="mr-3 text-primary">
+                        <p className="flex text-sm font-medium text-dark dark:text-white text-sm">
 
-                            <svg
-                                width="20"
-                                height="20"
-                                viewBox="0 0 20 20"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <g clipPath="url(#clip0_941_15626)">
+                            <div className="flex flex-col gap-4">
 
-                                    <path
-                                        d="M15.1875 19.4688C14.3438 19.4688 13.375 19.25 12.3125 18.8438C10.1875 18 7.84377 16.375 5.75002 14.2813C3.65627 12.1875 2.03127 9.84377 1.18752 7.68752C0.250019 5.37502 0.343769 3.46877 1.43752 2.40627C1.46877 2.37502 1.53127 2.34377 1.56252 2.31252L4.18752 0.750025C4.84377 0.375025 5.68752 0.562525 6.12502 1.18752L7.96877 3.93753C8.40627 4.59378 8.21877 5.46877 7.59377 5.90627L6.46877 6.68752C7.28127 8.00002 9.59377 11.2188 13.2813 13.5313L13.9688 12.5313C14.5 11.7813 15.3438 11.5625 16.0313 12.0313L18.7813 13.875C19.4063 14.3125 19.5938 15.1563 19.2188 15.8125L17.6563 18.4375C17.625 18.5 17.5938 18.5313 17.5625 18.5625C17 19.1563 16.1875 19.4688 15.1875 19.4688ZM2.37502 3.46878C1.78127 4.12503 1.81252 5.46877 2.50002 7.18752C3.28127 9.15627 4.78127 11.3125 6.75002 13.2813C8.68752 15.2188 10.875 16.7188 12.8125 17.5C14.5 18.1875 15.8438 18.2188 16.5313 17.625L18.0313 15.0625C18.0313 15.0313 18.0313 15.0313 18.0313 15L15.2813 13.1563C15.2813 13.1563 15.2188 13.1875 15.1563 13.2813L14.4688 14.2813C14.0313 14.9063 13.1875 15.0938 12.5625 14.6875C8.62502 12.25 6.18752 8.84377 5.31252 7.46877C4.90627 6.81252 5.06252 5.96878 5.68752 5.53128L6.81252 4.75002V4.71878L4.96877 1.96877C4.96877 1.93752 4.93752 1.93752 4.90627 1.96877L2.37502 3.46878Z"
-                                        fill="currentColor"
-                                    />
+                                {/* Téléphone */}
+                                <div className="flex items-center gap-3">
 
-                                    <path
-                                        d="M18.3125 8.90633C17.9375 8.90633 17.6563 8.62508 17.625 8.25008C17.375 5.09383 14.7813 2.56258 11.5938 2.34383C11.2188 2.31258 10.9063 2.00008 10.9375 1.59383C10.9688 1.21883 11.2813 0.906333 11.6875 0.937583C15.5625 1.18758 18.7188 4.25008 19.0313 8.12508C19.0625 8.50008 18.7813 8.84383 18.375 8.87508C18.375 8.90633 18.3438 8.90633 18.3125 8.90633Z"
-                                        fill="currentColor"
-                                    />
+                                    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="m17.0896 13.371 1.1431 1.1439c.1745.1461.3148.3287.4111.5349.0962.2063.1461.4312.1461.6588 0 .2276-.0499.4525-.1461.6587-.0963.2063-.4729.6251-.6473.7712-3.1173 3.1211-6.7739 1.706-9.90477-1.4254-3.13087-3.1313-4.54323-6.7896-1.41066-9.90139.62706-.61925 1.71351-1.14182 2.61843-.23626l1.1911 1.19193c1.1911 1.19194.3562 1.93533-.4926 2.80371-.92477.92481-.65643 1.72741 0 2.38391l1.8713 1.8725c.3159.3161.7443.4936 1.191.4936.4468 0 .8752-.1775 1.1911-.4936.8624-.8261 1.6952-1.6004 2.8382-.4565ZM14 8.98134l5.0225-4.98132m0 0L15.9926 4m3.0299.00002v2.98135" />
+                                    </svg>
 
-                                    <path
-                                        d="M15.2187 9.18755C14.875 9.18755 14.5625 8.93755 14.5312 8.56255C14.3437 6.87505 13.0312 5.56255 11.3437 5.3438C10.9687 5.31255 10.6875 4.93755 10.7187 4.56255C10.75 4.18755 11.125 3.9063 11.5 3.93755C13.8437 4.2188 15.6562 6.0313 15.9375 8.37505C15.9687 8.75005 15.7187 9.0938 15.3125 9.1563C15.25 9.18755 15.2187 9.18755 15.2187 9.18755Z"
-                                        fill="currentColor"
-                                    />
+                                    <p>+012 (345) 678 99</p>
 
-                                </g>
+                                </div>
 
-                                <defs>
+                                {/* Email */}
+                                <div className="flex items-center gap-3">
 
-                                    <clipPath id="clip0_941_15626">
+                                    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M7 9h5m3 0h2M7 12h2m3 0h5M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-6.616a1 1 0 0 0-.67.257l-2.88 2.592A.5.5 0 0 1 8 18.477V17a1 1 0 0 0-1-1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" />
+                                    </svg>
 
-                                        <rect width="20" height="20" fill="white" />
+                                    <a href="mailto:mariusgdiatta@gmail.com" className="hover:underline">
+                                        {t("footer_sendEmail")}
+                                    </a>
 
-                                    </clipPath>
+                                </div>
+                            </div>
 
-                                </defs>
+                        </p>
 
-                            </svg>
+                    </div>
 
-                        </span>
+                    <label className="flex gap-2 text-sm text-gray-700 mb-5">
 
-                        <span>+012 (345) 678 99</span>
-                    </p>
+                        <input type="checkbox" required className="mt-1" />
+
+                        {t("footCondition")}
+
+                        <a href="/politique-confidentialite" target="_blank" className="text-blue-600 underline ml-1">
+
+                            {t("politique")}
+
+                        </a>
+
+                    </label>
 
                 </div>
 
-                <label className="flex gap-2 text-sm text-gray-700 mb-5">
+                <div className="w-full lg:w-2/3 flex flex-wrap justify-center lg:justify-end gap-8">
 
-                    <input type="checkbox" required className="mt-1" />
+                    <LinkGroup header={t("Resources")}>
+                        <NavLink link="/#" label={t('footer_saas')}/>
+                        <NavLink link="/#" label={t("footer_product")} />
+                        <NavLink link="/#" label={t("footer_userflow")} />
+                    </LinkGroup>
 
-                    {t("footCondition")}
+                    <LinkGroup header="Company">
+                        <NavLink link="/#" label={t("about_app")} />
+                        <NavLink link="/#" label={t("contact_support")} />
+                        <NavLink link="/#" label={t("success_history")} />
+                    </LinkGroup>
 
-                    <a href="/politique-confidentialite" target="_blank" className="text-blue-600 underline ml-1">
-
-                        {t("politique")}
-
-                    </a>
-
-                </label>
+                    <LinkGroup header={t('quick_links')} >
+                        <NavLink link="/#" label={t("premium_support")} />
+                        <NavLink link="/#" label={t("our_services")} />
+                        <NavLink link="/#" label={t("know_our_team")} />
+                    </LinkGroup>
+                </div>
 
             </div>
 
-            <LinkGroup header={t("Resources")}>
-                <NavLink link="/#" label={t('footer_saas')}/>
-                <NavLink link="/#" label={t("footer_product")} />
-                <NavLink link="/#" label={t("footer_userflow")} />
-            </LinkGroup>
+            <div className="mb-10 w-full border-t border-gray-200 dark:border-dark-3 mt-10 bg-gray-200 text-center text-sm text-gray-600 dark:text-gray-400 px-4">
 
-            <LinkGroup header="Company">
-                <NavLink link="/#" label={t("about_app")} />
-                <NavLink link="/#" label={t("contact_support")} />
-                <NavLink link="/#" label={t("success_history")} />
-            </LinkGroup>
+                <div className="flex-wrap justify-center gap-2 items-center p-2">
 
-            <LinkGroup header={t('quick_links')} >
-                <NavLink link="/#" label={t("premium_support")} />
-                <NavLink link="/#" label={t("our_services")} />
-                <NavLink link="/#" label={t("know_our_team")} />
-            </LinkGroup>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
+                        &copy; 2025 <strong>Abalma</strong> {t("footer_toutDroit")}
+                    </p>
 
-            <div className="w-screen px-4 sm:w-1/2 lg:w-3/12">
-
-                <div className="mb-10 w-full">
-
-                    <h4 className="mb-9 text-lg font-semibold text-dark dark:text-white">
-                        Follow Us On
-                    </h4>
-
-                    <div className="mb-6 flex items-center">
+                    <div className="mb-6 flex justify-center flex-wrap gap-1">
 
                         <a
                             href="/home"
@@ -183,12 +174,8 @@ const Footer = () => {
                         </a>
 
                     </div>
-
-                    <p className="text-base text-body-color dark:text-dark-6 text-sm">
-                        &copy; 2025 Abalma
-                    </p>
-                 
                 </div>
+                  
             </div>
 
         </footer>
@@ -202,13 +189,18 @@ const LinkGroup = ({ children, header }) => {
     return (
 
         <>
-            <div className="w-full px-4 sm:w-1/2 lg:w-2/12">
+            <div className="w-full px-4 sm:w-1/2 lg:w-2/12 text-sm">
+
                 <div className="mb-10 w-full">
-                    <h4 className="mb-9 text-lg font-semibold text-dark dark:text-white">
+
+                    <h4 className="mb-9 text-md font-semibold text-dark dark:text-white">
                         {header}
                     </h4>
-                    <ul className="space-y-3">{children}</ul>
+
+                    <ul className="space-y-3 text-sm">{children}</ul>
+
                 </div>
+
             </div>
         </>
     );

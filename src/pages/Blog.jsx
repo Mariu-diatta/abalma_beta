@@ -85,6 +85,8 @@ export default BlogPage;
 //la carte article 
 const BlogCard = (blog) => {
 
+    const { t } = useTranslation();
+
     return (
         <article className="p-6 rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
 
@@ -99,7 +101,7 @@ const BlogCard = (blog) => {
 
             </div>
 
-            <p className="mb-5 font-light text-gray-500 dark:text-gray-400">{blog.blog_message}</p>
+            <p className="mb-5 font-light text-gray-500 dark:text-gray-400 text-sm text-center">{blog.blog_message}</p>
 
             <div className="flex justify-between items-center">
 
@@ -109,7 +111,7 @@ const BlogCard = (blog) => {
                 </div>
 
                 <a href={"/login"} className="inline-flex items-center font-medium text-primary-600 text-sm dark:text-primary-500 hover:underline">
-                    Read more
+                    {t("blog.reaMore")}
                     <svg className="ml-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
                     </svg>

@@ -97,9 +97,11 @@ export function LanguageDropdown({ changeLanguage }) {
 
             {
                 isOpen && (
+
                     <div
-                        className={`absolute right-0 w-28 rounded-md shadow-lg z-[80] ring-black ring-opacity-5 ${openDirection === "top" ? "origin-bottom-right mb-2 bottom-full" : "origin-top-right mt-2 top-full"
-                            }`}
+
+                        className={`absolute right-0 w-28 rounded-md shadow-lg z-[80] ring-black ring-opacity-5 ${openDirection === "top" ? "origin-bottom-right mb-2 bottom-full" : "origin-top-right mt-2 top-full" }`}
+
                         style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                     >
                         <div className="py-1">
@@ -111,6 +113,7 @@ export function LanguageDropdown({ changeLanguage }) {
                             >
                                 Fr
                                 <img src="https://flagcdn.com/w40/fr.png" alt="Fr" className="w-5 h-4" />
+
                             </button>
 
                             <button
@@ -120,8 +123,11 @@ export function LanguageDropdown({ changeLanguage }) {
                             >
                                 En
                                 <img src="https://flagcdn.com/w40/gb.png" alt="En" className="w-5 h-4" />
+
                             </button>
+
                         </div>
+
                     </div>
                 )
             }
@@ -429,7 +435,7 @@ const NavbarHeader = () => {
 
                             {/* Boutons et Dropdown (Mobile) */}
                             <div
-                                className="absolute top-5 flex flex-col items-start justify-start gap-2  sm:hidden shadow-md w-full p-2"
+                                className="text-sm absolute top-5 flex flex-col items-start justify-start gap-2  sm:hidden shadow-md w-full "
                                 style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                             >
 

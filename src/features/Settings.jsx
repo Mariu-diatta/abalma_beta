@@ -31,10 +31,14 @@ const SettingsForm = () => {
     const dispatch = useDispatch()
 
     const tryRequest = async (requestFn, successMessage) => {
+
         try {
             await requestFn();
+
             alert(successMessage);
+
         } catch (err) {
+
             console.warn("Request failed:", err);
         }
     };
@@ -72,6 +76,7 @@ const SettingsForm = () => {
         }
 
         await tryRequest(
+
             () => api.patch(`/comptes/${currentUserCompte.id}/`,
             {
                 theme: form.theme,
@@ -192,7 +197,7 @@ const SettingsForm = () => {
 
     return (
 
-        <div className="w-auto flex flex-col lg:flex-row justify-center items-start gap-8 px-4 py-0 style-bg">
+        <div className="w-auto sm:container flex flex-col lg:flex-row justify-center items-start gap-8 px-4 py-0 style-bg">
 
             <form
 

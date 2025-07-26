@@ -1104,19 +1104,25 @@ const ModalForm = () => {
                                         strokeLinejoin="round"
                                         d="M6 18L18 6M6 6l12 12"
                                     />
+
                                 </svg>
+
                             </button>
+
                         </div>
 
                         {/* Form */}
                         <form className="space-y-4" onSubmit={handleSubmit}>
+
                             <div>
+
                                 <label
                                     htmlFor="title-input"
                                     className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                                 >
                                     {t("blog.title_pop")}
                                 </label>
+
                                 <input
                                     id="title-input"
                                     ref={inputRef}
@@ -1127,50 +1133,62 @@ const ModalForm = () => {
                                     placeholder={t("blog.title_placeholder") || "Titre du blog"}
                                     required
                                 />
+
                             </div>
 
                             <div>
+
                                 <label
                                     htmlFor="message-input"
                                     className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                                 >
                                     {t("blog.description")}
                                 </label>
+
                                 <textarea
                                     id="message-input"
                                     rows="4"
                                     value={message}
                                     onChange={(e) => setMessage(e.target.value)}
-                                    className="mt-1 block w-full border px-3 py-2 rounded-md text-sm border-gray-300 focus:ring-blue-500 focus:border-blue-300"
+                                    className="mt-1 block w-full border px-3 py-2 rounded-md text-sm border-gray-300 focus:ring-blue-500 focus:border-gray-100"
                                     placeholder={t("blog.description_placeholder") || "Contenu du blog..."}
                                     required
                                 />
+
                             </div>
 
                             {error && (
                                 <p className="text-red-600 dark:text-red-400">{error}</p>
                             )}
+
                             {success && (
                                 <p className="text-green-600 dark:text-green-400">{success}</p>
                             )}
 
                             {/* Footer */}
                             <div className="flex justify-end gap-2 pt-1">
+
                                 <button
                                     type="submit"
                                     className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700"
                                 >
                                     {t("blog.submit")}
+
                                 </button>
+
                                 <button
                                     type="button"
                                     onClick={handleClose}
                                     className="px-4 py-2 rounded-md text-sm border bg-red-800 border-gray-300 text-gray-100 hover:bg-red-900"
                                 >
                                     {t("blog.cancel")}
+
                                 </button>
+
                             </div>
+
                         </form>
+
                     </div>
                 </div>
             )}
