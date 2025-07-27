@@ -5,17 +5,24 @@ import NavbarHeader from '../pages/Header';
 const HomeLayout = ({children}) => {
 
     return (
+
         <div
 
-            className="items-center justify-center d-flex flex-coulumn style-bg overflow-x-hidden mr-2 ms-2 mb-5"
+            className="items-center justify-center d-flex flex-coulumn style-bg overflow-x-hidden mr-1 ms-1 mb-5"
 
-            style={{
-                marginBottom:"30px"
-            } }
+            style={
+
+                {
+                    marginBottom:"30px"
+                }
+            }
         >
-            <NavbarHeader/>
+            <NavbarHeader />
+
             <>{children}  </ >
-            <Footer/>
+
+            <Footer />
+
         </div>
     );
 };

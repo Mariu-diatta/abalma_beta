@@ -207,7 +207,7 @@ export const ThemeToggle = () => {
 
             type="button"
 
-            className="shadow-lg inline-flex flex-col items-center rounded-full justify-center px-5 m-2 hover:bg-gray-50 dark:hover:bg-gray-800 group"
+            className=" shadow-md inline-flex flex-col items-center rounded-full justify-center px-2  hover:bg-gray-50 dark:hover:bg-gray-800 group"
         >
             <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500">
 
@@ -435,7 +435,7 @@ const NavbarHeader = () => {
 
                             {/* Boutons et Dropdown (Mobile) */}
                             <div
-                                className="text-sm absolute top-5 flex flex-col items-start justify-start gap-2  sm:hidden shadow-md w-full "
+                                className="text-sm absolute top-5 flex flex-col items-start justify-start gap-2 p-2 sm:hidden shadow-md w-full "
                                 style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                             >
 
@@ -518,13 +518,15 @@ const ButtonNavigate = ({ tabs }) => {
                         to={tab.endPoint}
 
                         className={
+
                             ({ isActive }) =>
-                                `w-full text-center items-center flex flex-col lg:flex-row gap-1
+                               `w-full text-center items-center flex flex-col lg:flex-row gap-1
                                 px-2 py-2
                                 transition 
                                 ${isActive
                                     ? 'sm:border-t sm:border-b-0 lg:border-b lg:border-t-0 border-gray-300'
-                                    : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-dark-3 hover:rounded-full'}
+                                    : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-dark-3 hover:rounded-full'
+                                }
                                 `
                         }
 
