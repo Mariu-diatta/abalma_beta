@@ -978,15 +978,21 @@ const ModalForm = () => {
 
     // Focus input quand modal s'ouvre
     useEffect(() => {
+
         if (isOpen && inputRef.current) {
+
             inputRef.current.focus();
         }
+
     }, [isOpen]);
 
     // Fermer modal si clic à l'extérieur
     useEffect(() => {
+
         const handleClickOutside = (e) => {
+
             if (isOpen && modalRef.current && !modalRef.current.contains(e.target)) {
+
                 handleClose();
             }
         };
@@ -1011,15 +1017,20 @@ const ModalForm = () => {
         }
 
         try {
+
             const user = getCurrentUser();
 
             if (!user) {
+
                 setError(t("blog.user_not_authenticated") || "Utilisateur non authentifié");
+
                 return;
             }
 
             const payload = {
+
                 title_blog: title,
+
                 blog_message: message,
             };
 
@@ -1027,15 +1038,22 @@ const ModalForm = () => {
             await api.post("blogs/", payload);
 
             setSuccess(t("blog.blog_created") || "Blog créé avec succès !");
+
             setTitle("");
+
             setMessage("");
 
             // Fermer modal après délai (ex : 1.5s)
             setTimeout(() => {
+
                 handleClose();
+
             }, 1500);
+
         } catch (err) {
+
             console.error("Erreur lors de la création du blog", err);
+
             setError(t("blog.error_creating") || "Erreur lors de la création du blog");
         }
     };

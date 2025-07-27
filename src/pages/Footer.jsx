@@ -1,11 +1,15 @@
 import React from "react";
 import Logo from "../components/LogoApp";
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { LanguageDropdown } from "./Header";
 
 
 const Footer = () => {
 
     const { t } = useTranslation();
+
+    const navigate = useNavigate();
 
     return (
 
@@ -61,6 +65,15 @@ const Footer = () => {
                                     </a>
 
                                 </div>
+
+                                <div className="flex items-center gap-3 text-sm">
+
+                                     <span>{t("choose_language")}</span>
+
+                                     <LanguageDropdown/>
+
+                                </div>
+
                             </div>
 
                         </span>
@@ -73,11 +86,11 @@ const Footer = () => {
 
                         {t("footCondition")}
 
-                        <a href="/politique-confidentialite" target="_blank" className="text-blue-600 underline ml-1">
+                        <button onClick={()=>navigate("/politique-confidentialite")} target="_blank" className="text-blue-600 underline ml-1">
 
                             {t("politique")}
 
-                        </a>
+                        </button>
 
                     </label>
 

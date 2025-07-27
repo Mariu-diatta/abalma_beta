@@ -5,10 +5,15 @@ import Logo from "../components/LogoApp";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentNav, updateTheme } from "../slices/navigateSlice";
 import { useTranslation } from 'react-i18next';
-import i18n from "i18next";
 
-export function LanguageDropdown({ changeLanguage }) {
+export function LanguageDropdown() {
 
+    const { i18n } = useTranslation();
+
+    const changeLanguage = (lang) => {
+
+        i18n.changeLanguage(lang);
+    };
     const [isOpen, setIsOpen] = useState(false);
     const [selectedLang, setSelectedLang] = useState("Langue");
     const [openDirection, setOpenDirection] = useState("bottom"); // "bottom" ou "top"
@@ -28,7 +33,7 @@ export function LanguageDropdown({ changeLanguage }) {
             )
         );
 
-    }, []);
+    }, [i18n.language]);
 
     useEffect(() => {
 
@@ -57,9 +62,12 @@ export function LanguageDropdown({ changeLanguage }) {
         setSelectedLang(
 
             (lang === "fr") ? (
+
                 <img src="https://flagcdn.com/w40/fr.png" alt="Fr" className="w-4 h-4" />
+
             ) : (
-                    <img src="https://flagcdn.com/w40/gb.png" alt="En" className="w-4 h-4" />
+
+                <img src="https://flagcdn.com/w40/gb.png" alt="En" className="w-4 h-4" />
             )
         );
         setIsOpen(false);
@@ -67,20 +75,20 @@ export function LanguageDropdown({ changeLanguage }) {
 
     return (
 
-        <div className="relative inline-block text-left shadow-md rounded-full py-0">
+        <div className="relative inline-block text-left shadow-md rounded-full py-0 mx-2">
 
             <button
                 ref={buttonRef}
                 onClick={() => setIsOpen(!isOpen)}
                 type="button"
-                className="flex justify-center items-center w-full  px-2  text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none rounded-full"
+                className="flex justify-center items-center  px-1  text-xs  text-gray-700 hover:bg-gray-50 rounded-full"
                 aria-haspopup="true"
                 aria-expanded={isOpen}
             >
                 {selectedLang}
 
                 <svg
-                    className="w-[22px] h-[22px] ml-2 -mr-1 h-5 w-5"
+                    className="w-[22px] h-[22px] "
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
                     fill="currentColor"
@@ -207,9 +215,9 @@ export const ThemeToggle = () => {
 
             type="button"
 
-            className=" shadow-md inline-flex flex-col items-center rounded-full justify-center px-2  hover:bg-gray-50 dark:hover:bg-gray-800 group"
+            className=" shadow-md inline-flex flex-col items-center rounded-full justify-center px-2  hover:bg-gray-50 dark:hover:bg-gray-800 group mx-1"
         >
-            <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500">
+            <span className="text-xs text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500">
 
                 {
                     (theme === 'dark') ?
@@ -249,13 +257,6 @@ const NavbarHeader = () => {
 
     const { t } = useTranslation();
 
-    const { i18n } = useTranslation();
-
-    const changeLanguage = (lang) => {
-
-        i18n.changeLanguage(lang);
-    };
-
     const [open, setOpen] = useState(false);
 
     const themeValue = useSelector((state) => state.navigate.theme)
@@ -269,7 +270,7 @@ const NavbarHeader = () => {
             endPoint: '/',
             logo: !(currentNav === "home") ? (
                 <svg
-                    className="w-[22px] h-[22px] text-gray-800 dark:text-white"
+                    className="w-6 h-6 text-gray-800 dark:text-white"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -286,7 +287,7 @@ const NavbarHeader = () => {
                     />
                 </svg>
             ) : (
-                <svg className="w-[22px] h-[22px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                     <path fillRule="evenodd" d="M11.293 3.293a1 1 0 0 1 1.414 0l6 6 2 2a1 1 0 0 1-1.414 1.414L19 12.414V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2v-6.586l-.293.293a1 1 0 0 1-1.414-1.414l2-2 6-6Z" clipRule="evenodd" />
                 </svg>
 
@@ -307,7 +308,7 @@ const NavbarHeader = () => {
                     :
                     (
                         <svg
-                            className="w-[22px] h-[22px] text-gray-800 dark:text-white"
+                            className="w-6 h-6 text-gray-800 dark:text-white"
                             aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
@@ -333,7 +334,7 @@ const NavbarHeader = () => {
                 !(currentNav === "blogs") ?
                     (
                         <svg
-                            className="w-[22px] h-[22px] text-gray-800 dark:text-white"
+                            className="w-6 h-6 text-gray-800 dark:text-white"
                             aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
@@ -435,17 +436,16 @@ const NavbarHeader = () => {
 
                             {/* Boutons et Dropdown (Mobile) */}
                             <div
-                                className="text-sm absolute top-5 flex flex-col items-start justify-start gap-2 p-2 sm:hidden shadow-md w-full "
+                                className="text-sm absolute top-5 flex flex-col items-start justify-start gap-2 p-1 sm:hidden shadow-md w-full "
                                 style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                             >
 
-                                <LanguageDropdown changeLanguage={changeLanguage} />
-
-                                <ThemeToggle />
-
+                             
                                 <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
 
                                 <WhiteRoundedButton titleButton={t('register')} to="/Register" />
+
+                                <ThemeToggle />
 
                             </div>
 
@@ -453,11 +453,9 @@ const NavbarHeader = () => {
 
                         {/* Boutons et Dropdown (Desktop) */}
                         <div
-                            className="hidden sm:flex items-center justify-center gap-3"
+                            className="hidden sm:flex items-center justify-center gap-3 w-auto"
                             style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                         >
-
-                            <LanguageDropdown changeLanguage={changeLanguage} />
 
                             <ThemeToggle />
 
@@ -511,32 +509,28 @@ const ButtonNavigate = ({ tabs }) => {
         >
             {tabs.map((tab) => (
 
-                <li key={tab.id} className="w-full sm:w-auto gap-6 px-1">
+                <li key={tab.id} className="w-full sm:w-auto gap-6 px-1 m-1">
 
                     <NavLink
-
                         to={tab.endPoint}
-
-                        className={
-
-                            ({ isActive }) =>
-                               `w-full text-center items-center flex flex-col lg:flex-row gap-1
-                                px-2 py-2
-                                transition 
+                        className={({ isActive }) =>
+                            `
+                                w-full text-center items-center flex flex-col lg:flex-row gap-1 text-xs
+                                px-2 py-1
+                                transition
+                                border-t sm:border-b-0 lg:border-b lg:border-t-0
                                 ${isActive
-                                    ? 'sm:border-t sm:border-b-0 lg:border-b lg:border-t-0 border-gray-300'
-                                    : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-dark-3 hover:rounded-full'
-                                }
-                                `
+                                ? 'border-gray-300'
+                                : 'border-transparent text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-dark-3 hover:rounded-full'
+                            }
+                            `
                         }
-
                         onClick={() => dispatch(setCurrentNav(tab.id))}
                     >
                         <>{tab.logo}</>
-
                         <>{tab.label}</>
-
                     </NavLink>
+
 
                 </li>
             ))

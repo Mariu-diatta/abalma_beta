@@ -22,6 +22,7 @@ i18n
      en: {
 
         translation: {
+             choose_language:'Choose a langage',
              connect_with: "Connect With",
              param: 'Settings and Privacy',
              add_product: {
@@ -394,7 +395,8 @@ i18n
 
      fr: {
 
-          translation: {
+         translation: {
+              choose_language: 'Choisir unelangue',
               connect_with: "Connecter avec",
               param: 'Paramètres et convidentialités',
               add_product: {

@@ -93,9 +93,11 @@ const SettingsForm = () => {
         await tryRequest(
 
             () => api.patch(`/clients/${currentUserData?.id}/`,
+
                 {
                     password: form.password,
                 }
+
             ), t('settingsText.passwordUpdated'))
 
     }
@@ -104,13 +106,20 @@ const SettingsForm = () => {
         if (!currentUserData?.id) return;
 
         try {
+
             const resp = await api.get("/cardPaid/");
+
             const dataCard = resp?.data?.filter(elem => elem?.client === currentUserData.id);
+
             const firstCard = dataCard.length > 0 ? dataCard[0] : null;
+
             setCartData(firstCard);
+
         } catch (error) {
+
             console.error("Erreur lors de la récupération des données de la carte :", error);
         }
+
     }, [currentUserData?.id]);
 
 
@@ -197,7 +206,7 @@ const SettingsForm = () => {
 
     return (
 
-        <div className="w-auto sm:container flex flex-col lg:flex-row justify-center items-start gap-8 px-4 py-0 style-bg">
+        <div className="w-full flex flex-col lg:flex-row justify-center items-start gap-8 px-4 py-0 style-bg">
 
             <form
 
@@ -335,7 +344,9 @@ const SettingsForm = () => {
             </form>
 
             <form
-                onSubmit={(e)=>handleSubmitCard(e)}
+
+                onSubmit={(e) => handleSubmitCard(e)}
+
                 className="w-auto dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6"
             >
 
@@ -424,7 +435,9 @@ const SettingsForm = () => {
                 />
 
                 <button
+
                     type="submit"
+
                     className="w-full py-2 px-4 mt-4 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                     {t('settingsText.saveCard')}

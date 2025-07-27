@@ -1,10 +1,17 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Logo from '../components/LogoApp';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 
 const PrivacyPolicy = () => {
 
     const { t } = useTranslation();
+
+    const navigate = useNavigate();
+
+    const currentNav = useSelector(state => state.navigate.currentNav);
 
     return (
 
@@ -80,6 +87,11 @@ const PrivacyPolicy = () => {
                 <h2 className="text-2xl font-semibold text-blue-600 dark:text-blue-400 mb-2">{t('section_9_title')}</h2>
                 <p className="leading-relaxed">{t('section_9_content')}</p>
             </section>
+
+            <svg onClick={() => navigate(`/${currentNav}`) }   className="fixed bottom-4 right-2 shodow-lg w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m15 19-7-7 7-7" />
+            </svg>
+
         </div>
     );
 };
