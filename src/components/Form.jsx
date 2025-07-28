@@ -4,9 +4,11 @@ import InputBox from './InputBoxFloat';
 import { useTranslation } from 'react-i18next';
 import api from '../services/Axios';
 import LoadingCard from './LoardingSpin';
+import { useDispatch, useSelector } from 'react-redux';
+import AttentionAlertMesage, { showMessage } from './AlertMessage';
 
 
-const CreateClient = async (data, func) => {
+const CreateClient = async (data, func, funcRetournMessage, dispatch, setIsError) => {
 
     try {
 
@@ -25,22 +27,31 @@ const CreateClient = async (data, func) => {
 
         func(true)
 
+        setIsError(false)
+
         return result
 
     } catch (error) {
 
         func(false)
 
-        alert('Erreur lors de la création du  client', error?.response?.data?.email[0] || error?.response?.data?.telephone[0])
+        setIsError(true)
+
+        funcRetournMessage(dispatch, `Erreur lors de la création du compte ${error?.response?.data?.email[0] || error?.response?.data?.telephone[0]}`)
     }
 }
 
 const RegisterForm = () => {
 
+    const messageAlert = useSelector((state) => state.navigate.messageAlert);
+
+    const dispatch = useDispatch();
+
     const { t } = useTranslation();
 
     const [loading, setLoading] = useState(false)
 
+    const [isError, setIsError] = useState("Erreur")
 
     const navigate = useNavigate();
 
@@ -73,20 +84,22 @@ const RegisterForm = () => {
 
         e.preventDefault();
 
+        setIsError(true)
+
         if (!form.email || !form.password || !form.confirmPassword) {
 
-            return alert("Tous les champs requis doivent être remplis.");
+            return showMessage(dispatch, "Tous les champs requis doivent être remplis.")
+
         }
 
         if (form.password !== form.confirmPassword) {
 
-            return alert("Les mots de passe ne correspondent pas.");
+            return showMessage(dispatch, "Les mots de passe ne correspondent pas.");
         }
 
         setLoading(true)
 
         try {
-
 
             const userData = {
                 password: form.password,
@@ -108,18 +121,20 @@ const RegisterForm = () => {
                 user_permissions: []
             };
 
-            const response = await CreateClient(userData,setLoading);
+            const response = await CreateClient(userData, setLoading, showMessage, dispatch, setIsError);
 
             console.log("Utilisateur créé :", response);
 
             if (response) {
 
-
-                alert("Utilisateur créé avec succès !!!")
+                showMessage(dispatch, "Utilisateur créé avec succès !!!");
 
                 setLoading(false)
-           
+
+                setIsError(false)
+
                 navigate("/login", { replace: true });
+
             }
             
          //console.log("Inscription réussie:", user);
@@ -127,9 +142,15 @@ const RegisterForm = () => {
         } catch (error) {
 
             console.error("Erreur:", error.message);
-            setLoading(false)
-            alert("Erreur d'inscription : ",  error.message);
+
+            setLoading(true)
+
+            setIsError(true)
+
+            alert("Erreur d'inscription : ", error.message);
+
         }
+
     };
 
     return (
@@ -247,8 +268,10 @@ const RegisterForm = () => {
                             className = "shadow-lg relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white px-10 py-4 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]"
 
                             style={
+
                                 {
                                     backgroundColor: "var(--color-bg)",
+
                                     color: "var(--color-text)"
                                 }
                             }
@@ -262,6 +285,12 @@ const RegisterForm = () => {
                 </div>
 
             </div>
+
+
+            {messageAlert && (
+
+                <AttentionAlertMesage title={isError?"Erreur":"Success"} content={messageAlert} />
+            )}
 
         </section>
     );

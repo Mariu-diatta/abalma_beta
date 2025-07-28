@@ -217,7 +217,7 @@ export const ThemeToggle = () => {
 
             className=" shadow-md inline-flex flex-col items-center rounded-full justify-center px-2  hover:bg-gray-50 dark:hover:bg-gray-800 group mx-1"
         >
-            <span className="text-xs text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500">
+            <span className="text-[14px] text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500">
 
                 {
                     (theme === 'dark') ?
@@ -436,7 +436,9 @@ const NavbarHeader = () => {
 
                             {/* Boutons et Dropdown (Mobile) */}
                             <div
+
                                 className="text-sm absolute top-5 flex flex-col items-start justify-start gap-2 p-1 sm:hidden shadow-md w-full "
+
                                 style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                             >
 
@@ -453,7 +455,9 @@ const NavbarHeader = () => {
 
                         {/* Boutons et Dropdown (Desktop) */}
                         <div
+
                             className="hidden sm:flex items-center justify-center gap-3 w-auto"
+
                             style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                         >
 
@@ -512,10 +516,12 @@ const ButtonNavigate = ({ tabs }) => {
                 <li key={tab.id} className="w-full sm:w-auto gap-6 px-1 m-1">
 
                     <NavLink
+
                         to={tab.endPoint}
+
                         className={({ isActive }) =>
                             `
-                                w-full text-center items-center flex flex-col lg:flex-row gap-1 text-xs
+                                w-full text-center items-center flex flex-col lg:flex-row gap-1 text-[14px]
                                 px-2 py-1
                                 transition
                                 border-t sm:border-b-0 lg:border-b lg:border-t-0
@@ -525,10 +531,13 @@ const ButtonNavigate = ({ tabs }) => {
                             }
                             `
                         }
+
                         onClick={() => dispatch(setCurrentNav(tab.id))}
                     >
                         <>{tab.logo}</>
+
                         <>{tab.label}</>
+
                     </NavLink>
 
 

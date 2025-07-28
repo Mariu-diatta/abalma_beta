@@ -21,7 +21,6 @@ import LoadingCard from '../components/LoardingSpin';
 // Fonction de login avec l'API
 const loginClient = async (data, dispatch) => {
 
-
     try {
 
 
@@ -184,7 +183,7 @@ const Signin = () => {
 
         } catch (error) {
 
-            showMessage(dispatch, "Erreur de connexion. Vérifie ton email et mot de passe.");
+            showMessage(dispatch, "Hops!!!... Erreur de connexion. Vérifiez votre email et/ou mot de passe.");
 
             setLoading(false)
         }
