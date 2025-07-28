@@ -13,6 +13,10 @@ import { LoginWithGoogle} from '../firebase';
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import SuspenseCallback from '../components/SuspensCallback';
+import LoadingCard from '../components/LoardingSpin';
+
+
+
 
 // Fonction de login avec l'API
 const loginClient = async (data, dispatch) => {
@@ -36,7 +40,6 @@ const loginClient = async (data, dispatch) => {
         if (response?.data) {
 
             dispatch(updateUserToken(response?.data));
-
             localStorage.setItem("token", response?.data?.access)
             localStorage.setItem("refresh", response?.data?.refresh)
             return response.data;
@@ -53,6 +56,7 @@ const loginClient = async (data, dispatch) => {
 
 const Signin = () => {
 
+    const [loading, setLoading]=useState(false)
     const [email, setEmail] = useState("");
     const [pwd, setPwd] = useState("");
     const navigate = useNavigate();
@@ -130,6 +134,8 @@ const Signin = () => {
         }
 
 
+        setLoading(true)
+
         try {
 
             const formData = new FormData();
@@ -156,6 +162,8 @@ const Signin = () => {
 
                         dispatch(setCurrentNav("account_home"));
 
+                        setLoading(false)
+
                         return navigate("/account_home", { replace: true });
 
                     }
@@ -165,17 +173,25 @@ const Signin = () => {
 
             ).catch(
 
-                err=>console.log("ERROR DATA", err)
+                err => {
+
+                    console.log("ERROR DATA", err);
+
+                    setLoading(false)
+                }
+
             )
 
         } catch (error) {
 
             showMessage(dispatch, "Erreur de connexion. Vérifie ton email et mot de passe.");
+
+            setLoading(false)
         }
     };
 
-
     return (
+
         <section className="bg-gray-1 py-20 dark:bg-dark lg:py-[120px]">
 
             <div className="container mx-auto">
@@ -191,63 +207,68 @@ const Signin = () => {
                                     color: "var(--color-text)"
                                 }
                             }
-                            className="shadow-lg relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white px-10 py-4 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]"
+                            className="shadow-lg relative mx-auto max-w-[525px] overflow-hidden rounded-lg px-10 py-4 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]"
                         >
 
-                            <>
-                                <h1 className="text-2xl font-extrabold text-gray-500 dark:text-white px-4 pt-4 pb-4">
-                                    {t("login")}
-                                </h1>
+                            {
+                                (!loading)?
+                                <>
+                                    <h1 className="text-2xl font-extrabold text-gray-500 dark:text-white px-4 pt-4 pb-4">
+                                        {t("login")}
+                                    </h1>
 
-                                <form onSubmit={(e) => { e.preventDefault(); handleSignIn(); }}>
+                                    <form onSubmit={(e) => { e.preventDefault(); handleSignIn(); }}>
 
-                                    <InputBox
-                                        type="email"
-                                        name="email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        placeholder={t('form.email')}
-                                        required
-                                    />
-
-                                    <InputBox
-                                        type="password"
-                                        name="password"
-                                        value={pwd}
-                                        onChange={(e) => setPwd(e.target.value)}
-                                        placeholder={t('form.password')}
-                                        ref={emailRef}
-                                        required
-                                    />
-
-                                    <div className="mb-10">
-
-                                        <input
-                                            type="submit"
-                                            value="Sign In"
-                                            className="w-full cursor-pointer rounded-md border border-blue-600 bg-blue-600 px-5 py-3 text-base font-medium text-white transition hover:bg-blue-700"
+                                        <InputBox
+                                            type="email"
+                                            name="email"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            placeholder={t('form.email')}
+                                            required
                                         />
 
-                                    </div>
+                                        <InputBox
+                                            type="password"
+                                            name="password"
+                                            value={pwd}
+                                            onChange={(e) => setPwd(e.target.value)}
+                                            placeholder={t('form.password')}
+                                            ref={emailRef}
+                                            required
+                                        />
 
-                                    </form>
+                                        <div className="mb-10">
 
-                                <NavLink to="/forgetPassword"  className="mb-2 inline-block  text-sm lg:text-md text-blue-600 hover:text-primary hover:underline dark:text-blue-600">
+                                            <input
+                                                type="submit"
+                                                value="Sign In"
+                                                className="w-full cursor-pointer rounded-md border border-blue-600 bg-blue-600 px-5 py-3 text-base font-medium text-white transition hover:bg-blue-700"
+                                            />
 
-                                    {t("forgetPwd")}
+                                        </div>
 
-                                </NavLink>
+                                        </form>
 
-                                <p className="text-sm lg:text-md text-base text-blue-600 dark:text-blue-400 flex items-center justify-center gap-2">
-                                    <span className="pr-0.5">{t("notRegistered")}</span>
-                                    <NavLink
-                                        to="/Register"
-                                        className="text-blue-700 hover:underline text-sm lg:text-md dark:text-blue-300"
-                                    >
-                                        {t("register")}
+                                    <NavLink to="/forgetPassword"  className="mb-2 inline-block  text-sm lg:text-md text-blue-600 hover:text-primary hover:underline dark:text-blue-600">
+
+                                        {t("forgetPwd")}
+
                                     </NavLink>
-                                </p>
-                            </>
+
+                                    <p className="text-sm lg:text-md text-base text-blue-600 dark:text-blue-400 flex items-center justify-center gap-2">
+                                        <span className="pr-0.5">{t("notRegistered")}</span>
+                                        <NavLink
+                                            to="/Register"
+                                            className="text-blue-700 hover:underline text-sm lg:text-md dark:text-blue-300"
+                                        >
+                                            {t("register")}
+                                        </NavLink>
+                                    </p>
+                                </>
+                                :
+                                <LoadingCard/>
+                            }
 
                             <p className="mb-6 text-xl text-bold text-gray-500 dark:text-dark-7 my-6">
                                 {t('connect_with')}

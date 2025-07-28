@@ -1,15 +1,26 @@
 import React from 'react';
 
 const LoadingCard = () => {
+
     return (
-        <div className="relative items-center block max-w-sm p-6 bg-white border border-gray-100 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-800 dark:hover:bg-gray-700">
-            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white opacity-20">
-                Noteworthy technology acquisitions 2021
-            </h5>
-            <p className="font-normal text-gray-700 dark:text-gray-400 opacity-20">
-                Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
-            </p>
-            <div role="status" className="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
+
+        <div
+
+            className="relative items-center block max-w-sm p-6  rounded-lg  dark:bg-gray-800 dark:border-gray-800 dark:hover:bg-gray-700"
+
+            style={
+                {
+                    backgroundColor: "var(--color-bg)",
+                    color: "var(--color-text)"
+                }
+            }
+        >
+
+            <div
+                role="status"
+                className="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2"
+            >
+
                 <svg
                     aria-hidden="true"
                     className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
@@ -48,9 +59,13 @@ const LoadingCard = () => {
             93.9676 39.0409Z"
                         fill="currentFill"
                     />
+
                 </svg>
+
                 <span className="sr-only">Loading...</span>
+
             </div>
+
         </div>
     );
 };
