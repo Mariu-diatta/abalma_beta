@@ -99,4 +99,19 @@ body .style_bg {
   outline: 1px solid red;
 }*/
 
+@keyframes drain {
+    from {
+        transform: scaleY(1);
+    }
+
+    to {
+        transform: scaleY(0);
+    }
+}
+
+.animate-drain {
+    animation: drain 5s linear forwards;
+    transform-origin: bottom;
+}
+
 

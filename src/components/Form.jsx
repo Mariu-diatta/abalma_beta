@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import AttentionAlertMesage, { showMessage } from './AlertMessage';
 
 
-const CreateClient = async (data, func, funcRetournMessage, dispatch, setIsError) => {
+const CreateClient = async (data, func, funcRetournMessage, setIsError, dispatch) => {
 
     try {
 
@@ -121,7 +121,7 @@ const RegisterForm = () => {
                 user_permissions: []
             };
 
-            const response = await CreateClient(userData, setLoading, showMessage, dispatch, setIsError);
+            const response = await CreateClient(userData, setLoading, showMessage, setIsError, dispatch);
 
             console.log("Utilisateur créé :", response);
 
