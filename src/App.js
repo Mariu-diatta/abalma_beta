@@ -1,11 +1,12 @@
 
-import React from 'react'
+import React, { Suspense } from 'react'
 import './App.css';
 import routes from './router/Routers';
 import { useRoutes} from "react-router-dom"
 import CookieBanner from './components/CookieBanner';
 import { AuthProvider } from './AuthContext';
 import './i18n'; // ⚠️ Important
+import LoadingCard from './components/LoardingSpin';
 
 const AppRoutes = () => {
 
@@ -14,19 +15,23 @@ const AppRoutes = () => {
     return routing;
 };
 
+
 function App() {
 
   return (
 
-      <AuthProvider>
+      <Suspense fallback={<LoadingCard/>}>
+
+          <AuthProvider>
   
-          <AppRoutes />
+              <AppRoutes />
 
-          <CookieBanner />
+              <CookieBanner />
 
-      </AuthProvider>
+          </AuthProvider>
+
+      </Suspense>
          
-
   );
 }
 

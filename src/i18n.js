@@ -142,7 +142,7 @@ i18n
 
 
             title_policy: "Why Choose Abalma",
-            subtitle: "Make your customers happy by giving services.",
+            subtitle: "Impress your customers by delivering an outstanding service experience.",
             paragraph1: "Imagine you're a small business in commerce, but your presence on social media is limited or lost in a flood of information that makes your activities and ads invisible. Abalma is here to change that. We help you gain visibility and make your voice heard in a clearer, more targeted, and user-focused digital ecosystem.",
             paragraph2:"Thanks to our platform, you can easily manage your products and data, grow your sales with confidence, and stay connected to your clients and collaborators.",
             button: "Get Started",
@@ -396,7 +396,7 @@ i18n
      fr: {
 
          translation: {
-              choose_language: 'Choisir unelangue',
+              choose_language: 'Choisir une langue',
               connect_with: "Connecter avec",
               param: 'Paramètres et convidentialités',
               add_product: {
@@ -515,7 +515,7 @@ i18n
             "section_9_content": "Cette politique peut être mise à jour. Vous serez notifié(e) en cas de changement important.",
 
             title: "Pourquoi choisir Abalma",
-            subtitle: "Rendez vos clients heureux en offrant des services.",
+            subtitle: "Surprenez vos clients en leur offrant une expérience de service exceptionnelle.",
             paragraph1: "Imaginez que vous êtes une petite entreprise évoluant dans le commerce, mais que votre présence sur les réseaux sociaux est limitée ou encore noyée dans une masse d’informations qui rend vos activités et publicités invisibles. Abalma est là pour changer cela. Nous vous aidons à gagner en visibilité et à faire entendre votre voix dans un écosystème numérique plus clair, plus ciblé, et mieux adapté à vos besoins.",
             paragraph2: "Grâce à notre plateforme, vous gérez facilement vos produits et données, développez vos ventes en toute confiance, et restez connecté·e à vos clients ainsi qu’à vos collaborateurs·trices",
             button: "Commencer",

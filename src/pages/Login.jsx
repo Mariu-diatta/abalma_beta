@@ -213,7 +213,9 @@ const Signin = () => {
                                 (!loading)?
                                 <>
                                     <h1 className="text-2xl font-extrabold text-gray-500 dark:text-white px-4 pt-4 pb-4">
+
                                         {t("login")}
+
                                     </h1>
 
                                     <form onSubmit={(e) => { e.preventDefault(); handleSignIn(); }}>
@@ -247,7 +249,7 @@ const Signin = () => {
 
                                         </div>
 
-                                        </form>
+                                    </form>
 
                                     <NavLink to="/forgetPassword"  className="mb-2 inline-block  text-sm lg:text-md text-blue-600 hover:text-primary hover:underline dark:text-blue-600">
 
@@ -280,12 +282,14 @@ const Signin = () => {
                                     <button
 
                                         onClick={()=>alert("Hops!... Ce service n'est pas encore disponible.") }
+
                                         className="cursor-pointer flex h-10 w-full items-center justify-center rounded-md border border-gray-200hover:bg-opacity-90">
 
                                         <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                            <path fillRule="evenodd" d="M13.135 6H15V3h-1.865a4.147 4.147 0 0 0-4.142 4.142V9H7v3h2v9.938h3V12h2.021l.592-3H12V6.591A.6.6 0 0 1 12.592 6h.543Z" clipRule="evenodd" />
-                                        </svg>
 
+                                            <path fillRule="evenodd" d="M13.135 6H15V3h-1.865a4.147 4.147 0 0 0-4.142 4.142V9H7v3h2v9.938h3V12h2.021l.592-3H12V6.591A.6.6 0 0 1 12.592 6h.543Z" clipRule="evenodd" />
+
+                                        </svg>
 
                                     </button>
 

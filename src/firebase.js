@@ -20,6 +20,9 @@ import api from "./services/Axios";
 import { login, updateUserData, updateUserToken } from "./slices/authSlice";
 import { setCurrentNav } from "./slices/navigateSlice";
 import { useDispatch } from "react-redux";
+import { showMessage } from "./components/AlertMessage";
+import { useState } from "react";
+import LoadingCard from "./components/LoardingSpin";
 
 
 // Exemple d'utilisation (dans une fonction déclenchée par un bouton "Envoyer")
@@ -60,6 +63,8 @@ function getCookie(name) {
 
 export function LoginWithGoogle() {
 
+    const [loading, setLoading] = useState(false)
+
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
@@ -67,6 +72,8 @@ export function LoginWithGoogle() {
     const handleLogin = async (credentialResponse) => {
 
         const csrfToken = getCookie('csrftoken');
+
+        setLoading(true)
 
         try {
 
@@ -99,23 +106,37 @@ export function LoginWithGoogle() {
             dispatch(setCurrentNav("account_home"));
 
             localStorage.setItem("token", res.data?.access,)
+
             localStorage.setItem("refresh", res.data?.refresh)
+
+            setLoading(false)
 
             // ✅ Redirection après succès
             navigate("/account_home", {replace:true}); // ou la page souhaitée
 
         } catch (err) {
-            console.error("Erreur de connexion :", err);
+
+            setLoading(false)
+            showMessage(dispatch, `Hops!!!...${err}`);
+
         }
     };
 
     return (
-        <GoogleLogin
-            onSuccess={handleLogin}
-            onError={() => {
-                console.log("Erreur lors de la connexion Google");
-            }}
-        />
+            <>
+                {
+                    (!loading) ?
+
+                    <GoogleLogin
+                        onSuccess={handleLogin}
+                        onError={() => {
+                            console.log("Erreur lors de la connexion Google");
+                        }}
+                    />
+                    :
+                    <LoadingCard/>
+                }
+            </>
     );
 }
 
