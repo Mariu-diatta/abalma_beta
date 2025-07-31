@@ -9,20 +9,20 @@ import toast, { Toaster } from 'react-hot-toast';
 import { LanguageDropdown, ThemeToggle } from "../pages/Header";
 import i18n from "i18next";
 import { useTranslation } from 'react-i18next';
-import { NavLink } from 'react-router-dom';
 import { setCurrentNav } from "../slices/navigateSlice";
 
 
-const NotificationGroup = ({ currentUser, currentNotifMessages, notify, changeLanguage, nbItems }) => (
+const NotificationGroup = ({ currentUser, currentNotifMessages, notify, changeLanguage, nbItems, dispatch, navigate }) => (
 
     <>
+
         {currentNotifMessages.length > 0 && (
 
             <button
 
                 onClick={notify}
 
-                className="relative flex items-center justify-center h-12 w-12 rounded-lg dark:bg-dark-2 text-dark dark:text-white"
+                className="cursor-pointer relative flex items-center justify-center h-6 w-6 px-2 mx-4 rounded-lg dark:bg-dark-2 text-dark dark:text-white"
 
                 style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
             >
@@ -35,26 +35,28 @@ const NotificationGroup = ({ currentUser, currentNotifMessages, notify, changeLa
 
         <ThemeToggle />
 
-        <LanguageDropdown changeLanguage={changeLanguage} />
 
         {/* Paiement */}
-        <NavLink
+        <button
 
-            to="/payment"
+            onClick={() => { navigate("/payment"); dispatch(setCurrentNav("/payment")) }}
 
-            className="shadow-lg relative flex items-center justify-center h-6 w-12 rounded-lg bg-white dark:bg-dark-2 text-dark dark:text-white mx-2"
+            className="shadow-lg relative flex items-center justify-between rounded-lg  dark:bg-dark-2 text-dark dark:text-white h-6 w-8 mx-4  hover:bg-gray-50 dark:hover:bg-gray-800"
 
-            style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
+            style={{ color: "var(--color-text)" }}
         >
-            <svg className="w-[22px] h-[22px] text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <svg className="w-6 h-6 text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
 
                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8"
                     d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7h-1M8 7h-.688M13 5v4m-2-2h4" />
             </svg>
 
-            <span className="absolute top-0 right-2 text-xs text-green-600 font-bold">{nbItems}</span>
+            <span className=" text-xs text-green-600">{nbItems}</span>
 
-        </NavLink>
+        </button>
+
+        <LanguageDropdown changeLanguage={changeLanguage} />
+
 
     </>
 );
@@ -114,16 +116,16 @@ const NotificationsComponent = ({ userId }) => {
 
     return (
 
-        <div className="flex">
+        <div className="flex hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg px-2 shadow-lg">
 
-            <svg className="w-[26px] h-[25px] text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <svg className="w-6 h-6 text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
 
                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8"
                     d="M12 5.365V3m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175 0 .593 0 1.292-.538 1.292H5.538C5 18 5 17.301 5 16.708c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 12 5.365ZM8.733 18c.094.852.306 1.54.944 2.112a3.48 3.48 0 0 0 4.646 0c.638-.572 1.236-1.26 1.33-2.112h-6.92Z" />
 
             </svg>
 
-            {currentNotifMessages.length}
+            <p className="text-xs">{currentNotifMessages.length} </p>
 
 
         </div>
@@ -234,11 +236,12 @@ export default function AccountDropdownUserProfil() {
     };
 
     return (
-        <section className="absolute top-0 bg-gray-2 dark:bg-dark z-[999]">
+
+        <section className="absolute top-0 bg-gray-2 dark:bg-dark z-[10]">
 
             <div className="flex justify-center items-center">
 
-                <div className="flex items-center justify-center px-2 pb-1 bg-transparent rounded-lg">
+                <div className="flex items-center justify-center px-2  bg-transparent rounded-lg">
 
                     {/* Mobile only - fixed bottom bar */}
                     <div
@@ -254,6 +257,8 @@ export default function AccountDropdownUserProfil() {
                             notify={notify}
                             changeLanguage={changeLanguage}
                             nbItems={nbItems}
+                            dispatch={dispatch}
+                            navigate={navigate}
                         />
 
                     </div>
@@ -267,6 +272,8 @@ export default function AccountDropdownUserProfil() {
                             notify={notify}
                             changeLanguage={changeLanguage}
                             nbItems={nbItems}
+                            dispatch={dispatch}
+                            navigate={navigate}
                         />
 
                     </div>
@@ -277,9 +284,8 @@ export default function AccountDropdownUserProfil() {
 
                         onClick={() => setDropdownOpen(!dropdownOpen)}
 
-                        className="hover:bg-gray-100 shadow-lg relative inline-flex h-7 items-center justify-center gap-0 rounded-lg  dark:bg-dark-2 px-1 my-3 text-base font-medium text-dark dark:text-white"
+                        className="hover:bg-gray-50 dark:hover:bg-gray-800 shadow-lg relative inline-flex h-6 items-center justify-center gap-0 rounded-lg  dark:bg-dark-2 px-1 my-3 dark:text-white"
 
-                        style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                     >
                         {
                             currentUser?.image ? (
@@ -308,7 +314,7 @@ export default function AccountDropdownUserProfil() {
                         ) : (
                                 <div className="relative h-[30px] w-[30px] rounded-full" title={currentUser?.email}>
 
-                                <svg className="w-[26px] h-[25px] text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <svg className="w-6 h-6 text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
 
                                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8"
                                         d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 13 16h-2a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 12 21Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
@@ -328,7 +334,7 @@ export default function AccountDropdownUserProfil() {
 
                         <span className={`transition-transform duration-100 ${dropdownOpen ? "-scale-y-100" : ""}`}>
 
-                            <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <svg className="w-6 h-6 text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
 
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8" d="m8 10 4 4 4-4" />
 
@@ -346,10 +352,11 @@ export default function AccountDropdownUserProfil() {
 
                         onBlur={() => setDropdownOpen(false)}
 
-                        className={`absolute right-0 top-full me-3 overflow-hidden rounded-lg dark:divide-dark-3 dark:bg-dark-2 z-[700] ${dropdownOpen ? "block" : "hidden"}`}
+                        className={`absolute right-0 top-full me-3 overflow-hidden rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${dropdownOpen ? "block" : "hidden"}`}
 
                         style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                     >
+
                         <div className="px-4 py-3">
 
                             <p className="text-sm font-semibold text-dark dark:text-white">{currentUser?.email}</p>
@@ -394,7 +401,6 @@ export default function AccountDropdownUserProfil() {
                             </button>
 
                         </div>
-
 
                         <div>
 

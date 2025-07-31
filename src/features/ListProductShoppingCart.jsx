@@ -304,6 +304,7 @@ const BuyButtonWithPaymentForm = ({ total_price }) => {
                             <Logo />
 
                             <span className="text-lg font-semibold"> {t('total_pay')} ${total_price}</span>
+
                         </div>
 
                         <Payment />

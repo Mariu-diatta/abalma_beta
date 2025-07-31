@@ -16,6 +16,8 @@ const UpdateProduct = () => {
 
     const { t } = useTranslation();
 
+    const [titileMessage, setTitleMessage]=useState("Message")
+
     let navigate = useNavigate();
 
     const handleFileSelect = (file) => {
@@ -92,6 +94,8 @@ const UpdateProduct = () => {
 
                 if (!dataProduct[field]?.trim()) {
 
+                    setTitleMessage("Erreur")
+
                     showMessage(dispatch, `Le champ "${field}" est requis.`);
 
                     return;
@@ -100,6 +104,8 @@ const UpdateProduct = () => {
 
             // ✅ Validation image obligatoire
             if (!imageFile) {
+
+                setTitleMessage("Erreur")
 
                 showMessage(dispatch, "L'image du produit est requise.");
 
@@ -110,6 +116,8 @@ const UpdateProduct = () => {
             if (isLoanOptionSelected) {
 
                 if (!dataProduct.date_emprunt || !dataProduct.date_fin_emprunt) {
+
+                    setTitleMessage("Erreur")
 
                     showMessage(dispatch, "Les dates d'emprunt et de fin sont requises.");
 
@@ -134,13 +142,17 @@ const UpdateProduct = () => {
             formData.append("fournisseur", parseInt(currentUserCompte.user));
 
             if (isLoanOptionSelected) {
+
                 formData.append("date_emprunt", formatToISOString(dataProduct.date_emprunt));
+
                 formData.append("date_fin_emprunt", formatToISOString(dataProduct.date_fin_emprunt));
             }
 
             // ✅ Envoi à l'API
-            const resp_product=await api.post("/produits/", formData, {
+            const resp_product = await api.post("/produits/", formData, {
+
                 headers: {
+
                     'Content-Type': 'multipart/form-data',
                 }
             });
@@ -148,6 +160,7 @@ const UpdateProduct = () => {
             console.log("Produit créer ", resp_product?.data)
 
             //dispatch(addToCart({ ...resp_product?.data, methode: true }));
+            setTitleMessage("Message")
 
             showMessage(dispatch, "Produit créé avec succès !");
 
@@ -175,6 +188,8 @@ const UpdateProduct = () => {
             // Optionnel : reset du formulaire
 
         } catch (error) {
+
+            setTitleMessage("Erreur")
 
             showMessage(dispatch, error);
 
@@ -285,11 +300,15 @@ const UpdateProduct = () => {
                         </div>
 
                         <div className="w-full">
+
                             <div>
 
                                 <label htmlFor="price_product" className="block mb-2 text-sm font-medium ">
+
                                     {t('add_product.product_price')}
+
                                     <span className="text-red-500">*</span>
+
                                 </label>
 
                                 <input
@@ -310,8 +329,11 @@ const UpdateProduct = () => {
                         <div className="w-full">
 
                             <label htmlFor="categorie_product" className="block mb-2 text-sm font-medium ">
+
                                 {t('add_product.product_category')}
+
                                 <span className="text-red-500">*</span>
+
                             </label>
 
                             <select
@@ -345,8 +367,11 @@ const UpdateProduct = () => {
                         <div className="w-full">
 
                             <label htmlFor="operation_product" className="block mb-2 text-sm font-medium">
+
                                 {t('add_product.operation_type')}
+
                                 <span className="text-red-500">*</span>
+
                             </label>
 
                             <select
@@ -358,14 +383,18 @@ const UpdateProduct = () => {
                                 required
                             >
                                 <option value="">
+
                                     {t('add_product.select_operation')}
+
                                 </option>
+
                                 <option value="PRETER">{t('add_product.PRETER')}</option>
                                 <option value="VENDRE">{t('add_product.VENDRE')}</option>
                                 <option value="DONNER">{t('add_product.DONNER')}</option>
                                 <option value="ECHANGER">{t('add_product.ECHANGER')}</option>
                                 <option value="LOCATION">{t('add_product.LOCATION')}</option>
                                 <option value="RESERVER">{t('add_product.RESERVER')}</option>
+
                             </select>
 
                         </div>
@@ -375,7 +404,9 @@ const UpdateProduct = () => {
                                 <div>
 
                                     <label htmlFor="date_emprunt" className="block mb-2 text-sm font-medium ">
+
                                         {t('add_product.loan_start_date')}
+
                                     </label>
 
                                     <input
@@ -392,7 +423,9 @@ const UpdateProduct = () => {
                                 <div>
 
                                     <label htmlFor="date_fin_emprunt" className="block mb-2 text-sm font-medium ">
+
                                         {t('add_product.loan_end_date')}
+
                                     </label>
 
                                     <input
@@ -426,8 +459,11 @@ const UpdateProduct = () => {
                         <div className="sm:col-span-2">
 
                             <label htmlFor="description_product" className="block mb-2 text-sm font-medium ">
+
                                 {t('add_product.product_description')}
+
                                 <span className="text-red-500">*</span>
+
                             </label>
 
                             <textarea
@@ -478,6 +514,7 @@ const UpdateProduct = () => {
                                     <option value="">
                                         {t('add_product.select_size')}
                                     </option>
+
                                     <option value="SMALL">{t('add_product.SMALL')}</option>
                                     <option value="MEDIUM">{t('add_product.MEDIUM')}</option>
                                     <option value="BIG">{t('add_product.BIG')}</option>
@@ -490,7 +527,9 @@ const UpdateProduct = () => {
                             <div>
 
                                 <label htmlFor="quantity_product" className="block mb-2 text-sm font-medium ">
+
                                     {t('add_product.quantity')}
+
                                 </label>
 
                                 <input
@@ -511,7 +550,7 @@ const UpdateProduct = () => {
 
                     </div>
 
-                    {messageAlert && <AttentionAlertMesage title="Message" content={messageAlert} />}
+                    {messageAlert && <AttentionAlertMesage title={titileMessage} content={messageAlert} />}
 
                     <div className="flex items-center space-x-4">
 

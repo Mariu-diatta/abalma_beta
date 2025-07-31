@@ -82,7 +82,7 @@ const PaymentForm = () => {
 
         } catch (err) {
 
-            console.log("ERREUR PAYEMENT ", err?.response?.data)
+            console.log("ERREUR PAYEMENT ", err?.response, err?.response?.data, err)
 
             showMessage(dispatch, err?.response?.data?.detail);
         }

@@ -88,7 +88,7 @@ export function LanguageDropdown() {
                 {selectedLang}
 
                 <svg
-                    className="w-[22px] h-[22px] "
+                    className="w-6 h-6 "
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
                     fill="currentColor"
@@ -215,33 +215,22 @@ export const ThemeToggle = () => {
 
             type="button"
 
-            className=" shadow-md inline-flex flex-col items-center rounded-full justify-center px-2  hover:bg-gray-50 dark:hover:bg-gray-800 group mx-1"
+            className="cursor-pointer shadow-md inline-flex flex-col items-center rounded-full justify-center px-2  hover:bg-gray-50 dark:hover:bg-gray-800 group"
         >
             <span className="text-[14px] text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500">
 
                 {
                     (theme === 'dark') ?
                         (
-
-                            <svg className="w-[22px] h-[22px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-
-                                <path fill="currentColor" d="M5.99997 17c-.55229 0-1 .4477-1 1s.44771 1 1 1h.01c.55228 0 1-.4477 1-1s-.44772-1-1-1h-.01ZM18 17c-.5523 0-1 .4477-1 1s.4477 1 1 1h.01c.5523 0 1-.4477 1-1s-.4477-1-1-1H18Z" />
-
-                                <path fill="currentColor" fillRule="evenodd" d="M12 13c.5523 0 1 .4477 1 1v.5858l.4142-.4142c.3905-.3905 1.0237-.3905 1.4142 0 .3905.3905.3905 1.0237 0 1.4142L14.4141 16l.5859.0001c.5523 0 1 .4477 1 1s-.4478 1-1.0001 1L14.4141 18l.4143.4143c.3905.3906.3905 1.0237 0 1.4142-.3906.3906-1.0237.3905-1.4143 0L13 19.4143v.5858c0 .5522-.4477 1-1 1s-1-.4478-1-1v-.5859l-.4143.4142c-.3905.3906-1.02365.3906-1.41417 0-.39053-.3905-.39053-1.0236 0-1.4142L9.58571 18l-.58572.0001c-.55228 0-1.00001-.4477-1.00002-1-.00001-.5523.44769-1 .99998-1L9.58571 16l-.41416-.4141c-.39054-.3905-.39056-1.0237-.00005-1.4142.39052-.3905 1.0237-.3906 1.4142 0l.4143.4142V14c0-.5523.4477-1 1-1Z" clipRule="evenodd" />
-
-                                <path fill="currentColor" d="M9.21869 3.96216c1.18841-.77809 2.61801-1.10041 4.02531-.90756 1.4073.19285 2.6974.88787 3.6327 1.95696.8431.96375 1.3466 2.17293 1.4406 3.44244.6029.16797 1.1584.48908 1.6088.93946C20.6137 10.0811 21 11.0137 21 11.9862c0 .9449-.3677 1.9573-1.0739 2.6636-.6417.6416-1.4561.9281-2.2516.9899-.1439-.2824-.3312-.539-.5532-.761 0-.7677-.2929-1.5355-.8787-2.1213-.5858-.5858-1.3535-.8787-2.1213-.8787-.5429-.5429-1.2929-.8786-2.1213-.8786-.8285 0-1.5785.3358-2.12139.8787-.76778 0-1.53555.2929-2.12133.8788-.58574.5857-.87861 1.3535-.87862 2.1212-.18576.1858-.34727.3958-.47938.6249-.77455-.2033-1.48895-.6091-2.06499-1.1851C3.47996 13.4642 3 12.3055 3 11.0973c0-1.1581.38455-2.34287 1.27157-3.22989.74279-.74279 1.74607-1.18271 2.75928-1.2962.45424-1.06098 1.21293-1.97073 2.18784-2.60905Z" />
-
+                            <svg className="w-6 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <path fill-rule="evenodd" d="M11.675 2.015a.998.998 0 0 0-.403.011C6.09 2.4 2 6.722 2 12c0 5.523 4.477 10 10 10 4.356 0 8.058-2.784 9.43-6.667a1 1 0 0 0-1.02-1.33c-.08.006-.105.005-.127.005h-.001l-.028-.002A5.227 5.227 0 0 0 20 14a8 8 0 0 1-8-8c0-.952.121-1.752.404-2.558a.996.996 0 0 0 .096-.428V3a1 1 0 0 0-.825-.985Z" clip-rule="evenodd" />
                             </svg>
-
                         )
                         :
                         (
-                            <svg className="w-[22px] h-[22px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-
-                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M17.3333 14.6528c.7073 0 1.3856-.2101 1.8857-.7101.5-.5001.781-1.2493.781-1.9565 0-.7073-.281-1.3856-.781-1.8857-.5001-.50007-1.1784-.78102-1.8857-.78102h-.0222c.0133-.14755.0222-.296.0222-.44444-.0033-1.17924-.4328-2.31753-1.2092-3.20508-.7765-.88756-1.8476-1.46455-3.0159-1.62465-1.1683-.1601-2.3551.10749-3.34174.75344-.98658.64596-1.70644 1.62675-2.0269 2.76162-.06223-.00355-.12089-.01866-.184-.01866-.943 0-1.91009.36598-2.57689 1.03277C4.31188 9.24128 4 10.1543 4 11.0973c0 .943.3746 1.8473 1.0414 2.5141.45292.4529 1.01546.7711 1.62527.9285M12 14v3m0 0v3m0-3-2.12134-2.1212M12 17l2.1213 2.1214M12 17H9m3 0h3m-3 0-2.12134 2.1213M12 17l2.1213-2.1213M6 18h.01M18 18h.01" />
-
+                            <svg className="w-6 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M12 21a9 9 0 0 1-.5-17.986V3c-.354.966-.5 1.911-.5 3a9 9 0 0 0 9 9c.239 0 .254.018.488 0A9.004 9.004 0 0 1 12 21Z" />
                             </svg>
-
                         )
                 }
 
@@ -403,8 +392,10 @@ const NavbarHeader = () => {
                     <div className="flex items-center justify-between relative">
 
                         {/* Logo */}
-                        <Logo />
-                            
+                        <div className="">
+                            <Logo />
+                        </div>
+
                         <ButtonNavigate tabs={tabs} />
 
                         {/* Toggle Button for Mobile */}
@@ -437,12 +428,10 @@ const NavbarHeader = () => {
                             {/* Boutons et Dropdown (Mobile) */}
                             <div
 
-                                className="text-sm absolute top-5 flex flex-col items-start justify-start gap-2 p-1 sm:hidden shadow-md w-full "
+                                className="text-sm absolute top-2 flex flex-col items-start justify-start gap-2 p-1 sm:hidden shadow-md w-full "
 
                                 style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
-                            >
-
-                             
+                            >       
                                 <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
 
                                 <WhiteRoundedButton titleButton={t('register')} to="/Register" />
@@ -500,7 +489,7 @@ const ButtonNavigate = ({ tabs }) => {
                 lg:w-auto
                 lg:justify-between
                 dark:bg-dark-2
-                px-4 py-0 z-50 
+                px-4 z-50 
              "
             style={
                 {
@@ -513,7 +502,7 @@ const ButtonNavigate = ({ tabs }) => {
         >
             {tabs.map((tab) => (
 
-                <li key={tab.id} className="w-full sm:w-auto gap-6 px-1 m-1">
+                <li key={tab.id} className="w-full sm:w-auto gap-6 px-1 ">
 
                     <NavLink
 
@@ -522,7 +511,7 @@ const ButtonNavigate = ({ tabs }) => {
                         className={({ isActive }) =>
                             `
                                 w-full text-center items-center flex flex-col lg:flex-row gap-1 text-[14px]
-                                px-2 py-1
+                                px-1
                                 transition
                                 border-t sm:border-b-0 lg:border-b lg:border-t-0
                                 ${isActive

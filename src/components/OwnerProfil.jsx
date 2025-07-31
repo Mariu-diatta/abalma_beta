@@ -141,7 +141,7 @@ const OwnerPopover = ({ owner, onClose }) => {
         <div
             ref={ref}
 
-            className="absolute left-0 mt-3 w-auto p-3 rounded-xl border border-gray-200 opacity-100 z-20 p-1 shadow-xl z-100 animate-fade-in"
+            className="absolute left-0 mt-3 w-auto p-3 rounded-xl border border-gray-200 opacity-100  p-1 shadow-xl animate-fade-in"
 
             style={
                 {
@@ -255,7 +255,7 @@ const OwnerAvatar = ({ owner }) => {
 
     return (
 
-        <div className="relative inline-block z-[1000]" ref={containerRef}>
+        <div className="relative inline-block " ref={containerRef}>
 
             {
                 owner?.image ?
