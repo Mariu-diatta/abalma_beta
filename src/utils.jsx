@@ -1,27 +1,27 @@
-import { auth, provider } from "./firebase";
-import { signInWithPopup } from "firebase/auth";
-import axios from "axios";
 
-export const handleLoginWithGoogle = async () => {
-    try {
-        const result = await signInWithPopup(auth, provider);
-        const token = await result.user.getIdToken();
+//covertion de la date de la transaction
+export const convertDate = (dat) => {
 
-        // Envoie du token au backend Django
-        const res = await axios.post("http://localhost:8000/api/auth/google-login/", {
-            token
-        });
+    const date = new Date(dat);
 
-        console.log("Utilisateur connecté côté backend :", res.data);
-    } catch (err) {
-        console.error("Erreur de connexion Google:", err);
-    }
-};
+    const formatted = date.toLocaleString("fr-FR", {
 
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+    });
 
-const suspens = () => {
-
-    return (
-
-    )
+    return formatted
 }
+
+export const  LIST_CATEGORY=[
+
+     "jouets", "sacs", "materiels", "electronique", "habits",
+
+    "livres", "Jeux_video", "Meubles", "Vehicules",
+
+    "Fournitures_scolaires", "divers",
+]

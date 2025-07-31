@@ -248,7 +248,6 @@ export default function AccountDropdownUserProfil() {
                         className="fixed bottom-0 w-max-100 left-0 right-0 z-0 flex items-center justify-around sm:flex md:hidden lg:hidden"
 
                         style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
-
                     >
 
                         <NotificationGroup
@@ -311,6 +310,7 @@ export default function AccountDropdownUserProfil() {
                                 }
 
                             </div>
+
                         ) : (
                                 <div className="relative h-[30px] w-[30px] rounded-full" title={currentUser?.email}>
 
@@ -437,7 +437,9 @@ export default function AccountDropdownUserProfil() {
                             <button onClick={getUserLogOut} className="shadow-lg flex w-full items-center justify-start gap-2 px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5">
 
                                 <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+
                                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2" />
+
                                 </svg>
 
                                 {t("logOut")}

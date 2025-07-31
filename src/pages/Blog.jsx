@@ -1,21 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import HomeLayout from '../layouts/HomeLayout';
+import React, { useEffect, useState , lazy, useCallback} from 'react';
+
 import { useTranslation } from 'react-i18next';
 import api from '../services/Axios';
-import SuspenseCallback from '../components/SuspensCallback';
+import { ModalFormCreatBlog } from '../features/ProfilUser';
+import LoadingCard from '../components/LoardingSpin';
+const SuspenseCallback = lazy(() => import('../components/SuspensCallback'));
+const HomeLayout = lazy(() => import('../layouts/HomeLayout'));
 
 
-const BlogPage = () => {
+export const BlogPage = () => {
 
     const { t } = useTranslation();
 
-    const  [blogs, setBlogs] =useState([])
+    const [blogs, setBlogs] = useState([])
+
+    const [isLoading, setIsLoading] = useState(false)
+
+    const fetchBlogs = useCallback(() => {
+
+        return blogs.map((post, index) => (
+
+            <BlogCard key={index} {...post} />
+        ));
+
+    }, [blogs]);
 
     useEffect(
 
         () => {
 
             const getBlogs = async () => {
+
+                setIsLoading(true)
 
                 try {
 
@@ -25,9 +41,13 @@ const BlogPage = () => {
 
                     setBlogs(blogs.data)
 
+                    setIsLoading(false)
+
                 } catch (err) {
 
                     console.log("Error get blogs, Blog.jsx: ", err)
+
+                    setIsLoading(false)
                 }
             }
 
@@ -38,9 +58,9 @@ const BlogPage = () => {
 
     return (
 
-        <HomeLayout>
+        <section className="mt-5 dark:bg-gray-900">
 
-            <section className="mt-5 dark:bg-gray-900">
+            <SuspenseCallback>
 
                 <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6 style-bg">
 
@@ -54,32 +74,49 @@ const BlogPage = () => {
 
                     <div className="grid gap-8 lg:grid-cols-2">
 
-                        <SuspenseCallback>
+                        {
+                             !isLoading?
+                             <SuspenseCallback>
 
-                            {
-                                blogs.map(
+                                {fetchBlogs()}
 
-                                    (post, index) => (
-
-                                        <BlogCard key={index} {...post} />
-
-                                     )
-                                )
-                            }
-
-                        </SuspenseCallback>
+                             </SuspenseCallback>
+                            :
+                            <LoadingCard/>
+                        }
 
                     </div>
 
                 </div>
 
-            </section>
+            </SuspenseCallback>
 
-        </HomeLayout>
+            <div className="fixed bottom-2 right-0  grid gap-8 lg:grid-cols-2">
+
+                <ModalFormCreatBlog />
+
+            </div>
+
+        </section>
     );
 };
 
-export default BlogPage;
+
+
+const BlogPageHome = () => {
+
+    return (
+
+        <HomeLayout >
+             
+            <BlogPage />
+
+        </HomeLayout>
+    )
+}
+
+export default BlogPageHome;
+
 
 
 //la carte article 

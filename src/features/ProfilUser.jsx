@@ -134,6 +134,7 @@ const ProfileCard = () => {
         if (!userProfile?.id) return alert('Erreur : ID utilisateur manquant');
 
         try {
+
             const fd = new FormData();
 
             Object.entries(formData).forEach(([key, value]) => fd.append(key, value));
@@ -359,6 +360,7 @@ const ProfileCard = () => {
                 }
 
             } else {
+
                 console.error("❌ Erreur création chat:", errorMsg);
             }
         }
@@ -431,8 +433,11 @@ const ProfileCard = () => {
                     <div className="relative">
 
                         <img
+
                             src={previewUrl || 'https://randomuser.me/api/portraits/men/32.jpg'}
+
                             alt="Profil utilisateur"
+
                             className="w-28 h-28 sm:w-32 sm:h-32 rounded-full border-4 border-white shadow-md object-cover"
                         />
 
@@ -442,7 +447,9 @@ const ProfileCard = () => {
                                 <label className="absolute bottom-0 right-0 bg-white p-1 rounded-full shadow cursor-pointer hover:bg-gray-100" aria-label="Modifier photo de profil">
 
                                 <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+
                                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m3 16 5-7 6 6.5m6.5 2.5L16 13l-4.286 6M14 10h.01M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
+
                                 </svg>
 
                                 <input
@@ -706,12 +713,13 @@ const ProfileCard = () => {
 
                                         {t('ProfilText.devenirFournisseur')}
 
-
                                     </button>
                                 }
+
                                 {
-                                    isCurrentUser && <ModalForm />
+                                    isCurrentUser && <ModalFormCreatBlog />
                                 }
+
                                 {
                                     isCurrentUser &&
                                     <button
@@ -797,7 +805,6 @@ const ProfileCard = () => {
 
 export default ProfileCard;
 
-
 //validation code pour la création d'un compte fournisseur
 const GetValidateUserFournisseur = ({ isCurrentUser }) => {
 
@@ -878,7 +885,7 @@ const GetValidateUserFournisseur = ({ isCurrentUser }) => {
 
                     onSubmit={handleSubmitCode}
 
-                        className="w-full max-w-md mx-auto bg-white rounded-xl p-6 shadow-md space-y-4 shadow-lg"
+                    className="w-full max-w-md mx-auto bg-white rounded-xl p-6 shadow-md space-y-4 shadow-lg"
 
                     style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                 >
@@ -910,8 +917,11 @@ const GetValidateUserFournisseur = ({ isCurrentUser }) => {
 
                     {
                         error && (
+
                             <p className="text-red-500 text-sm">
+
                                 {error}
+
                             </p>
                         )
                     }
@@ -923,6 +933,7 @@ const GetValidateUserFournisseur = ({ isCurrentUser }) => {
                         disabled={!code}
 
                         className={
+
                             `w-full py-2 px-4 rounded-md text-white text-sm font-medium transition duration-200
                             ${
                                 code
@@ -945,8 +956,10 @@ const GetValidateUserFournisseur = ({ isCurrentUser }) => {
     )
 }
 
-const ModalForm = () => {
+export const ModalFormCreatBlog = () => {
+
     const { t } = useTranslation();
+    const profileData = useSelector((state) => state.auth.user);
     const [isOpen, setIsOpen] = useState(false);
     const modalRef = useRef(null);
     const inputRef = useRef(null);
@@ -1005,15 +1018,19 @@ const ModalForm = () => {
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
+
     }, [isOpen]);
 
     const handleSubmit = async (e) => {
+
         e.preventDefault();
         setError("");
         setSuccess("");
 
         if (!title.trim() || !message.trim()) {
+
             setError(t("blog.fill_all_fields") || "Veuillez remplir tous les champs");
+
             return;
         }
 
@@ -1064,31 +1081,34 @@ const ModalForm = () => {
         <div className="relative " role="dialog" aria-modal="true">
 
             {/* Toggle Button */}
-            <button
-                onClick={handleToggleModal}
-                className="w-full rounded-full flex gap-1 bg-blue-500 text-white text-sm px-3 py-1 hover:bg-blue-700 m-1 items-center"
-                aria-expanded={isOpen}
-                aria-controls="modal-blog-form"
-            >
-                <svg
-                    className="w-5 h-5 text-white"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
+            {
+                profileData && profileData?.email &&
+                <button
+                    onClick={handleToggleModal}
+                    className="w-auto rounded-full flex gap-1 bg-blue-500 text-white text-sm px-3 py-1 hover:bg-blue-700 m-1 items-center"
+                    aria-expanded={isOpen}
+                    aria-controls="modal-blog-form"
                 >
-                    <path
-                        stroke="currentColor"
-                        strokeLinecap="square"
-                        strokeLinejoin="round"
-                        strokeWidth="1"
-                        d="M7 19H5a1 1 0 0 1-1-1v-1a3 3 0 0 1 3-3h1m4-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm7.441 1.559a1.907 1.907 0 0 1 0 2.698l-6.069 6.069L10 19l.674-3.372 6.07-6.07a1.907 1.907 0 0 1 2.697 0Z"
-                    />
+                    <svg
+                        className="w-5 h-5 text-white"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+                        <path
+                            stroke="currentColor"
+                            strokeLinecap="square"
+                            strokeLinejoin="round"
+                            strokeWidth="1"
+                            d="M7 19H5a1 1 0 0 1-1-1v-1a3 3 0 0 1 3-3h1m4-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm7.441 1.559a1.907 1.907 0 0 1 0 2.698l-6.069 6.069L10 19l.674-3.372 6.07-6.07a1.907 1.907 0 0 1 2.697 0Z"
+                        />
 
-                </svg>
+                    </svg>
 
-                <span>{t("blog.blog")}</span>
+                    <span>{t("blog.blog")}</span>
 
-            </button>
+                </button>
+            }
 
             {/* Modal */}
             {isOpen && (
@@ -1105,12 +1125,14 @@ const ModalForm = () => {
                     >
                         {/* Header */}
                         <div className="flex justify-between items-center mb-4">
+
                             <h2
                                 id="modal-title"
                                 className="text-2xl font-extrabold text-gray-700 dark:text-white"
                             >
                                 {t("blog.create_blog")}
                             </h2>
+
                             <button
                                 onClick={handleClose}
                                 aria-label={t("blog.close_modal") || "Fermer la fenêtre"}
@@ -1145,6 +1167,7 @@ const ModalForm = () => {
                                     className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                                 >
                                     {t("blog.title_pop")}
+
                                 </label>
 
                                 <input
@@ -1219,3 +1242,5 @@ const ModalForm = () => {
         </div>
     );
 };
+
+

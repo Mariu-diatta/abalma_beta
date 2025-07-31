@@ -574,8 +574,11 @@ const UpdateProduct = () => {
                         className={`bg-blue-700 text-white rounded px-4 py-2 mt-5`}
 
                         onClick={
+
                             () => {
+
                                 dispatch(setCurrentNav("user_profil"));
+
                                 navigate("/user_profil")
                             }
                         }

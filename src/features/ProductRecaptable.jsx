@@ -2,6 +2,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import ViewProduct from '../components/ViewProduct';
 import { useTranslation } from 'react-i18next';
+import { convertDate } from '../utils';
 
 const ProductsRecapTable = ({ products }) => {
 
@@ -36,17 +37,18 @@ const ProductsRecapTable = ({ products }) => {
 
                 ? prod.items
 
-                    .filter(sub => sub?.subTransaction?.id === selectedSubTransaction.id)
+                .filter(sub => sub?.subTransaction?.id === selectedSubTransaction.id)
 
-                    .flatMap(sub =>
+                .flatMap(sub =>
 
-                        Array.isArray(sub.items)
+                    Array.isArray(sub.items)
 
-                            ? sub.items.map(i => i.product)
+                    ? sub.items.map(i => i.product)
 
-                            : []
-                    )
-                : []
+                    : []
+                )
+                :
+                []
         );
     };
 
@@ -72,8 +74,8 @@ const ProductsRecapTable = ({ products }) => {
             return allItems.filter(p => {
 
                 const op = p?.operation_product;
-                if (selectedStatus === 'achetés') return op === 'VENDRE';
-                if (selectedStatus === 'vendus') return op === 'ACHETER';
+                if (selectedStatus === 'achetés') return op === 'ACHETER';
+                if (selectedStatus === 'vendus') return op === 'VENDRE';
                 if (selectedStatus === 'prêtés') return op === 'PRETER';
                 if (selectedStatus === 'en cours') return op === 'EN COURS';
                 setSelectedStatus('')
@@ -96,7 +98,6 @@ const ProductsRecapTable = ({ products }) => {
 
     }, [products, selectedSubTransaction, selectedStatus]);
 
-
     //produits total pour la mise en pages
     const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
@@ -114,6 +115,7 @@ const ProductsRecapTable = ({ products }) => {
     return (
 
         <div
+
             className="mt-1 w-full shadow-lg p-2"
 
             style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
@@ -125,7 +127,9 @@ const ProductsRecapTable = ({ products }) => {
                 style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
             >
                 <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    
                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M5 18h14M5 18v3h14v-3M5 18l1-9h12l1 9M16 6v3m-4-3v3m-2-6h8v3h-8V3Zm-1 9h.01v.01H9V12Zm3 0h.01v.01H12V12Zm3 0h.01v.01H15V12Zm-6 3h.01v.01H9V15Zm3 0h.01v.01H12V15Zm3 0h.01v.01H15V15Z" />
+
                 </svg>
 
                 <h2 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">{t('TableRecap.title')}</h2>
@@ -144,12 +148,14 @@ const ProductsRecapTable = ({ products }) => {
                     value={selectedStatus}
 
                     onChange={
+
                         (e) => setSelectedStatus(e.target.value)
                     }
 
                     className="px-3 py-2 border rounded-lg bg-gray-100 border-gray-300"
 
                     style={
+
                         { backgroundColor: "var(--color-bg)", color: "var(--color-text)" }
                     }
 
@@ -247,19 +253,21 @@ const ProductsRecapTable = ({ products }) => {
                         style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                     >
 
-                        {paginatedProducts.length === 0 ? (
+                        {
+                            (paginatedProducts.length === 0) ?
+                            (
 
-                            <tr>
+                                <tr>
 
-                                <td colSpan="9" className="text-center p-4 text-gray-500 dark:text-gray-300">
+                                    <td colSpan="9" className="text-center p-4 text-gray-500 dark:text-gray-300">
 
-                                    {t('TableRecap.noProducts')}
+                                        {t('TableRecap.noProducts')}
 
-                                </td>
+                                    </td>
 
-                            </tr>
+                                </tr>
 
-                        ) : (
+                            ) : (
                                 paginatedProducts.map((item, cle ) => (
 
                                 <tr key={cle}>
@@ -282,13 +290,15 @@ const ProductsRecapTable = ({ products }) => {
 
                                         <button
 
-                                                onClick={
+                                            onClick={
 
-                                                    () => {
-                                                        setPopoverOpen(true)
-                                                        setProductView(item)
-                                                    }
+                                                () => {
+
+                                                    setPopoverOpen(true)
+
+                                                    setProductView(item)
                                                 }
+                                            }
 
                                             className="text-blue-600 hover:underline dark:text-blue-400"
                                         >
@@ -321,8 +331,9 @@ const ProductsRecapTable = ({ products }) => {
 
                 </table>
 
+
                 {
-                    popoverOpen && product && (
+                    (popoverOpen && product) && (
 
                         <>
                             <div className="fixed inset-0 bg-opacity-30 z-40" onClick={closePopover}></div>
@@ -374,7 +385,6 @@ const ProductsRecapTable = ({ products }) => {
 };
 
 export default ProductsRecapTable;
-
 
 //sélection de la transaction et sous transaction
 function TransactionsDropdown({ transactionsData, onSubTransactionSelect }) {
@@ -443,23 +453,6 @@ function TransactionsDropdown({ transactionsData, onSubTransactionSelect }) {
         return selectedTransaction.items.map((entry) => entry.subTransaction);
     };
 
-    //covertion de la date de la transaction
-    const convertDate = (dat) => {
-
-         const date = new Date(dat);
-
-        const formatted = date.toLocaleString("fr-FR", {
-
-             day: "2-digit",
-             month: "2-digit",
-             year: "numeric",
-             hour: "2-digit",
-             minute: "2-digit",
-             second: "2-digit"
-         }); 
-
-         return formatted
-     }
 
     return (
 
@@ -469,9 +462,13 @@ function TransactionsDropdown({ transactionsData, onSubTransactionSelect }) {
             <div className="relative inline-block">
 
                 <button
+
                     ref={trigger1}
+
                     onClick={() => setDropdownOpen1(!dropdownOpen1)}
+
                     className="border rounded-lg bg-gray-100 border-gray-300 inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-stroke px-6 py-3 text-base  text-dark dark:border-dark-3 dark:bg-dark-2 dark:text-white"
+
                     style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                 >
                     Transactions
@@ -568,8 +565,11 @@ function TransactionsDropdown({ transactionsData, onSubTransactionSelect }) {
                 {dropdownOpen2 && selectedTransaction && (
 
                     <div
+
                         ref={dropdown2}
+
                         className="absolute  mt-2 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+
                         style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                     >
                         <div className="py-1">
@@ -577,8 +577,11 @@ function TransactionsDropdown({ transactionsData, onSubTransactionSelect }) {
                             {getSubTransactions().map((sub, i) => (
 
                                 <button
+
                                     key={sub?.id || i}
+
                                     className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+
                                     onClick={() => onSubTransactionSelect(sub)} // notify parent
                                 >
                                     {sub?.id} - {sub?.status || 'Sans nom'}

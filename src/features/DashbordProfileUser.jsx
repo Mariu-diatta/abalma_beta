@@ -52,11 +52,15 @@ const Tabs = () => {
                 <div className="mb-6 text-center style_bg">
 
                     <h1 className="text-2xl font-extrabold text-gray-500 dark:text-white px-4 pt-4 pb-2">
+
                         {t('Dashboard.welcomeTitle')}
+
                     </h1>
 
                     <p className="mt-2 text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto style_bg">
+
                         {t('Dashboard.welcomeText')}
+
                     </p>
 
                 </div>
@@ -68,7 +72,7 @@ const Tabs = () => {
                 </div>
 
                 {
-                    productsTrasactionBought?.length > 0 && (
+                    (productsTrasactionBought?.length > 0) && (
 
                         <ProductsRecapTable products={productsTrasactionBought} />
                     )
