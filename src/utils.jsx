@@ -19,9 +19,9 @@ export const convertDate = (dat) => {
 
 export const  LIST_CATEGORY=[
 
-     "jouets", "sacs", "materiels", "electronique", "habits",
+    { idx: "jouets", filter: "JOUET" }, { idx: "sacs", filter: "SACS" }, { idx: "materiels", filter: "MAETERIELS" }, { idx: "electronique", filter: "ELECTRONIQUES" }, { idx: "habits" , filter:"HABITS"},
 
-    "livres", "Jeux_video", "Meubles", "Vehicules",
+    { idx: "livres", filter: "LIVRES" }, { idx: "Jeux_video", filter: "JEUX_VIDEO" }, { idx: "Meubles", filter: "MEUBLES" }, { idx: "Vehicules" , filter:"VEHICULES"},
 
-    "Fournitures_scolaires", "divers",
+    { idx: "Fournitures_scolaires", filter: "FOURNISSEURS_SCOLAIRES" }, { idx: "divers", filter: "DIVERS" }, { idx: "telephones", filter: "TELEPHONIE" }
 ]

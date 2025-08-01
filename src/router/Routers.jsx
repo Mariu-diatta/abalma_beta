@@ -84,13 +84,13 @@ const routes = [
 
                             ...LIST_CATEGORY.map((category) => ({
 
-                                path: category,
+                                path: category?.idx,
 
                                 element: (
 
                                     <VertcalNavbar>
 
-                                        <GridProductDefault />
+                                        <GridProductDefault categorie_item={category.filter} />
 
                                     </VertcalNavbar>
                                 ),
