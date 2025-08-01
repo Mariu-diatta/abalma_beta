@@ -41,7 +41,7 @@ const NotificationGroup = ({ currentUser, currentNotifMessages, notify, changeLa
 
             onClick={() => { navigate("/payment"); dispatch(setCurrentNav("/payment")) }}
 
-            className="shadow-lg relative flex items-center justify-between rounded-lg  dark:bg-dark-2 text-dark dark:text-white h-6 w-8 mx-4  hover:bg-gray-50 dark:hover:bg-gray-800"
+            className="relative flex items-center justify-between rounded-lg  dark:bg-dark-2 text-dark dark:text-white h-6 w-8 mx-4  hover:bg-gray-50 dark:hover:bg-gray-800"
 
             style={{ color: "var(--color-text)" }}
         >
@@ -283,7 +283,7 @@ export default function AccountDropdownUserProfil() {
 
                         onClick={() => setDropdownOpen(!dropdownOpen)}
 
-                        className="hover:bg-gray-50 dark:hover:bg-gray-800 shadow-lg relative inline-flex h-6 items-center justify-center gap-0 rounded-lg  dark:bg-dark-2 px-1 my-3 dark:text-white"
+                        className="hover:bg-gray-50 dark:hover:bg-gray-800 relative inline-flex h-6 items-center justify-center gap-0 rounded-lg  dark:bg-dark-2 px-1 my-3 dark:text-white"
 
                     >
                         {

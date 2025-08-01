@@ -75,7 +75,7 @@ export function LanguageDropdown() {
 
     return (
 
-        <div className="relative inline-block text-left shadow-md rounded-full py-0 mx-2">
+        <div className="relative inline-block text-left rounded-full py-0 mx-2">
 
             <button
                 ref={buttonRef}
@@ -108,7 +108,7 @@ export function LanguageDropdown() {
 
                     <div
 
-                        className={`absolute right-0 w-28 rounded-md shadow-lg z-[80] ring-black ring-opacity-5 ${openDirection === "top" ? "origin-bottom-right mb-2 bottom-full" : "origin-top-right mt-2 top-full" }`}
+                        className={`absolute right-0 w-28 rounded-md z-[80] ring-black ring-opacity-5 ${openDirection === "top" ? "origin-bottom-right mb-2 bottom-full" : "origin-top-right mt-2 top-full" }`}
 
                         style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                     >
@@ -215,7 +215,7 @@ export const ThemeToggle = () => {
 
             type="button"
 
-            className="cursor-pointer shadow-md inline-flex flex-col items-center rounded-full justify-center px-2  hover:bg-gray-50 dark:hover:bg-gray-800 group"
+            className="cursor-pointer inline-flex flex-col items-center rounded-full justify-center px-2  hover:bg-gray-50 dark:hover:bg-gray-800 group"
         >
             <span className="text-[14px] text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500">
 
