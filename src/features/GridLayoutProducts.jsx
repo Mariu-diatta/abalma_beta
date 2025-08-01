@@ -8,6 +8,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { addMessageNotif, addUser } from '../slices/chatSlice';
 import ProductModal from '../pages/ProductViewsDetails';
 import { useTranslation } from 'react-i18next';
+import LoadingCard from '../components/LoardingSpin';
 
 
 
@@ -156,7 +157,7 @@ const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory }) => {
 const GridLayoutProduct = () => {
 
     const { t } = useTranslation();
-
+    const [loading, setLoading] = useState(true)
     const dispatch = useDispatch();
     const cartItems = useSelector(state => state.cart.items);
 
@@ -205,6 +206,10 @@ const GridLayoutProduct = () => {
             } catch (error) {
 
                 console.error("Erreur lors du chargement des produits ou des propriétaires :", error);
+
+            } finally {
+
+                setLoading(false)
             }
         };
 
@@ -240,129 +245,138 @@ const GridLayoutProduct = () => {
                 setActiveCategory={setActiveCategory}
             />
 
-            {filteredItems.length > 0 ? (
+            {
+                loading ?
 
-                <div
-                    className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 "
+                <LoadingCard />
+                :
+                <>
+                    {filteredItems.length > 0 ? (
 
-                    style={
-                        {
+                        <div
+                            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 "
 
-                            backgroundColor: "var(--color-bg)",
-                            color: "var(--color-text)"
-                        }
-                    }
-                >
-
-                    {filteredItems.map(item => {
-
-                        const isInCart = cartItems.some(product => product.id === item.id);
-
-                        const owner = owners[item.fournisseur];
-
-                        return (
-
-                            <div
-
-                                key={item.id}
-
-                                className={`rounded-lg p-1 shadow-md transition transform hover:-translate-y-1 hover:shadow-lg 
-
-                                ${isInCart ? 'opacity-50 pointer-events-none bg-gray-100' : 'bg-white'}`}
-
-                                style={{
+                            style={
+                                {
 
                                     backgroundColor: "var(--color-bg)",
-
                                     color: "var(--color-text)"
-                                }}
-                            >
-                                <button
+                                }
+                            }
+                        >
 
-                                    onClick={() => {
+                            {filteredItems.length>0 && filteredItems.map(item => {
 
-                                        openModal(item)
+                                const isInCart = cartItems.some(product => product.id === item.id);
 
-                                        dispatch(addUser(owners[item.fournisseur]))
+                                const owner = owners[item.fournisseur];
 
-                                    }}
+                                return (
 
-                                    className="block w-full rounded-lg overflow-hidden"
-                                >
-                                    <img
-                                        src={item.image_product}
-                                        alt={item.description_product}
-                                        className="w-full h-55 object-cover rounded-lg mb-2  transition duration-300 ease-in-out hover:brightness-75 hover:grayscale"
-                                        onError={(e) => { e.target.src = "/default-product.jpg"; }}
-                                    />
+                                   <div
 
-                                </button>
+                                            key={item.id}
 
-                                <div className="flex justify-between items-center mb-1">
+                                            className={`rounded-lg p-1 shadow-md transition transform hover:-translate-y-1 hover:shadow-lg 
 
-                                    <OwnerAvatar owner={owner} />
+                                            ${isInCart ? 'opacity-50 pointer-events-none bg-gray-100' : 'bg-white'}`}
 
-                                    {item.quantity_product !== "1" && (
+                                            style={{
 
-                                        <span className="text-xs text-gray-600">Quantité {item.quantity_product}</span>
-                                    )}
+                                                backgroundColor: "var(--color-bg)",
 
-                                </div>
-
-                                <p className="text-sm text-center  truncate mb-1">
-
-                                    {item.description_product}
-
-                                </p>
-
-                                <div className="flex justify-between items-center">
-
-                                    <span className="text-blue-700 font-semibold text-sm">${item.price_product}</span>
-
-                                    <div className="flex gap-2">
-
-                                        <button
-
-                                            title="Ajouter au panier"
-
-                                            onClick={() => {
-
-                                                addProductToCart(item);
-
-                                                dispatch(addMessageNotif(`Produit ${item?.code_reference} sélectionné le ${Date.now()}`));
+                                                color: "var(--color-text)"
                                             }}
-
-                                            className="cursor-pointer p-1 rounded-full  hover:bg-green-100 transition"
                                         >
-                                            <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            <button
 
-                                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
+                                                onClick={() => {
 
-                                            </svg>
+                                                    openModal(item)
 
-                                        </button>
+                                                    dispatch(addUser(owners[item.fournisseur]))
 
-                                        {/*<button*/}
-                                        {/*    title="Ajouter en cadeau"*/}
-                                        {/*    onClick={() => alert(`Cadeau ajouté: ${item.description_product}`)}*/}
-                                        {/*    className="cursor-pointer p-1 bg-yellow-100 rounded-full hover:bg-yellow-200 transition"*/}
-                                        {/*>*/}
-                                        {/*    🎁*/}
-                                        {/*</button>*/}
+                                                }}
 
-                                    </div>
+                                                className="block w-full rounded-lg overflow-hidden"
+                                            >
+                                                <img
+                                                    src={item.image_product}
+                                                    alt={item.description_product}
+                                                    className="w-full h-55 object-cover rounded-lg mb-2  transition duration-300 ease-in-out hover:brightness-75 hover:grayscale"
+                                                    onError={(e) => { e.target.src = "/default-product.jpg"; }}
+                                                />
 
+                                            </button>
+
+                                            <div className="flex justify-between items-center mb-1">
+
+                                                <OwnerAvatar owner={owner} />
+
+                                                {item.quantity_product !== "1" && (
+
+                                                    <span className="text-xs text-gray-600">Quantité {item.quantity_product}</span>
+                                                )}
+
+                                            </div>
+
+                                            <p className="text-sm text-center  truncate mb-1">
+
+                                                {item.description_product}
+
+                                            </p>
+
+                                            <div className="flex justify-between items-center">
+
+                                                <span className="text-blue-700 font-semibold text-sm">${item.price_product}</span>
+
+                                                <div className="flex gap-2">
+
+                                                    <button
+
+                                                        title="Ajouter au panier"
+
+                                                        onClick={() => {
+
+                                                            addProductToCart(item);
+
+                                                            dispatch(addMessageNotif(`Produit ${item?.code_reference} sélectionné le ${Date.now()}`));
+                                                        }}
+
+                                                        className="cursor-pointer p-1 rounded-full  hover:bg-green-100 transition"
+                                                    >
+                                                        <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+
+                                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
+
+                                                        </svg>
+
+                                                    </button>
+
+                                                    {/*<button*/}
+                                                    {/*    title="Ajouter en cadeau"*/}
+                                                    {/*    onClick={() => alert(`Cadeau ajouté: ${item.description_product}`)}*/}
+                                                    {/*    className="cursor-pointer p-1 bg-yellow-100 rounded-full hover:bg-yellow-200 transition"*/}
+                                                    {/*>*/}
+                                                    {/*    🎁*/}
+                                                    {/*</button>*/}
+
+                                                </div>
+
+                                            </div>
                                 </div>
-                            </div>
-                        );
-                    })}
+                                );
+                            })}
 
-                </div>
+                        </div>
 
-            ) : (
+                    ) : (
 
-                <div className="text-center text-gray-500">{t('ListItemsFilterProduct.noProduct')}</div>
-            )}
+                        <div className="text-center text-gray-500">{t('ListItemsFilterProduct.noProduct')}</div>
+                    )}
+
+                </>
+            }
 
             <ProductModal isOpen={!!modalData} onClose={closeModal} dataProduct={modalData} />
 

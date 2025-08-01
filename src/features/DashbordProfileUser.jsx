@@ -4,10 +4,13 @@ import UsersContactsList from '../components/ContactUser';
 import api from '../services/Axios';
 import { useTranslation } from 'react-i18next';
 import ListProductShoppingCart from './ListProductShoppingCart';
+import LoadingCard from '../components/LoardingSpin';
 
 const Tabs = () => {
 
     const { t } = useTranslation();
+
+    const [loading, setLoading] = useState(true)
 
     const [activeTab, setActiveTab] = useState('dashboard');
 
@@ -25,7 +28,7 @@ const Tabs = () => {
         const getProduct = async () => {
 
             try {
-                const productTransaction= await api.get('product/fournisseur/transaction/');
+                const productTransaction = await api.get('product/fournisseur/transaction/');
 
                 console.log("DashbordProfileUsr, LES PRODUITS BOUGHT DE LA TRANSACTION", productTransaction?.data);
 
@@ -34,6 +37,10 @@ const Tabs = () => {
             } catch (e) {
 
                 console.log("ERREUR LORS DU DEBUGGING", e);
+
+            } finally {
+
+                setLoading(false)
             }
         };
 
@@ -72,11 +79,19 @@ const Tabs = () => {
                 </div>
 
                 {
-                    (productsTrasactionBought?.length > 0) && (
+                    loading ? 
+                    <LoadingCard/>
+                    :
+                    <div >
+                    {
+                        (productsTrasactionBought?.length > 0) && (
 
-                        <ProductsRecapTable products={productsTrasactionBought} />
-                    )
+                            <ProductsRecapTable products={productsTrasactionBought} />
+                        )
+                    }
+                    </div >
                 }
+
 
             </div>
         ),
