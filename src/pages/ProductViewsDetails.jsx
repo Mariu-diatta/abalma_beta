@@ -1,9 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addMessageNotif } from "../slices/chatSlice";
 import WalletModal from "../features/WalletModal";
 import ProfilPopPov from "../features/PopovProfile";
 import { addToCart } from "../slices/cartSlice";
+import api from "../services/Axios";
 
 const ProductModal = ({ isOpen, onClose, dataProduct }) => {
 
@@ -11,9 +12,22 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
 
     const [isProductAdd, setIsProductAdd] = useState(false);
 
+    const [productNbViews, setProductNbViews] = useState(null);
+
     const buttonRef = useRef(null)
 
     const popovRef = useRef(null)
+
+    useEffect(() => {
+        // Appelle l'API => déclenche record_view automatiquement côté backend
+        api.get(`/products_details/${dataProduct?.id}/`)
+            .then(response => {
+                setProductNbViews(response.data?.total_views);
+            })
+            .catch(error => {
+                console.error('Erreur de chargement du produit:', error);
+            });
+    }, [dataProduct?.id]);
 
     // Sans paramètre, pour un appel manuel
     const handleAddToCart_ = () => {
@@ -219,7 +233,7 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                                     href="/home"
                                                     className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
                                                 >
-                                                    117 reviews
+                                                    {productNbViews} reviews
                                                 </a>
 
                                             </div>

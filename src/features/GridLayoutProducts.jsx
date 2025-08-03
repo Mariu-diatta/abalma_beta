@@ -57,10 +57,13 @@ const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory }) => {
     };
 
     const scroll = (direction) => {
+
         const container = scrollRef.current;
+
         if (!container) return;
 
         const scrollAmount = 200;
+
         container.scrollBy({
             left: direction === 'left' ? -scrollAmount : scrollAmount,
             behavior: 'smooth',
@@ -88,12 +91,16 @@ const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory }) => {
     }, []);
 
     return (
+
         <div className="relative w-full mb-4">
 
             {/* Bouton gauche */}
             {showLeft && (
+
                 <button
+
                     className="absolute left-0 top-1/2 -translate-y-1/2 z-0 bg-white p-2 shadow rounded-full"
+
                     onClick={() => scroll('left')}
                 >
                     <ChevronLeft className="w-5 h-5 text-gray-600" />
