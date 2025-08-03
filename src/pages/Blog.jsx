@@ -91,7 +91,7 @@ export const BlogPage = () => {
 
             </SuspenseCallback>
 
-            <div className="fixed bottom-2 right-0  grid gap-8 lg:grid-cols-2">
+            <div className="fixed bottom-8 right-0  grid gap-8 lg:grid-cols-2">
 
                 <ModalFormCreatBlog />
 
