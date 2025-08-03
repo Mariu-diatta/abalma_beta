@@ -6,6 +6,7 @@ import ProfilPopPov from "../features/PopovProfile";
 import { addToCart } from "../slices/cartSlice";
 import api from "../services/Axios";
 import { useTranslation } from 'react-i18next';
+import { numberStarsViews } from "../utils";
 
 
 const ProductModal = ({ isOpen, onClose, dataProduct }) => {
@@ -80,114 +81,119 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
 
                             className="relative flex w-full items-center overflow-hidden "
 
-                            style={{
-                                backgroundColor: "var(--color-bg)",
-                                color: "var(--color-text)"
-                            }}
+                            style={
+                                {
+                                    backgroundColor: "var(--color-bg)",
+                                    color: "var(--color-text)"
+                                }
+                            }
 
                         >
 
-                            <div className="z-0 absolute top-1 right-2 ">
+                            <div className="flex gap-2">
 
-                                <button
+                                <div className="absolute bottom-0 left-2 mt-5 lg:mt-auto  lg:left-auto lg:right-12 lg:top-0 lg:bottom-auto md:top-1 md:bottom-auto flex items-between gap-1 ">
 
-                                    type="button"
+                                    {
+                                        !isProductAdd &&
+                                        <button
 
-                                    onClick={onClose}
+                                            onClick={(e) => handleAddToCart_(e)}
 
-                                    className="z-0 flex items-center justify-center p-3  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                >
-                                    <span className="sr-only">Close</span>
+                                            title="Ajouter au panier"
 
-                                    <svg
-                                        className="z-0  size-6"
+                                            className="flex items-center justify-center p-3 rounded-full  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
 
-                                        fill="none"
+                                            aria-label="Ajouter au panier"
 
-                                        viewBox="0 0 24 24"
+                                        >
+                                            <svg className="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
+                                            </svg>
 
-                                        strokeWidth={1.5}
+                                        </button>
+                                    }
 
-                                        stroke="currentColor"
+                                    <WalletModal>
+
+                                        <button
+
+                                            title="Payer"
+
+                                            className="rounded-full flex items-center justify-center p-3  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+
+                                            aria-label="Payer"
+                                        >
+                                            <svg style={{ color: "black" }}  className="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="M8 7V6a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-1M3 18v-7a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Zm8-3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
+                                            </svg>
+
+                                        </button>
+
+                                    </WalletModal>
+
+                                    <div
+                                        title="Profil Produit Popov"
+
+                                        className="z-20 rounded-full "
+
+                                        tabIndex={0}
+
+                                        aria-label="Profil Produit Popov"
 
                                     >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M6 18L18 6M6 6l12 12"
-                                        />
-                                    </svg>
+                                        <ProfilPopPov/>
 
-                                </button>
+                                    </div>
 
-                            </div>
+                                </div>
 
-                            <div className="absolute top-1 right-20  flex items-center gap-4 ">
+                                <div className="fixed lg:absolute top-0 right-0">
 
-                                {
-                                    !isProductAdd &&
                                     <button
 
-                                        onClick={(e) => handleAddToCart_(e)}
+                                        type="button"
 
-                                        title="Ajouter au panier"
+                                        onClick={onClose}
 
-                                        className="flex items-center justify-center p-3 rounded-full  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
-
-                                        aria-label="Ajouter au panier"
-
+                                        className="z-0 rounded-full flex items-center justify-center p-3  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     >
-                                        <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
+                                        <span className="sr-only">Close</span>
+
+                                        <svg
+                                            className="z-0  size-4"
+
+                                            fill="none"
+
+                                            viewBox="0 0 24 24"
+
+                                            strokeWidth={1}
+
+                                            stroke="currentColor"
+
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M6 18L18 6M6 6l12 12"
+                                            />
                                         </svg>
 
                                     </button>
-                                }
-
-                                <WalletModal>
-
-                                    <button
-
-                                        title="Payer"
-
-                                        className="flex items-center justify-center p-3 rounded-full  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
-
-                                        aria-label="Payer"
-                                    >
-                                        <svg style={{ color: "black" }}  className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="M8 7V6a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-1M3 18v-7a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Zm8-3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
-                                        </svg>
-
-                                    </button>
-
-                                </WalletModal>
-
-                                <div
-                                    title="Profil Produit Popov"
-
-                                    className="z-20 rounded-full "
-
-                                    tabIndex={0}
-
-                                    aria-label="Profil Produit Popov"
-
-                                >
-                                    <ProfilPopPov/>
 
                                 </div>
 
                             </div>
 
-
-                            <div className="grid w-full grid-cols-1 items-start gap-x-6 gap-y-8 sm:grid-cols-12 lg:gap-x-8 ">
+                            <div className="gap-y-8  grid w-full grid-cols-1 items-start sm:grid-cols-12 lg:gap-x-1">
 
                                 <img
                                     src={dataProduct?.image_product}
                                     alt="Product"
-                                    className="aspect-4/5 w-full  object-cover sm:col-span-6 lg:col-span-6"
+                                    className="aspect-4/5 w-full  object-cover sm:col-span-6 lg:col-span-7"
                                 />
 
-                                <div className="sm:col-span-6 lg:col-span-6 lg:mt-8 lg:pt-8 p-5">
+                                <div className="sm:col-span-6 lg:col-span-5  lg:mt-6 lg:pt-2 p-2  mb-8 pb-8 gap-y-8 ">
 
                                     <h2 className="text-2xl font-bold  sm:pr-12">
                                         {dataProduct?.categorie_product}
@@ -203,7 +209,7 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
 
                                                 <div className="flex items-center">
 
-                                                    {[...Array(4)].map((_, i) => (
+                                                    {[...Array(parseInt(numberStarsViews(productNbViews)))].map((_, i) => (
 
                                                         <svg
                                                             key={i}
@@ -219,18 +225,6 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                                         </svg>
                                                     ))}
 
-                                                    <svg
-                                                        className="size-5 text-gray-200"
-                                                        fill="currentColor"
-                                                        viewBox="0 0 20 20"
-                                                    >
-                                                        <path
-                                                            fillRule="evenodd"
-                                                            d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z"
-                                                            clipRule="evenodd"
-                                                        />
-                                                    </svg>
-
                                                 </div>
 
                                                 <a
@@ -245,7 +239,6 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                         </div>
 
                                     </section>
-
 
                                     {/* Color Options */}
                                     <fieldset>
@@ -297,7 +290,7 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
 
                                         </div>
 
-                                        <div className="z-0 mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                                        <div className="z-0 mt-4 mb-2 sm:mb-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-1">
 
                                             {[
                                                 { label: "Type", value: dataProduct?.type_choice },
@@ -311,7 +304,7 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                                 <label
                                                     key={`${label}-${idx}`}
                                                     htmlFor={`${label}-${value}`}
-                                                    className="group relative flex flex-col items-center justify-center border border-gray-300  rounded-md px-4 py-3 text-sm font-medium text-gray-800 hover:bg-gray-100 transition-all duration-150"
+                                                    className="group relative flex flex-col items-center justify-center border border-gray-300  rounded-md px-1 py-1 text-xs text-gray-800 hover:bg-gray-100 transition-all duration-150"
                                                 >
                                                     <input
                                                         type="radio"
@@ -321,9 +314,9 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                                         className="sr-only lowercase"
                                                     />
 
-                                                    <span className="text-xs">{label}</span>
+                                                    <span className="text-xs">{label.toLowerCase()}</span>
 
-                                                    <span className="">{value.toLowerCase() || "N/A"}</span>
+                                                    <span className="text-xs">{value.toLowerCase() || "N/A"}</span>
 
                                                 </label>
                                             ))}
@@ -351,19 +344,23 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                             const formattedDate = createdDate.toLocaleDateString("fr-FR");
 
                                             return isToday
-                                                ? `Aujourd'hui à ${formattedTime}`
-                                                : `${formattedDate} à ${formattedTime}`;
+                                                ? `${t("phrasaleDate")} ${formattedTime}`
+                                                : `${formattedDate} ${t('at')} ${formattedTime}`;
                                         })()}
 
                                     </fieldset>
 
-
                                 </div>
                             </div>
+
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
+
         </div>
     );
 };

@@ -24,7 +24,7 @@ const SettingsForm = () => {
         country: '',
     });
 
-    const [previewUrl, setPreviewUrl] = useState(null);
+    //const [previewUrl, setPreviewUrl] = useState(null);
     const currentUserData = useSelector((state) => state.auth.user);
     const currentUserCompte = useSelector((state) => state.auth.compteUser);
     const [cartData, setCartData] = useState({});
@@ -57,12 +57,12 @@ const SettingsForm = () => {
         dispatch(updateTheme(value))
     };
 
-    const handleImageUpload = (e) => {
+    //const handleImageUpload = (e) => {
 
-        const file = e.target.files[0];
+    //    const file = e.target.files[0];
 
-        setPreviewUrl(URL.createObjectURL(file));
-    };
+    //    setPreviewUrl(URL.createObjectURL(file));
+    //};
 
     const handleSubmit = async (e) => {
 
@@ -86,21 +86,21 @@ const SettingsForm = () => {
 
     };
 
-    const updatePassword = async (e) => {
+    //const updatePassword = async (e) => {
 
-        e.preventDefault();
+    //    e.preventDefault();
 
-        await tryRequest(
+    //    await tryRequest(
 
-            () => api.patch(`/clients/${currentUserData?.id}/`,
+    //        () => api.patch(`/clients/${currentUserData?.id}/`,
 
-                {
-                    password: form.password,
-                }
+    //            {
+    //                password: form.password,
+    //            }
 
-            ), t('settingsText.passwordUpdated'))
+    //        ), t('settingsText.passwordUpdated'))
 
-    }
+    //}
 
     const GetClientCard = useCallback(async () => {
         if (!currentUserData?.id) return;
@@ -165,15 +165,15 @@ const SettingsForm = () => {
     }, [currentUserData?.id, GetClientCard]);
 
 
-    useEffect(() => {
+    //useEffect(() => {
 
-        return () => {
+    //    return () => {
 
-            if (previewUrl) URL.revokeObjectURL(previewUrl);
+    //        if (previewUrl) URL.revokeObjectURL(previewUrl);
 
-        };
+    //    };
 
-    }, [previewUrl]);
+    //}, [previewUrl]);
 
 
     useEffect(() => {
