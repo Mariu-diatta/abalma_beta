@@ -30,7 +30,6 @@ const VertcalNavbar = ({ children }) => {
 
     const sidebarRef = useRef();
 
-
     // 🔎 Fetch Rooms
     useEffect(() => {
 
@@ -141,11 +140,13 @@ const VertcalNavbar = ({ children }) => {
 
             className="overflow-y-auto h-full"
 
-            style={{
-                marginBottom: "50px",
+            style={
+                {
+                    marginBottom: "50px",
 
-                paddingBottom: "30px"
-            }}
+                    paddingBottom: "30px"
+                }
+            }
         >
 
             {/* Toggle Button */}
@@ -369,7 +370,7 @@ const VertcalNavbar = ({ children }) => {
 
                                 onClick={() => { navigate("/user_blogs"); dispatch(setCurrentNav("user_blogs")) }}
 
-                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-md ${(currentNav === "dashboard") && "bg-gray-100"}`}                            >
+                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-md ${(currentNav === "user_blogs") && "bg-gray-100"}`}                            >
 
                                 <div className="flex gap-2">
 
