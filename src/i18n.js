@@ -22,6 +22,7 @@ i18n
      en: {
 
         translation: {
+             reviews: 'reviews',
              choose_language:'Choose a langage',
              connect_with: "Connect With",
              param: 'Settings and Privacy',
@@ -396,6 +397,7 @@ i18n
      fr: {
 
          translation: {
+              reviews: 'vues',
               choose_language: 'Choisir une langue',
               connect_with: "Connecter avec",
               param: 'Paramètres et convidentialités',

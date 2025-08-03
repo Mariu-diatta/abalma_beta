@@ -5,8 +5,12 @@ import WalletModal from "../features/WalletModal";
 import ProfilPopPov from "../features/PopovProfile";
 import { addToCart } from "../slices/cartSlice";
 import api from "../services/Axios";
+import { useTranslation } from 'react-i18next';
+
 
 const ProductModal = ({ isOpen, onClose, dataProduct }) => {
+
+    const { t } = useTranslation();
 
     const dispatch = useDispatch();
 
@@ -233,7 +237,7 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                                     href="/home"
                                                     className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
                                                 >
-                                                    {productNbViews} reviews
+                                                    {productNbViews} {t('reviews')}
                                                 </a>
 
                                             </div>
