@@ -1,8 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import OwnerAvatar from '../components/OwnerProfil';
+import { useTranslation } from 'react-i18next';
+
 
 const ProfilPopPov = () => {
+
+    const { t } = useTranslation();
+
     const [isVisible, setIsVisible] = useState(false);
     const [showAbove, setShowAbove] = useState(false);
 
@@ -96,34 +101,38 @@ const ProfilPopPov = () => {
                                 <OwnerAvatar owner={currentOwnUser} />
                                 <small>{currentOwnUser?.nom} {currentOwnUser?.prenom}</small>
                             </h3>
+
                             <button
                                 type="button"
                                 className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xs px-3 py-1.5 dark:bg-blue-700 dark:hover:bg-blue-800 focus:outline-none dark:focus:ring-blue-900"
                             >
-                                Follow
+                                {t('follow')}
                             </button>
+
                         </div>
+
                         <p className="mb-2 text-sm">@{currentOwnUser?.nom}</p>
+
                         <p className="mb-4 text-sm">
-                            Open-source contributor. Building{' '}
-                            <a
-                                href="/home"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-blue-600 dark:text-blue-500 hover:underline"
-                            >
-                                @abalma
-                            </a>.
+
+                            {currentOwnUser?.description.slice(0, 50)}...
+
                         </p>
+
                         <ul className="flex gap-6 text-sm">
-                            <li>
-                                <span className="font-semibold text-gray-900 dark:text-white">799</span> Following
+
+                            <li className="flex gap-1">
+                                <span className="font-semibold text-gray-900 dark:text-white">799</span>   <p>{t('following')} </p>
                             </li>
-                            <li>
-                                <span className="font-semibold text-gray-900 dark:text-white">3,758</span> Followers
+
+                            <li className="flex gap-1">
+                                <span className="font-semibold text-gray-900 dark:text-white">3,758</span> <p>{t('followers')}</p>
                             </li>
+
                         </ul>
+
                     </div>
+
                 </div>
             )}
         </div>

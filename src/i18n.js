@@ -21,7 +21,10 @@ i18n
 
      en: {
 
-        translation: {
+            translation: {
+             follow:'Follow',
+             following: "Following",
+             followers:'Followers',
              at:"at",
              phrasaleDate:"Today",
              reviews: 'Views',
@@ -399,6 +402,9 @@ i18n
      fr: {
 
          translation: {
+              follow: 'Suivre',
+              following: 'Abonnements',
+              followers: 'Abonnés',
               at: "à",
               phrasaleDate: "Aujourd'hui à",
               reviews: 'Vues',
