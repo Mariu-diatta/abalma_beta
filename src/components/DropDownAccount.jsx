@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { setCurrentNav } from "../slices/navigateSlice";
 
 
-const NotificationGroup = ({ currentUser, currentNotifMessages, notify, changeLanguage, nbItems, dispatch, navigate }) => (
+const NotificationGroup = ({ currentNotifMessages, notify, changeLanguage, nbItems, dispatch, navigate }) => (
 
     <>
 
@@ -26,7 +26,7 @@ const NotificationGroup = ({ currentUser, currentNotifMessages, notify, changeLa
 
                 style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
             >
-                <NotificationsComponent userId={currentUser?.id} />
+                <NotificationsComponent/>
 
             </button>
         )}
@@ -34,7 +34,6 @@ const NotificationGroup = ({ currentUser, currentNotifMessages, notify, changeLa
         <Toaster />
 
         <ThemeToggle />
-
 
         {/* Paiement */}
         <button
@@ -61,7 +60,7 @@ const NotificationGroup = ({ currentUser, currentNotifMessages, notify, changeLa
     </>
 );
 
-const NotificationsComponent = ({ userId }) => {
+export const NotificationsComponent = ({ userId }) => {
 
     const currentNotifMessages = useSelector(state => state.chat.messageNotif);
 

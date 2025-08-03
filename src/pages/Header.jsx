@@ -434,7 +434,7 @@ const NavbarHeader = () => {
                             >       
                                 <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
 
-                                <WhiteRoundedButton titleButton={t('register')} to="/Register" />
+                                <WhiteRoundedButton titleButton={t('register')} to="/register" />
 
                                 <ThemeToggle />
 
@@ -454,7 +454,7 @@ const NavbarHeader = () => {
 
                             <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
 
-                            <WhiteRoundedButton titleButton={t('register')} to="/Register" />
+                            <WhiteRoundedButton titleButton={t('register')} to="/register" />
 
                         </div>
 

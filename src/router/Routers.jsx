@@ -35,7 +35,8 @@ const routes = [
         errorElement: <ErrorPage />,
 
         children: [
-            { index: true, element: <Home/> },
+            { index: true, element: <Home /> },
+            { index: "home", element: <Home /> },
             { path: "logIn", element: <LogIn/> },
             { path: "register", element: <Register/> },
             { path: "about", element: <About/> },
