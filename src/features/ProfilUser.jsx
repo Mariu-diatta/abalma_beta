@@ -409,7 +409,7 @@ const ProfileCard = () => {
 
                         onClick={() => setIsEditingPhotoBg(!isEditingPhotoBg)}
 
-                        className="absolute top-4 right-4 bg-white p-2 rounded-full shadow hover:bg-gray-100"
+                        className="absolute top-4 right-4 p-2 rounded-full shadow hover:bg-gray-100 text-sm"
 
                         aria-label={t('ProfilText.modifierCouverture')}
                     >
@@ -552,7 +552,7 @@ const ProfileCard = () => {
 
                                 disabled
 
-                                className='border-0 w-full border-gray-200 border rounded-sm mt-2 inline-flex items-center justify-center py-2 px-4 text-center  text-primary hover:bg-blue-light-5 hover:text-body-color dark:hover:text-dark-3 disabled:bg-gray-3 disabled:border-gray-3 disabled:text-dark-5 active:bg-blue-light-3'
+                                className='border-0 w-full border-gray-200 border rounded-sm mt-2 inline-flex items-center justify-center py-2 px-4 text-center  text-sm hover:bg-blue-light-5 hover:text-body-color dark:hover:text-dark-3 disabled:bg-gray-3 disabled:border-gray-3 disabled:text-dark-5 active:bg-blue-light-3'
 
                                 placeholder={t('ProfilText.descriptionPlaceholder')}
                             />
