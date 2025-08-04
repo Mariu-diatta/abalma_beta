@@ -30,7 +30,7 @@ const recordView = async (clientId) => {
             },
         });
 
-        console.log('Vue enregistrée :', response.data?.message || 'Succès');
+        console.log('Vue enregistrée :', response.data || response.data?.message || 'Succès');
     } catch (error) {
         const message =
             error.response?.data?.error ||
