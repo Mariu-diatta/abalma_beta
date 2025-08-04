@@ -15,6 +15,10 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
 
     const currentUser = useSelector(state => state.auth.user)
 
+    const selectedUser = useSelector(state => state.chat.userSlected)
+
+    const [isCurrentUser, setIsCurrentUser] = useState(false);
+
     const dispatch = useDispatch();
 
     const [isProductAdd, setIsProductAdd] = useState(false);
@@ -35,6 +39,17 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                 console.error('Erreur de chargement du produit:', error);
             });
     }, [dataProduct?.id]);
+
+    useEffect(
+        () => {
+
+            var isCurrent_User = () => !(currentUser?.id === selectedUser?.id)
+
+            setIsCurrentUser(isCurrent_User)
+
+        }, [currentUser?.id, selectedUser?.id]
+
+    )
 
     // Sans paramètre, pour un appel manuel
     const handleAddToCart_ = () => {
@@ -134,19 +149,23 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
 
                                     </WalletModal>
 
-                                    <div
-                                        title="Profil Produit Popov"
+                                    {
+                                        isCurrentUser &&
 
-                                        className="z-20 rounded-full "
+                                        <div
+                                            title="Profil Produit Popov"
 
-                                        tabIndex={0}
+                                            className="z-20 rounded-full "
 
-                                        aria-label="Profil Produit Popov"
+                                            tabIndex={0}
 
-                                    >
-                                        <ProfilPopPov/>
+                                            aria-label="Profil Produit Popov"
 
-                                    </div>
+                                        >
+                                            <ProfilPopPov/>
+
+                                        </div>
+                                    }
 
                                 </div>
 
