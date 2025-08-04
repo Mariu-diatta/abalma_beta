@@ -307,12 +307,16 @@ const GridLayoutProduct = () => {
 
                                                 className="block w-full rounded-lg overflow-hidden"
                                             >
-                                                <img
-                                                    src={item.image_product}
-                                                    alt={item.description_product}
-                                                    className="w-full h-55 object-cover rounded-lg mb-2  transition duration-300 ease-in-out hover:brightness-75 hover:grayscale"
-                                                    onError={(e) => { e.target.src = "/default-product.jpg"; }}
-                                                />
+                                            <img
+                                                src={item?.image_product}
+                                                alt={item?.description_product}
+                                                className="w-full h-55 object-cover rounded-lg mb-2 transition duration-300 ease-in-out hover:brightness-75 hover:grayscale"
+                                                onError={(e) => {
+                                                    if (e.target.src !== window.location.origin + "/default-product.jpg") {
+                                                        e.target.src = "/default-product.jpg";
+                                                    }
+                                                }}
+                                            />
 
                                             </button>
 
