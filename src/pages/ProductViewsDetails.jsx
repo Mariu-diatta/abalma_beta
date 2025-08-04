@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addMessageNotif } from "../slices/chatSlice";
 import WalletModal from "../features/WalletModal";
 import ProfilPopPov from "../features/PopovProfile";
@@ -12,6 +12,8 @@ import { numberStarsViews } from "../utils";
 const ProductModal = ({ isOpen, onClose, dataProduct }) => {
 
     const { t } = useTranslation();
+
+    const currentUser = useSelector(state => state.auth.user)
 
     const dispatch = useDispatch();
 

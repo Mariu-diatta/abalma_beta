@@ -67,3 +67,4 @@ const authSlice = createSlice({
 export const { updateUserToken, updateCompteUser, updateUserData, getFirebaseToken, login, logout } = authSlice.actions;
 
 export default authSlice.reducer;
+

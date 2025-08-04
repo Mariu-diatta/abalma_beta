@@ -659,7 +659,7 @@ const ProfileCard = () => {
 
                                         onClick={() => setIsEditing(true)}
 
-                                        className="w-full rounded-lg flex gap-1 bg-gray-300 text-white  text-sm px-3 py-1 rounded hover:bg-blue-700 m-1"
+                                        className="w-auto rounded-lg flex gap-1 bg-gray-300 text-white  text-sm px-3 py-1 rounded hover:bg-blue-700 m-1"
 
                                         title="Modifier le profil"
 
@@ -691,7 +691,7 @@ const ProfileCard = () => {
                                             }
                                         }
 
-                                        className="w-full rounded-lg bg-yellow-600 text-white text-sm px-3 py-1 rounded hover:bg-yellow-700 m-1"
+                                        className="w-auto rounded-lg bg-yellow-600 text-white text-sm px-3 py-1 rounded hover:bg-yellow-700 m-1"
                                     >
                                         {!messageVisible ? "Message" : "X"}
 
@@ -702,7 +702,7 @@ const ProfileCard = () => {
                                    (!userProfile?.is_fournisseur || !userProfile?.is_fournisseur) && isCurrentUser &&
                                     <button
                                         onClick={getUserCompte}
-                                        className="w-full rounded-lg text-sm  flex gap-1 bg-indigo-300 text-white px-3 py-1 rounded hover:bg-indigo-700 m-1"
+                                        className="w-auto rounded-lg text-sm  flex gap-1 bg-indigo-300 text-white px-3 py-1 rounded hover:bg-indigo-700 m-1"
                                         title="Devenir un fournisseur"
                                     >
                                         <svg className="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -726,7 +726,7 @@ const ProfileCard = () => {
 
                                         onClick={delAccountUser}
 
-                                        className="w-full rounded-lg flex gap-1 bg-red-300 text-white text-sm px-3 py-1 rounded hover:bg-red-700 m-1"
+                                        className="w-auto rounded-lg flex gap-1 bg-red-300 text-white text-sm px-3 py-1 rounded hover:bg-red-700 m-1"
 
                                         title="supprimer le compte"
                                     >

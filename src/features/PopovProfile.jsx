@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import OwnerAvatar from '../components/OwnerProfil';
 import { useTranslation } from 'react-i18next';
+import ViewsProfil from '../components/ViewsProfilUser';
 
 
 const ProfilPopPov = () => {
@@ -96,18 +97,18 @@ const ProfilPopPov = () => {
                     }}
                 >
                     <div className="p-4">
+
                         <div className="flex items-center justify-between mb-3">
+
                             <h3 className="flex gap-2 items-center">
+
                                 <OwnerAvatar owner={currentOwnUser} />
+
                                 <small>{currentOwnUser?.nom} {currentOwnUser?.prenom}</small>
+
                             </h3>
 
-                            <button
-                                type="button"
-                                className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xs px-3 py-1.5 dark:bg-blue-700 dark:hover:bg-blue-800 focus:outline-none dark:focus:ring-blue-900"
-                            >
-                                {t('follow')}
-                            </button>
+                            <ViewsProfil clientId={currentOwnUser?.id}/>
 
                         </div>
 
@@ -122,7 +123,7 @@ const ProfilPopPov = () => {
                         <ul className="flex gap-6 text-sm">
 
                             <li className="flex gap-1">
-                                <span className="font-semibold text-gray-900 dark:text-white">799</span>   <p>{t('following')} </p>
+                                <span className="font-semibold text-gray-900 dark:text-white">799</span> <p>{t('following')} </p>
                             </li>
 
                             <li className="flex gap-1">
