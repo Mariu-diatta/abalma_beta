@@ -38,7 +38,7 @@ const DeleteProfilAccount = () => {
 
                 await api.delete(`clients/${userProfile?.id}/`);
 
-                alert('Votre compte a été supprimé avec succès');
+                alert('Votre compte a Ã©tÃ© supprimÃ© avec succÃ¨s');
 
                 dispatch(logout());
 

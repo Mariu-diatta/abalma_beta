@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import DeleteProfilAccount from '../components/DeleteAccount';
 import { applyTheme } from '../utils';
 
-
 const SettingsForm = () => {
 
     const { t } = useTranslation();
@@ -27,16 +26,25 @@ const SettingsForm = () => {
     });
 
     const [previewUrl, setPreviewUrl] = useState(null);
+
     const currentUserData = useSelector((state) => state.auth.user);
+
     const currentUserCompte = useSelector((state) => state.auth.compteUser);
+
     const [cartData, setCartData] = useState({});
+
     const dispatch = useDispatch()
 
     const tryRequest = async (requestFn, successMessage) => {
+
         try {
+
             await requestFn();
+
             alert(successMessage);
+
         } catch (err) {
+
             console.warn("Request failed:", err);
         }
     };
@@ -100,19 +108,24 @@ const SettingsForm = () => {
     }
 
     const GetClientCard = useCallback(async () => {
+
         if (!currentUserData?.id) return;
 
         try {
             const resp = await api.get("/cardPaid/");
+
             const dataCard = resp?.data?.filter(elem => elem?.client === currentUserData.id);
+
             const firstCard = dataCard.length > 0 ? dataCard[0] : null;
+
             setCartData(firstCard);
+
         } catch (error) {
+
             console.error("Erreur lors de la récupération des données de la carte :", error);
         }
+
     }, [currentUserData?.id]);
-
-
 
     const handleSubmitCard = async (e) => {
 
@@ -121,13 +134,21 @@ const SettingsForm = () => {
         if (!currentUserData?.id) return;
 
         const formData = new FormData();
+
         formData.append("date_expiration", form.expiry);
+
         formData.append("number_cvv", form.cvv);
+
         formData.append("number_card", form.cardNumber);
+
         formData.append("adresse_pay", form.address);
+
         formData.append("ville_pay", form.city);
+
         formData.append("code_postal_pay", form.zip);
+
         formData.append("pays_pay", form.country);
+
         formData.append("client", currentUserData.id);
 
         try {
@@ -154,7 +175,6 @@ const SettingsForm = () => {
 
     }, [currentUserData?.id, GetClientCard]);
 
-
     useEffect(() => {
 
         return () => {
@@ -164,7 +184,6 @@ const SettingsForm = () => {
         };
 
     }, [previewUrl]);
-
 
     useEffect(() => {
 
@@ -192,7 +211,6 @@ const SettingsForm = () => {
         }
 
     }, [cartData])
-
 
     return (
 
