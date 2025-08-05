@@ -17,14 +17,21 @@ const ProfilPopPov = () => {
 
     const currentOwnUser = useSelector((state) => state.chat.userSlected);
 
+    const currentUser = useSelector((state) => state.auth.user);
+
     const togglePopover = () => {
+
         setIsVisible((prev) => !prev);
 
         // Vérifie si le bouton est proche du bas de l’écran
         if (buttonRef.current) {
+
             const rect = buttonRef.current.getBoundingClientRect();
+
             const windowHeight = window.innerHeight;
+
             const spaceBelow = windowHeight - rect.bottom;
+
             const spaceAbove = rect.top;
 
             // Affiche au-dessus si pas assez d'espace en bas
@@ -123,11 +130,11 @@ const ProfilPopPov = () => {
                         <ul className="flex gap-6 text-sm">
 
                             <li className="flex gap-1">
-                                <span className="font-semibold text-gray-900 dark:text-white">799</span> <p>{t('following')} </p>
+                                <span className="font-semibold text-gray-900 dark:text-white">{currentUser?.total_followers}</span> <p>{t('following')} </p>
                             </li>
 
                             <li className="flex gap-1">
-                                <span className="font-semibold text-gray-900 dark:text-white">3,758</span> <p>{t('followers')}</p>
+                                <span className="font-semibold text-gray-900 dark:text-white">{currentUser?.total_followings}</span> <p>{t('followers')}</p>
                             </li>
 
                         </ul>

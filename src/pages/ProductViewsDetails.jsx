@@ -209,15 +209,20 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                             <div className="gap-y-8  grid w-full grid-cols-1 items-start sm:grid-cols-12 lg:gap-x-1">
 
                                 <img
+
                                     src={dataProduct?.image_product}
+
                                     alt="Product"
+
                                     className="aspect-4/5 w-full  object-cover sm:col-span-6 lg:col-span-7"
                                 />
 
                                 <div className="sm:col-span-6 lg:col-span-5  lg:mt-6 lg:pt-2 p-2  mb-8 pb-8 gap-y-8 ">
 
                                     <h2 className="text-2xl font-bold  sm:pr-12">
+
                                         {dataProduct?.categorie_product}
+
                                     </h2>
 
                                     <section className="mt-2 ">
@@ -233,9 +238,13 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                                     {[...Array(parseInt(numberStarsViews(productNbViews)))].map((_, i) => (
 
                                                         <svg
+
                                                             key={i}
+
                                                             className="size-5 text-gray-900"
+
                                                             fill="currentColor"
+
                                                             viewBox="0 0 20 20"
                                                         >
                                                             <path
@@ -250,9 +259,11 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
 
                                                 <a
                                                     href="/home"
+
                                                     className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
                                                 >
                                                     {productNbViews} {t('reviews')}
+
                                                 </a>
 
                                             </div>
@@ -265,7 +276,9 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                     <fieldset>
 
                                         <legend className="text-sm font-medium ">
+
                                             {dataProduct?.color_prouct}
+
                                         </legend>
 
                                         <div className="mt-4 flex items-center gap-x-3">
@@ -273,19 +286,32 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                             {["white", "gray", "black"].map((color) => (
 
                                                 <div
+
                                                     key={color}
+
                                                     className="flex rounded-full outline outline-black/10"
+
                                                 >
                                                     <input
+
                                                         type="radio"
+
                                                         name="color"
+
                                                         value={color}
+
                                                         className={`size-8 appearance-none rounded-full ${color === "white"
+
                                                             ? "bg-white"
+
                                                             : color === "gray"
+
                                                                 ? "bg-gray-200"
+
                                                                 : "bg-gray-900"
+
                                                             } checked:outline-2 checked:outline-offset-2 checked:outline-gray-400 focus-visible:outline-3 focus-visible:outline-offset-3`}
+
                                                         defaultChecked={color === "white"}
                                                     />
 
@@ -297,7 +323,9 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                     </fieldset>
 
                                     <h2 className="text-sm  mt-5">
+
                                         {dataProduct?.description_product}
+
                                     </h2>
 
                                     {/* Size Options */}
@@ -306,7 +334,9 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                         <div className="flex items-center justify-between">
 
                                             <div className="text-sm font-medium">
+
                                                 {dataProduct?.color_prouct}
+
                                             </div>
 
                                         </div>
@@ -323,8 +353,11 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
                                             ].map(({ label, value }, idx) => (
 
                                                 <label
+
                                                     key={`${label}-${idx}`}
+
                                                     htmlFor={`${label}-${value}`}
+
                                                     className="group relative flex flex-col items-center justify-center border border-gray-300  rounded-md px-1 py-1 text-xs text-gray-800 hover:bg-gray-100 transition-all duration-150"
                                                 >
                                                     <input
@@ -354,18 +387,21 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
 
                                             const now = new Date();
 
-                                            const isToday =
-                                                createdDate.toDateString() === now.toDateString();
+                                            const isToday = createdDate.toDateString() === now.toDateString();
 
                                             const formattedTime = createdDate.toLocaleTimeString("fr-FR", {
+
                                                 hour: "2-digit",
+
                                                 minute: "2-digit",
                                             });
 
                                             const formattedDate = createdDate.toLocaleDateString("fr-FR");
 
                                             return isToday
+
                                                 ? `${t("phrasaleDate")} ${formattedTime}`
+
                                                 : `${formattedDate} ${t('at')} ${formattedTime}`;
                                         })()}
 

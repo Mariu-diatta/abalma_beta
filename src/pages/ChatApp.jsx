@@ -128,9 +128,7 @@ const ChatApp = ({ roomName }) => {
 
                 backgroundColor: "var(--color-bg)",
 
-                color: "var(--color-text)",
-
-                
+                color: "var(--color-text)",  
             }}
         >
 

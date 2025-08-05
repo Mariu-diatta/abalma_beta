@@ -5,9 +5,13 @@ import { useTranslation } from 'react-i18next';
 
 
 const About = () => {
+
     return (
+
         <HomeLayout>
-            < AboutContainer />
+
+            <AboutContainer />
+
         </HomeLayout>
     )
 }

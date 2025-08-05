@@ -16,7 +16,6 @@ const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory }) => {
 
     const { t } = useTranslation();
 
-
     const categories = [
         t('ListItemsFilterProduct.All'),
         t('ListItemsFilterProduct.JOUET'),
@@ -65,7 +64,9 @@ const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory }) => {
         const scrollAmount = 200;
 
         container.scrollBy({
+
             left: direction === 'left' ? -scrollAmount : scrollAmount,
+
             behavior: 'smooth',
         });
     };

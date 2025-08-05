@@ -22,6 +22,7 @@ i18n
      en: {
 
             translation: {
+             followed:"Follow",
              follow:'Follow',
              following: "Following",
              followers:'Followers',
@@ -402,6 +403,7 @@ i18n
      fr: {
 
          translation: {
+              followed: "Suivi",
               follow: 'Suivre',
               following: 'Abonnements',
               followers: 'Abonnés',

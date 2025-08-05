@@ -99,21 +99,33 @@ const Footer = () => {
                 <div className="w-full lg:w-2/3 flex flex-wrap justify-center lg:justify-end gap-8">
 
                     <LinkGroup header={t("Resources")}>
-                        <NavLink link="/#" label={t('footer_saas')}/>
+
+                        <NavLink link="/#" label={t('footer_saas')} />
+
                         <NavLink link="/#" label={t("footer_product")} />
+
                         <NavLink link="/#" label={t("footer_userflow")} />
+
                     </LinkGroup>
 
                     <LinkGroup header="Company">
+
                         <NavLink link="/#" label={t("about_app")} />
+
                         <NavLink link="/#" label={t("contact_support")} />
+
                         <NavLink link="/#" label={t("success_history")} />
+
                     </LinkGroup>
 
                     <LinkGroup header={t('quick_links')} >
+
                         <NavLink link="/#" label={t("premium_support")} />
+
                         <NavLink link="/#" label={t("our_services")} />
+
                         <NavLink link="/#" label={t("know_our_team")} />
+
                     </LinkGroup>
                 </div>
 
