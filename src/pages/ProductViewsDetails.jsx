@@ -30,14 +30,28 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
     const popovRef = useRef(null)
 
     useEffect(() => {
+
         // Appelle l'API => déclenche record_view automatiquement côté backend
-        api.get(`/products_details/${dataProduct?.id}/`)
-            .then(response => {
-                setProductNbViews(response.data?.total_views);
-            })
-            .catch(error => {
-                console.error('Erreur de chargement du produit:', error);
-            });
+        if (dataProduct?.id !== undefined) {
+
+            try {
+
+                api.get(`/products_details/${dataProduct?.id}/`)
+
+                    .then(response => {
+
+                        setProductNbViews(response.data?.total_views);
+                    })
+
+                    .catch(error => {
+
+                        console.error('Erreur de chargement du produit:', error);
+                    });
+
+            } catch {
+
+            }
+        }
     }, [dataProduct?.id]);
 
     useEffect(

@@ -336,7 +336,7 @@ i18n
              ProfilText: {
                  modifierCouverture: "Edit cover image",
                  modifierProfil: "Edit your profile",
-                 supprimerProfil: "Delete your profile",
+                 supprimerProfil: "Delete account",
                  passerPro: "Switch to professional account",
                  devenirFournisseur: "Become a supplier",
                  envoyerJustificatif: "Send document",
@@ -726,7 +726,7 @@ i18n
             ProfilText: {
                   modifierCouverture: "Modifier image de couverture",
                   modifierProfil: "Modifier votre profil",
-                  supprimerProfil: "Supprimer votre profil",
+                  supprimerProfil: "Supprimer compte",
                   passerPro: "Passer en compte professionnel",
                   devenirFournisseur: "Devenir fournisseur",
                   envoyerJustificatif: "Envoyer justificatif",

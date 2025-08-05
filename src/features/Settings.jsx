@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import api from '../services/Axios';
 import { updateTheme } from '../slices/navigateSlice';
 import { useTranslation } from 'react-i18next';
+import DeleteProfilAccount from '../components/DeleteAccount';
+import { applyTheme } from '../utils';
 
 
 const SettingsForm = () => {
@@ -51,6 +53,8 @@ const SettingsForm = () => {
         }));
 
         dispatch(updateTheme(value))
+
+        applyTheme(value, dispatch)
     };
 
     const handleImageUpload = (e) => {
@@ -192,146 +196,153 @@ const SettingsForm = () => {
 
     return (
 
-        <div className="w-full flex flex-col lg:flex-row justify-center items-start gap-8 px-4 py-8 style-bg">
+        <div className="w-auto flex flex-col lg:flex-row justify-center items-start gap-2 px-2 py-8 style-bg">
 
-            <form
-
-                onSubmit={(e) => updatePassword(e)}
-
-                className="w-auto  dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6"
+            <div
+                className="w-full  dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6"
             >
                 <h2 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">{t("settingsText.accountSettings")}</h2>
 
-                {/* 📷 Photo de profil */}
-                <div className="flex items-center gap-4">
+                {/*Paramètres du compte*/}
+                <form
 
-                    {
-                        currentUserData?.image ?
-                            (
+                    onSubmit={(e) => updatePassword(e)}
 
-                                <img
-                                    src={currentUserData.image}
-                                    alt="Profil"
-                                    className="w-16 h-16 rounded-full object-cover"
-                                />
+                    className="w-auto  dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-3"
+                >
+                    {/* 📷 Photo de profil */}
+                    <div className="flex items-center gap-4">
 
-                            )
-                            :
-                            (
-                                <div className="w-16 h-16 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center text-gray-500">
-                                    ?
-                                </div>
-                            )
-                    }
+                        {
+                            currentUserData?.image ?
+                                (
 
-                    <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageUpload}
-                        className="text-sm text-gray-700 dark:text-gray-300"
+                                    <img
+                                        src={currentUserData.image}
+                                        alt="Profil"
+                                        className="w-16 h-16 rounded-full object-cover"
+                                    />
+
+                                )
+                                :
+                                (
+                                    <div className="w-16 h-16 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center text-gray-500">
+                                        ?
+                                    </div>
+                                )
+                        }
+
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageUpload}
+                            className="text-sm text-gray-700 dark:text-gray-300"
+                        />
+
+                    </div>
+
+                    <FloatingInput
+                        id="name"
+                        name="name"
+                        label={currentUserData?.nom || t('settingsText.nameLabel')}
+                        value={form.name}
+                        onChange={handleChange}
+                        disabled={true}
                     />
 
-                </div>
-
-                <FloatingInput
-                    id="name"
-                    name="name"
-                    label={currentUserData?.nom || t('settingsText.nameLabel')}
-                    value={form.name}
-                    onChange={handleChange}
-                    disabled={true}
-                />
-
-                <FloatingInput
-                    id="email"
-                    name="email"
-                    label={t('settingsText.emailLabel')}
-                    type="email"
-                    value={currentUserData?.email || form.email}
-                    onChange={handleChange}
-                    disabled={true}
-                />
-
-                <FloatingInput
-                    id="password"
-                    name="password"
-                    label={t('settingsText.passwordLabel')}
-                    type="password"
-                    value={form.password}
-                    onChange={handleChange}
-                />
-
-
-                <button
-                    type="submit"
-                    className="w-full py-2 px-4 mt-4 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                    {t('settingsText.changePassword')}
-
-                </button>
-
-            </form>
-
-            <form
-
-                onSubmit={(e) => handleSubmit(e)}
-
-                className="w-auto  dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6"
-            >
-                {/* 🌙 Thème */}
-                <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-
-                    <label className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">{t('settingsText.theme')}</label>
-
-                    <select
-                        name="theme"
-                        value={form.theme}
+                    <FloatingInput
+                        id="email"
+                        name="email"
+                        label={t('settingsText.emailLabel')}
+                        type="email"
+                        value={currentUserData?.email || form.email}
                         onChange={handleChange}
-                        className="style-bg border-0 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 p-2.5 "
+                        disabled={true}
+                    />
+
+                    <FloatingInput
+                        id="password"
+                        name="password"
+                        label={t('settingsText.passwordLabel')}
+                        type="password"
+                        value={form.password}
+                        onChange={handleChange}
+                    />
+
+                    <button
+                        type="submit"
+                        className="w-full py-2 px-4 mt-4 text-sm  text-white bg-blue-100 hover:bg-blue-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
-                        <option value="light">{t('settingsText.themeLight')}</option>
+                        {t('settingsText.changePassword')}
 
-                        <option value="dark">{t('settingsText.themeDark')}</option>
+                    </button>
 
-                    </select>
+                </form>
 
-                </div>
+                {/*Thème*/}
+                <form
 
-                {/* 🔔 Notifications */}
-                <div className="flex items-center">
+                    onSubmit={(e) => handleSubmit(e)}
 
-                    <input
-                        id="notifications"
-                        type="checkbox"
-                        name="notifications"
-                        checked={form.notifications}
-                        onChange={handleChange}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600"
-                    />
-
-                    <label htmlFor="notifications" className="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-
-                        {t('settingsText.notifications')}
-
-                    </label>
-
-                </div>
-
-                <button
-
-                    type="submit"
-
-                    className="w-full py-2 px-4 mt-4 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-auto  dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6"
                 >
-                    notifications
+                    {/* 🌙 Thème */}
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-4">
 
-                </button>
+                        <label className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">{t('settingsText.theme')}</label>
 
-            </form>
+                        <select
+                            name="theme"
+                            value={form.theme}
+                            onChange={handleChange}
+                            className="style-bg border-0 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 p-2.5 "
+                        >
+                            <option value="light">{t('settingsText.themeLight')}</option>
 
+                            <option value="dark">{t('settingsText.themeDark')}</option>
+
+                        </select>
+
+                    </div>
+
+                    {/* 🔔 Notifications */}
+                    <div className="flex items-center">
+
+                        <input
+                            id="notifications"
+                            type="checkbox"
+                            name="notifications"
+                            checked={form.notifications}
+                            onChange={handleChange}
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600"
+                        />
+
+                        <label htmlFor="notifications" className="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+
+                            {t('settingsText.notifications')}
+
+                        </label>
+
+                    </div>
+
+                    <button
+
+                        type="submit"
+
+                        className="w-full py-2 px-4 mt-4 text-sm  text-white bg-blue-100 hover:bg-blue-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                        notifications
+
+                    </button>
+
+                </form>
+                <DeleteProfilAccount /> 
+            </div>
+            
+            {/*Mode de paiement*/}
             <form
                 onSubmit={(e) => handleSubmitCard(e)}
-                className="w-auto dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6"
+                className="w-full dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6"
             >
 
                 {/* 💳 Paiement */}
@@ -420,7 +431,7 @@ const SettingsForm = () => {
 
                 <button
                     type="submit"
-                    className="w-full py-2 px-4 mt-4 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full py-2 px-4 mt-4 text-sm  text-white bg-blue-100 hover:bg-blue-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                     {t('settingsText.saveCard')}
 
@@ -463,3 +474,4 @@ const FloatingInput = ({ id, name, label, type = 'text', value, onChange, maxLen
 );
 
 export default SettingsForm;
+

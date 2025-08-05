@@ -1,3 +1,4 @@
+import { updateTheme } from "./slices/navigateSlice";
 
 //covertion de la date de la transaction
 export const convertDate = (dat) => {
@@ -19,7 +20,7 @@ export const convertDate = (dat) => {
 
 export const  LIST_CATEGORY=[
 
-    { idx: "jouets", filter: "JOUET" }, { idx: "sacs", filter: "SACS" }, { idx: "materiels", filter: "MAETERIELS" }, { idx: "electronique", filter: "ELECTRONIQUES" }, { idx: "habits" , filter:"HABITS"},
+    { idx: "jouets", filter: "JOUET" }, { idx: "sacs", filter: "SACS" }, { idx: "habits" , filter:"HABITS"},
 
     { idx: "livres", filter: "LIVRES" }, { idx: "Jeux_video", filter: "JEUX_VIDEO" }, { idx: "Meubles", filter: "MEUBLES" }, { idx: "Vehicules" , filter:"VEHICULES"},
 
@@ -42,3 +43,23 @@ export const numberStarsViews = (numberStars_) => {
 
     return 0;
 };
+
+
+
+export const applyTheme = (newTheme, dispatch) => {
+
+    document.body.classList.remove('dark', 'light');
+
+    document.body.classList.add(newTheme);
+
+    localStorage.setItem('theme', newTheme);
+
+    dispatch(updateTheme(newTheme));
+
+    const metaThemeColor = document.querySelector("meta[name=theme-color]");
+
+    if (metaThemeColor) {
+
+        metaThemeColor.setAttribute('content', newTheme === 'dark' ? '#000000' : '#ffffff');
+    }
+}

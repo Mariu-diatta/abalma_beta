@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/Axios';
-import { logout, updateCompteUser, updateUserData } from '../slices/authSlice';
+import { updateCompteUser, updateUserData } from '../slices/authSlice';
 import InputBox from '../components/InputBoxFloat';
 import { addCurrentChat, addRoom} from '../slices/chatSlice';
 import { setCurrentNav } from '../slices/navigateSlice';
@@ -204,27 +204,6 @@ const ProfileCard = () => {
         alert('🎉 Votre compte est maintenant professionnel.');
     };
 
-    // Suppression du compte
-    const delAccountUser = async () => {
-
-        try {
-
-            if (window.confirm('Voulez-vous vraiment supprimer ce profil ?')) {
-
-                await api.delete(`clients/${userProfile?.id}/`);
-
-                alert('Votre compte a été supprimé avec succès');
-
-                dispatch(logout());
-
-                navigate('/logIn', { replace: true });
-            }
-
-        } catch (err) {
-
-            console.error('Erreur de la suppression du compte', err);
-        }
-    };
 
     // Récupération ou création d’un compte fournisseur
     const getUserCompte = async () => {
@@ -720,27 +699,6 @@ const ProfileCard = () => {
                                     isCurrentUser && <ModalFormCreatBlog />
                                 }
 
-                                {
-                                    isCurrentUser &&
-                                    <button
-
-                                        onClick={delAccountUser}
-
-                                        className="w-auto rounded-lg flex gap-1 bg-red-300 text-white text-sm px-3 py-1 rounded hover:bg-red-700 m-1"
-
-                                        title="supprimer le compte"
-                                    >
-                                       <svg 
-                                            className="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                             
-                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.9" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
-
-                                        </svg>
-
-                                        {t('ProfilText.supprimerProfil')}
-
-                                    </button>
-                                }
 
                             </>
                          )}
@@ -1239,6 +1197,7 @@ export const ModalFormCreatBlog = () => {
                     </div>
                 </div>
             )}
+
         </div>
     );
 };
