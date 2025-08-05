@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import api from '../services/Axios';
 import { updateTheme } from '../slices/navigateSlice';
 import { useTranslation } from 'react-i18next';
@@ -24,21 +24,17 @@ const SettingsForm = () => {
         country: '',
     });
 
-    //const [previewUrl, setPreviewUrl] = useState(null);
+    const [previewUrl, setPreviewUrl] = useState(null);
     const currentUserData = useSelector((state) => state.auth.user);
     const currentUserCompte = useSelector((state) => state.auth.compteUser);
     const [cartData, setCartData] = useState({});
     const dispatch = useDispatch()
 
     const tryRequest = async (requestFn, successMessage) => {
-
         try {
             await requestFn();
-
             alert(successMessage);
-
         } catch (err) {
-
             console.warn("Request failed:", err);
         }
     };
@@ -57,12 +53,12 @@ const SettingsForm = () => {
         dispatch(updateTheme(value))
     };
 
-    //const handleImageUpload = (e) => {
+    const handleImageUpload = (e) => {
 
-    //    const file = e.target.files[0];
+        const file = e.target.files[0];
 
-    //    setPreviewUrl(URL.createObjectURL(file));
-    //};
+        setPreviewUrl(URL.createObjectURL(file));
+    };
 
     const handleSubmit = async (e) => {
 
@@ -76,50 +72,40 @@ const SettingsForm = () => {
         }
 
         await tryRequest(
-
             () => api.patch(`/comptes/${currentUserCompte.id}/`,
-            {
-                theme: form.theme,
-                is_notif_active: form.notifications,
-            }
+                {
+                    theme: form.theme,
+                    is_notif_active: form.notifications,
+                }
             ), t('settingsText.accountSaved'))
 
     };
 
-    //const updatePassword = async (e) => {
+    const updatePassword = async (e) => {
 
-    //    e.preventDefault();
+        e.preventDefault();
 
-    //    await tryRequest(
+        await tryRequest(
 
-    //        () => api.patch(`/clients/${currentUserData?.id}/`,
+            () => api.patch(`/clients/${currentUserData?.id}/`,
+                {
+                    password: form.password,
+                }
+            ), t('settingsText.passwordUpdated'))
 
-    //            {
-    //                password: form.password,
-    //            }
-
-    //        ), t('settingsText.passwordUpdated'))
-
-    //}
+    }
 
     const GetClientCard = useCallback(async () => {
         if (!currentUserData?.id) return;
 
         try {
-
             const resp = await api.get("/cardPaid/");
-
             const dataCard = resp?.data?.filter(elem => elem?.client === currentUserData.id);
-
             const firstCard = dataCard.length > 0 ? dataCard[0] : null;
-
             setCartData(firstCard);
-
         } catch (error) {
-
             console.error("Erreur lors de la récupération des données de la carte :", error);
         }
-
     }, [currentUserData?.id]);
 
 
@@ -165,15 +151,15 @@ const SettingsForm = () => {
     }, [currentUserData?.id, GetClientCard]);
 
 
-    //useEffect(() => {
+    useEffect(() => {
 
-    //    return () => {
+        return () => {
 
-    //        if (previewUrl) URL.revokeObjectURL(previewUrl);
+            if (previewUrl) URL.revokeObjectURL(previewUrl);
 
-    //    };
+        };
 
-    //}, [previewUrl]);
+    }, [previewUrl]);
 
 
     useEffect(() => {
@@ -206,13 +192,89 @@ const SettingsForm = () => {
 
     return (
 
-        <div className="w-full flex flex-col lg:flex-row justify-center items-start gap-8 px-4 py-0 style-bg">
-
-           
+        <div className="w-full flex flex-col lg:flex-row justify-center items-start gap-8 px-4 py-8 style-bg">
 
             <form
 
-                onSubmit={(e)=>handleSubmit(e)}
+                onSubmit={(e) => updatePassword(e)}
+
+                className="w-auto  dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6"
+            >
+                <h2 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">{t("settingsText.accountSettings")}</h2>
+
+                {/* 📷 Photo de profil */}
+                <div className="flex items-center gap-4">
+
+                    {
+                        currentUserData?.image ?
+                            (
+
+                                <img
+                                    src={currentUserData.image}
+                                    alt="Profil"
+                                    className="w-16 h-16 rounded-full object-cover"
+                                />
+
+                            )
+                            :
+                            (
+                                <div className="w-16 h-16 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center text-gray-500">
+                                    ?
+                                </div>
+                            )
+                    }
+
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="text-sm text-gray-700 dark:text-gray-300"
+                    />
+
+                </div>
+
+                <FloatingInput
+                    id="name"
+                    name="name"
+                    label={currentUserData?.nom || t('settingsText.nameLabel')}
+                    value={form.name}
+                    onChange={handleChange}
+                    disabled={true}
+                />
+
+                <FloatingInput
+                    id="email"
+                    name="email"
+                    label={t('settingsText.emailLabel')}
+                    type="email"
+                    value={currentUserData?.email || form.email}
+                    onChange={handleChange}
+                    disabled={true}
+                />
+
+                <FloatingInput
+                    id="password"
+                    name="password"
+                    label={t('settingsText.passwordLabel')}
+                    type="password"
+                    value={form.password}
+                    onChange={handleChange}
+                />
+
+
+                <button
+                    type="submit"
+                    className="w-full py-2 px-4 mt-4 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                    {t('settingsText.changePassword')}
+
+                </button>
+
+            </form>
+
+            <form
+
+                onSubmit={(e) => handleSubmit(e)}
 
                 className="w-auto  dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6"
             >
@@ -268,9 +330,7 @@ const SettingsForm = () => {
             </form>
 
             <form
-
                 onSubmit={(e) => handleSubmitCard(e)}
-
                 className="w-auto dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6"
             >
 
@@ -321,7 +381,7 @@ const SettingsForm = () => {
                     id="address"
                     name="address"
                     label={t('settingsText.addressLabel')}
-                    value={form.address ||  cartData?.adresse_pay}
+                    value={form.address || cartData?.adresse_pay}
                     onChange={handleChange}
                 />
 
@@ -359,9 +419,7 @@ const SettingsForm = () => {
                 />
 
                 <button
-
                     type="submit"
-
                     className="w-full py-2 px-4 mt-4 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                     {t('settingsText.saveCard')}
@@ -375,7 +433,7 @@ const SettingsForm = () => {
 };
 
 // 🔁 Composant d'entrée personnalisé
-const FloatingInput = ({ id, name, label, type = 'text', value, onChange, maxLength, wrapperClass = '', disabled}) => (
+const FloatingInput = ({ id, name, label, type = 'text', value, onChange, maxLength, wrapperClass = '', disabled }) => (
 
     <div className={`relative ${wrapperClass}`}>
 
