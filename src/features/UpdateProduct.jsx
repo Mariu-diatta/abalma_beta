@@ -232,7 +232,7 @@ const UpdateProduct = () => {
                     {t('add_product.add_or_update_product')}
                 </h1>
 
-                <form onSubmit={submitForm} className={` ${user?.is_fournisseur ? "" : "opacity-50 pointer-events-none cursor-not-allowed"}`}>
+                <form onSubmit={submitForm} className={` ${user?.is_fournisseur && user?.is_verified ? "" : "opacity-50 pointer-events-none cursor-not-allowed"}`}>
 
                     <div className="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
 
@@ -567,7 +567,7 @@ const UpdateProduct = () => {
                 </form>
 
                 {
-                    !(user?.is_fournisseur) &&
+                    !(user?.is_fournisseur && user?.is_verified) &&
 
                     <button
 

@@ -2,8 +2,8 @@ import React, { useEffect, useState , lazy, useCallback} from 'react';
 
 import { useTranslation } from 'react-i18next';
 import api from '../services/Axios';
-import { ModalFormCreatBlog } from '../features/ProfilUser';
 import LoadingCard from '../components/LoardingSpin';
+import { ModalFormCreatBlog } from '../components/BlogCreatBlogs';
 const SuspenseCallback = lazy(() => import('../components/SuspensCallback'));
 const HomeLayout = lazy(() => import('../layouts/HomeLayout'));
 
@@ -93,7 +93,7 @@ export const BlogPage = () => {
 
             <div className="fixed bottom-8 right-0  grid gap-8 lg:grid-cols-2">
 
-                <ModalFormCreatBlog />
+                <ModalFormCreatBlog/>
 
             </div>
 

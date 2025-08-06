@@ -21,7 +21,8 @@ i18n
 
      en: {
 
-            translation: {
+           translation: {
+             hintProofDoc: "Upload both your ID card and proof of address in a single file.",
              followed:"Follow",
              follow:'Follow',
              following: "Following",
@@ -361,7 +362,7 @@ i18n
                  },
                  titreComptePro: "Switch to professional account",
                  titreFournisseur: "Become a supplier",
-                 confirmCode: "Enter the verification code:",
+                 confirmCode: "Enter the verification code send by email:",
                  validate: "Validate"
              },
 
@@ -403,6 +404,7 @@ i18n
      fr: {
 
          translation: {
+              hintProofDoc: "Téléversez votre carte d’identité et votre justificatif de domicile dans un seul fichier.",
               followed: "Suivi",
               follow: 'Suivre',
               following: 'Abonnements',
@@ -751,7 +753,7 @@ i18n
                   },
                   titreComptePro: "Passer en compte professionnel",
                   titreFournisseur: "Devenir fournisseur",
-                  confirmCode: "Entrez le code de confirmation",
+                  confirmCode: "Entrez le code de confirmation qui vous a été envoyé par email",
                   validate:"Validate"
               },
 

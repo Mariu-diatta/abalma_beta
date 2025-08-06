@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo,  useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/Axios';
@@ -9,12 +9,24 @@ import { setCurrentNav } from '../slices/navigateSlice';
 import { hashPassword } from '../components/OwnerProfil';
 import AttentionAlertMesage, { showMessage } from '../components/AlertMessage';
 import { useTranslation } from 'react-i18next';
+import { ModalFormCreatBlog } from '../components/BlogCreatBlogs';
+import GetValidateUserFournisseur from '../components/FournisseurValidation';
+import LoadingCard from '../components/LoardingSpin';
+import ViewsProfil from '../components/ViewsProfilUser';
 
 
 
 const ProfileCard = () => {
 
     const { t } = useTranslation();
+
+    //loadings
+
+    const [loading, setLoading] = useState()
+
+    const [loadingGetCode, setLoadingGetCode] = useState(true)
+
+    const [messageError, setMessageError] = useState("Erreur");
 
     // Imports et hooks
     const dispatch = useDispatch();
@@ -26,6 +38,8 @@ const ProfileCard = () => {
     const allChats = useSelector(state => state.chat.currentChats);
     const currentChat = useSelector(state => state.chat.currentChat);
     const messageAlert = useSelector((state) => state.navigate.messageAlert);
+    const userSelected = useSelector((state) => state.chat.userSlected);
+
 
     const userProfile = useMemo(() => {
 
@@ -135,6 +149,8 @@ const ProfileCard = () => {
 
         try {
 
+            setLoading(false)
+
             const fd = new FormData();
 
             Object.entries(formData).forEach(([key, value]) => fd.append(key, value));
@@ -159,6 +175,10 @@ const ProfileCard = () => {
             console.error('❌ Erreur mise à jour :', error);
 
             alert('Erreur lors de la mise à jour du profil.');
+
+        } finally {
+
+            setLoading(true)
         }
     };
 
@@ -193,6 +213,7 @@ const ProfileCard = () => {
         }
     };
 
+    //Fonction pour devenir pro
     const handleUpgradeToPro = async (e) => {
 
         e.preventDefault();
@@ -204,61 +225,69 @@ const ProfileCard = () => {
         alert('🎉 Votre compte est maintenant professionnel.');
     };
 
-
     // Récupération ou création d’un compte fournisseur
-    const getUserCompte = async () => {
+    const getUserCompte = async (e) => {
+
+        e.preventDefault()
+
+        setLoadingGetCode(false)
 
         try {
 
-            if (!profileData?.is_fournisseur) {
+            const comptesRes = await api.get('comptes/');
 
-                const comptesRes = await api.get('comptes/');
+            const userCompte = comptesRes.data.find((c) => c.user === profileData?.id);
 
-                const userCompte = comptesRes.data.find((c) => c.user === profileData?.id);
+            if (userCompte) {
 
-                if (userCompte) {
+                dispatch(updateCompteUser(userCompte));
 
-                    dispatch(updateCompteUser(userCompte));
+                const formData = new FormData();
 
-                    const formData = new FormData();
+                formData.append('compte_id', userCompte.id);
 
-                    formData.append('compte_id', userCompte.id);
+                try {
 
-                    try {
-                        const fournisseurResp = await api.post('fournisseurs/', formData, {
+                    const fournisseurResp = await api.post('fournisseurs/', formData, {
 
-                            headers: { 'Content-Type': 'multipart/form-data' }
-                        });
+                        headers: { 'Content-Type': 'multipart/form-data' }
+                    });
 
-                        const responseGetUser = await api.get(`clients/${fournisseurResp.data.compte.user}/`);
+                    const responseGetUser = await api.get(`clients/${fournisseurResp.data.compte.user}/`);
 
-                        dispatch(updateUserData(responseGetUser.data));
+                    dispatch(updateUserData(responseGetUser.data));
 
-                    } catch (err) {
+                    setMessageError("sucess")
 
-                        const Error = "Unable to create record: Invalid 'To' Phone Number:"
+                } catch (err) {
 
-                        console.log(
+                    const Error = "Unable to create record: Invalid 'To' Phone Number:"
 
-                            'Erreur création fournisseur:',
+                    console.log(
 
-                            err?.response?.data?.detail.includes(Error)
-                        );  
+                        'Erreur création fournisseur:',
 
-                        if (err?.response?.data?.detail.includes(Error)) showMessage(dispatch, Error);
-                    }
+                        err?.response?.data?.detail.includes(Error)
+                    );
 
-                } else {
-
-                    console.warn('Aucun compte utilisateur trouvé.');
-
-                    showMessage(dispatch, 'Aucun compte utilisateur trouvé.');
+                    if (err?.response?.data?.detail.includes(Error)) showMessage(dispatch, Error);
                 }
+
+            } else {
+
+                console.warn('Aucun compte utilisateur trouvé.');
+
+                showMessage(dispatch, 'Aucun compte utilisateur trouvé.');
             }
+            
 
         } catch (error) {
 
             console.error('Erreur getUserCompte:', error);
+
+        } finally {
+
+            setLoadingGetCode(true)
         }
     };
 
@@ -408,40 +437,36 @@ const ProfileCard = () => {
 
                 {/* Photo de profil */}
                 <div className="absolute -top-16 left-1/2 sm:left-6 transform -translate-x-1/2 sm:translate-x-0">
+                  
+                    <img
 
-                    <div className="relative">
+                        src={previewUrl || 'https://randomuser.me/api/portraits/men/32.jpg'}
 
-                        <img
+                        alt="Profil utilisateur"
 
-                            src={previewUrl || 'https://randomuser.me/api/portraits/men/32.jpg'}
+                        className="w-28 h-28 sm:w-32 sm:h-32 rounded-full border-4 border-white shadow-md object-cover"
+                    />
 
-                            alt="Profil utilisateur"
+                    {
+                        isCurrentUser &&
 
-                            className="w-28 h-28 sm:w-32 sm:h-32 rounded-full border-4 border-white shadow-md object-cover"
-                        />
+                            <label className="absolute bottom-0 right-0 bg-white rounded-lg p-1 rounded-full shadow cursor-pointer hover:bg-gray-100" aria-label="Modifier photo de profil">
 
-                        {
-                            isCurrentUser &&
+                            <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
 
-                                <label className="absolute bottom-0 right-0 bg-white p-1 rounded-full shadow cursor-pointer hover:bg-gray-100" aria-label="Modifier photo de profil">
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m3 16 5-7 6 6.5m6.5 2.5L16 13l-4.286 6M14 10h.01M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
 
-                                <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            </svg>
 
-                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m3 16 5-7 6 6.5m6.5 2.5L16 13l-4.286 6M14 10h.01M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) => handleImageUpload(e)}
+                                className="hidden"
+                            />
 
-                                </svg>
-
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={(e) => handleImageUpload(e)}
-                                    className="hidden"
-                                />
-
-                            </label>
-                        }
-
-                    </div>
+                        </label>
+                    }
 
                 </div>
 
@@ -450,7 +475,7 @@ const ProfileCard = () => {
 
                     {!isEditing ? (
                         <>
-                            <div className="flex gap-2 justify-between">
+                            <div className="flex gap-2 justify-between items-center">
 
                                 <div>
 
@@ -462,7 +487,7 @@ const ProfileCard = () => {
                                             (userProfile?.is_pro && userProfile?.doc_proof) && (
 
                                                 <svg
-                                                    className="w-5 h-5 text-blue-800 dark:text-white"
+                                                    className="w-5 h-5 text-blue-900 dark:text-white"
                                                     aria-hidden="true"
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     width="24"
@@ -491,6 +516,8 @@ const ProfileCard = () => {
                                     </p>
 
                                 </div>
+
+                                {!isCurrentUser && <ViewsProfil clientId={userSelected?.id} />}
 
                                 <div>
                                     {
@@ -632,26 +659,33 @@ const ProfileCard = () => {
 
                             (!isEditing) && (
                             <>
-                                {
-                                    isCurrentUser &&
-                                    <button
+                                 {
+                                    !loading?
+                                    <>
+                                        {
+                                            isCurrentUser &&
+                                            <button
 
-                                        onClick={() => setIsEditing(true)}
+                                                onClick={() => setIsEditing(true)}
 
-                                        className="w-auto rounded-lg flex gap-1 bg-gray-300 text-white  text-sm px-3 py-1 rounded hover:bg-blue-700 m-1"
+                                                className="w-auto rounded-lg flex gap-1 bg-gray-300 text-white  text-sm px-3 py-1 rounded hover:bg-blue-700 m-1"
 
-                                        title="Modifier le profil"
+                                                title="Modifier le profil"
 
-                                    >
-                                        <svg className="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            >
+                                                <svg className="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                             
-                                            <path stroke="currentColor" strokeLinecap="square" strokeLinejoin="round" strokeWidth="0.9" d="M7 19H5a1 1 0 0 1-1-1v-1a3 3 0 0 1 3-3h1m4-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm7.441 1.559a1.907 1.907 0 0 1 0 2.698l-6.069 6.069L10 19l.674-3.372 6.07-6.07a1.907 1.907 0 0 1 2.697 0Z" />
+                                                    <path stroke="currentColor" strokeLinecap="square" strokeLinejoin="round" strokeWidth="0.9" d="M7 19H5a1 1 0 0 1-1-1v-1a3 3 0 0 1 3-3h1m4-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm7.441 1.559a1.907 1.907 0 0 1 0 2.698l-6.069 6.069L10 19l.674-3.372 6.07-6.07a1.907 1.907 0 0 1 2.697 0Z" />
                                        
-                                        </svg>
+                                                </svg>
 
-                                        {t('ProfilText.modifierProfil')}
+                                                {t('ProfilText.modifierProfil')}
 
-                                    </button>
+                                            </button>
+                                        }
+                                    </> 
+                                    :
+                                    <>   </>
                                 }
 
                                 {
@@ -677,26 +711,35 @@ const ProfileCard = () => {
                                     </button>
                                 }
 
+                                    {
+                                           loadingGetCode ?
+                                            <>
+                                                {
+                                                    (!userProfile?.is_fournisseur || !userProfile?.is_verified) && isCurrentUser &&
+                                                    <button
+                                                        onClick={(e) => getUserCompte(e)}
+                                                        className="cursor-pointer w-auto rounded-lg text-sm  flex gap-1 bg-indigo-300 text-white px-3 py-1 rounded hover:bg-indigo-700 m-1"
+                                                        title="Devenir un fournisseur"
+                                                    >
+                                                        <svg className="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+
+                                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.9" d="m7.171 12.906-2.153 6.411 2.672-.89 1.568 2.34 1.825-5.183m5.73-2.678 2.154 6.411-2.673-.89-1.568 2.34-1.825-5.183M9.165 4.3c.58.068 1.153-.17 1.515-.628a1.681 1.681 0 0 1 2.64 0 1.68 1.68 0 0 0 1.515.628 1.681 1.681 0 0 1 1.866 1.866c-.068.58.17 1.154.628 1.516a1.681 1.681 0 0 1 0 2.639 1.682 1.682 0 0 0-.628 1.515 1.681 1.681 0 0 1-1.866 1.866 1.681 1.681 0 0 0-1.516.628 1.681 1.681 0 0 1-2.639 0 1.681 1.681 0 0 0-1.515-.628 1.681 1.681 0 0 1-1.867-1.866 1.681 1.681 0 0 0-.627-1.515 1.681 1.681 0 0 1 0-2.64c.458-.361.696-.935.627-1.515A1.681 1.681 0 0 1 9.165 4.3ZM14 9a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" />
+
+                                                        </svg>
+
+                                                        {t('ProfilText.devenirFournisseur')}
+
+                                                    </button>
+                                                }
+
+                                            </>
+                                            :
+                                            <LoadingCard/>
+                                    }
+
+
                                 {
-                                   (!userProfile?.is_fournisseur || !userProfile?.is_fournisseur) && isCurrentUser &&
-                                    <button
-                                        onClick={getUserCompte}
-                                        className="w-auto rounded-lg text-sm  flex gap-1 bg-indigo-300 text-white px-3 py-1 rounded hover:bg-indigo-700 m-1"
-                                        title="Devenir un fournisseur"
-                                    >
-                                        <svg className="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            
-                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.9" d="m7.171 12.906-2.153 6.411 2.672-.89 1.568 2.34 1.825-5.183m5.73-2.678 2.154 6.411-2.673-.89-1.568 2.34-1.825-5.183M9.165 4.3c.58.068 1.153-.17 1.515-.628a1.681 1.681 0 0 1 2.64 0 1.68 1.68 0 0 0 1.515.628 1.681 1.681 0 0 1 1.866 1.866c-.068.58.17 1.154.628 1.516a1.681 1.681 0 0 1 0 2.639 1.682 1.682 0 0 0-.628 1.515 1.681 1.681 0 0 1-1.866 1.866 1.681 1.681 0 0 0-1.516.628 1.681 1.681 0 0 1-2.639 0 1.681 1.681 0 0 0-1.515-.628 1.681 1.681 0 0 1-1.867-1.866 1.681 1.681 0 0 0-.627-1.515 1.681 1.681 0 0 1 0-2.64c.458-.361.696-.935.627-1.515A1.681 1.681 0 0 1 9.165 4.3ZM14 9a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" />
-                                        
-                                        </svg>
-
-                                        {t('ProfilText.devenirFournisseur')}
-
-                                    </button>
-                                }
-
-                                {
-                                    isCurrentUser && <ModalFormCreatBlog />
+                                    isCurrentUser && <ModalFormCreatBlog/>
                                 }
 
 
@@ -707,15 +750,26 @@ const ProfileCard = () => {
 
                     {isProFormVisible && isCurrentUser && (
 
-                        <form onSubmit={handleUpgradeToPro} className="mt-6">
+                        <form onSubmit={handleUpgradeToPro} className="mt-6 flex flex-col w-auto gap-1 shadow-sm p-3 items-center justify-center">
 
-                            <input
-                                type="file"
-                                onChange={handleFileChange}
-                                accept=".pdf,.jpg,.png,.jpeg"
-                                required
-                                className="mb-2"
-                            />
+                            <label className="text-sm">{t('hintProofDoc')} </label>
+
+                            
+                            <div className="flex items-center">
+
+                                <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" strokeLinejoin="round" strokeWidth="1" d="M10 3v4a1 1 0 0 1-1 1H5m14-4v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7.914a1 1 0 0 1 .293-.707l3.914-3.914A1 1 0 0 1 9.914 3H18a1 1 0 0 1 1 1Z" />
+                                </svg>
+
+                                <input
+                                    type="file"
+                                    onChange={handleFileChange}
+                                    accept=".pdf,.jpg,.png,.jpeg"
+                                    required
+                                    className="mb-2  border border-0.5 rounded-lg p-2 text-xs cursor-pointer"
+                                />
+
+                            </div>
 
                             <div className="flex gap-2">
 
@@ -723,7 +777,7 @@ const ProfileCard = () => {
 
                                     type="submit"
 
-                                    className="rounded-lg bg-green-600 text-white px-4 py-1 rounded hover:bg-green-700"
+                                    className="rounded-lg bg-green-600 text-white px-4 py-1 rounded hover:bg-green-700 text sm"
                                 >
                                     {t('ProfilText.envoyerJustificatif')}
 
@@ -734,7 +788,7 @@ const ProfileCard = () => {
 
                                     onClick={() => setIsProFormVisible(false)}
 
-                                    className="rounded-lg bg-red-600 text-white px-4 py-1 rounded hover:bg-green-700"
+                                    className="rounded-lg bg-red-600 text-white px-4 py-1 rounded hover:bg-green-700 sm"
                                 >
                                     {t('ProfilText.annuler')}
 
@@ -750,7 +804,7 @@ const ProfileCard = () => {
             </div>
 
             {
-                messageAlert && <AttentionAlertMesage title="Erreur" content={messageAlert} /> 
+                messageAlert && <AttentionAlertMesage title={messageError} content={messageAlert} /> 
             }
 
             {
@@ -763,443 +817,8 @@ const ProfileCard = () => {
 
 export default ProfileCard;
 
-//validation code pour la création d'un compte fournisseur
-const GetValidateUserFournisseur = ({ isCurrentUser }) => {
 
-    const { t } = useTranslation();
 
-    const [code, setCode] = useState('');
 
-    const [error, setError] = useState('');
-
-    const [verified, setVerified] = useState(false);
-
-    const profileData = useSelector((state) => state.auth.user);
-
-    const dispatch = useDispatch();
-
-    const handleCodeChange = (e) => {
-
-        setCode(e.target.value);
-
-        setError('');
-    };
-
-    const handleSubmitCode = async (e) => {
-
-        e.preventDefault();
-
-        if (!code || isNaN(code)) {
-
-            setError('Veuillez entrer un code valide.');
-            return;
-        }
-
-        // Appel du callback ou d'une API
-        try {
-
-            const formData = new FormData()
-
-            formData.append("code_validation=", code)
-
-            const response = await api.get(`/fournisseurs/?code_validation=${code}/`)
-
-            if (!!response?.data[0]?.compte?.id) {
-
-                const responseUser = await api.put(`/clients/${response?.data[0]?.compte?.id}/`, { "is_verified": true })
-
-                console.log("COMPTE FOURNISSEUR CREER AVEC SUCCES", responseUser)
-
-                const updateUser = { ...profileData, "is_verified": true }
-
-                dispatch(updateUserData(updateUser))
-
-                setVerified(true) 
-
-                showMessage(dispatch, "Compte fournisseur créer avec succès)");
-
-            } else {
-
-                console.log("ERREUR FOURNISSEUR NON VERIFIER")
-
-                showMessage(dispatch, "Erreur veuillez vérifier votre code");
-            }
-
-
-        } catch (e) {
-
-        }
-
-    };
-
-    return (
-
-        <>
-       
-            {
-                (!verified && isCurrentUser) ?
-
-                <form
-
-                    onSubmit={handleSubmitCode}
-
-                    className="w-full max-w-md mx-auto bg-white rounded-xl p-6 shadow-md space-y-4 shadow-lg"
-
-                    style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
-                >
-                    <div>
-
-                        <label 
-                            htmlFor="code" className="block text-sm font-semibold text-gray-700 mb-1"
-
-                            style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
-                        >
-                            {t('ProfilText.confirmCode')}
-
-                        </label>
-
-                        <input
-                            type="number"
-                            name="code"
-                            id="code"
-                            value={code}
-                            onChange={handleCodeChange}
-                            className="w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Ex: 123456"
-                            min="0"
-                            autoComplete="one-time-code"
-                            required
-                        />
-
-                    </div>
-
-                    {
-                        error && (
-
-                            <p className="text-red-500 text-sm">
-
-                                {error}
-
-                            </p>
-                        )
-                    }
-
-                    <button
-
-                        type="submit"
-
-                        disabled={!code}
-
-                        className={
-
-                            `w-full py-2 px-4 rounded-md text-white text-sm font-medium transition duration-200
-                            ${
-                                code
-                                ? "bg-blue-600 hover:bg-blue-700"
-                                : "bg-gray-400 cursor-not-allowed"
-                            }`
-                        }
-                    >
-                        {t('ProfilText.validate')}
-
-                    </button>
-
-                </form >
-                :
-                <>
-                </>
-            }
-        </>
-
-    )
-}
-
-export const ModalFormCreatBlog = () => {
-
-    const { t } = useTranslation();
-    const profileData = useSelector((state) => state.auth.user);
-    const [isOpen, setIsOpen] = useState(false);
-    const modalRef = useRef(null);
-    const inputRef = useRef(null);
-
-    // États du formulaire
-    const [title, setTitle] = useState("");
-    const [message, setMessage] = useState("");
-    const [error, setError] = useState("");
-    const [success, setSuccess] = useState("");
-
-    // Simule la récupération de l'utilisateur connecté
-    // À remplacer par ta logique d'authentification réelle
-    const getCurrentUser = () => {
-        return { id: 1, name: "Utilisateur Demo" };
-    };
-
-    const handleToggleModal = () => {
-        setError("");
-        setSuccess("");
-        setIsOpen(!isOpen);
-    };
-
-    const handleClose = () => {
-        setIsOpen(false);
-        setTitle("");
-        setMessage("");
-        setError("");
-        setSuccess("");
-    };
-
-    // Focus input quand modal s'ouvre
-    useEffect(() => {
-
-        if (isOpen && inputRef.current) {
-
-            inputRef.current.focus();
-        }
-
-    }, [isOpen]);
-
-    // Fermer modal si clic à l'extérieur
-    useEffect(() => {
-
-        const handleClickOutside = (e) => {
-
-            if (isOpen && modalRef.current && !modalRef.current.contains(e.target)) {
-
-                handleClose();
-            }
-        };
-
-        if (isOpen) {
-            document.addEventListener("mousedown", handleClickOutside);
-        }
-
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-
-    }, [isOpen]);
-
-    const handleSubmit = async (e) => {
-
-        e.preventDefault();
-        setError("");
-        setSuccess("");
-
-        if (!title.trim() || !message.trim()) {
-
-            setError(t("blog.fill_all_fields") || "Veuillez remplir tous les champs");
-
-            return;
-        }
-
-        try {
-
-            const user = getCurrentUser();
-
-            if (!user) {
-
-                setError(t("blog.user_not_authenticated") || "Utilisateur non authentifié");
-
-                return;
-            }
-
-            const payload = {
-
-                title_blog: title,
-
-                blog_message: message,
-            };
-
-            // Exemple : POST (ou PUT) vers ton API
-            await api.post("blogs/", payload);
-
-            setSuccess(t("blog.blog_created") || "Blog créé avec succès !");
-
-            setTitle("");
-
-            setMessage("");
-
-            // Fermer modal après délai (ex : 1.5s)
-            setTimeout(() => {
-
-                handleClose();
-
-            }, 1500);
-
-        } catch (err) {
-
-            console.error("Erreur lors de la création du blog", err);
-
-            setError(t("blog.error_creating") || "Erreur lors de la création du blog");
-        }
-    };
-
-    return (
-
-        <div className="relative " role="dialog" aria-modal="true">
-
-            {/* Toggle Button */}
-            {
-                profileData && profileData?.email &&
-                <button
-                    onClick={handleToggleModal}
-                    className="w-auto rounded-full flex gap-1 bg-blue-500 text-white text-sm px-3 py-1 hover:bg-blue-700 m-1 items-center"
-                    aria-expanded={isOpen}
-                    aria-controls="modal-blog-form"
-                >
-                    <svg
-                        className="w-5 h-5 text-white"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                    >
-                        <path
-                            stroke="currentColor"
-                            strokeLinecap="square"
-                            strokeLinejoin="round"
-                            strokeWidth="1"
-                            d="M7 19H5a1 1 0 0 1-1-1v-1a3 3 0 0 1 3-3h1m4-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm7.441 1.559a1.907 1.907 0 0 1 0 2.698l-6.069 6.069L10 19l.674-3.372 6.07-6.07a1.907 1.907 0 0 1 2.697 0Z"
-                        />
-
-                    </svg>
-
-                    <span>{t("blog.blog")}</span>
-
-                </button>
-            }
-
-            {/* Modal */}
-            {isOpen && (
-                <div
-                    className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
-                    aria-labelledby="modal-title"
-                    aria-describedby="modal-description"
-                    role="dialog"
-                    id="modal-blog-form"
-                >
-                    <div
-                        ref={modalRef}
-                        className="bg-white dark:bg-gray-700 rounded-lg shadow-lg w-full max-w-2xl p-6 relative"
-                    >
-                        {/* Header */}
-                        <div className="flex justify-between items-center mb-4">
-
-                            <h2
-                                id="modal-title"
-                                className="text-2xl font-extrabold text-gray-700 dark:text-white"
-                            >
-                                {t("blog.create_blog")}
-                            </h2>
-
-                            <button
-                                onClick={handleClose}
-                                aria-label={t("blog.close_modal") || "Fermer la fenêtre"}
-                                className="text-gray-400 hover:text-gray-900 dark:hover:text-white"
-                            >
-                                <svg
-                                    className="w-6 h-6"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-
-                                </svg>
-
-                            </button>
-
-                        </div>
-
-                        {/* Form */}
-                        <form className="space-y-4" onSubmit={handleSubmit}>
-
-                            <div>
-
-                                <label
-                                    htmlFor="title-input"
-                                    className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                                >
-                                    {t("blog.title_pop")}
-
-                                </label>
-
-                                <input
-                                    id="title-input"
-                                    ref={inputRef}
-                                    type="text"
-                                    value={title}
-                                    onChange={(e) => setTitle(e.target.value)}
-                                    className="mt-1 block w-full border px-3 py-2 rounded-md text-sm border-gray-300 focus:ring-blue-500 focus:border-blue-300"
-                                    placeholder={t("blog.title_placeholder") || "Titre du blog"}
-                                    required
-                                />
-
-                            </div>
-
-                            <div>
-
-                                <label
-                                    htmlFor="message-input"
-                                    className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                                >
-                                    {t("blog.description")}
-                                </label>
-
-                                <textarea
-                                    id="message-input"
-                                    rows="4"
-                                    value={message}
-                                    onChange={(e) => setMessage(e.target.value)}
-                                    className="mt-1 block w-full border px-3 py-2 rounded-md text-sm border-gray-300 focus:ring-blue-500 focus:border-gray-100"
-                                    placeholder={t("blog.description_placeholder") || "Contenu du blog..."}
-                                    required
-                                />
-
-                            </div>
-
-                            {error && (
-                                <p className="text-red-600 dark:text-red-400">{error}</p>
-                            )}
-
-                            {success && (
-                                <p className="text-green-600 dark:text-green-400">{success}</p>
-                            )}
-
-                            {/* Footer */}
-                            <div className="flex justify-end gap-2 pt-1">
-
-                                <button
-                                    type="submit"
-                                    className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700"
-                                >
-                                    {t("blog.submit")}
-
-                                </button>
-
-                                <button
-                                    type="button"
-                                    onClick={handleClose}
-                                    className="px-4 py-2 rounded-md text-sm border bg-red-800 border-gray-300 text-gray-100 hover:bg-red-900"
-                                >
-                                    {t("blog.cancel")}
-
-                                </button>
-
-                            </div>
-
-                        </form>
-
-                    </div>
-                </div>
-            )}
-
-        </div>
-    );
-};
 
 
