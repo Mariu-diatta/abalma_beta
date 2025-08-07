@@ -165,10 +165,9 @@ const SettingsForm = () => {
     }, [cartData]);
 
     return (
-        <div className="w-auto flex flex-col lg:flex-row justify-center items-start gap-2 px-2 py-8 style-bg">
+        <div className="w-auto flex flex-col lg:flex-row justify-center items-start gap-8 px-2 py-1 style-bg">
 
-            <div className="w-full dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6">
-
+            <div className="w-full lg:w-full xl:w-full sticky top-0 self-start h-fit max-h-screen overflow-y-auto dark:bg-gray-800  scrollbor_hidden rounded-lg p-6 space-y-6">
                 <h2 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">{t("settingsText.accountSettings")}</h2>
 
                 {/* Compte form */}
