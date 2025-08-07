@@ -123,7 +123,8 @@ const UsersContactsList = () => {
                     < LoadingCard />
                 </>
                 :
-                <SuspenseCallback>
+                    <SuspenseCallback>
+
                     {/* Bar d'action */}
                     <div className="flex items-center justify-between flex-wrap md:flex-nowrap space-y-4 md:space-y-0 pb-4 dark:bg-gray-900 px-4 style-bg">
 
@@ -216,13 +217,13 @@ const UsersContactsList = () => {
 
                     </div>
 
-                    <table className="w-full text-sm text-left style-bg shadow-lg "> {/* Tableau */}
+                    <table className="w-full text-sm text-left style-bg shadow-sm p-5"> {/* Tableau */}
 
                         <thead className="text-md style_bg">
 
                             <tr className="style_bg text-sm">
 
-                                <th className="p-4 hidden">
+                                    <th className="p-4 hidden ">
 
                                     <input
                                         type="checkbox"
@@ -237,7 +238,7 @@ const UsersContactsList = () => {
 
                                 <th className="px-6 py-3 ">{t('ParamText.table.about')}</th>
 
-                                <th className="px-6 py-3  hidden">{t('ParamText.table.delete')}</th>
+                                 <th className="px-6 py-3 hidden">{t('ParamText.table.delete')}</th>
 
                             </tr>
 
@@ -249,7 +250,7 @@ const UsersContactsList = () => {
 
                                 !(user?.id === currentuser?.id) &&  
 
-                                    <tr key={i} className="dark:bg-gray-100  hover:bg-gray-50 dark:hover:bg-gray-40 shadow-sm">
+                                <tr key={i} className="dark:bg-gray-100 hover:bg-gray-50 dark:hover:bg-gray-40 shadow-xs p-3 py-2">
 
                                         <td className="p-4 hidden">
 
@@ -266,7 +267,7 @@ const UsersContactsList = () => {
 
                                         </td>
 
-                                        <td className="px-auto py-1 flex items-center space-x-1 whitespace-nowrap ">
+                                        <td className="px-auto py-1 flex items-center space-x-1 whitespace-nowrap p-2">
 
                                             <OwnerAvatar owner={user} />
 
@@ -300,6 +301,7 @@ const UsersContactsList = () => {
                         </tbody>
             
                     </table>
+
                 </SuspenseCallback>
             }
 

@@ -1,3 +1,4 @@
+import api from "./services/Axios";
 import { updateTheme } from "./slices/navigateSlice";
 
 //covertion de la date de la transaction
@@ -63,3 +64,71 @@ export const applyTheme = (newTheme, dispatch) => {
         metaThemeColor.setAttribute('content', newTheme === 'dark' ? '#000000' : '#ffffff');
     }
 }
+
+
+export const isAlreadyFollowed = async (clientId, setIsFollow, setIsLoading) => {
+
+
+    try {
+
+        const response = await api.get(`/clients/${clientId}/alreadyFollow/`, {
+
+            withCredentials: true, // pour envoyer les cookies de session
+
+            headers: {
+
+                'Content-Type': 'application/json',
+            },
+        });
+
+        setIsFollow(response.data)
+
+        console.log('Already followed :', response.data || response.data?.message || 'Succès');
+
+    } catch (error) {
+
+        const message =
+
+            error.response?.data?.error ||
+
+            error.message ||
+
+            'Erreur inconnue';
+
+        console.error('Erreur lors de l’enregistrement de la vue :', message);
+
+    } finally {
+
+        setIsLoading(false)
+    }
+};
+
+export const recordView = async (clientId) => {
+
+    try {
+
+        const response = await api.post(`/clients/${clientId}/follow/`, {
+
+            withCredentials: true, // pour envoyer les cookies de session
+
+            headers: {
+
+                'Content-Type': 'application/json',
+            },
+        });
+
+        console.log('Vue enregistrée :', response.data || response.data?.message || 'Succès');
+
+    } catch (error) {
+
+        const message =
+
+            error.response?.data?.error ||
+
+            error.message ||
+
+            'Erreur inconnue';
+
+        console.error('Erreur lors de l’enregistrement de la vue :', message);
+    }
+};

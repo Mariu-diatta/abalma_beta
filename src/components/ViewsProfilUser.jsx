@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import api from '../services/Axios';
 import { useEffect, useState } from 'react';
+import { isAlreadyFollowed, recordView } from '../utils';
 
-const ViewsProfil = ({ clientId }) => {
+const FollowProfilUser = ({ clientId }) => {
 
     const { t } = useTranslation();
 
@@ -36,8 +36,8 @@ const ViewsProfil = ({ clientId }) => {
                 !isLoading && !follow &&
                 <>
                 {
-                    ( isFollow?.is_following) ?
-                    <div className="flex items-center text-sm">
+                    (isFollow?.is_following) ?
+                    <div className="flex items-center text-sm bg-blue-300 px-3 rounded-full">
                         <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M5 11.917 9.724 16.5 19 7.5" />
                         </svg>
@@ -63,72 +63,7 @@ const ViewsProfil = ({ clientId }) => {
     );
 };
 
-export default ViewsProfil;
-
-const recordView = async (clientId) => {
-
-    try {
-
-        const response = await api.post(`/clients/${clientId}/follow/`, {
-
-            withCredentials: true, // pour envoyer les cookies de session
-
-            headers: {
-
-                'Content-Type': 'application/json',
-            },
-        });
-
-        console.log('Vue enregistrée :', response.data || response.data?.message || 'Succès');
-
-    } catch (error) {
-
-        const message =
-
-            error.response?.data?.error ||
-
-            error.message ||
-
-            'Erreur inconnue';
-
-         console.error('Erreur lors de l’enregistrement de la vue :', message);
-    }
-};
+export default FollowProfilUser;
 
 
-const isAlreadyFollowed = async (clientId, setIsFollow, setIsLoading) => {
 
-
-    try {
-
-        const response = await api.get(`/clients/${clientId}/alreadyFollow/`, {
-
-            withCredentials: true, // pour envoyer les cookies de session
-
-            headers: {
-
-                'Content-Type': 'application/json',
-            },
-        });
-
-        setIsFollow(response.data)
-
-        console.log('Already followed :', response.data || response.data?.message || 'Succès');
-
-    } catch (error) {
-
-        const message =
-
-            error.response?.data?.error ||
-
-            error.message ||
-
-            'Erreur inconnue';
-
-        console.error('Erreur lors de l’enregistrement de la vue :', message);
-
-    } finally {
-
-        setIsLoading(false)
-    }
-};

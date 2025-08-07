@@ -1,13 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import OwnerAvatar from '../components/OwnerProfil';
-import { useTranslation } from 'react-i18next';
-import ViewsProfil from '../components/ViewsProfilUser';
+import FollowProfilUser from '../components/ViewsProfilUser';
+import NumberFollowFollowed from '../components/FollowUserComp';
 
 
 const ProfilPopPov = () => {
-
-    const { t } = useTranslation();
 
     const [isVisible, setIsVisible] = useState(false);
     const [showAbove, setShowAbove] = useState(false);
@@ -16,8 +14,6 @@ const ProfilPopPov = () => {
     const buttonRef = useRef(null);
 
     const currentOwnUser = useSelector((state) => state.chat.userSlected);
-
-    const currentUser = useSelector((state) => state.auth.user);
 
     const togglePopover = () => {
 
@@ -124,7 +120,7 @@ const ProfilPopPov = () => {
 
                             </h3>
 
-                            <ViewsProfil clientId={currentOwnUser?.id}/>
+                            <FollowProfilUser clientId={currentOwnUser?.id}/>
 
                         </div>
 
@@ -136,21 +132,7 @@ const ProfilPopPov = () => {
 
                         </p>
 
-                        <ul className="flex gap-6 text-sm">
-
-                            <li className="flex gap-1">
-
-                                <span className="font-semibold text-gray-900 dark:text-white">{currentUser?.total_followers}</span> <p>{t('following')} </p>
-
-                            </li>
-
-                            <li className="flex gap-1">
-
-                                <span className="font-semibold text-gray-900 dark:text-white">{currentUser?.total_followings}</span> <p>{t('followers')}</p>
-
-                            </li>
-
-                        </ul>
+                        <NumberFollowFollowed profil={currentOwnUser} />
 
                     </div>
 
