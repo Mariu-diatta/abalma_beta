@@ -40,7 +40,9 @@ const ProfilPopPov = () => {
     };
 
     useEffect(() => {
+
         const handleClickOutside = (event) => {
+
             if (
                 popoverRef.current &&
                 !popoverRef.current.contains(event.target) &&
@@ -53,6 +55,7 @@ const ProfilPopPov = () => {
 
         if (isVisible) {
             document.addEventListener('mousedown', handleClickOutside);
+
         } else {
             document.removeEventListener('mousedown', handleClickOutside);
         }
@@ -60,10 +63,13 @@ const ProfilPopPov = () => {
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
+
     }, [isVisible]);
 
     return (
+
         <div className="z-30 relative inline-block justify-center">
+
             <button
                 ref={buttonRef}
                 onClick={togglePopover}
@@ -86,16 +92,19 @@ const ProfilPopPov = () => {
                 >
                     <path d="M5 7h14M5 12h14M5 17h10" />
                 </svg>
+
                 <span className="sr-only">Toggle user profile popover</span>
+
             </button>
 
             {isVisible && (
+
                 <div
                     ref={popoverRef}
                     id="popover-user-profile"
                     role="dialog"
                     aria-modal="true"
-                    className={`absolute right-0 w-64 text-sm text-gray-700 bg-white border border-gray-200 rounded-lg shadow-lg dark:text-gray-300 dark:bg-gray-800 dark:border-gray-600 z-50
+                    className={`bg-white absolute right-0 w-64 text-sm text-gray-700 bg-white border border-gray-200 rounded-lg shadow-lg dark:text-gray-300 dark:bg-gray-800 dark:border-gray-600 z-50
                         ${showAbove ? 'bottom-full left-1/2 mb-2' : 'top-full mt-2'}
                     `}
                     style={{
@@ -130,11 +139,15 @@ const ProfilPopPov = () => {
                         <ul className="flex gap-6 text-sm">
 
                             <li className="flex gap-1">
+
                                 <span className="font-semibold text-gray-900 dark:text-white">{currentUser?.total_followers}</span> <p>{t('following')} </p>
+
                             </li>
 
                             <li className="flex gap-1">
+
                                 <span className="font-semibold text-gray-900 dark:text-white">{currentUser?.total_followings}</span> <p>{t('followers')}</p>
+
                             </li>
 
                         </ul>

@@ -8,6 +8,7 @@ const ViewsProfil = ({ clientId }) => {
 
     const [isFollow, setIsFollow] = useState(null)
 
+    const [follow, setFollow] = useState(false)
 
     const [isLoading, setIsLoading] = useState(true)
 
@@ -24,16 +25,18 @@ const ViewsProfil = ({ clientId }) => {
     const handleView = () => {
 
         recordView(clientId);
+
+        setFollow(true)
     };
 
     return (
 
         <>
             {
-                !isLoading &&
+                !isLoading && !follow &&
                 <>
                 {
-                    (isFollow?.is_following) ?
+                    ( isFollow?.is_following) ?
                     <div className="flex items-center text-sm">
                         <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M5 11.917 9.724 16.5 19 7.5" />
