@@ -27,6 +27,11 @@ const OwnerPopover = ({ owner, onClose }) => {
 
     const selectedProductOwner = useSelector(state => state.chat.userSlected)
 
+    const nomLength = owner?.nom?.length || 0;
+    const prenomLength = owner?.prenom?.length || 0;
+    const maxLength = Math.max(nomLength, prenomLength);
+    const calculatedWidth = `${maxLength * 0.6 + 3}rem`; // ou px/rem adapté à la police
+
 
     useEffect(() => {
 
@@ -138,17 +143,19 @@ const OwnerPopover = ({ owner, onClose }) => {
     }
 
     return (
-        <div
+        <span
             ref={ref}
 
-            className="absolute left-0 mt-3 w-auto p-3 rounded-xl border border-gray-200 opacity-100  p-1 shadow-xl animate-fade-in"
+            className="absolute left-0 mt-0 rounded-xl border border-gray-200 opacity-100 p-1 shadow-xl animate-fade-in z-[999]"
 
             style={
                 {
 
                     backgroundColor: "var(--color-bg)",
 
-                    color: "var(--color-text)"
+                    color: "var(--color-text)",
+
+                    width: calculatedWidth
                 }
             }
         >
@@ -189,7 +196,7 @@ const OwnerPopover = ({ owner, onClose }) => {
                         onClose();
                     }}
 
-                    className="p-1.5 rounded-md text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800 cursor-pointer"
+                    className=" rounded-md text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800 cursor-pointer"
 
                     title="Voir le profil"
                 >
@@ -243,7 +250,7 @@ const OwnerPopover = ({ owner, onClose }) => {
 
             </div>
 
-        </div>
+        </span>
     );
 };
 
