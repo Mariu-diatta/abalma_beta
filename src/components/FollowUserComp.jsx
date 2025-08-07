@@ -11,13 +11,13 @@ const NumberFollowFollowed = ({ profil}) => {
 
             <li className="flex gap-1  bg-green-200 px-2 rounded-full">
 
-                <span className="font-semibold text-gray-900 dark:text-white">{profil?.total_followers}</span> <p>{t('following')} </p>
+                <span className="font-semibold text-gray-900 dark:text-white">{profil?.total_followings}</span> <p>{t('following')} </p>
 
             </li>
 
             <li className="flex gap-1 bg-green-200 px-2 rounded-full">
 
-                <span className="font-semibold text-gray-900 dark:text-white">{profil?.total_followings}</span> <p>{t('followers')}</p>
+                <span className="font-semibold text-gray-900 dark:text-white"></span>{profil?.total_followers} <p>{t('followers')}</p>
 
             </li>
 
