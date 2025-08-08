@@ -122,8 +122,8 @@ const HomeContain = () => {
 
                                 <div className="relative z-10 inline-block pt-2 lg:pt-0">
 
-                                    <h1 className="text-md font-md text-gray-800 dark:text-white mb-3 ">
-                                        abbba
+                                    <h1 className="text-md font-medium text-gray-500 text-center dark:text-white mb-3 var(--color-text)">
+                                        {t('text_home_picture')}
                                     </h1>
 
                                     <img

@@ -21,7 +21,8 @@ i18n
 
      en: {
 
-           translation: {
+         translation: {
+             text_home_picture: "Like Samba, launch your small business and get noticed!",
              hintProofDoc: "Upload both your ID card and proof of address in a single file.",
              followed:"Follow",
              follow:'Follow',
@@ -404,6 +405,8 @@ i18n
      fr: {
 
          translation: {
+
+             text_home_picture: "Comme Samba, lancez votre petit business et faites- vous connaître !", 
               hintProofDoc: "Téléversez votre carte d’identité et votre justificatif de domicile dans un seul fichier.",
               followed: "Suivi",
               follow: 'Suivre',
