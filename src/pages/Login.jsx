@@ -64,6 +64,35 @@ const Signin = () => {
     const emailRef = useRef(null);
     const { t } = useTranslation();
 
+    const componentRef = useRef(null);
+
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("animate-in");
+                        entry.target.classList.remove("animate-out");
+                    } else {
+                        entry.target.classList.add("animate-out");
+                        entry.target.classList.remove("animate-in");
+                    }
+                });
+            },
+            { threshold: 0.05 } // Déclenche quand 10% du composant est visible
+        );
+
+        if (componentRef.current) {
+            observer.observe(componentRef.current);
+        }
+        // Nettoyage de l'observateur lors du démontage
+        return () => {
+            if (componentRef.current) {
+                observer.unobserve(componentRef.current);
+            }
+        };
+    }, []);
 
     useEffect(() => {
 
@@ -206,7 +235,7 @@ const Signin = () => {
                                     color: "var(--color-text)"
                                 }
                             }
-                            className="shadow-lg relative mx-auto max-w-[525px] overflow-hidden rounded-lg px-10 py-4 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]"
+                            className="shadow-lg relative mx-auto max-w-[525px] overflow-hidden rounded-lg px-10 py-4 text-center dark:bg-dark-2 sm:px-12 md:px-[60px] "
                         >
 
                             {
@@ -218,7 +247,11 @@ const Signin = () => {
 
                                     </h1>
 
-                                    <form onSubmit={(e) => { e.preventDefault(); handleSignIn(); }}>
+                                        <form
+                                            className="translate-y-0 transition-all duration-1000 ease-in-out"
+                                            onSubmit={(e) => { e.preventDefault(); handleSignIn(); }}
+                                            ref={componentRef}
+                                        >
 
                                         <InputBox
                                             type="email"

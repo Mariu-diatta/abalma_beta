@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import InputBox from './InputBoxFloat';
 import { useTranslation } from 'react-i18next';
@@ -54,6 +54,8 @@ const RegisterForm = () => {
     const [isError, setIsError] = useState("Erreur")
 
     const navigate = useNavigate();
+
+    const componentRef = useRef(null);
 
     const [form, setForm] = useState({
         "password": "",
@@ -153,6 +155,34 @@ const RegisterForm = () => {
 
     };
 
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("animate-in");
+                        entry.target.classList.remove("animate-out");
+                    } else {
+                        entry.target.classList.add("animate-out");
+                        entry.target.classList.remove("animate-in");
+                    }
+                });
+            },
+            { threshold: 0.05 } // Déclenche quand 10% du composant est visible
+        );
+
+        if (componentRef.current) {
+            observer.observe(componentRef.current);
+        }
+        // Nettoyage de l'observateur lors du démontage
+        return () => {
+            if (componentRef.current) {
+                observer.unobserve(componentRef.current);
+            }
+        };
+    }, []);
+
     return (
 
         <section className="bg-gray-1 py-2 dark:bg-dark lg:py-[120px] bg_home" >
@@ -183,7 +213,10 @@ const RegisterForm = () => {
                                     {t('register')}
                                 </h1>
 
-                                <form onSubmit={handleSignUp}>
+                                <form 
+                                    onSubmit={handleSignUp} ref={componentRef}
+                                    className="translate-y-0 transition-all duration-1000 ease-in-out"
+                                >
 
                                     <InputBox
                                         type="text"
