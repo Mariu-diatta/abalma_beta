@@ -178,3 +178,48 @@ body .style_bg {
     font-size: 0.75rem; /* 12px */
     line-height: 1;
 }
+
+/*animation du footer/
+
+    /* Animation d'entrée (monter doucement) */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animation de sortie (descendre doucement) */
+@keyframes slideOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
+
+/* Classe pour l'animation d'entrée */
+.animate-in {
+    max-width:100%;
+    animation: slideIn 1s ease-out forwards;
+}
+
+/* Classe pour l'animation de sortie */
+.animate-out {
+    animation: slideOut 1s ease-in forwards;
+}
+
+    /* Réinitialiser les classes après animation */
+.animate-in.animate-out,
+.animate-out.animate-in {
+    animation: none;
+}

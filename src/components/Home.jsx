@@ -19,7 +19,7 @@ const HomeContain = () => {
     return (
 
         <>
-            <div className="m-0 relative pb-[110px] pt-[120px] dark:bg-dark lg:pt-[150px] style-bg bg_home shadow-lg rounded-lg">
+            <div className="animate-in m-0 relative pb-[110px] pt-[120px] dark:bg-dark lg:pt-[150px] style-bg bg_home shadow-lg rounded-lg">
 
                 <div className="container">
 

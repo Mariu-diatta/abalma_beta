@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Logo from "../components/LogoApp";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -8,24 +8,88 @@ const Footer = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
 
+    const componentRef = useRef(null);
+
+    const componentRef_ = useRef(null);
+
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("animate-in");
+                        entry.target.classList.remove("animate-out");
+                    } else {
+                        entry.target.classList.add("animate-out");
+                        entry.target.classList.remove("animate-in");
+                    }
+                });
+            },
+            { threshold: 0.1 } // Déclenche quand 10% du composant est visible
+        );
+
+        if (componentRef.current) {
+            observer.observe(componentRef.current);
+        }
+        // Nettoyage de l'observateur lors du démontage
+        return () => {
+            if (componentRef.current) {
+                observer.unobserve(componentRef.current);
+            }
+        };
+    }, []);
+
+
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("animate-in");
+                        entry.target.classList.remove("animate-out");
+                    } else {
+                        entry.target.classList.add("animate-out");
+                        entry.target.classList.remove("animate-in");
+                    }
+                });
+            },
+            { threshold: 0.1 } // Déclenche quand 10% du composant est visible
+        );
+
+        if (componentRef_.current) {
+            observer.observe(componentRef_.current);
+        }
+
+        // Nettoyage de l'observateur lors du démontage
+        return () => {
+
+            if (componentRef_.current) {
+                observer.unobserve(componentRef_.current);
+            }
+        };
+    }, []);
+
     return (
         <footer
             className="w-full bg-[var(--color-bg)] text-[var(--color-text)] text-sm pt-20 pb-10 flex flex-col items-center justify-center z-10"
             style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
         >
-            <div className="flex flex-col lg:flex-row w-full max-w-7xl mx-auto px-4 text-center lg:text-left">
+            <div className="flex flex-col lg:flex-row w-full max-w-7xl mx-auto px-4 text-center lg:text-left translate-y-1 transition-all duration-1000 ease-in-out" ref={componentRef_}>
                 {/* Logo et description */}
                 <div className="mb-10 lg:w-1/2">
                     <a href="/home" className="block w-full py-2">
                         <Logo />
                     </a>
-                    <p className="mb-7 text-sm text-body-color dark:text-dark-6">
+                    <p className="mb-2 text-sm text-body-color dark:text-dark-6">
                         {t("app_description")}
                     </p>
                 </div>
 
                 {/* Contact et langue */}
-                <div className="flex flex-col gap-4 mb-10 lg:mb-0 lg:ml-auto">
+                <div className="flex flex-col gap-4 mb-5 lg:mb-0 lg:ml-auto">
+
                     {/* Téléphone */}
                     <div className="flex items-center gap-3">
                         <svg
@@ -77,11 +141,12 @@ const Footer = () => {
                         <span>{t("choose_language")}</span>
                         <LanguageDropdown />
                     </div>
+
                 </div>
             </div>
 
             {/* Conditions et politique */}
-            <label className="flex gap-2 text-sm text-gray-700 mb-5 px-4">
+            <label className="flex gap-2 justify-start text-sm text-gray-700 mb-2 px-4">
                 <input type="checkbox" required className="mt-1" />
                 {t("footCondition")}
                 <button
@@ -93,8 +158,11 @@ const Footer = () => {
                 </button>
             </label>
 
-            {/* Liens rapides */}
-            <div className="w-full max-w-7xl mx-auto px-4">
+            {/* Liens rapides avec animation */}
+            <div
+                ref={componentRef}
+                className="w-full max-w-7xl mx-auto px-6 opacity-0 translate-y-5 transition-all duration-1000 ease-in-out"
+            >
                 <div className="flex flex-col lg:flex-row justify-between gap-10">
                     <LinkGroup header={t("Resources")}>
                         <NavLink link="/#" label={t("footer_saas")} className="text-sm" />
