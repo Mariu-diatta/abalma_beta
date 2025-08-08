@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCurrentNav, updateTheme } from "../slices/navigateSlice";
 import { useTranslation } from 'react-i18next';
 import { applyTheme } from "../utils";
-import { PayBack } from "../components/DropDownAccount";
+import { NotificationsComponent, PayBack } from "../components/DropDownAccount";
 
 export function LanguageDropdown() {
 
@@ -145,7 +145,6 @@ export function LanguageDropdown() {
         </div>
     );
 }
-
 
 // ⚙️ Appliquer la classe dark/light au body et changer la balise meta
 export const ThemeToggle = () => {
@@ -417,6 +416,7 @@ const NavbarHeader = () => {
                                 style={
                                     {
                                         backgroundColor: "var(--color-bg)",
+
                                         color: "var(--color-text)"
                                     }
                                 }
@@ -446,7 +446,9 @@ const NavbarHeader = () => {
                             }
                         >
                             
-                            <ThemeToggle/>
+                            <ThemeToggle />
+
+                            <NotificationsComponent/>
 
                             <PayBack/>
 

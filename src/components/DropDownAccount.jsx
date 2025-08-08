@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { setCurrentNav } from "../slices/navigateSlice";
 
 
-const NotificationGroup = ({ currentNotifMessages, notify, changeLanguage, nbItems, dispatch, navigate }) => (
+const NotificationGroup = ({ currentNotifMessages, notify, changeLanguage}) => (
 
     <>
 
@@ -44,9 +44,11 @@ const NotificationGroup = ({ currentNotifMessages, notify, changeLanguage, nbIte
     </>
 );
 
-export const NotificationsComponent = ({ userId }) => {
+export const NotificationsComponent = () => {
 
     const currentNotifMessages = useSelector(state => state.chat.messageNotif);
+
+    const currentUser = useSelector(state => state.auth.user);
 
     const dispatch = useDispatch();
 
@@ -57,7 +59,7 @@ export const NotificationsComponent = ({ userId }) => {
             ? 'wss://backend-mpb0.onrender.com'
             : 'ws://localhost:8000';
 
-        const socketUrl = `${backendBase}/chat/notifications/${userId}/`;
+        const socketUrl = `${backendBase}/chat/notifications/${currentUser?.id}/`;
 
         const socket = new WebSocket(socketUrl);
 
@@ -95,11 +97,11 @@ export const NotificationsComponent = ({ userId }) => {
 
         return () => socket.close();
 
-    }, [userId, dispatch]);
+    }, [currentUser?.id, dispatch]);
 
     return (
 
-        <div className="flex hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg px-2 shadow-lg">
+        <div className="flex hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg px-2">
 
             <svg className="w-6 h-6 text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
 
@@ -473,7 +475,7 @@ export const PayBack = () => {
                     d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7h-1M8 7h-.688M13 5v4m-2-2h4" />
             </svg>
 
-            <span className=" text-xs text-green-600">{nbItems}</span>
+            <span className="text-xs text-green-600 pb-2">{nbItems}</span>
 
         </button >
     )
