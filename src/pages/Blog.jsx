@@ -58,7 +58,7 @@ export const BlogPage = () => {
 
     return (
 
-        <section className="mt-5 dark:bg-gray-900">
+        <section className="mt-5 dark:bg-gray-900 bg_home">
 
             <SuspenseCallback>
 

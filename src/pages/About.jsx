@@ -27,7 +27,7 @@ const AboutContainer = () => {
     return (
 
         <>
-            <section className="style-bg overflow-hidden pt-20 pb-12 lg:pt-[120px] lg:pb-[90px]  dark:bg-dark style-bg">
+            <section className="style-bg overflow-hidden pt-20 pb-12 lg:pt-[120px] lg:pb-[90px]  dark:bg-dark style-bg bg_home">
 
                 <div className="container mx-auto style-bg">
 

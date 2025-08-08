@@ -29,12 +29,23 @@
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    0% {
+        transform: scale(1) rotate(0deg);
+    }
+
+    30% {
+        transform: scale(1.2) rotate(0deg); /* zoom avant */
+    }
+
+    100% {
+        transform: scale(1) rotate(360deg); /* rotation complète */
+    }
+}
+
+.App-logo {
+    width: 100%;
+    height: 100%;
+    animation: App-logo-spin 2s linear 1 forwards;
 }
 
 .scrollbor_hidden{
@@ -115,3 +126,50 @@ body .style_bg {
 }
 
 
+@keyframes trains {
+    from {
+        transform: scaleY(0);
+        transform: scaleX(0);
+    }
+
+    to {
+        transform: scaleY(1);
+    }
+}
+
+.animate-trains {
+    animation: trains 1s linear forwards;
+    transform-origin: bottom;
+}
+
+
+.bg_home {
+    background-image: url("");
+    backdrop-filter: blur(5px); /* Applique un flou de 5px */
+    -webkit-backdrop-filter: blur(5px); /* Pour compatibilité avec Safari */
+    background-size: 20%; /* Taille réduite (ajustez si nécessaire) */
+    background-position: left bottom; /* Positionne l'image en bas à gauche */
+    background-repeat: no-repeat; /* Évite la répétition */
+    position: relative; /* Nécessaire pour le pseudo-élément */
+    border-radius: 15px; /* Coins arrondis (ajustez la valeur si besoin) */
+    overflow: hidden; /* Assure que l'image respecte les coins arrondis */
+    margin: 20px; /* Marges de 20px de tous les côtés (ajustez selon besoin) */
+}
+
+
+.bg_home::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.02); /* Couche semi-transparente (noir à 10% d'opacité) */
+    z-index: 1; /* Sous le contenu */
+    border-radius: 15px; /* Coins arrondis pour le pseudo-élément */
+}
+
+.bg_home > * {
+    position: relative;
+    z-index: 1; /* Contenu au-dessus de l'effet */
+}

@@ -155,7 +155,7 @@ const RegisterForm = () => {
 
     return (
 
-        <section className="bg-gray-1 py-2 dark:bg-dark lg:py-[120px]" >
+        <section className="bg-gray-1 py-2 dark:bg-dark lg:py-[120px] bg_home" >
 
             <div className="container mx-auto">
 

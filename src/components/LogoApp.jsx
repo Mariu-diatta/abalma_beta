@@ -1,24 +1,36 @@
-//import logoApp from '../assets/logoApp.jpg';
-import React from 'react';
+import React from "react";
+import logoApp from "../assets/logoApp.jpg";
 
 const Logo = () => {
 
     return (
 
-        <h1
-            className="text-2xl font-extrabold text-gray-500 dark:text-white"
+        <div
+
+            className="flex items-center space-x-3"
+
+            style={
+                {
+                    backgroundColor: "var(--color-bg)",
+                    color: "var(--color-text)"
+                }
+            }
         >
-        {/*<img*/}
-        {/*    src={logoApp}*/}
-        {/*    alt="logo"*/}
-        {/*    className="w-20 y-10 sm:w-28 md:w-32 lg:w-20 xl:w-20 dark:hidden"*/}
-        {/*    style={{*/}
-        {/*        backgroundColor: "var(--color-bg)",*/}
-        {/*        color: "var(--color-text)"*/}
-        {/*    }}*/}
-        {/*/>*/}
-         Abalma
-        </h1>
+            <img
+                src={logoApp}
+                alt="Logo Abalma"
+                className="w-16 h-16 sm:w-25 sm:h-10 object-contain rounded-sm shadow-xs dark:shadow-xs transition-transform duration-300 hover:scale-105 bg-white dark:bg-gray-800 p-1"
+                style={
+                    {
+                        backgroundColor: "var(--color-bg)",
+                        color: "var(--color-text)"
+                    }
+                }
+            />
+            {/*<span className="text-xl sm:text-2xl font-bold text-gray-700 dark:text-white tracking-wide">*/}
+            {/*    Abalma*/}
+            {/*</span>*/}
+        </div>
     );
 };
 

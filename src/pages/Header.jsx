@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCurrentNav, updateTheme } from "../slices/navigateSlice";
 import { useTranslation } from 'react-i18next';
 import { applyTheme } from "../utils";
+import { PayBack } from "../components/DropDownAccount";
 
 export function LanguageDropdown() {
 
@@ -204,17 +205,17 @@ export const ThemeToggle = () => {
 
                 {
                     (theme === 'dark') ?
-                        (
-                            <svg className="w-6 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                <path fillRule="evenodd" d="M11.675 2.015a.998.998 0 0 0-.403.011C6.09 2.4 2 6.722 2 12c0 5.523 4.477 10 10 10 4.356 0 8.058-2.784 9.43-6.667a1 1 0 0 0-1.02-1.33c-.08.006-.105.005-.127.005h-.001l-.028-.002A5.227 5.227 0 0 0 20 14a8 8 0 0 1-8-8c0-.952.121-1.752.404-2.558a.996.996 0 0 0 .096-.428V3a1 1 0 0 0-.825-.985Z" clipRule="evenodd" />
-                            </svg>
-                        )
-                        :
-                        (
-                            <svg className="w-6 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M12 21a9 9 0 0 1-.5-17.986V3c-.354.966-.5 1.911-.5 3a9 9 0 0 0 9 9c.239 0 .254.018.488 0A9.004 9.004 0 0 1 12 21Z" />
-                            </svg>
-                        )
+                    (
+                        <svg className="w-6 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path fillRule="evenodd" d="M11.675 2.015a.998.998 0 0 0-.403.011C6.09 2.4 2 6.722 2 12c0 5.523 4.477 10 10 10 4.356 0 8.058-2.784 9.43-6.667a1 1 0 0 0-1.02-1.33c-.08.006-.105.005-.127.005h-.001l-.028-.002A5.227 5.227 0 0 0 20 14a8 8 0 0 1-8-8c0-.952.121-1.752.404-2.558a.996.996 0 0 0 .096-.428V3a1 1 0 0 0-.825-.985Z" clipRule="evenodd" />
+                        </svg>
+                    )
+                    :
+                    (
+                        <svg className="w-6 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M12 21a9 9 0 0 1-.5-17.986V3c-.354.966-.5 1.911-.5 3a9 9 0 0 0 9 9c.239 0 .254.018.488 0A9.004 9.004 0 0 1 12 21Z" />
+                        </svg>
+                    )
                 }
 
             </span>
@@ -370,9 +371,9 @@ const NavbarHeader = () => {
         <>
             <header className="w-full z-20 flex items-center style-bg py-2" ref={ref}>
 
-                <div className="container mx-auto px-4">
+                <div className="container mx-auto px-4 flex items-center justify-between relative">
 
-                    <div className="flex items-center justify-between relative">
+                    {/*<div className="flex items-center justify-between relative">*/}
 
                         {/* Logo */}
                         <div className="">
@@ -413,7 +414,12 @@ const NavbarHeader = () => {
 
                                 className="text-sm absolute top-2 flex flex-col items-start justify-start gap-2 p-1 sm:hidden shadow-md w-full "
 
-                                style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
+                                style={
+                                    {
+                                        backgroundColor: "var(--color-bg)",
+                                        color: "var(--color-text)"
+                                    }
+                                }
                             >       
                                 <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
 
@@ -430,10 +436,19 @@ const NavbarHeader = () => {
 
                             className="hidden sm:flex items-center justify-center gap-3 w-auto"
 
-                            style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
-                        >
+                            style={
 
-                            <ThemeToggle />
+                                {
+                                    backgroundColor: "var(--color-bg)",
+
+                                    color: "var(--color-text)"
+                                }
+                            }
+                        >
+                            
+                            <ThemeToggle/>
+
+                            <PayBack/>
 
                             <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
 
@@ -441,7 +456,7 @@ const NavbarHeader = () => {
 
                         </div>
 
-                    </div>
+                    {/*</div>*/}
 
                 </div>
 

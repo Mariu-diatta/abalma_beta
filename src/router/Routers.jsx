@@ -35,14 +35,23 @@ const routes = [
         errorElement: <ErrorPage />,
 
         children: [
+
             { index: true, element: <Home /> },
+
             { index: "home", element: <Home /> },
-            { path: "logIn", element: <LogIn/> },
-            { path: "register", element: <Register/> },
-            { path: "about", element: <About/> },
-            { path: "politique-confidentialite", element: <PrivacyPolicy/> },
-            { path: "blogs", element: <BlogPageHome/> }, 
+
+            { path: "logIn", element: <LogIn /> },
+
+            { path: "register", element: <Register /> },
+
+            { path: "about", element: <About /> },
+
+            { path: "politique-confidentialite", element: <PrivacyPolicy /> },
+
+            { path: "blogs", element: <BlogPageHome /> }, 
+
             { path: "forgetPassword", element: <LayoutPwdForget /> },
+
             { path:"forgetPassword/reset/:uidb64/:token", element:< LayoutPwdForget/> },
 
             {
@@ -62,26 +71,43 @@ const routes = [
                             { path: "payment_card", element: <ListProductShoppingCart /> },
 
                             ...[
+
                                 { path: "payment", class_rendered: <ListProductShoppingCart /> },
+
                                 { path: "user_blogs", class_rendered: <BlogPage /> },
+
                                 { path: "settings", class_rendered: <SettingsForm /> },
+
                                 { path: "user_profil", class_rendered: <ProfileCard /> },
+
                                 { path: "dashboard", class_rendered: <Tabs /> },
+
                                 { path: "payment_product", class_rendered: <ProductsRecapTable /> },
+
                                 { path: "all_products", class_rendered: <GridLayoutProduct /> },
+
                                 { path: "account_home", class_rendered: <GridLayoutProduct /> },
+
                                 { path: "add_product", class_rendered: <UpdateProduct /> },
+
                                 { path: "message_inbox", class_rendered: <ChatLayout /> }
-                            ].map((value)=> ({
-                                    path:value.path, element: (
 
-                                        <VertcalNavbar>
+                            ].map(
 
-                                            {value.class_rendered}
+                                (value) => (
 
-                                        </VertcalNavbar>
-                                    ),
-                            })),
+                                    {
+                                        path:value.path, element: (
+
+                                            <VertcalNavbar>
+
+                                                {value.class_rendered}
+
+                                            </VertcalNavbar>
+                                        ),
+                                    }
+                                )
+                            ),
 
                             ...LIST_CATEGORY.map((category) => ({
 
