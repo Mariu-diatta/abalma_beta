@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 //import { useNavigate } from 'react-router-dom';
 //import { setCurrentNav } from '../slices/navigateSlice';
 import image from '../assets/image.jpg'
+import Testimonial from './AbalmaActivities';
 
 
 const HomeContain = () => {
@@ -29,7 +30,7 @@ const HomeContain = () => {
 
                             <div className="hero-content">
 
-                                <div className="shadow-lg px-4 animate-trains">
+                                <div className="shadow-lg px-4 animate-trains translate-y-0 transition-all duration-1000 ease-in-out">
 
                                     <h4 className="mb-2  !leading-[1.208] text-dark dark:text-white sm:text-[42px] lg:text-[20px] xl:text-2xl">
                                         {t("homePage.headline")}
@@ -137,6 +138,8 @@ const HomeContain = () => {
                             </div>
 
                         </div>
+
+                        <Testimonial/>
 
                     </div>
 

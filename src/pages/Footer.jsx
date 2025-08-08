@@ -26,7 +26,7 @@ const Footer = () => {
                     }
                 });
             },
-            { threshold: 0.1 } // Déclenche quand 10% du composant est visible
+            { threshold: 0.05 } // Déclenche quand 10% du composant est visible
         );
 
         if (componentRef.current) {

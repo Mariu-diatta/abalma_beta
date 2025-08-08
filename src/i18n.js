@@ -22,6 +22,11 @@ i18n
      en: {
 
          translation: {
+             serviceHome: {
+                 detail_1: "Abalma boosts your online visibility and grows your business from the ground up with tailored strategies and expert support.",
+                 detail_2: "Protect your digital assets with Abalma's seamless and stress-free security solutions, designed to keep your business safe.",
+                 detail_3: "With our premium plan, connect with a vast audience and turn prospects into loyal customers through targeted outreach.",
+             },
              text_home_picture: "Like Samba, launch your small business and get noticed!",
              hintProofDoc: "Upload both your ID card and proof of address in a single file.",
              followed:"Follow",
@@ -406,6 +411,11 @@ i18n
 
          translation: {
 
+             serviceHome: {
+                 detail_1: "Abalma renforce votre visibilité en ligne et développe votre entreprise de A à Z grâce à des stratégies personnalisées et un accompagnement expert.",
+                 detail_2: "Protégez vos actifs numériques avec les solutions de sécurité fluides et sans stress d'Abalma, conçues pour sécuriser votre activité.",
+                 detail_3: "Avec notre offre premium, touchez une vaste audience et transformez vos prospects en clients fidèles grâce à une approche ciblée.",
+             },
              text_home_picture: "Comme Samba, lancez votre petit business et faites- vous connaître !", 
               hintProofDoc: "Téléversez votre carte d’identité et votre justificatif de domicile dans un seul fichier.",
               followed: "Suivi",
