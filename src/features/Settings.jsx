@@ -171,7 +171,7 @@ const SettingsForm = () => {
                 <h2 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">{t("settingsText.accountSettings")}</h2>
 
                 {/* Compte form */}
-                <form onSubmit={updatePassword} className="w-auto dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-3">
+                <form onSubmit={updatePassword} className="w-100 dark:bg-gray-800 shadow-md rounded-lg p-1 space-y-3">
 
                     <div className="flex items-center gap-4">
                         {currentUserData?.image ? (
