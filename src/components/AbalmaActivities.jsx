@@ -12,15 +12,26 @@ const Testimonial = () => {
     const { t } = useTranslation();
 
 
-    useEffect(() => {
+    useEffect(
+
+        () => {
+
         const observer = new IntersectionObserver(
+
             (entries) => {
+
                 entries.forEach((entry) => {
+
                     if (entry.isIntersecting) {
+
                         entry.target.classList.add("animate-in");
+
                         entry.target.classList.remove("animate-out");
+
                     } else {
+
                         entry.target.classList.add("animate-out");
+
                         entry.target.classList.remove("animate-in");
                     }
                 });
@@ -29,14 +40,18 @@ const Testimonial = () => {
         );
 
         if (componentRef.current) {
+
             observer.observe(componentRef.current);
         }
         // Nettoyage de l'observateur lors du démontage
         return () => {
+
             if (componentRef.current) {
+
                 observer.unobserve(componentRef.current);
             }
         };
+
     }, []);
 
     const testimonials = [
@@ -136,7 +151,7 @@ const SingleTestimonial = ({
     return (
         <div className="relative flex justify-center " >
             <div className="relative w-full pb-16 md:w-11/12 lg:w-10/12 xl:w-8/12">
-                <div className="w-full items-center md:flex  shadow-lg p-2 mb-2 rounded-full" >
+                <div className="w-full items-center md:flex  shadow-lg p-2  rounded-md" >
                     <div className="relative mb-12 w-full max-w-[310px] md:mb-0 md:mr-12 md:max-w-[250px] lg:mr-14 lg:max-w-[280px] 2xl:mr-16">
                         <img src={image} alt="image" className="w-full" />
                         <span className="absolute -left-6 -top-6 z-[-1] hidden sm:block">

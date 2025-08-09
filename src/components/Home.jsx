@@ -20,132 +20,124 @@ const HomeContain = () => {
     return (
 
         <>
-            <div className="animate-in m-0 relative pb-[110px] pt-[120px] dark:bg-dark lg:pt-[150px] style-bg bg_home shadow-lg rounded-lg">
+            <div className="animate-in m-0 relative pb-[110px] mt-6 dark:bg-dark lg:pt-[150px] style-bg bg_home shadow-lg rounded-lg -mx-4 flex flex-wrap">
 
-                <div className="container">
+                <div className="w-full px-4 lg:w-5/12">
 
-                    <div className="-mx-4 flex flex-wrap">
+                    <div className="hero-content">
 
-                        <div className="w-full px-4 lg:w-5/12">
+                        <div className="shadow-lg px-4 animate-trains translate-y-0 transition-all duration-1000 ease-in-out mt-[10px]">
 
-                            <div className="hero-content">
+                            <h4 className="mb-2  !leading-[1.208] text-dark dark:text-white sm:text-[42px] lg:text-[20px] xl:text-2xl mt-6">
+                                {t("homePage.headline")}
+                            </h4>
 
-                                <div className="shadow-lg px-4 animate-trains translate-y-0 transition-all duration-1000 ease-in-out">
+                            <p className="mb-8 max-w-[480px] text-sm text-body-color dark:text-dark-6">
+                                {t("homePage.subheadline")}
+                            </p>
 
-                                    <h4 className="mb-2  !leading-[1.208] text-dark dark:text-white sm:text-[42px] lg:text-[20px] xl:text-2xl">
-                                        {t("homePage.headline")}
-                                    </h4>
+                        </div>
 
-                                    <p className="mb-8 max-w-[480px] text-sm text-body-color dark:text-dark-6">
-                                        {t("homePage.subheadline")}
-                                    </p>
+                        <ul className="flex flex-wrap items-center">
 
-                                </div>
+                            {/*<li>*/}
+                            {/*    <button*/}
 
-                                <ul className="flex flex-wrap items-center">
+                            {/*        onClick={*/}
 
-                                    {/*<li>*/}
-                                    {/*    <button*/}
+                            {/*                () => {*/}
 
-                                    {/*        onClick={*/}
+                            {/*                    navigate("/logIn");*/}
 
-                                    {/*                () => {*/}
+                            {/*                    dispatch(setCurrentNav("logIn")*/}
 
-                                    {/*                    navigate("/logIn");*/}
+                            {/*                )*/}
+                            {/*            }*/}
+                            {/*        }*/}
 
-                                    {/*                    dispatch(setCurrentNav("logIn")*/}
+                            {/*        className="cursor-pointer inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-center text-base  text-white hover:bg-blue-dark lg:px-7"*/}
+                            {/*    >*/}
+                            {/*        {t("homePage.getStarted")}*/}
 
-                                    {/*                )*/}
-                                    {/*            }*/}
-                                    {/*        }*/}
+                            {/*    </button>*/}
+                            {/*</li>*/}
 
-                                    {/*        className="cursor-pointer inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-center text-base  text-white hover:bg-blue-dark lg:px-7"*/}
-                                    {/*    >*/}
-                                    {/*        {t("homePage.getStarted")}*/}
-
-                                    {/*    </button>*/}
-                                    {/*</li>*/}
-
-                                    <li>
-                                        <button
-                                            onClick={()=>alert("L'application sera bientôt disponible")}
-                                            className="cursor-pointer inline-flex items-center justify-center px-5 py-3 text-center text-base font-medium text-[#464646] hover:text-primary dark:text-white"
+                            <li>
+                                <button
+                                    onClick={()=>alert("L'application sera bientôt disponible")}
+                                    className="cursor-pointer inline-flex items-center justify-center px-5 py-3 text-center text-base font-medium text-[#464646] hover:text-primary dark:text-white"
+                                >
+                                    <span className="mr-2">
+                                        <svg
+                                            width="24"
+                                            height="25"
+                                            viewBox="0 0 24 25"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
                                         >
-                                            <span className="mr-2">
-                                                <svg
-                                                    width="24"
-                                                    height="25"
-                                                    viewBox="0 0 24 25"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                >
-                                                    <circle cx="12" cy="12.6152" r="12" fill="#3758F9" />
-                                                    <rect
-                                                        x="7.99893"
-                                                        y="14.979"
-                                                        width="8.18182"
-                                                        height="1.63636"
-                                                        fill="white"
-                                                    />
-                                                    <rect
-                                                        x="11.2717"
-                                                        y="7.61523"
-                                                        width="1.63636"
-                                                        height="4.09091"
-                                                        fill="white"
-                                                    />
-                                                    <path
-                                                        d="M12.0898 14.1606L14.9241 11.0925H9.25557L12.0898 14.1606Z"
-                                                        fill="white"
-                                                    />
-                                                </svg>
-                                            </span>
+                                            <circle cx="12" cy="12.6152" r="12" fill="#3758F9" />
+                                            <rect
+                                                x="7.99893"
+                                                y="14.979"
+                                                width="8.18182"
+                                                height="1.63636"
+                                                fill="white"
+                                            />
+                                            <rect
+                                                x="11.2717"
+                                                y="7.61523"
+                                                width="1.63636"
+                                                height="4.09091"
+                                                fill="white"
+                                            />
+                                            <path
+                                                d="M12.0898 14.1606L14.9241 11.0925H9.25557L12.0898 14.1606Z"
+                                                fill="white"
+                                            />
+                                        </svg>
+                                    </span>
 
-                                            {t("homePage.downloadApp")}
+                                    {t("homePage.downloadApp")}
 
-                                        </button>
+                                </button>
 
-                                    </li>
+                            </li>
 
-                                </ul>
+                        </ul>
 
-                                {/*<LogoDropdown />*/}
+                        {/*<LogoDropdown />*/}
 
-                            </div>
+                    </div>
 
-                        </div>
+                </div>
 
-                        <div className="hidden px-4 lg:block lg:w-1/12"></div>
+                <div className="hidden px-4 lg:block lg:w-1/12"></div>
 
-                        <div className="w-full px-2 lg:w-6/12 sticky top-10 self-start">
+                <div className="w-full px-2 lg:w-6/12 sticky top-10 self-start">
 
-                            <div className="lg:ml-auto lg:text-right">
+                    <div className="lg:ml-auto lg:text-right">
 
-                                <div className="relative z-10 inline-block pt-2 lg:pt-0">
+                        <div className="relative z-10 inline-block pt-2 lg:pt-0 mb-[80px]">
 
-                                    <h1 className="text-md font-medium text-gray-500 text-center dark:text-white mb-3 var(--color-text)">
-                                        {t('text_home_picture')}
-                                    </h1>
+                            <h1 className="text-md font-medium text-gray-500 text-center dark:text-white mb-3 var(--color-text)">
+                                {t('text_home_picture')}
+                            </h1>
 
-                                    <img
-                                        src={image}
-                                        alt="hero"
-                                        className=" lg:ml-auto shadow-xl rounded-lg transition-transform duration-300 hover:scale-105 App-logo"
-                                    />
-
-                                </div>
-
-                            </div>
+                            <img
+                                src={image}
+                                alt="hero"
+                                className=" lg:ml-auto shadow-xl rounded-lg transition-transform duration-300 hover:scale-105 App-logo "
+                            />
 
                         </div>
-
-                        <Testimonial/>
 
                     </div>
 
                 </div>
 
             </div>
+
+            <Testimonial/>
         </>
     );
 };

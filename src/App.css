@@ -153,7 +153,8 @@ body .style_bg {
     position: relative; /* Nécessaire pour le pseudo-élément */
     border-radius: 15px; /* Coins arrondis (ajustez la valeur si besoin) */
     overflow: hidden; /* Assure que l'image respecte les coins arrondis */
-    margin: 20px; /* Marges de 20px de tous les côtés (ajustez selon besoin) */
+    margin: 1px; /* Marges de 20px de tous les côtés (ajustez selon besoin) */
+    padding-top:50px !important;
 }
 
 
@@ -209,7 +210,6 @@ body .style_bg {
 
 /* Classe pour l'animation d'entrée */
 .animate-in {
-    max-width:100%;
     animation: slideIn 1s ease-out forwards;
 }
 

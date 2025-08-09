@@ -8,18 +8,11 @@ const Logo = () => {
         <div
 
             className="flex items-center space-x-3"
-
-            style={
-                {
-                    backgroundColor: "var(--color-bg)",
-                    color: "var(--color-text)"
-                }
-            }
         >
             <img
                 src={logoApp}
                 alt="Logo Abalma"
-                className="w-16 h-16 sm:w-25 sm:h-10 object-contain rounded-sm shadow-xs dark:shadow-xs transition-transform duration-300 hover:scale-105 bg-white dark:bg-gray-800 p-1"
+                className="w-17 h-17 sm:w-25 sm:h-10 object-contain transition-transform duration-300 p-1 bg-white"
                 style={
                     {
                         backgroundColor: "var(--color-bg)",
