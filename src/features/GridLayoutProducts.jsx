@@ -236,7 +236,7 @@ const GridLayoutProduct = () => {
 
         <div
 
-            className="p-4 space-y-4 dark:bg-gray-900 dark:text-white"
+            className="p-1 space-y-4 dark:bg-gray-900 dark:text-white"
 
             style={{
 
@@ -262,7 +262,7 @@ const GridLayoutProduct = () => {
                     {filteredItems.length > 0 ? (
 
                         <div
-                            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 "
+                            className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 gap-2 "
 
                             style={
                                 {
@@ -283,19 +283,19 @@ const GridLayoutProduct = () => {
 
                                    <div
 
-                                            key={item.id}
+                                        key={item.id}
 
-                                            className={`rounded-lg p-1 shadow-md transition transform hover:-translate-y-1 hover:shadow-lg 
+                                        className={`rounded-lg  shadow-md transition transform hover:-translate-y-1 hover:shadow-lg 
 
-                                            ${isInCart ? 'opacity-50 pointer-events-none bg-gray-100' : 'bg-white'}`}
+                                        ${isInCart ? 'opacity-50 pointer-events-none bg-gray-100' : 'bg-white'}`}
 
-                                            style={{
+                                        style={{
 
-                                                backgroundColor: "var(--color-bg)",
+                                            backgroundColor: "var(--color-bg)",
 
-                                                color: "var(--color-text)"
-                                            }}
-                                        >
+                                            color: "var(--color-text)"
+                                        }}
+                                   >
                                             <button
 
                                                 onClick={() => {
