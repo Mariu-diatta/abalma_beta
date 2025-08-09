@@ -4,9 +4,8 @@ import { addMessageNotif } from "../slices/chatSlice";
 import WalletModal from "../features/WalletModal";
 import ProfilPopPov from "../features/PopovProfile";
 import { addToCart } from "../slices/cartSlice";
-import api from "../services/Axios";
 import { useTranslation } from 'react-i18next';
-import { numberStarsViews } from "../utils";
+import { numberStarsViews, productViews } from "../utils";
 
 
 const ProductModal = ({ isOpen, onClose, dataProduct }) => {
@@ -31,28 +30,9 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
 
     useEffect(() => {
 
-        // Appelle l'API => déclenche record_view automatiquement côté backend
-        if (dataProduct?.id !== undefined) {
+        productViews(dataProduct,setProductNbViews)
 
-            try {
-
-                api.get(`/products_details/${dataProduct?.id}/`)
-
-                    .then(response => {
-
-                        setProductNbViews(response.data?.total_views);
-                    })
-
-                    .catch(error => {
-
-                        console.error('Erreur de chargement du produit:', error);
-                    });
-
-            } catch {
-
-            }
-        }
-    }, [dataProduct?.id]);
+    }, [dataProduct]);
 
     useEffect(
         () => {
@@ -191,12 +171,12 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
 
                                         onClick={onClose}
 
-                                        className="z-0 rounded-full flex items-center justify-center p-3  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="z-20 rounded-full flex items-center justify-center p-3  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     >
                                         <span className="sr-only">Close</span>
 
                                         <svg
-                                            className="z-0  size-4"
+                                            className="z-0 size-10 lg:size-5"
 
                                             fill="none"
 

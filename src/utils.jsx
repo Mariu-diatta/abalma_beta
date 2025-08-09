@@ -132,3 +132,30 @@ export const recordView = async (clientId) => {
         console.error('Erreur lors de l’enregistrement de la vue :', message);
     }
 };
+
+export const productViews = (dataProduct, setProductNbViews) => {
+
+
+    // Appelle l'API => déclenche record_view automatiquement côté backend
+    if (dataProduct?.id !== undefined) {
+
+        try {
+
+            api.get(`/products_details/${dataProduct?.id}/`)
+
+                .then(response => {
+
+                    setProductNbViews(response.data?.total_views);
+                })
+
+                .catch(error => {
+
+                    console.error('Erreur de chargement du produit:', error);
+                });
+
+        } catch {
+
+        }
+    }
+
+}
