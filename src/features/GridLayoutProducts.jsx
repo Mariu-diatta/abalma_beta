@@ -10,6 +10,7 @@ import ProductModal from '../pages/ProductViewsDetails';
 import { useTranslation } from 'react-i18next';
 import LoadingCard from '../components/LoardingSpin';
 import { numberStarsViews, productViews } from '../utils';
+import RendrePrixProduitMonnaie from '../components/ConvertCurrency';
 
 
 
@@ -168,7 +169,7 @@ const GridLayoutProduct = () => {
 
     const [productNbViews, setProductNbViews] = useState(null);
 
-    const { t } = useTranslation();
+    const { t} = useTranslation();
     const [loading, setLoading] = useState(true)
     const dispatch = useDispatch();
     const cartItems = useSelector(state => state.cart.items);
@@ -228,7 +229,6 @@ const GridLayoutProduct = () => {
         fetchProductsAndOwners();
 
     }, []);
-
 
     const filteredItems = activeCategory === 'All'
 
@@ -385,7 +385,7 @@ const GridLayoutProduct = () => {
 
                                             <div className="flex justify-between items-center">
 
-                                                <span className="text-blue-700 font-semibold text-sm">${item.price_product}</span>
+                                                <span className="text-blue-700 font-semibold text-sm"><RendrePrixProduitMonnaie item={item}/></span>
 
                                                 <div className="flex gap-2">
 

@@ -6,6 +6,7 @@ import ProfilPopPov from "../features/PopovProfile";
 import { addToCart } from "../slices/cartSlice";
 import { useTranslation } from 'react-i18next';
 import { numberStarsViews, productViews } from "../utils";
+import RendrePrixProduitMonnaie from "../components/ConvertCurrency";
 
 
 const ProductModal = ({ isOpen, onClose, dataProduct }) => {
@@ -221,7 +222,7 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
 
                                     <section className="mt-2 ">
 
-                                        <p className="text-2xl 0">${dataProduct?.price_product}</p>
+                                        <p className="text-2xl 0"> <RendrePrixProduitMonnaie item={dataProduct}/> </p>
 
                                         <div className="mt-6">
 

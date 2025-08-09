@@ -512,7 +512,7 @@ const ProfileCard = () => {
                                 {isCurrentUser && (
                                     <button
                                         onClick={() => setIsEditing(true)}
-                                        className="inline-flex items-center gap-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-sm px-2 py-1 sm:px-4 sm:py-2 hover:bg-gray-200 dark:hover:bg-gray-600 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors duration-200"
+                                        className="border-1 cursor-pointer inline-flex items-center gap-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-sm px-1 sm:px-2  hover:bg-gray-200 dark:hover:bg-gray-600 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors duration-200"
                                         aria-label={t('ProfilText.modifierProfil')}
                                         style={{
                                             backgroundColor: "var(--color-bg)",

@@ -390,11 +390,8 @@ const UpdateProduct = () => {
 
                                 <option value="PRETER">{t('add_product.PRETER')}</option>
                                 <option value="VENDRE">{t('add_product.VENDRE')}</option>
-                                <option value="DONNER">{t('add_product.DONNER')}</option>
                                 <option value="ECHANGER">{t('add_product.ECHANGER')}</option>
                                 <option value="LOCATION">{t('add_product.LOCATION')}</option>
-                                <option value="RESERVER">{t('add_product.RESERVER')}</option>
-
                             </select>
 
                         </div>
