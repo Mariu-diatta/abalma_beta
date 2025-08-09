@@ -20,13 +20,25 @@ const HomeContain = () => {
     return (
 
         <>
+
+            <div className="mx-auto max-w-screen-md text-center lg:mb-16 mb-8 mt-8 pt-2">
+
+                <h2 className="mb-4 text-3xl lg:text-2xl tracking-tight font-extrabold">{t("homePan.title")}</h2>
+
+                <p className="font-light text-gray-500 sm:text-md dark:text-gray-400 w-full  text-center">
+                    {t("homePan.content")}
+                </p>
+
+            </div>
+
             <div className="animate-in m-0 relative pb-[110px] mt-6 dark:bg-dark lg:pt-[150px] style-bg bg_home shadow-lg rounded-lg -mx-4 flex flex-wrap">
+
 
                 <div className="w-full px-4 lg:w-5/12">
 
                     <div className="hero-content">
 
-                        <div className="shadow-lg px-4 animate-trains translate-y-0 transition-all duration-1000 ease-in-out mt-[10px]">
+                        <div className="shadow-lg px-4 animate-trains translate-y-0 transition-all duration-1000 ease-in-out mt-[10px] rounded-lg">
 
                             <h4 className="mb-2  !leading-[1.208] text-dark dark:text-white sm:text-[42px] lg:text-[20px] xl:text-2xl mt-6">
                                 {t("homePage.headline")}

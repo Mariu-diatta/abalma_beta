@@ -62,11 +62,11 @@ export const BlogPage = () => {
 
             <SuspenseCallback>
 
-                <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6 style-bg">
+                <div className="py-2 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6 style-bg">
 
                     <div className="mx-auto max-w-screen-sm text-center lg:mb-16 mb-8">
 
-                        <h2 className="mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold">{t("blog.title")}</h2>
+                        <h2 className="mb-4 text-3xl lg:text-2xl tracking-tight font-extrabold">{t("blog.title")}</h2>
 
                         <p className="font-light text-gray-500 sm:text-xl dark:text-gray-400">{t("blog.maint_text_content")}</p>
 

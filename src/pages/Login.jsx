@@ -304,7 +304,7 @@ const Signin = () => {
                                 <LoadingCard/>
                             }
 
-                            <p className="mb-6 text-xl text-bold text-gray-500 dark:text-dark-7 my-6">
+                            <p className="mb-6 text-md text-bold text-gray-500 dark:text-dark-7 my-6">
                                 {t('connect_with')}
                             </p>
 

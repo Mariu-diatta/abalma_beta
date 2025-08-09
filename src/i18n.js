@@ -22,6 +22,10 @@ i18n
      en: {
 
          translation: {
+             homePan: {
+                 title: "Every great business starts with a single step.",
+                 content: "Welcome to the Abalma platform! We help you enhance your social media presence, boost your visibility, and accelerate your business growth."
+             },
              serviceHome: {
                  detail_1: "Abalma boosts your online visibility and grows your business from the ground up with tailored strategies and expert support.",
                  detail_2: "Protect your digital assets with Abalma's seamless and stress-free security solutions, designed to keep your business safe.",
@@ -410,7 +414,10 @@ i18n
      fr: {
 
          translation: {
-
+             homePan: {
+                 title: "Toute grande entreprise commence par un premier pas.",
+                 content: "Bienvenue sur la plateforme Abalma ! Nous vous accompagnons pour optimiser votre présence sur les réseaux sociaux, renforcer votre visibilité et accélérer la croissance de votre activité."
+             },
              serviceHome: {
                  detail_1: "Abalma renforce votre visibilité en ligne et développe votre entreprise de A à Z grâce à des stratégies personnalisées et un accompagnement expert.",
                  detail_2: "Protégez vos actifs numériques avec les solutions de sécurité fluides et sans stress d'Abalma, conçues pour sécuriser votre activité.",
@@ -426,7 +433,7 @@ i18n
               phrasaleDate: "Aujourd'hui à",
               reviews: 'Vues',
               choose_language: 'Choisir une langue',
-              connect_with: "Connecter avec",
+              connect_with: "Se connecter avec",
               param: 'Paramètres et convidentialités',
               add_product: {
                   "add_or_update_product": "Ajouter / Modifier un produit",
