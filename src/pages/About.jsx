@@ -6,6 +6,9 @@ import { setCurrentNav } from '../slices/navigateSlice';
 import HomeLayout from '../layouts/HomeLayout';
 import image_1 from '../assets/image_1.jpg';
 import image_2 from '../assets/image_2.jpg';
+import image_3 from '../assets/image_3.jpg';
+import image_4 from '../assets/image_4.jpg';
+
 
 const About = () => {
     return (
@@ -50,15 +53,20 @@ const AboutContainer = () => {
     }, []);
 
     return (
-        <section className="overflow-hidden pt-20 pb-12 lg:pt-[120px] lg:pb-[90px] dark:bg-dark bg-home animate-fade-in">
+        <section className="overflow-hidden pt-1 pb-12 lg:pt-[120px] lg:pb-[90px] dark:bg-dark bg-home animate-fade-in">
+
             <div className="container mx-auto">
+
                 <div className="flex flex-wrap items-center justify-between -mx-4">
+
                     <div
                         ref={leftSectionRef}
                         className="w-full px-4 lg:w-6/12 opacity-0 translate-y-10 scale-95 transition-all duration-700 ease-in-out motion-reduce:opacity-100 motion-reduce:translate-y-0 motion-reduce:scale-100"
                     >
                         <div className="flex items-center -mx-3 sm:-mx-4">
+
                             <div className="w-full px-3 sm:px-4 xl:w-1/2">
+
                                 <div className="py-3 sm:py-4">
                                     <img
                                         src={image_1}
@@ -66,23 +74,32 @@ const AboutContainer = () => {
                                         className="w-full rounded-2xl shadow-sm transition-transform duration-300 ease-in-out hover:scale-105 motion-reduce:transform-none"
                                     />
                                 </div>
+
                                 <div className="py-3 sm:py-4">
+
                                     <img
                                         src={image_2}
                                         alt={t('image_2_alt', 'E-commerce growth visual')}
                                         className="w-full rounded-2xl shadow-sm transition-transform duration-300 ease-in-out hover:scale-105 motion-reduce:transform-none"
                                     />
+
                                 </div>
                             </div>
+
                             <div className="w-full px-3 sm:px-4 xl:w-1/2">
+
                                 <div className="relative z-10 my-4">
+
                                     <img
-                                        src="https://cdn.tailgrids.com/assets/images/marketing/about/about-01/image-3.jpg"
+                                        src={image_3}
                                         alt={t('image_3_alt', 'Abalma service showcase')}
                                         className="w-full rounded-2xl shadow-sm transition-transform duration-300 ease-in-out hover:scale-105 motion-reduce:transform-none"
                                     />
+
                                 </div>
+
                             </div>
+
                         </div>
                     </div>
 
@@ -115,7 +132,7 @@ const AboutContainer = () => {
                         </div>
                         <div className="py-3 sm:py-4">
                             <img
-                                src={image_2}
+                                src={image_4}
                                 alt={t('image_2_alt', 'E-commerce growth visual')}
                                 className="w-full rounded-2xl shadow-sm transition-transform duration-300 ease-in-out hover:scale-105 motion-reduce:transform-none"
                             />

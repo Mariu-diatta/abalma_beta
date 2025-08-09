@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
+import logoApp from "../assets/logoApp.jpg";
 
 
 const Testimonial = () => {
@@ -152,11 +153,13 @@ const SingleTestimonial = ({
         <div className="relative flex justify-center " >
             <div className="relative w-full pb-16 md:w-11/12 lg:w-10/12 xl:w-8/12">
                 <div className="w-full items-center md:flex  shadow-lg p-2  rounded-md" >
+
                     <div className="relative mb-12 w-full max-w-[310px] md:mb-0 md:mr-12 md:max-w-[250px] lg:mr-14 lg:max-w-[280px] 2xl:mr-16">
-                        <img src={image} alt="image" className="w-full" />
+                        <img src={logoApp} alt="commerce " className="w-full" />
                         <span className="absolute -left-6 -top-6 z-[-1] hidden sm:block">
                         </span>
                     </div>
+
                     <div className="w-full p-1">
                         <div>
                             <div className="mb-7">
