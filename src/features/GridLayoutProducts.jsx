@@ -296,18 +296,18 @@ const GridLayoutProduct = () => {
                                             color: "var(--color-text)"
                                         }}
                                    >
-                                            <button
+                                        <button
 
-                                                onClick={() => {
+                                            onClick={() => {
 
-                                                    openModal(item)
+                                                openModal(item)
 
-                                                    dispatch(addUser(owners[item.fournisseur]))
+                                                dispatch(addUser(owners[item.fournisseur]))
 
-                                                }}
+                                            }}
 
-                                                className="block w-full rounded-lg overflow-hidden"
-                                            >
+                                            className="block w-full rounded-lg overflow-hidden"
+                                        >
                                             <img
                                                 src={item?.image_product}
                                                 alt={item?.description_product}
@@ -319,7 +319,9 @@ const GridLayoutProduct = () => {
                                                 }}
                                             />
 
-                                            </button>
+                                        </button>
+
+                                        <div className="p-1">
 
                                             <div className="flex justify-between items-center mb-1">
 
@@ -376,6 +378,8 @@ const GridLayoutProduct = () => {
                                                 </div>
 
                                             </div>
+
+                                        </div>
                                 </div>
                                 );
                             })}
