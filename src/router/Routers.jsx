@@ -50,7 +50,9 @@ const routes = [
 
             { path: "forgetPassword", element: <LayoutPwdForget /> },
 
-            { path:"forgetPassword/reset/:uidb64/:token", element:< LayoutPwdForget/> },
+            { path: "forgetPassword/reset/:uidb64/:token", element: < LayoutPwdForget /> },
+
+            { path: "logIn", element: <LogIn /> },
 
             {
      
@@ -62,8 +64,6 @@ const routes = [
                         element: <ProtectedRoute />,
 
                         children: [
-
-                            { path: "logIn", element: <LogIn /> },
 
                             { path: "account", element: <AuthPage /> }, 
 
