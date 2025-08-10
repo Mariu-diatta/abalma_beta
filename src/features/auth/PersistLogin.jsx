@@ -1,10 +1,11 @@
 import { Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { login } from "../../slices/authSlice";
 import api from "../../services/Axios";
 import { useNavigate } from 'react-router-dom';
 import { setCurrentNav } from "../../slices/navigateSlice";
+import LoadingCard from "../../components/LoardingSpin";
 
 const getNewToken = async (refreshToken_) => {
 
@@ -33,22 +34,14 @@ const getNewToken = async (refreshToken_) => {
     }
 };
 
-const isRealReload = () => {
-
-    const [entry] = performance.getEntriesByType("navigation");
-
-    return entry?.type === "reload";
-};
 
 const PersistLogIn = () => {
 
-    const [isLoading, setIsLoading] = useState(isRealReload());
+    const [isLoading, setIsLoading] = useState(true);
 
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
-
-    const currentVavigate = useSelector((state) => state.navigate.currentNav);
 
     useEffect(() => {
 
@@ -72,9 +65,9 @@ const PersistLogIn = () => {
 
                 dispatch(login(response.data));
 
-                dispatch(setCurrentNav(currentVavigate));
+                dispatch(setCurrentNav("/account_home"));
 
-                navigate(`/${currentVavigate}`, {replace:true})
+                navigate("/account_home", {replace:true})
 
             } catch (error) {
 
@@ -86,12 +79,12 @@ const PersistLogIn = () => {
             }
         };
 
-        if (isRealReload()) {
+        if (isLoading) {
 
             verifyRefreshToken();
         }
 
-    }, [dispatch]);
+    });
 
     if (isLoading) {
 
@@ -99,7 +92,7 @@ const PersistLogIn = () => {
 
             <div style={{ textAlign: "center", marginTop: "2rem" }}>
 
-                <p>Chargement...</p>
+                <LoadingCard/>
 
             </div>
         );

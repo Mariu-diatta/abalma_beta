@@ -34,8 +34,6 @@ const routes = [
     {
         errorElement: <ErrorPage />,
 
-        element: <PersistLogIn />,
-
         children: [
 
             { index: true, element: <Home /> },
@@ -57,6 +55,8 @@ const routes = [
             { path: "logIn", element: <LogIn /> },
 
             {
+        
+                element: <PersistLogIn />,
 
                 children: [
 
