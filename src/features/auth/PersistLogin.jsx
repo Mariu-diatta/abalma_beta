@@ -18,6 +18,8 @@ const getNewToken = async (refreshToken_) => {
 
             localStorage.setItem("token", accessToken?.access);
 
+            console.log("REFRESH LE TOKEN POUR UNE RECONNEXION", accessToken)
+
             return accessToken;
         }
 

@@ -40,8 +40,6 @@ const routes = [
 
             { index: "home", element: <Home /> },
 
-            { path: "logIn", element: <LogIn /> },
-
             { path: "register", element: <Register /> },
 
             { path: "about", element: <About /> },
@@ -55,14 +53,17 @@ const routes = [
             { path:"forgetPassword/reset/:uidb64/:token", element:< LayoutPwdForget/> },
 
             {
-                element: <ProtectedRoute/>,
+     
+                element: <PersistLogIn />,
 
                 children: [
 
                     {
-                        element: <PersistLogIn/>,
+                        element: <ProtectedRoute />,
 
                         children: [
+
+                            { path: "logIn", element: <LogIn /> },
 
                             { path: "account", element: <AuthPage /> }, 
 
