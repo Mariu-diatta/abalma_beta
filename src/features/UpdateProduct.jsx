@@ -16,6 +16,7 @@ const UpdateProduct = () => {
 
     const { t } = useTranslation();
 
+
     const [titileMessage, setTitleMessage]=useState("Message")
 
     let navigate = useNavigate();
