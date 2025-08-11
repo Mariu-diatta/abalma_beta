@@ -163,8 +163,6 @@ const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory }) => {
 };
 
 
-
-
 const GridLayoutProduct = () => {
 
     const [productNbViews, setProductNbViews] = useState(null);

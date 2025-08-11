@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 //import { setCurrentNav } from '../slices/navigateSlice';
 import image from '../assets/image.jpg'
 import Testimonial from './AbalmaActivities';
+import GridLayoutProduct from '../features/GridLayoutProducts';
 
 
 const HomeContain = () => {
@@ -30,6 +31,8 @@ const HomeContain = () => {
                 </p>
 
             </div>
+
+            <GridLayoutProduct />
 
             <div className="animate-in m-0 relative pb-[110px] mt-6 dark:bg-dark lg:pt-[150px] style-bg bg_home shadow-lg rounded-lg -mx-4 flex flex-wrap">
 
@@ -124,6 +127,7 @@ const HomeContain = () => {
                 </div>
 
                 <div className="hidden px-4 lg:block lg:w-1/12"></div>
+
 
                 <div className="w-full px-2 lg:w-6/12 sticky top-10 self-start">
 
