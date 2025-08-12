@@ -142,7 +142,10 @@ const OwnerPopover = ({ owner, onClose }) => {
         return navigate("/message_inbox")
     }
 
+    if (!!owner) return 
+
     return (
+
         <span
             ref={ref}
 
@@ -163,18 +166,18 @@ const OwnerPopover = ({ owner, onClose }) => {
 
                 <img
 
-                    src={owner.image}
+                    src={owner?.image}
 
-                    alt={owner.nom || 'Fournisseur'}
+                    alt={owner?.nom || 'Fournisseur'}
 
                     className="h-6 w-6 rounded-full object-cover shadow-sm"
                 />
 
                 <div>
 
-                    <p className="text-sm font-semibold text-gray-800">{owner.nom || 'Nom inconnu'}</p>
+                    <p className="text-sm font-semibold text-gray-800">{owner?.nom || 'Nom inconnu'}</p>
 
-                    <p className="text-xs text-gray-500">{owner.prenom || ''}</p>
+                    <p className="text-xs text-gray-500">{owner?.prenom || ''}</p>
 
                 </div>
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../slices/cartSlice';
 import api from '../services/Axios';
@@ -9,7 +9,7 @@ import { addMessageNotif, addUser } from '../slices/chatSlice';
 import ProductModal from '../pages/ProductViewsDetails';
 import { useTranslation } from 'react-i18next';
 import LoadingCard from '../components/LoardingSpin';
-import { numberStarsViews, productViews, removeAccents } from '../utils';
+import { numberStarsViews, productViews, removeAccents, translateCategory } from '../utils';
 import RendrePrixProduitMonnaie from '../components/ConvertCurrency';
 
 
@@ -172,7 +172,7 @@ const GridLayoutProduct = () => {
     const dispatch = useDispatch();
     const cartItems = useSelector(state => state.cart.items);
     const lang = useSelector((state) => state.navigate.lang);
-    const defaultCategory = lang === 'fr' ? 'Tous' : 'All';
+    const defaultCategory = lang === 'fr' ? 'Tous' : 'Tous';
     const [activeCategory, setActiveCategory] = useState(defaultCategory);
     const [modalData, setModalData] = useState(null);
     const [owners, setOwners] = useState({});
@@ -185,12 +185,13 @@ const GridLayoutProduct = () => {
     useEffect(() => {
 
         const fetchProductsAndOwners = async () => {
+            console.log(activeCategory, removeAccents(translateCategory(activeCategory)))
 
             try {
                 const { data: products } =
-                    activeCategory === defaultCategory 
-                        ? await api.get("products/filter/")
-                        : await api.get(`products/filter/?categorie_product=${removeAccents(activeCategory).toUpperCase()}`);
+                    (!!activeCategory && (removeAccents(translateCategory(activeCategory)).toLowerCase()===defaultCategory.toLowerCase()))
+                    ? await api.get("products/filter/")
+                    : await api.get(`products/filter/?categorie_product=${removeAccents(translateCategory(activeCategory)).toUpperCase()}`);
 
                 console.log("Avant filter:", products);
 
@@ -214,7 +215,9 @@ const GridLayoutProduct = () => {
                 }, {});
 
                 setOwners(ownerMap);
+
             } catch (error) {
+
                 console.error("Erreur lors du chargement :", error);
             } finally {
                 setLoading(false);
@@ -222,7 +225,7 @@ const GridLayoutProduct = () => {
         };
 
         fetchProductsAndOwners();
-    }, [activeCategory, ]); // 🔹 Plus de filteredItems ici
+    }, [activeCategory,defaultCategory]); // 🔹 Plus de filteredItems ici
 
 
   
@@ -257,14 +260,6 @@ const GridLayoutProduct = () => {
 
                         <div
                             className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 gap-2 "
-
-                            style={
-                                {
-
-                                    backgroundColor: "var(--color-bg)",
-                                    color: "var(--color-text)"
-                                }
-                            }
                         >
 
                             {filteredItems.length>0 && filteredItems.map(item => {
@@ -284,13 +279,6 @@ const GridLayoutProduct = () => {
                                         className={`rounded-lg  shadow-md transition transform hover:-translate-y-1 hover:shadow-lg 
 
                                         ${isInCart ? 'opacity-50 pointer-events-none bg-gray-100' : 'bg-white'}`}
-
-                                        style={{
-
-                                            backgroundColor: "var(--color-bg)",
-
-                                            color: "var(--color-text)"
-                                        }}
                                    >
                                         <button
 
@@ -321,7 +309,7 @@ const GridLayoutProduct = () => {
 
                                             <div className="flex justify-between items-center mb-1">
 
-                                                <OwnerAvatar owner={owner} />
+                                                {owner  && <OwnerAvatar owner={owner} />}
 
                                                 {item.quantity_product !== "1" && (
 

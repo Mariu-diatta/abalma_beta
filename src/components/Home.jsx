@@ -32,9 +32,7 @@ const HomeContain = () => {
 
             </div>
 
-            <section className="sticky top-6 z-10 bg-white shadow-sm rounded-lg p-4">
-                <GridLayoutProduct />
-            </section>
+            <GridLayoutProduct />
 
             <div className="animate-in m-0 relative pb-[110px] mt-6 dark:bg-dark lg:pt-[150px] style-bg bg_home shadow-lg rounded-lg -mx-4 flex flex-wrap">
 

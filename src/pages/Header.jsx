@@ -497,7 +497,7 @@ const ButtonNavigate = ({ tabs }) => {
                 lg:w-auto
                 lg:justify-between
                 dark:bg-dark-2
-                px-4 z-50 
+                px-4 z-10 
              "
             style={
                 {

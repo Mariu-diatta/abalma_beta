@@ -1,4 +1,4 @@
-import api from "./services/Axios";
+﻿import api from "./services/Axios";
 import { updateTheme } from "./slices/navigateSlice";
 
 //covertion de la date de la transaction
@@ -83,7 +83,7 @@ export const isAlreadyFollowed = async (clientId, setIsFollow, setIsLoading) => 
 
         setIsFollow(response.data)
 
-        console.log('Already followed :', response.data || response.data?.message || 'Succ�s');
+        console.log('Already followed :', response.data || response.data?.message || 'Succès');
 
     } catch (error) {
 
@@ -95,7 +95,7 @@ export const isAlreadyFollowed = async (clientId, setIsFollow, setIsLoading) => 
 
             'Erreur inconnue';
 
-        console.error('Erreur lors de l�enregistrement de la vue :', message);
+        console.error('Erreur lors de l’enregistrement de la vue :', message);
 
     } finally {
 
@@ -117,7 +117,7 @@ export const recordView = async (clientId) => {
             },
         });
 
-        console.log('Vue enregistr�e :', response.data || response.data?.message || 'Succ�s');
+        console.log('Vue enregistrée :', response.data || response.data?.message || 'Succès');
 
     } catch (error) {
 
@@ -129,14 +129,14 @@ export const recordView = async (clientId) => {
 
             'Erreur inconnue';
 
-        console.error('Erreur lors de l�enregistrement de la vue :', message);
+        console.error('Erreur lors de l’enregistrement de la vue :', message);
     }
 };
 
 export const productViews = (dataProduct, setProductNbViews) => {
 
 
-    // Appelle l'API => d�clenche record_view automatiquement c�t� backend
+    // Appelle l'API => déclenche record_view automatiquement côté backend
     if (dataProduct?.id !== undefined) {
 
         try {
@@ -161,5 +161,48 @@ export const productViews = (dataProduct, setProductNbViews) => {
 }
 
 export function removeAccents(str) {
+
+    if (!str) return "Tous"
+
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+const ListItemsFilterProduct = {
+    Tous: { fr: "Tous", en: "All" },
+    JOUETS: { fr: "Jouets", en: "Toys" },
+    HABITS: { fr: "Habits", en: "Clothes" },
+    MATERIELS_INFORMATIQUES: { fr: "Matériels informatiques", en: "Computer_Equipment" },
+    CAHIERS: { fr: "Cahiers", en: "Notebooks" },
+    SACS: { fr: "Sacs", en: "Bags" },
+    LIVRES: { fr: "Livres", en: "Books" },
+    ELECTROMENAGER: { fr: "Électroménager", en: "Home_Appliances" },
+    TELEPHONIE: { fr: "Téléphonie", en: "Telephony" },
+    ACCESSOIRES: { fr: "Accessoires", en: "Accessories" },
+    SPORT: { fr: "Sport", en: "Sport" },
+    JEUX_VIDEO: { fr: "Jeux vidéo", en: "Video_Games" },
+    MEUBLES: { fr: "Meubles", en: "Furniture" },
+    VEHICULES: { fr: "Véhicules", en: "Vehicles" },
+    FOURNITURES_SCOLAIRES: { fr: "Fournitures scolaires", en: "School_Supplies" },
+    DIVERS: { fr: "Divers", en: "Miscellaneous" },
+    BIJOUX: { fr: "Bijoux", en: "Jewelry" },
+    COSMETIQUES: { fr: "Cosmétiques", en: "Cosmetics" },
+    ALIMENTATION: { fr: "Alimentation", en: "Food" },
+    MUSIQUE: { fr: "Musique", en: "Music" },
+    noProduct: { fr: "Aucun produit disponible", en: "No product available" }
+};
+
+// Fonction utilitaire
+export function translateCategory(value) {
+    const entries = Object.entries(ListItemsFilterProduct);
+
+    for (const [key, translations] of entries) {
+        if (
+            translations.fr.toLowerCase() === value.toLowerCase() ||
+            translations.en.toLowerCase() === value.toLowerCase()
+        ) {
+            return key;
+        }
+    }
+
+    return null; // clé non trouvée
 }
