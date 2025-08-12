@@ -62,9 +62,9 @@ export const BlogPage = () => {
 
             <SuspenseCallback>
 
-                <div className="py-2 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6 style-bg">
+                <div className="py-2 px-2 max-w-screen mx-0 lg:mx-auto lg:py-16 lg:px-6 style-bg">
 
-                    <div className="mx-auto max-w-screen-sm text-center lg:mb-16 mb-8">
+                    <div className="mx-0 lg:mx-auto  max-w-screen-auto text-center lg:mb-16 mb-8">
 
                         <h2 className="mb-4 text-3xl lg:text-2xl tracking-tight font-extrabold">{t("blog.title")}</h2>
 
@@ -126,7 +126,7 @@ const BlogCard = (blog) => {
 
     return (
 
-        <article className="p-2 rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700">
+        <article className="w-auto p-1 rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700">
 
             <div className="flex justify-between items-center mb-5 text-gray-500">
 

@@ -22,6 +22,9 @@ i18n
      en: {
 
          translation: {
+
+             All: 'All',
+
              homePan: {
                  title: "Every great business starts with a single step.",
                  content: "Welcome to the Abalma platform! We help you enhance your social media presence, boost your visibility, and accelerate your business growth."
@@ -376,26 +379,29 @@ i18n
                  validate: "Validate"
              },
 
-             ListItemsFilterProduct: {
+             ListItemsFilterProduct : {
                  All: "All",
                  JOUET: "Toys",
-                 HABITS: "Clothing",
+                 HABITS: "Clothes",
                  MATERIELS_INFORMATIQUES: "Computer Equipment",
                  CAHIERS: "Notebooks",
                  SACS: "Bags",
                  LIVRES: "Books",
                  ELECTROMENAGER: "Home Appliances",
-                 TELEPHONIE: "Phones & Telecom",
+                 TELEPHONIE: "Telephony",
                  ACCESSOIRES: "Accessories",
-                 SPORT: "Sports",
+                 SPORT: "Sport",
                  JEUX_VIDEO: "Video Games",
                  MEUBLES: "Furniture",
                  VEHICULES: "Vehicles",
                  FOURNITURES_SCOLAIRES: "School Supplies",
                  DIVERS: "Miscellaneous",
-                 noProduct:"No product available"
+                 BIJOUX: "Jewelry",
+                 COSMETIQUES: "Cosmetics",
+                 ALIMENTATION: "Food",
+                 MUSIQUE: "Music",
+                 noProduct: "No product available"
              },
-
 
              forgetPswd: {
                  "title": "Forgot Password",
@@ -414,10 +420,14 @@ i18n
      fr: {
 
          translation: {
+
+             All: 'Tous',
+
              homePan: {
                  title: "Toute grande entreprise commence par un premier pas.",
                  content: "Bienvenue sur la plateforme Abalma ! Nous vous accompagnons pour optimiser votre présence sur les réseaux sociaux, renforcer votre visibilité et accélérer la croissance de votre activité."
              },
+
              serviceHome: {
                  detail_1: "Abalma renforce votre visibilité en ligne et développe votre entreprise de A à Z grâce à des stratégies personnalisées et un accompagnement expert.",
                  detail_2: "Protégez vos actifs numériques avec les solutions de sécurité fluides et sans stress d'Abalma, conçues pour sécuriser votre activité.",
@@ -777,25 +787,29 @@ i18n
                   validate:"Validate"
               },
 
-              ListItemsFilterProduct:{
-                  All: "Tous",
-                  JOUET: "Jouets",
-                  HABITS: "Vêtements",
-                  MATERIELS_INFORMATIQUES: "Matériels informatiques",
-                  CAHIERS: "Cahiers",
-                  SACS: "Sacs",
-                  LIVRES: "Livres",
-                  ELECTROMENAGER: "Électroménager",
-                  TELEPHONIE: "Téléphonie",
-                  ACCESSOIRES: "Accessoires",
-                  SPORT: "Sport",
-                  JEUX_VIDEO: "Jeux vidéo",
-                  MEUBLES: "Meubles",
-                  VEHICULES: "Véhicules",
-                  FOURNITURES_SCOLAIRES: "Fournitures scolaires",
-                  DIVERS: "Divers",
-                  noProduct: "Aucun produit n'est disponible"
-              },
+              ListItemsFilterProduct : {
+                 All: "Tous",
+                 JOUET: "Jouets",
+                 HABITS: "Habits",
+                 MATERIELS_INFORMATIQUES: "Matériels Informatiques",
+                 CAHIERS: "Cahiers",
+                 SACS: "Sacs",
+                 LIVRES: "Livres",
+                 ELECTROMENAGER: "Électroménager",
+                 TELEPHONIE: "Téléphonie",
+                 ACCESSOIRES: "Accessoires",
+                 SPORT: "Sport",
+                 JEUX_VIDEO: "Jeux vidéo",
+                 MEUBLES: "Meubles",
+                 VEHICULES: "Véhicules",
+                 FOURNITURES_SCOLAIRES: "Fournitures scolaires",
+                 DIVERS: "Divers",
+                 BIJOUX: "Bijous",
+                 COSMETIQUES : "Cosmétiques", 
+                 ALIMENTATION : "Alimentations",
+                 MUSIQUE : "Musique",
+                 noProduct: "Aucun produit n'est disponible"
+             },
 
               forgetPswd: {
                   "title": "Mot de passe oublié",

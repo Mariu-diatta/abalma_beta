@@ -9,7 +9,7 @@ import { addMessageNotif, addUser } from '../slices/chatSlice';
 import ProductModal from '../pages/ProductViewsDetails';
 import { useTranslation } from 'react-i18next';
 import LoadingCard from '../components/LoardingSpin';
-import { numberStarsViews, productViews } from '../utils';
+import { numberStarsViews, productViews, removeAccents } from '../utils';
 import RendrePrixProduitMonnaie from '../components/ConvertCurrency';
 
 
@@ -120,25 +120,25 @@ const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory }) => {
             >
                 <div className="flex gap-2 min-w-max py-2">
 
-                    {categories.map((cat) => (
+                    {categories.map((catg) => (
 
                         <button
 
-                            key={cat}
+                            key={catg}
 
-                            onClick={() => setActiveCategory(cat)}
+                            onClick={() => setActiveCategory(catg.replace(' ', '_'))}
 
                             className={`whitespace-nowrap px-4 py-2 rounded-full text-sm  transition 
 
-                                ${activeCategory === cat
+                                ${activeCategory === catg
 
-                                    ? 'bg-blue-700 text-white'
+                                    ? 'bg-blue-500 text-white'
 
                                     : 'text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white'
 
                                 }`}
                         >
-                            {cat.replace('_', ' ')}
+                            {catg.replace('_', ' ')}
 
                         </button>
                     ))}
@@ -166,7 +166,7 @@ const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory }) => {
 const GridLayoutProduct = () => {
 
     const [productNbViews, setProductNbViews] = useState(null);
-
+    const [filteredItems, setFilteredItems] = useState([])
     const { t} = useTranslation();
     const [loading, setLoading] = useState(true)
     const dispatch = useDispatch();
@@ -181,6 +181,68 @@ const GridLayoutProduct = () => {
     const openModal = (item) => setModalData(item);
     const closeModal = () => setModalData(null);
 
+
+    useEffect(() => {
+
+        const fetchProductsAndOwners = async () => {
+
+            try {
+
+                const { data: products } = await api.get(`products/filter/?categorie_product=${removeAccents(activeCategory).toUpperCase()}`);
+
+                setProductData(products);
+
+                console.log("GridLayoutProduct.jsx, avant filter: LISTE PRODUITS,", products)
+
+                setFilteredItems(products.filter(item => parseInt(item?.quantity_product) !== 0))
+
+
+                console.log("GridLayoutProduct.jsx,après filter: LISTE PRODUITS,", filteredItems)
+
+
+                // Récupère tous les IDs uniques de fournisseurs
+                const uniqueOwnerIds = [...new Set(products.map(p => p.fournisseur))].filter(Boolean);
+
+                // Appelle tous les owners en parallèle
+                const responses = await Promise.all(
+
+                    uniqueOwnerIds.map(id =>
+
+                        api.get(`clients/${id}/`).then(res => ({ id, data: res.data })).catch(() => ({ id, data: null }))
+                    )
+                );
+
+                // Construit un objet clé-valeur pour un accès rapide
+                const ownerMap = responses.reduce((acc, { id, data }) => {
+
+                    if (data) acc[id] = data;
+
+                    return acc;
+
+                }, {});
+
+                setOwners(ownerMap);
+
+                console.log("GridLayoutProduct.jsx, LISTE PRODUITS,")
+
+
+            } catch (error) {
+
+                console.error("Erreur lors du chargement des produits ou des propriétaires :", error);
+
+            } finally {
+
+                setLoading(false)
+            }
+        };
+
+        if (activeCategory !== t("All")) {
+
+            fetchProductsAndOwners();
+        }
+
+    }, [activeCategory,t]);
+
     useEffect(() => {
 
         const fetchProductsAndOwners = async () => {
@@ -189,7 +251,7 @@ const GridLayoutProduct = () => {
 
                 const { data: products } = await api.get("produits/");
 
-                setProductData(products);
+                setFilteredItems(products.filter(item => parseInt(item?.quantity_product) !== 0))
 
                 // Récupère tous les IDs uniques de fournisseurs
                 const uniqueOwnerIds = [...new Set(products.map(p => p.fournisseur))].filter(Boolean);
@@ -228,11 +290,15 @@ const GridLayoutProduct = () => {
 
     }, []);
 
-    const filteredItems = activeCategory === 'All'
+    const filteredItems_ = activeCategory === 'All'
 
         ? productData.filter(item => parseInt(item?.quantity_product) !== 0 && item.image_product)
 
         : productData.filter(item => item.categorie_product === activeCategory && parseInt(item?.quantity_product) !== 0 && item.image_product);
+
+
+  
+
 
     return (
 

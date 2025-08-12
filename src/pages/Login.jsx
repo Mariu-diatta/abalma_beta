@@ -88,10 +88,9 @@ const Signin = () => {
         }
         // Nettoyage de l'observateur lors du démontage
         return () => {
-            if (componentRef.current) {
-                observer.unobserve(componentRef.current);
-            }
+            
         };
+
     }, []);
 
     useEffect(() => {
