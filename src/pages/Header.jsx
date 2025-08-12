@@ -3,7 +3,7 @@ import { Outlet, NavLink } from 'react-router-dom';
 import WhiteRoundedButton from "../components/Button";
 import Logo from "../components/LogoApp";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentNav, updateTheme } from "../slices/navigateSlice";
+import { setCurrentNav, updateLang, updateTheme } from "../slices/navigateSlice";
 import { useTranslation } from 'react-i18next';
 import { applyTheme } from "../utils";
 import { NotificationsComponent, PayBack } from "../components/DropDownAccount";
@@ -12,13 +12,18 @@ export function LanguageDropdown() {
 
     const { i18n } = useTranslation();
 
+    const dispatch = useDispatch();
+
     const changeLanguage = (lang) => {
 
         i18n.changeLanguage(lang);
     };
     const [isOpen, setIsOpen] = useState(false);
+
     const [selectedLang, setSelectedLang] = useState("Langue");
+
     const [openDirection, setOpenDirection] = useState("bottom"); // "bottom" ou "top"
+
     const buttonRef = useRef(null);
 
     useEffect(() => {
@@ -72,7 +77,10 @@ export function LanguageDropdown() {
                 <img src="https://flagcdn.com/w40/gb.png" alt="En" className="w-4 h-4" />
             )
         );
+
         setIsOpen(false);
+
+        dispatch(updateLang(lang))
     };
 
     return (

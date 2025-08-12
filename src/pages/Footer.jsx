@@ -5,7 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { LanguageDropdown } from "./Header";
 
 const Footer = () => {
+
     const { t } = useTranslation();
+
     const navigate = useNavigate();
 
     const componentRef = useRef(null);

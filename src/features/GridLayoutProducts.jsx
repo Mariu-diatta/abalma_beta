@@ -171,9 +171,9 @@ const GridLayoutProduct = () => {
     const [loading, setLoading] = useState(true)
     const dispatch = useDispatch();
     const cartItems = useSelector(state => state.cart.items);
-
-    const [productData, setProductData] = useState([]);
-    const [activeCategory, setActiveCategory] = useState('All');
+    const lang = useSelector((state) => state.navigate.lang);
+    const defaultCategory = lang === 'fr' ? 'Tous' : 'All';
+    const [activeCategory, setActiveCategory] = useState(defaultCategory);
     const [modalData, setModalData] = useState(null);
     const [owners, setOwners] = useState({});
 
@@ -187,119 +187,45 @@ const GridLayoutProduct = () => {
         const fetchProductsAndOwners = async () => {
 
             try {
+                const { data: products } =
+                    activeCategory === defaultCategory 
+                        ? await api.get("products/filter/")
+                        : await api.get(`products/filter/?categorie_product=${removeAccents(activeCategory).toUpperCase()}`);
 
-                const { data: products } = await api.get(`products/filter/?categorie_product=${removeAccents(activeCategory).toUpperCase()}`);
+                console.log("Avant filter:", products);
 
-                setProductData(products);
+                const filtered = products.filter(item => parseInt(item?.quantity_product) !== 0);
+                setFilteredItems(filtered);
 
-                console.log("GridLayoutProduct.jsx, avant filter: LISTE PRODUITS,", products)
-
-                setFilteredItems(products.filter(item => parseInt(item?.quantity_product) !== 0))
-
-
-                console.log("GridLayoutProduct.jsx,après filter: LISTE PRODUITS,", filteredItems)
-
-
-                // Récupère tous les IDs uniques de fournisseurs
+                // IDs uniques des fournisseurs
                 const uniqueOwnerIds = [...new Set(products.map(p => p.fournisseur))].filter(Boolean);
 
-                // Appelle tous les owners en parallèle
+                // Appels en parallèle
                 const responses = await Promise.all(
-
                     uniqueOwnerIds.map(id =>
-
                         api.get(`clients/${id}/`).then(res => ({ id, data: res.data })).catch(() => ({ id, data: null }))
                     )
                 );
 
-                // Construit un objet clé-valeur pour un accès rapide
+                // Map id → owner
                 const ownerMap = responses.reduce((acc, { id, data }) => {
-
                     if (data) acc[id] = data;
-
                     return acc;
-
                 }, {});
 
                 setOwners(ownerMap);
-
-                console.log("GridLayoutProduct.jsx, LISTE PRODUITS,")
-
-
             } catch (error) {
-
-                console.error("Erreur lors du chargement des produits ou des propriétaires :", error);
-
+                console.error("Erreur lors du chargement :", error);
             } finally {
-
-                setLoading(false)
-            }
-        };
-
-        if (activeCategory !== t("All")) {
-
-            fetchProductsAndOwners();
-        }
-
-    }, [activeCategory,t]);
-
-    useEffect(() => {
-
-        const fetchProductsAndOwners = async () => {
-
-            try {
-
-                const { data: products } = await api.get("produits/");
-
-                setFilteredItems(products.filter(item => parseInt(item?.quantity_product) !== 0))
-
-                // Récupère tous les IDs uniques de fournisseurs
-                const uniqueOwnerIds = [...new Set(products.map(p => p.fournisseur))].filter(Boolean);
-
-                // Appelle tous les owners en parallèle
-                const responses = await Promise.all(
-
-                    uniqueOwnerIds.map(id =>
-
-                        api.get(`clients/${id}/`).then(res => ({ id, data: res.data })).catch(() => ({ id, data: null }))
-                    )
-                );
-
-                // Construit un objet clé-valeur pour un accès rapide
-                const ownerMap = responses.reduce((acc, { id, data }) => {
-
-                    if (data) acc[id] = data;
-
-                    return acc;
-
-                }, {});
-
-                setOwners(ownerMap);
-
-            } catch (error) {
-
-                console.error("Erreur lors du chargement des produits ou des propriétaires :", error);
-
-            } finally {
-
-                setLoading(false)
+                setLoading(false);
             }
         };
 
         fetchProductsAndOwners();
-
-    }, []);
-
-    const filteredItems_ = activeCategory === 'All'
-
-        ? productData.filter(item => parseInt(item?.quantity_product) !== 0 && item.image_product)
-
-        : productData.filter(item => item.categorie_product === activeCategory && parseInt(item?.quantity_product) !== 0 && item.image_product);
+    }, [activeCategory, ]); // 🔹 Plus de filteredItems ici
 
 
   
-
-
     return (
 
         <div

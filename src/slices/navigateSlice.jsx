@@ -9,7 +9,9 @@ const initialState = {
 
     messageAlert: null,
 
-    theme:'light'
+    theme: 'light',
+
+    lang:'fr',
 };
 
 const navigateSlice = createSlice({
@@ -46,9 +48,14 @@ const navigateSlice = createSlice({
 
             state.theme = action.payload;
         },
+
+        updateLang: (state, action) => {
+
+            state.lang = action.payload;
+        },
     }
 });
 
-export const { clearMessage, setCurrentMessage, setPreviousNav, setCurrentNav, updateTheme } = navigateSlice.actions; 
+export const { clearMessage, setCurrentMessage, setPreviousNav, setCurrentNav, updateTheme, updateLang } = navigateSlice.actions; 
 
 export default navigateSlice.reducer;
