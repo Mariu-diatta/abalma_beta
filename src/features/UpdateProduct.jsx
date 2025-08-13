@@ -16,8 +16,9 @@ const UpdateProduct = () => {
 
     const { t } = useTranslation();
 
-
     const [titileMessage, setTitleMessage]=useState("Message")
+
+    const [isProductAdded, setIsProductAdded] = useState(false)
 
     let navigate = useNavigate();
 
@@ -75,7 +76,6 @@ const UpdateProduct = () => {
 
         return date.toISOString();
     };
-
 
     const submitForm = async (e) => {
 
@@ -167,6 +167,8 @@ const UpdateProduct = () => {
 
             showMessage(dispatch, "Produit créé avec succès !");
 
+            setIsProductAdded(true)
+
             dispatch(addMessageNotif(`Produit ${ dataProduct?.code_reference} crée le ${Date.now()}`))
 
             handleFileSelect(null)
@@ -215,6 +217,8 @@ const UpdateProduct = () => {
         }
     };
 
+
+
     return (
 
         <div
@@ -229,7 +233,20 @@ const UpdateProduct = () => {
             }
         >
 
-            <div className="shadow-lg  max-w-2xl px-4 py-1 mx-auto lg:py-2" >
+            {
+
+                isProductAdded ?
+                
+                <button 
+                    onClick={() => setIsProductAdded(false)}
+                    className="absolute bottom-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-lg border-1 p-2 rounded-lg"
+                >
+
+                    Add new product
+
+                </button>
+                :
+                <div className="shadow-lg  max-w-2xl px-4 py-1 mx-auto lg:py-2" >
 
                 <h1 className="text-2xl font-extrabold text-gray-500 dark:text-white pt-4 pb-5 mb-5">
 
@@ -570,7 +587,7 @@ const UpdateProduct = () => {
 
                     </div>
 
-                    {messageAlert && <AttentionAlertMesage title={titileMessage} content={messageAlert} />}
+                    {messageAlert && isProductAdded  && <AttentionAlertMesage title={titileMessage} content={messageAlert} />}
 
                     <div className="flex items-center space-x-4">
 
@@ -609,7 +626,7 @@ const UpdateProduct = () => {
                 }
 
 
-            </div>
+            </div>}
 
         </div>
     );
