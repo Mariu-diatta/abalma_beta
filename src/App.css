@@ -144,7 +144,6 @@ body .style_bg {
 
 
 .bg_home {
-    background-image: url("");
     backdrop-filter: blur(5px); /* Applique un flou de 5px */
     -webkit-backdrop-filter: blur(5px); /* Pour compatibilité avec Safari */
     background-size: 20%; /* Taille réduite (ajustez si nécessaire) */
