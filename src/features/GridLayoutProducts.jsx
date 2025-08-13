@@ -87,7 +87,7 @@ export function Carousel({ products }) {
 
         return () => clearInterval(interval);
 
-    }, [pictures]);
+    }, [pictures, productScroll]);
 
     if (!pictures.length) return null;
 
@@ -95,7 +95,7 @@ export function Carousel({ products }) {
 
         <div className="relative w-full">
 
-            <div className="relative h-[400px] overflow-hidden rounded-lg md:h-96">
+            <div className="relative  overflow-hidden rounded-lg h-70 lg:h-70 md:h-auto">
 
                 {products.map((prod, idx) => (
 
@@ -104,8 +104,8 @@ export function Carousel({ products }) {
                             key={idx}
                             src={prod.image_product}
                             alt={`Slide ${idx + 1}`}
-                            title={"Nombre d'articles disponibles: "+prod.quantity_product}
-                            className={`absolute top-1/2 left-1/2 w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 transition-opacity duration-700 ease-in-out ${idx === currentIndex ? "opacity-100 z-20" : "opacity-0 z-10"
+                            title={"Nombre d'articles disponibles: " + prod.quantity_product}
+                            className={`absolute top-1/2 left-1/2 w-full h-[300px] object-cover -translate-x-1/2 -translate-y-1/2 transition-opacity duration-700 ease-in-out scale-100 ${idx === currentIndex ? "opacity-100 z-20" : "opacity-0 z-10"
                                 }`}
                         />
 
@@ -119,7 +119,7 @@ export function Carousel({ products }) {
                         <button
                             onClick={() => setProductScroll(prod)}
                             type="button"
-                            className="absolute bottom-2 left-1/2 -translate-x-1/2 -translate-y-1/2 py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 z-50">
+                            className="absolute bottom-0 left-1/2 -translate-x-1/2 -translate-y-1/2 py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 z-50">
                             Voir le produit
                         </button>
 
@@ -251,8 +251,7 @@ export const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory, p
         <>
             <div
                 ref={panelRef}
-                className={`${btnId ? "flex gap-2 bg-grey-9000 shadow-lg rounded-md" : "hidden"}`}
-                style={{ width: "100%", height: "auto" }}
+                className={`${btnId ? "flex gap-2 bg-grey-9000 shadow-lg rounded-md h-70 lg:h-70 w-full" : "hidden"}`}
             >
                 <div style={{ flex: 2 }} className="hidden lg:block">
                     <ImageGallery imagesEls={products} />
