@@ -74,11 +74,16 @@ export function Carousel({ products }) {
 
     // Auto slide toutes les 2 secondes
     useEffect(() => {
+
         if (!pictures.length) return;
 
         const interval = setInterval(() => {
+
             setCurrentIndex((prev) => (prev === pictures.length - 1 ? 0 : prev + 1));
+
         }, 2000);
+
+        console.log("DOnnees de la caisse", productScroll)
 
         return () => clearInterval(interval);
 
@@ -94,7 +99,7 @@ export function Carousel({ products }) {
 
                 {products.map((prod, idx) => (
 
-                    <>
+                    <section className="shadow-lg">
                         <img
                             key={idx}
                             src={prod.image_product}
@@ -118,7 +123,7 @@ export function Carousel({ products }) {
                             Voir le produit
                         </button>
 
-                    </>
+                    </section>
                 ))}
 
             </div>
