@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../slices/cartSlice';
 import api from '../services/Axios';
@@ -185,17 +185,22 @@ const GridLayoutProduct = () => {
     useEffect(() => {
 
         const fetchProductsAndOwners = async () => {
+
             console.log(activeCategory, removeAccents(translateCategory(activeCategory)))
 
             try {
                 const { data: products } =
-                    (!!activeCategory && (removeAccents(translateCategory(activeCategory)).toLowerCase()===defaultCategory.toLowerCase()))
-                    ? await api.get("products/filter/")
+
+                    (!!activeCategory && (removeAccents(translateCategory(activeCategory)).toLowerCase() === defaultCategory.toLowerCase()))
+
+                        ? await api.get("products/filter/")
+
                     : await api.get(`products/filter/?categorie_product=${removeAccents(translateCategory(activeCategory)).toUpperCase()}`);
 
                 console.log("Avant filter:", products);
 
                 const filtered = products.filter(item => parseInt(item?.quantity_product) !== 0);
+
                 setFilteredItems(filtered);
 
                 // IDs uniques des fournisseurs
@@ -210,8 +215,11 @@ const GridLayoutProduct = () => {
 
                 // Map id → owner
                 const ownerMap = responses.reduce((acc, { id, data }) => {
+
                     if (data) acc[id] = data;
+
                     return acc;
+
                 }, {});
 
                 setOwners(ownerMap);
@@ -219,12 +227,15 @@ const GridLayoutProduct = () => {
             } catch (error) {
 
                 console.error("Erreur lors du chargement :", error);
+
             } finally {
+
                 setLoading(false);
             }
         };
 
         fetchProductsAndOwners();
+
     }, [activeCategory,defaultCategory]); // 🔹 Plus de filteredItems ici
 
 
@@ -409,7 +420,7 @@ const GridLayoutProduct = () => {
 
                     ) : (
 
-                        <div className="text-center text-gray-500">{t('ListItemsFilterProduct.noProduct')}</div>
+                        <div className="text-center text-gray-500 bg-grey-800 border-1 w-sm m-auto rounded-full p-3">{t('ListItemsFilterProduct.noProduct')}</div>
                     )}
 
                 </>

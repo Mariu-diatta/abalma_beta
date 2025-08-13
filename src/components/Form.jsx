@@ -172,13 +172,15 @@ const RegisterForm = () => {
             { threshold: 0.05 } // Déclenche quand 10% du composant est visible
         );
 
+        const node = componentRef.current
+
         if (componentRef.current) {
             observer.observe(componentRef.current);
         }
         // Nettoyage de l'observateur lors du démontage
         return () => {
-            if (componentRef.current) {
-                observer.unobserve(componentRef.current);
+            if (node) {
+                node.removeEventListener('scroll', () => {console.log(node)});
             }
         };
     }, []);

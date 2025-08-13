@@ -43,13 +43,31 @@ const AboutContainer = () => {
             });
         }, observerOptions);
 
-        if (leftSectionRef.current) observer.observe(leftSectionRef.current);
-        if (rightSectionRef.current) observer.observe(rightSectionRef.current);
+        const noderLeft = leftSectionRef.current
 
+        const noderRight = rightSectionRef.current
+
+        if (noderLeft) {
+            observer.observe(noderLeft);
+        }
+
+        if (noderRight) {
+            observer.observe(noderRight);
+        }
+        // Nettoyage de l'observateur lors du démontage
         return () => {
-            if (leftSectionRef.current) observer.unobserve(leftSectionRef.current);
-            if (rightSectionRef.current) observer.unobserve(rightSectionRef.current);
+
+            if (noderLeft) {
+
+                noderLeft.removeEventListener('scroll', () => { console.log(noderLeft) });
+            }
+
+            if (noderRight) {
+
+                noderRight.removeEventListener('scroll', () => { console.log(noderRight) });
+            }
         };
+
     }, []);
 
     return (

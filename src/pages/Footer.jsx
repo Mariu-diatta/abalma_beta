@@ -31,13 +31,15 @@ const Footer = () => {
             { threshold: 0.05 } // Déclenche quand 10% du composant est visible
         );
 
-        if (componentRef.current) {
-            observer.observe(componentRef.current);
+        const node = componentRef.current
+
+        if (node) {
+            observer.observe(node);
         }
         // Nettoyage de l'observateur lors du démontage
         return () => {
-            if (componentRef.current) {
-                observer.unobserve(componentRef.current);
+            if (node) {
+                node.removeEventListener('scroll', () => { console.log(node) });
             }
         };
     }, []);
@@ -60,15 +62,16 @@ const Footer = () => {
             { threshold: 0.1 } // Déclenche quand 10% du composant est visible
         );
 
+
+        const node = componentRef_.current
+
         if (componentRef_.current) {
             observer.observe(componentRef_.current);
         }
-
         // Nettoyage de l'observateur lors du démontage
         return () => {
-
-            if (componentRef_.current) {
-                observer.unobserve(componentRef_.current);
+            if (node) {
+                node.removeEventListener('scroll', () => { console.log(node) });
             }
         };
     }, []);
