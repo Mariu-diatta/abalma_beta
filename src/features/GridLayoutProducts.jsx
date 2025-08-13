@@ -60,7 +60,9 @@ export function Carousel({ products }) {
         return products.flatMap((product) => product.image_product || []);
     }, [products]);
 
-    const [currentIndex, setCurrentIndex] = useState(0);
+    const [currentIndex, setCurrentIndex] = useState(0); 
+
+    const [productScroll, setProductScroll] = useState(null);
 
     const prevSlide = () => {
         setCurrentIndex((prev) => (pictures.length ? (prev === 0 ? pictures.length - 1 : prev - 1) : 0));
@@ -85,19 +87,40 @@ export function Carousel({ products }) {
     if (!pictures.length) return null;
 
     return (
+
         <div className="relative w-full">
+
             <div className="relative h-[400px] overflow-hidden rounded-lg md:h-96">
-                {pictures.map((src, idx) => (
-                    <img
-                        key={idx}
-                        src={src}
-                        alt={`Slide ${idx + 1}`}
-                        title={"Le document de la donne"}
-                        
-                        className={`absolute top-1/2 left-1/2 w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 transition-opacity duration-700 ease-in-out ${idx === currentIndex ? "opacity-100 z-20" : "opacity-0 z-10"
-                            }`}
-                    />
+
+                {products.map((prod, idx) => (
+
+                    <>
+                        <img
+                            key={idx}
+                            src={prod.image_product}
+                            alt={`Slide ${idx + 1}`}
+                            title="Le document de la donne"
+                            className={`absolute top-1/2 left-1/2 w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 transition-opacity duration-700 ease-in-out ${idx === currentIndex ? "opacity-100 z-20" : "opacity-0 z-10"
+                                }`}
+                        />
+
+                        <span
+                            className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-lg font-bold z-30 rounded-lg border-1 border-blue-700 p-2 ${idx === currentIndex ? "opacity-100" : "opacity-0"
+                                }`}
+                        >
+                            {prod?.description_product}
+                        </span>
+
+                        <button
+                            onClick={() => setProductScroll(prod)}
+                            type="button"
+                            className="absolute bottom-2 left-1/2 -translate-x-1/2 -translate-y-1/2 py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 z-50">
+                            Voir le produit
+                        </button>
+
+                    </>
                 ))}
+
             </div>
 
             <button
@@ -153,50 +176,70 @@ export const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory, p
     const [btnOver, setBtnOver] = useState(null);
 
     const updateButtonsVisibility = useCallback(() => {
+
         const container = scrollRef.current;
+
         if (!container) return;
+
         const { scrollLeft, scrollWidth, clientWidth } = container;
+
         setShowLeft(scrollLeft > 0);
+
         setShowRight(scrollLeft + clientWidth < scrollWidth - 1);
+
     }, []);
 
     const scroll = useCallback(
+
         (direction) => {
+
             scrollRef.current?.scrollBy({ left: direction === "left" ? -200 : 200, behavior: "smooth" });
         },
         []
     );
 
     useEffect(() => {
+
         const container = scrollRef.current;
         if (!container) return;
 
         updateButtonsVisibility();
+
         container.addEventListener("scroll", updateButtonsVisibility);
+
         window.addEventListener("resize", updateButtonsVisibility);
 
         return () => {
+
             container.removeEventListener("scroll", updateButtonsVisibility);
+
             window.removeEventListener("resize", updateButtonsVisibility);
         };
     }, [updateButtonsVisibility]);
 
     useEffect(() => {
+
         const handleClickOutside = (e) => {
+
             if (panelRef.current && !panelRef.current.contains(e.target) && !scrollRef.current.contains(e.target)) {
+
                 setBtnId(false);
             }
         };
 
-        document.addEventListener("mousedown", handleClickOutside);
+        document.addEventListener("dblclick", handleClickOutside);
 
-        return () => document.removeEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("dblclick", handleClickOutside);
+
     }, []);
 
     useEffect(() => {
+
         if (btnOver) {
+
             setActiveCategory(btnOver);
         }
+
     }, [btnOver, setActiveCategory]);
 
     return (
