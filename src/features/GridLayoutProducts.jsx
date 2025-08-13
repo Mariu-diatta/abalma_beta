@@ -105,7 +105,7 @@ export function Carousel({ products }) {
                         />
 
                         <span
-                            className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-lg font-bold z-30 rounded-lg border-1 border-blue-700 p-2 ${idx === currentIndex ? "opacity-100" : "opacity-0"
+                            className={`text-sm absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-lg font-bold z-30 rounded-lg border-1 border-blue-700 p-2 ${idx === currentIndex ? "opacity-100" : "opacity-0"
                                 }`}
                         >
                             {prod?.description_product}
