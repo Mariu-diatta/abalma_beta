@@ -47,6 +47,7 @@ const UpdateProduct = () => {
         description_product: "",
         fournisseur: "",
         quantity_product: 1,
+        name_product: "",
         taille_product:"MEDIUM"
     });
 
@@ -230,7 +231,9 @@ const UpdateProduct = () => {
             <div className="shadow-lg  max-w-2xl px-4 py-1 mx-auto lg:py-2" >
 
                 <h1 className="text-2xl font-extrabold text-gray-500 dark:text-white pt-4 pb-5 mb-5">
+
                     {t('add_product.add_or_update_product')}
+
                 </h1>
 
                 <form onSubmit={submitForm} className={` ${user?.is_fournisseur && user?.is_verified ? "" : "opacity-50 pointer-events-none cursor-not-allowed"}`}>
@@ -363,6 +366,7 @@ const UpdateProduct = () => {
                                 <option value="DIVERS">{t('add_product.categories.DIVERS')}</option>
                                 <option value="HB">{t('add_product.categories.HB')}</option>
                             </select>
+
                         </div>
 
                         <div className="w-full">
@@ -393,6 +397,7 @@ const UpdateProduct = () => {
                                 <option value="VENDRE">{t('add_product.VENDRE')}</option>
                                 <option value="ECHANGER">{t('add_product.ECHANGER')}</option>
                                 <option value="LOCATION">{t('add_product.LOCATION')}</option>
+
                             </select>
 
                         </div>
@@ -452,6 +457,22 @@ const UpdateProduct = () => {
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                                 placeholder="Nom du fournisseur"
                             />
+                        </div>
+
+                        <div className="sm:col-span-2">
+
+                            <label htmlFor="name_product" className="block mb-2 text-sm font-medium ">{t('Nom du produit')}</label>
+
+                            <input
+                                type="text"
+                                id="name_product"
+                                name="name_product"
+                                value={dataProduct?.name_product}
+                                onChange={onChangeClick}
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                placeholder="Nom du produit"
+                            />
+
                         </div>
 
                         <div className="sm:col-span-2">
