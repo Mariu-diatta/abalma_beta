@@ -17,7 +17,7 @@ export function ImageGalleryPan({imagesEls}) {
 
     return (
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 scrollbor_hidden_ overflow-y-auto h-100">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 scrollbor_hidden_ overflow-y-auto h-full">
 
             {imagesEls?.map((prod, idx) => (
 
@@ -206,6 +206,7 @@ export const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory, p
     useEffect(() => {
 
         const container = scrollRef.current;
+
         if (!container) return;
 
         updateButtonsVisibility();
@@ -220,6 +221,7 @@ export const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory, p
 
             window.removeEventListener("resize", updateButtonsVisibility);
         };
+
     }, [updateButtonsVisibility]);
 
     useEffect(() => {

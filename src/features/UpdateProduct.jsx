@@ -139,6 +139,7 @@ const UpdateProduct = () => {
             formData.append("taille_product", dataProduct.taille_product); 
             formData.append("description_product", dataProduct.description_product.trim());
             formData.append("image_product", imageFile);
+            formData.append("name_product", dataProduct.name_product);
 
             // ✅ Ajout de l'ID du fournisseur lié à l'utilisateur
             formData.append("fournisseur", parseInt(currentUserCompte.user));
