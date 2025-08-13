@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../slices/cartSlice';
 import api from '../services/Axios';
@@ -13,172 +13,282 @@ import { numberStarsViews, productViews, removeAccents, translateCategory } from
 import RendrePrixProduitMonnaie from '../components/ConvertCurrency';
 
 
-
-const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory }) => {
-
-    const { t } = useTranslation();
-
-    const categories = [
-        t('ListItemsFilterProduct.All'),
-        t('ListItemsFilterProduct.JOUET'),
-        t('ListItemsFilterProduct.HABITS'),
-        t('ListItemsFilterProduct.MATERIELS_INFORMATIQUES'),
-        t('ListItemsFilterProduct.CAHIERS'),
-        t('ListItemsFilterProduct.SACS'),
-        t('ListItemsFilterProduct.LIVRES'),
-        t('ListItemsFilterProduct.ELECTROMENAGER'),
-        t('ListItemsFilterProduct.TELEPHONIE'),
-        t('ListItemsFilterProduct.ACCESSOIRES'),
-        t('ListItemsFilterProduct.SPORT'),
-        t('ListItemsFilterProduct.JEUX_VIDEO'),
-        t('ListItemsFilterProduct.MEUBLES'),
-        t('ListItemsFilterProduct.VEHICULES'),
-        t('ListItemsFilterProduct.FOURNITURES_SCOLAIRES'),
-        t('ListItemsFilterProduct.DIVERS')
-    ];
-
-    const scrollRef = useRef(null);
-
-    const [showLeft, setShowLeft] = useState(false);
-
-    const [showRight, setShowRight] = useState(false);
-
-
-    const updateButtonsVisibility = () => {
-
-        const container = scrollRef.current;
-
-        if (!container) return;
-
-        const { scrollLeft, scrollWidth, clientWidth } = container;
-
-        setShowLeft(scrollLeft > 0);
-
-        setShowRight(scrollLeft + clientWidth < scrollWidth - 1); // -1 to handle rounding issues
-    };
-
-    const scroll = (direction) => {
-
-        const container = scrollRef.current;
-
-        if (!container) return;
-
-        const scrollAmount = 200;
-
-        container.scrollBy({
-
-            left: direction === 'left' ? -scrollAmount : scrollAmount,
-
-            behavior: 'smooth',
-        });
-    };
-
-
-    useEffect(() => {
-
-        const container = scrollRef.current;
-
-        if (!container) return;
-
-        updateButtonsVisibility(); // Initial state
-
-        container.addEventListener("scroll", updateButtonsVisibility);
-
-        window.addEventListener("resize", updateButtonsVisibility); // Handle screen resize
-
-        return () => {
-
-            container.removeEventListener("scroll", updateButtonsVisibility);
-
-            window.removeEventListener("resize", updateButtonsVisibility);
-        };
-    }, []);
+export function ImageGalleryPan({imagesEls}) {
 
     return (
 
-        <div className="relative w-full mb-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 scrollbor_hidden_ overflow-y-auto h-100">
 
-            {/* Bouton gauche */}
-            {showLeft && (
+            {imagesEls?.map((prod, idx) => (
 
-                <button
+                <div key={idx}>
 
-                    className="absolute left-0 top-1/2 -translate-y-1/2 z-0 bg-white p-2 shadow rounded-full"
+                    <img
+                        className="h-auto max-w-full rounded-lg"
+                        src={prod?.image_product}
+                        alt={`Gallery  ${idx + 1}`}
+                    />
 
-                    onClick={() => scroll('left')}
-                >
-                    <ChevronLeft className="w-5 h-5 text-gray-600" />
+                </div>
+            ))}
+        </div>
+    );
+}
 
-                </button>
-            )}
+export const ImageGallery = ({ imagesEls }) => (
 
-            {/* Conteneur scrollable */}
-            <div
-                ref={scrollRef}
+    <div className="grid gap-4 h-auto w-auto overflow-x-auto w-100" style={{ height: "400px" }}>
+        {/*<div>*/}
+        {/*    <img className="h-auto rounded-lg" src={mainImage} alt="Main" />*/}
+        {/*</div>*/}
+        <div className="grid grid-cols-5 gap-4">
 
-                className="scrollbor_hidden_ overflow-x-auto  px-10"
+            {imagesEls?.map((prod, idx) => (
+
+                <img key={idx} className="h-auto max-w-full rounded-lg" src={prod.image_product} alt={`Sub ${idx + 1}`} />
+            ))}
+
+        </div>
+
+    </div>
+);
+
+export function Carousel({ products }) {
+
+    const pictures = useMemo(() => {
+        if (!products || !Array.isArray(products)) return [];
+        return products.flatMap((product) => product.image_product || []);
+    }, [products]);
+
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    const prevSlide = () => {
+        setCurrentIndex((prev) => (pictures.length ? (prev === 0 ? pictures.length - 1 : prev - 1) : 0));
+    };
+
+    const nextSlide = () => {
+        setCurrentIndex((prev) => (pictures.length ? (prev === pictures.length - 1 ? 0 : prev + 1) : 0));
+    };
+
+    // Auto slide toutes les 2 secondes
+    useEffect(() => {
+        if (!pictures.length) return;
+
+        const interval = setInterval(() => {
+            setCurrentIndex((prev) => (prev === pictures.length - 1 ? 0 : prev + 1));
+        }, 2000);
+
+        return () => clearInterval(interval);
+
+    }, [pictures]);
+
+    if (!pictures.length) return null;
+
+    return (
+        <div className="relative w-full">
+            <div className="relative h-[400px] overflow-hidden rounded-lg md:h-96">
+                {pictures.map((src, idx) => (
+                    <img
+                        key={idx}
+                        src={src}
+                        alt={`Slide ${idx + 1}`}
+                        title={"Le document de la donne"}
+                        
+                        className={`absolute top-1/2 left-1/2 w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 transition-opacity duration-700 ease-in-out ${idx === currentIndex ? "opacity-100 z-20" : "opacity-0 z-10"
+                            }`}
+                    />
+                ))}
+            </div>
+
+            <button
+                onClick={prevSlide}
+                className="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 py-12"
             >
-                <div className="flex gap-2 min-w-max py-2">
+                <ChevronLeft className="w-6 h-6 text-white" />
+            </button>
 
-                    {categories.map((catg) => (
+            <button
+                onClick={nextSlide}
+                className="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 py-12"
+            >
+                <ChevronRight className="w-6 h-6 text-white" />
+            </button>
+        </div>
+    );
+}
 
-                        <button
+export const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory, products }) => {
 
-                            key={catg}
+    const { t } = useTranslation();
 
-                            onClick={() => setActiveCategory(catg.replace(' ', '_'))}
+    const categories = useMemo(
+        () =>
+            [
+                "All",
+                "JOUET",
+                "HABITS",
+                "MATERIELS_INFORMATIQUES",
+                "CAHIERS",
+                "SACS",
+                "LIVRES",
+                "ELECTROMENAGER",
+                "TELEPHONIE",
+                "ACCESSOIRES",
+                "SPORT",
+                "JEUX_VIDEO",
+                "MEUBLES",
+                "VEHICULES",
+                "FOURNITURES_SCOLAIRES",
+                "DIVERS",
+            ].map((cat) => t(`ListItemsFilterProduct.${cat}`)),
+        [t]
+    );
 
-                            className={`whitespace-nowrap px-4 py-2 rounded-full text-sm  transition 
+    const scrollRef = useRef(null);
+    const panelRef = useRef(null);
 
-                                ${activeCategory === catg
+    const [showLeft, setShowLeft] = useState(false);
+    const [showRight, setShowRight] = useState(false);
+    const [btnId, setBtnId] = useState(false);
+    const [btnOver, setBtnOver] = useState(null);
 
-                                    ? 'bg-blue-500 text-white'
+    const updateButtonsVisibility = useCallback(() => {
+        const container = scrollRef.current;
+        if (!container) return;
+        const { scrollLeft, scrollWidth, clientWidth } = container;
+        setShowLeft(scrollLeft > 0);
+        setShowRight(scrollLeft + clientWidth < scrollWidth - 1);
+    }, []);
 
-                                    : 'text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white'
+    const scroll = useCallback(
+        (direction) => {
+            scrollRef.current?.scrollBy({ left: direction === "left" ? -200 : 200, behavior: "smooth" });
+        },
+        []
+    );
 
-                                }`}
-                        >
-                            {catg.replace('_', ' ')}
+    useEffect(() => {
+        const container = scrollRef.current;
+        if (!container) return;
 
-                        </button>
-                    ))}
+        updateButtonsVisibility();
+        container.addEventListener("scroll", updateButtonsVisibility);
+        window.addEventListener("resize", updateButtonsVisibility);
+
+        return () => {
+            container.removeEventListener("scroll", updateButtonsVisibility);
+            window.removeEventListener("resize", updateButtonsVisibility);
+        };
+    }, [updateButtonsVisibility]);
+
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (panelRef.current && !panelRef.current.contains(e.target) && !scrollRef.current.contains(e.target)) {
+                setBtnId(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+    useEffect(() => {
+        if (btnOver) {
+            setActiveCategory(btnOver);
+        }
+    }, [btnOver, setActiveCategory]);
+
+    return (
+        <>
+            <div
+                ref={panelRef}
+                className={`${btnId ? "flex gap-2 bg-grey-9000 shadow-lg rounded-md" : "hidden"}`}
+                style={{ width: "100%", height: "auto" }}
+            >
+                <div style={{ flex: 2 }} className="hidden lg:block">
+                    <ImageGallery imagesEls={products} />
+                </div>
+
+                <div style={{ flex: 3 }}>
+                    <Carousel products={products} />
+                </div>
+
+                <div style={{ flex: 2 }}>
+                    <ImageGalleryPan imagesEls={products} />
                 </div>
             </div>
 
-            {/* Bouton droit */}
-            {showRight && (
+            <div className="relative w-full mb-4">
+                {showLeft && (
+                    <button
+                        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white p-2 shadow rounded-full"
+                        onClick={() => scroll("left")}
+                    >
+                        <ChevronLeft className="w-5 h-5 text-gray-600" />
+                    </button>
+                )}
 
-                <button
+                <div ref={scrollRef} className="overflow-x-auto px-10 scrollbor_hidden_">
+                    <div className="flex gap-2 min-w-max py-2">
+                        {categories?.map((cat) => (
+                            <button
+                                key={cat}
+                                onMouseEnter={() => setBtnId(true)}
+                                onMouseOver={() => setBtnOver(cat)}
+                                onClick={() => setActiveCategory(cat.replace(" ", "_"))}
+                                className={`whitespace-nowrap px-4 py-2 rounded-full text-sm transition ${activeCategory === cat
+                                        ? "bg-blue-500 text-white"
+                                        : "text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white"
+                                    }`}
+                            >
+                                {cat.replace("_", " ")}
+                            </button>
+                        ))}
+                    </div>
+                </div>
 
-                    className="absolute right-0 top-1/2 -translate-y-1/2 z-0 bg-white p-2 shadow rounded-full"
-
-                    onClick={() => scroll('right')}
-                >
-                    <ChevronRight className="w-5 h-5 text-gray-600" />
-
-                </button>
-            )}
-        </div>
+                {showRight && (
+                    <button
+                        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white p-2 shadow rounded-full"
+                        onClick={() => scroll("right")}
+                    >
+                        <ChevronRight className="w-5 h-5 text-gray-600" />
+                    </button>
+                )}
+            </div>
+        </>
     );
 };
-
 
 const GridLayoutProduct = () => {
 
     const [productNbViews, setProductNbViews] = useState(null);
+
     const [filteredItems, setFilteredItems] = useState([])
-    const { t} = useTranslation();
+
+    const { t } = useTranslation();
+
     const [loading, setLoading] = useState(true)
+
     const dispatch = useDispatch();
-    const cartItems = useSelector(state => state.cart.items);
-    const lang = useSelector((state) => state.navigate.lang);
+
+    const cartItems = useSelector(state => state?.cart?.items);
+
+    const lang = useSelector((state) => state?.navigate?.lang);
+
     const defaultCategory = lang === 'fr' ? 'Tous' : 'Tous';
+
     const [activeCategory, setActiveCategory] = useState(defaultCategory);
+
     const [modalData, setModalData] = useState(null);
+
     const [owners, setOwners] = useState({});
 
     const addProductToCart = (item) => dispatch(addToCart(item));
+
     const openModal = (item) => setModalData(item);
+
     const closeModal = () => setModalData(null);
 
 
@@ -191,11 +301,11 @@ const GridLayoutProduct = () => {
             try {
                 const { data: products } =
 
-                    (!!activeCategory && (removeAccents(translateCategory(activeCategory)).toLowerCase() === defaultCategory.toLowerCase()))
+                    (!!activeCategory && ((activeCategory && defaultCategory) &&  removeAccents(translateCategory(activeCategory))?.toLowerCase() === defaultCategory?.toLowerCase()))
 
                         ? await api.get("products/filter/")
 
-                    : await api.get(`products/filter/?categorie_product=${removeAccents(translateCategory(activeCategory)).toUpperCase()}`);
+                        : await api.get(`products/filter/?categorie_product=${activeCategory && removeAccents(translateCategory(activeCategory))?.toUpperCase()}`);
 
                 console.log("Avant filter:", products);
 
@@ -204,11 +314,13 @@ const GridLayoutProduct = () => {
                 setFilteredItems(filtered);
 
                 // IDs uniques des fournisseurs
-                const uniqueOwnerIds = [...new Set(products.map(p => p.fournisseur))].filter(Boolean);
+                const uniqueOwnerIds = [...new Set(products.map(p => p?.fournisseur))].filter(Boolean);
 
                 // Appels en parallèle
                 const responses = await Promise.all(
+
                     uniqueOwnerIds.map(id =>
+
                         api.get(`clients/${id}/`).then(res => ({ id, data: res.data })).catch(() => ({ id, data: null }))
                     )
                 );
@@ -236,7 +348,7 @@ const GridLayoutProduct = () => {
 
         fetchProductsAndOwners();
 
-    }, [activeCategory,defaultCategory]); // 🔹 Plus de filteredItems ici
+    }, [activeCategory, defaultCategory]); // 🔹 Plus de filteredItems ici
 
 
   
@@ -259,6 +371,8 @@ const GridLayoutProduct = () => {
                 activeCategory={activeCategory}
 
                 setActiveCategory={setActiveCategory}
+
+                products={filteredItems}
             />
 
             {
@@ -275,9 +389,9 @@ const GridLayoutProduct = () => {
 
                             {filteredItems.length>0 && filteredItems.map(item => {
 
-                                const isInCart = cartItems.some(product => product.id === item.id);
+                                const isInCart = cartItems?.some(product => product?.id === item?.id);
 
-                                const owner = owners[item.fournisseur];
+                                const owner = owners[item?.fournisseur];
 
                                 productViews(item, setProductNbViews)
 
@@ -297,7 +411,7 @@ const GridLayoutProduct = () => {
 
                                                 openModal(item)
 
-                                                dispatch(addUser(owners[item.fournisseur]))
+                                                dispatch(addUser(owners[item?.fournisseur]))
 
                                             }}
 
@@ -322,9 +436,9 @@ const GridLayoutProduct = () => {
 
                                                 {owner  && <OwnerAvatar owner={owner} />}
 
-                                                {item.quantity_product !== "1" && (
+                                                {item?.quantity_product !== "1" && (
 
-                                                    <span className="text-xs text-gray-600">Quantité {item.quantity_product}</span>
+                                                    <span className="text-xs text-gray-600">Quantité {item?.quantity_product}</span>
                                                 )}
 
                                             </div>
@@ -368,7 +482,7 @@ const GridLayoutProduct = () => {
 
                                             <p className="text-sm text-start  truncate mb-1">
 
-                                                {item.description_product}
+                                                {item?.description_product}
 
                                             </p>
 
@@ -424,6 +538,7 @@ const GridLayoutProduct = () => {
                     )}
 
                 </>
+
             }
 
             <ProductModal isOpen={!!modalData} onClose={closeModal} dataProduct={modalData} />

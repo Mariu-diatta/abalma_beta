@@ -22,7 +22,7 @@ const HomeContain = () => {
 
         <>
 
-            <div className="mx-auto max-w-screen-md text-center lg:mb-16 mb-8 mt-8 pt-2">
+            <div className="mx-auto max-w-screen-md text-center lg:mb-2  mt-8 pt-2">
 
                 <h2 className="mb-4 text-3xl lg:text-2xl tracking-tight font-extrabold">{t("homePan.title")}</h2>
 
@@ -219,20 +219,20 @@ export function LogoDropdown() {
                 style={{ width: 0, whiteSpace: "nowrap" }} // Ajustement pour l'affichage horizontal
             >
                 <div className="flex space-x-5 space-y-0 w-lg"> {/* Conteneur horizontal pour la liste */}
-                    {visibleBrands.map((brand) => (
+                    {visibleBrands?.map((brand) => (
                         <div
-                            key={brand.name}
+                            key={brand?.name}
                             onClick={() => {
                                 setCurrentPage(Math.floor(brands.indexOf(brand) / itemsPerPage));
                             }}
                             className="flex flex-col items-start p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors inline-block"
                         >
                             <img
-                                src={brand.img}
-                                alt={brand.name}
+                                src={brand?.img}
+                                alt={brand?.name}
                                 className="w-12 h-12 mb-2 object-contain"
                             />
-                            <span className="text-sm font-medium">{brand.name}</span>
+                            <span className="text-sm font-medium">{brand?.name}</span>
                         </div>
                     ))}
                 </div>
