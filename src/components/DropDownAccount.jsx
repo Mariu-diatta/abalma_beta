@@ -44,11 +44,10 @@ const NotificationGroup = ({ currentNotifMessages, notify, changeLanguage, nbIte
 
             style={{ color: "var(--color-text)" }}
         >
-            <svg className="w-6 h-6 text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8"
-                    d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7h-1M8 7h-.688M13 5v4m-2-2h4" />
+            <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
             </svg>
+
 
             <span className=" text-xs text-green-600">{nbItems}</span>
 
@@ -279,7 +278,7 @@ export default function AccountDropdownUserProfil() {
 
                 onClick={() => setDropdownOpen(!dropdownOpen)}
 
-                className="hover:bg-gray-50 dark:hover:bg-gray-800 relative inline-flex h-6 items-center justify-center gap-0 rounded-lg  dark:bg-dark-2 px-1 my-3 dark:text-white"
+                className="hover:bg-gray-50 dark:hover:bg-gray-800 relative inline-flex h-6 items-center justify-center gap-0 rounded-lg  dark:bg-dark-2 px-1 my-2 dark:text-white"
 
             >
                 {

@@ -136,7 +136,7 @@ const VertcalNavbar = ({ children }) => {
 
         <div
 
-            className="overflow-y-auto h-ful"
+            className="overflow-y-auto h-full"
 
             style={
                 {
@@ -145,8 +145,6 @@ const VertcalNavbar = ({ children }) => {
                     paddingBottom: "30px"
                 }
             }
-
-
         >
 
             {/* Toggle Button */}
@@ -564,7 +562,7 @@ const VertcalNavbar = ({ children }) => {
                     }}
                 >
 
-                    <section className="flex items-center justify-end h-20 rounded-sm">
+                    <section className="flex items-center justify-end h-auto mb-6 rounded-sm">
 
                         <AccountDropdownUserProfil/>
 
@@ -578,7 +576,7 @@ const VertcalNavbar = ({ children }) => {
 
                         aria-labelledby={`${currentNav}-tab-button`}
 
-                        className="dark:bg-gray-800 rounded-lg w-auto sm:mb-[30px] sm:pb-[50px] sm:z-[1000]"
+                        className="dark:bg-gray-800 rounded-lg w-auto sm:mb-[30px] sm:pb-[50px] sm:z-[1000] pt-6 sm:pt-2 p-0"
 
                         style={
 
@@ -589,7 +587,7 @@ const VertcalNavbar = ({ children }) => {
                             }
                         }
 
-                    >
+                    > 
                         {children}
 
                     </section>

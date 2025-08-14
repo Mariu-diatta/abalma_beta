@@ -58,7 +58,7 @@ export const BlogPage = () => {
 
     return (
 
-        <section className="mt-5 dark:bg-gray-900 bg_home">
+        <section className="mt-5 dark:bg-gray-900 bg_home z-8">
 
             <SuspenseCallback>
 
@@ -91,7 +91,7 @@ export const BlogPage = () => {
 
             </SuspenseCallback>
 
-            <div className="fixed bottom-8 right-0  grid gap-8 lg:grid-cols-2">
+            <div className="bottom-8  flex items-end justify-end pe-6">
 
                 <ModalFormCreatBlog/>
 

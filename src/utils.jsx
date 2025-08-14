@@ -133,32 +133,20 @@ export const recordView = async (clientId) => {
     }
 };
 
-export const productViews = (dataProduct, setProductNbViews) => {
+export const productViews = async (dataProduct, setProductNbViews) => {
 
+    if (!dataProduct?.id) return; // Pas d'appel si pas d'ID
 
-    // Appelle l'API => déclenche record_view automatiquement côté backend
-    if (dataProduct?.id !== undefined) {
+    try {
 
-        try {
+        const { data } = await api.get(`/products_details/${dataProduct?.id}/`);
 
-            api.get(`/products_details/${dataProduct?.id}/`)
+        setProductNbViews(data?.total_views ?? 0);
 
-                .then(response => {
-
-                    setProductNbViews(response.data?.total_views);
-                })
-
-                .catch(error => {
-
-                    console.error('Erreur de chargement du produit:', error);
-                });
-
-        } catch {
-
-        }
+    } catch (error) {
+        console.error("Erreur lors du chargement du produit :", error);
     }
-
-}
+};
 
 export function removeAccents(str) {
 

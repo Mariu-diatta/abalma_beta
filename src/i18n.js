@@ -23,6 +23,10 @@ i18n
 
          translation: {
 
+             quantity_sold:"qty sold",
+
+             quantity:'qty available',
+
              All: 'All',
 
              homePan: {
@@ -168,8 +172,20 @@ i18n
             paragraph2:"Thanks to our platform, you can easily manage your products and data, grow your sales with confidence, and stay connected to your clients and collaborators.",
             button: "Get Started",
             quick_links: "Quick Links",
-            premium_support: "Premium Support",
-            our_services: "Our Services",
+            client_support: "Delivery information",
+            client_support_alert: "Product safety alerts",
+            client_fraud: "Report suspicious activity",
+            client_services: "Client ervices",
+            contact_us:'contact us',
+            know_us:"Know us",
+            about_abalma: "About Abalma",
+            help: "Help",
+            help_center_faq: "Help Center & FAQ",
+            security_center: "Security Center",
+            abalma_purchase_protection: "Purchase Protection on Abalma",
+            digital_services_act: "Digital Services Act (DSA)",
+            company_info_legal: "Company information – Legal notice",
+            follow_us:'Follow us on',
             know_our_team: "Know Our Team",
             company: "Company",
             about_app: "About Abalma",
@@ -421,6 +437,10 @@ i18n
 
          translation: {
 
+             quantity_sold:'qté vendue',
+
+             quantity: "qté disponible",
+
              All: 'Tous',
 
              homePan: {
@@ -559,15 +579,26 @@ i18n
             "section_8_content": "Nous protégeons vos données via des mesures techniques (chiffrement, serveur sécurisé, etc.) afin d’empêcher tout accès non autorisé.",
             "section_9_title": "9. Modifications",
             "section_9_content": "Cette politique peut être mise à jour. Vous serez notifié(e) en cas de changement important.",
-
+            about_abalma : "À propos de Abalma",
+            contact_us:"Contactez-nous",
+            know_us:"Nous connaître",
+            company_info_legal: "Informations sur l'entreprise – Mentions légales",
+            help: "Aide",
+            help_center_faq: "Centre d’aide et FAQ",
+            security_center: "Centre de sécurité",
+            abalma_purchase_protection: "Protection des achats sur Abalma",
+            digital_services_act: "Règlement sur les services numériques (DSA)",
             title: "Pourquoi choisir Abalma",
+            follow_us:"Nous suivre sur",
             subtitle: "Surprenez vos clients en leur offrant une expérience de service exceptionnelle.",
             paragraph1: "Imaginez que vous êtes une petite entreprise évoluant dans le commerce, mais que votre présence sur les réseaux sociaux est limitée ou encore noyée dans une masse d’informations qui rend vos activités et publicités invisibles. Abalma est là pour changer cela. Nous vous aidons à gagner en visibilité et à faire entendre votre voix dans un écosystème numérique plus clair, plus ciblé, et mieux adapté à vos besoins.",
             paragraph2: "Grâce à notre plateforme, vous gérez facilement vos produits et données, développez vos ventes en toute confiance, et restez connecté·e à vos clients ainsi qu’à vos collaborateurs·trices",
             button: "Commencer",
             quick_links: "Liens rapides",
-            premium_support: "Support Premium",
-            our_services: "Nos services",
+            client_support: "Informations de livraison",
+            client_support_alert: "Alertes sur la sécurité des produits",
+            client_fraud:'Signaler une activité suspecte',
+            client_services: "services client",
             know_our_team: "Découvrez notre équipe",
             company: "Entreprise",
             about_app: "À propos d'Abalma",

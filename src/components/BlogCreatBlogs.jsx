@@ -11,6 +11,7 @@ export const ModalFormCreatBlog = () => {
     const profileData = useSelector((state) => state.auth.user);
     const [isOpen, setIsOpen] = useState(false);
     const modalRef = useRef(null);
+    const modalRef_ = useRef(null);
     const inputRef = useRef(null);
 
     // États du formulaire  
@@ -26,10 +27,19 @@ export const ModalFormCreatBlog = () => {
         return { id: 1, name: "Utilisateur Demo" };
     };
 
+    const handleScroll = (ref) => {
+        window.scrollTo({
+            top: 12,
+            left: 0,
+            behavior: "smooth",
+        });
+    };
+
     const handleToggleModal = () => {
         setError("");
         setSuccess("");
         setIsOpen(!isOpen);
+        handleScroll(modalRef_ )
     };
 
     const handleClose = () => {
@@ -132,7 +142,7 @@ export const ModalFormCreatBlog = () => {
 
     return (
 
-        <div className="relative " role="dialog" aria-modal="true">
+        <div className="fixed " role="dialog" aria-modal="true" ref={modalRef_} >
 
             {/* Toggle Button */}
             {
