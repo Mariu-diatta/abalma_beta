@@ -471,7 +471,7 @@ const GridLayoutProduct = () => {
 
                     ) : (
 
-                                <div className="text-center text-gray-500 bg-gray-800 border border-gray-700 rounded-full p-3 lg:flex lg:justify-center lg:items-center lg:max-w-sm mx-auto">{t('ListItemsFilterProduct.noProduct')}</div>
+                                <div className="text-center text-gray-500 bg-gray-300 border border-gray-300 rounded-full p-3 lg:flex lg:justify-center lg:items-center lg:max-w-sm mx-auto">{t('ListItemsFilterProduct.noProduct')}</div>
                     )}
 
                 </>
