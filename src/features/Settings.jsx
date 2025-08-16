@@ -7,6 +7,7 @@ import DeleteProfilAccount from '../components/DeleteAccount';
 import { applyTheme } from '../utils';
 
 const SettingsForm = () => {
+
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const currentUserData = useSelector((state) => state.auth.user);
@@ -31,31 +32,47 @@ const SettingsForm = () => {
     const [previewUrl, setPreviewUrl] = useState(null);
 
     const tryRequest = async (requestFn, successMessage) => {
+
         try {
+
             await requestFn();
+
             alert(successMessage);
+
         } catch (err) {
+
             console.warn("Request failed:", err);
         }
     };
 
     const handleChange = (e) => {
+
         const { name, value, type, checked } = e.target;
+
         setForm((prev) => ({
+
             ...prev,
+
             [name]: type === 'checkbox' ? checked : value,
+
         }));
     };
 
     const handleUpdateThem = (e) => {
+
         const { value } = e.target;
+
         setForm((prev) => ({ ...prev, theme: value }));
+
         dispatch(updateTheme(value));
+
         applyTheme(value, dispatch);
     };
 
     const handleImageUpload = (e) => {
+
         const file = e.target.files[0];
+
         setPreviewUrl(URL.createObjectURL(file));
     };
 
@@ -191,9 +208,13 @@ const SettingsForm = () => {
 
                 {/* Préférences */}
                 <form onSubmit={handleSubmit} className="w-auto dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6">
+
                     <ThemeSelector value={form.theme} onChange={handleUpdateThem} t={t} />
+
                     <NotificationToggle checked={form.notifications} onChange={handleChange} t={t} />
+
                     <button type="submit" className="w-full py-2 px-4 mt-4 text-sm text-white bg-blue-100 hover:bg-blue-700 rounded-md">{t('settingsText.save')}</button>
+
                 </form>
 
                 <DeleteProfilAccount />
@@ -234,7 +255,9 @@ const SettingsForm = () => {
 // 📦 Composants réutilisables internes :
 
 const FloatingInput = ({ id, name, label, type = 'text', value, onChange, maxLength, wrapperClass = '', disabled }) => (
+
     <div className={`relative ${wrapperClass}`}>
+
         <input
             type={type}
             id={id}
@@ -246,15 +269,20 @@ const FloatingInput = ({ id, name, label, type = 'text', value, onChange, maxLen
             disabled={disabled || false}
             className="peer block w-full px-2.5 pt-5 pb-2.5 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600"
         />
+
         <label htmlFor={id} className="absolute text-sm text-gray-500 dark:text-gray-400 top-4 left-2.5 transition-all scale-75 -translate-y-4 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-4">
             {label}
         </label>
+
     </div>
 );
 
 const ThemeSelector = ({ value, onChange, t }) => (
+
     <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+
         <label className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">{t('settingsText.theme')}</label>
+
         <select
             name="theme"
             value={value}
@@ -262,13 +290,18 @@ const ThemeSelector = ({ value, onChange, t }) => (
             className="style-bg border-0 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 p-2.5"
         >
             <option value="light">{t('settingsText.themeLight')}</option>
+
             <option value="dark">{t('settingsText.themeDark')}</option>
+
         </select>
+
     </div>
 );
 
 const NotificationToggle = ({ checked, onChange, t }) => (
+
     <div className="flex items-center">
+
         <input
             id="notifications"
             type="checkbox"
@@ -277,9 +310,11 @@ const NotificationToggle = ({ checked, onChange, t }) => (
             onChange={onChange}
             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600"
         />
+
         <label htmlFor="notifications" className="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">
             {t('settingsText.notifications')}
         </label>
+
     </div>
 );
 

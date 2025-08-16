@@ -58,46 +58,43 @@ export const BlogPage = () => {
 
     return (
 
-        <section className="mt-5 dark:bg-gray-900 bg_home z-8">
+        <div className="mt-5 dark:bg-gray-900 bg_home z-8 shadow-sm">
 
-            <SuspenseCallback>
+            <div className="py-2 px-2 max-w-screen mx-0 lg:mx-auto lg:py-16 lg:px-6 style-bg">
 
-                <div className="py-2 px-2 max-w-screen mx-0 lg:mx-auto lg:py-16 lg:px-6 style-bg">
+                <div className="mx-0 lg:mx-auto  max-w-screen-auto text-center lg:mb-16 mb-8">
 
-                    <div className="mx-0 lg:mx-auto  max-w-screen-auto text-center lg:mb-16 mb-8">
+                    <h2 className="mb-4 text-3xl lg:text-2xl tracking-tight font-extrabold">{t("blog.title")}</h2>
 
-                        <h2 className="mb-4 text-3xl lg:text-2xl tracking-tight font-extrabold">{t("blog.title")}</h2>
-
-                        <p className="font-light text-gray-500 sm:text-xl dark:text-gray-400">{t("blog.maint_text_content")}</p>
-
-                    </div>
-
-                    <div className="grid gap-8 lg:grid-cols-2">
-
-                        {
-                             !isLoading?
-                             <SuspenseCallback>
-
-                                {fetchBlogs()}
-
-                             </SuspenseCallback>
-                            :
-                            <LoadingCard/>
-                        }
-
-                    </div>
+                    <p className="font-light text-gray-500 sm:text-xl dark:text-gray-400">{t("blog.maint_text_content")}</p>
 
                 </div>
 
-            </SuspenseCallback>
+                <div className="grid gap-8 lg:grid-cols-2">
 
-            <div className="bottom-8  flex items-end justify-end pe-6">
+                    {
+                            !isLoading?
+                            <SuspenseCallback>
 
-                <ModalFormCreatBlog/>
+                            {fetchBlogs()}
+
+                            </SuspenseCallback>
+                        :
+                        <LoadingCard/>
+                    }
+
+                </div>
+
+
+                <div className="absolute bottom-0 right-2 mb-5">
+                    <ModalFormCreatBlog />
+                </div>
+
 
             </div>
 
-        </section>
+
+        </div>
     );
 };
 

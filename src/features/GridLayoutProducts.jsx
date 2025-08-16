@@ -100,17 +100,18 @@ export function Carousel({ products }) {
                 {products.map((prod, idx) => (
 
                     <section className="shadow-lg">
+
                         <img
                             key={idx}
                             src={prod.image_product}
                             alt={`Slide ${idx + 1}`}
                             title={"Nombre d'articles disponibles: " + prod.quantity_product}
-                            className={`absolute top-1/2 left-1/2 w-full h-[300px] object-cover -translate-x-1/2 -translate-y-1/2 transition-opacity duration-700 ease-in-out scale-100 ${idx === currentIndex ? "opacity-100 z-20" : "opacity-0 z-10"
+                            className={`absolute top-1/2 left-1/2 w-full h-[300px] object-cover -translate-x-1/2 -translate-y-1/2 transition-opacity duration-700 ease-in-out scale-100 ${idx === currentIndex ? "opacity-100 z-2" : "opacity-0 z-2"
                                 }`}
                         />
 
                         <span
-                            className={`text-sm absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-lg font-bold z-30 rounded-lg border-1 border-blue-700 p-2 ${idx === currentIndex ? "opacity-100" : "opacity-0"
+                            className={`w-2/3 text-sm absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-lg font-bold z-4 rounded-lg border-1 border-blue-700 p-2 ${idx === currentIndex ? "opacity-100" : "opacity-0"
                                 }`}
                         >
                             {prod?.description_product}
@@ -119,7 +120,7 @@ export function Carousel({ products }) {
                         <button
                             onClick={() => setProductScroll(prod)}
                             type="button"
-                            className="absolute bottom-0 left-1/2 -translate-x-1/2 -translate-y-1/2 py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 z-[20]">
+                            className="w-full sm:w-auto absolute bottom-0 left-1/2 -translate-x-1/2 -translate-y-1/2 py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 z-[20]">
                             Voir le produit
                         </button>
 
@@ -298,11 +299,13 @@ export const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory, p
                 </div>
 
                 {showRight && (
+
                     <button
                         className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white p-2 shadow rounded-full"
                         onClick={() => scroll("right")}
                     >
                         <ChevronRight className="w-5 h-5 text-gray-600" />
+
                     </button>
                 )}
             </div>
@@ -468,7 +471,7 @@ const GridLayoutProduct = () => {
 
                     ) : (
 
-                        <div className="text-center text-gray-500 bg-grey-800 border-1 w-sm m-auto rounded-full p-3">{t('ListItemsFilterProduct.noProduct')}</div>
+                                <div className="text-center text-gray-500 bg-gray-800 border border-gray-700 rounded-full p-3 lg:flex lg:justify-center lg:items-center lg:max-w-sm mx-auto">{t('ListItemsFilterProduct.noProduct')}</div>
                     )}
 
                 </>
@@ -536,14 +539,18 @@ export const ProductCard = ({
 
             {/* Infos Produit */}
             <div className="p-1">
+
                 {/* Avatar & Quantité */}
                 <div className="flex justify-between items-center mb-1">
+
                     {owner && <OwnerAvatar owner={owner} />}
+
                     {item?.quantity_product !== "0" && (
                         <span className="text-xs text-gray-600">
                             {t("quantity")} {item?.quantity_product}
                         </span>
                     )}
+
                 </div>
 
                 {/* Étoiles & Reviews */}

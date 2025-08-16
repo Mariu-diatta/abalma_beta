@@ -115,82 +115,138 @@ const ProfileCard = () => {
 
     // Save profile updates
     const handleSave = async () => {
+
         if (!userProfile?.id) {
+
             alert('Erreur : ID utilisateur manquant');
+
             return;
         }
+
         setLoadinUpdate(false);
+
         try {
+
             const fd = new FormData();
+
             Object.entries(formData).forEach(([key, value]) => fd.append(key, value));
+
             if (updateImage) fd.append('image', updateImage);
+
             if (updateImageCover) fd.append('image_cover', updateImageCover);
+
             const response = await api.put(`clients/${userProfile?.id}/`, fd, {
+
                 headers: { 'Content-Type': 'multipart/form-data' },
+
             });
+
             dispatch(updateUserData(response.data.data));
+
             setIsEditing(false);
+
             alert('✅ Profil mis à jour !');
+
         } catch (error) {
+
             console.error('❌ Erreur mise à jour :', error);
+
             alert('Erreur lors de la mise à jour du profil.');
+
         } finally {
+
             setLoadinUpdate(true);
         }
     };
 
     // Handle upgrade to pro
     const handleUpgradeToPro = async (e) => {
+
         e.preventDefault();
+
         if (!fileProof) {
+
             alert('Veuillez sélectionner un fichier avant de sauvegarder.');
+
             return;
         }
         try {
+
             const formData = new FormData();
+
             formData.append('is_pro', true);
+
             formData.append('doc_proof', fileProof);
+
             const response = await api.put(`clients/${userProfile?.id}/`, formData, {
+
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
+
             dispatch(updateUserData(response.data.data));
             alert('✅ Justificatif envoyé avec succès !');
             setIsProFormVisible(false);
             alert('🎉 Votre compte est maintenant professionnel.');
+
+
         } catch (error) {
+
             console.error("❌ Erreur d'envoi :", error);
+
             alert("Erreur lors de l'envoi du justificatif.");
         }
     };
 
     // Fetch or create user account
     const getUserCompte = async (e) => {
+
         e.preventDefault();
+
         setLoadingGetCode(false);
+
         try {
+
             const comptesRes = await api.get('comptes/');
+
             const userCompte = comptesRes.data.find((c) => c.user === profileData?.id);
+
             if (userCompte) {
+
                 dispatch(updateCompteUser(userCompte));
+
                 const formData = new FormData();
+
                 formData.append('compte_id', userCompte.id);
+
                 try {
-                    const fournisseurResp = await api.post('fournisseurs/', formData, {
-                        headers: { 'Content-Type': 'multipart/form-data' },
-                    });
+
+                    await api.get('set-csrf/');
+
+                    const fournisseurResp = await api.post('fournisseurs/', formData);
+
                     const responseGetUser = await api.get(`clients/${fournisseurResp.data.compte.user}/`);
+
                     dispatch(updateUserData(responseGetUser.data));
+
                     setMessageError('sucess');
+
                 } catch (err) {
+
                     const Error = "Unable to create record: Invalid 'To' Phone Number:";
+
                     if (err?.response?.data?.detail.includes(Error)) showMessage(dispatch, Error);
                 }
+
             } else {
+
                 showMessage(dispatch, 'Aucun compte utilisateur trouvé.');
             }
         } catch (error) {
+
             console.error('Erreur getUserCompte:', error);
+
         } finally {
+
             setLoadingGetCode(true);
         }
     };
@@ -397,33 +453,44 @@ const ProfileCard = () => {
 
                             </div>
 
-                            <div className="flex items-center gap-4">
-                                {!isCurrentUser && <FollowProfilUser clientId={userSelected?.id} />}
-                                <NumberFollowFollowed profil={isCurrentUser ? currentUser : currentOwnUser} />
-                                {!profileData?.is_pro && !isProFormVisible && isCurrentUser && (
-                                    <button
-                                        onClick={() => setIsProFormVisible(true)}
-                                        className="flex items-center gap-2 text-sm border border-blue-400 rounded-full py-2 px-4 hover:bg-blue-100 dark:hover:bg-blue-900"
-                                    >
-                                        <svg
-                                            className="w-5 h-5"
-                                            aria-hidden="true"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
+                            <div className="flex flex-col sm:flex-col md:flex-row sm:items-center sm:justify-between gap-4 mb-2">
+
+                                <>
+                                    {!isCurrentUser && <FollowProfilUser clientId={userSelected?.id} />}
+                                </>
+
+                                <>
+                                    <NumberFollowFollowed profil={isCurrentUser ? currentUser : currentOwnUser} />
+                                </>
+
+                                <>
+                                    {!profileData?.is_pro && !isProFormVisible && isCurrentUser && (
+                                        <button
+                                            onClick={() => setIsProFormVisible(true)}
+                                            className="flex items-center gap-2 text-sm border border-blue-400 rounded-full py-2 px-4 hover:bg-blue-100 dark:hover:bg-blue-900"
                                         >
-                                            <path
-                                                stroke="currentColor"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth="2"
-                                                d="m8.032 12 1.984 1.984 4.96-4.96m4.55 5.272.893-.893a1.984 1.984 0 0 0 0-2.806l-.893-.893a1.984 1.984 0 0 1-.581-1.403V7.04a1.984 1.984 0 0 0-1.984-1.984h-1.262a1.983 1.983 0 0 1-1.403-.581l-.893-.893a1.984 1.984 0 0 0-2.806 0l-.893.893a1.984 1.984 0 0 1-1.403.581H7.04A1.984 1.984 0 0 0 5.055 7.04v1.262c0 .527-.209 1.031-.581 1.403l-.893.893a1.984 1.984 0 0 0 0 2.806l.893.893c.372.372.581.876.581 1.403v1.262a1.984 1.984 0 0 0 1.984 1.984h1.262c.527 0 1.031.209 1.403.581l.893.893a1.984 1.984 0 0 0 2.806 0l.893-.893a1.985 1.985 0 0 1 1.403-.581h1.262a1.984 1.984 0 0 0 1.984-1.984V15.7c0-.527.209-1.031.581-1.403Z"
-                                            />
-                                        </svg>
-                                        {t('ProfilText.passerPro')}
-                                    </button>
-                                )}
+                                            <svg
+                                                className="w-5 h-5"
+                                                aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path
+                                                    stroke="currentColor"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth="2"
+                                                    d="m8.032 12 1.984 1.984 4.96-4.96m4.55 5.272.893-.893a1.984 1.984 0 0 0 0-2.806l-.893-.893a1.984 1.984 0 0 1-.581-1.403V7.04a1.984 1.984 0 0 0-1.984-1.984h-1.262a1.983 1.983 0 0 1-1.403-.581l-.893-.893a1.984 1.984 0 0 0-2.806 0l-.893.893a1.984 1.984 0 0 1-1.403.581H7.04A1.984 1.984 0 0 0 5.055 7.04v1.262c0 .527-.209 1.031-.581 1.403l-.893.893a1.984 1.984 0 0 0 0 2.806l.893.893c.372.372.581.876.581 1.403v1.262a1.984 1.984 0 0 0 1.984 1.984h1.262c.527 0 1.031.209 1.403.581l.893.893a1.984 1.984 0 0 0 2.806 0l.893-.893a1.985 1.985 0 0 1 1.403-.581h1.262a1.984 1.984 0 0 0 1.984-1.984V15.7c0-.527.209-1.031.581-1.403Z"
+                                                />
+                                            </svg>
+                                            {t('ProfilText.passerPro')}
+                                        </button>
+                                    )}
+                                </>
+
                             </div>
+
                         </div>
                     ) : (
                         <form
@@ -549,6 +616,9 @@ const ProfileCard = () => {
                                         {!messageVisible ? 'Message' : 'X'}
                                     </button>
                                 )}
+
+                            
+
                                 {loadingGetCode ? (
                                     <>
                                         {(!userProfile?.is_fournisseur || !userProfile?.is_verified) && isCurrentUser && (
@@ -579,18 +649,23 @@ const ProfileCard = () => {
                                 ) : (
                                     <LoadingCard />
                                 )}
-                                {isCurrentUser && <ModalFormCreatBlog />}
+            
                             </>
                         )}
                     </div>
 
                     {isProFormVisible && isCurrentUser && (
+
                         <form
+
                             onSubmit={handleUpgradeToPro}
+
                             className="mt-6 flex flex-col items-center gap-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-sm"
                         >
                             <label className="text-sm">{t('hintProofDoc')}</label>
+
                             <div className="flex items-center gap-2">
+
                                 <svg
                                     className="w-6 h-6 text-gray-800 dark:text-white"
                                     aria-hidden="true"
@@ -604,7 +679,9 @@ const ProfileCard = () => {
                                         strokeWidth="1"
                                         d="M10 3v4a1 1 0 0 1-1 1H5m14-4v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7.914a1 1 0 0 1 .293-.707l3.914-3.914A1 1 0 0 1 9.914 3H18a1 1 0 0 1 1 1Z"
                                     />
+
                                 </svg>
+
                                 <input
                                     type="file"
                                     onChange={handleFileChange}
@@ -612,14 +689,18 @@ const ProfileCard = () => {
                                     required
                                     className="border border-gray-300 rounded-lg p-2 text-sm cursor-pointer"
                                 />
+
                             </div>
+
                             <div className="flex gap-2">
+
                                 <button
                                     type="submit"
                                     className="rounded-lg bg-green-600 text-white px-4 py-2 hover:bg-green-700 text-sm"
                                 >
                                     {t('ProfilText.envoyerJustificatif')}
                                 </button>
+
                                 <button
                                     type="button"
                                     onClick={() => setIsProFormVisible(false)}
@@ -627,13 +708,22 @@ const ProfileCard = () => {
                                 >
                                     {t('ProfilText.annuler')}
                                 </button>
+
                             </div>
+
                         </form>
                     )}
+
                 </div>
+
+            </div>
+
+            <div className="absolute bottom-6 right-2">
+                {isCurrentUser && <ModalFormCreatBlog />}
             </div>
 
             {messageAlert && <AttentionAlertMesage title={messageError} content={messageAlert} />}
+
             {profileData?.is_fournisseur && !profileData?.is_verified && (
                 <GetValidateUserFournisseur isCurrentUser={isCurrentUser} />
             )}

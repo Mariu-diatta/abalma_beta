@@ -4,13 +4,16 @@ import Cookies from "js-cookie"; // npm install js-cookie
 
 const csrftoken = Cookies.get('csrftoken');
 
-axios.defaults.headers.common['X-CSRFToken'] = csrftoken;
+if (csrftoken) {
+
+    axios.defaults.headers.common['X-CSRFToken'] = csrftoken;
+}
 
 axios.defaults.withCredentials = true;
-//export const BASE_URL_ = 'http://localhost:8000'
-//export const BASE_URL = 'http://localhost:8000/'
-const BASE_URL = 'https://backend-mpb0.onrender.com/'
-export const BASE_URL_ = 'https://backend-mpb0.onrender.com'
+export const BASE_URL_ = 'http://localhost:8000'
+export const BASE_URL = 'http://localhost:8000/'
+//const BASE_URL = 'https://backend-mpb0.onrender.com/'
+//export const BASE_URL_ = 'https://backend-mpb0.onrender.com'
 
 // Création de l'instance Axios
 const api = axios.create({

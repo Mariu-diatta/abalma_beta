@@ -55,11 +55,14 @@ const GetValidateUserFournisseur = ({ isCurrentUser }) => {
 
             const formData = new FormData()
 
-            formData.append("code_validation=", code)
+            formData.append("code_validation", code)
+
+            await api.get('set-csrf/');
 
             await api.get(`codes_validation/${code}/validation-fournisseur/`)
 
-            await api.post('profils-fournisseurs/validation-fournisseur/', { code })
+            await api.post('fournisseurs/validation-fournisseur/', formData)
+ 
 
             const updateUser = { ...profileData, "is_verified": true }
 

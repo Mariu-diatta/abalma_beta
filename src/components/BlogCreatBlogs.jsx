@@ -149,7 +149,7 @@ export const ModalFormCreatBlog = () => {
                 profileData && profileData?.email &&
                 <button
                     onClick={handleToggleModal}
-                    className="w-auto rounded-full flex gap-1 bg-blue-500 text-white text-sm px-3 py-1 hover:bg-blue-700 m-1 items-center"
+                    className="absolute bottom-1 right-3 w-auto rounded-full flex gap-1 bg-blue-500 text-white text-sm px-3 py-1 hover:bg-blue-700 m-1 items-center"
                     aria-expanded={isOpen}
                     aria-controls="modal-blog-form"
                 >
@@ -203,7 +203,7 @@ export const ModalFormCreatBlog = () => {
                                 className="text-gray-400 hover:text-gray-900 dark:hover:text-white"
                             >
                                 <svg
-                                    className="w-6 h-6"
+                                    className="w-4 h-4"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
