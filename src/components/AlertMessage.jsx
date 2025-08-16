@@ -12,12 +12,17 @@ const AttentionAlertMessage = ({ content, title }) => {
 
     // Après 5 secondes, on cache l'alerte
     useEffect(() => {
+
         const timeout = setTimeout(() => {
+
             setShow(false);
+
             dispatch(clearMessage());
+
         }, 5000);
 
         return () => clearTimeout(timeout);
+
     }, [dispatch]);
 
     if (!show) return null;

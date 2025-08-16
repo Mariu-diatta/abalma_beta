@@ -4,6 +4,8 @@ import InputBox from "../components/InputBoxFloat";
 import HomeLayout from "../layouts/HomeLayout";
 import api from "../services/Axios";
 import { useParams } from "react-router-dom";
+import AttentionAlertMessage, { showMessage } from "../components/AlertMessage";
+import { useDispatch, useSelector } from "react-redux";
 
 const PwdForget = () => {
 
@@ -13,7 +15,9 @@ const PwdForget = () => {
     const [email, setEmail] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [countdown, setCountdown] = useState(100);
-    const [error, setError] = useState("");
+    const [error, setError] = useState(null);
+    const dispatch = useDispatch();
+    const messageAlert = useSelector((state) => state.navigate.messageAlert);
 
     // Étape 1 : Demande de lien de réinitialisation
     const handleRequestCode = async () => {
@@ -23,6 +27,8 @@ const PwdForget = () => {
         if (!email) {
 
             alert(t("form.emailRequired"));
+
+            showMessage(dispatch, t("form.emailRequired"))
 
             return;
         }
@@ -39,7 +45,10 @@ const PwdForget = () => {
 
             console.error(err);
 
-            setError(t("form.resetRequestError") || "Erreur lors de l'envoi du lien.");
+            setError(t('form.resetRequestError'));
+
+            showMessage(dispatch, t('form.resetRequestError'))
+
         }
     };
 
@@ -58,6 +67,9 @@ const PwdForget = () => {
         if (!uidb64 || !token) {
 
             setError(t("form.invalidLink") || "Lien de réinitialisation invalide.");
+
+            showMessage(dispatch, t("form.invalidLink"))
+
 
             return;
         }
@@ -78,6 +90,9 @@ const PwdForget = () => {
             console.error(err);
 
             setError(t("form.resetError") || "Échec de la réinitialisation du mot de passe.");
+
+            showMessage(dispatch, t("form.resetError"))
+
         }
     };
 
@@ -128,7 +143,9 @@ const PwdForget = () => {
                     </div>
 
                     <div className="mt-3 text-center">
+
                         <small className="text-sm  text-black-900 dark:text-white">{t(`forgetPswd.step${s}`)}</small>
+
                     </div>
 
                 </li>
@@ -140,18 +157,28 @@ const PwdForget = () => {
 
     return (
         <section className="bg-gray-1 py-20 dark:bg-dark lg:py-[120px]">
+
             <div className="container mx-auto">
+
                 <div className="-mx-1 flex flex-wrap justify-center">
+
                     <div className="w-full max-w-md px-4">
+
                         <div className="rounded-lg p-8 shadow-lg" style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}>
+
                             <h1 className="mb-10 text-2xl font-bold text-dark dark:text-white text-center">
                                 {t("forgetPswd.title")}
                             </h1>
 
                             <StepIndicator />
 
-                            {error && (
+                            {!!error && (
                                 <div className="mb-4 text-red-600 text-sm text-center">{error}</div>
+                            )}
+
+                            {error && messageAlert && (
+
+                                <AttentionAlertMessage title="Error" content={messageAlert} />
                             )}
 
                             {step === 1 && (
@@ -206,12 +233,20 @@ const PwdForget = () => {
 
                             {step === 3 && (
                                 <div className="text-center">
+
                                     <p className="text-lg font-medium text-green-600 dark:text-green-400">
                                         {t("forgetPswd.success")}
                                     </p>
+
+                                    {messageAlert && !error && (
+
+                                        <AttentionAlertMessage title="Success" content={messageAlert} />
+                                    )}
+
                                     <p className="mt-4 text-sm text-gray-700 dark:text-gray-300">
                                         {t("forgetPswd.redirectIn")} {Math.floor(countdown / 60)}:{String(countdown % 60).padStart(2, "0")}...
                                     </p>
+
                                 </div>
                             )}
                         </div>
