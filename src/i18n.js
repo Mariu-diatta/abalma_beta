@@ -225,7 +225,8 @@ i18n
                  "email": "Email Address",
                  "emailRequired": "Email address is required",
                  "newPassword": "New Password",
-                 "allFieldsRequired": "All fields are required"
+                 "allFieldsRequired": "All fields are required",
+                 resetRequestError: "Reset failed: email not found in our database."
              },
 
              homePage: {
@@ -639,7 +640,8 @@ i18n
                 "email": "Adresse e-mail",
                 "emailRequired": "L'adresse e-mail est requise",
                 "newPassword": "Nouveau mot de passe",
-                "allFieldsRequired": "Tous les champs sont obligatoires"
+                "allFieldsRequired": "Tous les champs sont obligatoires",
+                resetRequestError: "Échec de la réinitialisation : l’adresse e-mail est introuvable dans notre base de données."
             },
 
             homePage: {
