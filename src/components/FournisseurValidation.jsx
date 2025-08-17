@@ -45,6 +45,8 @@ const GetValidateUserFournisseur = ({ isCurrentUser }) => {
 
             setError('Veuillez entrer un code valide.');
 
+            showMessage(dispatch, 'Veuillez entrer un code valide.');
+
             return;
         }
 
@@ -80,7 +82,7 @@ const GetValidateUserFournisseur = ({ isCurrentUser }) => {
 
             console.log("Erreur de validation du compte Fourniseur", e)
 
-            showMessage(dispatch, "Erreur: veuillez entrer un bon code");
+            showMessage(dispatch, e?.response?.data?.detail);
 
             setLoading(true)
 
