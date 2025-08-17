@@ -97,7 +97,7 @@ export function Carousel({ products }) {
 
             <div className="relative  overflow-hidden rounded-lg h-70 lg:h-70 md:h-auto">
 
-                {products.map((prod, idx) => (
+                {products?.length > 0 &&  products.map((prod, idx) => (
 
                     <section className="shadow-lg">
 
@@ -254,7 +254,7 @@ export const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory, p
         <>
             <div
                 ref={panelRef}
-                className={`${btnId ? "flex gap-2 bg-grey-9000 shadow-lg rounded-md h-70 lg:h-70 w-full" : "hidden"}`}
+                className={`${btnId && products?.length ? "flex gap-2 bg-grey-9000 shadow-lg rounded-md h-70 lg:h-70 w-full" : "hidden"}`}
             >
                 <div style={{ flex: 2 }} className="hidden lg:block">
                     <ImageGallery imagesEls={products} />
