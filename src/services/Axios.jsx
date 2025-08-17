@@ -1,41 +1,47 @@
 import axios from "axios";
-
 import Cookies from "js-cookie"; // npm install js-cookie
 
-const csrftoken = Cookies.get('csrftoken');
-
-if (csrftoken) {
-
-    axios.defaults.headers.common['X-CSRFToken'] = csrftoken;
-}
-
-axios.defaults.withCredentials = true;
-//export const BASE_URL_ = 'http://localhost:8000'
-//export const BASE_URL = 'http://localhost:8000/'
-const BASE_URL = 'https://backend-mpb0.onrender.com/'
-export const BASE_URL_ = 'https://backend-mpb0.onrender.com'
+// URL de ton backend Render
+const BASE_URL = 'https://backend-mpb0.onrender.com/';
 
 // Création de l'instance Axios
 const api = axios.create({
-
     baseURL: BASE_URL,
-
     headers: {
-
         'Content-Type': 'application/json',
-
         Accept: 'application/json',
     },
-
     timeout: 30000,
+    withCredentials: true, // pour inclure les cookies CSRF
 });
 
-// Intercepteur de requête : ajout du token à la main
+// Fonction pour récupérer le CSRF token depuis le backend
+export const fetchCsrfToken = async () => {
+
+    try {
+
+        await api.get('set-csrf/'); // endpoint Django qui set le cookie CSRF
+
+        const csrftoken = Cookies.get('csrftoken');
+
+        if (csrftoken) {
+            api.defaults.headers.common['X-CSRFToken'] = csrftoken;
+            api.defaults.xsrfHeaderName = "X-CSRFToken";
+            api.defaults.xsrfCookieName = "csrftoken";
+        }
+
+    } catch (error) {
+
+        console.error("Erreur lors de la récupération du CSRF token :", error);
+    }
+};
+
+// Intercepteur de requête : ajout du token JWT
 api.interceptors.request.use(
 
     (config) => {
 
-        const accessToken = localStorage.getItem("token"); // récupération directe
+        const accessToken = localStorage.getItem("token");
 
         if (accessToken) {
 
@@ -43,6 +49,7 @@ api.interceptors.request.use(
         }
 
         return config;
+
     },
 
     (error) => Promise.reject(error)
@@ -53,9 +60,7 @@ const refreshAccessToken = async (refreshToken) => {
 
     try {
 
-        const response = await axios.post(`${BASE_URL}refresh/`, {
-            refresh: refreshToken,
-        });
+        const response = await api.post('/refresh/', { refresh: refreshToken });
 
         const newAccessToken = response.data.access;
 
@@ -67,7 +72,6 @@ const refreshAccessToken = async (refreshToken) => {
 
         console.error("Erreur lors du rafraîchissement du token :", error);
 
-        // Vous pouvez rediriger ici vers la page de connexion
         return null;
     }
 };
