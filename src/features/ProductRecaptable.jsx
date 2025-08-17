@@ -1,4 +1,4 @@
-﻿// ProductsRecapTable.jsx
+// ProductsRecapTable.jsx
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import ViewProduct from '../components/ViewProduct';
 import { useTranslation } from 'react-i18next';
