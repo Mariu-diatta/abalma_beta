@@ -12,7 +12,7 @@ const CreateClient = async (data, func, funcRetournMessage, setIsError, dispatch
 
     try {
 
-        const result = await api.post('utilisateurs/', data,
+        const result= await api.post('clients/', data,
             {
 
                 headers: {
