@@ -12,7 +12,7 @@ const CreateClient = async (data, func, funcRetournMessage, setIsError, dispatch
 
     try {
 
-        const result= await api.post('clients/', data,
+        const result = await api.post('utilisateurs/', data,
             {
 
                 headers: {
@@ -145,12 +145,15 @@ const RegisterForm = () => {
 
             console.error("Erreur:", error.message);
 
-            setLoading(true)
+            setLoading(false)
 
             setIsError(true)
 
             alert("Erreur d'inscription : ", error.message);
 
+        } finally {
+
+            setLoading(false)
         }
 
     };

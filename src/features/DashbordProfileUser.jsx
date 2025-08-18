@@ -5,6 +5,7 @@ import api from '../services/Axios';
 import { useTranslation } from 'react-i18next';
 import ListProductShoppingCart from './ListProductShoppingCart';
 import LoadingCard from '../components/LoardingSpin';
+import MyProductList from '../components/MyProductsList';
 
 const Tabs = () => {
 
@@ -91,6 +92,8 @@ const Tabs = () => {
                     }
                     </div >
                 }
+
+                <MyProductList/>
 
 
             </div>
