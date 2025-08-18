@@ -145,15 +145,12 @@ const RegisterForm = () => {
 
             console.error("Erreur:", error.message);
 
-            setLoading(false)
+            setLoading(true)
 
             setIsError(true)
 
             alert("Erreur d'inscription : ", error.message);
 
-        } finally {
-
-            setLoading(false)
         }
 
     };
