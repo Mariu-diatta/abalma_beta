@@ -79,6 +79,7 @@ const FormElementFileUpload = ({
                         file:bg-blue-50 file:text-blue-700
                         hover:file:bg-blue-100
                         dark:file:bg-gray-700 dark:file:text-white"
+                    required
                 />
             </div>
 

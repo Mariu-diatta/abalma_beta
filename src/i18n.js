@@ -23,6 +23,8 @@ i18n
 
          translation: {
 
+             myProducts: 'My products',
+
              quantity_sold:"qty sold",
 
              quantity:'qty available',
@@ -437,6 +439,8 @@ i18n
      fr: {
 
          translation: {
+
+             myProducts: 'Mes produits',
 
              quantity_sold:'qté vendue',
 
