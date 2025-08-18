@@ -36,6 +36,7 @@ const loginClient = async (data, dispatch) => {
             }
         });
 
+
         if (response?.data) {
 
             dispatch(updateUserToken(response?.data));
@@ -46,6 +47,7 @@ const loginClient = async (data, dispatch) => {
 
     } catch (error) {
 
+        console.log('ERREUR LOIN ::', error)
         const message = error?.response?.data?.detail || "Erreur inconnue.";
         showMessage(dispatch, message);
         throw error;
