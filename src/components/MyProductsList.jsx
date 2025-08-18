@@ -2,13 +2,13 @@ import React, { useEffect, useState} from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import SuspenseCallback from "../components/SuspensCallback";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import api from "../services/Axios";
 
 const MyProductList = () => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
 
     // Récupérer l’utilisateur courant
     const currentUser = useSelector(state => state.auth.user);
@@ -52,8 +52,11 @@ const MyProductList = () => {
 
                 api.delete(`produits/${id}/`)
 
-            } catch {
+            } catch (error) {
 
+                 console.log("Erreur de suooression", error)
+            } finally {
+                setLoading(true)
             }
         
         }
@@ -68,6 +71,8 @@ const MyProductList = () => {
 
         } catch {
 
+        } finally {
+            setLoading(true)
         }
     };
 
