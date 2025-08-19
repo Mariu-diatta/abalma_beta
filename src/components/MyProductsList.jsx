@@ -6,6 +6,7 @@ import api from "../services/Axios";
 import LoadingCard from "./LoardingSpin";
 import FormElementFileUpload from "../features/FormFile";
 import { setProductUpdate } from "../slices/cartSlice";
+import RendrePrixProduitMonnaie from "./ConvertCurrency";
 //import { useNavigate } from "react-router-dom";
 
 
@@ -141,7 +142,7 @@ const MyProductList = () => {
                                             {product?.quantity_product}
                                         </td>
                                         <td className="px-6 py-4">
-                                            ${Number(product?.price_product).toFixed(2)}
+                                            <RendrePrixProduitMonnaie item={product} />
                                         </td>
 
                                         <td className="px-6 py-4 gap-2">
