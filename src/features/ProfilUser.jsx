@@ -330,7 +330,7 @@ const ProfileCard = () => {
                             type="file"
                             accept="image/*"
                             onChange={(e) => handleImageUpload(e, true)}
-                            className="bg-white rounded-md p-2 shadow-md text-sm cursor-pointer"
+                            className="bg-white rounded-full p-2 shadow-md text-sm cursor-pointer"
                             aria-label={t('ProfilText.modifierCouverture')}
                         />
                     </div>
@@ -378,7 +378,7 @@ const ProfileCard = () => {
                 {/* Profile Picture */}
                 <div className="absolute -top-12 sm:-top-16 left-1/2 sm:left-6 transform -translate-x-1/2 sm:translate-x-0">
                     <img
-                        src={previewUrl || 'https://randomuser.me/api/portraits/men/32.jpg'}
+                        src={previewUrl}
                         alt="Profil utilisateur"
                         className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-white shadow-lg object-cover"
                     />
@@ -454,10 +454,6 @@ const ProfileCard = () => {
                             </div>
 
                             <div className="flex flex-col sm:flex-col md:flex-row sm:items-center sm:justify-between gap-4 mb-2">
-
-                                <>
-                                    {!isCurrentUser && <FollowProfilUser clientId={userSelected?.id} />}
-                                </>
 
                                 <>
                                     <NumberFollowFollowed profil={isCurrentUser ? currentUser : currentOwnUser} />
@@ -539,14 +535,14 @@ const ProfileCard = () => {
                                 name="description"
                                 value={formData?.description}
                                 onChange={handleChange}
-                                className="w-full h-24 rounded-md border border-gray-300 p-2 resize-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full h-24 rounded-full border border-gray-300 p-2 resize-none focus:ring-2 focus:ring-blue-500"
                                 placeholder={t('ProfilText.descriptionPlaceholder')}
                             />
                             <div className="flex gap-4">
                                 {loadinUpdate ? (
                                     <button
                                         type="submit"
-                                        className="rounded-lg bg-green-600 text-white px-4 py-2 hover:bg-green-700"
+                                        className="rounded-full bg-green-600 text-white px-4 py-2 hover:bg-green-700"
                                     >
                                         {t('ProfilText.boutons.enregistrer')}
                                     </button>
@@ -555,7 +551,7 @@ const ProfileCard = () => {
                                 )}
                                 <button
                                     type="button"
-                                    className="rounded-lg bg-gray-300 text-gray-700 px-4 py-2 hover:bg-gray-400"
+                                    className="rounded-full bg-gray-300 text-gray-700 px-4 py-2 hover:bg-gray-400"
                                     onClick={() => setIsEditing(false)}
                                 >
                                     {t('ProfilText.boutons.annuler')}
@@ -569,7 +565,7 @@ const ProfileCard = () => {
                         value={formData?.description}
                         onChange={handleChange}
                         disabled={!isEditing}
-                        className="w-full mt-2 rounded-md border border-gray-200 p-2 text-sm focus:ring-2 focus:ring-blue-500"
+                        className="w-full mt-2 rounded-full border border-gray-200 p-2 text-sm focus:ring-2 focus:ring-blue-500"
                         placeholder={t('ProfilText.descriptionPlaceholder')}
                     />
 
@@ -579,7 +575,7 @@ const ProfileCard = () => {
                                 {isCurrentUser && (
                                     <button
                                         onClick={() => setIsEditing(true)}
-                                        className="border-1 cursor-pointer inline-flex items-center gap-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-sm px-1 sm:px-2  hover:bg-gray-200 dark:hover:bg-gray-600 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors duration-200"
+                                        className="border-1 cursor-pointer inline-flex items-center gap-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-sm px-1 sm:px-2  hover:bg-gray-200 dark:hover:bg-gray-600 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors duration-200"
                                         aria-label={t('ProfilText.modifierProfil')}
                                         style={{
                                             backgroundColor: "var(--color-bg)",
@@ -604,6 +600,7 @@ const ProfileCard = () => {
                                         <span>{t('ProfilText.modifierProfil')}</span>
                                     </button>
                                 )}
+
                                 {!isCurrentUser && selectedProductOwner && (
                                     <button
                                         onClick={() => {
@@ -611,12 +608,15 @@ const ProfileCard = () => {
                                             creatNewRoom();
                                             navigate('/message_inbox');
                                         }}
-                                        className="rounded-lg bg-yellow-600 text-white text-sm px-3 py-1 hover:bg-yellow-700"
+                                        className=" bg-yellow-600 text-white text-sm px-3 py-1 hover:bg-yellow-700 w-1/2 lg:w-auto rounded-full"
                                     >
                                         {!messageVisible ? 'Message' : 'X'}
                                     </button>
                                 )}
 
+                                <>
+                                    {!isCurrentUser && <FollowProfilUser clientId={userSelected?.id} />}
+                                </>
                             
 
                                 {loadingGetCode ? (
@@ -624,7 +624,7 @@ const ProfileCard = () => {
                                         {(!userProfile?.is_fournisseur || !userProfile?.is_verified) && isCurrentUser && (
                                             <button
                                                 onClick={(e) => getUserCompte(e)}
-                                                className="flex items-center gap-1 rounded-lg bg-indigo-300 text-white text-sm px-3 py-1 hover:bg-indigo-400"
+                                                className="flex items-center gap-1 rounded-full bg-indigo-300 text-white text-sm px-3 py-1 hover:bg-indigo-400"
                                                 title="Devenir un fournisseur"
                                             >
                                                 <svg
@@ -660,7 +660,7 @@ const ProfileCard = () => {
 
                             onSubmit={handleUpgradeToPro}
 
-                            className="mt-6 flex flex-col items-center gap-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-sm"
+                            className="mt-6 flex flex-col items-center gap-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-full shadow-sm"
                         >
                             <label className="text-sm">{t('hintProofDoc')}</label>
 
@@ -687,7 +687,7 @@ const ProfileCard = () => {
                                     onChange={handleFileChange}
                                     accept=".pdf,.jpg,.png,.jpeg"
                                     required
-                                    className="border border-gray-300 rounded-lg p-2 text-sm cursor-pointer"
+                                    className="border border-gray-300 rounded-full p-2 text-sm cursor-pointer"
                                 />
 
                             </div>
@@ -696,7 +696,7 @@ const ProfileCard = () => {
 
                                 <button
                                     type="submit"
-                                    className="rounded-lg bg-green-600 text-white px-4 py-2 hover:bg-green-700 text-sm"
+                                    className="rounded-full bg-green-600 text-white px-4 py-2 hover:bg-green-700 text-sm"
                                 >
                                     {t('ProfilText.envoyerJustificatif')}
                                 </button>
@@ -704,7 +704,7 @@ const ProfileCard = () => {
                                 <button
                                     type="button"
                                     onClick={() => setIsProFormVisible(false)}
-                                    className="rounded-lg bg-red-600 text-white px-4 py-2 hover:bg-red-700 text-sm"
+                                    className="rounded-full bg-red-600 text-white px-4 py-2 hover:bg-red-700 text-sm"
                                 >
                                     {t('ProfilText.annuler')}
                                 </button>
