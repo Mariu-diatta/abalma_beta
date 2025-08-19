@@ -286,7 +286,7 @@ export function CenteredModal({ product }) {
 
                 className="px-2 py-1 bg-blue-400 text-white rounded-lg hover:bg-blue-700 text-xs"
             >
-                {t('modifify_product')}
+                {t('modifyProduct.modify_product')}
             </button>
 
             {isOpen && (
@@ -372,7 +372,7 @@ export function CenteredModal({ product }) {
                                     onClick={handleClose}
                                     className="px-3 py-2 border rounded-md hover:bg-gray-100"
                                 >
-                                    {t('modifyProduct.cancel_modifify_product')}
+                                    {t('modifyProduct.cancel_modify_product')}
                                 </button>
 
                                 {loading ? (
@@ -382,7 +382,7 @@ export function CenteredModal({ product }) {
                                         type="submit"
                                         className="px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                                     >
-                                            {t('modifyProduct.modifify_product')}
+                                            {t('modifyProduct.modify_product')}
                                     </button>
                                 )}
                             </div>
