@@ -486,7 +486,6 @@ const GridLayoutProduct = () => {
 
 export default GridLayoutProduct;
 
-
 export const ProductCard = ({
     item,
     qut_sold,

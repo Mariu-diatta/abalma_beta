@@ -142,14 +142,14 @@ const OwnerPopover = ({ owner, onClose }) => {
         return navigate("/message_inbox")
     }
 
-    if (!!owner) return 
+    if (!owner) return null
 
     return (
 
         <span
             ref={ref}
 
-            className="absolute left-0 mt-0 rounded-xl border border-gray-200 opacity-100 p-1 shadow-xl animate-fade-in z-[999]"
+            className="absolute left-0 mt-0 rounded-xl border border-gray-200 opacity-100 p-1 shadow-xl animate-fade-in z-[9999]"
 
             style={
                 {
@@ -275,7 +275,7 @@ const OwnerAvatar = ({ owner }) => {
 
                         alt={owner?.nom || 'Fournisseur'}
 
-                        className="h-6 w-6 rounded-full object-cover cursor-pointer ring-1 ring-gray-300 hover:ring-blue-500 transition"
+                        className="h-6 w-6 rounded-full object-cover cursor-pointer ring-1 ring-gray-300 hover:ring-blue-500 transition z-[2999]"
 
                         title={owner?.nom}
 
@@ -296,6 +296,7 @@ const OwnerAvatar = ({ owner }) => {
                         onClick={() => {
 
                             setShowPopover((prev) => !prev);
+
                         }}
 
                     >
