@@ -21,7 +21,13 @@ i18n
 
      en: {
 
-         translation: {
+            translation: {
+             modifyProduct: {
+                 confirmDeleteProduct: "Do you really want to update this product?",
+                 modify_product: "Modify the product",
+                 cancel_modify_product: "Cancel modification",
+                 title_modify_product: "Product modification"
+             },
 
              myProducts: 'My products',
 
@@ -439,6 +445,13 @@ i18n
      fr: {
 
          translation: {
+
+             modifyProduct: {
+                 confirmDeleteProduct: "Voulez-vous vraiment mettre à jour ce produit ?",
+                 modify_product: "Modifier le produit",
+                 cancel_modify_product: "Annuler la modification",
+                 title_modify_product: "Modification du produit"
+             },
 
              myProducts: 'Mes produits',
 

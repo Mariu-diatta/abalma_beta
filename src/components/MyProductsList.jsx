@@ -53,7 +53,7 @@ const MyProductList = () => {
 
     /** 🟢 Supprimer un produit */
     const handleDelete = async (id) => {
-        if (!window.confirm(t("confirmDeleteProduct"))) return;
+        if (!window.confirm(t("modifyProduct.confirmDeleteProduct"))) return;
 
         setLoading(true);
         try {
@@ -286,7 +286,7 @@ export function CenteredModal({ product }) {
 
                 className="px-2 py-1 bg-blue-400 text-white rounded-lg hover:bg-blue-700 text-xs"
             >
-                Modifier
+                {t('modifify_product')}
             </button>
 
             {isOpen && (
@@ -294,7 +294,7 @@ export function CenteredModal({ product }) {
 
                     <div className="flex flex-col gap-3 shadow-lg p-6 rounded-lg bg-white max-w-2xl w-full">
 
-                        <h2 className="text-lg font-semibold text-gray-800">Modifier le produit</h2>
+                        <h2 className="text-lg font-semibold text-gray-800">{t('modifyProduct.title_modify_product')}</h2>
 
                         <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-3">
                             <input
@@ -372,7 +372,7 @@ export function CenteredModal({ product }) {
                                     onClick={handleClose}
                                     className="px-3 py-2 border rounded-md hover:bg-gray-100"
                                 >
-                                    Annuler
+                                    {t('modifyProduct.cancel_modifify_product')}
                                 </button>
 
                                 {loading ? (
@@ -382,7 +382,7 @@ export function CenteredModal({ product }) {
                                         type="submit"
                                         className="px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                                     >
-                                        Enregistrer
+                                            {t('modifyProduct.modifify_product')}
                                     </button>
                                 )}
                             </div>

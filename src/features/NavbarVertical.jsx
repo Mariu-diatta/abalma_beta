@@ -562,7 +562,7 @@ const VertcalNavbar = ({ children }) => {
                     }}
                 >
 
-                    <section className="flex items-center justify-end h-auto mb-6 rounded-sm">
+                    <section className="flex items-center justify-end h-auto mb-0 pb-0 rounded-sm md:mb-6 md:pb-1">
 
                         <AccountDropdownUserProfil/>
 
@@ -576,7 +576,7 @@ const VertcalNavbar = ({ children }) => {
 
                         aria-labelledby={`${currentNav}-tab-button`}
 
-                        className="dark:bg-gray-800 rounded-lg w-auto sm:mb-[30px] sm:pb-[50px] sm:z-[1000] pt-6 sm:pt-2 p-0"
+                        className="dark:bg-gray-800 rounded-lg w-auto sm:mb-[30px] sm:pb-[50px] sm:z-[1000] mt-3 mb-2 sm:pt-2"
 
                         style={
 

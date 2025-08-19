@@ -235,7 +235,7 @@ export default function AccountDropdownUserProfil() {
 
     return (
 
-        <section className="flex items-center justify-center px-2  bg-transparent rounded-lg absolute top-0 bg-gray-2 dark:bg-dark z-[10]">
+        <section className="flex items-center justify-center px-2  bg-transparent rounded-lg absolute top-0 bg-gray-2 dark:bg-dark z-[10] mb-6">
 
             {/* Mobile only - fixed bottom bar */}
             <div
@@ -290,7 +290,7 @@ export default function AccountDropdownUserProfil() {
                                 src={currentUser?.image}
                                 alt="avatar"
                                 title={currentUser?.email}
-                                className="h-6 w-6 rounded-full object-cover object-center cursor-pointer"
+                                className="h-6 w-6 rounded-full object-cover object-center cursor-pointer items-center mb-1"
                             />
 
                             {
@@ -347,7 +347,7 @@ export default function AccountDropdownUserProfil() {
 
                 onBlur={() => setDropdownOpen(false)}
 
-                className={`z-[1000] shadow-lg bg-transparent absolute right-0 top-full me-3 overflow-hidden rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${dropdownOpen ? "block" : "hidden"}`}
+                className={`z-[1999] shadow-lg bg-transparent absolute right-0 top-full me-3 overflow-hidden rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${dropdownOpen ? "block" : "hidden"}`}
 
                 style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
             >

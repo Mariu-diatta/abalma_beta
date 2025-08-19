@@ -1,9 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-//import SingleImage from '../components/Image';
 import { useTranslation } from 'react-i18next';
-//import { useDispatch } from 'react-redux';
-//import { useNavigate } from 'react-router-dom';
-//import { setCurrentNav } from '../slices/navigateSlice';
 import image from '../assets/image.jpg'
 import Testimonial from './AbalmaActivities';
 import GridLayoutProduct from '../features/GridLayoutProducts';
@@ -12,11 +8,6 @@ import GridLayoutProduct from '../features/GridLayoutProducts';
 const HomeContain = () => {
 
     const { t } = useTranslation();
-
-    //const dispatch = useDispatch();
-
-    //const navigate = useNavigate();
-
 
     return (
 
@@ -54,28 +45,6 @@ const HomeContain = () => {
                         </div>
 
                         <ul className="flex flex-wrap items-center">
-
-                            {/*<li>*/}
-                            {/*    <button*/}
-
-                            {/*        onClick={*/}
-
-                            {/*                () => {*/}
-
-                            {/*                    navigate("/logIn");*/}
-
-                            {/*                    dispatch(setCurrentNav("logIn")*/}
-
-                            {/*                )*/}
-                            {/*            }*/}
-                            {/*        }*/}
-
-                            {/*        className="cursor-pointer inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-center text-base  text-white hover:bg-blue-dark lg:px-7"*/}
-                            {/*    >*/}
-                            {/*        {t("homePage.getStarted")}*/}
-
-                            {/*    </button>*/}
-                            {/*</li>*/}
 
                             <li>
                                 <button
@@ -119,8 +88,6 @@ const HomeContain = () => {
                             </li>
 
                         </ul>
-
-                        {/*<LogoDropdown />*/}
 
                     </div>
 

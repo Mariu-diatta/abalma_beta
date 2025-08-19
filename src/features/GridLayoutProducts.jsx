@@ -272,7 +272,7 @@ export const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory, p
             <div className="relative w-full mb-4">
                 {showLeft && (
                     <button
-                        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white p-2 shadow rounded-full"
+                        className="absolute left-0 top-1/2 -translate-y-1/2 z-5 bg-white p-2 shadow rounded-full"
                         onClick={() => scroll("left")}
                     >
                         <ChevronLeft className="w-5 h-5 text-gray-600" />
@@ -301,7 +301,7 @@ export const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory, p
                 {showRight && (
 
                     <button
-                        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white p-2 shadow rounded-full"
+                        className="absolute right-0 top-1/2 -translate-y-1/2 z-5 bg-white p-2 shadow rounded-full"
                         onClick={() => scroll("right")}
                     >
                         <ChevronRight className="w-5 h-5 text-gray-600" />

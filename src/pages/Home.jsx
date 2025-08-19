@@ -1,4 +1,4 @@
-import HomeContain from "../components/Home";
+import HomeContain from "../components/HomeContain";
 import SuspenseCallback from "../components/SuspensCallback";
 import HomeLayout from "../layouts/HomeLayout";
 
