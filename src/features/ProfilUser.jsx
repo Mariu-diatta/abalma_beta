@@ -28,7 +28,6 @@ const ProfileCard = () => {
     const selectedProductOwner = useSelector((state) => state.chat.userSlected);
     const allChats = useSelector((state) => state.chat.currentChats);
     const currentChat = useSelector((state) => state.chat.currentChat);
-    const messageAlert = useSelector((state) => state.navigate.messageAlert);
     const userSelected = useSelector((state) => state.chat.userSlected);
 
     // Determine user profile based on navigation context
@@ -57,7 +56,6 @@ const ProfileCard = () => {
     const [fileProof, setFileProof] = useState(null);
     const [loadingGetCode, setLoadingGetCode] = useState(true);
     const [loadinUpdate, setLoadinUpdate] = useState(true);
-    const [messageError, setMessageError] = useState('Erreur');
 
     // Sync form data with user profile
     useEffect(() => {
@@ -228,18 +226,18 @@ const ProfileCard = () => {
 
                     dispatch(updateUserData(responseGetUser.data));
 
-                    setMessageError('sucess');
+                    showMessage(dispatch, { Type: "Message", Message: "Success" });
 
                 } catch (err) {
 
                     const Error = "Unable to create record: Invalid 'To' Phone Number:";
 
-                    if (err?.response?.data?.detail.includes(Error)) showMessage(dispatch, Error);
+                    if (err?.response?.data?.detail.includes(Error)) showMessage(dispatch, {Type:"Erreur", Message:Error});
                 }
 
             } else {
 
-                showMessage(dispatch, 'Aucun compte utilisateur trouvé.');
+                console.log('Aucun compte utilisateur trouvé.');
             }
         } catch (error) {
 
@@ -722,7 +720,7 @@ const ProfileCard = () => {
                 {isCurrentUser && <ModalFormCreatBlog />}
             </div>
 
-            {messageAlert && <AttentionAlertMesage title={messageError} content={messageAlert} />}
+            <AttentionAlertMesage/>
 
             {profileData?.is_fournisseur && !profileData?.is_verified && (
                 <GetValidateUserFournisseur isCurrentUser={isCurrentUser} />

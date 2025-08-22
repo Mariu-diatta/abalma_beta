@@ -4,11 +4,11 @@ import InputBox from './InputBoxFloat';
 import { useTranslation } from 'react-i18next';
 import api from '../services/Axios';
 import LoadingCard from './LoardingSpin';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import AttentionAlertMesage, { showMessage } from './AlertMessage';
 
 
-const CreateClient = async (data, func, funcRetournMessage, setIsError, dispatch) => {
+const CreateClient = async (data, func, funcRetournMessage, dispatch) => {
 
     try {
 
@@ -27,7 +27,7 @@ const CreateClient = async (data, func, funcRetournMessage, setIsError, dispatch
 
         func(true)
 
-        setIsError(false)
+        funcRetournMessage(dispatch,{Type:'Message', Message:"Reussi"})
 
         return result
 
@@ -35,23 +35,17 @@ const CreateClient = async (data, func, funcRetournMessage, setIsError, dispatch
 
         func(false)
 
-        setIsError(true)
-
-        funcRetournMessage(dispatch, `Erreur lors de la création du compte ${error?.response?.data?.email[0] || error?.response?.data?.telephone[0]}`)
+        funcRetournMessage(dispatch, {Type:"Erreur", Message:`Erreur lors de la création du compte ${error?.response?.data?.email[0] || error?.response?.data?.telephone[0]}`})
     }
 }
 
 const RegisterForm = () => {
-
-    const messageAlert = useSelector((state) => state.navigate.messageAlert);
 
     const dispatch = useDispatch();
 
     const { t } = useTranslation();
 
     const [loading, setLoading] = useState(false)
-
-    const [isError, setIsError] = useState("Erreur")
 
     const navigate = useNavigate();
 
@@ -86,17 +80,15 @@ const RegisterForm = () => {
 
         e.preventDefault();
 
-        setIsError(true)
-
         if (!form.email || !form.password || !form.confirmPassword) {
 
-            return showMessage(dispatch, "Tous les champs requis doivent être remplis.")
+            return showMessage(dispatch, {Type:"Erreur", Message:"Tous les champs requis doivent être remplis."})
 
         }
 
         if (form.password !== form.confirmPassword) {
 
-            return showMessage(dispatch, "Les mots de passe ne correspondent pas.");
+            return showMessage(dispatch, { Type: "Erreur", Message: "Les mots de passe ne correspondent pas." });
         }
 
         setLoading(true)
@@ -123,33 +115,23 @@ const RegisterForm = () => {
                 user_permissions: []
             };
 
-            const response = await CreateClient(userData, setLoading, showMessage, setIsError, dispatch);
-
-            console.log("Utilisateur créé :", response);
+            const response = await CreateClient(userData, setLoading, showMessage, dispatch);
 
             if (response) {
 
-                showMessage(dispatch, "Utilisateur créé avec succès !!!");
+                showMessage(dispatch, { Type: "Message", Message: t('user_created')});
 
                 setLoading(false)
-
-                setIsError(false)
 
                 navigate("/login", { replace: true });
 
             }
             
-         //console.log("Inscription réussie:", user);
-        //    navigate("/account", { replace: true });
         } catch (error) {
-
-            console.error("Erreur:", error.message);
 
             setLoading(true)
 
-            setIsError(true)
-
-            alert("Erreur d'inscription : ", error.message);
+            showMessage(dispatch, { Type: "Erreur", Message: t('user_created') || error?.response ||error?.request?.response });
 
         }
 
@@ -179,7 +161,9 @@ const RegisterForm = () => {
         }
         // Nettoyage de l'observateur lors du démontage
         return () => {
+
             if (node) {
+
                 node.removeEventListener('scroll', () => {console.log(node)});
             }
         };
@@ -188,6 +172,9 @@ const RegisterForm = () => {
     return (
 
         <section className="bg-gray-1 py-2 dark:bg-dark lg:py-[120px] bg_home" >
+
+
+            <AttentionAlertMesage />
 
             <div className="container mx-auto">
 
@@ -320,13 +307,7 @@ const RegisterForm = () => {
                 </div>
 
             </div>
-
-
-            {messageAlert && (
-
-                <AttentionAlertMesage title={isError?"Erreur":"Success"} content={messageAlert} />
-            )}
-
+         
         </section>
     );
 };

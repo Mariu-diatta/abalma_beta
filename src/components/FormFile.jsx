@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 
 const FormElementFileUpload = ({
     label = "Uploader une image",
@@ -9,6 +10,7 @@ const FormElementFileUpload = ({
     const [previewUrl, setPreviewUrl] = useState(null);
     const [fileName, setFileName] = useState(null);
     const [error, setError] = useState(null);
+    const { t } = useTranslation();
 
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
@@ -44,12 +46,15 @@ const FormElementFileUpload = ({
 
     return (
         <div className="max-w-md p-4 bg-white dark:bg-gray-800 shadow-lg rounded-lg">
+
             <div className="mb-4">
+
                 <label
                     htmlFor="file-upload"
                     className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2"
                 >
                     {label}
+
                 </label>
 
                 <input
@@ -69,7 +74,7 @@ const FormElementFileUpload = ({
 
             {fileName && !error && (
                 <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                    Fichier sélectionné : <strong>{fileName}</strong>
+                    {t("file_selected")} : <strong>{fileName}</strong>
                 </p>
             )}
 

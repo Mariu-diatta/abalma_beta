@@ -10,6 +10,8 @@ import { LanguageDropdown, ThemeToggle } from "../pages/Header";
 import i18n from "i18next";
 import { useTranslation } from 'react-i18next';
 import { setCurrentNav } from "../slices/navigateSlice";
+import AttentionAlertMessage, { showMessage } from "./AlertMessage";
+import LoadingCard from "./LoardingSpin";
 
 
 const NotificationGroup = ({ currentNotifMessages, notify, changeLanguage, nbItems, dispatch, navigate }) => (
@@ -136,6 +138,8 @@ export default function AccountDropdownUserProfil() {
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
+    const [loading, setLoading] = useState(false);
+
     const dispatch = useDispatch();
 
     const nbItems = useSelector(state => state.cart.nbItem);
@@ -196,14 +200,11 @@ export default function AccountDropdownUserProfil() {
 
     const getUserLogOut = async () => {
 
+        if (!currentUser?.id) return 
+
+        setLoading(true)
+
         if (window.confirm("Voulez-vous vous deconnecter???")) {
-
-            if (!currentUser?.id) {
-
-                dispatch(logout());
-
-                return navigate("/logIn", { replace: true });
-            }
 
             try {
 
@@ -216,19 +217,23 @@ export default function AccountDropdownUserProfil() {
                     headers: { "Content-Type": "multipart/form-data" },
                 });
 
-                dispatch(logout());
-
                 dispatch(clearCart());
 
                 dispatch(clearRooms());
 
                 dispatch(cleanAllMessageNotif());
 
+                dispatch(logout());
+
                 return navigate("/logIn", { replace: true });
 
             } catch (error) {
 
-                console.log("error..................", error);
+                showMessage(dispatch, {Type:"Erreur", Message :error?.message || error?.request?.response});
+
+            } finally {
+
+                setLoading(false)
             }
         }
     };
@@ -236,6 +241,8 @@ export default function AccountDropdownUserProfil() {
     return (
 
         <section className="flex items-center justify-center px-2  bg-transparent rounded-lg absolute top-0 bg-gray-2 dark:bg-dark z-[10] mb-6">
+
+            <AttentionAlertMessage/>
 
             {/* Mobile only - fixed bottom bar */}
             <div
@@ -290,7 +297,7 @@ export default function AccountDropdownUserProfil() {
                                 src={currentUser?.image}
                                 alt="avatar"
                                 title={currentUser?.email}
-                                className="h-6 w-6 rounded-full object-cover object-center cursor-pointer items-center mb-1"
+                                className="h-6 w-6 rounded-full object-cover object-center cursor-pointer items-center "
                             />
 
                             {
@@ -429,22 +436,28 @@ export default function AccountDropdownUserProfil() {
 
                 <div>
 
-                    <button onClick={getUserLogOut} className="shadow-lg flex w-full items-center justify-start gap-2 px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5">
+                    {
+                        !loading?
+                        <button onClick={getUserLogOut} className="shadow-lg flex w-full items-center justify-start gap-2 px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5">
 
-                        <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
 
-                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2" />
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2" />
 
-                        </svg>
+                            </svg>
 
-                        {t("logOut")}
+                            {t("logOut")}
 
-                    </button>
+                        </button>
+                        :
+                        <LoadingCard/>
+
+                    }
 
                 </div>
 
             </div>
-
+            
         </section>
     );
 }

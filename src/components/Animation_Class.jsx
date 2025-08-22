@@ -23,8 +23,8 @@ const AnimatedComponent = ({children}) => {
         }
 
         return () => {
-            if (componentRef.current) {
-                observer.unobserve(componentRef.current);
+            if (componentRef) {
+                observer.unobserve(componentRef);
             }
         };
     }, []);

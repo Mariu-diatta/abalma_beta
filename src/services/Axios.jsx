@@ -2,10 +2,10 @@ import axios from "axios";
 import Cookies from "js-cookie"; // npm install js-cookie
 
 // URL de ton backend Render
-export const BASE_URL_ = 'https://backend-mpb0.onrender.com';
-export const BASE_URL = 'https://backend-mpb0.onrender.com/';
-//export const BASE_URL_ = 'http://127.0.0.1:8000/';
-//export const BASE_URL = 'http://127.0.0.1:8000/';
+//export const BASE_URL_ = 'https://backend-mpb0.onrender.com';
+//export const BASE_URL = 'https://backend-mpb0.onrender.com/';
+export const BASE_URL_ = 'http://127.0.0.1:8000/';
+export const BASE_URL = 'http://127.0.0.1:8000/';
 
 // Création de l'instance Axios
 const api = axios.create({

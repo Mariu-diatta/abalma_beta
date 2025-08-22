@@ -23,11 +23,6 @@ const GetValidateUserFournisseur = ({ isCurrentUser }) => {
 
     const profileData = useSelector((state) => state.auth.user);
 
-    const messageAlert = useSelector((state) => state.navigate.messageAlert);
-
-    const [messageError, setMessageError] = useState("Erreur");
-
-
     const dispatch = useDispatch();
 
     const handleCodeChange = (e) => {
@@ -72,23 +67,13 @@ const GetValidateUserFournisseur = ({ isCurrentUser }) => {
 
             setVerified(true)
 
-            showMessage(dispatch, "Compte fournisseur créer avec succès)");
-
-            setMessageError("Success")
-
-            setLoading(true)
-
         } catch (e) {
 
-            console.log("Erreur de validation du compte Fourniseur", e)
-
-            showMessage(dispatch, e?.response?.data?.detail);
-
-            setLoading(true)
+            showMessage(dispatch, { Type: "Erreur", Message: e?.response?.data?.detail ||  e?.response || e?.request?.response|| e});
 
         } finally {
 
-            //setLoading(false)
+            setLoading(true)
         }
 
     };
@@ -97,9 +82,9 @@ const GetValidateUserFournisseur = ({ isCurrentUser }) => {
 
         <>
 
-            {
-                messageAlert && <AttentionAlertMessage title={messageError} content={messageAlert} />
-            }
+            
+            <AttentionAlertMessage  />
+            
            
             {
                 loading ?
@@ -173,8 +158,7 @@ const GetValidateUserFournisseur = ({ isCurrentUser }) => {
 
                         </form >
                         :
-                        <>
-                        </>
+                        <LoadingCard/>
                 }
                 </>
                 :

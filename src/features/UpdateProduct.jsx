@@ -8,18 +8,17 @@ import { setCurrentNav } from '../slices/navigateSlice';
 import { addMessageNotif } from '../slices/chatSlice';
 import { useNavigate } from "react-router";
 import { useTranslation } from 'react-i18next';
+import LoadingCard from '../components/LoardingSpin';
 
 const UpdateProduct = () => {
     const [imageFile, setImageFile] = useState(null);
-    const [titileMessage, setTitleMessage] = useState("Message");
     const [isProductAdded, setIsProductAdded] = useState(false);
-
+    const [isLoading, setIsLoading] = useState(false);
     const { t } = useTranslation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const currentUserCompte = useSelector((state) => state.auth.compteUser);
-    const messageAlert = useSelector((state) => state.navigate.messageAlert);
     const user = useSelector((state) => state.auth.user);
 
     const [dataProduct, setDataProduct] = useState({
@@ -59,20 +58,17 @@ const UpdateProduct = () => {
 
     /** Fonction pour gérer les notifications */
     const notify = (title, msg) => {
-        setTitleMessage(title);
-        showMessage(dispatch, msg);
 
-        // Auto clear après 4s
-        setTimeout(() => {
-            showMessage(dispatch, null);
-        }, 4000);
+        showMessage(dispatch, { Type: title, Message: msg });
     };
 
     const submitForm = async (e) => {
         e.preventDefault();
 
         if (!currentUserCompte?.id) {
+
             notify("Erreur", "Pas de compte utilisateur associé.");
+
             return;
         }
 
@@ -106,6 +102,8 @@ const UpdateProduct = () => {
                 }
             }
 
+            setIsLoading(true)
+
             // ✅ Préparation des données à envoyer
             const formData = new FormData();
             formData.append("categorie_product", dataProduct.categorie_product);
@@ -127,19 +125,17 @@ const UpdateProduct = () => {
             }
 
             // ✅ Envoi à l'API
-            const resp_product = await api.post("/produits/", formData, {
+            await api.post("/produits/", formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
 
-            console.log("Produit créé ", resp_product?.data);
-
             notify("Message", "Produit créé avec succès !");
-            setIsProductAdded(true);
 
             dispatch(addMessageNotif(`Produit ${dataProduct?.code_reference} créé le ${new Date().toLocaleString()}`));
 
             // Reset formulaire
             handleFileSelect(null);
+
             setDataProduct({
                 date_emprunt: "",
                 taille_product: "MEDIUM",
@@ -157,8 +153,11 @@ const UpdateProduct = () => {
                 name_product: ""
             });
 
+            setIsProductAdded(true)
+
         } catch (error) {
-            notify("Erreur", error.message || "Erreur inconnue lors de la création du produit.");
+
+            notify("Erreur", error?.message || error?.request?.response || "Erreur inconnue lors de la création du produit.");
 
             if (error.response?.data) {
                 const errors = error.response.data;
@@ -168,6 +167,10 @@ const UpdateProduct = () => {
 
                 notify("Erreur", `Erreur lors de la création du produit :\n${messages}`);
             }
+
+        } finally {
+
+            setIsLoading(false);
         }
     };
 
@@ -179,6 +182,14 @@ const UpdateProduct = () => {
                 color: "var(--color-text)"
             }}
         >
+
+
+            {/* ✅ Message d’alerte toujours visible s’il existe */}
+
+            <div className="mb-4">
+                <AttentionAlertMesage />
+            </div>
+
             {isProductAdded ? (
 
                 <div className="absolute flex flex-col gap-3 
@@ -186,13 +197,11 @@ const UpdateProduct = () => {
                 -translate-x-1/2 -translate-y-1/2
                 shadow-lg p-2 rounded-lg bg-white">
 
-                    <div>{messageAlert}</div>
-
                     <button
                         onClick={() => setIsProductAdded(false)}
                         className="border p-1 rounded-md"
                     >
-                        Add new product
+                        {t('add_new_product')}
                     </button>
                 </div>
             ) : (
@@ -200,14 +209,7 @@ const UpdateProduct = () => {
                     <h1 className="text-2xl font-extrabold text-gray-500 dark:text-white pt-4 pb-5 mb-5">
                         {t('add_product.add_or_update_product')}
                     </h1>
-
-                    {/* ✅ Message d’alerte toujours visible s’il existe */}
-                    {messageAlert && (
-                        <div className="mb-4">
-                            <AttentionAlertMesage title={titileMessage} content={messageAlert} />
-                        </div>
-                    )}
-
+                   
                     <form
                         onSubmit={submitForm}
                         className={`${user?.is_fournisseur && user?.is_verified ? "" : "opacity-50 pointer-events-none cursor-not-allowed"}`}
@@ -545,16 +547,26 @@ const UpdateProduct = () => {
 
                             </div>
                         <div className="flex items-center space-x-4 mt-6">
-                            <button
-                                type="submit"
-                                className="cursor-pointer bg-blue-700 text-white rounded px-4 py-2"
-                            >
-                                {t('add_product.save_product')}
-                            </button>
+
+                           { 
+                                isLoading?
+                                <LoadingCard/>
+                                :
+                                <button
+                                    type="submit"
+                                    className="cursor-pointer bg-blue-700 text-white rounded px-4 py-2"
+                                >
+                                    {t('add_product.save_product')}
+                                </button>
+                                
+                            }
+
                         </div>
+
                     </form>
 
                     {!(user?.is_fournisseur && user?.is_verified) && (
+
                         <button
                             className="bg-blue-700 text-white rounded px-4 py-2 mt-5"
                             onClick={() => {
@@ -563,6 +575,7 @@ const UpdateProduct = () => {
                             }}
                         >
                             {t('add_product.switch_to_supplier')}
+
                         </button>
                     )}
                 </div>

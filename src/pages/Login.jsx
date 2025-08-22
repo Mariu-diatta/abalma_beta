@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import HomeLayout from '../layouts/HomeLayout';
 import { useNavigate } from 'react-router-dom';
 import InputBox from '../components/InputBoxFloat';
@@ -47,9 +47,8 @@ const loginClient = async (data, dispatch) => {
 
     } catch (error) {
 
-        console.log('ERREUR LOIN ::', error)
-        const message = error?.response?.data?.detail || "Erreur inconnue.";
-        showMessage(dispatch, message);
+        showMessage(dispatch, { Type: "Erreur", Message: error?.response?.data?.detail || error?.message || error?.request?.message || error });
+
         throw error;
     }
 };
@@ -61,7 +60,6 @@ const Signin = () => {
     const [pwd, setPwd] = useState("");
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const messageAlert = useSelector((state) => state.navigate.messageAlert);
     const emailRef = useRef(null);
     const { t } = useTranslation();
 
@@ -114,7 +112,7 @@ const Signin = () => {
 
         if (!email || !pwd) {
 
-            showMessage(dispatch, "Veuillez remplir tous les champs.");
+            showMessage(dispatch, {Type:"Erreur", Message:"Veuillez remplir tous les champs."});
 
             return;
 
@@ -140,7 +138,7 @@ const Signin = () => {
 
                 resp => {
 
-                    console.log("USER DATA USER ", resp)
+                    //console.log("USER DATA USER ", resp)
 
                     const dataUser = resp?.data[0]
 
@@ -172,7 +170,7 @@ const Signin = () => {
 
         } catch (error) {
 
-            showMessage(dispatch, "Hops!!!... Erreur de connexion. Vérifiez votre email et/ou mot de passe.");
+            showMessage(dispatch, {Type:"Erreur", Message:error?.message || error?.request?.response});
 
             setLoading(false)
         }
@@ -181,6 +179,9 @@ const Signin = () => {
     return (
 
         <section className="bg-gray-1 py-20 dark:bg-dark lg:py-[120px] bg_home">
+
+
+            <AttentionAlertMesage/>
 
             <div className="container mx-auto">
 
@@ -268,9 +269,9 @@ const Signin = () => {
                                 {t('connect_with')}
                             </p>
 
-                            <ul className="flex flex-wrap justify-between items-center sm:justify-center lg:flex-nowrap -mx-2 mb-12 gap-6">
+                            <ul className="flex flex-wrap justify-between items-center sm:justify-center lg:flex-nowrap -mx-2 mb-12 gap-6 ">
 
-                                <li className="w-full px-2">
+                                <li className="w-full px-2 ">
 
                                     <GoogleOAuthProvider clientId="154955455828-340tuohbjc1c4imb29uqi4hr9l5dm0sv.apps.googleusercontent.com">
 
@@ -281,11 +282,6 @@ const Signin = () => {
                                 </li>
 
                             </ul>
-
-                            {messageAlert && (
-
-                                <AttentionAlertMesage title="Erreur" content={messageAlert} />
-                            )}
 
                         </div>
 

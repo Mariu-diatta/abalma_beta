@@ -21,7 +21,14 @@ i18n
 
      en: {
 
-            translation: {
+        translation: {
+             file_selected:"File selected",
+             read_more: "Read more",
+             add_new_product:"Add new product",
+             user_created:"User created successfully!!",
+             about_image_text: 'Fill your basket with products from local producers and buy them',
+             about_image_text1: 'Get your products delivered on time',
+             about_image_text2: 'Plan your business effectively',
              modifyProduct: {
                  confirmDeleteProduct: "Do you really want to update this product?",
                  modify_product: "Modify the product",
@@ -41,6 +48,7 @@ i18n
                  title: "Every great business starts with a single step.",
                  content: "Welcome to the Abalma platform! We help you enhance your social media presence, boost your visibility, and accelerate your business growth."
              },
+
              serviceHome: {
                  detail_1: "Abalma boosts your online visibility and grows your business from the ground up with tailored strategies and expert support.",
                  detail_2: "Protect your digital assets with Abalma's seamless and stress-free security solutions, designed to keep your business safe.",
@@ -183,7 +191,7 @@ i18n
             client_support: "Delivery information",
             client_support_alert: "Product safety alerts",
             client_fraud: "Report suspicious activity",
-            client_services: "Client ervices",
+            client_services: "Client services",
             contact_us:'contact us',
             know_us:"Know us",
             about_abalma: "About Abalma",
@@ -206,7 +214,7 @@ i18n
             footer_sendEmail: 'Send us an email',
             footer_toutDroit: "All rights reserved.",
             footer_flowOn: "Follow Us On",
-            app_description: "Abalma, launched in 2025, is an application dedicated to promoting small businesses. By choosing Abalma, you become part of a connected, dynamic ecosystem that puts the user at its center.",
+            app_description: "Abalma, launched in 2025, is an application dedicated to promoting small businesses.\n By choosing Abalma, you become part of a connected, dynamic ecosystem that puts the user at its center.",
             sub_transaction:"sub-transaction",
             view: 'View',
             delete: "Delete",
@@ -445,6 +453,13 @@ i18n
      fr: {
 
          translation: {
+             file_selected: "Fichier sélectionné",
+             read_more:"Lire plus",
+             add_new_product: "Ajout nouveau produit",
+             user_created:"Utilisateur.rice créé.e avec succé!!",
+             about_image_text: 'Remplissez votre panier avec des produits de producteurs locaux et achetez-les',
+             about_image_text1: 'Recevez vos produits dans les délais',
+             about_image_text2: 'Planifiez efficacement votre activité',
 
              modifyProduct: {
                  confirmDeleteProduct: "Voulez-vous vraiment mettre à jour ce produit ?",
@@ -616,7 +631,7 @@ i18n
             client_support: "Informations de livraison",
             client_support_alert: "Alertes sur la sécurité des produits",
             client_fraud:'Signaler une activité suspecte',
-            client_services: "services client",
+            client_services: "Services client",
             know_our_team: "Découvrez notre équipe",
             company: "Entreprise",
             about_app: "À propos d'Abalma",
@@ -629,7 +644,7 @@ i18n
             footer_userflow: "Parcours utilisateur",
             footer_sendEmail: 'Envoyez-nous un email',
             footer_toutDroit:".Tous droits réservés.",
-            app_description: "Abalma, lancée en 2025, est une application dédiée à la promotion des petites entreprises. En choisissant Abalma, vous intégrez un écosystème interconnecté, dynamique et centré sur l’utilisateur.",
+            app_description: "Abalma, lancée en 2025, est une application dédiée à la promotion des petites entreprises.\n\n En choisissant Abalma, vous intégrez un écosystème interconnecté, dynamique et centré sur l’utilisateur.",
             sub_transaction: "sous-transaction",
             view: 'Voir',
             delete:"Supprimer",

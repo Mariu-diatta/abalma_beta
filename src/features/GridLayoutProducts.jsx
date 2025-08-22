@@ -83,8 +83,6 @@ export function Carousel({ products }) {
 
         }, 2000);
 
-        console.log("DOnnees de la caisse", productScroll)
-
         return () => clearInterval(interval);
 
     }, [pictures, productScroll]);
@@ -348,7 +346,7 @@ const GridLayoutProduct = () => {
 
         const fetchProductsAndOwners = async () => {
 
-            console.log(activeCategory, removeAccents(translateCategory(activeCategory)))
+             removeAccents(translateCategory(activeCategory))
 
             try {
                 const { data: products } =
@@ -358,8 +356,6 @@ const GridLayoutProduct = () => {
                         ? await api.get("products/filter/")
 
                         : await api.get(`products/filter/?categorie_product=${activeCategory && removeAccents(translateCategory(activeCategory))?.toUpperCase()}`);
-
-                console.log("Avant filter:", products);
 
                 const filtered = products.filter(item => parseInt(item?.quantity_product) !== 0);
 
@@ -390,7 +386,7 @@ const GridLayoutProduct = () => {
 
             } catch (error) {
 
-                console.error("Erreur lors du chargement :", error);
+                //console.error("Erreur lors du chargement :", error);
 
             } finally {
 
@@ -471,8 +467,12 @@ const GridLayoutProduct = () => {
 
                     ) : (
 
-                                <div className="text-center text-gray-500 bg-gray-300 border border-gray-300 rounded-full p-3 lg:flex lg:justify-center lg:items-center lg:max-w-sm mx-auto">{t('ListItemsFilterProduct.noProduct')}</div>
-                    )}
+                        <div className="flex items-center justify-center mx-auto max-w-md p-4 rounded-full border border-gray-200  shadow-sm font-extrabold">
+ 
+                            <span className="text-sm font-medium">{t('ListItemsFilterProduct.noProduct')}</span>
+
+                        </div>
+                     )}
 
                 </>
 

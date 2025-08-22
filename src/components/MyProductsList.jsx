@@ -1,13 +1,11 @@
 import React, { useCallback, useEffect, useState} from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import SuspenseCallback from "../components/SuspensCallback";
 import api from "../services/Axios";
 import LoadingCard from "./LoardingSpin";
 import FormElementFileUpload from "../features/FormFile";
 import { setProductUpdate } from "../slices/cartSlice";
 import RendrePrixProduitMonnaie from "./ConvertCurrency";
-//import { useNavigate } from "react-router-dom";
 
 
 const MyProductList = () => {
@@ -40,11 +38,17 @@ const MyProductList = () => {
         const fetchProducts = async () => {
             setLoading(true);
             try {
-                const resp = await api.get("produits/");
-                setProducts(resp.data);
+
+                const productsOwner = await api.get("owner/product");
+
+                setProducts(productsOwner?.data);
+
             } catch (error) {
+
                 console.error("Erreur lors du chargement des produits:", error);
+
             } finally {
+
                 setLoading(false);
             }
         };
@@ -113,54 +117,51 @@ const MyProductList = () => {
                         </tr>
                     </thead>
 
-                    <SuspenseCallback>
-                        <tbody>
-                            {Array.isArray(products) &&
-                                products.map((product) => (
-                                    <tr
-                                        key={product?.id}
-                                        className="dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
-                                    >
-                                        <td className="p-1">
-                                            <div className="w-10 h-10 md:w-20 md:h-20 overflow-hidden rounded-lg border border-gray-200 dark:border-gray-600">
-                                                <img
-                                                    src={product?.image_product}
-                                                    alt={product?.description_product || "Image du produit"}
-                                                    className="object-contain w-full h-full"
-                                                    loading="lazy"
-                                                />
-                                            </div>
-                                        </td>
+                    <tbody>
+                        {Array.isArray(products) &&
+                            products.map((product) => (
+                                <tr
+                                    key={product?.id}
+                                    className="dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
+                                >
+                                    <td className="p-1">
+                                        <div className="w-10 h-10 md:w-20 md:h-20 overflow-hidden rounded-lg border border-gray-200 dark:border-gray-600">
+                                            <img
+                                                src={product?.image_product}
+                                                alt={"product"}
+                                                className="object-contain w-auto h-auto"
+                                            />
+                                        </div>
+                                    </td>
 
-                                        <td className="px-6 py-4">
-                                            {product?.description_product}
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            {product?.categorie_product}
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            {product?.quantity_product}
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <RendrePrixProduitMonnaie item={product} />
-                                        </td>
+                                    <td className="px-6 py-4">
+                                        {product?.description_product}
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        {product?.categorie_product}
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        {product?.quantity_product}
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        <RendrePrixProduitMonnaie item={product} />
+                                    </td>
 
-                                        <td className="px-6 py-4 gap-2">
-                                            <CenteredModal product={product} />
-                                        </td>
+                                    <td className="px-6 py-4 gap-2">
+                                        <CenteredModal product={product} />
+                                    </td>
 
-                                        <td className="px-6 py-4 gap-2">
-                                            <button
-                                                onClick={() => handleDelete(product?.id)}
-                                                className="px-1 py-1 bg-red-400 text-white rounded-lg hover:bg-red-600 text-xs"
-                                            >
-                                                {t("delete")}
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                        </tbody>
-                    </SuspenseCallback>
+                                    <td className="px-6 py-4 gap-2">
+                                        <button
+                                            onClick={() => handleDelete(product?.id)}
+                                            className="px-1 py-1 bg-red-400 text-white rounded-lg hover:bg-red-600 text-xs"
+                                        >
+                                            {t("delete")}
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                    </tbody>
                 </table>
             )}
         </div>

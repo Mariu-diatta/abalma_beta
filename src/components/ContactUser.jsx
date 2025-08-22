@@ -4,7 +4,6 @@ import OwnerAvatar from "./OwnerProfil";
 import { useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
 import LoadingCard from "./LoardingSpin";
-import SuspenseCallback from "./SuspensCallback";
 
 const UsersContactsList = () => {
 
@@ -25,20 +24,9 @@ const UsersContactsList = () => {
 
                 try {
 
-                    api.get("/clients/").then(
+                    const othersClients =await api.get('clients/othersClients/')
 
-                        resp => {
-
-                            console.log("LES USERs", resp?.data)
-
-                            setUsers(resp?.data)
-                        }
-
-                    ).catch(
-
-                        err => console.log("LES USER", err)
-
-                    )
+                    setUsers(othersClients.data?.other_clients)
 
                 } catch (err) {
 
@@ -123,7 +111,7 @@ const UsersContactsList = () => {
                     < LoadingCard />
                 </>
                 :
-                    <SuspenseCallback>
+                <>
 
                     {/* Bar d'action */}
                     <div className="flex items-center justify-between flex-wrap md:flex-nowrap space-y-4 md:space-y-0 pb-4 dark:bg-gray-900 px-4 style-bg">
@@ -218,7 +206,7 @@ const UsersContactsList = () => {
 
                     </div>
 
-                    <table className="w-full text-sm text-left style-bg shadow-sm p-5"> {/* Tableau */}
+                    <table className="w-full text-sm text-left style-bg shadow-sm p-3"> {/* Tableau */}
 
                         <thead className="text-md style_bg">
 
@@ -303,7 +291,7 @@ const UsersContactsList = () => {
             
                     </table>
 
-                </SuspenseCallback>
+                </>
             }
 
         </div>

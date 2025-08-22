@@ -46,7 +46,7 @@ const ChatApp = ({ roomName }) => {
 
         } catch (err) {
 
-            console.error("❌ Erreur chargement messages :", err);
+            //console.error("❌ Erreur chargement messages :", err);
         }
 
     }, [roomName]);
@@ -78,7 +78,7 @@ const ChatApp = ({ roomName }) => {
 
             } catch (err) {
 
-                console.error("❌ Erreur parsing WebSocket :", err);
+                //console.error("❌ Erreur parsing WebSocket :", err);
             }
         };
 

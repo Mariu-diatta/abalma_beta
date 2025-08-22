@@ -1,20 +1,15 @@
 import HomeContain from "../components/HomeContain";
-import SuspenseCallback from "../components/SuspensCallback";
 import HomeLayout from "../layouts/HomeLayout";
 
 const Home = () => {
 
     return (
 
-        <SuspenseCallback>
+        <HomeLayout>
 
-            <HomeLayout>
+            <HomeContain/>
 
-                <HomeContain/>
-
-            </HomeLayout>
-
-        </SuspenseCallback>
+        </HomeLayout>
     )
 }
 

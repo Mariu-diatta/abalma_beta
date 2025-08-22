@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { BASE_URL_ } from '../services/Axios'
 
 const ViewProduct = ({ productSelected }) => {
 
-    useEffect(
+    //useEffect(
 
-        () => {
+    //    () => {
 
-            console.log(BASE_URL_ + productSelected.image_product)
+    //        console.log(BASE_URL_ + productSelected.image_product)
 
-        }, [productSelected]
-    )
+    //    }, [productSelected]
+    //)
 
     return (
 

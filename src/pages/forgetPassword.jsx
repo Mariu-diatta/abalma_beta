@@ -5,7 +5,7 @@ import HomeLayout from "../layouts/HomeLayout";
 import api from "../services/Axios";
 import { useParams } from "react-router-dom";
 import AttentionAlertMessage, { showMessage } from "../components/AlertMessage";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 
 const PwdForget = () => {
 
@@ -15,20 +15,16 @@ const PwdForget = () => {
     const [email, setEmail] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [countdown, setCountdown] = useState(100);
-    const [error, setError] = useState(null);
     const dispatch = useDispatch();
-    const messageAlert = useSelector((state) => state.navigate.messageAlert);
 
     // Étape 1 : Demande de lien de réinitialisation
     const handleRequestCode = async () => {
 
-        setError("");
+        showMessage(dispatch, null)
 
         if (!email) {
 
-            alert(t("form.emailRequired"));
-
-            showMessage(dispatch, t("form.emailRequired"))
+            showMessage(dispatch,{Type:"Erreur", Message:t("form.emailRequired")})
 
             return;
         }
@@ -37,17 +33,14 @@ const PwdForget = () => {
 
             await api.post("/forget_password/request/", { email });
 
-            console.log("Email de reset envoyé à :", email);
+            showMessage(dispatch, { Type: "Message", Message: "Email de reset envoyé à :", email });
 
             setStep(2);
 
         } catch (err) {
 
-            console.error(err);
 
-            setError(t('form.resetRequestError'));
-
-            showMessage(dispatch, t('form.resetRequestError'))
+            showMessage(dispatch, {Type:"Erreur", Message:t('form.resetRequestError')}+err?.response || err?.request?.response || err)
 
         }
     };
@@ -55,21 +48,18 @@ const PwdForget = () => {
     // Étape 2 : Réinitialisation du mot de passe
     const handleResetPassword = async () => {
 
-        setError("");
+        showMessage(dispatch, null)
 
         if (!newPassword) {
 
-            alert(t("form.passwordRequired"));
+            showMessage(dispatch, { Type: "Erreur", Message: t("form.passwordRequired")})
 
             return;
         }
 
         if (!uidb64 || !token) {
 
-            setError(t("form.invalidLink") || "Lien de réinitialisation invalide.");
-
-            showMessage(dispatch, t("form.invalidLink"))
-
+            showMessage(dispatch, {Type:"Erreur", Messgae:t("form.invalidLink") || "Lien de réinitialisation invalide."})
 
             return;
         }
@@ -81,17 +71,13 @@ const PwdForget = () => {
                 password: newPassword
             });
 
-            console.log("Mot de passe réinitialisé.");
+            showMessage(dispatch, { Type: "Message", Messgae: "Mot de passe réinitialisé." })
 
             setStep(3);
 
         } catch (err) {
 
-            console.error(err);
-
-            setError(t("form.resetError") || "Échec de la réinitialisation du mot de passe.");
-
-            showMessage(dispatch, t("form.resetError"))
+            showMessage(dispatch, { Type: "Message", Messgae:err?.response || t("form.resetError") })
 
         }
     };
@@ -158,6 +144,8 @@ const PwdForget = () => {
     return (
         <section className="bg-gray-1 py-20 dark:bg-dark lg:py-[120px]">
 
+            <AttentionAlertMessage />
+
             <div className="container mx-auto">
 
                 <div className="-mx-1 flex flex-wrap justify-center">
@@ -172,15 +160,8 @@ const PwdForget = () => {
 
                             <StepIndicator />
 
-                            {!!error && (
-                                <div className="mb-4 text-red-600 text-sm text-center">{error}</div>
-                            )}
-
-                            {error && messageAlert && (
-
-                                <AttentionAlertMessage title="Error" content={messageAlert} />
-                            )}
-
+                            <AttentionAlertMessage/>
+     
                             {step === 1 && (
                                 <form onSubmit={(e) => { e.preventDefault(); handleRequestCode(); }}>
                                     <InputBox
@@ -232,17 +213,13 @@ const PwdForget = () => {
                             }
 
                             {step === 3 && (
+
                                 <div className="text-center">
 
                                     <p className="text-lg font-medium text-green-600 dark:text-green-400">
                                         {t("forgetPswd.success")}
                                     </p>
-
-                                    {messageAlert && !error && (
-
-                                        <AttentionAlertMessage title="Success" content={messageAlert} />
-                                    )}
-
+                                   
                                     <p className="mt-4 text-sm text-gray-700 dark:text-gray-300">
                                         {t("forgetPswd.redirectIn")} {Math.floor(countdown / 60)}:{String(countdown % 60).padStart(2, "0")}...
                                     </p>

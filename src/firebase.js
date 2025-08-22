@@ -117,8 +117,8 @@ export function LoginWithGoogle() {
         } catch (err) {
 
             setLoading(false)
-            showMessage(dispatch, `Hops!!!...${err}`);
 
+            showMessage(dispatch, {Type:"Erreur", Message:`Hops!!!...${err || err?.message || err?.request?.response}`});
         }
     };
 

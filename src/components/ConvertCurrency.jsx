@@ -52,7 +52,7 @@ const formaterPrix = (prix, monnaie, t, locale = 'fr-FR') => {
             : `${price_format} ${config.symbole}`;
 
     } catch (error) {
-        console.error('Erreur de formatage du prix :', error);
+
         return `${prix} ${symbolesMonnaies[monnaie] || monnaie}`;
     }
 };

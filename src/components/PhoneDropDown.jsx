@@ -6,13 +6,18 @@ const PhoneDropdown = () => {
 
     // Fermer le menu quand on clique en dehors
     useEffect(() => {
+
         const handleClickOutside = (event) => {
+
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
                 setIsOpen(false);
             }
         };
+
         document.addEventListener("mousedown", handleClickOutside);
+
         return () => document.removeEventListener("mousedown", handleClickOutside);
+
     }, []);
 
     return (

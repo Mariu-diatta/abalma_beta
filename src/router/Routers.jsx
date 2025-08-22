@@ -2,7 +2,6 @@
 import ProtectedRoute from "../ProtectedRoute";
 
 // Layouts
-import AuthPage from "../layouts/AuthLayout";
 
 // Pages
 import About from "../pages/About";
@@ -27,6 +26,7 @@ import ListProductShoppingCart from "../features/ListProductShoppingCart";
 import SettingsForm from "../features/Settings";
 import BlogPageHome, { BlogPage } from "../pages/Blog";
 import { LIST_CATEGORY } from "../utils";
+import HelpPage from "../layouts/HelpLayout";
 
 
 // Routes Configuration
@@ -65,15 +65,12 @@ const routes = [
 
                         children: [
 
-                            { path: "account", element: <AuthPage /> }, 
-
-                            { path: "products", element: <GridLayoutProduct /> },
-
-                            { path: "payment_card", element: <ListProductShoppingCart /> },
-
                             ...[
+                                { path: "help", element: <HelpPage/> },
 
                                 { path: "payment", class_rendered: <ListProductShoppingCart /> },
+
+                                { path: "payment_card", class_rendered: <ListProductShoppingCart /> },
 
                                 { path: "user_blogs", class_rendered: <BlogPage /> },
 

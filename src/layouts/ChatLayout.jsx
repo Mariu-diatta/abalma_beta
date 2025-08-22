@@ -51,11 +51,11 @@ const ChatLayout = () => {
                     dispatch(addCurrentChat(userRooms[0]));
                 }
 
-                console.log("LES ROOMS", userRooms);
+                ///console.log("LES ROOMS", userRooms);
 
             } catch (err) {
 
-                console.error("Erreur lors du chargement des rooms:", err);
+                //console.error("Erreur lors du chargement des rooms:", err);
             }
         };
 
@@ -84,12 +84,13 @@ const ChatLayout = () => {
                     }
                 } catch (e) {
 
-                    console.error("Erreur lors de la récupération de l'utilisateur :", e);
+                    ///console.error("Erreur lors de la récupération de l'utilisateur :", e);
                 }
             }
         };
 
         fetchSelectedUser();
+
     }, [selectedUser, allChats, dispatch]);
 
     // 🔁 Si plus de chat, vider l'utilisateur sélectionné
@@ -224,7 +225,9 @@ const ChatLayout = () => {
 
             {/* Main Chat Area */}
             <div
+
                 className="lg:me-5 lg:pe-5 lg:ps-5 flex-1 flex flex-col overflow-hidden"
+
                 style={{
                     backgroundColor: "var(--color-bg)",
                     color: "var(--color-text)"
@@ -233,6 +236,7 @@ const ChatLayout = () => {
                 <ChatApp roomName={currentChat} />
 
             </div>
+
         </div>
     );
 };

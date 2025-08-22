@@ -37,15 +37,11 @@ export const BlogPage = () => {
 
                     const blogs = await api.get("blogs/");
 
-                    console.log("get success blogs", blogs.data)
-
                     setBlogs(blogs.data)
 
                     setIsLoading(false)
 
                 } catch (err) {
-
-                    console.log("Error get blogs, Blog.jsx: ", err)
 
                     setIsLoading(false)
                 }
@@ -73,12 +69,12 @@ export const BlogPage = () => {
                 <div className="grid gap-8 lg:grid-cols-2">
 
                     {
-                            !isLoading?
-                            <SuspenseCallback>
+                       !isLoading?
+                        <SuspenseCallback>
 
                             {fetchBlogs()}
 
-                            </SuspenseCallback>
+                        </SuspenseCallback>
                         :
                         <LoadingCard/>
                     }

@@ -28,11 +28,7 @@ export default Payment;
 
 const PaymentForm = () => {
 
-    const messageAlert = useSelector((state) => state.navigate.messageAlert);
-
     const [loading, setLoading] = useState(false)
-
-    const [errorMessage, setErrorMessage] = useState("Erreur")
 
     const data = useSelector(state => state.cart);
 
@@ -73,7 +69,7 @@ const PaymentForm = () => {
             const products = await api.post("transactions/products/",
 
                 payload,
-                    
+
                 {
                     headers: {
                         'Content-Type': 'application/json'
@@ -83,23 +79,18 @@ const PaymentForm = () => {
 
             console.log("Réponse backend :", products.data)
 
-            showMessage(dispatch, "Transaction effectué");
+            showMessage(dispatch, { Type: "Message", Message: "Transaction effectué" });
 
             dispatch(addMessageNotif("Transaction effectué"))
-
-            setLoading(false)
-
-            setErrorMessage("Message")
 
             dispatch(clearCart())
 
         } catch (err) {
 
-            console.log("ERREUR PAYEMENT ", err?.response, err?.response?.data, err)
+            showMessage(dispatch, { Type: "Erreur", Message: err?.response?.data?.detail });
 
-            showMessage(dispatch, err?.response?.data?.detail);
-
-            setErrorMessage("Erreur")
+         
+        } finally {
 
             setLoading(false)
         }
@@ -134,11 +125,8 @@ const PaymentForm = () => {
             }}
         >
 
-            {messageAlert && (
-
-                <AttentionAlertMesage title={errorMessage} content={messageAlert} />  
-            )}
-
+            <AttentionAlertMesage/>  
+           
             <h2 className="text-2xl font-bold mb-6 text-center">Payment Form</h2>
 
             <InputBox
