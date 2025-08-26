@@ -227,7 +227,7 @@ i18n
             profil: "profil",
             logOut: "Log out",
             activity: "Your activities",
-            footCondition: "Acepte termes",
+            footCondition: "Accept terms",
             politique: "Confidentiality",
             connecTitle: " Log In !!",
             forgetPwd: " Forget password ?",
