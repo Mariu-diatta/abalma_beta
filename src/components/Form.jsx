@@ -6,6 +6,8 @@ import api from '../services/Axios';
 import LoadingCard from './LoardingSpin';
 import { useDispatch} from 'react-redux';
 import AttentionAlertMesage, { showMessage } from './AlertMessage';
+import PhoneInput from './InputPhoneCountry';
+import { setCurrentNav } from '../slices/navigateSlice';
 
 
 const CreateClient = async (data, func, funcRetournMessage, dispatch) => {
@@ -231,13 +233,14 @@ const RegisterForm = () => {
                                         onChange={handleChange}
                                     />
 
-                                    <InputBox
-                                        type="tel"
-                                        name="telephone"
-                                        placeholder={t('form.phone')}
-                                        value={form.telephone}
-                                        onChange={handleChange}
-                                    />
+                                    {/*<InputBox*/}
+                                    {/*    type="tel"*/}
+                                    {/*    name="telephone"*/}
+                                    {/*    placeholder={t('form.phone')}*/}
+                                    {/*    value={form.telephone}*/}
+                                    {/*    onChange={handleChange}*/}
+                                    {/*/>*/}
+                                    <PhoneInput form={form} handleChange={handleChange} setForm={setForm} />
 
                                     <InputBox
                                         type="password"
@@ -270,7 +273,11 @@ const RegisterForm = () => {
 
                                     <span>{t("alredyRegister")} </span>
 
-                                    <Link to="/login" className="text-sm lg:text-md text-primary hover:underline">
+                                    <Link
+                                        to="/login"
+                                        className="text-sm lg:text-md text-primary hover:underline"
+                                        onClick={() => dispatch(setCurrentNav("/logIn"))}
+                                    >
                                         {t("login")}
                                     </Link>
 

@@ -9,6 +9,7 @@ import RendrePrixProduitMonnaie from "./ConvertCurrency";
 
 
 const MyProductList = () => {
+
     const { t } = useTranslation();
 
     const getUpdateProduct = useSelector((state) => state.cart.productUpdate);
@@ -54,32 +55,46 @@ const MyProductList = () => {
         };
 
         fetchProducts();
+
     }, [currentUser]);
 
     /** 🟢 Supprimer un produit */
     const handleDelete = async (id) => {
+
         if (!window.confirm(t("modifyProduct.confirmDeleteProduct"))) return;
 
         setLoading(true);
+
         try {
+
             await api.delete(`produits/${id}/`);
+
             setProducts((prev) => prev.filter((p) => p.id !== id)); // Mise à jour locale
+
         } catch (error) {
+
             console.error("Erreur de suppression:", error);
+
         } finally {
+
             setLoading(false);
         }
     };
 
     return (
         <div
+
             className="style_bg mb-2 relative overflow-x-auto sm:rounded-md p-2"
+
             style={{
+
                 backgroundColor: "var(--color-bg)",
+
                 color: "var(--color-text)",
             }}
         >
             <nav className="flex flex-row items-center gap-2">
+
                 <svg
                     className="w-6 h-6 text-gray-800 dark:text-white"
                     xmlns="http://www.w3.org/2000/svg"
@@ -94,13 +109,15 @@ const MyProductList = () => {
                         d="M15.583 8.445h.01M10.86 19.71l-6.573-6.63a.993.993 0 0 1 0-1.4l7.329-7.394A.98.98 0 0 1 12.31 4l5.734.007A1.968 1.968 0 0 1 20 5.983v5.5a.992.992 0 0 1-.316.727l-7.44 7.5a.974.974 0 0 1-1.384.001Z"
                     />
                 </svg>
+
                 <h2 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">
                     {t("myProducts")}
                 </h2>
+
             </nav>
 
             {loading ? (
-                <p>{t("loading")}...</p>
+                <LoadingCard/>
             ) : (
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 shadow-lg p-2">
                     <thead className="text-sm style_bg">
@@ -118,13 +135,17 @@ const MyProductList = () => {
                     </thead>
 
                     <tbody>
-                        {Array.isArray(products) &&
+
+                        {
+                            Array.isArray(products) &&
+
                             products.map((product) => (
                                 <tr
                                     key={product?.id}
                                     className="dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
                                 >
                                     <td className="p-1">
+
                                         <div className="w-10 h-10 md:w-20 md:h-20 overflow-hidden rounded-lg border border-gray-200 dark:border-gray-600">
                                             <img
                                                 src={product?.image_product}
@@ -132,17 +153,21 @@ const MyProductList = () => {
                                                 className="object-contain w-auto h-auto"
                                             />
                                         </div>
+
                                     </td>
 
                                     <td className="px-6 py-4">
                                         {product?.description_product}
                                     </td>
+
                                     <td className="px-6 py-4">
                                         {product?.categorie_product}
                                     </td>
+
                                     <td className="px-6 py-4">
                                         {product?.quantity_product}
                                     </td>
+
                                     <td className="px-6 py-4">
                                         <RendrePrixProduitMonnaie item={product} />
                                     </td>
@@ -159,6 +184,7 @@ const MyProductList = () => {
                                             {t("delete")}
                                         </button>
                                     </td>
+
                                 </tr>
                             ))}
                     </tbody>

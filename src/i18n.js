@@ -22,6 +22,7 @@ i18n
      en: {
 
         translation: {
+             about_us:"Read more about us",
              file_selected:"File selected",
              read_more: "Read more",
              add_new_product:"Add new product",
@@ -31,7 +32,7 @@ i18n
              about_image_text2: 'Plan your business effectively',
              modifyProduct: {
                  confirmDeleteProduct: "Do you really want to update this product?",
-                 modify_product: "Modify the product",
+                 modify_product: "Modify",
                  cancel_modify_product: "Cancel modification",
                  title_modify_product: "Product modification"
              },
@@ -453,6 +454,7 @@ i18n
      fr: {
 
          translation: {
+             about_us: "A propos de nous",
              file_selected: "Fichier sélectionné",
              read_more:"Lire plus",
              add_new_product: "Ajout nouveau produit",
@@ -463,7 +465,7 @@ i18n
 
              modifyProduct: {
                  confirmDeleteProduct: "Voulez-vous vraiment mettre à jour ce produit ?",
-                 modify_product: "Modifier le produit",
+                 modify_product: "Modifier",
                  cancel_modify_product: "Annuler la modification",
                  title_modify_product: "Modification du produit"
              },

@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import api from '../services/Axios';
 import LoadingCard from '../components/LoardingSpin';
 import { ModalFormCreatBlog } from '../components/BlogCreatBlogs';
-const SuspenseCallback = lazy(() => import('../components/SuspensCallback'));
 const HomeLayout = lazy(() => import('../layouts/HomeLayout'));
 
 
@@ -70,11 +69,11 @@ export const BlogPage = () => {
 
                     {
                        !isLoading?
-                        <SuspenseCallback>
+                        <>
 
                             {fetchBlogs()}
 
-                        </SuspenseCallback>
+                        </>
                         :
                         <LoadingCard/>
                     }
@@ -83,7 +82,9 @@ export const BlogPage = () => {
 
 
                 <div className="absolute bottom-0 right-2 mb-5">
+
                     <ModalFormCreatBlog />
+
                 </div>
 
 
@@ -157,6 +158,7 @@ const BlogCard = (blog) => {
                 </a>
 
             </div>
+
 
         </article>
     );

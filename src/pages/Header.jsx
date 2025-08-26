@@ -248,7 +248,7 @@ const NavbarHeader = () => {
             id: 'home',
             label: t('home'),
             endPoint: '/',
-            logo: !(currentNav === "home") ? (
+            logo: !(currentNav === "home")  ? (
                 <svg
                     className="w-6 h-6 text-gray-800 dark:text-white"
                     aria-hidden="true"
@@ -278,7 +278,7 @@ const NavbarHeader = () => {
             label: t('about'),
             endPoint: '/about',
             logo:
-                (currentNav === "about") ?
+                ((currentNav === "about") && !(currentNav === "/logIn") && !(currentNav === "/Register") && !(currentNav === "/register")) ?
                     (
                         <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                             <path fillRule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm9.408-5.5a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM10 10a1 1 0 1 0 0 2h1v3h-1a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-1v-4a1 1 0 0 0-1-1h-2Z" clipRule="evenodd" />
@@ -311,7 +311,7 @@ const NavbarHeader = () => {
             label: 'Blogs',
             endPoint: '/blogs',
             logo:
-                !(currentNav === "blogs") ?
+            (!(currentNav === "blogs") && !(currentNav === "/logIn") && !(currentNav === "/Register") && !(currentNav === "/register")) ?
                     (
                         <svg
                             className="w-6 h-6 text-gray-800 dark:text-white"
@@ -373,10 +373,13 @@ const NavbarHeader = () => {
 
     }, [themeValue]);
 
+ 
+
     return (
 
         <>
             <header className="w-full z-20 flex items-center style-bg py-2" ref={ref}>
+
 
                 <div className="container mx-auto px-4 flex items-center justify-between relative">
 
@@ -389,84 +392,96 @@ const NavbarHeader = () => {
 
                         <ButtonNavigate tabs={tabs} />
 
-                        {/* Toggle Button for Mobile */}
-                        <button
-                            onClick={() => setOpen(!open)}
-                            id="navbarToggler"
-                            className={`
-                            ${open && "navbarTogglerActive"} 
-                            sm:hidden absolute right-1 top-1/2 transform -translate-y-1/2 
-                            z-[71] px-3 py-[6px] rounded-lg 
-                            text-black
-                            dark:bg-dark-3 dark:text-white mb-2 dark:bg-white
-                            focus:outline-none
-                          `}
+                        {
 
-                        >
-                            <span className="block w-[30px] h-[2px] bg-gray-700 dark:bg-gray-400 my-[6px]" ></span>
-                            <span className="block w-[30px] h-[2px] bg-gray-700 dark:bg-gray-200 my-[6px]"></span>
-                            <span className="block w-[30px] h-[2px] bg-gray-700 dark:bg-gray-200 my-[6px]"></span>
+                            (!(currentNav === "/logIn") && !(currentNav === "/Register") && !(currentNav === "/register")) &&
 
-                        </button>
+                            <>
+                                {/* Toggle Button for Mobile */}
+                                <button
+                                    onClick={() => setOpen(!open)}
+                                    id="navbarToggler"
+                                    className={
+                                    `
+                                    ${open && "navbarTogglerActive"} 
+                                    sm:hidden absolute right-1 top-1/2 transform -translate-y-1/2 
+                                    z-[71] px-3 py-[6px] rounded-lg 
+                                    text-black
+                                    dark:bg-dark-3 dark:text-white mb-2 dark:bg-white
+                                    focus:outline-none
+                                  `}
 
-                        {/* Navigation */}
-                        <nav
-                            id="navbarCollapse"
-                            className={`sm:hidden absolute top-1/2 right-0  w-full max-w-[250px] z-[70] rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${!open && "hidden"}
-                            lg:static lg:block lg:max-w-full lg:w-auto`}
-                        >
+                                >
+                                    <span className="block w-[30px] h-[2px] bg-gray-700 dark:bg-gray-400 my-[6px]" ></span>
+                                    <span className="block w-[30px] h-[2px] bg-gray-700 dark:bg-gray-200 my-[6px]"></span>
+                                    <span className="block w-[30px] h-[2px] bg-gray-700 dark:bg-gray-200 my-[6px]"></span>
 
-                            {/* Boutons et Dropdown (Mobile) */}
-                            <div
+                                </button>
 
-                                className="text-sm absolute top-2 flex flex-col items-start justify-start gap-2 p-1 sm:hidden shadow-md w-full "
+                               {/* Navigation */}
+                      
+                                <nav
+                                    id="navbarCollapse"
+                                    className={`sm:hidden absolute top-1/2 right-0  w-full max-w-[250px] z-[70] rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${!open && "hidden"}
+                                    lg:static lg:block lg:max-w-full lg:w-auto`}
+                                >
 
-                                style={
-                                    {
-                                        backgroundColor: "var(--color-bg)",
+                                    {/* Boutons et Dropdown (Mobile) */}
+                                    <div
 
-                                        color: "var(--color-text)"
+                                        className="text-sm absolute top-2 flex flex-col items-start justify-start gap-2 p-1 sm:hidden shadow-md w-full "
+
+                                        style={
+                                            {
+                                                backgroundColor: "var(--color-bg)",
+
+                                                color: "var(--color-text)"
+                                            }
+                                        }
+                                    >       
+                                        <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
+
+                                        <WhiteRoundedButton titleButton={t('register')} to="/register" />
+
+                                        <ThemeToggle />
+
+                                    </div>
+
+                                </nav>
+                       
+                                {/* Boutons et Dropdown (Desktop) */}
+
+                                <div
+
+                                    className="hidden sm:flex items-center justify-center gap-3 w-auto"
+
+                                    style={
+
+                                        {
+                                            backgroundColor: "var(--color-bg)",
+
+                                            color: "var(--color-text)"
+                                        }
                                     }
-                                }
-                            >       
-                                <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
-
-                                <WhiteRoundedButton titleButton={t('register')} to="/register" />
-
-                                <ThemeToggle />
-
-                            </div>
-
-                        </nav>
-
-                        {/* Boutons et Dropdown (Desktop) */}
-                        <div
-
-                            className="hidden sm:flex items-center justify-center gap-3 w-auto"
-
-                            style={
-
-                                {
-                                    backgroundColor: "var(--color-bg)",
-
-                                    color: "var(--color-text)"
-                                }
-                            }
-                        >
+                                >
                             
-                            <ThemeToggle />
+                                    <ThemeToggle />
 
-                            <NotificationsComponent/>
+                                    <NotificationsComponent/>
 
-                            <PayBack/>
+                                    <PayBack/>
 
-                            <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
+                                    <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
 
-                            <WhiteRoundedButton titleButton={t('register')} to="/register" />
+                                    <WhiteRoundedButton titleButton={t('register')} to="/register" />
 
-                        </div>
+                                </div>
 
-                    {/*</div>*/}
+                            </>
+
+                        }
+
+                       {/*</div>*/}
 
                 </div>
 
@@ -484,6 +499,9 @@ export default NavbarHeader;
 const ButtonNavigate = ({ tabs }) => {
 
     const dispatch = useDispatch();
+
+    const currentNav = useSelector(state => state.navigate.currentNav);
+
 
     return (
 
@@ -512,30 +530,34 @@ const ButtonNavigate = ({ tabs }) => {
 
                 <li key={tab.id} className="w-full sm:w-auto gap-6 px-1 ">
 
-                    <NavLink
+                    {
+                        !(((tab.label === "About") || (tab.label === "Blogs")) && ((currentNav === "/logIn") || (currentNav === "/Register") || (currentNav === "/register"))) &&
 
-                        to={tab.endPoint}
+                        <NavLink
 
-                        className={({ isActive }) =>
-                            `
-                                w-full text-center items-center flex flex-col lg:flex-row gap-1 text-[14px]
-                                px-1
-                                transition
-                                border-t sm:border-b-0 lg:border-b lg:border-t-0
-                                ${isActive
-                                ? 'border-gray-300'
-                                : 'border-transparent text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-dark-3 hover:rounded-full'
+                            to={tab.endPoint}
+
+                            className={({ isActive }) =>
+                                `
+                                    w-full text-center items-center flex flex-col lg:flex-row gap-1 text-[14px]
+                                    px-1
+                                    transition
+                                    border-t sm:border-b-0 lg:border-b lg:border-t-0
+                                    ${isActive
+                                    ? 'border-gray-300'
+                                    : 'border-transparent text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-dark-3 hover:rounded-full'
+                                }
+                                `
                             }
-                            `
-                        }
 
-                        onClick={() => dispatch(setCurrentNav(tab.id))}
-                    >
-                        <>{tab.logo}</>
+                            onClick={() => dispatch(setCurrentNav(tab.id))}
+                        >
+                            <>{tab.logo}</>
 
-                        <>{tab.label}</>
+                            <>{tab.label}</>
 
-                    </NavLink>
+                        </NavLink>
+                     }
 
 
                 </li>

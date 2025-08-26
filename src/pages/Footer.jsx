@@ -247,11 +247,11 @@ const Footer = () => {
                 ref={componentRef}
                 className="w-full opacity-0 translate-y-5 transition-all duration-1000 ease-in-out"
             >
-                <div className="flex flex-col lg:flex-row justify-between gap-10 p-0">
+                <div className="flex flex-col lg:flex-row justify-center  gap-10 p-0">
 
-                    <LinkGroup header={t('contact_us')}>
+                    <LinkGroup header={t('about_us')}>
                         <NavLink link="/#" label={t('about_abalma')} className="text-sm" />
-                        <NavLink link="/#" label={t("contact_us")} className="text-sm" />
+                        {/*<NavLink link="/#" label={t("contact_us")} className="text-sm" />*/}
                         <NavLink link="/#" label={t('company_info_legal')} className="text-sm" />
                     </LinkGroup>
 

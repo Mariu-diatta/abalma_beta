@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addMessageNotif } from "../slices/chatSlice";
 import WalletModal from "../features/WalletModal";
 import ProfilPopPov from "../features/PopovProfile";
-import { addToCart } from "../slices/cartSlice";
+import { addToCart, updateNumberProductViews } from "../slices/cartSlice";
 import { useTranslation } from 'react-i18next';
 import { numberStarsViews, productViews } from "../utils";
 import RendrePrixProduitMonnaie from "../components/ConvertCurrency";
@@ -25,17 +25,27 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
 
     const [productNbViews, setProductNbViews] = useState(null);
 
+
     const buttonRef = useRef(null)
 
     const popovRef = useRef(null)
 
     useEffect(() => {
 
-        productViews(dataProduct,setProductNbViews)
+        productViews(dataProduct, setProductNbViews)
 
     }, [dataProduct]);
 
+
+    useEffect(() => {
+
+        dispatch(updateNumberProductViews(productNbViews))
+
+    }, [dispatch, productNbViews]);
+
+
     useEffect(
+
         () => {
 
             var isCurrent_User = () => !(currentUser?.id === selectedUser?.id)

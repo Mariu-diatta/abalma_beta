@@ -9,7 +9,7 @@ import { addMessageNotif, addUser } from '../slices/chatSlice';
 import ProductModal from '../pages/ProductViewsDetails';
 import { useTranslation } from 'react-i18next';
 import LoadingCard from '../components/LoardingSpin';
-import { numberStarsViews, productViews, removeAccents, translateCategory } from '../utils';
+import { numberStarsViews, removeAccents, translateCategory } from '../utils';
 import RendrePrixProduitMonnaie from '../components/ConvertCurrency';
 
 
@@ -56,7 +56,9 @@ export const ImageGallery = ({ imagesEls }) => (
 export function Carousel({ products }) {
 
     const pictures = useMemo(() => {
+
         if (!products || !Array.isArray(products)) return [];
+
         return products.flatMap((product) => product.image_product || []);
     }, [products]);
 
@@ -313,8 +315,6 @@ export const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory, p
 
 const GridLayoutProduct = () => {
 
-    const [productNbViews, setProductNbViews] = useState(null);
-
     const [filteredItems, setFilteredItems] = useState([])
 
     const { t } = useTranslation();
@@ -326,6 +326,8 @@ const GridLayoutProduct = () => {
     const cartItems = useSelector(state => state?.cart?.items);
 
     const lang = useSelector((state) => state?.navigate?.lang);
+
+    const productNbViews = useSelector(state => state.cart.nbrProductViews)
 
     const defaultCategory = lang === 'fr' ? 'Tous' : 'Tous';
 
@@ -440,8 +442,6 @@ const GridLayoutProduct = () => {
                                 const isInCart = cartItems?.some(product => product?.id === item?.id);
 
                                 const owner = owners[item?.fournisseur];
-
-                                productViews(item, setProductNbViews)
 
                                 return (
 

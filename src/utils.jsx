@@ -141,9 +141,10 @@ export const productViews = async (dataProduct, setProductNbViews) => {
 
         const { data } = await api.get(`/products_details/${dataProduct?.id}/`);
 
-        setProductNbViews(data?.total_views ?? 0);
+        setProductNbViews(data?.total_views);
 
     } catch (error) {
+
         console.error("Erreur lors du chargement du produit :", error);
     }
 };

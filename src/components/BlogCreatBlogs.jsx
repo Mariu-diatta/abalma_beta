@@ -146,9 +146,9 @@ export const ModalFormCreatBlog = () => {
 
             {/* Toggle Button */}
             {
-                profileData && profileData?.email &&
+                
                 <button
-                    onClick={handleToggleModal}
+                    onClick={(profileData && profileData?.email) ? handleToggleModal:()=>alert("Connecter vous")}
                     className="absolute bottom-1 right-3 w-auto rounded-full flex gap-1 bg-blue-500 text-white text-sm px-3 py-1 hover:bg-blue-700 m-1 items-center"
                     aria-expanded={isOpen}
                     aria-controls="modal-blog-form"
