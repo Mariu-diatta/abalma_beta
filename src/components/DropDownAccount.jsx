@@ -4,133 +4,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logout } from "../slices/authSlice";
 import api from "../services/Axios";
 import { clearCart } from "../slices/cartSlice";
-import { addMessageNotif, cleanAllMessageNotif, clearRooms, removeMessageNotif } from "../slices/chatSlice";
-import toast, { Toaster } from 'react-hot-toast';
-import { LanguageDropdown, ThemeToggle } from "../pages/Header";
+import { cleanAllMessageNotif, clearRooms, removeMessageNotif } from "../slices/chatSlice";
+import toast from 'react-hot-toast';
 import i18n from "i18next";
 import { useTranslation } from 'react-i18next';
 import { setCurrentNav } from "../slices/navigateSlice";
 import AttentionAlertMessage, { showMessage } from "./AlertMessage";
 import LoadingCard from "./LoardingSpin";
-
-
-const NotificationGroup = ({ currentNotifMessages, notify, changeLanguage, nbItems, dispatch, navigate }) => (
-
-    <>
-
-        {currentNotifMessages.length > 0 && (
-
-            <button
-
-                onClick={notify}
-
-                className="cursor-pointer relative flex items-center justify-center h-6 w-6 px-2 mx-4 rounded-lg dark:bg-dark-2 text-dark dark:text-white"
-
-                style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
-            >
-                <NotificationsComponent />
-
-            </button>
-        )}
-
-        <Toaster />
-
-        <ThemeToggle />
-
-        {/* Paiement */}
-        <button
-
-            onClick={() => { navigate("/payment"); dispatch(setCurrentNav("/payment")) }}
-
-            className="relative flex items-center justify-between rounded-lg  dark:bg-dark-2 text-dark dark:text-white h-6 w-8 mx-4  hover:bg-gray-50 dark:hover:bg-gray-800"
-
-            style={{ color: "var(--color-text)" }}
-        >
-            <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
-            </svg>
-
-
-            <span className=" text-xs text-green-600">{nbItems}</span>
-
-        </button>
-
-        <LanguageDropdown changeLanguage={changeLanguage} />
-
-
-    </>
-);
-
-export const NotificationsComponent = ({ userId }) => {
-
-    const currentNotifMessages = useSelector(state => state.chat.messageNotif);
-
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-
-        //process.env.NODE_ENV === 'production'
-        const backendBase = true
-            ? 'wss://backend-mpb0.onrender.com'
-            : 'ws://localhost:8000';
-
-        const socketUrl = `${backendBase}/chat/notifications/${userId}/`;
-
-        const socket = new WebSocket(socketUrl);
-
-        socket.onopen = () => {
-
-            console.log("✅ WebSocket connecté");
-        };
-
-        socket.onmessage = (event) => {
-
-            try {
-                const data = JSON.parse(event.data);
-
-                if (data.type === "send_notification" && data.payload) {
-
-                    console.log("🔔 Notification reçue:", data);
-
-                    dispatch(addMessageNotif(data.message));
-                }
-            } catch (e) {
-
-                console.error("Erreur JSON:", e);
-            }
-        };
-
-        socket.onclose = () => {
-
-            console.warn("❌ WebSocket fermé");
-        };
-
-        socket.onerror = (err) => {
-
-            console.error("❗ WebSocket erreur:", err);
-        };
-
-        return () => socket.close();
-
-    }, [userId, dispatch]);
-
-    return (
-
-        <div className="flex hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg px-2 ">
-
-            <svg className="w-6 h-6 text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8"
-                    d="M12 5.365V3m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175 0 .593 0 1.292-.538 1.292H5.538C5 18 5 17.301 5 16.708c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 12 5.365ZM8.733 18c.094.852.306 1.54.944 2.112a3.48 3.48 0 0 0 4.646 0c.638-.572 1.236-1.26 1.33-2.112h-6.92Z" />
-
-            </svg>
-
-            <p className="text-xs">{currentNotifMessages.length} </p>
-
-
-        </div>
-    );
-};
+import NotificationGroup from "./NotificationGrouped";
 
 export default function AccountDropdownUserProfil() {
 
@@ -224,6 +105,8 @@ export default function AccountDropdownUserProfil() {
                 dispatch(cleanAllMessageNotif());
 
                 dispatch(logout());
+
+                dispatch(setCurrentNav("/logIn"))
 
                 return navigate("/logIn", { replace: true });
 
@@ -354,14 +237,14 @@ export default function AccountDropdownUserProfil() {
 
                 onBlur={() => setDropdownOpen(false)}
 
-                className={`z-[1999] shadow-lg bg-transparent absolute right-0 top-full me-3 overflow-hidden rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${dropdownOpen ? "block" : "hidden"}`}
+                className={` shadow-lg bg-transparent absolute right-0 top-full me-3 overflow-hidden rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${dropdownOpen ? "block z-50 bg-white" : "hidden"}`}
 
                 style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
             >
 
                 <div className="px-4 py-3">
 
-                    <p className="text-sm font-semibold text-dark dark:text-white">{currentUser?.email}</p>
+                    <p className="whitespace-nowrap text-sm font-semibold text-dark dark:text-white">{currentUser?.email}</p>
 
                 </div>
 
@@ -390,7 +273,7 @@ export default function AccountDropdownUserProfil() {
 
                             </svg>
 
-                            <>{t("profil")}</>
+                            <div className="whitespace-nowrap">{t("profil")}</div>
 
                         </div>
 
@@ -420,7 +303,7 @@ export default function AccountDropdownUserProfil() {
                             </svg>
 
 
-                            <>{t("param")} </>
+                            <div className="whitespace-nowrap">{t("param")} </div>
 
                         </div>
 
@@ -463,41 +346,4 @@ export default function AccountDropdownUserProfil() {
 }
 
 
-export const PayBack = () => {
 
-
-    const dispatch = useDispatch();
-
-    const nbItems = useSelector(state => state.cart.nbItem);
-
-    const navigate = useNavigate();
-
-    const currentUser = useSelector(state => state.auth.user);
-
-    return (
-        <button
-
-            onClick={
-                currentUser
-                    ? () => {
-                        navigate("/payment");
-                        dispatch(setCurrentNav("/payment"));
-                    }
-                    : () => navigate("/logIn")
-            }
-
-            className = "relative flex items-center justify-between rounded-lg  dark:bg-dark-2 text-dark dark:text-white h-6 w-8 mx-4  hover:bg-gray-50 dark:hover:bg-gray-800"
-
-            style = {{ color: "var(--color-text)" }}
-        >
-            <svg className="w-6 h-6 text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8"
-                    d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7h-1M8 7h-.688M13 5v4m-2-2h4" />
-            </svg>
-
-            <span className="text-xs text-green-600 pb-2">{nbItems}</span>
-
-        </button >
-    )
-}

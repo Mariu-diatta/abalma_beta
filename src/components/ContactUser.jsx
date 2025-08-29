@@ -137,7 +137,7 @@ const UsersContactsList = () => {
 
                             {isDropdownOpen && (
 
-                                <div className="absolute mt-2 z-10 divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600">
+                                <div className="absolute mt-2 z-10 divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600 bg-white dark:bg-dark-300">
 
                                     <ul className="py-1 text-sm text-gray-700 dark:text-gray-200">
 
@@ -239,7 +239,7 @@ const UsersContactsList = () => {
 
                                 !(user?.id === currentuser?.id) &&  
 
-                                <tr key={i} className="dark:bg-gray-100 hover:bg-gray-50 dark:hover:bg-gray-40 shadow-xs p-3 py-2">
+                                <tr key={i} className="dark:bg-gray-100 hover:bg-gray-100 dark:hover:bg-gray-40 shadow-xs p-3 py-2  rounded-lg hover:rounded-lg hover:text-blue-300">
 
                                         <td className="p-4 hidden">
 

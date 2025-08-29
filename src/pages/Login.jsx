@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch} from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
 import HomeLayout from '../layouts/HomeLayout';
 import { useNavigate } from 'react-router-dom';
 import InputBox from '../components/InputBoxFloat';
 import api from '../services/Axios';
-import { login, updateUserData, updateUserToken } from '../slices/authSlice';
+import { login, updateUserData } from '../slices/authSlice';
 import AttentionAlertMesage, { showMessage } from '../components/AlertMessage';
 import { useTranslation } from 'react-i18next';
 import { Outlet, NavLink } from 'react-router-dom';
@@ -12,46 +12,9 @@ import { setCurrentNav } from '../slices/navigateSlice';
 import { LoginWithGoogle} from '../firebase';
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import SuspenseCallback from '../components/SuspensCallback';
 import LoadingCard from '../components/LoardingSpin';
+import { loginClient } from '../utils';
 
-
-
-
-// Fonction de login avec l'API
-const loginClient = async (data, dispatch) => {
-
-    try {
-
-
-        localStorage.removeItem("refresh");
-
-        localStorage.removeItem("token");
-
-        const response = await api.post('login/', data, {
-
-            headers: {
-
-                'Content-Type': 'multipart/form-data',
-            }
-        });
-
-
-        if (response?.data) {
-
-            dispatch(updateUserToken(response?.data));
-            localStorage.setItem("token", response?.data?.access)
-            localStorage.setItem("refresh", response?.data?.refresh)
-            return response.data;
-        }
-
-    } catch (error) {
-
-        showMessage(dispatch, { Type: "Erreur", Message: error?.response?.data?.detail || error?.message || error?.request?.message || error });
-
-        throw error;
-    }
-};
 
 const Signin = () => {
 
@@ -62,9 +25,8 @@ const Signin = () => {
     const dispatch = useDispatch();
     const emailRef = useRef(null);
     const { t } = useTranslation();
-
+    const currentNav = useSelector(state => state.navigate.currentNav);
     const componentRef = useRef(null);
-
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -176,6 +138,11 @@ const Signin = () => {
         }
     };
 
+    if (currentNav === "home") {
+
+        return navigate("/", {replace:true})
+    }
+
     return (
 
         <section className="bg-gray-1 py-20 dark:bg-dark lg:py-[120px] bg_home">
@@ -238,7 +205,7 @@ const Signin = () => {
                                             <input
                                                 type="submit"
                                                 value="Sign In"
-                                                className="w-full cursor-pointer rounded-md border border-blue-600 bg-blue-600 px-5 py-3 text-base font-medium text-white transition hover:bg-blue-700"
+                                                className="w-full cursor-pointer rounded-md border border-blue-600 bg-blue-300 px-5 py-3 text-base font-medium text-white transition hover:bg-blue-400"
                                             />
 
                                         </div>
@@ -309,11 +276,7 @@ const LogIn = () => (
 
     <HomeLayout>
 
-        <SuspenseCallback>
-
-            <Signin/>
-
-        </SuspenseCallback>
+        <Signin/>
 
     </HomeLayout>
 );

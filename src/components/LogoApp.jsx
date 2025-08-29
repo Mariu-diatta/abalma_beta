@@ -12,7 +12,7 @@ const Logo = () => {
             <img
                 src={logoApp}
                 alt="Logo Abalma"
-                className="w-17 h-17 sm:w-25 sm:h-10 object-contain transition-transform duration-300 p-1"  
+                className="w-30 h-auto sm:w-30 sm:h-auto  object-contain transition-transform duration-300 p-1 hover:scale-110 scale-100"  
             />
 
         </div>

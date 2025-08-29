@@ -4,7 +4,7 @@ import InputBox from './InputBoxFloat';
 import { useTranslation } from 'react-i18next';
 import api from '../services/Axios';
 import LoadingCard from './LoardingSpin';
-import { useDispatch} from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
 import AttentionAlertMesage, { showMessage } from './AlertMessage';
 import PhoneInput from './InputPhoneCountry';
 import { setCurrentNav } from '../slices/navigateSlice';
@@ -50,6 +50,8 @@ const RegisterForm = () => {
     const [loading, setLoading] = useState(false)
 
     const navigate = useNavigate();
+
+    const currentNav = useSelector(state => state.navigate.currentNav);
 
     const componentRef = useRef(null);
 
@@ -171,6 +173,11 @@ const RegisterForm = () => {
         };
     }, []);
 
+    if (currentNav === "home") {
+
+        return navigate("/", { replace: true })
+    }
+
     return (
 
         <section className="bg-gray-1 py-2 dark:bg-dark lg:py-[120px] bg_home" >
@@ -262,7 +269,7 @@ const RegisterForm = () => {
                                         <input
                                             type="submit"
                                             value={t("register")}
-                                            className="w-full cursor-pointer rounded-md border border-blue-600 bg-blue-600 px-5 py-3 text-base font-medium text-white transition hover:bg-blue-700"
+                                            className="w-full cursor-pointer rounded-md border border-blue-300 bg-blue-300 px-5 py-3 text-base font-medium text-white transition hover:bg-blue-400"
                                         />
 
                                     </div>

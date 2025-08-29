@@ -25,7 +25,6 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
 
     const [productNbViews, setProductNbViews] = useState(null);
 
-
     const buttonRef = useRef(null)
 
     const popovRef = useRef(null)
@@ -48,11 +47,11 @@ const ProductModal = ({ isOpen, onClose, dataProduct }) => {
 
         () => {
 
-            var isCurrent_User = () => !(currentUser?.id === selectedUser?.id)
+            var isCurrent_User = () => !(currentUser?.id === selectedUser?.id && currentUser?.email === selectedUser?.email)
 
             setIsCurrentUser(isCurrent_User)
 
-        }, [currentUser?.id, selectedUser?.id]
+        }, [currentUser?.id, selectedUser?.id, currentUser?.email, selectedUser?.email]
 
     )
 

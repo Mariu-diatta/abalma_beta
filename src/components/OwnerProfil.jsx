@@ -263,6 +263,8 @@ const OwnerAvatar = ({ owner }) => {
 
     const containerRef = useRef(null);
 
+    if(!owner) return 
+
     return (
 
         <div className="relative inline-block " ref={containerRef}>

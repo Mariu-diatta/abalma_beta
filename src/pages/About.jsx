@@ -99,9 +99,9 @@ const AboutContainer = () => {
                     {/* RIGHT SECTION */}
                     <div
                         ref={rightSectionRef}
-                        className="w-full px-4 lg:w-1/2 xl:w-5/12 shadow-md rounded-lg opacity-0 translate-y-10 scale-95 transition-all duration-700 ease-in-out mt-6 hover:shadow-xl "
+                        className="w-full px-4 lg:w-1/2 xl:w-5/12 shadow-sm rounded-lg opacity-0 translate-y-10 scale-95 transition-all duration-700 ease-in-out mt-6 hover:shadow-xl sacle-100 hover:scale-105 "
                     >
-                        <div className="lg:mt-0">
+                        <div className="lg:mt-0 px-1">
                             <span className="block mb-4 text-2xl font-semibold transition-opacity duration-300 ease-in-out hover:opacity-90 px-1">
                                 {t('title')}
                             </span>

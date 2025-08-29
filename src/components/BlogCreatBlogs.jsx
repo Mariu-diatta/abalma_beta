@@ -148,8 +148,8 @@ export const ModalFormCreatBlog = () => {
             {
                 
                 <button
-                    onClick={(profileData && profileData?.email) ? handleToggleModal:()=>alert("Connecter vous")}
-                    className="absolute bottom-1 right-3 w-auto rounded-full flex gap-1 bg-blue-500 text-white text-sm px-3 py-1 hover:bg-blue-700 m-1 items-center"
+                    onClick={(profileData && profileData?.email) ? handleToggleModal:()=>alert("Vous devrez vous connecter avant !!!")}
+                    className=" w-auto rounded-full flex gap-1 bg-blue-300 text-white text-sm px-3 py-1 hover:bg-blue-700 m-1 items-center"
                     aria-expanded={isOpen}
                     aria-controls="modal-blog-form"
                 >

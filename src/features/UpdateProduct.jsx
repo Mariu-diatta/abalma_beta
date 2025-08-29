@@ -9,8 +9,10 @@ import { addMessageNotif } from '../slices/chatSlice';
 import { useNavigate } from "react-router";
 import { useTranslation } from 'react-i18next';
 import LoadingCard from '../components/LoardingSpin';
+import { ButtonSimple } from '../components/Button';
 
 const UpdateProduct = () => {
+
     const [imageFile, setImageFile] = useState(null);
     const [isProductAdded, setIsProductAdded] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -552,12 +554,15 @@ const UpdateProduct = () => {
                                 isLoading?
                                 <LoadingCard/>
                                 :
-                                <button
+
+                                <ButtonSimple
+
                                     type="submit"
-                                    className="cursor-pointer bg-blue-700 text-white rounded px-4 py-2"
-                                >
-                                    {t('add_product.save_product')}
-                                </button>
+
+                                    classComp="cursor-pointer bg-blue-300  hover:bg-blue-400  text-white rounded px-4 py-2"
+
+                                    title={t('add_product.save_product')}
+                                />
                                 
                             }
 
@@ -568,7 +573,7 @@ const UpdateProduct = () => {
                     {!(user?.is_fournisseur && user?.is_verified) && (
 
                         <button
-                            className="bg-blue-700 text-white rounded px-4 py-2 mt-5"
+                            className="bg-blue-300 text-white rounded px-4 py-2 mt-5"
                             onClick={() => {
                                 dispatch(setCurrentNav("user_profil"));
                                 navigate("/user_profil");

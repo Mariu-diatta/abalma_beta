@@ -91,11 +91,11 @@ const Footer = () => {
 
         <footer
 
-            className="w-full bg-[var(--color-bg)] text-[var(--color-text)] text-sm flex flex-col items-center justify-center z-10 mt-0"
+            className="w-full bg-[var(--color-bg)] text-[var(--color-text)] text-sm flex flex-col items-center justify-center z-10 mt-0 mb-[30px]"
 
             style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
         >
-            <div className="flex flex-col gap-6 items-center lg:flex-row w-full max-w-7xl mx-auto px-4 text-center lg:text-left translate-y-1 transition-all duration-1000 ease-in-out" ref={componentRef_}>
+            <div className="flex flex-col gap-6 items-center lg:flex-row w-full max-w-7xl mx-auto px-4 text-center lg:text-left translate-y-1 transition-all duration-1000 ease-in-out bg-none" ref={componentRef_}>
 
                 {/* Logo et description */}
                 <div className="mb-10 lg:w-1/2">
@@ -183,7 +183,7 @@ const Footer = () => {
 
                 </div>
 
-                <div className="flex flex-col justify-center gap-2">
+                <div className="flex flex-col justify-center gap-2 bg-none">
 
                     {/* Langue */}
                     <div className="flex items-center gap-3 text-sm">
@@ -197,7 +197,7 @@ const Footer = () => {
                             {t('follow_us')}
                         </p>
 
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 bg-none">
                             <a
                                 href="/home"
                                 className="flex h-8 w-8 items-center justify-center rounded-full border border-stroke text-dark hover:border-primary hover:bg-primary hover:text-white dark:border-dark-3 dark:text-white dark:hover:border-primary"
@@ -245,7 +245,7 @@ const Footer = () => {
             {/* Liens rapides avec animation */}
             <div
                 ref={componentRef}
-                className="w-full opacity-0 translate-y-5 transition-all duration-1000 ease-in-out"
+                className="w-full opacity-0 translate-y-5 transition-all duration-1000 ease-in-out bg-none"
             >
                 <div className="flex flex-col lg:flex-row justify-center  gap-10 p-0">
 
@@ -272,9 +272,9 @@ const Footer = () => {
             </div>
 
             {/* Bas de page */}
-            <div className="w-full  text-center text-sm dark:text-gray-400 px-4 pt-2 mt-5 border-t border-gray-400 dark:border-dark-3">
+            <div className="w-full  text-center text-sm dark:text-gray-400 px-4 pt-2 mt-5 border-t border-gray-400 dark:border-dark-3 mb-8 lg:mb-0 bg-none">
 
-                <p className="text-sm dark:text-gray-400 mb-1">
+                <p className="text-sm dark:text-gray-400 mb-1 bg-none">
                     &copy; 2025 <strong>Abalma</strong> {t("footer_toutDroit")}
                 </p>
 

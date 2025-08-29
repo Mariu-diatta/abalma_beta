@@ -38,8 +38,11 @@ const ProfileCard = () => {
     }, [currentNav, profileData, selectedProductOwner]);
 
     const isCurrentUser = useMemo(
-        () => userProfile?.email === profileData?.email,
-        [userProfile, profileData]
+        () => {
+
+            return (userProfile?.email === profileData?.email && userProfile?.id === profileData?.id);
+        },
+        [userProfile?.email, profileData.email, userProfile?.id, profileData.id ]
     );
 
     // Component state
@@ -333,6 +336,7 @@ const ProfileCard = () => {
                         />
                     </div>
                 )}
+
                 {isCurrentUser && (
                     <button
                         onClick={() => setIsEditingPhotoBg(!isEditingPhotoBg)}
@@ -361,6 +365,7 @@ const ProfileCard = () => {
                         </svg>
                     </button>
                 )}
+
             </div>
 
             {/* Profile Section */}
@@ -375,11 +380,13 @@ const ProfileCard = () => {
 
                 {/* Profile Picture */}
                 <div className="absolute -top-12 sm:-top-16 left-1/2 sm:left-6 transform -translate-x-1/2 sm:translate-x-0">
+
                     <img
                         src={previewUrl}
                         alt="Profil utilisateur"
                         className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-white shadow-lg object-cover"
                     />
+
                     {isCurrentUser && (
                         <label
                             className="absolute bottom-0 right-0 bg-white rounded-full p-1 shadow cursor-pointer hover:bg-gray-100"
@@ -413,6 +420,7 @@ const ProfileCard = () => {
                             />
                         </label>
                     )}
+
                 </div>
 
                 {/* User Info */}
@@ -452,13 +460,12 @@ const ProfileCard = () => {
                             </div>
 
                             <div className="flex flex-col sm:flex-col md:flex-row sm:items-center sm:justify-between gap-4 mb-2">
-
+     
+                                <NumberFollowFollowed profil={isCurrentUser ? currentUser : currentOwnUser} />
+                                
                                 <>
-                                    <NumberFollowFollowed profil={isCurrentUser ? currentUser : currentOwnUser} />
-                                </>
-
-                                <>
-                                    {!profileData?.is_pro && !isProFormVisible && isCurrentUser && (
+                                    {
+                                       (!profileData?.is_pro && !isProFormVisible && isCurrentUser) && (
                                         <button
                                             onClick={() => setIsProFormVisible(true)}
                                             className="flex items-center gap-2 text-sm border border-blue-400 rounded-full py-2 px-4 hover:bg-blue-100 dark:hover:bg-blue-900"
@@ -522,6 +529,7 @@ const ProfileCard = () => {
                                 value={formData?.adresse}
                                 onChange={handleChange}
                             />
+
                             <InputBox
                                 type="text"
                                 name="telephone"
@@ -529,18 +537,21 @@ const ProfileCard = () => {
                                 value={formData?.telephone}
                                 onChange={handleChange}
                             />
+
                             <textarea
                                 name="description"
                                 value={formData?.description}
                                 onChange={handleChange}
-                                className="w-full h-24 rounded-full border border-gray-300 p-2 resize-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full h-24 rounded-lg border border-gray-300 p-2 resize-none focus:ring-2 focus:ring-blue-500"
                                 placeholder={t('ProfilText.descriptionPlaceholder')}
                             />
+
                             <div className="flex gap-4">
+
                                 {loadinUpdate ? (
                                     <button
                                         type="submit"
-                                        className="rounded-full bg-green-600 text-white px-4 py-2 hover:bg-green-700"
+                                        className="rounded-full bg-green-300 text-white px-4 py-2 hover:bg-green-400"
                                     >
                                         {t('ProfilText.boutons.enregistrer')}
                                     </button>
@@ -563,41 +574,45 @@ const ProfileCard = () => {
                         value={formData?.description}
                         onChange={handleChange}
                         disabled={!isEditing}
-                        className="w-full mt-2 rounded-full border border-gray-200 p-2 text-sm focus:ring-2 focus:ring-blue-500"
+                        className="w-full mt-2 rounded-lg border border-gray-200 p-2 text-sm focus:ring-2 focus:ring-blue-500"
                         placeholder={t('ProfilText.descriptionPlaceholder')}
                     />
 
                     <div className="flex flex-col sm:flex-row gap-2 mt-6">
-                        {!isEditing && (
+
+                        {(!isEditing ) && (
                             <>
-                                {isCurrentUser && (
-                                    <button
-                                        onClick={() => setIsEditing(true)}
-                                        className="border-1 cursor-pointer inline-flex items-center gap-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-sm px-1 sm:px-2  hover:bg-gray-200 dark:hover:bg-gray-600 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors duration-200"
-                                        aria-label={t('ProfilText.modifierProfil')}
-                                        style={{
-                                            backgroundColor: "var(--color-bg)",
-                                            color: "var(--color-text)"
-                                        }}
-                                    >
-                                        <svg
-                                            className="w-4 h-4 sm:w-5 sm:h-5"
-                                            aria-hidden="true"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
+                                {
+                                    isCurrentUser &&
+                                    (
+                                        <button
+                                            onClick={() => setIsEditing(true)}
+                                            className="py-2 border border-gray-300 cursor-pointer inline-flex items-center gap-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-sm px-1 sm:px-2  hover:bg-gray-200 dark:hover:bg-gray-600 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors duration-200"
+                                            aria-label={t('ProfilText.modifierProfil')}
+                                            style={{
+                                                backgroundColor: "var(--color-bg)",
+                                                color: "var(--color-text)"
+                                            }}
                                         >
-                                            <path
-                                                stroke="currentColor"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth="1.5"
-                                                d="M7 19H5a1 1 0 0 1-1-1v-1a3 3 0 0 1 3-3h1m4-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm7.441 1.559a1.907 1.907 0 0 1 0 2.698l-6.069 6.069L10 19l.674-3.372 6.07-6.07a1.907 1.907 0 0 1 2.697 0Z"
-                                            />
-                                        </svg>
-                                        <span>{t('ProfilText.modifierProfil')}</span>
-                                    </button>
-                                )}
+                                            <svg
+                                                className="w-4 h-4 sm:w-5 sm:h-5"
+                                                aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path
+                                                    stroke="currentColor"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth="1.5"
+                                                    d="M7 19H5a1 1 0 0 1-1-1v-1a3 3 0 0 1 3-3h1m4-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm7.441 1.559a1.907 1.907 0 0 1 0 2.698l-6.069 6.069L10 19l.674-3.372 6.07-6.07a1.907 1.907 0 0 1 2.697 0Z"
+                                                />
+                                            </svg>
+                                            <span>{t('ProfilText.modifierProfil')}</span>
+                                        </button>
+                                    )
+                                }
 
                                 {!isCurrentUser && selectedProductOwner && (
                                     <button
@@ -652,7 +667,7 @@ const ProfileCard = () => {
                         )}
                     </div>
 
-                    {isProFormVisible && isCurrentUser && (
+                    {(isProFormVisible && isCurrentUser) && (
 
                         <form
 
@@ -694,7 +709,7 @@ const ProfileCard = () => {
 
                                 <button
                                     type="submit"
-                                    className="rounded-full bg-green-600 text-white px-4 py-2 hover:bg-green-700 text-sm"
+                                    className="rounded-full bg-green-300 text-white px-4 py-2 hover:bg-green-400 text-sm"
                                 >
                                     {t('ProfilText.envoyerJustificatif')}
                                 </button>
@@ -702,7 +717,7 @@ const ProfileCard = () => {
                                 <button
                                     type="button"
                                     onClick={() => setIsProFormVisible(false)}
-                                    className="rounded-full bg-red-600 text-white px-4 py-2 hover:bg-red-700 text-sm"
+                                    className="rounded-full bg-red-300 text-white px-4 py-2 hover:bg-red-400 text-sm"
                                 >
                                     {t('ProfilText.annuler')}
                                 </button>

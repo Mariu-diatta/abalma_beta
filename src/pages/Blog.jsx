@@ -4,6 +4,10 @@ import { useTranslation } from 'react-i18next';
 import api from '../services/Axios';
 import LoadingCard from '../components/LoardingSpin';
 import { ModalFormCreatBlog } from '../components/BlogCreatBlogs';
+import SearchBar from '../components/BtnSearchWithFilter';
+import { useDispatch, useSelector } from 'react-redux';
+import { formatISODate } from '../utils';
+import { updateCategorySelected } from '../slices/navigateSlice';
 const HomeLayout = lazy(() => import('../layouts/HomeLayout'));
 
 
@@ -14,6 +18,11 @@ export const BlogPage = () => {
     const [blogs, setBlogs] = useState([])
 
     const [isLoading, setIsLoading] = useState(false)
+
+    const currentNav = useSelector(state => state.navigate.currentNav);
+
+    const dispatch = useDispatch()
+
 
     const fetchBlogs = useCallback(() => {
 
@@ -27,6 +36,8 @@ export const BlogPage = () => {
     useEffect(
 
         () => {
+
+            dispatch(updateCategorySelected({category:"All", query:""}))
 
             const getBlogs = async () => {
 
@@ -48,9 +59,36 @@ export const BlogPage = () => {
 
             getBlogs()
 
-        },[]
+        }, [dispatch]
     )
 
+
+    const getDataBlogSearch= async (data) => {
+
+        alert("Je suis clické")
+
+        const getBlogs = async () => {
+
+            setIsLoading(true)
+
+            try {
+
+                const blogs = await api.get(`blogs/?search=${data?.query}`);
+
+                setBlogs(blogs.data)
+
+                setIsLoading(false)
+
+            } catch (err) {
+
+                setIsLoading(false)
+            }
+        }
+
+        getBlogs()
+
+    }
+         
     return (
 
         <div className="mt-5 dark:bg-gray-900 bg_home z-8 shadow-sm">
@@ -62,6 +100,12 @@ export const BlogPage = () => {
                     <h2 className="mb-4 text-3xl lg:text-2xl tracking-tight font-extrabold">{t("blog.title")}</h2>
 
                     <p className="font-light text-gray-500 sm:text-xl dark:text-gray-400">{t("blog.maint_text_content")}</p>
+
+                </div>
+
+                <div className={`flex mx-auto items-center md:hidden ${(currentNav === "home" || currentNav === "blogs") ? "" : "hidden"}`} >
+
+                    <SearchBar onSearch={getDataBlogSearch} />
 
                 </div>
 
@@ -81,7 +125,7 @@ export const BlogPage = () => {
                 </div>
 
 
-                <div className="absolute bottom-0 right-2 mb-5">
+                <div className="flex justify-end  pr-2 my-8">
 
                     <ModalFormCreatBlog />
 
@@ -164,15 +208,5 @@ const BlogCard = (blog) => {
     );
 };
 
-function formatISODate(isoDateStr) {
-    const date = new Date(isoDateStr);
-    const day = String(date.getUTCDate()).padStart(2, '0');
-    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-    const year = date.getUTCFullYear();
-    const hours = String(date.getUTCHours()).padStart(2, '0');
-    const minutes = String(date.getUTCMinutes()).padStart(2, '0');
-    const seconds = String(date.getUTCSeconds()).padStart(2, '0');
 
-    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
-}
 

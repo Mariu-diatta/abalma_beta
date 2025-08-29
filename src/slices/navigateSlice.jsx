@@ -11,7 +11,9 @@ const initialState = {
 
     theme: 'light',
 
-    lang:'fr',
+    lang: 'fr',
+
+    categorySelectedOnSearch:null,
 };
 
 const navigateSlice = createSlice({
@@ -53,9 +55,14 @@ const navigateSlice = createSlice({
 
             state.lang = action.payload;
         },
+
+        updateCategorySelected: (state, action) => {
+
+            state.categorySelectedOnSearch = action.payload;
+        },
     }
 });
 
-export const { clearMessage, setCurrentMessage, setPreviousNav, setCurrentNav, updateTheme, updateLang } = navigateSlice.actions; 
+export const { clearMessage, setCurrentMessage, setPreviousNav, setCurrentNav, updateTheme, updateLang, updateCategorySelected } = navigateSlice.actions; 
 
 export default navigateSlice.reducer;

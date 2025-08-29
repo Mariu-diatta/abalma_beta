@@ -1,12 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Outlet, NavLink } from 'react-router-dom';
-import WhiteRoundedButton from "../components/Button";
+import { Outlet} from 'react-router-dom';
+import WhiteRoundedButton, { ButtonNavigate } from "../components/Button";
 import Logo from "../components/LogoApp";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentNav, updateLang, updateTheme } from "../slices/navigateSlice";
+import { updateLang, updateTheme } from "../slices/navigateSlice";
 import { useTranslation } from 'react-i18next';
 import { applyTheme } from "../utils";
-import { NotificationsComponent, PayBack } from "../components/DropDownAccount";
+import SearchBar from "../components/BtnSearchWithFilter";
+import api from "../services/Axios";
+import NotificationsComponent from "../components/NotificationComponent";
+import PayBack from "../components/BacketButtonPay";
 
 export function LanguageDropdown() {
 
@@ -243,6 +246,17 @@ const NavbarHeader = () => {
 
     const ref = useRef(null);
 
+    const getDataSeachSelectedItem = async (data) => {
+
+        try {
+
+            await api.get(`product/fimter?search=${data?.query}`)
+
+        } catch (e) {
+
+        }
+    }
+
     const tabs = [
         {
             id: 'home',
@@ -278,7 +292,7 @@ const NavbarHeader = () => {
             label: t('about'),
             endPoint: '/about',
             logo:
-                ((currentNav === "about") && !(currentNav === "/logIn") && !(currentNav === "/Register") && !(currentNav === "/register")) ?
+                ((currentNav === "about")  && !(currentNav === "/logIn") && !(currentNav === "/Register") && !(currentNav === "/register")) ?
                     (
                         <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                             <path fillRule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm9.408-5.5a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM10 10a1 1 0 1 0 0 2h1v3h-1a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-1v-4a1 1 0 0 0-1-1h-2Z" clipRule="evenodd" />
@@ -340,7 +354,6 @@ const NavbarHeader = () => {
         },
     ];
 
-
     useEffect(() => {
         function handleClickOutside(event) {
 
@@ -373,198 +386,127 @@ const NavbarHeader = () => {
 
     }, [themeValue]);
 
- 
-
     return (
 
-        <>
-            <header className="w-full z-20 flex items-center style-bg py-2" ref={ref}>
+        <navbar className="sticky top-0 z-20 h-[20px]">
 
+            <header
 
-                <div className="container mx-auto px-4 flex items-center justify-between relative">
+                className="w-full flex items-center style-bg h-[50px] m-0  mx-auto px-4 flex items-center justify-between relative bg-white"
 
-                    {/*<div className="flex items-center justify-between relative">*/}
+                ref={ref}
 
-                        {/* Logo */}
-                        <div className="">
-                            <Logo />
-                        </div>
+                style={
+                    {
+                        backgroundColor: "var(--color-bg)",
 
-                        <ButtonNavigate tabs={tabs} />
+                        color: "var(--color-text)"
+                    }
+                }
 
-                        {
+            >
 
-                            (!(currentNav === "/logIn") && !(currentNav === "/Register") && !(currentNav === "/register")) &&
+                {/* Logo */}
+                <div className="">
+                    <Logo />
+                </div>
 
-                            <>
-                                {/* Toggle Button for Mobile */}
-                                <button
-                                    onClick={() => setOpen(!open)}
-                                    id="navbarToggler"
-                                    className={
-                                    `
-                                    ${open && "navbarTogglerActive"} 
-                                    sm:hidden absolute right-1 top-1/2 transform -translate-y-1/2 
-                                    z-[71] px-3 py-[6px] rounded-lg 
-                                    text-black
-                                    dark:bg-dark-3 dark:text-white mb-2 dark:bg-white
-                                    focus:outline-none
-                                  `}
+                <ButtonNavigate tabs={tabs} />
 
-                                >
-                                    <span className="block w-[30px] h-[2px] bg-gray-700 dark:bg-gray-400 my-[6px]" ></span>
-                                    <span className="block w-[30px] h-[2px] bg-gray-700 dark:bg-gray-200 my-[6px]"></span>
-                                    <span className="block w-[30px] h-[2px] bg-gray-700 dark:bg-gray-200 my-[6px]"></span>
+                {
+                    (currentNav === "home" || currentNav === "blogs") &&
+                    <div className={`hidden md:block w-1/3`} >
 
-                                </button>
+                            <SearchBar onSearch={getDataSeachSelectedItem} />
 
-                               {/* Navigation */}
+                    </div>
+                }
+
+                {
+
+                    (!(currentNav === "/logIn") && !(currentNav === "/Register") && !(currentNav === "/register")) &&
+
+                    <>
+                        {/* Toggle Button for Mobile */}
+                        <button
+                            onClick={() => setOpen(!open)}
+                            id="navbarToggler"
+                            className={
+                            `
+                            ${open && "navbarTogglerActive"} 
+                            sm:hidden absolute right-1 top-1/2 transform -translate-y-1/2 
+                            z-[71] px-3 py-[6px] rounded-lg 
+                            text-black
+                            dark:bg-dark-3 dark:text-white mb-2 dark:bg-white
+                            focus:outline-none
+                            `}
+
+                        >
+                            <span className="block w-[30px] h-[2px] bg-gray-700 dark:bg-gray-400 my-[6px]" ></span>
+                            <span className="block w-[30px] h-[2px] bg-gray-700 dark:bg-gray-200 my-[6px]"></span>
+                            <span className="block w-[30px] h-[2px] bg-gray-700 dark:bg-gray-200 my-[6px]"></span>
+
+                        </button>
+
+                        {/* Navigation */}
                       
-                                <nav
-                                    id="navbarCollapse"
-                                    className={`sm:hidden absolute top-1/2 right-0  w-full max-w-[250px] z-[70] rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${!open && "hidden"}
-                                    lg:static lg:block lg:max-w-full lg:w-auto`}
-                                >
+                        <nav
+                            id="navbarCollapse"
+                            className={`sm:hidden absolute top-1/2 right-0  w-full max-w-[250px] z-[70] rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${!open && "hidden"}
+                            lg:static lg:block lg:max-w-full lg:w-auto`}
+                        >
 
-                                    {/* Boutons et Dropdown (Mobile) */}
-                                    <div
+                            {/* Boutons et Dropdown (Mobile) */}
+                            <div
+                                className="text-sm absolute top-2 flex flex-col items-start justify-start gap-3 p-1 sm:hidden shadow-md w-full py-5 bg-none "
+                            >       
+                                <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
 
-                                        className="text-sm absolute top-2 flex flex-col items-start justify-start gap-2 p-1 sm:hidden shadow-md w-full "
+                                <WhiteRoundedButton titleButton={t('register')} to="/register" />
 
-                                        style={
-                                            {
-                                                backgroundColor: "var(--color-bg)",
+                                <ThemeToggle />
 
-                                                color: "var(--color-text)"
-                                            }
-                                        }
-                                    >       
-                                        <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
+                            </div>
 
-                                        <WhiteRoundedButton titleButton={t('register')} to="/register" />
-
-                                        <ThemeToggle />
-
-                                    </div>
-
-                                </nav>
+                        </nav>
                        
-                                {/* Boutons et Dropdown (Desktop) */}
+                        {/* Boutons et Dropdown (Desktop) */}
 
-                                <div
+                        <div
 
-                                    className="hidden sm:flex items-center justify-center gap-3 w-auto"
-
-                                    style={
-
-                                        {
-                                            backgroundColor: "var(--color-bg)",
-
-                                            color: "var(--color-text)"
-                                        }
-                                    }
-                                >
-                            
+                            className="hidden sm:flex items-center justify-center gap-3 w-auto bg-none"
+                        >
+                            {
+                                currentNav==="home" &&
+                                <>
                                     <ThemeToggle />
 
                                     <NotificationsComponent/>
 
                                     <PayBack/>
+                                </>
+                            }
 
-                                    <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
+                            <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
 
-                                    <WhiteRoundedButton titleButton={t('register')} to="/register" />
+                            <WhiteRoundedButton titleButton={t('register')} to="/register" />
 
-                                </div>
+                        </div>
 
-                            </>
+                    </>
 
-                        }
-
-                       {/*</div>*/}
-
-                </div>
-
+                }
 
             </header>
 
-
             <Outlet />
-        </>
+
+        </navbar>
     );
 };
 
 export default NavbarHeader;
 
-const ButtonNavigate = ({ tabs }) => {
 
-    const dispatch = useDispatch();
-
-    const currentNav = useSelector(state => state.navigate.currentNav);
-
-
-    return (
-
-        <ul
-            className="
-                fixed bottom-0 left-0 w-full flex gap-2
-                border-0
-                sm:items-center
-                lg:static lg:flex 
-                lg:flex-row 
-                lg:w-auto
-                lg:justify-between
-                dark:bg-dark-2
-                px-4 z-10 
-             "
-            style={
-                {
-
-                    backgroundColor: "var(--color-bg)",
-
-                    color: "var(--color-text)"
-                }
-            }
-        >
-            {tabs.map((tab) => (
-
-                <li key={tab.id} className="w-full sm:w-auto gap-6 px-1 ">
-
-                    {
-                        !(((tab.label === "About") || (tab.label === "Blogs")) && ((currentNav === "/logIn") || (currentNav === "/Register") || (currentNav === "/register"))) &&
-
-                        <NavLink
-
-                            to={tab.endPoint}
-
-                            className={({ isActive }) =>
-                                `
-                                    w-full text-center items-center flex flex-col lg:flex-row gap-1 text-[14px]
-                                    px-1
-                                    transition
-                                    border-t sm:border-b-0 lg:border-b lg:border-t-0
-                                    ${isActive
-                                    ? 'border-gray-300'
-                                    : 'border-transparent text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-dark-3 hover:rounded-full'
-                                }
-                                `
-                            }
-
-                            onClick={() => dispatch(setCurrentNav(tab.id))}
-                        >
-                            <>{tab.logo}</>
-
-                            <>{tab.label}</>
-
-                        </NavLink>
-                     }
-
-
-                </li>
-            ))
-        }
-        </ul>
-    );
-};
 
 

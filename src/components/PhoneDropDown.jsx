@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 
 const PhoneDropdown = () => {
+
     const [isOpen, setIsOpen] = useState(false);
+
     const dropdownRef = useRef();
 
     // Fermer le menu quand on clique en dehors
@@ -10,6 +12,7 @@ const PhoneDropdown = () => {
         const handleClickOutside = (event) => {
 
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+
                 setIsOpen(false);
             }
         };
@@ -22,7 +25,9 @@ const PhoneDropdown = () => {
 
     return (
         <form className="max-w-sm mx-auto">
+
             <div className="flex items-center relative" ref={dropdownRef}>
+
                 <button
                     type="button"
                     onClick={() => setIsOpen((prev) => !prev)}
@@ -36,11 +41,14 @@ const PhoneDropdown = () => {
                         viewBox="0 0 20 15"
                     >
                         <rect width="19.6" height="14" y=".5" fill="#fff" rx="2" />
+
                         <path
                             fill="#D02F44"
                             d="M19.6.5H0v.933h19.6V.5zm0 1.867H0V3.3h19.6v-.933zM0 4.233h19.6v.934H0v-.934zM19.6 6.1H0v.933h19.6V6.1zM0 7.967h19.6V8.9H0v-.933zm19.6 1.866H0v.934h19.6v-.934zM0 11.7h19.6v.933H0V11.7zm19.6 1.867H0v.933h19.6v-.933z"
                         />
+
                         <path fill="#46467F" d="M0 .5h8.4v6.533H0z" />
+
                     </svg>
                     +1
                     <svg
