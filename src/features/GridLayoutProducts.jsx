@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addToCart } from '../slices/cartSlice';
+import { addToCart, updateSelectedProduct } from '../slices/cartSlice';
 import api from '../services/Axios';
 import { addMessageNotif, addUser } from '../slices/chatSlice';
 import ProductModal from '../pages/ProductViewsDetails';
 import { useTranslation } from 'react-i18next';
 import LoadingCard from '../components/LoardingSpin';
-import { numberStarsViews, removeAccents, translateCategory } from '../utils';
+import { removeAccents, translateCategory } from '../utils';
 import SearchBar from '../components/BtnSearchWithFilter';
 import ProductCard from '../components/ProductCard';
 import ScrollableCategoryButtons from '../components/ScrollCategoryButtons';
@@ -14,6 +14,8 @@ import ScrollableCategoryButtons from '../components/ScrollCategoryButtons';
 const GridLayoutProduct = () => {
 
     const [filteredItems, setFilteredItems] = useState([])
+
+    const [filteredItemsPopover, setFilteredItemsPopover] = useState([])
 
     const { t } = useTranslation();
 
@@ -45,62 +47,60 @@ const GridLayoutProduct = () => {
 
     const closeModal = () => setModalData(null);
 
+    useEffect(
+
+        () => {
+
+            dispatch(updateSelectedProduct(modalData))
+
+        }, [dispatch, modalData]
+    )
+
 
     useEffect(() => {
-
         const fetchProductsAndOwners = async () => {
-
-             removeAccents(translateCategory(activeCategory))
-
             try {
-                const { data: products } =
+                const translatedCategory = translateCategory(activeCategory);
+                const cleanCategory = removeAccents(translatedCategory)?.toLowerCase();
+                const isDefaultCategory = cleanCategory === defaultCategory?.toLowerCase();
 
-                    (!!activeCategory && ((activeCategory && defaultCategory) &&  removeAccents(translateCategory(activeCategory))?.toLowerCase() === defaultCategory?.toLowerCase()))
+                const url = isDefaultCategory
+                    ? "products/filter/"
+                    : `products/filter/?categorie_product=${cleanCategory?.toUpperCase()}`;
 
-                        ? await api.get("products/filter/")
-
-                        : await api.get(`products/filter/?categorie_product=${activeCategory && removeAccents(translateCategory(activeCategory))?.toUpperCase()}`);
+                const { data: products } = await api.get(url);
 
                 const filtered = products.filter(item => parseInt(item?.quantity_product) !== 0);
-
                 setFilteredItems(filtered);
+                setFilteredItemsPopover(filtered.filter(item => item?.total_views > 5));
 
-                // IDs uniques des fournisseurs
                 const uniqueOwnerIds = [...new Set(products.map(p => p?.fournisseur))].filter(Boolean);
 
-                // Appels en parallèle
                 const responses = await Promise.all(
-
                     uniqueOwnerIds.map(id =>
-
-                        api.get(`clients/${id}/`).then(res => ({ id, data: res.data })).catch(() => ({ id, data: null }))
+                        api.get(`clients/${id}/`)
+                            .then(res => ({ id, data: res.data }))
+                            .catch(() => ({ id, data: null }))
                     )
                 );
 
-                // Map id → owner
                 const ownerMap = responses.reduce((acc, { id, data }) => {
-
                     if (data) acc[id] = data;
-
                     return acc;
-
                 }, {});
 
                 setOwners(ownerMap);
-
             } catch (error) {
-
-                //console.error("Erreur lors du chargement :", error);
-
+                // console.error("Erreur lors du chargement :", error);
             } finally {
-
                 setLoading(false);
             }
         };
 
         fetchProductsAndOwners();
+    }, [activeCategory, defaultCategory]);
 
-    }, [activeCategory, defaultCategory]); // 🔹 Plus de filteredItems ici
+
 
     useEffect(
 
@@ -156,7 +156,7 @@ const GridLayoutProduct = () => {
 
                 setActiveCategory={setActiveCategory}
 
-                products={filteredItems}
+                products={filteredItemsPopover}
             />
 
             {
@@ -167,9 +167,7 @@ const GridLayoutProduct = () => {
                 <>
                     {filteredItems.length > 0 ? (
 
-                        <div
-                            className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-2 sm:gap-3"
-                        >
+                        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-2 sm:gap-3">
 
                             {filteredItems.length>0 && filteredItems.map(item => {
 
@@ -185,7 +183,6 @@ const GridLayoutProduct = () => {
                                         owner={owner}
                                         productNbViews={productNbViews}
                                         t={t}
-                                        numberStarsViews={numberStarsViews}
                                         openModal={openModal}
                                         addUser={addUser}
                                         owners={owners}
@@ -212,7 +209,7 @@ const GridLayoutProduct = () => {
 
             }
 
-            <ProductModal isOpen={!!modalData} onClose={closeModal} dataProduct={modalData} />
+            <ProductModal isOpen={!!modalData} onClose={closeModal} products={filteredItems}/>
 
         </div>
     );

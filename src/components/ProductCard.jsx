@@ -9,7 +9,6 @@ const ProductCard = ({
     owner,
     productNbViews,
     t,
-    numberStarsViews,
     openModal,
     addUser,
     owners,

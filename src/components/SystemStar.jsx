@@ -2,9 +2,10 @@ import { numberStarsViews } from "../utils";
 
 const PrintNumberStars = ({ productNbViews, t }) => {
 
+    if (productNbViews <= 0 ) return
+
     return (
 
-      
         < div className = "flex items-center" >
 
             <div className="flex items-center">

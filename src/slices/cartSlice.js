@@ -8,7 +8,8 @@ const initialState = {
     nbItemCustom: 0,    // Total des produits personnalisés (cardCreated
     totalPrice: 0,
     productUpdate: null,
-    nbrProductViews:0
+    nbrProductViews:0,
+    selectedProductView:null
 };
 
 const cartSlice = createSlice({
@@ -105,6 +106,10 @@ const cartSlice = createSlice({
 
             state.nbrProductViews = action.payload
         },
+        updateSelectedProduct: (state, action) => {
+
+            state.selectedProductView = action.payload
+        }
 
     },
 });
@@ -116,7 +121,7 @@ const updateItemCounts = (state) => {
     state.nbItemCustom = sum(state.cardCreated);
 };
 
-export const { addToCart, removeFromCart, decreaseQuantity, clearCart, getTotalPrice, setProductUpdate, updateNumberProductViews } = cartSlice.actions;
+export const { addToCart, removeFromCart, decreaseQuantity, clearCart, getTotalPrice, setProductUpdate, updateNumberProductViews, updateSelectedProduct } = cartSlice.actions;
 
 export default cartSlice.reducer;
 

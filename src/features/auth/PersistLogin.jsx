@@ -84,7 +84,7 @@ const PersistLogIn = () => {
             verifyRefreshToken();
         }
 
-    });
+    },[dispatch, isLoading,navigate ]);
 
     if (isLoading) {
 

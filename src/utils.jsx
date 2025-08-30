@@ -38,15 +38,15 @@ export const numberStarsViews = (numberStars_) => {
 
     if (numberStars >= 40) return 4;
 
-    if (numberStars >= 30) return 4;
+    else if (numberStars >= 30) return 4;
 
-    if (numberStars >= 10) return 3;
+    else if (numberStars >= 10) return 3;
 
-    if (numberStars >= 5) return 2;
+    else if (numberStars >= 5) return 2;
 
-    if (numberStars === 1) return 1;
+    else if (numberStars === 1) return 1;
 
-    return 0;
+    else return 0;
 };
 
 //appliqué le thème 
