@@ -220,7 +220,8 @@ const UpdateProduct = () => {
                     </button>
                 </div>
             ) : (
-                <div className="shadow-lg max-w-2xl px-4 py-1 mx-auto lg:py-2">
+                    <div className="shadow-lg max-w-2xl px-4 py-1 mx-auto lg:py-2">
+
                     <h1 className="text-2xl font-extrabold text-gray-500 dark:text-white pt-4 pb-5 mb-5">
                         {t('add_product.add_or_update_product')}
                     </h1>
@@ -238,9 +239,13 @@ const UpdateProduct = () => {
                         {/* ... ton grand bloc avec les inputs/select/textarea ... */}
                             <div className="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
 
+                                <h2 className="text-lg font-extrabold text-gray-500 dark:text-white pt-4 pb-1 mb-1 sm:col-span-2">
+                                    {t('add_product.informations')}
+                                </h2>
+
                                 <div className="w-full">
 
-                                    <label htmlFor="name_product" className="block mb-2 text-sm font-medium ">{t('Nom du produit')}</label>
+                                    <label htmlFor="name_product" className="block mb-2 text-sm font-medium ">{t('add_product.name_product')}</label>
 
                                     <input
                                         type="text"
@@ -337,6 +342,10 @@ const UpdateProduct = () => {
                                 </div>
 
                                 <div className="h-[0.5px] bg-gray-300 sm:col-span-2" />
+
+                                <h2 className="text-lg font-extrabold text-gray-500 dark:text-white pt-4 pb-1 mb-1 sm:col-span-2">
+                                    {t('add_product.paimement_infos')}
+                                </h2>
 
                                 <div className="w-full">
 
@@ -487,7 +496,7 @@ const UpdateProduct = () => {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                                         placeholder="paymentMethod"
                                     >
-                                        <option value="">{t('Moyen de paiement')}</option>
+                                        <option value="">{t('add_product.payement_methode')}</option>
                                         <option value="CASH">{t('Cash')}</option>
                                         <option value="CARD">{t('Card')}</option>
                                     </select>
@@ -495,6 +504,10 @@ const UpdateProduct = () => {
                                 </div>
 
                                 <div className="h-[0.5px] bg-gray-300 sm:col-span-2" />
+
+                                <h2 className="text-lg font-extrabold text-gray-500 dark:text-white pt-4 pb-1 mb-1 sm:col-span-2">
+                                    {t('add_product.informations_livraison')}
+                                </h2>
 
                                 <div className="w-full">
 
@@ -572,7 +585,7 @@ const UpdateProduct = () => {
 
                                     <FormElementFileUpload
 
-                                        label="Choisissez une image"
+                                        label={t("add_product.ChooseImage")}
 
                                         getFile={handleFileSelect}
                                     />
