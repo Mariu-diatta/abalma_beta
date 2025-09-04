@@ -240,23 +240,16 @@ const UpdateProduct = () => {
 
                                 <div className="w-full">
 
-                                    <label htmlFor="code_reference" className="block mb-2 text-sm font-medium ">
-
-                                        {t('add_product.code_reference')}
-
-                                        <span className="text-red-500">*</span>
-
-                                    </label>
+                                    <label htmlFor="name_product" className="block mb-2 text-sm font-medium ">{t('Nom du produit')}</label>
 
                                     <input
                                         type="text"
-                                        name="code_reference"
-                                        id="code_reference"
-                                        value={dataProduct.code_reference}
+                                        id="name_product"
+                                        name="name_product"
+                                        value={dataProduct?.name_product}
                                         onChange={onChangeClick}
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                        placeholder="Ex: ABC-123"
-                                        required
+                                        placeholder="Nom du produit"
                                     />
 
                                 </div>
@@ -283,47 +276,24 @@ const UpdateProduct = () => {
 
                                 <div className="w-full">
 
-                                    <label htmlFor="Currency_price" className="block mb-2 text-sm font-medium ">{t('add_product.default_currency_label')}</label>
+                                    <label htmlFor="code_reference" className="block mb-2 text-sm font-medium ">
 
-                                    <select
-                                        id="Currency_price"
-                                        name="Currency_price"
-                                        value={dataProduct?.Currency_price}
+                                        {t('add_product.code_reference')}
+
+                                        <span className="text-red-500">*</span>
+
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="code_reference"
+                                        id="code_reference"
+                                        value={dataProduct.code_reference}
                                         onChange={onChangeClick}
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                    >
-                                        <option value="">{t('add_product.select_currency')}</option>
-                                        <option value="EURO">{t('add_product.euro')}</option>
-                                        <option value="DOLLAR">{t('add_product.dollar')}</option>
-                                        <option value="FRANC">{t('add_product.franc')}</option>
-
-                                    </select>
-                                </div>
-
-                                <div className="w-full">
-
-                                    <div>
-
-                                        <label htmlFor="price_product" className="block mb-2 text-sm font-medium ">
-
-                                            {t('add_product.product_price')}
-
-                                            <span className="text-red-500">*</span>
-
-                                        </label>
-
-                                        <input
-                                            type="text"
-                                            name="price_product"
-                                            id="price_product"
-                                            value={dataProduct?.price_product}
-                                            onChange={onChangeClick}
-                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                            placeholder="120$"
-                                            required
-                                        />
-
-                                    </div>
+                                        placeholder="Ex: ABC-123"
+                                        required
+                                    />
 
                                 </div>
 
@@ -364,6 +334,27 @@ const UpdateProduct = () => {
                                         <option value="HB">{t('add_product.categories.HB')}</option>
                                     </select>
 
+                                </div>
+
+                                <div className="h-[0.5px] bg-gray-300 sm:col-span-2" />
+
+                                <div className="w-full">
+
+                                    <label htmlFor="Currency_price" className="block mb-2 text-sm font-medium ">{t('add_product.default_currency_label')}</label>
+
+                                    <select
+                                        id="Currency_price"
+                                        name="Currency_price"
+                                        value={dataProduct?.Currency_price}
+                                        onChange={onChangeClick}
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                    >
+                                        <option value="">{t('add_product.select_currency')}</option>
+                                        <option value="EURO">{t('add_product.euro')}</option>
+                                        <option value="DOLLAR">{t('add_product.dollar')}</option>
+                                        <option value="FRANC">{t('add_product.franc')}</option>
+
+                                    </select>
                                 </div>
 
                                 <div className="w-full">
@@ -458,17 +449,28 @@ const UpdateProduct = () => {
 
                                 <div className="w-full">
 
-                                    <label htmlFor="name_product" className="block mb-2 text-sm font-medium ">{t('Nom du produit')}</label>
+                                    <div>
 
-                                    <input
-                                        type="text"
-                                        id="name_product"
-                                        name="name_product"
-                                        value={dataProduct?.name_product}
-                                        onChange={onChangeClick}
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                        placeholder="Nom du produit"
-                                    />
+                                        <label htmlFor="price_product" className="block mb-2 text-sm font-medium ">
+
+                                            {t('add_product.product_price')}
+
+                                            <span className="text-red-500">*</span>
+
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            name="price_product"
+                                            id="price_product"
+                                            value={dataProduct?.price_product}
+                                            onChange={onChangeClick}
+                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                            placeholder="120$"
+                                            required
+                                        />
+
+                                    </div>
 
                                 </div>
 
@@ -492,19 +494,28 @@ const UpdateProduct = () => {
 
                                 </div>
 
+                                <div className="h-[0.5px] bg-gray-300 sm:col-span-2" />
+
                                 <div className="w-full">
 
                                     <label htmlFor="delivery" className="block mb-2 text-sm font-medium ">{t('delivery')}</label>
 
-                                    <input
-                                        type="text"
+                                    <select
                                         id="delivery"
                                         name="delivery"
                                         value={dataProduct?.delivery}
                                         onChange={onChangeClick}
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                        placeholder="delivery"
-                                    />
+                                        required
+                                    >
+                                        <option value="">
+                                            {t('add_product.FREE')}
+                                        </option>
+
+                                        <option value="FREE">{t('add_product.FREE')}</option>
+                                        <option value="DELPAID">{t('add_product.DELPAID')}</option>
+
+                                    </select>
 
                                 </div>
 
@@ -622,7 +633,7 @@ const UpdateProduct = () => {
                                     //    type="button"
                                     ///>
                                     //:
-                                    <div className="flex gap-3 justify-center items-center m-auto">
+                                    <div className="flex gap-3 justify-center items-center m-auto my-2">
                                         <ButtonSimple
                                             title={"Valider"}
                                         />

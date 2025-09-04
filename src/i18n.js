@@ -74,6 +74,8 @@ i18n
              param: 'Settings and Privacy',
              add_product: {
                  "add_or_update_product": "Add / Edit a product",
+                 FREE: "Free",
+                 DELPAID: "Paid",
                  "code_reference": "Reference Code",
                  "required": "*",
                  "product_color": "Product color",
@@ -513,6 +515,8 @@ i18n
               add_product: {
                   "add_or_update_product": "Ajouter / Modifier un produit",
                   "code_reference": "Code Référence",
+                  FREE: "Gratuite",
+                  DELPAID: "Avec frais",
                   "required": "*",
                   "product_color": "Couleur produit",
                   "default_currency_label": "Choisir la monnaie defaul Francs",
