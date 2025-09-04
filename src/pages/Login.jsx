@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import HomeLayout from '../layouts/HomeLayout';
 import { useNavigate } from 'react-router-dom';
 import InputBox from '../components/InputBoxFloat';
@@ -9,16 +9,17 @@ import AttentionAlertMesage, { showMessage } from '../components/AlertMessage';
 import { useTranslation } from 'react-i18next';
 import { Outlet, NavLink } from 'react-router-dom';
 import { setCurrentNav } from '../slices/navigateSlice';
-import { LoginWithGoogle} from '../firebase';
+import { LoginWithGoogle } from '../firebase';
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import LoadingCard from '../components/LoardingSpin';
 import { loginClient } from '../utils';
+import { ButtonSimple } from '../components/Button';
 
 
 const Signin = () => {
 
-    const [loading, setLoading]=useState(false)
+    const [loading, setLoading] = useState(false)
     const [email, setEmail] = useState("");
     const [pwd, setPwd] = useState("");
     const navigate = useNavigate();
@@ -49,7 +50,7 @@ const Signin = () => {
         }
         // Nettoyage de l'observateur lors du démontage
         return () => {
-            
+
         };
 
     }, []);
@@ -74,7 +75,7 @@ const Signin = () => {
 
         if (!email || !pwd) {
 
-            showMessage(dispatch, {Type:"Erreur", Message:"Veuillez remplir tous les champs."});
+            showMessage(dispatch, { Type: "Erreur", Message: "Veuillez remplir tous les champs." });
 
             return;
 
@@ -104,7 +105,7 @@ const Signin = () => {
 
                     const dataUser = resp?.data[0]
 
-                    if (dataUser){
+                    if (dataUser) {
 
                         dispatch(updateUserData(dataUser));
 
@@ -118,7 +119,7 @@ const Signin = () => {
 
                     }
 
-                 
+
                 }
 
             ).catch(
@@ -132,7 +133,7 @@ const Signin = () => {
 
         } catch (error) {
 
-            showMessage(dispatch, {Type:"Erreur", Message:error?.message || error?.request?.response});
+            showMessage(dispatch, { Type: "Erreur", Message: error?.message || error?.request?.response });
 
             setLoading(false)
         }
@@ -140,7 +141,7 @@ const Signin = () => {
 
     if (currentNav === "home") {
 
-        return navigate("/", {replace:true})
+        return navigate("/", { replace: true })
     }
 
     return (
@@ -148,7 +149,7 @@ const Signin = () => {
         <section className="bg-gray-1 py-20 dark:bg-dark lg:py-[120px] bg_home">
 
 
-            <AttentionAlertMesage/>
+            <AttentionAlertMesage />
 
             <div className="container mx-auto">
 
@@ -167,13 +168,13 @@ const Signin = () => {
                         >
 
                             {
-                                (!loading)?
-                                <>
-                                    <h1 className="text-2xl font-extrabold text-gray-500 dark:text-white px-4 pt-4 pb-4">
+                                (!loading) ?
+                                    <>
+                                        <h1 className="text-2xl font-extrabold text-gray-500 dark:text-white px-4 pt-4 pb-4">
 
-                                        {t("login")}
+                                            {t("login")}
 
-                                    </h1>
+                                        </h1>
 
                                         <form
                                             className="translate-y-0 transition-all duration-1000 ease-in-out"
@@ -181,36 +182,32 @@ const Signin = () => {
                                             ref={componentRef}
                                         >
 
-                                        <InputBox
-                                            type="email"
-                                            name="email"
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
-                                            placeholder={t('form.email')}
-                                            required
-                                        />
-
-                                        <InputBox
-                                            type="password"
-                                            name="password"
-                                            value={pwd}
-                                            onChange={(e) => setPwd(e.target.value)}
-                                            placeholder={t('form.password')}
-                                            ref={emailRef}
-                                            required
-                                        />
-
-                                        <div className="mb-10">
-
-                                            <input
-                                                type="submit"
-                                                value="Sign In"
-                                                className="w-full cursor-pointer rounded-md border border-blue-600 bg-blue-300 px-5 py-3 text-base font-medium text-white transition hover:bg-blue-400"
+                                            <InputBox
+                                                type="email"
+                                                name="email"
+                                                value={email}
+                                                onChange={(e) => setEmail(e.target.value)}
+                                                placeholder={t('form.email')}
+                                                required
                                             />
 
-                                        </div>
+                                            <InputBox
+                                                type="password"
+                                                name="password"
+                                                value={pwd}
+                                                onChange={(e) => setPwd(e.target.value)}
+                                                placeholder={t('form.password')}
+                                                ref={emailRef}
+                                                required
+                                            />
 
-                                    </form>
+                                            <div className="mb-10">
+
+                                                <ButtonSimple title="Sign In" />
+
+                                            </div>
+
+                                        </form>
 
                                         <NavLink
                                             to="/forgetPassword"
@@ -218,26 +215,26 @@ const Signin = () => {
                                             onClick={() => dispatch(setCurrentNav("forgetPassword"))}
                                         >
 
-                                        {t("forgetPwd")}
+                                            {t("forgetPwd")}
 
-                                    </NavLink>
-
-                                    <p className="text-sm lg:text-md text-base text-blue-600 dark:text-blue-400 flex items-center justify-center gap-2">
-
-                                        <span className="pr-0.5">{t("notRegistered")}</span>
-
-                                        <NavLink
-                                            to="/Register"
-                                            className="text-blue-700 hover:underline text-sm lg:text-md dark:text-blue-300"
-                                            onClick={() => dispatch(setCurrentNav("/Register"))}
-                                        >
-                                            {t("register")}
                                         </NavLink>
 
-                                    </p>
-                                </>
-                                :
-                                <LoadingCard/>
+                                        <p className="text-sm lg:text-md text-base text-blue-600 dark:text-blue-400 flex items-center justify-center gap-2">
+
+                                            <span className="pr-0.5">{t("notRegistered")}</span>
+
+                                            <NavLink
+                                                to="/Register"
+                                                className="text-blue-700 hover:underline text-sm lg:text-md dark:text-blue-300"
+                                                onClick={() => dispatch(setCurrentNav("/Register"))}
+                                            >
+                                                {t("register")}
+                                            </NavLink>
+
+                                        </p>
+                                    </>
+                                    :
+                                    <LoadingCard />
                             }
 
                             <p className="mb-6 text-md text-bold text-gray-500 dark:text-dark-7 my-6">
@@ -266,7 +263,7 @@ const Signin = () => {
 
             </div>
 
-            <Outlet/>
+            <Outlet />
 
         </section>
     );
@@ -276,7 +273,7 @@ const LogIn = () => (
 
     <HomeLayout>
 
-        <Signin/>
+        <Signin />
 
     </HomeLayout>
 );

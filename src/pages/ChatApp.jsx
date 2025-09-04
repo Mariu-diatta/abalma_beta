@@ -237,7 +237,7 @@ const ChatApp = ({ roomName }) => {
 
                     onClick={sendMessage}
 
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl text-sm"
+                    className=" text-white px-4 py-2 rounded-xl text-sm bg-gradient-to-br from-purple-300 to-blue-300 hover:bg-gradient-to-br hover:from-purple-400"
 
                     aria-label="Envoyer"
                 >

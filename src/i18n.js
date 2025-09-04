@@ -22,6 +22,11 @@ i18n
      en: {
 
         translation: {
+             uploadedFile: "File uploaded",
+             paymentMethod: "Payement method",
+             address: "Adress",
+             delivery: "Delivery",
+             views_product: "View the product",
              about_us:"Read more about us",
              file_selected:"File selected",
              read_more: "Read more",
@@ -454,6 +459,11 @@ i18n
      fr: {
 
          translation: {
+             uploadedFile: "Fichier sélectionné",
+             paymentMethod: "Méthode de payement",
+             adress: "Adresse",
+             delivery: "Livraison",
+             views_product:'Voir le produit',
              about_us: "A propos de nous",
              file_selected: "Fichier sélectionné",
              read_more:"Lire plus",

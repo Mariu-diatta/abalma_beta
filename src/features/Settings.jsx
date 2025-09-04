@@ -4,7 +4,7 @@ import api from '../services/Axios';
 import { updateTheme } from '../slices/navigateSlice';
 import { useTranslation } from 'react-i18next';
 import DeleteProfilAccount from '../components/DeleteAccount';
-import { applyTheme } from '../utils';
+import { FloatingInput, NotificationToggle, ThemeSelector, applyTheme } from '../utils';
 
 const SettingsForm = () => {
 
@@ -184,11 +184,12 @@ const SettingsForm = () => {
     return (
         <div className="w-auto flex flex-col lg:flex-row justify-center items-start gap-8 px-2 py-1 style-bg">
 
-            <div className="w-full lg:w-full xl:w-full sticky top-0 self-start h-fit max-h-screen overflow-y-auto dark:bg-gray-800  scrollbor_hidden rounded-lg p-6 space-y-6">
+            <div className="w-full lg:w-full xl:w-full sticky top-0 self-start h-fit max-h-screen overflow-y-auto dark:bg-gray-800  scrollbor_hidden rounded-lg p-1 space-y-6">
+
                 <h2 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">{t("settingsText.accountSettings")}</h2>
 
                 {/* Compte form */}
-                <form onSubmit={updatePassword} className="w-100 dark:bg-gray-800 shadow-md rounded-lg p-1 space-y-3">
+                <form onSubmit={updatePassword} className="w-auto dark:bg-gray-800 shadow-md rounded-lg m-0 space-y-3 lg:px-6 py-3">
 
                     <div className="flex items-center gap-4">
                         {currentUserData?.image ? (
@@ -252,70 +253,6 @@ const SettingsForm = () => {
     );
 };
 
-// 📦 Composants réutilisables internes :
 
-const FloatingInput = ({ id, name, label, type = 'text', value, onChange, maxLength, wrapperClass = '', disabled }) => (
-
-    <div className={`relative ${wrapperClass}`}>
-
-        <input
-            type={type}
-            id={id}
-            name={name}
-            value={value}
-            onChange={onChange}
-            placeholder=" "
-            maxLength={maxLength}
-            disabled={disabled || false}
-            className="peer block w-full px-2.5 pt-5 pb-2.5 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600"
-        />
-
-        <label htmlFor={id} className="absolute text-sm text-gray-500 dark:text-gray-400 top-4 left-2.5 transition-all scale-75 -translate-y-4 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-4">
-            {label}
-        </label>
-
-    </div>
-);
-
-const ThemeSelector = ({ value, onChange, t }) => (
-
-    <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-
-        <label className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">{t('settingsText.theme')}</label>
-
-        <select
-            name="theme"
-            value={value}
-            onChange={onChange}
-            className="style-bg border-0 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 p-2.5"
-        >
-            <option value="light">{t('settingsText.themeLight')}</option>
-
-            <option value="dark">{t('settingsText.themeDark')}</option>
-
-        </select>
-
-    </div>
-);
-
-const NotificationToggle = ({ checked, onChange, t }) => (
-
-    <div className="flex items-center">
-
-        <input
-            id="notifications"
-            type="checkbox"
-            name="notifications"
-            checked={checked}
-            onChange={onChange}
-            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600"
-        />
-
-        <label htmlFor="notifications" className="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-            {t('settingsText.notifications')}
-        </label>
-
-    </div>
-);
 
 export default SettingsForm;

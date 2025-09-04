@@ -36,7 +36,7 @@ const PayBack = () => {
                     }
             }
 
-            className="relative flex items-center justify-between rounded-lg  dark:bg-dark-2 text-dark dark:text-white h-6 w-8 mx-4  hover:bg-gray-50 dark:hover:bg-gray-800"
+            className="relative flex items-center justify-between rounded-lg  dark:bg-dark-2 text-dark dark:text-white h-6 w-8 mx-4  hover:bg-gray-50 dark:hover:bg-gray-800 "
 
             style={{ color: "var(--color-text)" }}
         >

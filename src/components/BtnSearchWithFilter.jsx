@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCategorySelected } from '../slices/navigateSlice';
 
-const SearchBar = ({ onSearch }) => {
+const SearchBar = ({ onSearch, disabled=false}) => {
 
     const categorySelectedOnSearch = useSelector(state => state.navigate.categorySelectedOnSearch)
     const [selectedCategory, setSelectedCategory] = useState(categorySelectedOnSearch?.category);
@@ -31,7 +31,6 @@ const SearchBar = ({ onSearch }) => {
     useEffect(() => {
 
         const handleFocus = () => {
-            console.log("Je suis dans le focus");
         };
 
         const btn = searchBtnRef.current;
@@ -52,7 +51,7 @@ const SearchBar = ({ onSearch }) => {
     },[]);
 
     return (
-        <form onSubmit={handleSubmit} className="w-full  mx-auto ">
+        <form onSubmit={handleSubmit} className="w-full  mx-auto " >
             {/*onClick={() => setDropdownOpen((prev) => !prev)}*/}
 
             <div className="flex relative">
@@ -94,16 +93,18 @@ const SearchBar = ({ onSearch }) => {
                     <input
                         ref={searchBtnRef}
                         type="search"
-                        className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-full dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white "
+                        className={`block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-full dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white`}
                         placeholder={`Search ${selectedCategory}`}
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         required
+                        disabled={disabled}
                     />
 
                     <button
                         type="submit"
-                        className="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-300 rounded-e-full  hover:bg-blue-400 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        className="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-300 rounded-e-full  hover:bg-blue-400 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 bg-gradient-to-br from-purple-300 to-blue-300 hover:bg-gradient-to-br hover:from-purple-400 "
+                        disabled={disabled}
                     >
                         <svg className="w-4 h-4" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M19 19L15 15M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />

@@ -8,6 +8,7 @@ import { useDispatch, useSelector} from 'react-redux';
 import AttentionAlertMesage, { showMessage } from './AlertMessage';
 import PhoneInput from './InputPhoneCountry';
 import { setCurrentNav } from '../slices/navigateSlice';
+import { ButtonSimple } from './Button';
 
 
 const CreateClient = async (data, func, funcRetournMessage, dispatch) => {
@@ -256,6 +257,7 @@ const RegisterForm = () => {
                                         value={form.password}
                                         onChange={handleChange}
                                     />
+
                                     <InputBox
                                         type="password"
                                         name="confirmPassword"
@@ -264,15 +266,7 @@ const RegisterForm = () => {
                                         onChange={handleChange}
                                     />
 
-                                    <div className="mb-10">
-
-                                        <input
-                                            type="submit"
-                                            value={t("register")}
-                                            className="w-full cursor-pointer rounded-md border border-blue-300 bg-blue-300 px-5 py-3 text-base font-medium text-white transition hover:bg-blue-400"
-                                        />
-
-                                    </div>
+                                     <ButtonSimple title={t("register")} />
 
                                 </form>
 

@@ -6,6 +6,7 @@ import api from "../services/Axios";
 import { useParams } from "react-router-dom";
 import AttentionAlertMessage, { showMessage } from "../components/AlertMessage";
 import { useDispatch} from "react-redux";
+import { ButtonSimple } from "../components/Button";
 
 const PwdForget = () => {
 
@@ -164,6 +165,7 @@ const PwdForget = () => {
      
                             {step === 1 && (
                                 <form onSubmit={(e) => { e.preventDefault(); handleRequestCode(); }}>
+
                                     <InputBox
                                         type="email"
                                         name="email"
@@ -172,13 +174,12 @@ const PwdForget = () => {
                                         placeholder={t("form.email")}
                                         required
                                     />
-                                    <div className="mb-10 mt-6">
-                                        <input
-                                            type="submit"
-                                            value={t("forgetPswd.getCode")}
-                                            className="w-full cursor-pointer rounded-md border border-blue-600 bg-blue-600 px-5 py-3 text-base font-medium text-white transition hover:bg-blue-700"
-                                        />
-                                    </div>
+
+
+                                    <ButtonSimple
+                                        title={t("forgetPswd.getCode")}
+                                    />
+
                                 </form>
                             )}
                             
@@ -189,6 +190,7 @@ const PwdForget = () => {
                                     uidb64 && token ?
                                     (
                                         <form onSubmit={(e) => { e.preventDefault(); handleResetPassword(); }}>
+
                                             <InputBox
                                                 type="password"
                                                 name="newPassword"
@@ -197,13 +199,11 @@ const PwdForget = () => {
                                                 placeholder={t("form.newPassword")}
                                                 required
                                             />
-                                            <div className="mb-10 mt-6">
-                                                <input
-                                                    type="submit"
-                                                    value={t("forgetPswd.reset")}
-                                                    className="w-full cursor-pointer rounded-md border border-blue-600 bg-blue-600 px-5 py-3 text-base font-medium text-white transition hover:bg-blue-700"
-                                                />
-                                            </div>
+
+                                            <ButtonSimple
+                                              title={t("forgetPswd.reset")}
+                                            />
+
                                         </form>
                                     )
                                     : 

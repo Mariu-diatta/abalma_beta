@@ -110,7 +110,7 @@ const ProductsRecapTable = ({ products }) => {
 
     }, [filteredProducts, currentPage]);
 
-    console.log("LES PRODUITS DE LA TRANSACTION", paginatedProducts, getFilteredProducts(products, selectedSubTransaction));
+    //console.log("LES PRODUITS DE LA TRANSACTION", paginatedProducts, getFilteredProducts(products, selectedSubTransaction));
 
     return (
 
@@ -312,7 +312,7 @@ const ProductsRecapTable = ({ products }) => {
 
                                         <button
 
-                                            onClick={() => console.log("delete", item?.id)}
+                                            onClick={() => { }}
 
                                             className="text-red-600 hover:text-red-800"
 

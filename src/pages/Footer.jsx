@@ -14,18 +14,6 @@ const Footer = () => {
 
     const componentRef_ = useRef(null);
 
-    const [isChecked, setIsChecked] = useState(localStorage.getItem("ACCEPT_POLICY"));
-
-    // Charger la valeur sauvegardée au démarrage
-    useEffect(() => {
-        const saved = localStorage.getItem("ACCEPT_POLICY");
-
-        console.log("valeur du checkbox", saved)
-        if (saved !== null) {
-            setIsChecked(saved);
-        }
-    }, []);
-
   
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -109,7 +97,7 @@ const Footer = () => {
                     {/* Conditions et politique */}
                     <label className="flex gap-2 justify-start text-sm text-gray-700 mb-2 px-4">
 
-                        <MyCheckbox valueCheckbox={isChecked} />
+                        <MyCheckbox/>
 
                         {t("footCondition")}
 
@@ -310,25 +298,19 @@ const NavLink = ({ link, label, className = "text-sm" }) => {
     );
 };
 
-export function MyCheckbox({ valueCheckbox }) {
+export function MyCheckbox() {
+    const [isChecked, setIsChecked] = useState(() => {
+        const saved = localStorage.getItem("ACCEPT_POLICY");
+        return saved === "true"; // transforme string en boolean
+    });
 
-    const [isChecked, setIsChecked] = useState(valueCheckbox);
+    useEffect(() => {
+        // Synchronise localStorage à chaque changement de l'état
+        localStorage.setItem("ACCEPT_POLICY", isChecked);
+    }, [isChecked]);
 
-    useEffect(
-
-        () => {
-
-            localStorage.setItem("ACCEPT_POLICY", isChecked);
-
-        }, [isChecked]
-
-    )
-
-    const handleCheckBox = () => {
-        setIsChecked((prev) => {
-            const newValue = !prev;
-            return newValue;
-        });
+    const handleCheckBox = (e) => {
+        setIsChecked(e.target.checked); // récupère directement le booléen
     };
 
     return (
@@ -336,7 +318,6 @@ export function MyCheckbox({ valueCheckbox }) {
             type="checkbox"
             required
             className="mt-1"
-            value={valueCheckbox}
             checked={isChecked}
             onChange={handleCheckBox}
         />

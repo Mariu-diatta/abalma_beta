@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import api from '../services/Axios';
 import { useTranslation } from 'react-i18next';
 import LoadingCard from './LoardingSpin';
+import { ButtonSimple } from './Button';
 
 export const ModalFormCreatBlog = () => {
 
@@ -149,7 +150,7 @@ export const ModalFormCreatBlog = () => {
                 
                 <button
                     onClick={(profileData && profileData?.email) ? handleToggleModal:()=>alert("Vous devrez vous connecter avant !!!")}
-                    className=" w-auto rounded-full flex gap-1 bg-blue-300 text-white text-sm px-3 py-1 hover:bg-blue-700 m-1 items-center"
+                    className=" w-auto rounded-full flex gap-1 bg-blue-300 text-white text-sm px-3 py-1 hover:bg-blue-700 m-1 items-centerbg-gradient-to-br from-purple-300 to-blue-300 bg-gradient-to-br hover:from-purple-400 "
                     aria-expanded={isOpen}
                     aria-controls="modal-blog-form"
                 >
@@ -281,13 +282,9 @@ export const ModalFormCreatBlog = () => {
 
                                 {
                                     loading?
-                                    <button
-                                        type="submit"
-                                        className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700"
-                                    >
-                                        {t("blog.submit")}
-
-                                    </button>
+                                    <ButtonSimple
+                                        title={t("blog.submit")}
+                                    />
                                     :
                                     <LoadingCard/>
                                 }
@@ -295,7 +292,7 @@ export const ModalFormCreatBlog = () => {
                                 <button
                                     type="button"
                                     onClick={handleClose}
-                                    className="px-4 py-2 rounded-md text-sm border bg-red-800 border-gray-300 text-gray-100 hover:bg-red-900"
+                                    className="px-4 py-2 rounded-md text-sm border bg-red-800 border-gray-300 text-gray-100 hover:bg-red-900 "
                                 >
                                     {t("blog.cancel")}
 

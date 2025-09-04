@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addToCart, updateSelectedProduct } from '../slices/cartSlice';
+import { updateSelectedProduct } from '../slices/cartSlice';
 import api from '../services/Axios';
-import { addMessageNotif, addUser } from '../slices/chatSlice';
 import ProductModal from '../pages/ProductViewsDetails';
 import { useTranslation } from 'react-i18next';
 import LoadingCard from '../components/LoardingSpin';
@@ -31,17 +30,17 @@ const GridLayoutProduct = () => {
 
     const currentNav = useSelector(state => state.navigate.currentNav);
 
-    const defaultCategory = lang === 'fr' ? 'Tous' : 'Tous';
+    const DEFAULT_ACTIVE_CATEGORY = lang === 'fr' ? 'Tous' : 'Tous';
 
-    const [activeCategory, setActiveCategory] = useState(defaultCategory);
+    const [activeCategory, setActiveCategory] = useState(DEFAULT_ACTIVE_CATEGORY);
 
     const [modalData, setModalData] = useState(null);
 
     const [searchData, setSearchData] = useState(null);
 
-    const [owners, setOwners] = useState({});
+    const [activeBtnOver, setActiveBtnOver] = useState(DEFAULT_ACTIVE_CATEGORY);
 
-    const addProductToCart = (item) => dispatch(addToCart(item));
+    const [owners, setOwners] = useState({});
 
     const openModal = (item) => setModalData(item);
 
@@ -56,51 +55,131 @@ const GridLayoutProduct = () => {
         }, [dispatch, modalData]
     )
 
-
     useEffect(() => {
+
+
+        setLoading(true);
+
+        const isDefaultCategory = (cleanCategory) => {
+            if (!cleanCategory) return true;
+            return cleanCategory === DEFAULT_ACTIVE_CATEGORY?.toLowerCase();
+        }
+
         const fetchProductsAndOwners = async () => {
+
             try {
                 const translatedCategory = translateCategory(activeCategory);
-                const cleanCategory = removeAccents(translatedCategory)?.toLowerCase();
-                const isDefaultCategory = cleanCategory === defaultCategory?.toLowerCase();
 
-                const url = isDefaultCategory
+                const cleanCategory = removeAccents(translatedCategory)?.toLowerCase();
+
+                const url = isDefaultCategory(cleanCategory)
                     ? "products/filter/"
                     : `products/filter/?categorie_product=${cleanCategory?.toUpperCase()}`;
 
                 const { data: products } = await api.get(url);
 
                 const filtered = products.filter(item => parseInt(item?.quantity_product) !== 0);
+
                 setFilteredItems(filtered);
-                setFilteredItemsPopover(filtered.filter(item => item?.total_views > 5));
 
                 const uniqueOwnerIds = [...new Set(products.map(p => p?.fournisseur))].filter(Boolean);
 
                 const responses = await Promise.all(
+
                     uniqueOwnerIds.map(id =>
+
                         api.get(`clients/${id}/`)
+
                             .then(res => ({ id, data: res.data }))
+
                             .catch(() => ({ id, data: null }))
                     )
                 );
 
                 const ownerMap = responses.reduce((acc, { id, data }) => {
+
                     if (data) acc[id] = data;
+
                     return acc;
+
                 }, {});
 
                 setOwners(ownerMap);
+
             } catch (error) {
+
                 // console.error("Erreur lors du chargement :", error);
             } finally {
+
                 setLoading(false);
             }
         };
 
         fetchProductsAndOwners();
-    }, [activeCategory, defaultCategory]);
+
+    }, [activeCategory, DEFAULT_ACTIVE_CATEGORY]);
+
+    useEffect(() => {
 
 
+        const isDefaultCategory = (cleanCategory) => {
+                if (!cleanCategory) return true;
+                return cleanCategory === DEFAULT_ACTIVE_CATEGORY?.toLowerCase();
+        }
+
+        const fetchProductsAndOwners = async () => {
+
+
+            try {
+                const translatedCategory = translateCategory(activeBtnOver);
+
+                const cleanCategory = removeAccents(translatedCategory)?.toLowerCase();
+
+                const url = isDefaultCategory(cleanCategory)
+                    ? "products/filter/"
+                    : `products/filter/?categorie_product=${cleanCategory?.toUpperCase()}`;
+
+                const { data: products } = await api.get(url);
+
+                const filtered = products.filter(item => parseInt(item?.quantity_product) !== 0);
+
+                setFilteredItemsPopover(filtered);
+
+                const uniqueOwnerIds = [...new Set(products.map(p => p?.fournisseur))].filter(Boolean);
+
+                const responses = await Promise.all(
+
+                    uniqueOwnerIds.map(id =>
+
+                        api.get(`clients/${id}/`)
+
+                            .then(res => ({ id, data: res.data }))
+
+                            .catch(() => ({ id, data: null }))
+                    )
+                );
+
+                const ownerMap = responses.reduce((acc, { id, data }) => {
+
+                    if (data) acc[id] = data;
+
+                    return acc;
+
+                }, {});
+
+                setOwners(ownerMap);
+
+            } catch (error) {
+
+                // console.error("Erreur lors du chargement :", error);
+            } finally {
+
+            }
+        };
+
+        fetchProductsAndOwners();
+
+    }, [activeBtnOver, DEFAULT_ACTIVE_CATEGORY]);
 
     useEffect(
 
@@ -141,12 +220,11 @@ const GridLayoutProduct = () => {
         
             <div
                   className={`flex mx-auto items-center  
-                  ${(currentNav === "account_home") ? "w-full md:w-1/2" : "md:hidden"} 
+                  ${(currentNav === "account_home" ) ? "w-full md:w-1/2" : "md:hidden"} 
                   sticky top-[55px] z-[5] 
-                  ${(currentNav === "home" || currentNav === "blogs" || currentNav === "account_home") ? "" : "hidden"}`}
+                  ${(currentNav === "home" || currentNav === "blogs" || currentNav === "account_home" || currentNav === "all_products") ? "" : "hidden"}`}
             >
-
-                <SearchBar category={activeCategory} onSearch={setSearchData} />
+                <SearchBar  onSearch={setSearchData} />
 
             </div>
 
@@ -157,10 +235,17 @@ const GridLayoutProduct = () => {
                 setActiveCategory={setActiveCategory}
 
                 products={filteredItemsPopover}
+
+                setActiveBtnOver={setActiveBtnOver}
+
+                openModal={openModal}
+
+                owners={owners}
+
             />
 
             {
-                loading ?
+                (loading) ?
 
                 <LoadingCard />
                 :
@@ -178,17 +263,13 @@ const GridLayoutProduct = () => {
                                 return (
 
                                     <ProductCard
+                                        key={item?.id}
                                         item={item}
                                         isInCart={isInCart}
                                         owner={owner}
                                         productNbViews={productNbViews}
-                                        t={t}
                                         openModal={openModal}
-                                        addUser={addUser}
                                         owners={owners}
-                                        addProductToCart={addProductToCart}
-                                        addMessageNotif={addMessageNotif}
-                                        dispatch={dispatch}
                                         qut_sold={item?.quanttity_product_sold}
                                     />
                                 );
@@ -198,9 +279,9 @@ const GridLayoutProduct = () => {
 
                     ) : (
 
-                        <div className="flex items-center justify-center mx-auto max-w-md p-4 rounded-full border border-gray-200   font-extrabold mb-2">
+                        <div className="flex items-center justify-center mx-auto max-w-md p-4 rounded-full border border-gray-200 mb-2">
  
-                            <span className="text-sm font-medium">{t('ListItemsFilterProduct.noProduct')}</span>
+                            <span className="text-sm">{t('ListItemsFilterProduct.noProduct')}</span>
 
                         </div>
                      )}

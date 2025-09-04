@@ -5,46 +5,40 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from 'react-i18next';
 import { updateCategorySelected } from '../slices/navigateSlice';
 import { useDispatch } from 'react-redux';
-import ImageGallery from './ImageGallery';
-import Carousel from './CarrouselProducts';
-import ImageGalleryPan from './ImageGalleryPanel';
+import ProductSpecifiViews from './ProductSpecificPopovViews';
+import { LIST_CATEGORIES } from '../utils';
 
-const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory, products }) => {
+const ScrollableCategoryButtons = ({
+    activeCategory,
+    setActiveCategory,
+    setActiveBtnOver,
+    products,
+    openModal,
+    owners,
+   }) => {
 
     const { t } = useTranslation();
 
     const dispatch = useDispatch()
 
     const categories = useMemo(
-        () =>
-            [
-                "All",
-                "JOUET",
-                "HABITS",
-                "MATERIELS_INFORMATIQUES",
-                "CAHIERS",
-                "SACS",
-                "LIVRES",
-                "ELECTROMENAGER",
-                "TELEPHONIE",
-                "ACCESSOIRES",
-                "SPORT",
-                "JEUX_VIDEO",
-                "MEUBLES",
-                "VEHICULES",
-                "FOURNITURES_SCOLAIRES",
-                "DIVERS",
-            ].map((cat) => t(`ListItemsFilterProduct.${cat}`)),
+
+        () => LIST_CATEGORIES.map((cat) => t(`ListItemsFilterProduct.${cat}`)),
+
         [t]
     );
 
     const scrollRef = useRef(null);
+
     const panelRef = useRef(null);
 
     const [showLeft, setShowLeft] = useState(false);
+
     const [showRight, setShowRight] = useState(false);
+
     const [btnId, setBtnId] = useState(false);
-    const [btnOver, setBtnOver] = useState(null);
+
+    const [productSpecificHandler, setProductSpecificHandler] = useState(null);
 
     const updateButtonsVisibility = useCallback(() => {
 
@@ -108,74 +102,85 @@ const ScrollableCategoryButtons = ({ activeCategory, setActiveCategory, products
 
     useEffect(() => {
 
-        if (btnOver) {
+        if (btnId) {
 
-            setActiveCategory(btnOver);
+            setActiveCategory(activeCategory);
 
             dispatch(updateCategorySelected({ query: "", category: activeCategory }))
         }
 
-    }, [btnOver, setActiveCategory, dispatch, activeCategory]);
+    }, [btnId, dispatch, activeCategory, setActiveCategory]);
+
+    useEffect(() => {
+
+        if (productSpecificHandler) {
+
+            setActiveBtnOver(productSpecificHandler);
+
+            dispatch(updateCategorySelected({ query: "", category: productSpecificHandler }))
+        }
+
+    }, [productSpecificHandler, setActiveBtnOver, dispatch]);
 
     return (
         <>
-            <div
-                ref={panelRef}
-                className={`${btnId && products?.length ? "flex gap-2 bg-grey-9000 shadow-lg rounded-md h-70 lg:h-70 w-full" : "hidden"}`}
-            >
-                <div style={{ flex: 2 }} className="hidden lg:block">
-                    <ImageGallery imagesEls={products} />
-                </div>
-
-                <div style={{ flex: 3 }}>
-                    <Carousel products={products} />
-                </div>
-
-                <div style={{ flex: 2 }}>
-                    <ImageGalleryPan imagesEls={products} />
-                </div>
-            </div>
+            <ProductSpecifiViews products={products} openModal={openModal} owners={owners} btnId={btnId} panelRef={panelRef}/>
 
             <div className="relative w-full mb-4 sticky top-[50px] z-[7] ">
 
-                {showLeft && (
-                    <button
-                        className="absolute left-0 top-1/2 -translate-y-1/2 z-5 bg-white p-2 shadow rounded-full"
-                        onClick={() => scroll("left")}
-                    >
-                        <ChevronLeft className="w-5 h-5 text-gray-600" />
-                    </button>
-                )}
+                {
+                    showLeft && (
+                        <button
+
+                            className="absolute left-0 top-1/2 -translate-y-1/2 z-5 bg-white p-2 shadow rounded-full"
+
+                            onClick={() => scroll("left")}
+                        >
+                            <ChevronLeft className="w-5 h-5 text-gray-600" />
+
+                        </button>
+                    )
+                }
 
                 <div ref={scrollRef} className="overflow-x-auto px-10 scrollbor_hidden_ ">
-                    <div className="flex py-2">
-                        {categories?.map((cat) => (
-                            <button
-                                key={cat}
-                                onMouseEnter={() => setBtnId(true)}
-                                onMouseOver={() => setBtnOver(cat)}
-                                onClick={() => setActiveCategory(cat.replace(" ", "_"))}
-                                className={`z-2 whitespace-nowrap px-4  py-2 rounded-full text-sm transition ${activeCategory === cat
-                                    ? "bg-blue-400 text-white"
-                                    : "text-blue-700 border border-blue-300 hover:bg-blue-300 hover:text-white scale-80 hover:scale-300"
-                                    }`}
-                            >
-                                {cat.replace("_", " ")}
-                            </button>
-                        ))}
+
+                    <div className="flex py-2 gap-1">
+
+                        {
+                            categories?.map((cat) => (
+                                <button
+                                    key={cat}
+                                    onMouseEnter={() => setBtnId(true)}
+                                    onMouseOver={() => setProductSpecificHandler(cat.replace(" ", "_"))}
+                                    onClick={() => {
+                                        setActiveCategory(cat.replace(" ", "_"));
+                                    }}
+                                    className={`z-2 whitespace-nowrap px-4  py-2 rounded-full text-sm transition  hover:bg-gradient-to-br hover:from-purple-400 ${activeCategory === cat
+                                        ? "bg-blue-400 text-white bg-gradient-to-br from-purple-300 to-blue-300" //
+                                        : "text-blue-700 border border-blue-300 hover:bg-blue-300 hover:text-white scale-100 hover:scale-110"
+                                        }`}
+                                >
+                                    {cat.replace("_", " ")}
+                                </button>
+                            ))
+                        }
+
                     </div>
+
                 </div>
 
-                {showRight && (
+                {
+                    showRight && (
 
-                    <button
-                        className="absolute right-0 top-1/2 -translate-y-1/2 z-5 bg-white p-2 shadow rounded-full"
-                        onClick={() => scroll("right")}
-                    >
-                        <ChevronRight className="w-5 h-5 text-gray-600" />
+                        <button
+                            className="absolute right-0 top-1/2 -translate-y-1/2 z-5 bg-white p-2 shadow rounded-full"
+                            onClick={() => scroll("right")}
+                        >
+                            <ChevronRight className="w-5 h-5 text-gray-600" />
 
-                    </button>
-                )}
+                        </button>
+                    )
+                }
             </div>
         </>
     );

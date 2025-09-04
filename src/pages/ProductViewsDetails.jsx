@@ -10,7 +10,24 @@ import RendrePrixProduitMonnaie from "../components/ConvertCurrency";
 import PrintNumberStars from "../components/SystemStar";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useMemo } from "react";
+import express_delivery from "../../src/assets/express-delivery_1981844.png"
+import home_5657414 from "../../src/assets/home-address_12248895.png"
+import pay_8331969 from "../../src/assets/pay_8331969.png" 
 
+
+const getLogoTitlOperation = (t, prod) => {
+
+    return (
+        [
+            { logo: express_delivery, title: t('delivery') , do:prod?.delivery},
+            { logo: home_5657414, title: t('adress'), do: prod?.adress},
+            { logo: pay_8331969, title: t('paymentMethod'), do: prod?.paymentMethod }
+
+        ]
+    )
+
+
+}
 
 
 const ProductModal = ({ isOpen, onClose, products}) => {
@@ -404,13 +421,29 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                                         <div className="overflow-x-auto w-full  scrollbor_hidden flex gap-2 ">
                                             {/*information complémentaire*/}
-                                            <fieldset className=" text-xs text-gray-500 flex gap-2 animate-scroll">
-                                                <div className="whitespace-nowrap">Mode de payement </div>
-                                                <div className="whitespace-nowrap">Mode de payement </div>
-                                                <div className="whitespace-nowrap">Mode de payement </div>
-                                                <div className="whitespace-nowrap">Mode de payement </div>
-                                                <div className="whitespace-nowrap">Mode de payement </div>
+                                            <fieldset className="flex  gap-4 items-center text-sm text-gray-600 p-3 rounded-md shadow-sm animate-scroll">
+
+                                                {
+                                                    getLogoTitlOperation(t, currentSelectedProductView).map((el, idx)=>
+
+                                                        <span className="flex items-center gap-1 justify-center  whitespace-nowrap" key={idx}>
+
+                                                            <span className="flex items-center gap-2 justify-center font-medium px-3 text-gray-700">
+
+                                                                <img className="rounded-sm " src={el?.logo} alt="" width="25" />
+
+                                                                <span>{el?.title}:</span>
+
+                                                            </span>
+
+                                                            <span>{el?.do}</span>
+
+                                                        </span>
+                                                    )
+                                                }
+
                                             </fieldset>
+
 
                                         </div>
 

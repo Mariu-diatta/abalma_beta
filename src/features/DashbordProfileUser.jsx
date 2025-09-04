@@ -31,13 +31,13 @@ const Tabs = () => {
             try {
                 const productTransaction = await api.get('product/fournisseur/transaction/');
 
-                console.log("DashbordProfileUsr, LES PRODUITS BOUGHT DE LA TRANSACTION", productTransaction?.data);
+                //console.log("DashbordProfileUsr, LES PRODUITS BOUGHT DE LA TRANSACTION", productTransaction?.data);
 
                 setProductsTrasactionBought(productTransaction?.data);
 
             } catch (e) {
 
-                console.log("ERREUR LORS DU DEBUGGING", e);
+                //console.log("ERREUR LORS DU DEBUGGING", e);
 
             } finally {
 

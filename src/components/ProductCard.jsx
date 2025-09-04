@@ -1,24 +1,33 @@
+import { useDispatch, useSelector } from "react-redux";
 import OwnerAvatar from "./OwnerProfil";
 import ScrollingContent from "./ScrollContain";
 import PrintNumberStars from "./SystemStar";
+import { useTranslation } from 'react-i18next';
+import { addMessageNotif, addUser } from "../slices/chatSlice";
+import { addToCart } from "../slices/cartSlice";
+
 
 const ProductCard = ({
     item,
     qut_sold,
     isInCart,
     owner,
-    productNbViews,
-    t,
     openModal,
-    addUser,
     owners,
-    addProductToCart,
-    addMessageNotif,
-    dispatch
+    id
+
 }) => {
+
+    const dispatch = useDispatch();
+
+    const { t } = useTranslation();
+
+    const productNbViews = useSelector(state => state.cart.nbrProductViews)
+
+
     return (
+
         <div
-            key={item.id}
 
             style={{
 
@@ -32,14 +41,13 @@ const ProductCard = ({
 
         >
             {/* Image & Modal Trigger */}
-            <button
-                onClick={() => {
-                    openModal(item);
-                    dispatch(addUser(owners[item?.fournisseur]));
-                }}
-                className="block w-full rounded-lg overflow-hidden"
-            >
+            <div>
                 <img
+                    key={id}
+                    onClick={() => {
+                        openModal(item);
+                        dispatch(addUser(owners[item?.fournisseur]));
+                    }}
                     src={item?.image_product}
                     alt={item?.name_product}
                     className="w-full h-55 object-cover rounded-lg mb-2 transition duration-300 ease-in-out hover:brightness-75 hover:grayscale"
@@ -48,8 +56,14 @@ const ProductCard = ({
                             e.target.src = "/default-product.jpg";
                         }
                     }}
+
+                    style={{
+                        transform: `scale(${1})`,
+                        transformOrigin: 'center',
+                        transition: 'transform 0.3s ease',
+                    }}
                 />
-            </button>
+            </div>
 
             {/* Infos Produit */}
             <div className="p-1">
@@ -67,15 +81,17 @@ const ProductCard = ({
 
                 </div>
 
+
                 {/* Étoiles & Reviews */}
                 <PrintNumberStars productNbViews={productNbViews} t={t} />
+
 
                 {/* Description */}
                 <p className="text-xs text-start truncate mb-1 md:text-sm whitespace-nowrap overflow-y-auto w-full scrollbor_hidden ">
                     {item?.description_product}
                 </p>
 
-                <div className="whitespace-nowrap flex text-xs gap-1 md:hidden bg-green-100 dark:bg-white-100 my-auto w-auto p-1 rounded-lg"><p>{t('quantity_sold')}</p>{qut_sold} </div>
+                <div className="whitespace-nowrap flex text-xs gap-1 md:hidden bg-grey-200 text-green dark:bg-white-100 my-auto w-auto p-1 rounded-lg"><p>{t('quantity_sold')}</p>{qut_sold} </div>
 
                 {/* Prix & Boutons */}
                 <div className="flex justify-between items-center">
@@ -91,10 +107,16 @@ const ProductCard = ({
                             onClick={
                                 () => {
 
-                                    addProductToCart(item);
+                                    dispatch(
+
+                                        addToCart(item)
+
+                                    );
 
                                     dispatch(
+
                                         addMessageNotif(
+
                                             `Produit ${item?.code_reference} sélectionné le ${Date.now()}`
                                         )
                                     );

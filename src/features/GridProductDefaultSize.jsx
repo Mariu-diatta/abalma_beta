@@ -1,323 +1,282 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
 import api from "../services/Axios";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../slices/cartSlice";
+import {
+    addToCart,
+    updateSelectedProduct
+} from "../slices/cartSlice";
+import {
+    setCurrentNav,
+    updateCategorySelected
+} from "../slices/navigateSlice";
+import {
+    addMessageNotif,
+    addUser
+} from "../slices/chatSlice";
+
 import OwnerAvatar from "../components/OwnerProfil";
-import { setCurrentNav } from "../slices/navigateSlice";
-import { addMessageNotif, addUser } from "../slices/chatSlice";
 import ProductModal from "../pages/ProductViewsDetails";
-import { useNavigate } from 'react-router-dom';
-import SuspenseCallback from "../components/SuspensCallback";
 import LoadingCard from "../components/LoardingSpin";
-import { numberStarsViews, productViews } from "../utils";
+import { productViews } from "../utils";
 import { useTranslation } from 'react-i18next';
+import PrintNumberStars from "../components/SystemStar";
+import ScrollingContent from "../components/ScrollContain";
+import SearchBar from "../components/BtnSearchWithFilter";
+import { useNavigate } from 'react-router-dom';
 
-
-const GridProductDefault = ({categorie_item}) => {
-
+const GridProductDefault = ({ categorie_item }) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { t } = useTranslation();
+
     const cartItems = useSelector(state => state.cart.items);
     const currentUser = useSelector(state => state.auth.user);
-    const navigate = useNavigate()
+
     const [productData, setProductData] = useState([]);
     const [owners, setOwners] = useState({});
     const [modalData, setModalData] = useState(null);
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(true);
     const [productNbViews, setProductNbViews] = useState(null);
-    const { t } = useTranslation();
+    const [searchProductByName, setSearchProductByName] = useState('');
 
-    const addProductToCart = useCallback((product) => {
-
-        dispatch(addToCart(product));
-
-        dispatch(addMessageNotif(`Produit ${product?.code_reference} ajouté le ${new Date().toLocaleString()}`));
-
-    }, [dispatch]);
-
-    const openModal = useCallback((e, product) => {
-
-        e.preventDefault();
-
-        dispatch(addUser(owners[product.fournisseur]));
-
+    // Open modal with product
+    const openModal = (product) => {
         setModalData(product);
-
-    }, [owners, dispatch]);
+        dispatch(updateSelectedProduct(product));
+    };
 
     const closeModal = () => setModalData(null);
 
+    const shouldDisableSearch = useMemo(() => productData?.length <= 0, [productData]);
+
+    // Group products into columns of 3
     const cols = useMemo(() => {
-
         const chunked = [];
-
-        if (productData.length > 0) {
-
-            for (let i = 0; i < productData.length; i += 3) {
-
-                chunked.push(productData.slice(i, i + 3));
-            }
-
-        } 
-
+        for (let i = 0; i < productData.length; i += 3) {
+            chunked.push(productData.slice(i, i + 3));
+        }
         return chunked;
-
     }, [productData]);
 
+    // Fetch products and owners
+    const fetchProductsAndOwners = useCallback(async (category) => {
+        setIsLoading(true);
+        try {
+            const { data: products } = await api.get(`/products/filter/?categorie_product=${category}`);
+            const availableProducts = products.filter(p => parseInt(p.quantity_product) !== 0);
+            setProductData(availableProducts);
+
+            const ownerIds = [...new Set(availableProducts.map(p => p.fournisseur).filter(Boolean))];
+
+            const responses = await Promise.all(ownerIds.map(id =>
+                api.get(`clients/${id}/`)
+                    .then(res => ({ id, data: res.data }))
+                    .catch(() => ({ id, data: null }))
+            ));
+
+            const ownerMap = responses.reduce((acc, { id, data }) => {
+                if (data) acc[id] = data;
+                return acc;
+            }, {});
+
+            setOwners(ownerMap);
+            dispatch(updateCategorySelected(category));
+        } catch (error) {
+        //    console.error("Erreur de chargement des produits :", error);
+        } finally {
+            setIsLoading(false);
+        }
+    }, [dispatch]);
+
+    // Fetch on category change
     useEffect(() => {
+        fetchProductsAndOwners(categorie_item);
+    }, [fetchProductsAndOwners, categorie_item]);
 
-        const fetchProductsAndOwners = async () => {
-
-            try {
-
-                const { data: products } = await api.get(`/products/filter/?categorie_product=${categorie_item}`);
-
-                const filtered = products.filter(p => parseInt(p.quantity_product) !== 0);
-
-                setProductData(filtered);
-
-                const ownerIds = [...new Set(filtered.map(p => p.fournisseur).filter(Boolean))];
-
-                const responses = await Promise.all(
-
-                    ownerIds.map(id =>
-
-                        api.get(`clients/${id}/`)
-
-                            .then(res => ({ id, data: res.data }))
-
-                            .catch(() => ({ id, data: null }))
-                    )
-                );
-
-                const ownerMap = responses.reduce((acc, { id, data }) => {
-
-                    if (data) acc[id] = data;
-
-                    return acc;
-
-                }, {});
-
-                setOwners(ownerMap);
-
-            } catch (error) {
-
-                console.error("Erreur lors du chargement des produits :", error);
-
-            } finally {
-
-                setIsLoading(false)
-            }
-        };
-
-        fetchProductsAndOwners();
-
-    }, [categorie_item]);
+    // Fetch on search
+    useEffect(() => {
+        if (searchProductByName) {
+            fetchProductsAndOwners(searchProductByName);
+        }
+    }, [fetchProductsAndOwners, searchProductByName]);
 
     return (
 
+        <div className="py-1">
 
-        <SuspenseCallback>
+            {productData?.length > 0 && (
 
-            {
-                isLoading ?
-                (
-                        <LoadingCard />
-                )
-                : 
-                <div>
-                {
-                    (productData?.length > 0) && (cols?.length > 0) ?
-                    (
+                <div className="flex mx-auto items-center w-auto md:w-1/2 px-2">
+                    <SearchBar
+                        onSearch={setSearchProductByName}
+                        disabled={shouldDisableSearch}
+                    />
+                </div>
+            )}
 
-                        <div className="grid grid-cols-3 md:grid-cols-3 gap-1 mt-2">
+            {isLoading ? (
 
-                            {
-                                cols.map(
+                <LoadingCard />
+            ) :
+                productData?.length > 0 && cols?.length > 0 ? (
 
-                                    (products, colIdx) => (
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-1 mt-2">
 
-                                        <div key={colIdx} className="grid gap-4">
+                    {cols.map((products, colIdx) => (
 
-                                            <SuspenseCallback>
+                        <div key={colIdx} className="grid gap-4">
 
-                                                {
-                                                    products.map(product => {
+                            {products.map(product => {
 
-                                                    const isInCart = cartItems.some(p => p.id === product.id);
+                                const isInCart = cartItems.some(p => p.id === product.id);
+                                const owner = owners[product.fournisseur];
 
-                                                    const owner = owners[product.fournisseur];
+                                productViews(product, setProductNbViews);
 
-                                                    productViews(product, setProductNbViews)
+                                return (
 
-                                                    return (
-                                                        <div
-                                                            key={product.id}
-                                                            className={`rounded-lg p-1 transition transform hover:-translate-y-1 ${isInCart ? "opacity-50 pointer-events-none bg-gray-100" : "bg-white"
-                                                                }`}
-                                                            style={{
-                                                                backgroundColor: "var(--color-bg)",
-                                                                color: "var(--color-text)"
-                                                            }}
-                                                        >
-                                                            <button
-                                                                type="button"
-                                                                className="relative w-full block rounded-lg overflow-hidden"
-                                                                onClick={(e) => openModal(e, product)}
-                                                                aria-label={`Voir le produit ${product.description_product}`}
-                                                            >
-                                                                <img
-                                                                    src={product.image_product}
-                                                                    alt={`${product.description_product}`}
-                                                                    loading="lazy"
-                                                                    className="h-auto w-full rounded-lg transition duration-300 ease-in-out hover:brightness-75 hover:grayscale"
-                                                                />
-                                                            </button>
-
-                                                            <div className="flex justify-between items-center mt-2 mb-1">
-                                                                <OwnerAvatar owner={owner} />
-                                                                {parseInt(product.quantity_product) > 1 && (
-                                                                    <span className="text-sm text-gray-700">
-                                                                        Quantité {product.quantity_product}
-                                                                    </span>
-                                                                )}
-                                                            </div>
-
-                                                            <div className="flex items-center">
-
-                                                                <div className="flex items-center">
-
-                                                                    {[...Array(parseInt(numberStarsViews(productNbViews)))].map((_, i) => (
-
-                                                                        <svg
-
-                                                                            key={i}
-
-                                                                            className="size-5 text-gray-900"
-
-                                                                            fill="currentColor"
-
-                                                                            viewBox="0 0 20 20"
-                                                                        >
-                                                                            <path
-                                                                                fillRule="evenodd"
-                                                                                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z"
-                                                                                clipRule="evenodd"
-                                                                            />
-                                                                        </svg>
-                                                                    ))}
-
-                                                                </div>
-
-                                                                <a
-                                                                    href="/home"
-
-                                                                    className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                                                                >
-                                                                    {productNbViews} {t('reviews')}
-
-                                                                </a>
-
-                                                            </div>
-
-
-                                                            <p className="text-center text-sm md:text-base">
-                                                                {product.description_product}
-                                                            </p>
-
-                                                            <div className="flex justify-between items-center mt-1">
-
-                                                                <span className="text-blue-700 font-semibold text-sm">
-                                                                    ${product.price_product}
-                                                                </span>
-
-                                                                <button
-                                                                    title="Ajouter au panier"
-                                                                    onClick={() => addProductToCart(product)}
-                                                                    className="p-1 rounded-full hover:bg-green-200"
-                                                                >
-                                                                    <svg
-                                                                        className="w-[26px] h-[26px] text-gray-800 dark:text-white"
-                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                        fill="none"
-                                                                        viewBox="0 0 24 24"
-                                                                    >
-                                                                        <path
-                                                                            stroke="currentColor"
-                                                                            strokeLinecap="round"
-                                                                            strokeLinejoin="round"
-                                                                            strokeWidth="0.8"
-                                                                            d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"
-                                                                        />
-                                                                    </svg>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    );
-                                                    })
-                                                }
-
-                                            </SuspenseCallback>
-
-                                        </div>
-                                    )
-                                )
-                            }
-
-                        </div>
-                    )
-                    :
-                    (
-                        <div className="flex flex-col items-center justify-center min-h-[300px] text-center text-gray-500 text-lg">
-
-                            <img
-                                alt=""
-                                src={currentUser?.image}
-                                title={currentUser?.description}
-                                className="h-30 w-30 rounded-full object-cover cursor-pointer ring-1 ring-gray-300 hover:ring-blue-500 transition mb-4"
-                                    />
-
-                                    <p className="mb-1">Aucun produit disponible.</p>
-
-                                <div className="w-full h-px bg-gray-300" />
-
-                                <button
-
-                                    onClick={
-
-                                        () => {
-                                            dispatch(setCurrentNav("add_product"));
-
-                                            navigate("/add_product");
-                                        }
-                                    }
-                                    title="Ajouter un nouveau produit"
-                                    className="mt-5 flex items-center justify-center rounded-md shadow-lg border border-gray-300 h-20 w-20 bg-white hover:bg-gray-100 transition"
-                                >
-                                    <svg
-                                        className="text-gray-800 dark:text-white"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="24"
-                                        height="24"
-                                        fill="currentColor"
-                                        viewBox="0 0 24 24"
-                                        aria-hidden="true"
+                                    <div
+                                        key={product?.id}
+                                        className={`rounded-lg p-1 transition transform hover:-translate-y-1 ${isInCart
+                                                ? "opacity-50 pointer-events-none bg-gray-100"
+                                                : "bg-white"
+                                            }`}
+                                        style={{
+                                            backgroundColor: "var(--color-bg)",
+                                            color: "var(--color-text)"
+                                        }}
                                     >
-                                        <path
-                                            fillRule="evenodd"
-                                            clipRule="evenodd"
-                                            d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4.243a1 1 0 1 0-2 0V11H7.757a1 1 0 1 0 0 2H11v3.243a1 1 0 1 0 2 0V13h3.243a1 1 0 1 0 0-2H13V7.757Z"
-                                        />
-                                    </svg>
-                                </button>
-                            </div>
-                    )
-                }
-                </div >
-            }
-            
-            <ProductModal isOpen={!!modalData} onClose={closeModal} dataProduct={modalData} />
+                                        <div
+                                            className="relative w-full block rounded-lg overflow-hidden"
+                                            aria-label={`Voir le produit ${product?.product_name}`}
+                                        >
+                                            <img
+                                                src={product.image_product}
+                                                alt={product.description_product}
+                                                onClick={() => {
+                                                    openModal(product);
+                                                    dispatch(addUser(owner));
+                                                }}
+                                                loading="lazy"
+                                                className="h-auto w-full rounded-lg transition duration-300 ease-in-out hover:brightness-75 hover:grayscale"
+                                            />
+                                        </div>
 
-        </SuspenseCallback>
+                                        <div className="p-1">
+
+                                            <div className="flex justify-between items-center mb-1">
+
+                                                <OwnerAvatar owner={owner} />
+
+                                                {product?.quantity_product !== "0" && (
+                                                    <span className="text-xs text-gray-600">
+                                                        {t("quantity")} {product?.quantity_product}
+                                                    </span>
+                                                )}
+                                            </div>
+
+                                            <PrintNumberStars productNbViews={productNbViews} t={t} />
+
+                                            <p className="text-xs truncate mb-1 md:text-sm">
+                                                {product?.description_product}
+                                            </p>
+
+                                            <div className="whitespace-nowrap flex text-xs gap-1 md:hidden dark:bg-white-100 p-1 rounded-lg">
+                                                <p>{t('quantity_sold')}</p>{product?.quatity_sold}
+                                            </div>
+
+                                            <div className="flex justify-between items-center">
+                                                <ScrollingContent
+                                                    item={product}
+                                                    t={t}
+                                                    qut_sold={product?.quatity_sold}
+                                                />
+
+                                                <button
+                                                    title="Ajouter au panier"
+                                                    onClick={() => {
+                                                        dispatch(addToCart(product));
+                                                        dispatch(
+                                                            addMessageNotif(
+                                                                `Produit ${product?.code_reference} sélectionné le ${Date.now()}`
+                                                            )
+                                                        );
+                                                    }}
+                                                    className="cursor-pointer p-1 rounded-full hover:bg-green-100 transition"
+                                                >
+                                                    <svg
+                                                        className="w-8 h-6 text-gray-800 dark:text-white border-1 rounded-lg"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                    >
+                                                        <path
+                                                            stroke="currentColor"
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth="1"
+                                                            d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7h-1M8 7h-.688M13 5v4m-2-2h4"
+                                                        />
+                                                    </svg>
+
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    ))}
+                </div>
+            ) : (
+                <div className="flex flex-col items-center justify-center min-h-[300px] text-center text-gray-500 text-lg">
+
+                    <img
+                        alt=""
+                        src={currentUser?.image}
+                        title={currentUser?.description}
+                        className="h-30 w-30 rounded-full object-cover cursor-pointer ring-1 ring-gray-300 hover:ring-blue-500 transition mb-4"
+                    />
+
+                    <div className="w-full h-px bg-gray-300" />
+
+                    <p className="mb-1">{t('TableRecap.noProducts')}</p>
+
+                    <button
+                        onClick={() => {
+                            dispatch(setCurrentNav("add_product"));
+                            navigate("/add_product");
+                        }}
+                        title="Ajouter un nouveau produit"
+                        className="mt-5 flex items-center justify-center rounded-md shadow-lg border border-gray-300 h-20 w-20 bg-white hover:bg-gray-100 transition"
+                    >
+                        <svg
+                            className="text-gray-800 dark:text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                        >
+                            <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4.243a1 1 0 1 0-2 0V11H7.757a1 1 0 1 0 0 2H11v3.243a1 1 0 1 0 2 0V13h3.243a1 1 0 1 0 0-2H13V7.757Z"
+                            />
+                        </svg>
+
+                    </button>
+
+                </div>
+            )}
+
+            <ProductModal
+                isOpen={!!modalData}
+                onClose={closeModal}
+                dataProduct={productData}
+            />
+        </div>
     );
 };
 

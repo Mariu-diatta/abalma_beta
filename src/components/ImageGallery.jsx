@@ -1,19 +1,38 @@
-const ImageGallery = ({ imagesEls }) => (
+﻿import { useSelector } from "react-redux";
+import ProductCard from "./ProductCard";
 
-    <div className="grid gap-4 h-auto w-auto overflow-x-auto w-full overflow-y-auto h-full">
-        {/*<div>*/}
-        {/*    <img className="h-auto rounded-lg" src={mainImage} alt="Main" />*/}
-        {/*</div>*/}
-        <div className="grid grid-cols-5 gap-4">
+const ImageGallery = ({ imagesEls,  openModal, owners}) => { 
+       
+    const cartItems = useSelector(state => state?.cart?.items);
 
-            {imagesEls?.map((prod, idx) => (
 
-                <img key={idx} className="h-auto max-w-full rounded-lg" src={prod.image_product} alt={`Sub ${idx + 1}`} />
-            ))}
+    return (
+
+        <div className="grid grid-cols-2 gap-1 h-full w-full overflow-x-auto overflow-y-auto overflow-x-auto scrollbor_hidden">
+
+
+            {imagesEls?.map(item => {
+                const isInCart = cartItems?.some(product => product?.id === item?.id);
+                const owner = owners[item?.fournisseur];
+
+                return (
+                    <ProductCard
+                        key={item?.id} // ✅ Clé unique ici
+                        id={item?.id}
+                        item={item}
+                        isInCart={isInCart}
+                        owner={owner}
+                        openModal={openModal}
+                        owners={owners}
+                        qut_sold={item?.quanttity_product_sold}
+                    />
+                );
+            })}
 
         </div>
+    )
 
-    </div>
-);
+
+};
 
 export default ImageGallery;

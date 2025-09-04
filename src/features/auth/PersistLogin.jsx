@@ -19,7 +19,7 @@ const getNewToken = async (refreshToken_) => {
 
             localStorage.setItem("token", accessToken?.access);
 
-            console.log("REFRESH LE TOKEN POUR UNE RECONNEXION", accessToken)
+            //console.log("REFRESH LE TOKEN POUR UNE RECONNEXION", accessToken)
 
             return accessToken;
         }
@@ -55,13 +55,13 @@ const PersistLogIn = () => {
 
                 const newTokens = await getNewToken(refreshToken);
 
-                console.log("USER CONNEXEION REFRESH", newTokens?.access)
+                //console.log("USER CONNEXEION REFRESH", newTokens?.access)
 
                 if (!newTokens?.access) return;
 
                 const response = await api.get("about/me/");
 
-                console.log("USER CONNEXEION", response?.data)
+                //console.log("USER CONNEXEION", response?.data)
 
                 dispatch(login(response.data));
 

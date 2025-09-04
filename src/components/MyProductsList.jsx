@@ -6,6 +6,7 @@ import LoadingCard from "./LoardingSpin";
 import FormElementFileUpload from "../features/FormFile";
 import { setProductUpdate } from "../slices/cartSlice";
 import RendrePrixProduitMonnaie from "./ConvertCurrency";
+import { ButtonSimple } from "./Button";
 
 
 const MyProductList = () => {
@@ -140,18 +141,22 @@ const MyProductList = () => {
                             Array.isArray(products) &&
 
                             products.map((product) => (
+
                                 <tr
                                     key={product?.id}
+
                                     className="dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
                                 >
                                     <td className="p-1">
 
                                         <div className="w-10 h-10 md:w-20 md:h-20 overflow-hidden rounded-lg border border-gray-200 dark:border-gray-600">
+
                                             <img
                                                 src={product?.image_product}
                                                 alt={"product"}
                                                 className="object-contain w-auto h-auto"
                                             />
+
                                         </div>
 
                                     </td>
@@ -177,12 +182,16 @@ const MyProductList = () => {
                                     </td>
 
                                     <td className="px-6 py-4 gap-2">
-                                        <button
-                                            onClick={() => handleDelete(product?.id)}
-                                            className="px-1 py-1 bg-red-400 text-white rounded-lg hover:bg-red-600 text-xs"
-                                        >
-                                            {t("delete")}
-                                        </button>
+
+                                        <ButtonSimple
+
+                                            onHandleClick={() => handleDelete(product?.id)}
+
+                                            className="px-3 rounded-md hover:bg-gray-100 bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-br hover:to-orange-500"
+
+                                            title={t("delete")}
+                                        />
+
                                     </td>
 
                                 </tr>
@@ -308,21 +317,21 @@ export function CenteredModal({ product }) {
 
         <div>
 
-            <button
+            <ButtonSimple
 
-                onClick={() => setIsOpen(true)}
+                onHandleClick={() => setIsOpen(true)}
 
-                className="px-2 py-1 bg-blue-400 text-white rounded-lg hover:bg-blue-700 text-xs"
-            >
-                {t('modifyProduct.modify_product')}
-            </button>
+                title={t('modifyProduct.modify_product')}
 
+                className="px-2 py-1 bg-gradient-to-br from-purple-400 hover:bg-gradient-to-br hover:from-purple-400 text-white rounded-lg hover:bg-blue-700 text-xs"
+            />
+          
             {isOpen && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50 overflow-y-auto h-full pt-6">
 
                     <div className="flex flex-col gap-3 shadow-lg p-6 rounded-lg bg-white max-w-2xl w-full">
 
-                        <h2 className="text-lg font-semibold text-gray-800">{t('modifyProduct.title_modify_product')}</h2>
+                        <h2 className="text-lg font-sm text-gray-800">{t('modifyProduct.title_modify_product')}</h2>
 
                         <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-3">
                             <input
@@ -394,26 +403,29 @@ export function CenteredModal({ product }) {
 
                             <FormElementFileUpload label="Choisissez une image" getFile={handleFileSelect} />
 
-                            <div className="col-span-2 flex justify-end gap-2 mt-2">
-                                <button
-                                    type="button"
-                                    onClick={handleClose}
-                                    className="px-3 py-2 border rounded-md hover:bg-gray-100"
-                                >
-                                    {t('modifyProduct.cancel_modify_product')}
-                                </button>
+                            <div className="col-span-2 flex justify-between mt-2">
 
-                                {loading ? (
-                                    <LoadingCard />
-                                ) : (
-                                    <button
-                                        type="submit"
-                                        className="px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-                                    >
-                                            {t('modifyProduct.modify_product')}
-                                    </button>
-                                )}
+                                <ButtonSimple
+                                    type="button"
+                                    onHandleClick={handleClose}
+                                    className="px-3  border rounded-md hover:bg-gray-100 bg-gradient-to-br from-pink-500 to-orange-400"
+                                    title={t('modifyProduct.cancel_modify_product')}
+                                />
+
+                                {
+                                    loading ?
+                                    (
+                                        <LoadingCard />
+                                    ) :
+                                    (
+                                        <ButtonSimple
+                                            title={t('modifyProduct.modify_product')}
+                                        />
+                                    )
+                                }
+
                             </div>
+
                         </form>
 
                         {alertMessage && (

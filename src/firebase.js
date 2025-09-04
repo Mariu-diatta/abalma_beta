@@ -77,6 +77,10 @@ export function LoginWithGoogle() {
 
         try {
 
+            localStorage.removeItem("refresh");
+
+            localStorage.removeItem("token");
+
             const res = await api.post("auth/google-login/",
                 {
 
@@ -90,7 +94,7 @@ export function LoginWithGoogle() {
                 }
             );
 
-            console.log("Connexion réussie :", res.data);
+            //console.log("Connexion réussie :", res.data);
 
             dispatch(updateUserData(res.data));
 
@@ -130,7 +134,7 @@ export function LoginWithGoogle() {
                     <GoogleLogin
                         onSuccess={handleLogin}
                         onError={() => {
-                            console.log("Erreur lors de la connexion Google");
+                            //console.log("Erreur lors de la connexion Google");
                         }}
                     />
                     :
@@ -144,10 +148,10 @@ export function LoginWithGoogle() {
 export const signUpWithEmail = async ({ email, password }) => {
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        console.log("Utilisateur inscrit:", userCredential.user);
+        //console.log("Utilisateur inscrit:", userCredential.user);
         return userCredential.user;
     } catch (error) {
-        console.error("Erreur d'inscription:", error.message);
+        //console.error("Erreur d'inscription:", error.message);
         throw error;
     }
 };
@@ -155,10 +159,10 @@ export const signUpWithEmail = async ({ email, password }) => {
 export const signInWithEmailPswd = async (email, password) => {
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        console.log("Connexion réussie:", userCredential.user);
+        //console.log("Connexion réussie:", userCredential.user);
         return userCredential.user;
     } catch (error) {
-        console.error("Erreur de connexion:", error.message);
+        //console.error("Erreur de connexion:", error.message);
         throw error;
     }
 };
@@ -169,7 +173,7 @@ export const signInWithGoogle = async () => {
     try {
         const resultUser = await signInWithPopup(auth, provider).then((result) => {
             // Auth réussie
-            console.log("Utilisateur connecté", result);
+            //console.log("Utilisateur connecté", result);
             })
             .catch((error) => {
                 if (error.code === "auth/popup-closed-by-user") {
@@ -181,12 +185,12 @@ export const signInWithGoogle = async () => {
 
         const user = resultUser;
 
-        console.log("Connexion Google réussie:", user);
+        //console.log("Connexion Google réussie:", user);
 
         return user;
 
     } catch (error) {
-        console.error("Erreur Google Auth:", error.message);
+        //console.error("Erreur Google Auth:", error.message);
         throw error;
     }
 };
@@ -209,10 +213,10 @@ export const signInWithTwitter = async () => {
     try {
         const result = await signInWithPopup(auth, provider);
         const user = result.user;
-        console.log("Connexion Twitter réussie:");
+        //console.log("Connexion Twitter réussie:");
         return user;
     } catch (error) {
-        console.error("Erreur Twitter Auth:", error.message);
+        //console.error("Erreur Twitter Auth:", error.message);
         throw error;
     }
 };
@@ -223,7 +227,7 @@ export const setupRecaptcha = (containerId = "recaptcha-container") => {
         window.recaptchaVerifier = new RecaptchaVerifier(containerId, {
             size: "invisible",
             callback: (response) => {
-                console.log("reCAPTCHA validé");
+                //console.log("reCAPTCHA validé");
             },
         }, auth);
     }
@@ -232,9 +236,9 @@ export const setupRecaptcha = (containerId = "recaptcha-container") => {
 // --- Suivi Authentification ---
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        console.log("Utilisateur connecté:", user.uid);
+        //console.log("Utilisateur connecté:", user.uid);
     } else {
-        console.log("Utilisateur déconnecté");
+        //console.log("Utilisateur déconnecté");
     }
 });
 

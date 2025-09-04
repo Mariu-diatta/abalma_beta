@@ -9,7 +9,7 @@ const initialState = {
     totalPrice: 0,
     productUpdate: null,
     nbrProductViews:0,
-    selectedProductView:null
+    selectedProductView:null,
 };
 
 const cartSlice = createSlice({

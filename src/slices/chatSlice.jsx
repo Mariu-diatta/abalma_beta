@@ -6,7 +6,7 @@ const initialState = {
     newChat: {},
     currentChat:{},
     userSlected: null,
-    messageNotif:[]
+    messageNotif: [],
 };
 
 const chatSlice = createSlice({

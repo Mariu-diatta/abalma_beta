@@ -24,7 +24,7 @@ export const convertDate = (dat) => {
 //Enregistrement de la liste des catefories
 export const  LIST_CATEGORY=[
 
-    { idx: "jouets", filter: "JOUET" }, { idx: "sacs", filter: "SACS" }, { idx: "habits" , filter:"HABITS"},
+    { idx: "jouets", filter: "JOUETS" }, { idx: "sacs", filter: "SACS" }, { idx: "habits" , filter:"HABITS"},
 
     { idx: "livres", filter: "LIVRES" }, { idx: "Jeux_video", filter: "JEUX_VIDEO" }, { idx: "Meubles", filter: "MEUBLES" }, { idx: "Vehicules" , filter:"VEHICULES"},
 
@@ -337,3 +337,89 @@ export const isCurrentUser = (currentUser, SelectedUser) => {
 
     return (currentUser.id === SelectedUser.id && currentUser?.email === SelectedUser?.email)
 }
+
+export const LIST_CATEGORIES = [
+    "All",
+    "JOUET",
+    "HABITS",
+    "MATERIELS_INFORMATIQUES",
+    "CAHIERS",
+    "SACS",
+    "LIVRES",
+    "ELECTROMENAGER",
+    "TELEPHONIE",
+    "ACCESSOIRES",
+    "SPORT",
+    "JEUX_VIDEO",
+    "MEUBLES",
+    "VEHICULES",
+    "FOURNITURES_SCOLAIRES",
+    "DIVERS",
+]
+
+// 📦 Composants réutilisables internes :
+export const FloatingInput = ({ id, name, label, type = 'text', value, onChange, maxLength, wrapperClass = '', disabled }) => (
+
+    <div className={`relative ${wrapperClass}`}>
+
+        <input
+            type={type}
+            id={id}
+            name={name}
+            value={value}
+            onChange={onChange}
+            placeholder=" "
+            maxLength={maxLength}
+            disabled={disabled || false}
+            className="peer block w-full px-2.5 pt-5 pb-2.5 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600"
+        />
+
+        <label htmlFor={id} className="absolute text-sm text-gray-500 dark:text-gray-400 top-4 left-2.5 transition-all scale-75 -translate-y-4 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-4">
+            {label}
+        </label>
+
+    </div>
+);
+
+//ajout des thème
+export const ThemeSelector = ({ value, onChange, t }) => (
+
+    <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+
+        <label className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">{t('settingsText.theme')}</label>
+
+        <select
+            name="theme"
+            value={value}
+            onChange={onChange}
+            className="style-bg border-0 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 p-2.5"
+        >
+            <option value="light">{t('settingsText.themeLight')}</option>
+
+            <option value="dark">{t('settingsText.themeDark')}</option>
+
+        </select>
+
+    </div>
+);
+
+//notification des message
+export const NotificationToggle = ({ checked, onChange, t }) => (
+
+    <div className="flex items-center">
+
+        <input
+            id="notifications"
+            type="checkbox"
+            name="notifications"
+            checked={checked}
+            onChange={onChange}
+            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600"
+        />
+
+        <label htmlFor="notifications" className="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+            {t('settingsText.notifications')}
+        </label>
+
+    </div>
+);
