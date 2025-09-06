@@ -38,7 +38,7 @@ const navigateSlice = createSlice({
 
         setCurrentMessage: (state, action) => {
 
-            state.messageAlert = action.payload;    // payload = nouvelle valeur simple, ex: "shop"
+            state.messageAlert = action.payload;    // payload = nouvelle valeur simple, ex: "shop
         },
 
         clearMessage: (state) => {

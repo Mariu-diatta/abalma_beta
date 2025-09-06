@@ -1,10 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch,} from 'react-redux';
 import HomeLayout from '../layouts/HomeLayout';
-import { useNavigate } from 'react-router-dom';
 import InputBox from '../components/InputBoxFloat';
-import api from '../services/Axios';
-import { login, updateUserData } from '../slices/authSlice';
 import AttentionAlertMesage, { showMessage } from '../components/AlertMessage';
 import { useTranslation } from 'react-i18next';
 import { Outlet, NavLink } from 'react-router-dom';
@@ -15,19 +12,18 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import LoadingCard from '../components/LoardingSpin';
 import { loginClient } from '../utils';
 import { ButtonSimple } from '../components/Button';
-
+import { useNavigate } from 'react-router-dom'; // 
 
 const Signin = () => {
 
     const [loading, setLoading] = useState(false)
     const [email, setEmail] = useState("");
     const [pwd, setPwd] = useState("");
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const emailRef = useRef(null);
     const { t } = useTranslation();
-    const currentNav = useSelector(state => state.navigate.currentNav);
     const componentRef = useRef(null);
+    const navigate =useNavigate();
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -95,41 +91,7 @@ const Signin = () => {
 
             formData.append("password", pwd);
 
-            await loginClient(formData, dispatch);
-
-            await api.get(`/clients/?email=${email}`).then(
-
-                resp => {
-
-                    //console.log("USER DATA USER ", resp)
-
-                    const dataUser = resp?.data[0]
-
-                    if (dataUser) {
-
-                        dispatch(updateUserData(dataUser));
-
-                        dispatch(login(dataUser));
-
-                        dispatch(setCurrentNav("account_home"));
-
-                        setLoading(false)
-
-                        return navigate("/account_home", { replace: true });
-
-                    }
-
-
-                }
-
-            ).catch(
-
-                err => {
-
-                    setLoading(false)
-                }
-
-            )
+            await loginClient(formData, dispatch, setLoading, navigate);
 
         } catch (error) {
 
@@ -139,10 +101,7 @@ const Signin = () => {
         }
     };
 
-    if (currentNav === "home") {
 
-        return navigate("/", { replace: true })
-    }
 
     return (
 

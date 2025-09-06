@@ -89,14 +89,7 @@ export default function AccountDropdownUserProfil() {
 
             try {
 
-                const formData = new FormData();
-
-                formData.append("is_connected", false);
-
-                await api.put(`clients/${currentUser?.id}/`, formData, {
-
-                    headers: { "Content-Type": "multipart/form-data" },
-                });
+                await api.get(`logout/`);
 
                 dispatch(clearCart());
 
@@ -109,6 +102,8 @@ export default function AccountDropdownUserProfil() {
                 dispatch(setCurrentNav("/logIn"))
 
                 return navigate("/logIn", { replace: true });
+            
+
 
             } catch (error) {
 

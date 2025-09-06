@@ -7,93 +7,45 @@ import { useNavigate } from 'react-router-dom';
 import { setCurrentNav } from "../../slices/navigateSlice";
 import LoadingCard from "../../components/LoardingSpin";
 
-const getNewToken = async (refreshToken_) => {
-
-    try {
-
-        const response = await api.post("refresh/", { refresh: refreshToken_ });
-
-        const accessToken = response.data;
-
-        if (accessToken) {
-
-            localStorage.setItem("token", accessToken?.access);
-
-            //console.log("REFRESH LE TOKEN POUR UNE RECONNEXION", accessToken)
-
-            return accessToken;
-        }
-
-        return null;
-
-    } catch (error) {
-
-        console.error("Erreur lors du rafraîchissement du token :", error);
-
-        return null;
-    }
-};
-
-
 const PersistLogIn = () => {
 
     const [isLoading, setIsLoading] = useState(true);
-
     const navigate = useNavigate();
-
     const dispatch = useDispatch();
 
     useEffect(() => {
 
-        const verifyRefreshToken = async () => {
+        const checkSession = async () => {
+
+            const perfEntries = performance.getEntriesByType("navigation");
 
             try {
 
-                const refreshToken = localStorage.getItem("refresh");
+                if (perfEntries.length > 0 && perfEntries[0].type === "reload") {
 
-                if (!refreshToken) return;
+                    const response = await api.post("refresh/");
 
-                const newTokens = await getNewToken(refreshToken);
-
-                //console.log("USER CONNEXEION REFRESH", newTokens?.access)
-
-                if (!newTokens?.access) return;
-
-                const response = await api.get("about/me/");
-
-                //console.log("USER CONNEXEION", response?.data)
-
-                dispatch(login(response.data));
-
-                dispatch(setCurrentNav("/account_home"));
-
-                navigate("/account_home", {replace:true})
-
+                    dispatch(login(response.data));
+                    dispatch(setCurrentNav("/account_home"));
+                    navigate("/account_home", { replace: true });
+                }
             } catch (error) {
-
-                console.error("Échec du rafraîchissement ou de la récupération utilisateur :", error);
-
+                console.error("Utilisateur non authentifié :", error);
+                // Tu peux rediriger vers /login ici si tu veux
             } finally {
-
                 setIsLoading(false);
             }
         };
 
         if (isLoading) {
-
-            verifyRefreshToken();
+            checkSession();
         }
-
-    },[dispatch, isLoading,navigate ]);
+    }, [dispatch, isLoading, navigate]);
 
     if (isLoading) {
-
         return (
-
             <div style={{ textAlign: "center", marginTop: "2rem" }}>
-
-                <LoadingCard/>
-
+                <LoadingCard />
             </div>
         );
     }

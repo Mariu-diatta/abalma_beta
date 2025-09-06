@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Outlet} from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import WhiteRoundedButton, { ButtonNavigate } from "../components/Button";
 import Logo from "../components/LogoApp";
 import { useDispatch, useSelector } from "react-redux";
@@ -121,7 +121,7 @@ export function LanguageDropdown() {
 
                     <div
 
-                        className={`absolute right-0 w-28 rounded-md z-[80] ring-black ring-opacity-5 ${openDirection === "top" ? "origin-bottom-right mb-2 bottom-full" : "origin-top-right mt-2 top-full" }`}
+                        className={`absolute right-0 w-28 rounded-md z-[80] ring-black ring-opacity-5 ${openDirection === "top" ? "origin-bottom-right mb-2 bottom-full" : "origin-top-right mt-2 top-full"}`}
 
                         style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                     >
@@ -194,11 +194,16 @@ export const ThemeToggle = () => {
 
     const toggleTheme = () => {
 
-        const next = theme === 'dark' ? 'light' : 'dark';
+
+        const storedTheme = localStorage.getItem('theme');
+
+        const next = storedTheme === 'dark' ? 'light' : 'dark';
 
         setTheme(next);
 
         applyTheme(next, dispatch);
+
+        localStorage.setItem('theme', next)
     };
 
     return (
@@ -215,17 +220,17 @@ export const ThemeToggle = () => {
 
                 {
                     (theme === 'dark') ?
-                    (
-                        <svg className="w-6 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                            <path fillRule="evenodd" d="M11.675 2.015a.998.998 0 0 0-.403.011C6.09 2.4 2 6.722 2 12c0 5.523 4.477 10 10 10 4.356 0 8.058-2.784 9.43-6.667a1 1 0 0 0-1.02-1.33c-.08.006-.105.005-.127.005h-.001l-.028-.002A5.227 5.227 0 0 0 20 14a8 8 0 0 1-8-8c0-.952.121-1.752.404-2.558a.996.996 0 0 0 .096-.428V3a1 1 0 0 0-.825-.985Z" clipRule="evenodd" />
-                        </svg>
-                    )
-                    :
-                    (
-                        <svg className="w-6 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M12 21a9 9 0 0 1-.5-17.986V3c-.354.966-.5 1.911-.5 3a9 9 0 0 0 9 9c.239 0 .254.018.488 0A9.004 9.004 0 0 1 12 21Z" />
-                        </svg>
-                    )
+                        (
+                            <svg className="w-6 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <path fillRule="evenodd" d="M11.675 2.015a.998.998 0 0 0-.403.011C6.09 2.4 2 6.722 2 12c0 5.523 4.477 10 10 10 4.356 0 8.058-2.784 9.43-6.667a1 1 0 0 0-1.02-1.33c-.08.006-.105.005-.127.005h-.001l-.028-.002A5.227 5.227 0 0 0 20 14a8 8 0 0 1-8-8c0-.952.121-1.752.404-2.558a.996.996 0 0 0 .096-.428V3a1 1 0 0 0-.825-.985Z" clipRule="evenodd" />
+                            </svg>
+                        )
+                        :
+                        (
+                            <svg className="w-6 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M12 21a9 9 0 0 1-.5-17.986V3c-.354.966-.5 1.911-.5 3a9 9 0 0 0 9 9c.239 0 .254.018.488 0A9.004 9.004 0 0 1 12 21Z" />
+                            </svg>
+                        )
                 }
 
             </span>
@@ -262,7 +267,7 @@ const NavbarHeader = () => {
             id: 'home',
             label: t('home'),
             endPoint: '/',
-            logo: !(currentNav === "home")  ? (
+            logo: !(currentNav === "home") ? (
                 <svg
                     className="w-6 h-6 text-gray-800 dark:text-white"
                     aria-hidden="true"
@@ -281,7 +286,7 @@ const NavbarHeader = () => {
                     />
                 </svg>
             ) : (
-                    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                     <path fillRule="evenodd" d="M11.293 3.293a1 1 0 0 1 1.414 0l6 6 2 2a1 1 0 0 1-1.414 1.414L19 12.414V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2v-6.586l-.293.293a1 1 0 0 1-1.414-1.414l2-2 6-6Z" clipRule="evenodd" />
                 </svg>
 
@@ -292,7 +297,7 @@ const NavbarHeader = () => {
             label: t('about'),
             endPoint: '/about',
             logo:
-                ((currentNav === "about")  && !(currentNav === "/logIn") && !(currentNav === "/Register") && !(currentNav === "/register")) ?
+                ((currentNav === "about") && !(currentNav === "/logIn") && !(currentNav === "/Register") && !(currentNav === "/register")) ?
                     (
                         <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                             <path fillRule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm9.408-5.5a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM10 10a1 1 0 1 0 0 2h1v3h-1a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-1v-4a1 1 0 0 0-1-1h-2Z" clipRule="evenodd" />
@@ -325,7 +330,7 @@ const NavbarHeader = () => {
             label: 'Blogs',
             endPoint: '/blogs',
             logo:
-            (!(currentNav === "blogs") && !(currentNav === "/logIn") && !(currentNav === "/Register") && !(currentNav === "/register")) ?
+                (!(currentNav === "blogs") && !(currentNav === "/logIn") && !(currentNav === "/Register") && !(currentNav === "/register")) ?
                     (
                         <svg
                             className="w-6 h-6 text-gray-800 dark:text-white"
@@ -417,7 +422,7 @@ const NavbarHeader = () => {
                     (currentNav === "home" || currentNav === "blogs") &&
                     <div className={`hidden md:block w-1/3`} >
 
-                            <SearchBar onSearch={getDataSeachSelectedItem} />
+                        <SearchBar onSearch={getDataSeachSelectedItem} />
 
                     </div>
                 }
@@ -432,7 +437,7 @@ const NavbarHeader = () => {
                             onClick={() => setOpen(!open)}
                             id="navbarToggler"
                             className={
-                            `
+                                `
                             ${open && "navbarTogglerActive"} 
                             sm:hidden absolute right-1 top-1/2 transform -translate-y-1/2 
                             z-[71] px-3 py-[6px] rounded-lg 
@@ -449,7 +454,7 @@ const NavbarHeader = () => {
                         </button>
 
                         {/* Navigation */}
-                      
+
                         <nav
                             id="navbarCollapse"
                             className={`sm:hidden absolute top-1/2 right-0  w-full max-w-[250px] z-[70] rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${!open && "hidden"}
@@ -459,7 +464,7 @@ const NavbarHeader = () => {
                             {/* Boutons et Dropdown (Mobile) */}
                             <div
                                 className="text-sm absolute top-2 flex flex-col items-start justify-start gap-3 p-1 sm:hidden shadow-md w-full py-5 bg-none "
-                            >       
+                            >
                                 <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
 
                                 <WhiteRoundedButton titleButton={t('register')} to="/register" />
@@ -469,7 +474,7 @@ const NavbarHeader = () => {
                             </div>
 
                         </nav>
-                       
+
                         {/* Boutons et Dropdown (Desktop) */}
 
                         <div
@@ -477,13 +482,13 @@ const NavbarHeader = () => {
                             className="hidden sm:flex items-center justify-center gap-3 w-auto bg-none"
                         >
                             {
-                                currentNav==="home" &&
+                                currentNav === "home" &&
                                 <>
                                     <ThemeToggle />
 
-                                    <NotificationsComponent/>
+                                    <NotificationsComponent />
 
-                                    <PayBack/>
+                                    <PayBack />
                                 </>
                             }
 
@@ -506,7 +511,6 @@ const NavbarHeader = () => {
 };
 
 export default NavbarHeader;
-
 
 
 

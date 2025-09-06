@@ -1,7 +1,7 @@
 import { showMessage } from "./components/AlertMessage";
 import api from "./services/Axios";
-import { updateUserToken } from "./slices/authSlice";
-import { updateTheme } from "./slices/navigateSlice";
+import { login, updateCompteUser} from "./slices/authSlice";
+import { setCurrentNav, updateTheme } from "./slices/navigateSlice";
 
 //covertion de la date de la transaction
 export const convertDate = (dat) => {
@@ -56,7 +56,6 @@ export const applyTheme = (newTheme, dispatch) => {
 
     document.body.classList.add(newTheme);
 
-    localStorage.setItem('theme', newTheme);
 
     dispatch(updateTheme(newTheme));
 
@@ -299,37 +298,43 @@ export function formatISODate(isoDateStr) {
 }
 
 // Fonction de login avec l'API
-export const loginClient = async (data, dispatch) => {
+export const loginClient = async (data, dispatch, setIsLoading, navigate) => {
 
     try {
-
-
-        localStorage.removeItem("refresh");
-
-        localStorage.removeItem("token");
 
         const response = await api.post('login/', data, {
 
             headers: {
 
                 'Content-Type': 'multipart/form-data',
-            }
+            },
+
+            withcredentials:true   
         });
 
 
         if (response?.data) {
 
-            dispatch(updateUserToken(response?.data));
-            localStorage.setItem("token", response?.data?.access)
-            localStorage.setItem("refresh", response?.data?.refresh)
-            return response.data;
+            dispatch(login(response?.data?.user));
+
+            dispatch(updateCompteUser(response?.data?.compte))
+
+            dispatch(setCurrentNav("account_home"))
+
+            navigate("/account_home", {replace:true})
         }
 
     } catch (error) {
 
+        //console.log("Erreur lors du loign", error)
+
         showMessage(dispatch, { Type: "Erreur", Message: error?.response?.data?.detail || error?.message || error?.request?.message || error });
 
         throw error;
+
+    } finally {
+
+        setIsLoading(false)
     }
 };
 

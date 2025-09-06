@@ -17,7 +17,7 @@ import {
     RecaptchaVerifier
 } from "firebase/auth";
 import api from "./services/Axios";
-import { login, updateUserData, updateUserToken } from "./slices/authSlice";
+import { login, updateCompteUser, updateUserData} from "./slices/authSlice";
 import { setCurrentNav } from "./slices/navigateSlice";
 import { useDispatch } from "react-redux";
 import { showMessage } from "./components/AlertMessage";
@@ -62,85 +62,61 @@ function getCookie(name) {
 }
 
 export function LoginWithGoogle() {
-
-    const [loading, setLoading] = useState(false)
-
+    const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
-
     const navigate = useNavigate();
 
     const handleLogin = async (credentialResponse) => {
-
         const csrfToken = getCookie('csrftoken');
-
-        setLoading(true)
+        setLoading(true);
 
         try {
-
-            localStorage.removeItem("refresh");
-
-            localStorage.removeItem("token");
-
-            const res = await api.post("auth/google-login/",
-                {
-
-                access_token: credentialResponse.credential, // token JWT Google
+            const res = await api.post("auth/google-login/", {
+                access_token: credentialResponse.credential,
+            }, {
+                headers: {
+                    "X-CSRFToken": csrfToken
                 },
-                {
-                    headers: {
-                        "X-CSRFToken": csrfToken
-                    },
-                    withCredentials: true
-                }
-            );
+                withCredentials: true // 🔒 Cookies HttpOnly
+            });
 
-            //console.log("Connexion réussie :", res.data);
+            // ✅ Utilisateur authentifié : le token est dans les cookies, inutile de le stocker
 
-            dispatch(updateUserData(res.data));
-
-            dispatch(login(res.data?.user));
-
-            dispatch(updateUserToken(
-                {
-                    refresh: res.data?.refresh,
-                    access: res.data?.access,
-                }
-            ))
-
+            dispatch(updateCompteUser(res?.data?.compte))
+            dispatch(updateUserData(res?.data));
+            dispatch(login(res.data?.user)); // user info uniquement
             dispatch(setCurrentNav("account_home"));
 
-            localStorage.setItem("token", res.data?.access,)
+            navigate("/account_home", { replace: true });
 
-            localStorage.setItem("refresh", res.data?.refresh)
-
-            setLoading(false)
-
-            // ✅ Redirection après succès
-            navigate("/account_home", {replace:true}); // ou la page souhaitée
 
         } catch (err) {
-
-            setLoading(false)
-
-            showMessage(dispatch, {Type:"Erreur", Message:`Hops!!!...${err || err?.message || err?.request?.response}`});
+            console.error("Google login error:", err);
+            showMessage(dispatch, {
+                Type: "Erreur",
+                Message: `Hops!!!... ${err?.message || err?.response?.data?.detail || "Échec de la connexion"}`
+            });
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-            <>
-                {
-                    (!loading) ?
-
-                    <GoogleLogin
-                        onSuccess={handleLogin}
-                        onError={() => {
-                            //console.log("Erreur lors de la connexion Google");
-                        }}
-                    />
-                    :
-                    <LoadingCard/>
-                }
-            </>
+        <>
+            {!loading ? (
+                <GoogleLogin
+                    onSuccess={handleLogin}
+                    onError={() => {
+                        showMessage(dispatch, {
+                            Type: "Erreur",
+                            Message: "Échec de la connexion avec Google"
+                        });
+                    }}
+                />
+            ) : (
+                <LoadingCard />
+            )}
+        </>
     );
 }
 

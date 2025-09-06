@@ -96,7 +96,7 @@ const ProductCard = ({
                 {/* Prix & Boutons */}
                 <div className="flex justify-between items-center">
 
-                    <ScrollingContent item={item} t={t}  qut_sold ={qut_sold}/>
+                    <ScrollingContent item={item} t={t} qut_sold={item?.quantity_product_sold}/>
 
                     <div className="flex gap-2">
 

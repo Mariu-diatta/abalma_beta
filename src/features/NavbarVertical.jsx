@@ -2,7 +2,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentNav } from "../slices/navigateSlice";
-import { updateCompteUser, updateUserData } from "../slices/authSlice";
 import api from "../services/Axios";
 import Logo from "../components/LogoApp";
 import { menuItems } from "../components/MenuItem";
@@ -35,8 +34,6 @@ const VertcalNavbar = ({ children }) => {
         return (currentNav === id)
     }
 
-    //const { currentUser } = useAuth()
-    const currentUserEmail = useSelector((state) => state.auth.user)
 
     // 🔎 Fetch Rooms
     useEffect(() => {
@@ -58,63 +55,13 @@ const VertcalNavbar = ({ children }) => {
 
             } catch (error) {
 
-                console.error("Erreur lors de la récupération des rooms :", error);
+                //console.error("Erreur lors de la récupération des rooms :", error);
             }
         };
 
         fetchRooms();
 
     }, [currentUser?.id, dispatch]);
-
-    // 🔎 Fetch infos utilisateur (clients)
-    useEffect(() => {
-
-        const fetchClient = async () => {
-
-            try {
-
-                const response = await api.get(`/clients/?email=${currentUserEmail?.email}`);
-
-                const userData = response?.data?.[0];
-
-                if (userData) dispatch(updateUserData(userData));
-
-                else console.warn("Utilisateur non trouvé :", currentUserEmail?.email);
-
-            } catch (error) {
-
-                console.error("Erreur lors de la récupération du client :", error);
-            }
-        };
-
-        fetchClient();
-
-    }, [currentUserEmail?.email, currentUser?.id, dispatch]);
-
-    // 🔎 Fetch compte utilisateur
-    useEffect(() => {
-
-        const fetchCompte = async () => {
-
-            if (!currentUserEmail?.id) return;
-
-            try {
-
-                const { data } = await api.get('/comptes/');
-
-                const userAccount = data.find(acc => acc?.user === currentUserEmail.id);
-
-                if (userAccount) dispatch(updateCompteUser(userAccount));
-
-            } catch (error) {
-
-                console.error("Erreur lors de la récupération des comptes :", error);
-            }
-        };
-
-        fetchCompte();
-
-    }, [currentUserEmail, dispatch]);
 
     // 📦 Click en dehors de la sidebar
     useEffect(() => {
@@ -381,7 +328,7 @@ const VertcalNavbar = ({ children }) => {
                                         (currentNav === "user_blogs") ?
 
                                         <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                            <path fillRule="evenodd" d="M14 4.182A4.136 4.136 0 0 1 16.9 3c1.087 0 2.13.425 2.899 1.182A4.01 4.01 0 0 1 21 7.037c0 1.068-.43 2.092-1.194 2.849L18.5 11.214l-5.8-5.71 1.287-1.31.012-.012Zm-2.717 2.763L6.186 12.13l2.175 2.141 5.063-5.218-2.141-2.108Zm-6.25 6.886-1.98 5.849a.992.992 0 0 0 .245 1.026 1.03 1.03 0 0 0 1.043.242L10.282 19l-5.25-5.168Zm6.954 4.01 5.096-5.186-2.218-2.183-5.063 5.218 2.185 2.15Z" clip-rule="evenodd" />
+                                            <path fillRule="evenodd" d="M14 4.182A4.136 4.136 0 0 1 16.9 3c1.087 0 2.13.425 2.899 1.182A4.01 4.01 0 0 1 21 7.037c0 1.068-.43 2.092-1.194 2.849L18.5 11.214l-5.8-5.71 1.287-1.31.012-.012Zm-2.717 2.763L6.186 12.13l2.175 2.141 5.063-5.218-2.141-2.108Zm-6.25 6.886-1.98 5.849a.992.992 0 0 0 .245 1.026 1.03 1.03 0 0 0 1.043.242L10.282 19l-5.25-5.168Zm6.954 4.01 5.096-5.186-2.218-2.183-5.063 5.218 2.185 2.15Z" clipRule="evenodd" />
                                         </svg>
 
                                         :

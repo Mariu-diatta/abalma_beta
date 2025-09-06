@@ -6,9 +6,9 @@ const ProtectedRoute = () => {
 
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
-    const token = localStorage.getItem("token");
+    const currentUser = useSelector((state) => state.auth.user);
 
-    const hasAccess = isAuthenticated &&  Boolean(token);
+    const hasAccess = isAuthenticated && !!currentUser;
 
     if (!hasAccess) {
 

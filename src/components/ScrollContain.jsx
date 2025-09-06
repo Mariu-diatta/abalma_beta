@@ -30,7 +30,7 @@ export default function ScrollingContent({ item, qut_sold, t }) {
                     <RendrePrixProduitMonnaie item={item} />
                     <div className="flex items-center gap-1 hidden md:flex text-blue-50 dark:text-black rounded-lg px-2 py-1 text-xs font-medium">
                         <span className="whitespace-nowrap">{t("quantity_sold")}</span>
-                        <span className="text-sm font-semibold">{qut_sold}</span>
+                        <span className="text-sm">{qut_sold}</span>
                     </div>
                 </span>
             </div>

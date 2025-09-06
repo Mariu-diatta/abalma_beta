@@ -5,13 +5,9 @@ const initialState = {
 
     isAuthenticated: false,
 
-    firebaseToken:null,
-
     user: null,
 
     compteUser: null,
-
-    token: null
 };
 
 const authSlice = createSlice({
@@ -36,12 +32,6 @@ const authSlice = createSlice({
             state.user = null;
 
             state.compteUser = null;
-
-            state.token = null;
-
-            localStorage.removeItem("refresh");
-
-            localStorage.removeItem("token");
         },
 
         getFirebaseToken: (state, action) => {
@@ -56,15 +46,11 @@ const authSlice = createSlice({
         updateCompteUser: (state, action) => {
 
             state.compteUser = action.payload; // user object
-        },
-        updateUserToken: (state, action) => {
-
-            state.token = action.payload; // user object
         }
     },
 });
 
-export const { updateUserToken, updateCompteUser, updateUserData, getFirebaseToken, login, logout } = authSlice.actions;
+export const {  updateCompteUser, updateUserData, getFirebaseToken, login, logout } = authSlice.actions;
 
 export default authSlice.reducer;
 

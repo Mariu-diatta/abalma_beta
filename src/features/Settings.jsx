@@ -60,6 +60,8 @@ const SettingsForm = () => {
 
     const handleUpdateThem = (e) => {
 
+        e.preventDefault()
+
         const { value } = e.target;
 
         setForm((prev) => ({ ...prev, theme: value }));
@@ -77,16 +79,28 @@ const SettingsForm = () => {
     };
 
     const handleSubmit = async (e) => {
+
         e.preventDefault();
+
         if (!currentUserCompte?.id) {
             alert(t('settingsText.noAccountId'));
             return;
         }
+
         await tryRequest(
-            () => api.patch(`/comptes/${currentUserCompte.id}/`, {
+
+            () => api.patch(`/comptes/${currentUserCompte?.id}/update_theme/`, {
+
                 theme: form.theme,
+
                 is_notif_active: form.notifications,
-            }),
+            },
+            {
+
+                withCredentials: true
+            }
+
+            ),
             t('settingsText.accountSaved')
         );
     };
@@ -208,7 +222,7 @@ const SettingsForm = () => {
                 </form>
 
                 {/* Préférences */}
-                <form onSubmit={handleSubmit} className="w-auto dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6">
+                <form onSubmit={(e)=>handleSubmit(e)} className="w-auto dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6">
 
                     <ThemeSelector value={form.theme} onChange={handleUpdateThem} t={t} />
 
