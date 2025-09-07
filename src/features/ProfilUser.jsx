@@ -235,7 +235,7 @@ const ProfileCard = () => {
 
                     const Error = "Unable to create record: Invalid 'To' Phone Number:";
 
-                    if (err?.response?.data?.detail.includes(Error)) showMessage(dispatch, {Type:"Erreur", Message:Error});
+                    if (err?.response) showMessage(dispatch, {Type:"Erreur", Message:Error});
                 }
 
             } else {
