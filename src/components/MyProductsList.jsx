@@ -8,7 +8,6 @@ import { setProductUpdate } from "../slices/cartSlice";
 import RendrePrixProduitMonnaie from "./ConvertCurrency";
 import { ButtonSimple } from "./Button";
 
-
 const MyProductList = () => {
 
     const { t } = useTranslation();
@@ -35,13 +34,18 @@ const MyProductList = () => {
 
     /** 🟢 Charger les produits de l’utilisateur */
     useEffect(() => {
+
         if (!currentUser?.id) return;
 
         const fetchProducts = async () => {
+
             setLoading(true);
+
             try {
 
                 const productsOwner = await api.get("owner/product");
+
+                console.log("Mes propres produits", productsOwner?.data)
 
                 setProducts(productsOwner?.data);
 

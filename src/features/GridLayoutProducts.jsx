@@ -36,7 +36,7 @@ const GridLayoutProduct = () => {
 
     const [modalData, setModalData] = useState(null);
 
-    const [searchData, setSearchData] = useState(null);
+    const [searchData, setSearchData] = useState("null");
 
     const [activeBtnOver, setActiveBtnOver] = useState(DEFAULT_ACTIVE_CATEGORY);
 

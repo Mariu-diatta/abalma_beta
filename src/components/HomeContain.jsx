@@ -15,7 +15,7 @@ const HomeContain = () => {
 
             <div className="mx-auto max-w-screen-md text-center lg:mb-2  mt-8 pt-2">
 
-                <h2 className="mb-4 text-3xl lg:text-2xl tracking-tight font-extrabold">{t("homePan.title")}</h2>
+                <h2 className="mb-4 tracking-tight text-gray-500 text-lg">{t("homePan.title")}</h2>
 
                 <p className="font-light text-gray-500 sm:text-md dark:text-gray-400 w-full  text-center">
                     {t("homePan.content")}
@@ -205,26 +205,32 @@ export function LogoDropdown() {
             >
                 <div className="flex space-x-5 space-y-0 w-lg"> {/* Conteneur horizontal pour la liste */}
 
-                    {visibleBrands?.map((brand) => (
-                        <div
-                            key={brand?.name}
+                    {
+                        visibleBrands?.map(
 
-                            onClick={() => {
-                                setCurrentPage(Math.floor(brands.indexOf(brand) / itemsPerPage));
-                            }}
+                            (brand) => (
 
-                            className="flex flex-col items-start p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors inline-block"
-                        >
-                            <img
-                                src={brand?.img}
-                                alt={brand?.name}
-                                className="w-12 h-12 mb-2 object-contain"
-                            />
+                                <div
+                                    key={brand?.name}
 
-                            <span className="text-sm font-medium">{brand?.name}</span>
+                                    onClick={() => {
+                                        setCurrentPage(Math.floor(brands.indexOf(brand) / itemsPerPage));
+                                    }}
 
-                        </div>
-                    ))}
+                                    className="flex flex-col items-start p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors inline-block"
+                                >
+                                    <img
+                                        src={brand?.img}
+                                        alt={brand?.name}
+                                        className="w-12 h-12 mb-2 object-contain"
+                                    />
+
+                                    <span className="text-sm font-medium">{brand?.name}</span>
+
+                                </div>
+                            )
+                        )
+                    }
                 </div>
             </div>
 

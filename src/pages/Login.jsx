@@ -95,6 +95,8 @@ const Signin = () => {
 
         } catch (error) {
 
+            console.log("Erreur: ", error)
+
             showMessage(dispatch, { Type: "Erreur", Message: error?.message || error?.request?.response });
 
             setLoading(false)
@@ -170,7 +172,7 @@ const Signin = () => {
 
                                         <NavLink
                                             to="/forgetPassword"
-                                            className="mb-2 inline-block  text-sm lg:text-md text-blue-600 hover:text-primary hover:underline dark:text-blue-600"
+                                            className="whitespace-nowrap mb-2 inline-block  text-sm lg:text-md text-blue-600 hover:text-primary hover:underline dark:text-blue-600"
                                             onClick={() => dispatch(setCurrentNav("forgetPassword"))}
                                         >
 
@@ -180,11 +182,11 @@ const Signin = () => {
 
                                         <p className="text-sm lg:text-md text-base text-blue-600 dark:text-blue-400 flex items-center justify-center gap-2">
 
-                                            <span className="pr-0.5">{t("notRegistered")}</span>
+                                            <span className="whitespace-nowrap pr-0.5">{t("notRegistered")}</span>
 
                                             <NavLink
                                                 to="/Register"
-                                                className="text-blue-700 hover:underline text-sm lg:text-md dark:text-blue-300"
+                                                className="whitespace-nowrap text-blue-700 hover:underline text-sm lg:text-md dark:text-blue-300"
                                                 onClick={() => dispatch(setCurrentNav("/Register"))}
                                             >
                                                 {t("register")}
