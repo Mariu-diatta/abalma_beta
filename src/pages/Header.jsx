@@ -393,7 +393,7 @@ const NavbarHeader = () => {
 
     return (
 
-        <navbar className="sticky top-0 z-20 h-[20px]">
+        <nav className="sticky top-0 z-20 h-[20px]">
 
             <header
 
@@ -506,7 +506,7 @@ const NavbarHeader = () => {
 
             <Outlet />
 
-        </navbar>
+        </nav>
     );
 };
 

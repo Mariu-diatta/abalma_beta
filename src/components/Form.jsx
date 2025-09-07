@@ -5,10 +5,11 @@ import { useTranslation } from 'react-i18next';
 import api from '../services/Axios';
 import LoadingCard from './LoardingSpin';
 import { useDispatch, useSelector} from 'react-redux';
-import AttentionAlertMesage, { showMessage } from './AlertMessage';
+import  { showMessage } from './AlertMessage';
 import PhoneInput from './InputPhoneCountry';
 import { setCurrentNav } from '../slices/navigateSlice';
 import { ButtonSimple } from './Button';
+import HomeLayout from '../layouts/HomeLayout';
 
 
 const CreateClient = async (data, func, funcRetournMessage, dispatch) => {
@@ -181,136 +182,107 @@ const RegisterForm = () => {
 
     return (
 
-        <section className="bg-gray-1 py-2 dark:bg-dark lg:py-[120px] bg_home" >
+        <HomeLayout>
 
+            <div
 
-            <AttentionAlertMesage />
+                className="shadow-lg relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white px-3 lg:px-10  my-8 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]"
 
-            <div className="container mx-auto">
-
-                <div
-                    className="flex flex-wrap text-center"
-                >
-
+                style={
                     {
-                        (!loading)?
-                        <div className="w-full">
+                        backgroundColor: "var(--color-bg)",
+                        color: "var(--color-text)"
+                    }
+                }
+            >
 
-                            <div
+            {
+                (!loading)?
+                <>
+                    <h1 className="whitespace-nowrap text-2xl font-extrabold text-gray-500 dark:text-white px-4 pt-4 pb-4">
+                        {t('register')}
+                    </h1>
 
-                                className="shadow-lg relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white px-10  py-4 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]"
+                    <form 
+                        onSubmit={handleSignUp} ref={componentRef}
+                        className="translate-y-0 transition-all duration-1000 ease-in-out mb-3"
+                    >
 
-                                style={
-                                    {
-                                        backgroundColor: "var(--color-bg)",
-                                        color: "var(--color-text)"
-                                    }
-                                }
-                            >
+                        <InputBox
+                            type="text"
+                            name={"nom"}
+                            placeholder={t('form.lastName')}
+                            value={form.nom}
+                            onChange={handleChange}
+                        />
 
-                                <h1 className="whitespace-nowrap text-2xl font-extrabold text-gray-500 dark:text-white px-4 pt-4 pb-4">
-                                    {t('register')}
-                                </h1>
+                        <InputBox
+                            type="text"
+                            name="prenom"
+                            placeholder={t('form.firstName')}
+                            value={form.prenom}
+                            onChange={handleChange}
+                        />
 
-                                <form 
-                                    onSubmit={handleSignUp} ref={componentRef}
-                                    className="translate-y-0 transition-all duration-1000 ease-in-out mb-3"
-                                >
-
-                                    <InputBox
-                                        type="text"
-                                        name={"nom"}
-                                        placeholder={t('form.lastName')}
-                                        value={form.nom}
-                                        onChange={handleChange}
-                                    />
-
-                                    <InputBox
-                                        type="text"
-                                        name="prenom"
-                                        placeholder={t('form.firstName')}
-                                        value={form.prenom}
-                                        onChange={handleChange}
-                                    />
-
-                                    <InputBox
-                                        type="email"
-                                        name="email"
-                                        placeholder={t('form.email')}
-                                        value={form.email}
-                                        onChange={handleChange}
-                                    />
+                        <InputBox
+                            type="email"
+                            name="email"
+                            placeholder={t('form.email')}
+                            value={form.email}
+                            onChange={handleChange}
+                        />
 
 
-                                    <PhoneInput form={form} handleChange={handleChange} setForm={setForm} />
+                        <PhoneInput form={form} handleChange={handleChange} setForm={setForm} />
 
-                                    <InputBox
-                                        type="password"
-                                        name="password"
-                                        placeholder="Mot de passe"
-                                        value={form.password}
-                                        onChange={handleChange}
-                                    />
+                        <InputBox
+                            type="password"
+                            name="password"
+                            placeholder="Mot de passe"
+                            value={form.password}
+                            onChange={handleChange}
+                        />
 
-                                    <InputBox
-                                        type="password"
-                                        name="confirmPassword"
-                                        placeholder={t('form.confirmPassword')}
-                                        value={form.confirmPassword}
-                                        onChange={handleChange}
-                                    />
+                        <InputBox
+                            type="password"
+                            name="confirmPassword"
+                            placeholder={t('form.confirmPassword')}
+                            value={form.confirmPassword}
+                            onChange={handleChange}
+                        />
 
-                                     <ButtonSimple title={t("register")} />
+                       <div className="mb-10">
+                           <ButtonSimple title={t("register")} />
+                       </div>
 
-                                </form>
+                    </form>
 
-                                <p className="text-sm lg:text-md text-base text-body-color dark:text-dark-6 gap-3">
+                    <p className="text-sm lg:text-md text-base text-body-color dark:text-dark-6 gap-3">
 
-                                    <span>{t("alredyRegister")} </span>
+                        <span>{t("alredyRegister")} </span>
 
-                                    <Link
-                                        to="/login"
-                                        className="text-sm lg:text-md text-primary hover:underline"
-                                        onClick={() => dispatch(setCurrentNav("/logIn"))}
-                                    >
-                                        {t("login")}
-                                    </Link>
-
-                                </p>
-
-                                {/* Decorations (optionnels) */}
-                                <div className="absolute right-1 top-1" />
-
-                                <div className="absolute bottom-1 left-1" />
-
-                            </div>
-
-                        </div>
-                            :
-                        <div
-
-                            className = "shadow-lg relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white px-10 py-4 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]"
-
-                            style={
-
-                                {
-                                    backgroundColor: "var(--color-bg)",
-
-                                    color: "var(--color-text)"
-                                }
-                            }
-                            
+                        <Link
+                            to="/login"
+                            className="text-sm lg:text-md text-primary hover:underline"
+                            onClick={() => dispatch(setCurrentNav("/logIn"))}
                         >
-                            <LoadingCard />
+                            {t("login")}
+                        </Link>
 
-                        </div>
-                    } 
+                    </p>
 
-                </div>
+                    {/* Decorations (optionnels) */}
+                    <div className="absolute right-1 top-1" />
 
+                    <div className="absolute bottom-1 left-1" />
+
+                </>
+                :
+                <LoadingCard />
+            } 
             </div>
-         
-        </section>
+
+        </HomeLayout>
     );
 };
 

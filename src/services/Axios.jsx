@@ -2,12 +2,12 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 // Dev
-//export const BASE_URL = 'http://127.0.0.1:8000/';
-//export const BASE_URL_ = 'http://127.0.0.1:8000/';
+export const BASE_URL = 'http://127.0.0.1:8000/';
+export const BASE_URL_ = 'http://127.0.0.1:8000/';
 
 // Prod
- export const BASE_URL = 'https://backend-mpb0.onrender.com/';
- export const BASE_URL_ = 'https://backend-mpb0.onrender.com/';
+ //export const BASE_URL = 'https://backend-mpb0.onrender.com/';
+ //export const BASE_URL_ = 'https://backend-mpb0.onrender.com/';
 
 
 const api = axios.create({
@@ -23,10 +23,13 @@ const api = axios.create({
 // 🔐 1. CSRF support (si Django CSRF activé)
 export const fetchCsrfToken = async () => {
     try {
+
         await api.get('set-csrf/'); // ton endpoint pour initialiser le cookie CSRF
+
         const csrftoken = Cookies.get('csrftoken');
 
         if (csrftoken) {
+
             api.defaults.headers.common['X-CSRFToken'] = csrftoken;
         }
 
@@ -49,8 +52,7 @@ api.interceptors.response.use(
         // ⚠️ Pas de boucle infinie ni tentative de refresh manuelle
         if (
             error.response?.status === 401 &&
-            !originalRequest?._retry &&
-            !originalRequest?.url.includes('/refresh/')
+            !originalRequest?._retry 
         ) {
             originalRequest._retry = true;  
 
