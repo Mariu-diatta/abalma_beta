@@ -15,7 +15,7 @@ const InputBox = ({
     const inputId = id || `input-${name}`;
 
     return (
-        <div className="relative mb-6 w-full">
+        <div className="relative mb-6 w-auto">
 
             <input
                 id={inputId}
@@ -27,7 +27,7 @@ const InputBox = ({
                 maxLength={maxLength}
                 required={required}
                 ref={ref}
-                className="block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                className="block rounded-t-lg px-1  lg:px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 {...rest}
             />
             <label

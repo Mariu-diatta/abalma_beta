@@ -116,7 +116,7 @@ const Signin = () => {
 
                 <div className="-mx-4 flex flex-wrap">
 
-                    <div className="w-full px-4">
+                    <div className="w-full px-1 lg:px-4">
 
                         <div
                             style={
@@ -125,13 +125,13 @@ const Signin = () => {
                                     color: "var(--color-text)"
                                 }
                             }
-                            className="shadow-lg relative mx-auto max-w-[525px] overflow-hidden rounded-lg px-10 py-4 text-center dark:bg-dark-2 sm:px-12 md:px-[60px] "
+                            className="shadow-lg relative mx-auto  w-auto lg:max-w-[525px] overflow-hidden rounded-lg px-3 mx-2 py-4 text-center dark:bg-dark-2 sm:px-12 md:px-[60px] "
                         >
 
                             {
                                 (!loading) ?
                                     <>
-                                        <h1 className="text-2xl font-extrabold text-gray-500 dark:text-white px-4 pt-4 pb-4">
+                                        <h1 className="text-2xl font-extrabold text-gray-500 dark:text-white px-1 lg:px-4 pt-4 pb-4">
 
                                             {t("login")}
 
