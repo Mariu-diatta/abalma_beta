@@ -22,6 +22,7 @@ i18n
      en: {
 
         translation: {
+             Search: "Search",
              uploadedFile: "File uploaded",
              paymentMethod: "Payement method",
              address: "Adress",
@@ -467,6 +468,7 @@ i18n
      fr: {
 
          translation: {
+             Search:"Recherche",
              uploadedFile: "Fichier sélectionné",
              paymentMethod: "Méthode de payement",
              adress: "Adresse",

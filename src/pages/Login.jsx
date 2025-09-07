@@ -13,6 +13,8 @@ import LoadingCard from '../components/LoardingSpin';
 import { loginClient } from '../utils';
 import { ButtonSimple } from '../components/Button';
 import { useNavigate } from 'react-router-dom'; // 
+import { useSelector } from 'react-redux';
+
 
 const Signin = () => {
 
@@ -24,6 +26,8 @@ const Signin = () => {
     const { t } = useTranslation();
     const componentRef = useRef(null);
     const navigate =useNavigate();
+    const currentNav = useSelector(state => state.navigate.currentNav);
+
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -103,7 +107,7 @@ const Signin = () => {
         }
     };
 
-
+    if (currentNav === "home") navigate("/", {replace:true})
 
     return (
 
@@ -131,7 +135,7 @@ const Signin = () => {
                             {
                                 (!loading) ?
                                     <>
-                                        <h1 className="text-2xl font-extrabold text-gray-500 dark:text-white px-1 lg:px-4 pt-4 pb-4">
+                                        <h1 className="whitespace-nowrap text-2xl font-extrabold text-gray-500 dark:text-white px-1 lg:px-4 pt-4 pb-4">
 
                                             {t("login")}
 

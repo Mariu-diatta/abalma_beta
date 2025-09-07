@@ -110,7 +110,6 @@ const ProductsRecapTable = ({ products }) => {
 
     }, [filteredProducts, currentPage]);
 
-    //console.log("LES PRODUITS DE LA TRANSACTION", paginatedProducts, getFilteredProducts(products, selectedSubTransaction));
 
     return (
 

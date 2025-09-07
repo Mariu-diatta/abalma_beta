@@ -16,7 +16,6 @@ const UpdateProduct = () => {
     const [imageFile, setImageFile] = useState(null);
     const [isProductAdded, setIsProductAdded] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    //const [saveProduct, setSaveProduct] = useState(true);
     const { t } = useTranslation();
     const navigate = useNavigate();
     const dispatch = useDispatch();

@@ -198,7 +198,7 @@ const RegisterForm = () => {
 
                             <div
 
-                                className="shadow-lg relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white px-10 py-4 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]"
+                                className="shadow-lg relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white px-10  py-4 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]"
 
                                 style={
                                     {
@@ -208,13 +208,13 @@ const RegisterForm = () => {
                                 }
                             >
 
-                                <h1 className="text-2xl font-extrabold text-gray-500 dark:text-white px-4 pt-4 pb-4">
+                                <h1 className="whitespace-nowrap text-2xl font-extrabold text-gray-500 dark:text-white px-4 pt-4 pb-4">
                                     {t('register')}
                                 </h1>
 
                                 <form 
                                     onSubmit={handleSignUp} ref={componentRef}
-                                    className="translate-y-0 transition-all duration-1000 ease-in-out"
+                                    className="translate-y-0 transition-all duration-1000 ease-in-out mb-3"
                                 >
 
                                     <InputBox
@@ -241,13 +241,7 @@ const RegisterForm = () => {
                                         onChange={handleChange}
                                     />
 
-                                    {/*<InputBox*/}
-                                    {/*    type="tel"*/}
-                                    {/*    name="telephone"*/}
-                                    {/*    placeholder={t('form.phone')}*/}
-                                    {/*    value={form.telephone}*/}
-                                    {/*    onChange={handleChange}*/}
-                                    {/*/>*/}
+
                                     <PhoneInput form={form} handleChange={handleChange} setForm={setForm} />
 
                                     <InputBox
@@ -270,7 +264,7 @@ const RegisterForm = () => {
 
                                 </form>
 
-                                <p className="text-sm lg:text-md text-base text-body-color dark:text-dark-6">
+                                <p className="text-sm lg:text-md text-base text-body-color dark:text-dark-6 gap-3">
 
                                     <span>{t("alredyRegister")} </span>
 

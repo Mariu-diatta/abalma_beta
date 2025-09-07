@@ -3,14 +3,6 @@ import { BASE_URL_ } from '../services/Axios'
 
 const ViewProduct = ({ productSelected }) => {
 
-    //useEffect(
-
-    //    () => {
-
-    //        console.log(BASE_URL_ + productSelected.image_product)
-
-    //    }, [productSelected]
-    //)
 
     return (
 
