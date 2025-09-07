@@ -71,6 +71,13 @@ const Signin = () => {
 
     }, [])
 
+    useEffect(() => {
+
+        if (currentNav === "home") navigate("/", { replace: true })
+
+    }, [currentNav, navigate])
+
+
     const handleSignIn = async () => {
 
         if (!email || !pwd) {
@@ -107,7 +114,6 @@ const Signin = () => {
         }
     };
 
-    if (currentNav === "home") navigate("/", {replace:true})
 
     return (
 

@@ -90,12 +90,12 @@ const Footer = () => {
                     <a href="/home" className="block w-full py-2">
                         <Logo />
                     </a>
-                    <p className="mb-2 text-sm text-body-color dark:text-dark-6">
+                    <p className="flex items-start justify-start mb-2 text-sm text-body-color dark:text-dark-6">
                         {t("app_description")}
                     </p>
 
                     {/* Conditions et politique */}
-                    <label className="flex gap-2 justify-start text-sm text-gray-700 mb-2 px-4">
+                    <label className="flex flex-wrap gap-3 justify-start text-sm text-gray-700 mb-2 px-4">
 
                         <MyCheckbox/>
 
@@ -104,7 +104,7 @@ const Footer = () => {
                         <button
                             onClick={() => navigate("/politique-confidentialite")}
                             target="_blank"
-                            className="text-blue-600 underline ml-1"
+                            className="whitespace-nowrap text-blue-600 underline ml-1"
                         >
                             {t("politique")}
                         </button>
@@ -317,7 +317,7 @@ export function MyCheckbox() {
         <input
             type="checkbox"
             required
-            className="mt-1"
+            className="mt-1 whitespace_nowrap"
             checked={isChecked}
             onChange={handleCheckBox}
         />
