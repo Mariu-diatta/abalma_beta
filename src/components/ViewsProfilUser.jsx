@@ -30,11 +30,12 @@ const FollowProfilUser = ({ clientId }) => {
         dispatch(addUser({ ...currentSelectedUser, total_followers: operation }))
     }
 
-    const updateSelectedUserFollowing = (isFollowing=true) => {
+    const updateSelectedUserFollowing = (isFollowing=false) => {
 
         const operation = isFollowing ? (currentUser?.total_followings + 1) : (currentUser?.total_followings - 1)
-
-        dispatch(updateUserData({ ...currentUser, total_followings: operation }))
+        const updateCurrentUser = { ...currentUser, total_followings: operation }
+        console.log("updat ViewsProfilUser", updateCurrentUser)
+        dispatch(updateUserData(updateCurrentUser))
     }
 
     const updateFollowStatus = useCallback(
@@ -66,7 +67,7 @@ const FollowProfilUser = ({ clientId }) => {
 
         updateSelectedUserFollower()
 
-        updateSelectedUserFollowing()
+        updateSelectedUserFollowing(true)
 
     };
 

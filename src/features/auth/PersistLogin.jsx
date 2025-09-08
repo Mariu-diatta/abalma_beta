@@ -23,9 +23,7 @@ const PersistLogIn = () => {
 
                 if (perfEntries.length > 0 && perfEntries[0].type === "reload") {
 
-                    const response = await api.post("refresh/");
-
-                    dispatch(login(response.data));
+                    await api.post("refresh/");
                     dispatch(setCurrentNav("/account_home"));
                     navigate("/account_home", { replace: true });
                 }

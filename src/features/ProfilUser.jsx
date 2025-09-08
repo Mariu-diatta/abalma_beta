@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/Axios';
-import { updateCompteUser, updateUserData } from '../slices/authSlice';
+import { updateUserData } from '../slices/authSlice';
 import { addCurrentChat, addRoom } from '../slices/chatSlice';
 import { setCurrentNav } from '../slices/navigateSlice';
 import { hashPassword } from '../components/OwnerProfil';
@@ -22,6 +22,7 @@ const ProfileCard = () => {
 
     // Redux state
     const currentUser = useSelector((state) => state.auth.user);
+    const currentCompteUser = useSelector((state) => state.auth.compteUser);
     const currentOwnUser = useSelector((state) => state.chat.userSlected);
     const profileData = useSelector((state) => state.auth.user);
     const currentNav = useSelector((state) => state.navigate.currentNav);
@@ -136,13 +137,11 @@ const ProfileCard = () => {
 
             if (updateImageCover) fd.append('image_cover', updateImageCover);
 
-            const response = await api.put(`clients/${userProfile?.id}/`, fd, {
+            await api.put(`clients/${userProfile?.id}/`, fd, {
 
                 headers: { 'Content-Type': 'multipart/form-data' },
 
             });
-
-            dispatch(updateUserData(response.data.data));
 
             setIsEditing(false);
 
@@ -179,12 +178,10 @@ const ProfileCard = () => {
 
             formData.append('doc_proof', fileProof);
 
-            const response = await api.put(`clients/${userProfile?.id}/`, formData, {
+            await api.put(`clients/${userProfile?.id}/`, formData, {
 
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
-
-            dispatch(updateUserData(response.data.data));
             alert('✅ Justificatif envoyé avec succès !');
             setIsProFormVisible(false);
             alert('🎉 Votre compte est maintenant professionnel.');
@@ -207,25 +204,20 @@ const ProfileCard = () => {
 
         try {
 
-            const comptesRes = await api.get('comptes/');
-
-            const userCompte = comptesRes.data.find((c) => c.user === profileData?.id);
-
-            if (userCompte) {
-
-                dispatch(updateCompteUser(userCompte));
+ 
+            if (currentCompteUser) {
 
                 const formData = new FormData();
 
-                formData.append('compte_id', userCompte.id);
+                formData.append('compte_id', currentCompteUser?.id);
 
                 try {
 
-                    await api.get('set-csrf/');
-
                     const fournisseurResp = await api.post('fournisseurs/', formData);
 
-                    const responseGetUser = await api.get(`clients/${fournisseurResp.data.compte.user}/`);
+                    const responseGetUser = await api.get(`clients/${fournisseurResp?.data?.compte?.user}/`);
+
+                    console.log("Donne, profileUser", responseGetUser.data)
 
                     dispatch(updateUserData(responseGetUser.data));
 

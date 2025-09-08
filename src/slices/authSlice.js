@@ -39,10 +39,10 @@ const authSlice = createSlice({
             state.firebaseToken =action.payload;
         },
 
-        updateUserData: (state, action) => {
+            updateUserData: (state, action) => {
 
-            state.user = action.payload; // user object
-        },
+                state.user = action.payload; // user object
+            },
         updateCompteUser: (state, action) => {
 
             state.compteUser = action.payload; // user object
