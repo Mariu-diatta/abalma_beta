@@ -19,7 +19,6 @@ const UpdateProduct = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
     const currentUserCompte = useSelector((state) => state.auth.compteUser);
     const user = useSelector((state) => state.auth.user);
 
@@ -46,18 +45,28 @@ const UpdateProduct = () => {
     const handleFileSelect = (file) => setImageFile(file);
 
     const onChangeClick = (e) => {
+
         const { name, value } = e.target;
-        setDataProduct((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
+
+        setDataProduct(
+
+            (prev) => (
+                {
+                    ...prev,
+                    [name]: value,
+                }
+            )
+        );
     };
 
     const isLoanOptionSelected = dataProduct.operation_product === "PRETER";
 
     const formatToISOString = (datetimeStr) => {
+
         if (!datetimeStr) return null;
+
         const date = new Date(datetimeStr);
+
         return isNaN(date.getTime()) ? null : date.toISOString();
     };
 
@@ -88,8 +97,11 @@ const UpdateProduct = () => {
             ];
 
             for (let field of requiredFields) {
+
                 if (!dataProduct[field]?.trim()) {
+
                     notify("Erreur", `Le champ "${field}" est requis.`);
+
                     return;
                 }
             }
@@ -102,8 +114,11 @@ const UpdateProduct = () => {
 
             // ✅ Validation des dates de prêt
             if (isLoanOptionSelected) {
+
                 if (!dataProduct.date_emprunt || !dataProduct.date_fin_emprunt) {
+
                     notify("Erreur", "Les dates d'emprunt et de fin sont requises.");
+
                     return;
                 }
             }
@@ -129,7 +144,9 @@ const UpdateProduct = () => {
             formData.append("fournisseur", parseInt(currentUserCompte.user));
 
             if (isLoanOptionSelected) {
+
                 formData.append("date_emprunt", formatToISOString(dataProduct.date_emprunt));
+
                 formData.append("date_fin_emprunt", formatToISOString(dataProduct.date_fin_emprunt));
             }
 
@@ -172,10 +189,14 @@ const UpdateProduct = () => {
             notify("Erreur", error?.message || error?.request?.response || "Erreur inconnue lors de la création du produit.");
 
             if (error.response?.data) {
+
                 const errors = error.response.data;
+
                 const messages = Object.entries(errors)
-                    .map(([field, msg]) => `${field}: ${Array.isArray(msg) ? msg.join(', ') : msg}`)
-                    .join('\n');
+
+                .map(([field, msg]) => `${field}: ${Array.isArray(msg) ? msg.join(', ') : msg}`)
+
+                .join('\n');
 
                 notify("Erreur", `Erreur lors de la création du produit :\n${messages}`);
             }
@@ -217,6 +238,7 @@ const UpdateProduct = () => {
                     >
                         {t('add_new_product')}
                     </button>
+
                 </div>
             ) : (
                     <div className="shadow-lg max-w-2xl px-4 py-1 mx-auto lg:py-2">
@@ -636,27 +658,13 @@ const UpdateProduct = () => {
                                 <LoadingCard/>
                                 :
                                 <>
-                                {
-                                    //saveProduct?
-                                    //<ButtonSimple
-
-                                    //    title={t('add_product.save_product')}
-                                    //    onHandleClick={() => setSaveProduct(false) }
-                                    //    type="button"
-                                    ///>
-                                    //:
-                                    <div className="flex gap-3 justify-center items-center m-auto my-2">
-                                        <ButtonSimple
-                                            title={"Valider"}
-                                        />
-                                        {/*<ButtonSimple*/}
-                                        {/*    type="button"*/}
-                                        {/*    onHandleClick={() => alert("Modifier the product")}*/}
-                                        {/*    className="w-auto flex items-center m-auto cursor-pointer rounded-md border border-green-300 bg-green-200 px-5 py-2 text-base  text-white transition bg-gradient-to-br from-purple-300 to-green-300 hover:bg-gradient-to-br hover:from-purple-400 px-2 rounded-lg"*/}
-                                        {/*    title={"Modifier"}*/}
-                                        {/*/>*/}
-                                    </div>
-                                }
+                                    {
+                                        <div className="flex gap-3 justify-center items-center m-auto my-2">
+                                            <ButtonSimple
+                                                title={"Valider"}
+                                            />
+                                        </div>
+                                    }
                                 </>
                             }
 
@@ -664,17 +672,20 @@ const UpdateProduct = () => {
 
                     </form>
 
-                    {!(user?.is_fournisseur && user?.is_verified) && (
+                    {
+                        !(user?.is_fournisseur && user?.is_verified) && (
 
-                        <ButtonSimple
-                            onHandleClick={() => {
-                                dispatch(setCurrentNav("user_profil"));
-                                navigate("/user_profil");
-                            }}
-                            title={t('add_product.switch_to_supplier')}
-                            type="button"
-                        />
-                    )}
+                            <ButtonSimple
+                                onHandleClick={() => {
+                                    dispatch(setCurrentNav("user_profil"));
+                                    navigate("/user_profil");
+                                }}
+                                title={t('add_product.switch_to_supplier')}
+                                type="button"
+                            />
+                        )
+                    }
+
                 </div>
             )}
         </div>

@@ -45,7 +45,7 @@ const MyProductList = () => {
 
                 const productsOwner = await api.get("owner/product");
 
-                console.log("Mes propres produits", productsOwner?.data)
+                //console.log("Mes propres produits", productsOwner?.data)
 
                 setProducts(productsOwner?.data);
 
@@ -295,7 +295,7 @@ export function CenteredModal({ product }) {
 
             } catch (error) {
 
-                console.error("Erreur lors de la modification du produit :", error);
+                //console.error("Erreur lors de la modification du produit :", error);
 
                 setAlertMessage("Erreur lors de la modification ❌");
 
