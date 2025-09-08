@@ -81,8 +81,6 @@ export default function AccountDropdownUserProfil() {
 
     const getUserLogOut = async () => {
 
-        if (!currentUser?.id) return 
-
         setLoading(true)
 
         if (window.confirm("Voulez-vous vous deconnecter???")) {
