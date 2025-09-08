@@ -17,30 +17,33 @@ const PersistLogIn = () => {
 
         const checkSession = async () => {
 
-            const perfEntries = performance.getEntriesByType("navigation");
 
             try {
 
-                if (perfEntries.length > 0 && perfEntries[0].type === "reload") {
+                await api.post("refresh/");
 
-                    await api.post("refresh/");
-                    dispatch(setCurrentNav("/account_home"));
-                    navigate("/account_home", { replace: true });
-                }
+                dispatch(setCurrentNav("/account_home"));
+
+                navigate("/account_home", { replace: true });
+                
             } catch (error) {
+
                 console.error("Utilisateur non authentifié :", error);
                 // Tu peux rediriger vers /login ici si tu veux
             } finally {
+
                 setIsLoading(false);
             }
         };
 
         if (isLoading) {
+
             checkSession();
         }
     }, [dispatch, isLoading, navigate]);
 
     if (isLoading) {
+
         return (
             <div style={{ textAlign: "center", marginTop: "2rem" }}>
                 <LoadingCard />
