@@ -22,7 +22,6 @@ const ProfileCard = () => {
 
     // Redux state
     const currentUser = useSelector((state) => state.auth.user);
-    const currentCompteUser = useSelector((state) => state.auth.compteUser);
     const currentOwnUser = useSelector((state) => state.chat.userSlected);
     const profileData = useSelector((state) => state.auth.user);
     const currentNav = useSelector((state) => state.navigate.currentNav);
@@ -203,36 +202,27 @@ const ProfileCard = () => {
 
         try {
 
- 
-            if (currentCompteUser) {
+            try {
 
-                const formData = new FormData();
+                const fournisseurResp = await api.post('fournisseurs/');
 
-                formData.append('compte_id', currentCompteUser?.id);
+                const responseGetUser = await api.get(`clients/${fournisseurResp?.data?.compte?.user}/`);
 
-                try {
+                console.log("Donne, profileUser", responseGetUser.data)
 
-                    const fournisseurResp = await api.post('fournisseurs/', formData);
+                dispatch(updateUserData(responseGetUser.data));
 
-                    const responseGetUser = await api.get(`clients/${fournisseurResp?.data?.compte?.user}/`);
+                showMessage(dispatch, { Type: "Message", Message: "Success" });
 
-                    console.log("Donne, profileUser", responseGetUser.data)
+            } catch (err) {
 
-                    dispatch(updateUserData(responseGetUser.data));
+                const Error = "Unable to create record: Invalid 'To' Phone Number:";
 
-                    showMessage(dispatch, { Type: "Message", Message: "Success" });
+                console.log("Erreur du backend::::", err)
 
-                } catch (err) {
-
-                    const Error = "Unable to create record: Invalid 'To' Phone Number:";
-
-                    if (err?.response) showMessage(dispatch, {Type:"Erreur", Message:Error});
-                }
-
-            } else {
-
-                console.log('Aucun compte utilisateur trouvé.');
+                if (err?.response) showMessage(dispatch, {Type:"Erreur", Message:Error});
             }
+
         } catch (error) {
 
             console.error('Erreur getUserCompte:', error);

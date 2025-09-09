@@ -56,16 +56,18 @@ const GetValidateUserFournisseur = ({ isCurrentUser }) => {
 
             await api.get('set-csrf/');
 
-            await api.get(`codes_validation/${code}/validation-fournisseur/`)
+            const response = await api.get(`codes_validation/${code}/validation-fournisseur/`)
 
-            await api.post('fournisseurs/validation-fournisseur/', formData)
- 
+            if (response?.data?.exists) {
 
-            const updateUser = { ...profileData, "is_verified": true }
+                await api.post('fournisseurs/validation-fournisseur/', formData)
 
-            dispatch(updateUserData(updateUser))
+                const updateUser = { ...profileData, "is_verified": true }
 
-            setVerified(true)
+                dispatch(updateUserData(updateUser))
+
+                setVerified(true)
+            }
 
         } catch (e) {
 
@@ -81,11 +83,8 @@ const GetValidateUserFournisseur = ({ isCurrentUser }) => {
     return (
 
         <>
-
-            
             <AttentionAlertMessage  />
-            
-           
+               
             {
                 loading ?
                 <>
