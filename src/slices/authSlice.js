@@ -20,7 +20,7 @@ const authSlice = createSlice({
 
         login: (state, action) => {
 
-            state.isAuthenticated = true;
+            state.isAuthenticated = action.payload?true:false;
 
             state.user = action.payload; // user object
         },

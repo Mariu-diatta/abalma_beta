@@ -29,7 +29,6 @@ const ProfileCard = () => {
     const selectedProductOwner = useSelector((state) => state.chat.userSlected);
     const allChats = useSelector((state) => state.chat.currentChats);
     const currentChat = useSelector((state) => state.chat.currentChat);
-    const userSelected = useSelector((state) => state.chat.userSlected);
 
     // Determine user profile based on navigation context
     const userProfile = useMemo(() => {
@@ -635,7 +634,7 @@ const ProfileCard = () => {
                                 }
 
                                 <>
-                                    {!isCurrentUser && <FollowProfilUser clientId={userSelected?.id} />}
+                                    {!isCurrentUser && <FollowProfilUser clientId={currentOwnUser?.id} />}
                                 </>
 
                                 {loadingGetCode ? (

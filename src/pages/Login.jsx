@@ -55,6 +55,7 @@ const LogIn = () => {
 
     }, []);
 
+
     useEffect(() => {
 
         // Petite pause pour laisser le navigateur autofill

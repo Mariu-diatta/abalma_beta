@@ -1,10 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react';
 import Footer from '../pages/Footer';
 import NavbarHeader from '../pages/Header';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { setCurrentNav } from '../slices/navigateSlice';
 
 const HomeLayout = ({ children }) => {
 
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const currentUser = useSelector((state) => state.auth.user);
+    const currentCompteUser = useSelector((state) => state.auth.compteUser);
 
+    useEffect(
+
+        () => {
+            if (currentUser && currentCompteUser) { navigate("/account_home", { replace: true }); dispatch(setCurrentNav("account_home")) }
+        }
+    )
     return (
 
         <div

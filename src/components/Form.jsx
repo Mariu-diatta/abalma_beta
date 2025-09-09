@@ -9,7 +9,7 @@ import  { showMessage } from './AlertMessage';
 import PhoneInput from './InputPhoneCountry';
 import { setCurrentNav } from '../slices/navigateSlice';
 import { ButtonSimple } from './Button';
-import HomeLayout from '../layouts/HomeLayout';
+import FormLayout from '../layouts/FormLayout';
 
 
 const CreateClient = async (data, func, funcRetournMessage, dispatch) => {
@@ -182,19 +182,7 @@ const RegisterForm = () => {
 
     return (
 
-        <HomeLayout>
-
-            <div
-
-                className="shadow-lg relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white px-3 lg:px-10  my-8 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]"
-
-                style={
-                    {
-                        backgroundColor: "var(--color-bg)",
-                        color: "var(--color-text)"
-                    }
-                }
-            >
+        <FormLayout>
 
             {
                 (!loading)?
@@ -280,9 +268,8 @@ const RegisterForm = () => {
                 :
                 <LoadingCard />
             } 
-            </div>
 
-        </HomeLayout>
+        </FormLayout>
     );
 };
 
