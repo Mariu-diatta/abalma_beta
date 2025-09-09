@@ -13,8 +13,7 @@ const MyProductList = () => {
     const { t } = useTranslation();
 
     const getUpdateProduct = useSelector((state) => state.cart.productUpdate);
-    const currentUser = useSelector((state) => state.auth.user);
-
+    const currentUser = useSelector((state) => state.auth.user)
     const [loading, setLoading] = useState(false);
     const [products, setProducts] = useState([]);
 

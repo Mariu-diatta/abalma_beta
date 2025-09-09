@@ -33,8 +33,11 @@ const FollowProfilUser = ({ clientId }) => {
     const updateSelectedUserFollowing = (isFollowing=false) => {
 
         const operation = isFollowing ? (currentUser?.total_followings + 1) : (currentUser?.total_followings - 1)
+
         const updateCurrentUser = { ...currentUser, total_followings: operation }
+
         console.log("updat ViewsProfilUser", updateCurrentUser)
+
         dispatch(updateUserData(updateCurrentUser))
     }
 

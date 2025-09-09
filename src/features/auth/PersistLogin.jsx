@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../slices/authSlice";
 import api from "../../services/Axios";
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +12,7 @@ const PersistLogIn = () => {
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const currentNav = useSelector((state) => state.navigate.currentNav);
 
     useEffect(() => {
 
@@ -20,11 +21,16 @@ const PersistLogIn = () => {
 
             try {
 
-                await api.post("refresh/");
+                const getRefreshToken = await api.post("refresh/");
 
-                dispatch(setCurrentNav("/account_home"));
+                if (getRefreshToken?.data?.access_token) {
 
-                navigate("/account_home", { replace: true });
+                    dispatch(setCurrentNav(currentNav));
+
+                    navigate(`/${currentNav}`, { replace: true });
+
+                    if (getRefreshToken?.data?.user) dispatch(login(getRefreshToken?.data?.user))
+                }
                 
             } catch (error) {
 
@@ -40,7 +46,7 @@ const PersistLogIn = () => {
 
             checkSession();
         }
-    }, [dispatch, isLoading, navigate]);
+    }, [dispatch, isLoading, navigate, currentNav]);
 
     if (isLoading) {
 
