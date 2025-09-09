@@ -23,6 +23,8 @@ const PersistLogIn = () => {
 
                 const getRefreshToken = await api.post("refresh/");
 
+                console.log("token refresh", getRefreshToken?.data?.access_token)
+
                 if (getRefreshToken?.data?.access_token) {
 
                     dispatch(setCurrentNav(currentNav));
