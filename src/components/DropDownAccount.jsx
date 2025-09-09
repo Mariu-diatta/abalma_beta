@@ -167,7 +167,7 @@ export default function AccountDropdownUserProfil() {
                 {
                     currentUser?.image ? (
 
-                        <div className="flex items-center relative h-[30px] w-[30px] rounded-full">
+                        <div className="flex items-center relative h-[30px] w-[30px] rounded-full gap-0">
 
                             <img
                                 src={currentUser?.image}
@@ -180,7 +180,7 @@ export default function AccountDropdownUserProfil() {
                                 currentUser?.is_connected &&
                                 (
 
-                                    <span className="absolute -right-0.5 -top-0.5 block h-[14px] w-[14px] rounded-full border-[2.3px] border-white bg-[#219653] dark:border-dark">
+                                    <span className="absolute right-2 top-0.5 block h-[6px] w-[5px] rounded-full bg-[#219653] dark:border-dark">
 
                                     </span>
 

@@ -318,7 +318,9 @@ const ProfileCard = () => {
                 }}
             >
                 {isEditingPhotoBg && isCurrentUser && (
+
                     <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+
                         <input
                             type="file"
                             accept="image/*"
@@ -326,10 +328,12 @@ const ProfileCard = () => {
                             className="bg-white rounded-full p-2 shadow-md text-sm cursor-pointer"
                             aria-label={t('ProfilText.modifierCouverture')}
                         />
+
                     </div>
                 )}
 
                 {isCurrentUser && (
+
                     <button
                         onClick={() => setIsEditingPhotoBg(!isEditingPhotoBg)}
                         className="absolute top-4 right-4 p-2 bg-white rounded-full shadow hover:bg-gray-100"
@@ -348,13 +352,16 @@ const ProfileCard = () => {
                                 strokeWidth="2"
                                 d="M4 18V8a1 1 0 0 1 1-1h1.5l1.707-1.707A1 1 0 0 1 8.914 5h6.172a1 1 0 0 1 .707.293L17.5 7H19a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"
                             />
+
                             <path
                                 stroke="currentColor"
                                 strokeLinejoin="round"
                                 strokeWidth="2"
                                 d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
                             />
+
                         </svg>
+
                     </button>
                 )}
 
@@ -458,28 +465,29 @@ const ProfileCard = () => {
                                 <>
                                     {
                                        (!profileData?.is_pro && !isProFormVisible && isCurrentUser) && (
-                                        <button
-                                            onClick={() => setIsProFormVisible(true)}
-                                            className="flex items-center gap-2 text-sm border border-blue-400 rounded-full py-2 px-4 hover:bg-blue-100 dark:hover:bg-blue-900"
-                                        >
-                                            <svg
-                                                className="w-5 h-5"
-                                                aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
+                                            <button
+                                                onClick={() => setIsProFormVisible(true)}
+                                                className="flex items-center gap-2 text-sm border border-blue-400 rounded-full py-2 px-4 hover:bg-blue-100 dark:hover:bg-blue-900"
                                             >
-                                                <path
-                                                    stroke="currentColor"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth="2"
-                                                    d="m8.032 12 1.984 1.984 4.96-4.96m4.55 5.272.893-.893a1.984 1.984 0 0 0 0-2.806l-.893-.893a1.984 1.984 0 0 1-.581-1.403V7.04a1.984 1.984 0 0 0-1.984-1.984h-1.262a1.983 1.983 0 0 1-1.403-.581l-.893-.893a1.984 1.984 0 0 0-2.806 0l-.893.893a1.984 1.984 0 0 1-1.403.581H7.04A1.984 1.984 0 0 0 5.055 7.04v1.262c0 .527-.209 1.031-.581 1.403l-.893.893a1.984 1.984 0 0 0 0 2.806l.893.893c.372.372.581.876.581 1.403v1.262a1.984 1.984 0 0 0 1.984 1.984h1.262c.527 0 1.031.209 1.403.581l.893.893a1.984 1.984 0 0 0 2.806 0l.893-.893a1.985 1.985 0 0 1 1.403-.581h1.262a1.984 1.984 0 0 0 1.984-1.984V15.7c0-.527.209-1.031.581-1.403Z"
-                                                />
-                                            </svg>
-                                            {t('ProfilText.passerPro')}
-                                        </button>
-                                    )}
+                                                <svg
+                                                    className="w-5 h-5"
+                                                    aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path
+                                                        stroke="currentColor"
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth="2"
+                                                        d="m8.032 12 1.984 1.984 4.96-4.96m4.55 5.272.893-.893a1.984 1.984 0 0 0 0-2.806l-.893-.893a1.984 1.984 0 0 1-.581-1.403V7.04a1.984 1.984 0 0 0-1.984-1.984h-1.262a1.983 1.983 0 0 1-1.403-.581l-.893-.893a1.984 1.984 0 0 0-2.806 0l-.893.893a1.984 1.984 0 0 1-1.403.581H7.04A1.984 1.984 0 0 0 5.055 7.04v1.262c0 .527-.209 1.031-.581 1.403l-.893.893a1.984 1.984 0 0 0 0 2.806l.893.893c.372.372.581.876.581 1.403v1.262a1.984 1.984 0 0 0 1.984 1.984h1.262c.527 0 1.031.209 1.403.581l.893.893a1.984 1.984 0 0 0 2.806 0l.893-.893a1.985 1.985 0 0 1 1.403-.581h1.262a1.984 1.984 0 0 0 1.984-1.984V15.7c0-.527.209-1.031.581-1.403Z"
+                                                    />
+                                                </svg>
+                                                {t('ProfilText.passerPro')}
+                                            </button>
+                                        )
+                                    }
                                 </>
 
                             </div>
@@ -540,24 +548,30 @@ const ProfileCard = () => {
 
                             <div className="flex gap-4">
 
-                                {loadinUpdate ? (
-                                    <button
-                                        type="submit"
-                                        className="rounded-full bg-green-300 text-white px-4 py-2 hover:bg-green-400"
-                                    >
-                                        {t('ProfilText.boutons.enregistrer')}
-                                    </button>
-                                ) : (
-                                    <LoadingCard />
-                                )}
+                                {
+                                    loadinUpdate ? (
+                                        <button
+                                            type="submit"
+                                            className="rounded-full bg-green-300 text-white px-4 py-2 hover:bg-green-400"
+                                        >
+                                            {t('ProfilText.boutons.enregistrer')}
+                                        </button>
+                                    ) : (
+                                        <LoadingCard />
+                                    )
+                                }
+
                                 <button
                                     type="button"
                                     className="rounded-full bg-gray-300 text-gray-700 px-4 py-2 hover:bg-gray-400"
                                     onClick={() => setIsEditing(false)}
                                 >
                                     {t('ProfilText.boutons.annuler')}
+
                                 </button>
+
                             </div>
+
                         </form>
                     )}
 
@@ -579,7 +593,7 @@ const ProfileCard = () => {
                                     (
                                         <button
                                             onClick={() => setIsEditing(true)}
-                                            className="py-2 border border-gray-300 cursor-pointer inline-flex items-center gap-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-sm px-1 sm:px-2  hover:bg-gray-200 dark:hover:bg-gray-600 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors duration-200"
+                                            className=" py-1 border border-gray-300 cursor-pointer inline-flex items-center gap-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-sm px-1 sm:px-2  hover:bg-gray-200 dark:hover:bg-gray-600 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors duration-200"
                                             aria-label={t('ProfilText.modifierProfil')}
                                             style={{
                                                 backgroundColor: "var(--color-bg)",
@@ -613,16 +627,16 @@ const ProfileCard = () => {
                                             creatNewRoom();
                                             navigate('/message_inbox');
                                         }}
-                                        className=" bg-yellow-600 text-white text-sm px-3 py-1 hover:bg-yellow-700 w-1/2 lg:w-auto rounded-full"
+                                        className="bg-yellow-600 text-white text-sm px-3 py-1 hover:bg-yellow-700 w-1/2 lg:w-auto rounded-full"
                                     >
                                         {!messageVisible ? 'Message' : 'X'}
                                     </button>
-                                )}
+                                    )
+                                }
 
                                 <>
                                     {!isCurrentUser && <FollowProfilUser clientId={userSelected?.id} />}
                                 </>
-                            
 
                                 {loadingGetCode ? (
                                     <>
@@ -654,7 +668,8 @@ const ProfileCard = () => {
                                 ) : (
                                     <LoadingCard />
                                 )}
-            
+
+                                {isCurrentUser && <ModalFormCreatBlog />}
                             </>
                         )}
                     </div>
@@ -721,10 +736,6 @@ const ProfileCard = () => {
 
                 </div>
 
-            </div>
-
-            <div className="absolute bottom-6 right-2">
-                {isCurrentUser && <ModalFormCreatBlog />}
             </div>
 
             <AttentionAlertMesage/>

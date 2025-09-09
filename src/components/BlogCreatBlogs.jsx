@@ -143,14 +143,14 @@ export const ModalFormCreatBlog = () => {
 
     return (
 
-        <div className="fixed " role="dialog" aria-modal="true" ref={modalRef_} >
+        <div className="sticky left-2" role="dialog" aria-modal="true" ref={modalRef_} >
 
             {/* Toggle Button */}
             {
                 
                 <button
                     onClick={(profileData && profileData?.email) ? handleToggleModal:()=>alert("Vous devrez vous connecter avant !!!")}
-                    className=" w-auto rounded-full flex gap-1 bg-blue-300 text-white text-sm px-3 py-1 hover:bg-blue-700 m-1 items-centerbg-gradient-to-br from-purple-300 to-blue-300 bg-gradient-to-br hover:from-purple-400 "
+                    className="w-full rounded-full flex gap-1 bg-blue-300 text-white text-sm px-3 py-1 hover:bg-blue-700 items-centerbg-gradient-to-br from-purple-300 to-blue-300 bg-gradient-to-br hover:from-purple-400 "
                     aria-expanded={isOpen}
                     aria-controls="modal-blog-form"
                 >
@@ -201,7 +201,7 @@ export const ModalFormCreatBlog = () => {
                             <button
                                 onClick={handleClose}
                                 aria-label={t("blog.close_modal") || "Fermer la fenêtre"}
-                                className="text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                                className="text-gray-400 hover:text-gray-900 dark:hover:text-white w-full"
                             >
                                 <svg
                                     className="w-4 h-4"
