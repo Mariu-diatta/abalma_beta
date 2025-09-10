@@ -218,7 +218,7 @@ const ProfileCard = () => {
 
                 const Error = "Unable to create record: Invalid 'To' Phone Number:";
 
-                console.log("Erreur du backend::::", err)
+                console.log("Erreur du backend::::", err?.response)
 
                 if (err?.response) showMessage(dispatch, {Type:"Erreur", Message:Error});
             }
