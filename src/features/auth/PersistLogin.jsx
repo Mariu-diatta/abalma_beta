@@ -18,7 +18,6 @@ const PersistLogIn = () => {
 
         const checkSession = async () => {
 
-
             try {
 
                 const getRefreshToken = await api.post("refresh/");
@@ -36,6 +35,7 @@ const PersistLogIn = () => {
 
                 console.error("Utilisateur non authentifié :", error);
                 // Tu peux rediriger vers /login ici si tu veux
+
             } finally {
 
                 setIsLoading(false);
@@ -46,13 +46,17 @@ const PersistLogIn = () => {
 
             checkSession();
         }
+
     }, [dispatch, isLoading, navigate, currentNav]);
 
     if (isLoading) {
 
         return (
+
             <div style={{ textAlign: "center", marginTop: "2rem" }}>
+
                 <LoadingCard />
+
             </div>
         );
     }

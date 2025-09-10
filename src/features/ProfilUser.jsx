@@ -194,7 +194,7 @@ const ProfileCard = () => {
     };
 
     // Fetch or create user account
-    const getUserCompte = async (e) => {
+    const updateAccountToFournisseur = async (e) => {
 
         e.preventDefault();
 
@@ -206,21 +206,15 @@ const ProfileCard = () => {
 
                 const fournisseurResp = await api.post('fournisseurs/');
 
-                const responseGetUser = await api.get(`clients/${fournisseurResp?.data?.compte?.user}/`);
-
-                console.log("Donne, profileUser", responseGetUser.data)
-
-                dispatch(updateUserData(responseGetUser.data));
+                dispatch(updateUserData(fournisseurResp?.data?.user));
 
                 showMessage(dispatch, { Type: "Message", Message: "Success" });
 
             } catch (err) {
 
-                const Error = "Unable to create record: Invalid 'To' Phone Number:";
+                if (err?.response?.data?.user) dispatch(updateUserData(err?.response?.data?.user));
 
-                console.log("Erreur du backend::::", err?.response)
-
-                if (err?.response) showMessage(dispatch, {Type:"Erreur", Message:Error});
+                if (err?.response) showMessage(dispatch, { Type: "Erreur", Message: err?.response?.data?.detail});
             }
 
         } catch (error) {
@@ -631,7 +625,7 @@ const ProfileCard = () => {
                                     <>
                                         {(!userProfile?.is_fournisseur || !userProfile?.is_verified) && isCurrentUser && (
                                             <button
-                                                onClick={(e) => getUserCompte(e)}
+                                                onClick={(e) => updateAccountToFournisseur(e)}
                                                 className="flex items-center gap-1 rounded-full bg-indigo-300 text-white text-sm px-3 py-1 hover:bg-indigo-400"
                                                 title="Devenir un fournisseur"
                                             >

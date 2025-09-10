@@ -2,12 +2,12 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 // Dev
-//export const BASE_URL = 'http://127.0.0.1:8000/';
-//export const BASE_URL_ = 'http://127.0.0.1:8000/';
+export const BASE_URL = 'http://127.0.0.1:8000/';
+export const BASE_URL_ = 'http://127.0.0.1:8000/';
 
 // Prod
- export const BASE_URL = 'https://backend-mpb0.onrender.com/';
- export const BASE_URL_ = 'https://backend-mpb0.onrender.com/';
+ //export const BASE_URL = 'https://backend-mpb0.onrender.com/';
+ //export const BASE_URL_ = 'https://backend-mpb0.onrender.com/';
 
 const api = axios.create({
     baseURL: BASE_URL,
@@ -45,7 +45,9 @@ export const fetchCsrfToken = async () => {
 api.interceptors.response.use(
 
     (response) => response,
+
     async (error) => {
+
         const originalRequest = error.config;
 
         // ⚠️ Pas de boucle infinie ni tentative de refresh manuelle
@@ -64,7 +66,7 @@ api.interceptors.response.use(
                 return api(originalRequest);
 
             } catch (refreshError) {
-                console.error("Erreur lors du refresh automatique :", refreshError);
+
                 return Promise.reject(refreshError);
             }
         }
