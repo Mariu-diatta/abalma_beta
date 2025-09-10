@@ -8,8 +8,10 @@ import image_1 from '../assets/image_1.jpg';
 import image_2 from '../assets/image_2.jpg';
 import image_3 from '../assets/image_3.jpg';
 import HoverImage from '../components/HoverImage';
+import TitleCompGen from '../components/TitleComponentGen';
 
 const About = () => {
+
     return (
         <HomeLayout>
             <AboutContainer />
@@ -53,7 +55,7 @@ const AboutContainer = () => {
     }, []);
 
     return (
-        <section className="overflow-hidden  pb-1 lg:pt-6 lg:pb-3 dark:bg-dark bg-home animate-fade-in">
+        <section className="overflow-hidden  pt-6 pb-1 lg:pt-6 lg:pb-3 dark:bg-dark bg-home animate-fade-in">
 
             <div className="container mx-auto">
 
@@ -99,22 +101,21 @@ const AboutContainer = () => {
                     {/* RIGHT SECTION */}
                     <div
                         ref={rightSectionRef}
-                        className="w-full px-4 lg:w-1/2 xl:w-5/12 shadow-sm rounded-lg opacity-0 translate-y-10 scale-95 transition-all duration-700 ease-in-out mt-6 hover:shadow-xl sacle-100 hover:scale-105 "
+                        className="w-full text-sm px-4 lg:w-1/2 xl:w-5/12 shadow-sm rounded-lg opacity-0 translate-y-10 scale-95 transition-all duration-700 ease-in-out mt-6 hover:shadow-xl sacle-100 hover:scale-105 "
                     >
                         <div className="lg:mt-0 px-1">
-                            <span className="block mb-4 text-2xl font-semibold transition-opacity duration-300 ease-in-out hover:opacity-90 px-1">
-                                {t('title')}
-                            </span>
+                  
+                            <TitleCompGen title={t('title')} />
 
-                            <h2 className="mb-5 text-lg font-medium text-dark dark:text-white sm:text-xl transition-opacity duration-300 ease-in-out">
+                            <h2 className="mb-5 text-sm font-medium text-gray-500 dark:text-white sm:text-xl transition-opacity duration-300 ease-in-out">
                                 {t('subtitle')}
                             </h2>
 
-                            <p className="mb-5 text-base text-body-color dark:text-dark-6 transition-opacity duration-300 ease-in-out px-1">
+                            <p className="mb-5 text-[13px] text-body-color dark:text-dark-6 transition-opacity duration-300 ease-in-out px-1">
                                 {t('paragraph1')}
                             </p>
 
-                            <p className="mb-8 text-base text-body-color dark:text-dark-6 transition-opacity duration-300 ease-in-out">
+                            <p className="mb-8 text-[13px]  text-body-color dark:text-dark-6 transition-opacity duration-300 ease-in-out">
                                 {t('paragraph2')}
                             </p>
 
@@ -122,7 +123,7 @@ const AboutContainer = () => {
 
                                 onClick={() => {
                                     navigate('/logIn');
-                                    dispatch(setCurrentNav('logIn'));
+                                    dispatch(setCurrentNav('/logIn'));
                                 }}
 
                                 className="inline-flex items-center justify-center py-3 px-7 text-base font-medium text-white rounded-md bg-primary transition-all duration-300 ease-in-out hover:bg-opacity-90 hover:scale-105"

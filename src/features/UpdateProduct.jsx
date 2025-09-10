@@ -10,6 +10,7 @@ import { useNavigate } from "react-router";
 import { useTranslation } from 'react-i18next';
 import LoadingCard from '../components/LoardingSpin';
 import { ButtonSimple } from '../components/Button';
+import TitleCompGen from '../components/TitleComponentGen';
 
 const UpdateProduct = () => {
 
@@ -241,12 +242,10 @@ const UpdateProduct = () => {
 
                 </div>
             ) : (
-                    <div className="shadow-lg max-w-2xl px-4 py-1 mx-auto lg:py-2">
+                <div className="shadow-lg max-w-2xl px-4 py-1 mx-auto lg:py-2">
 
-                    <h1 className="text-2xl font-extrabold text-gray-500 dark:text-white pt-4 pb-5 mb-5">
-                        {t('add_product.add_or_update_product')}
-                    </h1>
-                   
+                    <TitleCompGen title={t('add_product.add_or_update_product')} />
+
                     <form
                         onSubmit={submitForm}
                             className={

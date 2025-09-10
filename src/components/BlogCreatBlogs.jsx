@@ -4,6 +4,7 @@ import api from '../services/Axios';
 import { useTranslation } from 'react-i18next';
 import LoadingCard from './LoardingSpin';
 import { ButtonSimple } from './Button';
+import TitleCompGen from './TitleComponentGen';
 
 export const ModalFormCreatBlog = () => {
 
@@ -189,19 +190,14 @@ export const ModalFormCreatBlog = () => {
                         className="bg-white dark:bg-gray-700 rounded-lg shadow-lg w-full max-w-2xl p-6 relative"
                     >
                         {/* Header */}
-                        <div className="flex justify-between items-center mb-4">
+                        <div className="flex justify-between gap-4  mb-4">
 
-                            <h2
-                                id="modal-title"
-                                className="text-2xl font-extrabold text-gray-700 dark:text-white"
-                            >
-                                {t("blog.create_blog")}
-                            </h2>
+                            <TitleCompGen title={t('blog.create_blog')} />
 
                             <button
                                 onClick={handleClose}
                                 aria-label={t("blog.close_modal") || "Fermer la fenêtre"}
-                                className="text-gray-400 hover:text-gray-900 dark:hover:text-white w-full"
+                                className="absolute right-6 text-gray-400 hover:text-gray-900 dark:hover:text-white "
                             >
                                 <svg
                                     className="w-4 h-4"
@@ -229,7 +225,7 @@ export const ModalFormCreatBlog = () => {
 
                                 <label
                                     htmlFor="title-input"
-                                    className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                                    className="whitespace-nowrap block text-sm font-medium text-gray-700 dark:text-gray-300"
                                 >
                                     {t("blog.title_pop")}
 
@@ -278,7 +274,7 @@ export const ModalFormCreatBlog = () => {
                             )}
 
                             {/* Footer */}
-                            <div className="flex justify-end gap-2 pt-1">
+                            <div className="flex gap-2 pt-1">
 
                                 {
                                     loading?
@@ -292,7 +288,7 @@ export const ModalFormCreatBlog = () => {
                                 <button
                                     type="button"
                                     onClick={handleClose}
-                                    className="px-4 py-2 rounded-md text-sm border bg-red-800 border-gray-300 text-gray-100 hover:bg-red-900 "
+                                    className="px-4 py-2 rounded-md text-sm border bg-red-300 border-gray-300 text-gray-100 hover:bg-red-400 "
                                 >
                                     {t("blog.cancel")}
 

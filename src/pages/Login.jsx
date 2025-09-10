@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom'; //
 import { useSelector } from 'react-redux';
 import FormLayout from '../layouts/FormLayout';
 import { showMessage } from '../components/AlertMessage';
+import TitleCompGen from '../components/TitleComponentGen';
 
 
 const LogIn = () => {
@@ -107,9 +108,7 @@ const LogIn = () => {
 
         } catch (error) {
 
-            console.log("Erreur: ", error)
-
-            showMessage(dispatch, { Type: "Erreur", Message: error?.message || error?.request?.response });
+            showMessage(dispatch, { Type: "Erreur", Message: error?.response?.data?.detail  });
 
             setLoading(false)
         }
@@ -123,9 +122,7 @@ const LogIn = () => {
             {
                 (!loading) ?
                 <>
-                    <h1 className="whitespace-nowrap text-2xl font-extrabold text-gray-500 dark:text-white px-4 pt-4 pb-4">
-                        {t("login")}
-                    </h1>
+                    <TitleCompGen title={t("login")} />
 
                     <form
                         className="translate-y-0 transition-all duration-1000 ease-in-out"

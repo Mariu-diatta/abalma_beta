@@ -10,6 +10,7 @@ import PhoneInput from './InputPhoneCountry';
 import { setCurrentNav } from '../slices/navigateSlice';
 import { ButtonSimple } from './Button';
 import FormLayout from '../layouts/FormLayout';
+import TitleCompGen from './TitleComponentGen';
 
 
 const CreateClient = async (data, func, funcRetournMessage, dispatch) => {
@@ -187,9 +188,8 @@ const RegisterForm = () => {
             {
                 (!loading)?
                 <>
-                    <h1 className="whitespace-nowrap text-2xl font-extrabold text-gray-500 dark:text-white px-4 pt-4 pb-4">
-                        {t('register')}
-                    </h1>
+  
+                    <TitleCompGen title={t('register')} />
 
                     <form 
                         onSubmit={handleSignUp} ref={componentRef}

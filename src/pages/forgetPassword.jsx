@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from 'react-i18next';
 import InputBox from "../components/InputBoxFloat";
-import HomeLayout from "../layouts/HomeLayout";
 import api from "../services/Axios";
 import { useParams } from "react-router-dom";
 import AttentionAlertMessage, { showMessage } from "../components/AlertMessage";
 import { useDispatch} from "react-redux";
 import { ButtonSimple } from "../components/Button";
+import FormLayout from "../layouts/FormLayout";
+import TitleCompGen from "../components/TitleComponentGen";
 
-const PwdForget = () => {
+const LayoutPwdForget = () => {
 
     const { t } = useTranslation();
     const { uidb64, token } = useParams();
@@ -131,7 +132,7 @@ const PwdForget = () => {
 
                     <div className="mt-3 text-center">
 
-                        <small className="text-sm  text-black-900 dark:text-white">{t(`forgetPswd.step${s}`)}</small>
+                        <small className="whitespace-nowrap text-xs  text-black-900 dark:text-white">{t(`forgetPswd.step${s}`)}</small>
 
                     </div>
 
@@ -143,101 +144,83 @@ const PwdForget = () => {
     );
 
     return (
-        <section className="bg-gray-1 py-20 dark:bg-dark lg:py-[120px]">
+         <FormLayout>
 
             <AttentionAlertMessage />
 
-            <div className="container mx-auto">
+                <TitleCompGen title={t('forgetPswd.title')} />
 
-                <div className="-mx-1 flex flex-wrap justify-center">
+                <StepIndicator />
 
-                    <div className="w-full max-w-md px-4">
-
-                        <div className="rounded-lg p-8 shadow-lg" style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}>
-
-                            <h1 className="mb-10 text-2xl font-bold text-dark dark:text-white text-center">
-                                {t("forgetPswd.title")}
-                            </h1>
-
-                            <StepIndicator />
-
-                            <AttentionAlertMessage/>
+                <AttentionAlertMessage/>
      
-                            {step === 1 && (
-                                <form onSubmit={(e) => { e.preventDefault(); handleRequestCode(); }}>
+                {step === 1 && (
+                    <form onSubmit={(e) => { e.preventDefault(); handleRequestCode(); }}>
 
-                                    <InputBox
-                                        type="email"
-                                        name="email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        placeholder={t("form.email")}
-                                        required
-                                    />
+                        <InputBox
+                            type="email"
+                            name="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder={t("form.email")}
+                            required
+                        />
 
 
-                                    <ButtonSimple
-                                        title={t("forgetPswd.getCode")}
-                                    />
+                        <ButtonSimple
+                            title={t("forgetPswd.getCode")}
+                        />
 
-                                </form>
-                            )}
+                    </form>
+                )}
                             
-                            {
-                                step === 2 &&
-                                (
+                {
+                    step === 2 &&
+                    (
 
-                                    uidb64 && token ?
-                                    (
-                                        <form onSubmit={(e) => { e.preventDefault(); handleResetPassword(); }}>
+                        uidb64 && token ?
+                        (
+                            <form onSubmit={(e) => { e.preventDefault(); handleResetPassword(); }}>
 
-                                            <InputBox
-                                                type="password"
-                                                name="newPassword"
-                                                value={newPassword}
-                                                onChange={(e) => setNewPassword(e.target.value)}
-                                                placeholder={t("form.newPassword")}
-                                                required
-                                            />
+                                <InputBox
+                                    type="password"
+                                    name="newPassword"
+                                    value={newPassword}
+                                    onChange={(e) => setNewPassword(e.target.value)}
+                                    placeholder={t("form.newPassword")}
+                                    required
+                                />
 
-                                            <ButtonSimple
-                                              title={t("forgetPswd.reset")}
-                                            />
+                                <ButtonSimple
+                                    title={t("forgetPswd.reset")}
+                                />
 
-                                        </form>
-                                    )
-                                    : 
-                                    (<p className="text-sm">Veuillez confimer en clicquant sur le lien envoyé à  votre mail </p>)
-                                )
+                            </form>
+                        )
+                        : 
+                        (<p className="text-sm">{t('confirmForgotPassword')}</p>)
+                    )
                                 
-                            }
+                }
 
-                            {step === 3 && (
+                {step === 3 && (
 
-                                <div className="text-center">
+                    <div className="text-center">
 
-                                    <p className="text-lg font-medium text-green-600 dark:text-green-400">
-                                        {t("forgetPswd.success")}
-                                    </p>
+                        <p className="text-lg font-medium text-green-600 dark:text-green-400">
+                            {t("forgetPswd.success")}
+                        </p>
                                    
-                                    <p className="mt-4 text-sm text-gray-700 dark:text-gray-300">
-                                        {t("forgetPswd.redirectIn")} {Math.floor(countdown / 60)}:{String(countdown % 60).padStart(2, "0")}...
-                                    </p>
+                        <p className="mt-4 text-xs  text-gray-700 dark:text-gray-300">
+                            {t("forgetPswd.redirectIn")} {Math.floor(countdown / 60)}:{String(countdown % 60).padStart(2, "0")}...
+                        </p>
 
-                                </div>
-                            )}
-                        </div>
                     </div>
-                </div>
-            </div>
-        </section>
+                )}
+
+
+         </FormLayout >
     );
 };
-
-const LayoutPwdForget = () => (
-    <HomeLayout>
-        <PwdForget />
-    </HomeLayout>
-);
 
 export default LayoutPwdForget;

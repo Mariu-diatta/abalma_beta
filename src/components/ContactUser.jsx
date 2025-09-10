@@ -4,6 +4,7 @@ import OwnerAvatar from "./OwnerProfil";
 import { useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
 import LoadingCard from "./LoardingSpin";
+import TitleCompGen from "./TitleComponentGen";
 
 const UsersContactsList = () => {
 
@@ -99,11 +100,7 @@ const UsersContactsList = () => {
 
         <div className="sm:rounded-lg style-bg h-screen">
 
-            <h2 className="text-2xl font-extrabold text-gray-500 dark:text-white px-4 pt-4 pb-2"> 
-
-                {t('ParamText.title')}
-
-            </h2>
+            <TitleCompGen title={t('ParamText.title')} />
 
             {
                 loading ?

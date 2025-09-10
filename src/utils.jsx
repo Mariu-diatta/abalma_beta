@@ -315,6 +315,7 @@ export const loginClient = async (data, dispatch, setIsLoading, navigate) => {
 
         if (response?.data) {
 
+
             dispatch(login(response?.data?.user));
 
             dispatch(updateCompteUser(response?.data?.compte))

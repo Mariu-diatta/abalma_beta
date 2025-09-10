@@ -22,6 +22,12 @@ i18n
      en: {
 
         translation: {
+             confirmForgotPassword: 'Please confirm by clicking on the link sent to your email.',
+             justif_send: '✅ Proof sent successfully!',
+             compte_pro: '🎉 Your account is now professional.',
+             select_file: 'Please select a file before saving.',
+             error_file: 'Error while updating the profile.',
+             update_profil: '✅ Profile updated!',
              Search: "Search",
              uploadedFile: "File uploaded",
              paymentMethod: "Payement method",
@@ -457,8 +463,8 @@ i18n
                  "code": "Received Code",
                  "reset": "Reset Password",
                  "success": "Password successfully reset!",
-                 "step1": "Enter Email",
-                 "step2": "Code & New Password",
+                 "step1": "Email?",
+                 "step2": "Code & Password",
                  "step3": "Confirmation",
                  "redirectIn": "Redirecting to login page in"
              }
@@ -468,6 +474,12 @@ i18n
      fr: {
 
          translation: {
+             confirmForgotPassword:"Veuillez confimer en clicquant sur le lien envoyé à  votre mail ",
+             justif_send: '✅ Justificatif envoyé avec succès !',
+             compte_pro: '🎉 Votre compte est maintenant professionnel.',
+             select_file: 'Veuillez sélectionner un fichier avant de sauvegarder.',
+             error_file: 'Erreur lors de la mise à jour du profil.',
+             update_profil: '✅ Profil mis à jour !',
              Search:"Recherche",
              uploadedFile: "Fichier sélectionné",
              paymentMethod: "Méthode de payement",
@@ -912,8 +924,8 @@ i18n
                   "code": "Code reçu",
                   "reset": "Réinitialiser le mot de passe",
                   "success": "Mot de passe réinitialisé avec succès !",
-                  "step1": "Saisie de l'email",
-                  "step2": "Code & Nouveau mot de passe",
+                  "step1": "Email ?",
+                  "step2": "Code & Passe",
                   "step3": "Confirmation",
                   "redirectIn": "Redirection vers la page de connexion dans"
               }

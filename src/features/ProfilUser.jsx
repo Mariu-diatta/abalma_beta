@@ -29,6 +29,8 @@ const ProfileCard = () => {
     const allChats = useSelector((state) => state.chat.currentChats);
     const currentChat = useSelector((state) => state.chat.currentChat);
 
+    const [sedingProofDoc, setSedingProofDoc]=useState(false)
+
     // Determine user profile based on navigation context
     const userProfile = useMemo(() => {
         if (currentNav === 'user_profil' || currentNav === 'home') return profileData;
@@ -118,8 +120,6 @@ const ProfileCard = () => {
 
         if (!userProfile?.id) {
 
-            alert('Erreur : ID utilisateur manquant');
-
             return;
         }
 
@@ -135,15 +135,16 @@ const ProfileCard = () => {
 
             if (updateImageCover) fd.append('image_cover', updateImageCover);
 
-            await api.put(`clients/${userProfile?.id}/`, fd, {
+             await api.put(`clients/${userProfile?.id}/`, fd, {
 
                 headers: { 'Content-Type': 'multipart/form-data' },
 
             });
 
+
             setIsEditing(false);
 
-            alert('✅ Profil mis à jour !');
+            alert(t('update_profil'));
 
         } catch (error) {
 
@@ -164,32 +165,41 @@ const ProfileCard = () => {
 
         if (!fileProof) {
 
-            alert('Veuillez sélectionner un fichier avant de sauvegarder.');
+            alert(t('select_file'));
 
             return;
         }
+        setSedingProofDoc(true)
         try {
 
             const formData = new FormData();
 
-            formData.append('is_pro', true);
-
             formData.append('doc_proof', fileProof);
 
-            await api.put(`clients/${userProfile?.id}/`, formData, {
+            const clientResponse = await api.put(`clients/${userProfile?.id}/become_pro/`, formData, {
 
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
-            alert('✅ Justificatif envoyé avec succès !');
+
+            dispatch(updateUserData(clientResponse?.data?.user))
+
+            alert(t('justif_send'));
+
             setIsProFormVisible(false);
-            alert('🎉 Votre compte est maintenant professionnel.');
+
+            alert(t('compte_pro'));
 
 
         } catch (error) {
 
             console.error("❌ Erreur d'envoi :", error);
 
-            alert("Erreur lors de l'envoi du justificatif.");
+            alert(t("error_file"));
+
+        } finally {
+
+            setSedingProofDoc(false)
+
         }
     };
 
@@ -663,7 +673,7 @@ const ProfileCard = () => {
 
                             onSubmit={handleUpgradeToPro}
 
-                            className="mt-6 flex flex-col items-center gap-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-full shadow-sm"
+                            className="overflow-x-auto mt-6 w-auto flex flex-col items-center gap-4 p-1 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-lg"
                         >
                             <label className="text-sm">{t('hintProofDoc')}</label>
 
@@ -690,19 +700,24 @@ const ProfileCard = () => {
                                     onChange={handleFileChange}
                                     accept=".pdf,.jpg,.png,.jpeg"
                                     required
-                                    className="border border-gray-300 rounded-full p-2 text-sm cursor-pointer"
+                                    className="border border-gray-300 rounded-full p-2 text-sm cursor-pointer w-full"
                                 />
 
                             </div>
 
                             <div className="flex gap-2">
 
-                                <button
-                                    type="submit"
-                                    className="rounded-full bg-green-300 text-white px-4 py-2 hover:bg-green-400 text-sm"
-                                >
-                                    {t('ProfilText.envoyerJustificatif')}
-                                </button>
+                                {
+                                    !sedingProofDoc?
+                                    <button
+                                        type="submit"
+                                        className="rounded-full bg-green-300 text-white px-4 py-2 hover:bg-green-400 text-sm"
+                                    >
+                                        {t('ProfilText.envoyerJustificatif')}
+                                    </button>
+                                    :
+                                    <LoadingCard/>
+                                }
 
                                 <button
                                     type="button"

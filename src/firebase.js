@@ -81,7 +81,6 @@ export function LoginWithGoogle() {
             });
 
             // ✅ Utilisateur authentifié : le token est dans les cookies, inutile de le stocker
-            console.log("update current user , firebase", res?.data)
             dispatch(updateCompteUser(res?.data?.compte))
             dispatch(updateUserData(res?.data));
             dispatch(login(res.data?.user)); // user info uniquement

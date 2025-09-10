@@ -13,6 +13,19 @@ const PersistLogIn = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const currentNav = useSelector((state) => state.navigate.currentNav);
+    const navEntries = performance.getEntriesByType("navigation");
+
+    useEffect(
+
+        () => {
+
+            if (navEntries[0].type === "navigate") {
+
+                console.log("Page was not refreshed");
+            }
+
+        }, [navEntries]
+    )
 
     useEffect(() => {
 

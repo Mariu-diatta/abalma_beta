@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import image from '../assets/image.jpg'
 import Testimonial from './AbalmaActivities';
 import GridLayoutProduct from '../features/GridLayoutProducts';
+import TitleCompGen from './TitleComponentGen';
 
 
 const HomeContain = () => {
@@ -15,7 +16,7 @@ const HomeContain = () => {
 
             <div className="mx-auto max-w-screen-md text-center lg:mb-2  mt-8 pt-2">
 
-                <h2 className="mb-4 tracking-tight text-gray-500 text-lg">{t("homePan.title")}</h2>
+                <TitleCompGen title={t('homePan.title')} />
 
                 <p className="font-light text-gray-500 sm:text-md dark:text-gray-400 w-full  text-center">
                     {t("homePan.content")}

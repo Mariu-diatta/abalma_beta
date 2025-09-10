@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import ListProductShoppingCart from './ListProductShoppingCart';
 import LoadingCard from '../components/LoardingSpin';
 import MyProductList from '../components/MyProductsList';
+import TitleCompGen from '../components/TitleComponentGen';
 
 const Tabs = () => {
 
@@ -59,11 +60,7 @@ const Tabs = () => {
 
                 <div className="mb-6 text-center style_bg">
 
-                    <h1 className="text-2xl font-extrabold text-gray-500 dark:text-white px-4 pt-4 pb-2">
-
-                        {t('Dashboard.welcomeTitle')}
-
-                    </h1>
+                    <TitleCompGen title={t('Dashboard.welcomeTitle')} />
 
                     <p className="mt-2 text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto style_bg">
 

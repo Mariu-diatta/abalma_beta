@@ -8,6 +8,7 @@ import SearchBar from '../components/BtnSearchWithFilter';
 import { useDispatch, useSelector } from 'react-redux';
 import { formatISODate } from '../utils';
 import { updateCategorySelected } from '../slices/navigateSlice';
+import TitleCompGen from '../components/TitleComponentGen';
 const HomeLayout = lazy(() => import('../layouts/HomeLayout'));
 
 
@@ -65,8 +66,6 @@ export const BlogPage = () => {
 
     const getDataBlogSearch= async (data) => {
 
-        alert("Je suis clické")
-
         const getBlogs = async () => {
 
             setIsLoading(true)
@@ -97,7 +96,7 @@ export const BlogPage = () => {
 
                 <div className="mx-0 lg:mx-auto  max-w-screen-auto text-center lg:mb-16 mb-8">
 
-                    <h2 className="mb-4 text-3xl lg:text-2xl tracking-tight font-extrabold">{t("blog.title")}</h2>
+                    <TitleCompGen title={t("blog.title")}/>
 
                     <p className="font-light text-gray-500 sm:text-xl dark:text-gray-400">{t("blog.maint_text_content")}</p>
 
@@ -109,21 +108,14 @@ export const BlogPage = () => {
 
                 </div>
 
-                <div className="grid gap-8 lg:grid-cols-2">
-
-                    {
-                       !isLoading?
-                        <>
-
-                            {fetchBlogs()}
-
-                        </>
-                        :
-                        <LoadingCard/>
-                    }
-
-                </div>
-
+                {
+                    !isLoading ?
+                    <div className="grid gap-8 lg:grid-cols-2">
+                        {fetchBlogs()}
+                    </div>
+                    :
+                    <LoadingCard />
+                }
 
                 <div className="flex justify-end  pr-2 my-8">
 
@@ -168,10 +160,7 @@ const BlogCard = (blog) => {
 
             <div className="flex justify-between items-center mb-5 text-gray-500">
 
-                <span className="bg-primary-100 text-primary-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-primary-200 dark:text-primary-800">
-                   
-                    {blog.title_blog}
-                </span>
+                <TitleCompGen title={blog.title_blog}/>
 
                 <span className="text-sm">{formatISODate(blog.created_at)}</span>
 
