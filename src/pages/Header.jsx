@@ -410,7 +410,6 @@ const NavbarHeader = () => {
                 }
 
             >
-
                 {/* Logo */}
                 <div className="">
                     <Logo />
@@ -463,7 +462,7 @@ const NavbarHeader = () => {
 
                             {/* Boutons et Dropdown (Mobile) */}
                             <div
-                                className="text-sm absolute top-2 flex flex-col items-start justify-start gap-3 p-1 sm:hidden shadow-md w-full py-5 bg-none "
+                                className="text-sm absolute top-4 flex flex-col items-start justify-start gap-3 p-1 sm:hidden shadow-lg w-full py-5 bg-none  "
                             >
                                 <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
 

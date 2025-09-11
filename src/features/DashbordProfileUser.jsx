@@ -59,7 +59,7 @@ const Tabs = () => {
             <div className="p-2 pt-0 mt-0 space-y-6 max-w-7xl mx-auto style-bg mb-2  h-screan mb-2 pb-3 ">
 
                 <div className="mb-6 text-center style_bg">
-
+    
                     <TitleCompGen title={t('Dashboard.welcomeTitle')} />
 
                     <p className="mt-2 text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto style_bg">

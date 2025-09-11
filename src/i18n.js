@@ -203,7 +203,7 @@ i18n
              "section_9_content": "This policy may be updated. You will be notified in the event of significant changes.",
 
 
-            title_policy: "Why Choose Abalma",
+            title_policy: "Why Abalma ?",
             subtitle: "Impress your customers by delivering an outstanding service experience.",
             paragraph1: "Imagine you're a small business in commerce, but your presence on social media is limited or lost in a flood of information that makes your activities and ads invisible. Abalma is here to change that. We help you gain visibility and make your voice heard in a clearer, more targeted, and user-focused digital ecosystem.",
             paragraph2:"Thanks to our platform, you can easily manage your products and data, grow your sales with confidence, and stay connected to your clients and collaborators.",
@@ -663,7 +663,7 @@ i18n
             security_center: "Centre de sécurité",
             abalma_purchase_protection: "Protection des achats sur Abalma",
             digital_services_act: "Règlement sur les services numériques (DSA)",
-            title: "Pourquoi choisir Abalma",
+            title: "Pourquoi Abalma ?",
             follow_us:"Nous suivre sur",
             subtitle: "Surprenez vos clients en leur offrant une expérience de service exceptionnelle.",
             paragraph1: "Imaginez que vous êtes une petite entreprise évoluant dans le commerce, mais que votre présence sur les réseaux sociaux est limitée ou encore noyée dans une masse d’informations qui rend vos activités et publicités invisibles. Abalma est là pour changer cela. Nous vous aidons à gagner en visibilité et à faire entendre votre voix dans un écosystème numérique plus clair, plus ciblé, et mieux adapté à vos besoins.",

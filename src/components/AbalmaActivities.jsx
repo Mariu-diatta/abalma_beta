@@ -129,7 +129,7 @@ const SingleTestimonial = () => {
 
          <div className="relative w-full md:w-1/2 m-auto pb-16 md:w-11/12 lg:w-10/12 xl:w-8/12  p-2 my-3">
 
-            <div className="w-full items-center md:flex  shadow-sm p-2 border border-gray-500 rounded-lg text-white" >
+            <div className="w-full items-center md:flex  p-2 border-0 shadow-lg rounded-lg text-white" >
 
                 <div className="relative mb-12 w-full max-w-[310px] md:mb-0 md:mr-12 md:max-w-[250px] lg:mr-14 lg:max-w-[280px] 2xl:mr-16">
 
@@ -149,7 +149,7 @@ const SingleTestimonial = () => {
                             <img src={reviewImg} alt={reviewAlt} />
                         </div>
 
-                        <p className="mb-11 text-base font-normal italic leading-[1.81] text-body-color dark:text-dark-6  text-md ">
+                        <p className="mb-11 text-base font-normal italic leading-[1.81] text-body-color dark:text-dark-6  text-[14px] ">
                             {details}
                         </p>
 
@@ -171,7 +171,7 @@ const SingleTestimonial = () => {
 
                 <div className="prev-arrow cursor-pointer" onClick={handlePrev}>
 
-                    <button className="flex h-[50px] w-[50px] items-center justify-center rounded-full border border-stroke text-dark transition-all hover:border-transparent hover:drop-shadow-testimonial dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:hover:drop-shadow-none">
+                    <button className="flex h-[50px] w-[50px] items-center justify-center rounded-full border-0 text-dark transition-all shadow-lg hover:border-transparent hover:drop-shadow-testimonial dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:hover:drop-shadow-none">
                         <svg
                             width="20"
                             height="21"
@@ -191,7 +191,7 @@ const SingleTestimonial = () => {
 
                 <div className="next-arrow cursor-pointer" onClick={handleNext}>
 
-                    <button className="flex h-[50px] w-[50px] items-center justify-center rounded-full border border-stroke  text-dark transition-all hover:border-transparent hover:drop-shadow-testimonial dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:hover:drop-shadow-none">
+                    <button className="flex h-[50px] w-[50px] items-center justify-center rounded-full border-0 shadow-lg  text-dark transition-all hover:border-transparent hover:drop-shadow-testimonial dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:hover:drop-shadow-none">
 
                         <svg
                             width="20"
