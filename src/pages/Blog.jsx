@@ -8,7 +8,7 @@ import SearchBar from '../components/BtnSearchWithFilter';
 import { useDispatch, useSelector } from 'react-redux';
 import { formatISODate } from '../utils';
 import { updateCategorySelected } from '../slices/navigateSlice';
-import TitleCompGen from '../components/TitleComponentGen';
+import TitleCompGen,{ TitleCompGenLitle } from '../components/TitleComponentGen';
 const HomeLayout = lazy(() => import('../layouts/HomeLayout'));
 
 
@@ -22,8 +22,9 @@ export const BlogPage = () => {
 
     const currentNav = useSelector(state => state.navigate.currentNav);
 
-    const dispatch = useDispatch()
+    const currentAddedBlog = useSelector(state => state.cart.contentBlog);
 
+    const dispatch = useDispatch()
 
     const fetchBlogs = useCallback(() => {
 
@@ -33,6 +34,19 @@ export const BlogPage = () => {
         ));
 
     }, [blogs]);
+
+    useEffect(
+
+        () => {
+
+            if (currentAddedBlog) {
+
+                setBlogs((prev) => ([...prev, currentAddedBlog ]))
+            }
+
+        }, [currentAddedBlog]
+    )
+
 
     useEffect(
 
@@ -63,7 +77,6 @@ export const BlogPage = () => {
         }, [dispatch]
     )
 
-
     const getDataBlogSearch= async (data) => {
 
         const getBlogs = async () => {
@@ -90,9 +103,9 @@ export const BlogPage = () => {
          
     return (
 
-        <div className="mt-5 dark:bg-gray-900 bg_home z-8 shadow-sm">
+        <div className=" dark:bg-gray-900 bg_home z-8 shadow-sm h-full">
 
-            <div className="py-2 px-2 max-w-screen mx-0 lg:mx-auto lg:py-16 lg:px-6 style-bg">
+            <div className="py-1 px-2 w-full h-screen mx-0 lg:mx-auto lg:py-2 lg:px-6 style-bg">
 
                 <div className="mx-0 lg:mx-auto  max-w-screen-auto text-center lg:mb-16 mb-8">
 
@@ -110,7 +123,7 @@ export const BlogPage = () => {
 
                 {
                     !isLoading ?
-                    <div className="grid gap-8 lg:grid-cols-2">
+                    <div className="grid gap-2 lg:grid-cols-2">
                         {fetchBlogs()}
                     </div>
                     :
@@ -156,25 +169,25 @@ const BlogCard = (blog) => {
 
     return (
 
-        <article className="w-auto p-1 rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700">
+        <article className="w-auto p-1 rounded-lg border border-gray-200 shadow-sm dark:bg-gray-800 dark:border-gray-700">
 
             <div className="flex justify-between items-center mb-5 text-gray-500">
 
-                <TitleCompGen title={blog.title_blog}/>
+                <TitleCompGenLitle title={blog?.title_blog}/>
 
-                <span className="text-sm">{formatISODate(blog.created_at)}</span>
+                <span className="text-sm">{formatISODate(blog?.created_at)}</span>
 
             </div>
 
-            <p className="mb-5 font-light text-gray-500 dark:text-gray-400 text-sm text-center">{blog.blog_message}</p>
+            <p className="mb-5 font-light text-gray-500 dark:text-gray-400 text-sm text-center">{blog?.blog_message}</p>
 
             <div className="flex justify-between items-center">
 
                 <div className="flex items-center space-x-4">
 
-                    <img className="w-7 h-7 rounded-full" src={blog.user.image} alt={`${blog.user.nom} avatar`} />
+                    <img className="w-7 h-7 rounded-full" src={blog?.user?.image} alt={`${blog?.user?.nom} avatar`} />
 
-                    <span className="font-medium dark:text-white text-sm">{blog.user.nom}</span>
+                    <span className="font-medium dark:text-white text-sm">{blog?.user?.nom}</span>
 
                 </div>
 

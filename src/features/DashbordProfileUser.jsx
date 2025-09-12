@@ -7,6 +7,7 @@ import ListProductShoppingCart from './ListProductShoppingCart';
 import LoadingCard from '../components/LoardingSpin';
 import MyProductList from '../components/MyProductsList';
 import TitleCompGen from '../components/TitleComponentGen';
+import MyBlogsList from '../components/ListManagerBlogs';
 
 const Tabs = () => {
 
@@ -84,13 +85,15 @@ const Tabs = () => {
                     {
                         (productsTrasactionBought?.length > 0) && (
 
-                            <ProductsRecapTable products={productsTrasactionBought} />
+                            <ProductsRecapTable products={productsTrasactionBought}/>
                         )
                     }
                     </div >
                 }
 
                 <MyProductList/>
+
+                <MyBlogsList/>
 
 
             </div>

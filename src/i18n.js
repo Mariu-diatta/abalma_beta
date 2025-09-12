@@ -22,6 +22,9 @@ i18n
      en: {
 
         translation: {
+             message: {
+                nomessage: "Vous n'avez aucun message"
+             },
              confirmForgotPassword: 'Please confirm by clicking on the link sent to your email.',
              justif_send: '✅ Proof sent successfully!',
              compte_pro: '🎉 Your account is now professional.',
@@ -474,6 +477,9 @@ i18n
      fr: {
 
          translation: {
+             message: {
+                 nomessage: "You have no message"
+             },
              confirmForgotPassword:"Veuillez confimer en clicquant sur le lien envoyé à  votre mail ",
              justif_send: '✅ Justificatif envoyé avec succès !',
              compte_pro: '🎉 Votre compte est maintenant professionnel.',
@@ -520,6 +526,7 @@ i18n
                  detail_2: "Protégez vos actifs numériques avec les solutions de sécurité fluides et sans stress d'Abalma, conçues pour sécuriser votre activité.",
                  detail_3: "Avec notre offre premium, touchez une vaste audience et transformez vos prospects en clients fidèles grâce à une approche ciblée.",
              },
+
              text_home_picture: "Comme Samba, lancez votre petit business et faites- vous connaître !", 
               hintProofDoc: "Téléversez votre carte d’identité et votre justificatif de domicile dans un seul fichier.",
               followed: "Ne plus suivre",
@@ -531,7 +538,8 @@ i18n
               reviews: 'Vues',
               choose_language: 'Choisir une langue',
               connect_with: "Se connecter avec",
-              param: 'Paramètres et convidentialités',
+             param: 'Paramètres et convidentialités',
+
               add_product: {
                   "add_or_update_product": "Ajouter / Modifier un produit",
                   ChooseImage: 'Choisissez une image',
@@ -603,6 +611,10 @@ i18n
                   "no_account": "Pas de compte"
               },
             "blog": {
+                blogName: 'Nom',
+                blogContent: 'Contenu',
+                dateBlog: "Date",
+                myBlogs:'Mes blogs',
                 title: "Notre Blog",
                 blog: 'Ajouter un blog',
                 cancel: "Annuler",

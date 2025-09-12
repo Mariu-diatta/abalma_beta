@@ -1,10 +1,11 @@
 import React, { useEffect,  useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import api from '../services/Axios';
 import { useTranslation } from 'react-i18next';
 import LoadingCard from './LoardingSpin';
 import { ButtonSimple } from './Button';
 import TitleCompGen from './TitleComponentGen';
+import { updateContentBlog } from '../slices/cartSlice';
 
 export const ModalFormCreatBlog = () => {
 
@@ -16,14 +17,15 @@ export const ModalFormCreatBlog = () => {
     const modalRef_ = useRef(null);
     const inputRef = useRef(null);
 
-    // États du formulaire  
+    // Ã‰tats du formulaire  
     const [title, setTitle] = useState("");
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+    const dispatch = useDispatch()
 
-    // Simule la récupération de l'utilisateur connecté
-    // À remplacer par ta logique d'authentification réelle
+    // Simule la rÃ©cupÃ©ration de l'utilisateur connectÃ©
+    // Ã€ remplacer par ta logique d'authentification rÃ©elle
     const getCurrentUser = () => {
 
         return { id: 1, name: "Utilisateur Demo" };
@@ -62,7 +64,7 @@ export const ModalFormCreatBlog = () => {
 
     }, [isOpen]);
 
-    // Fermer modal si clic à l'extérieur
+    // Fermer modal si clic Ã  l'extÃ©rieur
     useEffect(() => {
 
         const handleClickOutside = (e) => {
@@ -87,7 +89,7 @@ export const ModalFormCreatBlog = () => {
 
         e.preventDefault();
         setError("");
-        setSuccess("");
+        setSuccess("")
 
         if (!title.trim() || !message.trim()) {
 
@@ -102,7 +104,7 @@ export const ModalFormCreatBlog = () => {
 
             if (!user) {
 
-                setError(t("blog.user_not_authenticated") || "Utilisateur non authentifié");
+                setError(t("blog.user_not_authenticated") || "Utilisateur non authentifiÃ©");
 
                 return;
             }
@@ -115,15 +117,17 @@ export const ModalFormCreatBlog = () => {
             };
 
             // Exemple : POST (ou PUT) vers ton API
-            await api.post("blogs/", payload);
+            const response = await api.post("blogs/", payload);
 
-            setSuccess(t("blog.blog_created") || "Blog créé avec succès !");
+            dispatch(updateContentBlog(response?.data))
+
+            setSuccess(t("blog.blog_created") || "Blog crÃ©Ã© avec succÃ¨s !");
 
             setTitle("");
 
             setMessage("");
 
-            // Fermer modal après délai (ex : 1.5s)
+            // Fermer modal aprÃ¨s dÃ©lai (ex : 1.5s)
             setTimeout(() => {
 
                 handleClose();
@@ -132,13 +136,13 @@ export const ModalFormCreatBlog = () => {
 
         } catch (err) {
 
-            console.error("Erreur lors de la création du blog", err);
+            console.error("Erreur lors de la crÃ©ation du blog", err);
 
-            setError(t("blog.error_creating") || "Erreur lors de la création du blog");
+            setError(t("blog.error_creating") || "Erreur lors de la crÃ©ation du blog");
 
         } finally {
 
-            setLoading(false)
+            setLoading(true)
         }
     };
 
@@ -179,7 +183,7 @@ export const ModalFormCreatBlog = () => {
             {/* Modal */}
             {isOpen && (
                 <div
-                    className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+                    className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-2"
                     aria-labelledby="modal-title"
                     aria-describedby="modal-description"
                     role="dialog"
@@ -187,7 +191,7 @@ export const ModalFormCreatBlog = () => {
                 >
                     <div
                         ref={modalRef}
-                        className="bg-white dark:bg-gray-700 rounded-lg shadow-lg w-full max-w-2xl p-6 relative"
+                        className="bg-white dark:bg-gray-700 rounded-lg shadow-sm w-full max-w-2xl p-2 relative"
                     >
                         {/* Header */}
                         <div className="flex justify-between gap-4  mb-4">
@@ -196,7 +200,7 @@ export const ModalFormCreatBlog = () => {
 
                             <button
                                 onClick={handleClose}
-                                aria-label={t("blog.close_modal") || "Fermer la fenêtre"}
+                                aria-label={t("blog.close_modal") || "Fermer la fenÃªtre"}
                                 className="absolute right-6 text-gray-400 hover:text-gray-900 dark:hover:text-white "
                             >
                                 <svg

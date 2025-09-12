@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ChatApp from '../pages/ChatApp';
 import api from '../services/Axios';
+import { useTranslation } from 'react-i18next';
+
+
 import {
     addCurrentChat,
     addMessageNotif,
@@ -11,6 +14,8 @@ import {
 } from '../slices/chatSlice';
 
 const ChatLayout = () => {
+
+    const { t } = useTranslation();
 
     const [showSidebar, setShowSidebar] = useState(false);
 
@@ -144,7 +149,7 @@ const ChatLayout = () => {
 
                     {allChats.length === 0 ? (
 
-                        <p className="text-center text-md font-bold">Vous n'avez aucun message</p>
+                        <p className="text-center text-md font-bold">{t("message.nomessage")}</p>
 
                     ) : (
                             <ul className="mt-5 space-y-2">
@@ -208,7 +213,7 @@ const ChatLayout = () => {
             {/* Toggle button for mobile */}
             <button
                 onClick={() => setShowSidebar(!showSidebar)}
-                className="md:hidden fixed top-[8] border-1 right-6 z-30  text-white px-3 py-2 rounded-full shadow-md"
+                className="md:hidden fixed top-[8] border-0 right-5 z-8  text-white px-2 py-2 rounded-full shadow-sm bg-white"
                 aria-label="Toggle menu"
             >
                 {

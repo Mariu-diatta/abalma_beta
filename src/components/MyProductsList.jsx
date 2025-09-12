@@ -16,6 +16,8 @@ const MyProductList = () => {
     const currentUser = useSelector((state) => state.auth.user)
     const [loading, setLoading] = useState(false);
     const [products, setProducts] = useState([]);
+    const [loadingDelete, setLoadingDelete] = useState(false);
+    const [selectedBtnProduct, setSelectedBtnProduct] = useState(null);
 
     /** 🟢 Mise à jour locale du produit modifié */
     useEffect(() => {
@@ -67,7 +69,9 @@ const MyProductList = () => {
 
         if (!window.confirm(t("modifyProduct.confirmDeleteProduct"))) return;
 
-        setLoading(true);
+        setLoadingDelete(true);
+
+        setSelectedBtnProduct(id)
 
         try {
 
@@ -81,7 +85,9 @@ const MyProductList = () => {
 
         } finally {
 
-            setLoading(false);
+            setLoadingDelete(false);
+
+            setSelectedBtnProduct(null)
         }
     };
 
@@ -186,14 +192,19 @@ const MyProductList = () => {
 
                                     <td className="px-6 py-4 gap-2">
 
-                                        <ButtonSimple
+                                        {
+                                            loadingDelete && (selectedBtnProduct === product?.id) ?
+                                            <LoadingCard/>
+                                            :
+                                            <ButtonSimple
 
-                                            onHandleClick={() => handleDelete(product?.id)}
+                                                onHandleClick={() => handleDelete(product?.id)}
 
-                                            className="px-3 rounded-md hover:bg-gray-100 bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-br hover:to-orange-500"
+                                                className="px-3 rounded-md hover:bg-gray-100 bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-br hover:to-orange-500"
 
-                                            title={t("delete")}
-                                        />
+                                                title={t("delete")}
+                                            />
+                                        }
 
                                     </td>
 
@@ -212,6 +223,8 @@ export default MyProductList;
 export function CenteredModal({ product }) {
 
     const { t } = useTranslation();
+
+    const [selectedBtnUpdate, setSelectedBtnUpdate] = useState(null);
 
     const dispatch = useDispatch();
 
@@ -260,7 +273,6 @@ export function CenteredModal({ product }) {
             e.preventDefault();
 
             setLoading(true);
-
             const formData = new FormData();
             formData.append("categorie_product", dataProduct.categorie_product);
             formData.append("Currency_price", dataProduct.Currency_price);
@@ -282,6 +294,8 @@ export function CenteredModal({ product }) {
 
             try {
 
+                setSelectedBtnUpdate(product?.id)
+
                 await api.put(`produits/${product?.id}/`, formData, {
                     headers: { "Content-Type": "multipart/form-data" },
                 });
@@ -301,6 +315,8 @@ export function CenteredModal({ product }) {
             } finally {
 
                 setLoading(false);
+
+                setSelectedBtnUpdate(null)
             }
         },
         [dataProduct, imageFile, currentUserCompte.user, product?.id, dispatch]
@@ -416,7 +432,7 @@ export function CenteredModal({ product }) {
                                 />
 
                                 {
-                                    loading ?
+                                    loading && (selectedBtnUpdate === dataProduct?.id)?
                                     (
                                         <LoadingCard />
                                     ) :

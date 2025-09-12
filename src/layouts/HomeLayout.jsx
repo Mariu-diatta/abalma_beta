@@ -1,39 +1,46 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Footer from '../pages/Footer';
 import NavbarHeader from '../pages/Header';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { setCurrentNav } from '../slices/navigateSlice';
 
 const HomeLayout = ({ children }) => {
-
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+
     const currentUser = useSelector((state) => state.auth.user);
-    const currentCompteUser = useSelector((state) => state.auth.compteUser);
 
-    useEffect(
+    const [isConnected, setIsConnected] = useState(false);
 
-        () => {
-            if (currentUser && currentCompteUser) { navigate("/account_home", { replace: true }); dispatch(setCurrentNav("account_home")) }
+    useEffect(() => {
+
+        if (currentUser) {
+
+            dispatch(setCurrentNav('account_home'));
+
+            setIsConnected(true);
         }
-    )
+
+    }, [currentUser, dispatch]);
+
+    if (isConnected) {
+
+        return <Navigate to="/account_home" replace />;
+    }
+
     return (
 
         <div
 
-            className="items-start justify-center d-flex flex-coulumn style-bg  mr-1 ms-1 mb-5"
+            className="items-start justify-center d-flex flex-column style-bg mx-1 mb-5"
 
             style={
-
-                {
-                    marginBottom:"30px"
-                }
+                { marginBottom: '30px' }
             }
         >
             <NavbarHeader />
 
-            <>{children}  </ >
+            {children}
 
             <Footer />
 

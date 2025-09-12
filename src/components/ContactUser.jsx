@@ -203,91 +203,52 @@ const UsersContactsList = () => {
 
                     </div>
 
-                    <table className="w-full text-sm text-left style-bg shadow-sm p-3"> {/* Tableau */}
-
+                    <table className="w-full text-sm text-left style-bg shadow-sm p-3">
                         <thead className="text-md style_bg">
-
                             <tr className="style_bg text-sm">
-
-                                    <th className="p-4 hidden ">
-
+                                <th className="p-4 hidden">
                                     <input
                                         type="checkbox"
                                         checked={isAllSelected}
                                         onChange={toggleSelectAll}
                                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm dark:bg-gray-700 dark:border-gray-600"
                                     />
-
                                 </th>
-
-                                <th className="px-6 py-3 ">{t('ParamText.table.name')}</th>
-
-                                <th className="px-6 py-3 ">{t('ParamText.table.about')}</th>
-
-                                 <th className="px-6 py-3 hidden">{t('ParamText.table.delete')}</th>
-
+                                <th className="px-6 py-3">{t('ParamText.table.name')}</th>
+                                <th className="px-6 py-3">{t('ParamText.table.about')}</th>
+                                <th className="px-6 py-3 hidden">{t('ParamText.table.delete')}</th>
                             </tr>
-
                         </thead>
-
                         <tbody>
-
                             {filteredUsers.map((user, i) => (
-
-                                !(user?.id === currentuser?.id) &&  
-
-                                <tr key={i} className="dark:bg-gray-100 hover:bg-gray-100 dark:hover:bg-gray-40 shadow-xs p-3 py-2  rounded-lg hover:rounded-lg hover:text-blue-300">
-
+                                user?.id !== currentuser?.id && (
+                                    <tr key={i} className="dark:bg-gray-100 hover:bg-gray-100 dark:hover:bg-gray-40 shadow-xs p-3 py-2 rounded-lg hover:rounded-lg hover:text-blue-300">
                                         <td className="p-4 hidden">
-
                                             <input
-
                                                 type="checkbox"
-
                                                 checked={selectedUsers.includes(user.email)}
-
                                                 onChange={() => toggleSelectOne(user.email)}
-
                                                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm dark:bg-gray-700 dark:border-gray-600"
                                             />
-
                                         </td>
-
                                         <td className="px-auto py-1 flex items-center space-x-1 whitespace-nowrap p-2">
-
                                             <OwnerAvatar owner={user} />
-
                                             <div className="space-x-0">
-
                                                 <div className="text-base font-semibold text-gray-900 dark:text-white">{user?.prenom}</div>
-
                                                 <div className="font-sm text-xs text-gray-500">{user?.nom}</div>
-
                                             </div>
-
                                         </td>
-
                                         <td className="px-auto py-1">{user?.description}</td>
-
                                         <td className="px-auto py-1 hidden">
-
-                                            <svg className="w-5 h-5 text-gray-800 dark:text-red-100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-
+                                            <svg className="w-5 h-5 text-gray-800 dark:text-red-100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
-
                                             </svg>
-
                                         </td>
-
                                     </tr>
-
-                   
+                                )
                             ))}
-
                         </tbody>
-            
                     </table>
-
                 </>
             }
 
