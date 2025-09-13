@@ -154,6 +154,8 @@ i18n
              },
              "blog": {
                  title: "Our Blog",
+                 error_creating: "Error while creating the blog",
+                 blog_created: "Blog successfully created!",
                  cancel: "Cancel",
                  reaMore:'Read more',
                  title_pop:'Title of blog',
@@ -613,6 +615,8 @@ i18n
             "blog": {
                 blogName: 'Nom',
                 blogContent: 'Contenu',
+                error_creating: "Erreur lors de la création du blog",
+                blog_created: "Blog créé avec succès !",
                 dateBlog: "Date",
                 myBlogs:'Mes blogs',
                 title: "Notre Blog",

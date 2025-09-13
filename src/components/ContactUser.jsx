@@ -204,6 +204,7 @@ const UsersContactsList = () => {
                     </div>
 
                     <table className="w-full text-sm text-left style-bg shadow-sm p-3">
+
                         <thead className="text-md style_bg">
                             <tr className="style_bg text-sm">
                                 <th className="p-4 hidden">
@@ -219,6 +220,7 @@ const UsersContactsList = () => {
                                 <th className="px-6 py-3 hidden">{t('ParamText.table.delete')}</th>
                             </tr>
                         </thead>
+
                         <tbody>
                             {filteredUsers.map((user, i) => (
                                 user?.id !== currentuser?.id && (

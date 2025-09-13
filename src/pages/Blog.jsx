@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { formatISODate } from '../utils';
 import { updateCategorySelected } from '../slices/navigateSlice';
 import TitleCompGen,{ TitleCompGenLitle } from '../components/TitleComponentGen';
+import OwnerAvatar from '../components/OwnerProfil';
 const HomeLayout = lazy(() => import('../layouts/HomeLayout'));
 
 
@@ -183,13 +184,7 @@ const BlogCard = (blog) => {
 
             <div className="flex justify-between items-center">
 
-                <div className="flex items-center space-x-4">
-
-                    <img className="w-7 h-7 rounded-full" src={blog?.user?.image} alt={`${blog?.user?.nom} avatar`} />
-
-                    <span className="font-medium dark:text-white text-sm">{blog?.user?.nom}</span>
-
-                </div>
+                {blog?.user && <OwnerAvatar owner={blog?.user} />}
 
                 <a href={"/logIn"} className="inline-flex items-center font-medium text-primary-600 text-sm dark:text-primary-500 hover:underline">
 

@@ -116,7 +116,7 @@ export default function AccountDropdownUserProfil() {
 
     return (
 
-        <section className="flex items-center justify-center px-2  bg-transparent rounded-lg absolute top-0 bg-gray-2 dark:bg-dark z-[10] mb-6">
+        <section className="flex items-center justify-center px-2  bg-transparent rounded-lg absolute top-0 bg-gray-2 dark:bg-dark z-[10] mb-6 fixed">
 
             <AttentionAlertMessage/>
 

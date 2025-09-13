@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addToCart, removeFromCart, decreaseQuantity, getTotalPrice } from '../slices/cartSlice';
 import Logo from "../components/LogoApp";
 import { useTranslation } from 'react-i18next';
+import { TitleCompGenLitle } from "../components/TitleComponentGen";
 
 
 const ListProductShoppingCart = () => {
@@ -85,7 +86,7 @@ const ListProductShoppingCart = () => {
 
                 </svg>
 
-                <h2 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">{t('tableEntries.selectedProducts')}</h2>
+                <TitleCompGenLitle title={t('tableEntries.selectedProducts')}/>
 
             </nav>
 
@@ -303,7 +304,7 @@ const BuyButtonWithPaymentForm = ({ total_price }) => {
 
                         </div>
 
-                        <Payment />
+                            <Payment totalPrice={total_price} />
 
                     </div>
 

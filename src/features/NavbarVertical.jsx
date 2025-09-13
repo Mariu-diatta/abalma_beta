@@ -34,7 +34,6 @@ const VertcalNavbar = ({ children }) => {
         return (currentNav === id)
     }
 
-
     // 🔎 Fetch Rooms
     useEffect(() => {
 
@@ -510,7 +509,7 @@ const VertcalNavbar = ({ children }) => {
                     }}
                 >
 
-                    <section className="flex items-center justify-end h-auto mb-0 pb-0 rounded-sm md:mb-6 md:pb-1">
+                    <section className="flex items-center justify-end h-auto mb-0 pb-0 rounded-sm md:mb-6 md:pb-1 sticky-top top-5">
 
                         <AccountDropdownUserProfil/>
 

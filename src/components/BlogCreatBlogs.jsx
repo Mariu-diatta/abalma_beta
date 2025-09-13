@@ -136,9 +136,9 @@ export const ModalFormCreatBlog = () => {
 
         } catch (err) {
 
-            console.error("Erreur lors de la création du blog", err);
+            console.error("Erreur lors de la création du blog", err?.response?.data?.detail);
 
-            setError(t("blog.error_creating") || "Erreur lors de la création du blog");
+            setError(err?.response?.data?.detail || t("blog.error_creating") || "Erreur lors de la création du blog");
 
         } finally {
 

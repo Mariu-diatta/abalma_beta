@@ -21,7 +21,9 @@ const PersistLogIn = () => {
 
             if (navEntries[0].type === "navigate") {
 
-                console.log("Page was not refreshed");
+                //console.log("Page was not refreshed");
+
+                return
             }
 
         }, [navEntries]

@@ -613,7 +613,9 @@ const ProfileCard = () => {
                                     )
                                 }
 
-                                {!isCurrentUser && selectedProductOwner && (
+                                {
+                                    !isCurrentUser && selectedProductOwner && (
+
                                     <button
                                         onClick={() => {
                                             setMessageVisible(!messageVisible);
@@ -623,7 +625,9 @@ const ProfileCard = () => {
                                         className="bg-yellow-600 text-white text-sm px-3 py-1 hover:bg-yellow-700 w-1/2 lg:w-auto rounded-full"
                                     >
                                         {!messageVisible ? 'Message' : 'X'}
+
                                     </button>
+
                                     )
                                 }
 
@@ -631,36 +635,44 @@ const ProfileCard = () => {
                                     {!isCurrentUser && <FollowProfilUser clientId={currentOwnUser?.id} />}
                                 </>
 
-                                {loadingGetCode ? (
-                                    <>
-                                        {(!userProfile?.is_fournisseur || !userProfile?.is_verified) && isCurrentUser && (
-                                            <button
-                                                onClick={(e) => updateAccountToFournisseur(e)}
-                                                className="flex items-center gap-1 rounded-full bg-indigo-300 text-white text-sm px-3 py-1 hover:bg-indigo-400"
-                                                title="Devenir un fournisseur"
-                                            >
-                                                <svg
-                                                    className="w-5 h-5"
-                                                    aria-hidden="true"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
+                                {
+                                    loadingGetCode ? (
+
+                                        <>
+                                            {(!userProfile?.is_fournisseur || !userProfile?.is_verified) && isCurrentUser && (
+
+                                                <button
+                                                    onClick={(e) => updateAccountToFournisseur(e)}
+                                                    className="flex items-center gap-1 rounded-full bg-indigo-300 text-white text-sm px-3 py-1 hover:bg-indigo-400"
+                                                    title="Devenir un fournisseur"
                                                 >
-                                                    <path
-                                                        stroke="currentColor"
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        strokeWidth="0.9"
-                                                        d="m7.171 12.906-2.153 6.411 2.672-.89 1.568 2.34 1.825-5.183m5.73-2.678 2.154 6.411-2.673-.89-1.568 2.34-1.825-5.183M9.165 4.3c.58.068 1.153-.17 1.515-.628a1.681 1.681 0 0 1 2.64 0 1.68 1.68 0 0 0 1.515.628 1.681 1.681 0 0 1 1.866 1.866c-.068.58.17 1.154.628 1.516a1.681 1.681 0 0 1 0 2.639 1.682 1.682 0 0 0-.628 1.515 1.681 1.681 0 0 1-1.866 1.866 1.681 1.681 0 0 0-1.516.628 1.681 1.681 0 0 1-2.639 0 1.681 1.681 0 0 0-1.515-.628 1.681 1.681 0 0 1-1.867-1.866 1.681 1.681 0 0 0-.627-1.515 1.681 1.681 0 0 1 0-2.64c.458-.361.696-.935.627-1.515A1.681 1.681 0 0 1 9.165 4.3ZM14 9a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"
-                                                    />
-                                                </svg>
-                                                {t('ProfilText.devenirFournisseur')}
-                                            </button>
-                                        )}
-                                    </>
-                                ) : (
-                                    <LoadingCard />
-                                )}
+                                                    <svg
+                                                        className="w-5 h-5"
+                                                        aria-hidden="true"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                    >
+                                                        <path
+                                                            stroke="currentColor"
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth="0.9"
+                                                            d="m7.171 12.906-2.153 6.411 2.672-.89 1.568 2.34 1.825-5.183m5.73-2.678 2.154 6.411-2.673-.89-1.568 2.34-1.825-5.183M9.165 4.3c.58.068 1.153-.17 1.515-.628a1.681 1.681 0 0 1 2.64 0 1.68 1.68 0 0 0 1.515.628 1.681 1.681 0 0 1 1.866 1.866c-.068.58.17 1.154.628 1.516a1.681 1.681 0 0 1 0 2.639 1.682 1.682 0 0 0-.628 1.515 1.681 1.681 0 0 1-1.866 1.866 1.681 1.681 0 0 0-1.516.628 1.681 1.681 0 0 1-2.639 0 1.681 1.681 0 0 0-1.515-.628 1.681 1.681 0 0 1-1.867-1.866 1.681 1.681 0 0 0-.627-1.515 1.681 1.681 0 0 1 0-2.64c.458-.361.696-.935.627-1.515A1.681 1.681 0 0 1 9.165 4.3ZM14 9a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"
+                                                        />
+                                                    </svg>
+
+                                                    {t('ProfilText.devenirFournisseur')}
+
+                                                </button>
+                                            )}
+                                        </>
+
+                                    ) : (
+
+                                        <LoadingCard />
+                                    )
+                                }
 
                                 {isCurrentUser && <ModalFormCreatBlog />}
                             </>
@@ -708,12 +720,13 @@ const ProfileCard = () => {
                             <div className="flex gap-2">
 
                                 {
-                                    !sedingProofDoc?
+                                    (!sedingProofDoc)?
                                     <button
                                         type="submit"
                                         className="rounded-full bg-green-300 text-white px-4 py-2 hover:bg-green-400 text-sm"
                                     >
                                         {t('ProfilText.envoyerJustificatif')}
+
                                     </button>
                                     :
                                     <LoadingCard/>
@@ -725,6 +738,7 @@ const ProfileCard = () => {
                                     className="rounded-full bg-red-300 text-white px-4 py-2 hover:bg-red-400 text-sm"
                                 >
                                     {t('ProfilText.annuler')}
+
                                 </button>
 
                             </div>
@@ -738,9 +752,12 @@ const ProfileCard = () => {
 
             <AttentionAlertMesage/>
 
-            {profileData?.is_fournisseur && !profileData?.is_verified && (
-                <GetValidateUserFournisseur isCurrentUser={isCurrentUser} />
-            )}
+            {
+                profileData?.is_fournisseur && !profileData?.is_verified && (
+
+                    <GetValidateUserFournisseur isCurrentUser={isCurrentUser} />
+                )
+            }
         </div>
     );
 };
