@@ -70,6 +70,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
     const [showRight, setShowRight] = useState(true);
 
     useEffect(() => {
+
         if (!products || products.length <= 1 || !currentSelectedProductView) {
             setShowLeft(false);
             setShowRight(false);

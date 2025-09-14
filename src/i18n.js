@@ -22,8 +22,10 @@ i18n
      en: {
 
         translation: {
+             "doPaimenent": "Make your payment",
+             "choosePaiementMode": "Choose a payment method.",
              message: {
-                nomessage: "Vous n'avez aucun message"
+                nomessage: "you have no message"
              },
              confirmForgotPassword: 'Please confirm by clicking on the link sent to your email.',
              justif_send: '✅ Proof sent successfully!',
@@ -479,8 +481,10 @@ i18n
      fr: {
 
          translation: {
+             doPaimenent: "Faire votre Paiement",
+             choosePaiementMode:"Choisir un mode de paiement.",
              message: {
-                 nomessage: "You have no message"
+                 nomessage: "Vous n'avez aucun message"
              },
              confirmForgotPassword:"Veuillez confimer en clicquant sur le lien envoyé à  votre mail ",
              justif_send: '✅ Justificatif envoyé avec succès !',

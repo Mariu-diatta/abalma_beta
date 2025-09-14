@@ -1,7 +1,10 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { PaymentAppPayPal } from '../pages/Payment';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 
-const MetaMaskIcon = () => (
+export const MetaMaskIcon = () => (
 
     <svg
         aria-hidden="true"
@@ -33,6 +36,10 @@ const WalletModal = ({ Connectwallet }) => {
 
     const [isOpen, setIsOpen] = useState(false);
 
+    const currentSelectedProductView = useSelector(state => state.cart.selectedProductView)
+
+    const { t } = useTranslation();
+
     const toggleModal = useCallback(() => {
 
         setIsOpen((prev) => !prev);
@@ -55,6 +62,7 @@ const WalletModal = ({ Connectwallet }) => {
         return () => window.removeEventListener('keydown', handleEsc);
 
     }, [isOpen]);
+
 
     return (
         <>
@@ -104,7 +112,7 @@ const WalletModal = ({ Connectwallet }) => {
                         <header className="flex items-center justify-between border-b p-4 dark:border-gray-600">
 
                             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                                Faire votre Paiement
+                                {t("doPaimenent")}
                             </h3>
 
                             <button
@@ -122,28 +130,32 @@ const WalletModal = ({ Connectwallet }) => {
                         <section className="p-4">
 
                             <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-                                Choisir un mode de paiement.
+                                {t("choosePaiementMode")}
                             </p>
 
                             <ul className="space-y-3">
 
+                                {/*<li>*/}
+
+                                {/*    <button*/}
+
+                                {/*        type="button"*/}
+
+                                {/*        className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-60 hover:bg-gray-100 dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white w-full"*/}
+
+                                {/*        onClick={() => alert('MetaMask sélectionné')}*/}
+
+                                {/*        aria-label="Sélectionner MetaMask comme mode de paiement"*/}
+                                {/*    >*/}
+                                {/*        <MetaMaskIcon />*/}
+
+                                {/*        <span className="flex-1 ms-3 whitespace-nowrap">MetaMask</span>*/}
+
+                                {/*    </button>*/}
+                                {/*</li>*/}
+
                                 <li>
-
-                                    <button
-
-                                        type="button"
-
-                                        className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-60 hover:bg-gray-100 dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white w-full"
-
-                                        onClick={() => alert('MetaMask sélectionné')}
-
-                                        aria-label="Sélectionner MetaMask comme mode de paiement"
-                                    >
-                                        <MetaMaskIcon />
-
-                                        <span className="flex-1 ms-3 whitespace-nowrap">MetaMask</span>
-
-                                    </button>
+                                    <PaymentAppPayPal amount={currentSelectedProductView?.price_product} />
                                 </li>
 
                                 {/* Ajouter d'autres options ici */}
