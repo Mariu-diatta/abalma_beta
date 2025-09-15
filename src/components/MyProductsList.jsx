@@ -290,7 +290,7 @@ export function CenteredModal({ product }) {
 
             formData.append("name_product", dataProduct.name_product);
 
-            formData.append("fournisseur", parseInt(currentUserCompte.user));
+            formData.append("fournisseur", parseInt(currentUserCompte?.user));
 
             try {
 
@@ -319,7 +319,7 @@ export function CenteredModal({ product }) {
                 setSelectedBtnUpdate(null)
             }
         },
-        [dataProduct, imageFile, currentUserCompte.user, product?.id, dispatch]
+        [dataProduct, imageFile, currentUserCompte?.user, product?.id, dispatch]
     );
 
     const handleClose = useCallback(() => {
