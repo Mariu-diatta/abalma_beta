@@ -622,7 +622,7 @@ const ProfileCard = () => {
                                             creatNewRoom();
                                             navigate('/message_inbox');
                                         }}
-                                        className="bg-yellow-600 text-white text-sm px-3 py-1 hover:bg-yellow-700 w-1/2 lg:w-auto rounded-full"
+                                        className="flex items-center gap-1 rounded-full  text-white text-sm px-3 py-1  text-base  text-white transition bg-gradient-to-br from-purple-300 to-blue-300 hover:bg-gradient-to-br hover:from-purple-400"
                                     >
                                         {!messageVisible ? 'Message' : 'X'}
 

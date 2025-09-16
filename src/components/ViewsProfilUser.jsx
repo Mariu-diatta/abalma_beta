@@ -86,6 +86,8 @@ const FollowProfilUser = ({ clientId }) => {
 
     };
 
+    const isFollow = (!hasJustUnFollowed && (hasJustFollowed || followStatus?.is_following))
+
     return (
 
       <>
@@ -94,32 +96,21 @@ const FollowProfilUser = ({ clientId }) => {
             !isLoading ?
             <>
                { 
-                    (!hasJustUnFollowed && (hasJustFollowed || followStatus?.is_following)) ?
+                    (isFollow) ?
                     (
 
                     <button
 
-                        className="flex items-center text-sm bg-red-300 px-3 rounded-full hover:bg-red-400 cursor-pointer"
+                        className={`flex items-center gap-1 rounded-full text-white text-sm px-3 py-1  text-base  text-white transition bg-gradient-to-br from-purple-300 ${isFollow ? "to-blue-300 to-red-300" : ""} hover:bg-gradient-to-br hover:from-purple-400`}
 
                         title="unfollow"
 
                         onClick={handleUnFollowClick}
                     >
-                        <svg
-                            className="w-6 h-6 text-gray-800 dark:text-white"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="1"
-                                d="M5 11.917 9.724 16.5 19 7.5"
-                            />
+                        <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M6 18 17.94 6M18 18 6.06 6" />
                         </svg>
+
 
                         <span className="ml-2 whitespace-nowrap">{t('followed')}</span>
 
@@ -129,7 +120,7 @@ const FollowProfilUser = ({ clientId }) => {
 
                     <button
                         type="button"
-                        className="flex items-center text-sm bg-blue-300 px-3 rounded-full hover:bg-blue-400 cursor-pointer"
+                        className={`flex items-center gap-1 rounded-full text-white text-sm px-3 py-1  text-base  text-white transition bg-gradient-to-br from-purple-300 ${isFollow ? "to-blue-300 to-red-300" : ""} hover:bg-gradient-to-br hover:from-purple-400`}
                         onClick={handleFollowClick}
                     >
                         <svg

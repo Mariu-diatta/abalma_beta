@@ -15,7 +15,7 @@ export const convertDate = (dat) => {
         year: "numeric",
         hour: "2-digit",
         minute: "2-digit",
-        second: "2-digit"
+        second: "2-digit",
     });
 
     return formatted
@@ -110,7 +110,7 @@ export const recordFollowUser = async (clientId) => {
 
     try {
 
-        const response = await api.post(`/clients/${clientId}/follow/`, {
+        await api.post(`/clients/${clientId}/follow/`, {
 
             withCredentials: true, // pour envoyer les cookies de session
 
@@ -120,19 +120,19 @@ export const recordFollowUser = async (clientId) => {
             },
         });
 
-        console.log('Vue enregistrée :', response.data || response.data?.message || 'Succès');
+        //console.log('Vue enregistrée :', response.data || response.data?.message || 'Succès');
 
     } catch (error) {
 
-        const message =
+        //const message =
 
-            error.response?.data?.error ||
+        //    error.response?.data?.error ||
 
-            error.message ||
+        //    error.message ||
 
-            'Erreur inconnue';
+        //    'Erreur inconnue';
 
-        console.error('Erreur lors de l’enregistrement de la vue :', message);
+    //    console.error('Erreur lors de l’enregistrement de la vue :', message);
     }
 };
 
@@ -141,7 +141,7 @@ export const recordUnfollowUser = async (clientId) => {
 
     try {
 
-        const response = await api.post(`/clients/${clientId}/unfollow/`, {
+        await api.post(`/clients/${clientId}/unfollow/`, {
 
             withCredentials: true, // pour envoyer les cookies de session
 
@@ -151,7 +151,7 @@ export const recordUnfollowUser = async (clientId) => {
             },
         });
 
-        console.log('Vue enregistrée :', response.data || response.data?.message || 'Succès');
+        //console.log('Vue enregistrée :', response.data || response.data?.message || 'Succès');
 
     } catch (error) {
 

@@ -62,69 +62,102 @@ function getCookie(name) {
 }
 
 export function LoginWithGoogle() {
+
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleLogin = async (credentialResponse) => {
+
         const csrfToken = getCookie('csrftoken');
+
         setLoading(true);
 
         try {
-            const res = await api.post("auth/google-login/", {
-                access_token: credentialResponse.credential,
-            }, {
-                headers: {
-                    "X-CSRFToken": csrfToken
+
+            const res = await api.post("auth/google-login/",
+
+                {
+
+                    access_token: credentialResponse.credential,
+
                 },
-                withCredentials: true // 🔒 Cookies HttpOnly
-            });
+                {
+                    headers: {
+
+                        "X-CSRFToken": csrfToken
+                    },
+
+                    withCredentials: true // 🔒 Cookies HttpOnly
+                }
+            );
+
+            console.log("user data", res?.data)
 
             // ✅ Utilisateur authentifié : le token est dans les cookies, inutile de le stocker
             dispatch(updateCompteUser(res?.data?.compte))
+
             dispatch(updateUserData(res?.data));
+
             dispatch(login(res.data?.user)); // user info uniquement
+
             dispatch(setCurrentNav("account_home"));
 
             navigate("/account_home", { replace: true });
 
 
         } catch (err) {
-            console.error("Google login error:", err);
-            showMessage(dispatch, {
-                Type: "Erreur",
-                Message: `Hops!!!... ${err?.message || err?.response?.data?.detail || "Échec de la connexion"}`
-            });
+
+            showMessage(
+
+                dispatch,
+
+                {
+
+                    Type: "Erreur",
+
+                    Message: `${err?.message || err?.response?.data?.detail || err?.response?.data?.detail?.error}`
+                }
+            );
+
         } finally {
+
             setLoading(false);
         }
     };
 
     return (
         <>
-            {!loading ? (
-                <GoogleLogin
-                    onSuccess={handleLogin}
-                    onError={() => {
-                        showMessage(dispatch, {
-                            Type: "Erreur",
-                            Message: "Échec de la connexion avec Google"
-                        });
-                    }}
-                />
-            ) : (
-                <LoadingCard />
-            )}
+            {
+                !loading ? (
+
+                    <GoogleLogin
+                        onSuccess={handleLogin}
+                        onError={() => {
+                            showMessage(dispatch, {
+                                Type: "Erreur",
+                                Message: "Échec de la connexion avec Google"
+                            });
+                        }}
+                    />
+                ) 
+                : 
+                (
+                    <LoadingCard />
+                )
+            }
         </>
     );
 }
 
 // --- Authentification Email / Mot de passe ---
 export const signUpWithEmail = async ({ email, password }) => {
+
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         //console.log("Utilisateur inscrit:", userCredential.user);
         return userCredential.user;
+
     } catch (error) {
         //console.error("Erreur d'inscription:", error.message);
         throw error;
