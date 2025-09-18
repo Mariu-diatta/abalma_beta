@@ -155,9 +155,12 @@ i18n
                  "no_account": "No account"
              },
              "blog": {
-                 title: "Our Blog",
+                 blogName: 'Name',
+                 blogContent: 'Content',
                  error_creating: "Error while creating the blog",
                  blog_created: "Blog successfully created!",
+                 dateBlog: "Date",
+                 title: "Our Blog",
                  cancel: "Cancel",
                  reaMore:'Read more',
                  title_pop:'Title of blog',

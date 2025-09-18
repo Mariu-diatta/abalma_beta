@@ -586,7 +586,7 @@ const ProfileCard = () => {
                                     (
                                         <button
                                             onClick={() => setIsEditing(true)}
-                                            className=" py-1 border border-gray-300 cursor-pointer inline-flex items-center gap-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-sm px-1 sm:px-2  hover:bg-gray-200 dark:hover:bg-gray-600 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors duration-200"
+                                            className=" py-1 border border-gray-300 cursor-pointer inline-flex items-center gap-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-sm px-1 sm:px-2  hover:bg-gray-200 dark:hover:bg-gray-600 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors duration-200 w-2/3 md:w-auto"
                                             aria-label={t('ProfilText.modifierProfil')}
                                             style={{
                                                 backgroundColor: "var(--color-bg)",
@@ -608,7 +608,7 @@ const ProfileCard = () => {
                                                     d="M7 19H5a1 1 0 0 1-1-1v-1a3 3 0 0 1 3-3h1m4-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm7.441 1.559a1.907 1.907 0 0 1 0 2.698l-6.069 6.069L10 19l.674-3.372 6.07-6.07a1.907 1.907 0 0 1 2.697 0Z"
                                                 />
                                             </svg>
-                                            <span>{t('ProfilText.modifierProfil')}</span>
+                                            <span className="whitespace-nowrap px-2">{t('ProfilText.modifierProfil')}</span>
                                         </button>
                                     )
                                 }
@@ -622,9 +622,9 @@ const ProfileCard = () => {
                                             creatNewRoom();
                                             navigate('/message_inbox');
                                         }}
-                                        className="flex items-center gap-1 rounded-full  text-white text-sm px-3 py-1  text-base  text-white transition bg-gradient-to-br from-purple-300 to-blue-300 hover:bg-gradient-to-br hover:from-purple-400"
+                                            className="flex items-center gap-1 rounded-full  text-white text-sm px-3 py-1  text-base  text-white transition bg-gradient-to-br from-purple-300 to-blue-300 hover:bg-gradient-to-br hover:from-purple-400 w-2/3 md:w-auto"
                                     >
-                                        {!messageVisible ? 'Message' : 'X'}
+                                        <span className="whitespace-nowrap px-2">{!messageVisible ? 'Message' : 'X'}</span>
 
                                     </button>
 
@@ -643,7 +643,7 @@ const ProfileCard = () => {
 
                                                 <button
                                                     onClick={(e) => updateAccountToFournisseur(e)}
-                                                    className="flex items-center gap-1 rounded-full bg-indigo-300 text-white text-sm px-3 py-1 hover:bg-indigo-400"
+                                                    className="flex items-center gap-1 rounded-full bg-indigo-300 text-white text-sm px-3 py-1 hover:bg-indigo-400 w-2/3 md:w-auto"
                                                     title="Devenir un fournisseur"
                                                 >
                                                     <svg
@@ -662,7 +662,7 @@ const ProfileCard = () => {
                                                         />
                                                     </svg>
 
-                                                    {t('ProfilText.devenirFournisseur')}
+                                                    <span className="whitespace-nowrap px-2">{t('ProfilText.devenirFournisseur')}</span>
 
                                                 </button>
                                             )}

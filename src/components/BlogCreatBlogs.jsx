@@ -155,7 +155,7 @@ export const ModalFormCreatBlog = () => {
                 
                 <button
                     onClick={(profileData && profileData?.email) ? handleToggleModal:()=>alert("Vous devrez vous connecter avant !!!")}
-                    className="w-full rounded-full flex gap-1 bg-blue-300 text-white text-sm px-3 py-1 hover:bg-blue-700 items-centerbg-gradient-to-br from-purple-300 to-blue-300 bg-gradient-to-br hover:from-purple-400 "
+                    className=" w-2/3 md:w-auto md:w-full rounded-full flex gap-1 bg-blue-300 text-white text-sm px-3 py-1 hover:bg-blue-700 items-centerbg-gradient-to-br from-purple-300 to-blue-300 bg-gradient-to-br hover:from-purple-400 "
                     aria-expanded={isOpen}
                     aria-controls="modal-blog-form"
                 >
@@ -175,7 +175,7 @@ export const ModalFormCreatBlog = () => {
 
                     </svg>
 
-                    <span>{t("blog.blog")}</span>
+                    <span className="whitespace-nowrap px-2">{t("blog.blog")}</span>
 
                 </button>
             }
@@ -292,7 +292,7 @@ export const ModalFormCreatBlog = () => {
                                 <button
                                     type="button"
                                     onClick={handleClose}
-                                    className="px-4 py-2 rounded-md text-sm border bg-red-300 border-gray-300 text-gray-100 hover:bg-red-400 "
+                                    className="px-4 py-2 rounded-md text-sm border bg-red-300 border-gray-300 text-gray-100 hover:bg-red-400"
                                 >
                                     {t("blog.cancel")}
 
