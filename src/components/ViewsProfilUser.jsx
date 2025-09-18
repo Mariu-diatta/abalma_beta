@@ -101,7 +101,7 @@ const FollowProfilUser = ({ clientId }) => {
 
                     <button
 
-                        className={`flex items-center gap-1 rounded-full text-white text-sm px-3 py-1  text-base  text-white transition bg-gradient-to-br from-purple-300 ${isFollow ? "to-blue-300 to-red-300" : ""} hover:bg-gradient-to-br hover:from-purple-400`}
+                        className={`flex items-center gap-1 rounded-full text-white text-sm px-3 py-1  text-base  text-white transition bg-gradient-to-br from-purple-300 w-2/3 md:w-auto ${isFollow ? "to-blue-300 to-red-300" : ""} hover:bg-gradient-to-br hover:from-purple-400`}
 
                         title="unfollow"
 
@@ -111,7 +111,6 @@ const FollowProfilUser = ({ clientId }) => {
                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M6 18 17.94 6M18 18 6.06 6" />
                         </svg>
 
-
                         <span className="ml-2 whitespace-nowrap">{t('followed')}</span>
 
                     </button>
@@ -120,7 +119,7 @@ const FollowProfilUser = ({ clientId }) => {
 
                     <button
                         type="button"
-                        className={`flex items-center gap-1 rounded-full text-white text-sm px-3 py-1  text-base  text-white transition bg-gradient-to-br from-purple-300 ${isFollow ? "to-blue-300 to-red-300" : ""} hover:bg-gradient-to-br hover:from-purple-400`}
+                        className={`flex items-center gap-1 rounded-full text-white text-sm px-3 py-1  text-base  text-white transition bg-gradient-to-br from-purple-300 w-2/3 md:w-auto ${isFollow ? "to-blue-300 to-red-300 " : ""} hover:bg-gradient-to-br hover:from-purple-400`}
                         onClick={handleFollowClick}
                     >
                         <svg
@@ -138,7 +137,9 @@ const FollowProfilUser = ({ clientId }) => {
                                 d="M5 11.917 9.724 16.5 19 7.5"
                             />
                         </svg>
-                        {t('follow')}
+
+                        <span className="ml-2 whitespace-nowrap">{t('follow')}</span>
+
                     </button>
                 )}
             </>
