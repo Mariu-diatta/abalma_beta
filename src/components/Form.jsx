@@ -138,8 +138,11 @@ const RegisterForm = () => {
 
             setLoading(true)
 
-            showMessage(dispatch, { Type: "Erreur", Message: t('user_created') || error?.response ||error?.request?.response });
+            showMessage(dispatch, { Type: "Erreur", Message:  error?.response ||error?.request?.response || "Erreur: user not created" });
 
+        } finally {
+
+            setLoading(false)
         }
 
     };

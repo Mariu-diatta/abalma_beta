@@ -100,17 +100,20 @@ export default function AccountDropdownUserProfil() {
                 dispatch(setCurrentNav("/logIn"))
 
                 return navigate("/logIn", { replace: true });
-            
+
 
 
             } catch (error) {
 
-                showMessage(dispatch, {Type:"Erreur", Message :error?.message || error?.request?.response});
+                showMessage(dispatch, { Type: "Erreur", Message: error?.message || error?.request?.response });
 
             } finally {
 
                 setLoading(false)
             }
+        } else {
+
+            setLoading(false)
         }
     };
 
