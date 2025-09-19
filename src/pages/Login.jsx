@@ -108,7 +108,9 @@ const LogIn = () => {
 
         } catch (error) {
 
-            showMessage(dispatch, { Type: "Erreur", Message: error?.response?.data?.detail  });
+            showMessage(dispatch, { Type: "Erreur", Message: error?.response?.data?.detail || "Error: user not login" });
+
+        } finally {
 
             setLoading(false)
         }
