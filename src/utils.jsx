@@ -315,6 +315,7 @@ export const loginClient = async (data, dispatch, setIsLoading, navigate) => {
 
         if (response?.data) {
 
+            //console.log("les données", response?.data)
 
             dispatch(login(response?.data?.user));
 

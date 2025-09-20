@@ -145,7 +145,7 @@ const ProfileCard = () => {
 
             });
 
-            console.log("update user", updateUser)
+            dispatch(updateUserData(updateUser?.data?.data))
 
             setIsEditing(false);
 

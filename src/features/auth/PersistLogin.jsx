@@ -43,7 +43,7 @@ const PersistLogIn = () => {
 
                     navigate("/account_home", { replace: true });
 
-                    if (getRefreshToken?.data?.user) dispatch(login(getRefreshToken?.data?.user))
+                    //if (getRefreshToken?.data?.user) dispatch(login(getRefreshToken?.data?.user))
                 }
                 
             } catch (error) {
