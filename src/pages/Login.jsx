@@ -106,9 +106,9 @@ const LogIn = () => {
 
             await loginClient(formData, dispatch, setLoading, navigate);
 
-        } catch (error) {
+        } catch (e) {
 
-            showMessage(dispatch, { Type: "Erreur", Message: error?.response?.data?.detail || "Error: user not login" });
+            showMessage(dispatch, { Type: "Erreur", Message: e?.response?.data?.detail || e?.response?.data?.error || "Error not found: user not login" });
 
         } finally {
 

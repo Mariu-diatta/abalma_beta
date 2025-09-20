@@ -92,7 +92,7 @@ export function LoginWithGoogle() {
                 }
             );
 
-            //console.log("user data", res?.data)
+            console.log("user data", res?.data)
 
             // ✅ Utilisateur authentifié : le token est dans les cookies, inutile de le stocker
             dispatch(updateCompteUser(res?.data?.compte))
@@ -107,6 +107,8 @@ export function LoginWithGoogle() {
 
 
         } catch (err) {
+
+            console.log("Erreur", err)
 
             showMessage(
 

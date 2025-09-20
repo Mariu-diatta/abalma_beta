@@ -1,14 +1,17 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { logout } from "../slices/authSlice";
 import { useTranslation } from 'react-i18next';
 import api from "../services/Axios";
+import LoadingCard from "./LoardingSpin";
 
 
 const DeleteProfilAccount = () => {
 
     const { t } = useTranslation();
+
+    const [loading, setLoading]=useState(false)
 
     const selectedProductOwner = useSelector((state) => state.chat.userSlected);
     const profileData = useSelector((state) => state.auth.user);
@@ -32,9 +35,13 @@ const DeleteProfilAccount = () => {
     // Suppression du compte
     const delAccountUser = async () => {
 
+
         try {
 
+
             if (window.confirm('Voulez-vous vraiment supprimer ce profil ?')) {
+
+                setLoading(true)
 
                 await api.delete(`clients/${userProfile?.id}/`);
 
@@ -48,15 +55,26 @@ const DeleteProfilAccount = () => {
         } catch (err) {
 
             console.error('Erreur de la suppression du compte', err);
+
+        } finally {
+
+            setLoading(false)
         }
     };
 
     const isCurrentUser = useMemo(() => userProfile?.email === profileData?.email, [userProfile, profileData]);
 
+ 
+    if (!isCurrentUser) return
+
     return (
+
          <>
+     
             {
-                isCurrentUser &&
+                loading ?
+                <LoadingCard/>
+                :
                 <button
 
                     onClick={delAccountUser}
@@ -76,6 +94,7 @@ const DeleteProfilAccount = () => {
 
                 </button>
             }
+
          </>
     )
 

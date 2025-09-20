@@ -160,6 +160,7 @@ i18n
                  error_creating: "Error while creating the blog",
                  blog_created: "Blog successfully created!",
                  dateBlog: "Date",
+                 myBlogs: 'My blogs',
                  title: "Our Blog",
                  cancel: "Cancel",
                  reaMore:'Read more',

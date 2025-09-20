@@ -63,7 +63,9 @@ const ProfileCard = () => {
 
     // Sync form data with user profile
     useEffect(() => {
+
         if (userProfile) {
+
             setFormData({
                 nom: userProfile.nom || '',
                 prenom: userProfile.prenom || '',
@@ -72,7 +74,9 @@ const ProfileCard = () => {
                 telephone: userProfile.telephone || '',
                 description: userProfile.description || '',
             });
+
             setPreviewUrl(userProfile.image || null);
+
             setPreviewUrlBackground(userProfile.image_cover || null);
         }
     }, [userProfile]);
@@ -169,7 +173,9 @@ const ProfileCard = () => {
 
             return;
         }
+
         setSedingProofDoc(true)
+
         try {
 
             const formData = new FormData();
@@ -427,7 +433,7 @@ const ProfileCard = () => {
 
                                     <h1 className="text-xl sm:text-2xl font-semibold">{formData?.prenom}</h1>
 
-                                    {userProfile?.is_pro && userProfile?.doc_proof && (
+                                    {userProfile?.is_pro && (
                                         <svg
                                             className="w-5 h-5 text-blue-900 dark:text-white"
                                             aria-hidden="true"
@@ -608,7 +614,9 @@ const ProfileCard = () => {
                                                     d="M7 19H5a1 1 0 0 1-1-1v-1a3 3 0 0 1 3-3h1m4-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm7.441 1.559a1.907 1.907 0 0 1 0 2.698l-6.069 6.069L10 19l.674-3.372 6.07-6.07a1.907 1.907 0 0 1 2.697 0Z"
                                                 />
                                             </svg>
+
                                             <span className="whitespace-nowrap px-2">{t('ProfilText.modifierProfil')}</span>
+
                                         </button>
                                     )
                                 }
@@ -685,7 +693,7 @@ const ProfileCard = () => {
 
                             onSubmit={handleUpgradeToPro}
 
-                            className="overflow-x-auto mt-6 w-auto flex flex-col items-center gap-4 p-1 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-lg"
+                            className="verflow-x-auto mt-6 w-auto flex flex-col items-center gap-4 p-1 rounded-lg shadow-lg"
                         >
                             <label className="text-sm">{t('hintProofDoc')}</label>
 
@@ -753,7 +761,9 @@ const ProfileCard = () => {
             <AttentionAlertMesage/>
 
             {
-                profileData?.is_fournisseur && !profileData?.is_verified && (
+                (profileData?.is_fournisseur && !profileData?.is_verified) &&
+
+                (
 
                     <GetValidateUserFournisseur isCurrentUser={isCurrentUser} />
                 )
