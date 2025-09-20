@@ -12,7 +12,6 @@ const FormLayout = ({ children }) => {
 
             <section className="bg-gray-1 py-20 dark:bg-dark lg:py-[120px] bg_home px-2">
 
-                <AttentionAlertMessage/>
 
                 <div className="container mx-auto">
 
@@ -45,6 +44,8 @@ const FormLayout = ({ children }) => {
                 <Outlet/>
 
             </section>
+
+            <AttentionAlertMessage />
 
         </HomeLayout>
     )

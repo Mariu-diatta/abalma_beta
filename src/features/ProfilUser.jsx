@@ -139,12 +139,13 @@ const ProfileCard = () => {
 
             if (updateImageCover) fd.append('image_cover', updateImageCover);
 
-             await api.put(`clients/${userProfile?.id}/`, fd, {
+            const updateUser= await api.put(`clients/${userProfile?.id}/`, fd, {
 
                 headers: { 'Content-Type': 'multipart/form-data' },
 
             });
 
+            console.log("update user", updateUser)
 
             setIsEditing(false);
 
@@ -154,7 +155,7 @@ const ProfileCard = () => {
 
             console.error('❌ Erreur mise à jour :', error);
 
-            alert('Erreur lors de la mise à jour du profil.');
+            showMessage(dispatch, { Type: "Erreur", Message: error?.response?.data?.errors?.image_cover?.[0]});
 
         } finally {
 

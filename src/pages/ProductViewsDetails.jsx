@@ -278,6 +278,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                                                     strokeLinejoin="round"
                                                     d="M6 18L18 6M6 6l12 12"
                                                 />
+
                                             </svg>
 
                                         </button>

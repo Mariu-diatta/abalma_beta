@@ -19,9 +19,10 @@ const AttentionAlertMessage = () => {
 
         const timeout = setTimeout(() => {
 
+            dispatch(clearMessage());
+
             setShow(false);
 
-            dispatch(clearMessage());
 
         }, 5000);
 
@@ -30,10 +31,13 @@ const AttentionAlertMessage = () => {
     }, [dispatch, messageAlert]);
 
 
-    if (!show) return ;
-
     return (
-        <div className="fixed top-8 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg p-4 md:py-6 shadow-md bg-white dark:bg-dark-2 text-sm sm:text-base z-80 max-w-xl w-auto bg-transparent shadow-lg backdrop-blur-md flex">
+        <div
+            className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
+                        rounded-lg p-4 md:py-6 shadow-md 
+                        bg-white dark:bg-dark-2 text-sm sm:text-base z-80 
+                        max-w-xl w-auto bg-transparent shadow-lg backdrop-blur-md flex w-full ${!show?"hidden":""}`}
+        >
 
             {/* Barre animée à gauche */}
             <div className="absolute top-0 left-0 h-full w-[6px] overflow-hidden rounded-l-lg">
