@@ -19,9 +19,9 @@ const getLogoTitlOperation = (t, prod) => {
 
     return (
         [
-            { logo: express_delivery, title: t('delivery') , do:prod?.delivery},
-            { logo: home_5657414, title: t('adress'), do: prod?.adress},
-            { logo: pay_8331969, title: t('paymentMethod'), do: prod?.paymentMethod }
+            { logo: express_delivery, title: t('delivery'), do: (prod?.delivery).toLowerCase()},
+            { logo: home_5657414, title: t('adress'), do: (prod?.adress).toLowerCase() },
+            { logo: pay_8331969, title: t('paymentMethod'), do: (prod?.paymentMethod).toLowerCase() }
 
         ]
     )
@@ -211,23 +211,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                                             </button>
                                         }
 
-                                        <WalletModal>
-
-                                            <button
-
-                                                title="Payer"
-
-                                                className="rounded-full flex items-center justify-center p-3  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
-
-                                                aria-label="Payer"
-                                            >
-                                                <svg style={{ color: "black" }}  className="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                    <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="M8 7V6a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-1M3 18v-7a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Zm8-3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
-                                                </svg>
-
-                                            </button>
-
-                                        </WalletModal>
+                                        <WalletModal/>
 
                                         {
                                             isCurrentUser &&

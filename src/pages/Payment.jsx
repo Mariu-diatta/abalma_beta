@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 //import DatePickerWithFullWidthButtons from '../components/Date';
 //import InputBox from '../components/InputBoxFloat';
 import PaymentCard from '../components/PaymentTools';
@@ -10,7 +10,14 @@ import { addMessageNotif } from '../slices/chatSlice';
 import LoadingCard from '../components/LoardingSpin';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
-const Payment = ({totalPrice}) => {
+const Payment = ({ totalPrice }) => {
+
+    const currentUser = useSelector(state => state.auth.user);
+
+    if (!currentUser && !currentUser?.is_connected) {
+
+        return
+    }
 
     return (
 
@@ -111,6 +118,13 @@ export const PaymentForm = () => {
         alert('Payment processed (simulation)');
         // Ici, tu peux appeler une API de paiement comme Stripe.
     };
+
+
+    if (!currentUser && !currentUser?.is_connected) {
+
+        return
+    }
+
 
     return (
 
@@ -240,6 +254,14 @@ export function PaymentAppPayPal({ amount }) {
         }
 
     }
+
+
+
+    if (!currentUser && !currentUser?.is_connected) {
+
+        return
+    }
+
 
     return (
 

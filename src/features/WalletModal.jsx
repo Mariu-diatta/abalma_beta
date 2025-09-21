@@ -32,11 +32,14 @@ const CloseIcon = () => (
     </svg>
 );
 
-const WalletModal = ({ Connectwallet }) => {
+const WalletModal = () => {
 
     const [isOpen, setIsOpen] = useState(false);
 
     const currentSelectedProductView = useSelector(state => state.cart.selectedProductView)
+
+    const currentUser = useSelector(state => state.auth.user)
+
 
     const { t } = useTranslation();
 
@@ -63,6 +66,7 @@ const WalletModal = ({ Connectwallet }) => {
 
     }, [isOpen]);
 
+    if (!currentUser && !currentUser?.is_connected) return
 
     return (
         <>
@@ -84,8 +88,6 @@ const WalletModal = ({ Connectwallet }) => {
                     <path stroke="currentColor" strokeLinecap="round" strokeWidth="1" d="M8 7V6a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-1M3 18v-7a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Zm8-3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
                 </svg>
 
-                {Connectwallet}
-
             </button>
 
             {isOpen && (
@@ -94,7 +96,7 @@ const WalletModal = ({ Connectwallet }) => {
                     id="wallet-modal"
                     role="dialog"
                     aria-modal="true"
-                    className="backdrop-blur-sm fixed inset-0 z-50 flex items-center justify-center bg-gray bg-opacity-50"
+                    className="backdrop-blur-sm fixed inset-0 z-50 flex items-center justify-center bg-gray bg-opacity-50 overflow-y-auto pt-[50px]"
                     onClick={toggleModal}
 
                 >

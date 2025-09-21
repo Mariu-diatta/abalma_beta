@@ -88,6 +88,8 @@ const FollowProfilUser = ({ clientId }) => {
 
     const isFollow = (!hasJustUnFollowed && (hasJustFollowed || followStatus?.is_following))
 
+    if (!currentUser || !currentUser?.is_connected) return
+
     return (
 
       <>
