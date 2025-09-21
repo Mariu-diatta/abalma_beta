@@ -232,7 +232,7 @@ const RegisterForm = () => {
                             placeholder="Mot de passe"
                             value={form.password}
                             onChange={handleChange}
-                            autocomplete="new-password"
+                            autoComplete="new-password"
                         />
 
                         <InputBox

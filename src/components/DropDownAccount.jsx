@@ -168,12 +168,12 @@ export default function AccountDropdownUserProfil() {
 
             >
                 {
-                    currentUser?.image ? (
+                    currentUser?.image || currentUser?.photo_url? (
 
                         <div className="flex items-center relative h-[30px] w-[30px] rounded-full gap-0">
 
                             <img
-                                src={currentUser?.image}
+                                src={currentUser?.image || currentUser?.photo_url}
                                 alt="avatar"
                                 title={currentUser?.email}
                                 className="h-6 w-6 rounded-full object-cover object-center cursor-pointer items-center "
