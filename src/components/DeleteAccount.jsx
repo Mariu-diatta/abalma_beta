@@ -44,7 +44,11 @@ const DeleteProfilAccount = () => {
 
                 setLoading(true)
 
-                const deleteResp = await api.delete(`clients/${userProfile?.id}/`);
+                const deleteResp = await api.delete(`clients/${userProfile?.id}/`,
+
+                    {
+                        withcredentials: true
+                    } );
 
                 console.log("Response suppression", deleteResp?.data)
 

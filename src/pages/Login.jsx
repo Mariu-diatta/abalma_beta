@@ -192,9 +192,9 @@ const LogIn = () => {
                 {t('connect_with')}
             </p>
 
-            <ul className="flex flex-wrap justify-between items-center sm:justify-center lg:flex-nowrap -mx-2 mb-12 gap-6 ">
+            <ul className="flex flex-wrap justify-between items-center sm:justify-center lg:flex-nowrap -mx-2 mb-12 w-full">
 
-                <li className="w-full px-2 ">
+                <li className="w-full">
 
                     <GoogleOAuthProvider clientId="154955455828-340tuohbjc1c4imb29uqi4hr9l5dm0sv.apps.googleusercontent.com">
 

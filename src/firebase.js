@@ -90,7 +90,7 @@ export function LoginWithGoogle() {
 
                     timeout: 10000,
 
-                    withCredentials: false // 🔒 Cookies HttpOnly
+                    withCredentials: true // 🔒 Cookies HttpOnly
                 }
             );
 

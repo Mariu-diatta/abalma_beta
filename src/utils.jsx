@@ -309,7 +309,7 @@ export const loginClient = async (data, dispatch, setIsLoading, navigate) => {
                 'Content-Type': 'multipart/form-data',
             },
 
-            withcredentials:false   
+            withcredentials:true  
         });
 
 
