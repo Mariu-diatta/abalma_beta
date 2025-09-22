@@ -66,12 +66,17 @@ const GetValidateUserFournisseur = ({ isCurrentUser }) => {
 
                 dispatch(updateUserData(updateUser))
 
+                showMessage(dispatch, { Type: "Success", Message: response?.data?.exists });
+
+
                 setVerified(true)
             }
 
         } catch (e) {
 
-            showMessage(dispatch, { Type: "Erreur", Message: e?.response?.data?.detail ||  e?.response || e?.request?.response|| e});
+            const errorMessage = e?.response?.data?.detail || e?.response || e?.request?.response || e
+
+            showMessage(dispatch, { Type: "Erreur", Message: errorMessage });
 
         } finally {
 

@@ -225,7 +225,7 @@ const ProfileCard = () => {
 
                 dispatch(updateUserData(fournisseurResp?.data?.user));
 
-                showMessage(dispatch, { Type: "Message", Message: "Success" });
+                showMessage(dispatch, { Type: "Message", Message: `Success : ${fournisseurResp?.data?.detail}` });
 
             } catch (err) {
 
