@@ -419,6 +419,8 @@ export const CreateClient = async (data, setLoading, showMessage, dispatch) => {
                 Accept: 'application/json',
             },
             timeout: 10000,
+
+            withCredentials: false
         });
 
         showMessage(dispatch, { Type: 'Message', Message: 'Compte créé avec succès.' });
