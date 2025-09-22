@@ -88,11 +88,13 @@ export function LoginWithGoogle() {
                         "X-CSRFToken": csrfToken
                     },
 
-                    withCredentials: true // 🔒 Cookies HttpOnly
+                    timeout: 10000,
+
+                    withCredentials: false // 🔒 Cookies HttpOnly
                 }
             );
 
-            console.log("user data", res?.data)
+            //console.log("user data", res?.data)
 
             // ✅ Utilisateur authentifié : le token est dans les cookies, inutile de le stocker
             dispatch(updateCompteUser(res?.data?.compte))

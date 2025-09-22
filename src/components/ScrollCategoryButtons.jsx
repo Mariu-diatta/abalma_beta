@@ -126,7 +126,17 @@ const ScrollableCategoryButtons = ({
         <>
             <ProductSpecifiViews products={products} openModal={openModal} owners={owners} btnId={btnId} panelRef={panelRef}/>
 
-            <div className="relative w-full mb-4 sticky top-[50px] z-[7] ">
+            <div
+
+                className="relative w-full mb-4 sticky top-[50px] z-[7] bg-white"
+
+                style={{
+
+                    backgroundColor: "var(--color-bg)",
+
+                    color: "var(--color-text)"
+                }}
+            >
 
                 {
                     showLeft && (

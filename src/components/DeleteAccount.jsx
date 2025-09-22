@@ -5,6 +5,7 @@ import { logout } from "../slices/authSlice";
 import { useTranslation } from 'react-i18next';
 import api from "../services/Axios";
 import LoadingCard from "./LoardingSpin";
+import { setCurrentNav } from "../slices/navigateSlice";
 
 
 const DeleteProfilAccount = () => {
@@ -43,13 +44,17 @@ const DeleteProfilAccount = () => {
 
                 setLoading(true)
 
-                await api.delete(`clients/${userProfile?.id}/`);
+                const deleteResp = await api.delete(`clients/${userProfile?.id}/`);
+
+                console.log("Response suppression", deleteResp?.data)
 
                 alert('Votre compte a été supprimé avec succès');
 
                 dispatch(logout());
 
-                navigate('/logIn', { replace: true });
+                dispatch(setCurrentNav("home"));
+
+                navigate('/', { replace: true });
             }
 
         } catch (err) {

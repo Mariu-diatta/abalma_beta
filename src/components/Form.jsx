@@ -17,7 +17,7 @@ const CreateClient = async (data, func, funcRetournMessage, dispatch) => {
 
     try {
 
-        const result= await api.post('clients/', data,
+        const result = await api.post('clients/', data,
             {
 
                 headers: {
@@ -28,6 +28,8 @@ const CreateClient = async (data, func, funcRetournMessage, dispatch) => {
              },
 
             timeout: 10000, // facultatif : délai d'attente en ms
+
+            withCredentials: false,
         })
 
         func(true)
@@ -40,7 +42,12 @@ const CreateClient = async (data, func, funcRetournMessage, dispatch) => {
 
         func(false)
 
-        funcRetournMessage(dispatch, {Type:"Erreur", Message:`Erreur lors de la création du compte ${error?.response?.data?.email[0] || error?.response?.data?.telephone[0]}`})
+        console.log("Erreur de l'inscription", error)
+
+        funcRetournMessage(dispatch, {
+            Type: "Erreur",
+            Message: error?.response?.data?.email[0] || error?.response?.data?.telephone || error?.response?.data?.detail
+        })
     }
 }
 
@@ -66,6 +73,7 @@ const RegisterForm = () => {
         "prenom": "",
         "nom": "",
         "image": null,
+        "photo_url":null,
         "telephone": "",
         "description": "",
         "adresse": "",
@@ -110,6 +118,7 @@ const RegisterForm = () => {
                 prenom: form.prenom,
                 nom: form.nom,
                 image: null,
+                photo_url:null,
                 telephone: form.telephone,
                 description: "",
                 adresse: "",
@@ -138,7 +147,11 @@ const RegisterForm = () => {
 
             setLoading(true)
 
-            showMessage(dispatch, { Type: "Erreur", Message:  error?.response ||error?.request?.response || "Erreur: user not created" });
+            console.log("Erreur lors de l'inscription de l'utilisateur", error)
+
+            showMessage(dispatch, {
+                Type: "Erreur", Message: error?.response || error?.request?.response || error?.request?.response?.data || error?.request?.response?.data?.detail
+            });
 
         } finally {
 
@@ -241,6 +254,8 @@ const RegisterForm = () => {
                             placeholder={t('form.confirmPassword')}
                             value={form.confirmPassword}
                             onChange={handleChange}
+                            autoComplete="new-password"
+
                         />
 
                        <div className="mb-10">

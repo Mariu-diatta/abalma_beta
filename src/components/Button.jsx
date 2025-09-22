@@ -75,7 +75,11 @@ export const ButtonNavigate = ({ tabs }) => {
                 <li key={tab.id} className="w-full sm:w-auto gap-6 px-1 ">
 
                     {
-                        !(((tab.label === "About") || (removeAccents(tab.label) === removeAccents(t('about'))) || (tab.label === "Blogs")) && ((currentNav === "/logIn") || (currentNav === "/Register") || (currentNav === "/register"))) &&
+                        !((
+                            (tab.label === "About") ||
+                            (removeAccents(tab.label) === removeAccents(t('about'))) ||
+                            (tab.label === "Blogs")) && ((currentNav === "/logIn") ||
+                            (currentNav === "/Register") || (currentNav === "/register"))) &&
 
                         <NavLink
 

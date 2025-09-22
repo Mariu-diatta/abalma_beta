@@ -146,8 +146,6 @@ const LayoutPwdForget = () => {
     return (
          <FormLayout>
 
-            <AttentionAlertMessage />
-
                 <TitleCompGen title={t('forgetPswd.title')} />
 
                 <StepIndicator />

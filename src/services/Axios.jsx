@@ -60,7 +60,7 @@ api.interceptors.response.use(
 
             try {
                 // On laisse le serveur décider si le refresh cookie est valide
-                await api.post('/refresh/');
+                //await api.post('/refresh/');
 
                 // ✅ Nouvelle tentative
                 return api(originalRequest);

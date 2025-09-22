@@ -637,7 +637,7 @@ i18n
                 delete: 'Supprimer',
                 description:"Description de ton blog",
                 description_placeholder:"description",
-                submit: 'Soumettret',
+                submit: 'Soumettre',
                 maint_text_content: "Créer un petit blog est sans doute l’un des moyens les plus efficaces pour vous faire connaître et présenter vos activités aux utilisateurs d’Abalma."
             },
             "buy": "Acheter",
