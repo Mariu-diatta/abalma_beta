@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import InputBox from "../components/InputBoxFloat";
 import api from "../services/Axios";
 import { useParams } from "react-router-dom";
-import AttentionAlertMessage, { showMessage } from "../components/AlertMessage";
+import { showMessage } from "../components/AlertMessage";
 import { useDispatch} from "react-redux";
 import { ButtonSimple } from "../components/Button";
 import FormLayout from "../layouts/FormLayout";
