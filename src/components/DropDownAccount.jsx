@@ -119,7 +119,9 @@ export default function AccountDropdownUserProfil() {
 
     return (
 
-        <section className="flex items-center justify-center px-2  bg-transparent rounded-lg absolute top-0 bg-gray-2 dark:bg-dark z-[10] mb-6 fixed">
+        <section
+            style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
+            className="flex items-center justify-center px-2  bg-transparent rounded-lg absolute top-0 bg-gray-2 dark:bg-dark z-[10] mb-6 fixed bg-white">
 
             <AttentionAlertMessage/>
 

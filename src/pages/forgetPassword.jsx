@@ -22,7 +22,6 @@ const LayoutPwdForget = () => {
     // Étape 1 : Demande de lien de réinitialisation
     const handleRequestCode = async () => {
 
-        showMessage(dispatch, null)
 
         if (!email) {
 
@@ -150,7 +149,6 @@ const LayoutPwdForget = () => {
 
                 <StepIndicator />
 
-                <AttentionAlertMessage/>
      
                 {step === 1 && (
                     <form onSubmit={(e) => { e.preventDefault(); handleRequestCode(); }}>

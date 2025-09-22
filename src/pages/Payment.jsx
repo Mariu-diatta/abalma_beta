@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 //import DatePickerWithFullWidthButtons from '../components/Date';
 //import InputBox from '../components/InputBoxFloat';
 import PaymentCard from '../components/PaymentTools';

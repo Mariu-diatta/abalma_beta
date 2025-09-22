@@ -462,7 +462,8 @@ const NavbarHeader = () => {
 
                             {/* Boutons et Dropdown (Mobile) */}
                             <div
-                                className="text-sm absolute top-4 flex flex-col items-start justify-start gap-3 p-1 sm:hidden shadow-lg w-full py-5 bg-none "
+                                style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
+                                className="text-sm absolute top-4 flex flex-col items-start justify-start gap-3 p-1 sm:hidden shadow-lg w-full py-5 bg-white "
                             >
                                 <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
 
@@ -477,8 +478,8 @@ const NavbarHeader = () => {
                         {/* Boutons et Dropdown (Desktop) */}
 
                         <div
-
-                            className="hidden sm:flex items-center justify-center gap-3 w-auto"
+                            style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
+                            className="hidden sm:flex items-center justify-center gap-3 w-auto bg-white"
                         >
                             {
                                 currentNav === "home" &&

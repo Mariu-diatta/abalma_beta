@@ -46,7 +46,7 @@ const CreateClient = async (data, func, funcRetournMessage, dispatch) => {
 
         funcRetournMessage(dispatch, {
             Type: "Erreur",
-            Message: error?.response?.data?.email[0] || error?.response?.data?.telephone || error?.response?.data?.detail
+            Message: error?.response?.data?.telephone?.[0] || error?.response?.data?.detail || error?.response?.data?.email[0] || error?.response?.data?.telephone?.[0] 
         })
     }
 }

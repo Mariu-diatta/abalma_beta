@@ -148,7 +148,6 @@ const LogIn = () => {
                             onChange={(e) => setPwd(e.target.value)}
                             placeholder={t('form.password')}
                             ref={emailRef}
-                            autoComplete="current-password"
                             required
                         />
 
