@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import InputBox from './InputBoxFloat';
 import { useTranslation } from 'react-i18next';
-import api from '../services/Axios';
 import LoadingCard from './LoardingSpin';
 import { useDispatch, useSelector} from 'react-redux';
 import  { showMessage } from './AlertMessage';
@@ -11,45 +10,8 @@ import { setCurrentNav } from '../slices/navigateSlice';
 import { ButtonSimple } from './Button';
 import FormLayout from '../layouts/FormLayout';
 import TitleCompGen from './TitleComponentGen';
+import { CreateClient } from '../utils';
 
-
-const CreateClient = async (data, func, funcRetournMessage, dispatch) => {
-
-    try {
-
-        const result = await api.post('clients/', data,
-            {
-
-                headers: {
-
-                    'Content-Type': 'application/json',
-
-                Accept: 'application/json',
-             },
-
-            timeout: 10000, // facultatif : délai d'attente en ms
-
-            withCredentials: false,
-        })
-
-        func(true)
-
-        funcRetournMessage(dispatch,{Type:'Message', Message:"Reussi"})
-
-        return result
-
-    } catch (error) {
-
-        func(false)
-
-        console.log("Erreur de l'inscription", error)
-
-        funcRetournMessage(dispatch, {
-            Type: "Erreur",
-            Message: error?.response?.data?.telephone?.[0] || error?.response?.data?.detail || error?.response?.data?.email[0] || error?.response?.data?.telephone?.[0] 
-        })
-    }
-}
 
 const RegisterForm = () => {
 
@@ -92,73 +54,35 @@ const RegisterForm = () => {
     };
 
     const handleSignUp = async (e) => {
-
         e.preventDefault();
 
         if (!form.email || !form.password || !form.confirmPassword) {
-
-            return showMessage(dispatch, {Type:"Erreur", Message:"Tous les champs requis doivent être remplis."})
-
+            return showMessage(dispatch, { Type: "Erreur", Message: "Tous les champs requis doivent être remplis." });
         }
 
         if (form.password !== form.confirmPassword) {
-
             return showMessage(dispatch, { Type: "Erreur", Message: "Les mots de passe ne correspondent pas." });
         }
 
-        setLoading(true)
+        setLoading(true);
 
-        try {
+        const userData = {
+            password: form.password,
+            email: form.email,
+            prenom: form.prenom,
+            nom: form.nom,
+            telephone: form.telephone,
+            adresse: form.adresse,
+            is_active: true,
+        };
 
-            const userData = {
-                password: form.password,
-                last_login: null,
-                is_superuser: false,
-                email: form.email,
-                prenom: form.prenom,
-                nom: form.nom,
-                image: null,
-                photo_url:null,
-                telephone: form.telephone,
-                description: "",
-                adresse: "",
-                is_connected: false,
-                is_active: true,
-                is_staff: false,
-                is_pro: false,
-                is_verified: false,
-                groups: [],
-                user_permissions: []
-            };
+        const response = await CreateClient(userData, setLoading, showMessage, dispatch);
 
-            const response = await CreateClient(userData, setLoading, showMessage, dispatch);
-
-            if (response) {
-
-                showMessage(dispatch, { Type: "Message", Message: t('user_created')});
-
-                setLoading(false)
-
-                navigate("/login", { replace: true });
-
-            }
-            
-        } catch (error) {
-
-            setLoading(true)
-
-            console.log("Erreur lors de l'inscription de l'utilisateur", error)
-
-            showMessage(dispatch, {
-                Type: "Erreur", Message: error?.response || error?.request?.response || error?.request?.response?.data || error?.request?.response?.data?.detail
-            });
-
-        } finally {
-
-            setLoading(false)
+        if (response) {
+            navigate("/login", { replace: true });
         }
-
     };
+
 
 
     useEffect(() => {

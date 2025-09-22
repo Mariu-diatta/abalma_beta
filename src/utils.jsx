@@ -410,6 +410,35 @@ export const ThemeSelector = ({ value, onChange, t }) => (
     </div>
 );
 
+//création d'un client
+export const CreateClient = async (data, setLoading, showMessage, dispatch) => {
+    try {
+        const response = await api.post('clients/', data, {
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+            timeout: 10000,
+        });
+
+        showMessage(dispatch, { Type: 'Message', Message: 'Compte créé avec succès.' });
+        return response;
+    } catch (error) {
+        console.error("Erreur de création de client :", error);
+
+        const errorMessage =
+            error?.response?.data?.telephone?.[0] ||
+            error?.response?.data?.email?.[0] ||
+            error?.response?.data?.detail ||
+            "Une erreur est survenue. Veuillez réessayer.";
+
+        showMessage(dispatch, { Type: "Erreur", Message: errorMessage });
+        return null;
+    } finally {
+        setLoading(false);
+    }
+};
+
 //notification des message
 export const NotificationToggle = ({ checked, onChange, t }) => (
 
