@@ -22,6 +22,12 @@ i18n
      en: {
 
         translation: {
+
+             password: {
+                 initPswd: "Password reset.",
+                 initSucces: "Password reset successfully.",
+                 linkSend: "Reset email sent to:"
+             },
              "doPaimenent": "Make your payment",
              "choosePaiementMode": "Choose a payment method.",
              message: {
@@ -485,6 +491,12 @@ i18n
      fr: {
 
          translation: {
+
+             password: {
+                 initPswd: "Mot de passe réinitialisé.",
+                 initSucces: "Mot de passe réinitialisé avec succès.",
+                 linkSend: "Email de reset envoyé à:"
+             },
              doPaimenent: "Faire votre Paiement",
              choosePaiementMode:"Choisir un mode de paiement.",
              message: {

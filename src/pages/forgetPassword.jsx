@@ -34,7 +34,7 @@ const LayoutPwdForget = () => {
 
             await api.post("/forget_password/request/", { email });
 
-            showMessage(dispatch, { Type: "Message", Message: "Email de reset envoyé à :", email });
+            showMessage(dispatch, { Type: "Message", Message: `${t('password.linkSend')} : ${email}` });
 
             setStep(2);
 
@@ -49,7 +49,6 @@ const LayoutPwdForget = () => {
     // Étape 2 : Réinitialisation du mot de passe
     const handleResetPassword = async () => {
 
-        showMessage(dispatch, null)
 
         if (!newPassword) {
 
@@ -72,13 +71,13 @@ const LayoutPwdForget = () => {
                 password: newPassword
             });
 
-            showMessage(dispatch, { Type: "Message", Messgae: "Mot de passe réinitialisé." })
+            showMessage(dispatch, { Type: "Message", Messgae: t('password.initPswd') })
 
             setStep(3);
 
         } catch (err) {
 
-            showMessage(dispatch, { Type: "Message", Messgae:err?.response || t("form.resetError") })
+            showMessage(dispatch, { Type: "Erreur", Messgae:err?.response || t("form.resetError") })
 
         }
     };
@@ -87,6 +86,8 @@ const LayoutPwdForget = () => {
     useEffect(() => {
 
         if (step === 3) {
+
+            showMessage(dispatch, { Type: "Message", Messgae: t('password.initSucces') })
 
             const timer = setInterval(() => {
 
@@ -106,7 +107,7 @@ const LayoutPwdForget = () => {
             return () => clearInterval(timer);
         }
 
-    }, [step]);
+    }, [step, dispatch, t]);
 
     const StepIndicator = () => (
 
@@ -143,6 +144,7 @@ const LayoutPwdForget = () => {
     );
 
     return (
+
          <FormLayout>
 
                 <TitleCompGen title={t('forgetPswd.title')} />
@@ -150,9 +152,16 @@ const LayoutPwdForget = () => {
                 <StepIndicator />
 
      
-                {step === 1 && (
-                    <form onSubmit={(e) => { e.preventDefault(); handleRequestCode(); }}>
-
+                {
+                    (step === 1) && (
+                    <form
+                        onSubmit={
+                            (e) => { 
+                                e.preventDefault();
+                                handleRequestCode();
+                            }
+                        }
+                    >
                         <InputBox
                             type="email"
                             name="email"
@@ -171,12 +180,15 @@ const LayoutPwdForget = () => {
                 )}
                             
                 {
-                    step === 2 &&
+                    (step === 2) &&
                     (
 
                         uidb64 && token ?
                         (
-                            <form onSubmit={(e) => { e.preventDefault(); handleResetPassword(); }}>
+                            <form onSubmit={(e) => {
+                                e.preventDefault();
+                                handleResetPassword();
+                            }}>
 
                                 <InputBox
                                     type="password"
