@@ -71,7 +71,7 @@ const LayoutPwdForget = () => {
                 password: newPassword
             });
 
-            showMessage(dispatch, { Type: "Message", Messgae: t('password.initPswd') })
+            //showMessage(dispatch, { Type: "Message", Messgae: t('password.initPswd') })
 
             setStep(3);
 
@@ -87,7 +87,7 @@ const LayoutPwdForget = () => {
 
         if (step === 3) {
 
-            showMessage(dispatch, { Type: "Message", Messgae: t('password.initSucces') })
+            //showMessage(dispatch, { Type: "Message", Messgae: t('password.initSucces') })
 
             const timer = setInterval(() => {
 

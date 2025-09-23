@@ -22,7 +22,7 @@ i18n
      en: {
 
         translation: {
-
+             creatAccountSucces: "Account succesfully created",
              password: {
                  initPswd: "Password reset.",
                  initSucces: "Password reset successfully.",
@@ -491,7 +491,7 @@ i18n
      fr: {
 
          translation: {
-
+             creatAccountSucces:"'Compte créé avec succès.",
              password: {
                  initPswd: "Mot de passe réinitialisé.",
                  initSucces: "Mot de passe réinitialisé avec succès.",

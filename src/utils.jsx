@@ -315,7 +315,7 @@ export const loginClient = async (data, dispatch, setIsLoading, navigate) => {
 
         if (response?.data) {
 
-            //console.log("les données", response?.data)
+            ///console.log("les données", response?.data)
 
             dispatch(login(response?.data?.user));
 
@@ -328,9 +328,11 @@ export const loginClient = async (data, dispatch, setIsLoading, navigate) => {
 
     } catch (error) {
 
-        //console.log("Erreur lors du loign", error)
+        console.log("Erreur lors du loign", error)
 
-        showMessage(dispatch, { Type: "Erreur", Message: error?.response?.data?.detail || error?.message || error?.request?.message || error });
+        const errorMessage = error?.response?.data?.detail || error?.message || error?.request?.message || error
+
+        showMessage(dispatch, { Type: "Erreur", Message: errorMessage  });
 
         throw error;
 
@@ -411,9 +413,9 @@ export const ThemeSelector = ({ value, onChange, t }) => (
 );
 
 //création d'un client
-export const CreateClient = async (data, setLoading, showMessage, dispatch) => {
+export const CreateClient = async (data, setLoading, showMessage, dispatch, t) => {
     try {
-        const response = await api.post('clients/', data, {
+        const response = await api.post('inscription/', data, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -423,16 +425,21 @@ export const CreateClient = async (data, setLoading, showMessage, dispatch) => {
             withCredentials: false
         });
 
-        showMessage(dispatch, { Type: 'Message', Message: 'Compte créé avec succès.' });
+        showMessage(dispatch, { Type: 'Message', Message: t('creatAccountSucces') });
+
         return response;
+
     } catch (error) {
+
         console.error("Erreur de création de client :", error);
 
         const errorMessage =
+            error?.response?.data?.non_field_errors?.[0] ||
+            error?.response?.data?.[0] ||
             error?.response?.data?.telephone?.[0] ||
             error?.response?.data?.email?.[0] ||
             error?.response?.data?.detail ||
-            "Une erreur est survenue. Veuillez réessayer.";
+            "Une erreur inconnue est survenue. Veuillez réessayer.";
 
         showMessage(dispatch, { Type: "Erreur", Message: errorMessage });
         return null;

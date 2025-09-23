@@ -110,7 +110,7 @@ export function LoginWithGoogle() {
 
         } catch (err) {
 
-            console.log("Erreur", err)
+            const erroMessage =err?.response?.data?.error || err?.message || err?.response?.data?.detail || err?.response?.data?.detail?.error
 
             showMessage(
 
@@ -120,7 +120,7 @@ export function LoginWithGoogle() {
 
                     Type: "Erreur",
 
-                    Message: `${err?.message || err?.response?.data?.detail || err?.response?.data?.detail?.error}`
+                    Message: erroMessage
                 }
             );
 

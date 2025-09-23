@@ -29,6 +29,7 @@ const RegisterForm = () => {
 
     const [form, setForm] = useState({
         "password": "",
+        "password1": "",
         "last_login": null,
         "is_superuser": false,
         "email": "",
@@ -56,17 +57,18 @@ const RegisterForm = () => {
     const handleSignUp = async (e) => {
         e.preventDefault();
 
-        if (!form.email || !form.password || !form.confirmPassword) {
+        if (!form.email || !form.password || !form.password1) {
             return showMessage(dispatch, { Type: "Erreur", Message: "Tous les champs requis doivent être remplis." });
         }
 
-        if (form.password !== form.confirmPassword) {
+        if (form.password !== form.password1) {
             return showMessage(dispatch, { Type: "Erreur", Message: "Les mots de passe ne correspondent pas." });
         }
 
         setLoading(true);
 
         const userData = {
+            password1: form.password1,
             password: form.password,
             email: form.email,
             prenom: form.prenom,
@@ -76,7 +78,7 @@ const RegisterForm = () => {
             is_active: true,
         };
 
-        const response = await CreateClient(userData, setLoading, showMessage, dispatch);
+        const response = await CreateClient(userData, setLoading, showMessage, dispatch, t);
 
         if (response) {
             navigate("/login", { replace: true });
@@ -174,9 +176,9 @@ const RegisterForm = () => {
 
                         <InputBox
                             type="password"
-                            name="confirmPassword"
+                            name="password1"
                             placeholder={t('form.confirmPassword')}
-                            value={form.confirmPassword}
+                            value={form.password1}
                             onChange={handleChange}
                             autoComplete="new-password"
 

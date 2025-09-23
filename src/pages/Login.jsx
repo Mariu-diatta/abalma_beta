@@ -117,7 +117,11 @@ const LogIn = () => {
 
         } catch (e) {
 
-            showMessage(dispatch, { Type: "Erreur", Message: e?.response?.data?.detail || e?.response?.data?.error || "Error not found: user not login" });
+            console.log("Erreur: ", e)
+
+            const errorMessage = e?.response?.data?.detail || e?.response?.data?.error
+
+            showMessage(dispatch, { Type: "Erreur", Message: errorMessage || "Error not found: user not login" });
 
         } finally {
 
