@@ -22,7 +22,10 @@ export const convertDate = (dat) => {
 }
 
 export function formatDateRelative(dateString, lang = 'fr') {
+
     // Parse la date: '24-09-2025 15:15:52' → en objet Date
+    if (!dateString) return 
+
     const parts = dateString.split(/[- :]/);
     const parsedDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}T${parts[3]}:${parts[4]}:${parts[5]}`);
 
