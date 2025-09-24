@@ -21,6 +21,48 @@ export const convertDate = (dat) => {
     return formatted
 }
 
+export function formatDateRelative(dateString, lang = 'fr') {
+    // Parse la date: '24-09-2025 15:15:52' → en objet Date
+    const parts = dateString.split(/[- :]/);
+    const parsedDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}T${parts[3]}:${parts[4]}:${parts[5]}`);
+
+    // Réinitialiser les heures pour comparer juste les jours
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const targetDate = new Date(parsedDate);
+    targetDate.setHours(0, 0, 0, 0);
+
+    // Calcul de la différence en jours
+    const diffTime = targetDate - today;
+    const diffDays = diffTime / (1000 * 60 * 60 * 24);
+
+    // Traductions
+    const labels = {
+        fr: {
+            today: "Aujourd'hui",
+            yesterday: "Hier",
+            format: (d) => `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`
+        },
+        en: {
+            today: "Today",
+            yesterday: "Yesterday",
+            format: (d) => `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}/${d.getFullYear()}`
+        }
+    };
+
+    const locale = labels[lang] || labels['fr'];
+
+    if (diffDays === 0) {
+        return locale.today;
+    } else if (diffDays === -1) {
+        return locale.yesterday;
+    } else {
+        return locale.format(parsedDate);
+    }
+}
+
+
 //Enregistrement de la liste des catefories
 export const  LIST_CATEGORY=[
 

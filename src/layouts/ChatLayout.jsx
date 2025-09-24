@@ -10,8 +10,9 @@ import {
     addMessageNotif,
     addRoom,
     addUser,
-    deleteRoomAsync
+    deleteRoomAsync,
 } from '../slices/chatSlice';
+import { useCallback } from 'react';
 
 const ChatLayout = () => {
 
@@ -19,11 +20,10 @@ const ChatLayout = () => {
 
     const [showSidebar, setShowSidebar] = useState(false);
 
+
     const dispatch = useDispatch();
 
     const allChats = useSelector(state => state.chat.currentChats);
-
-    const currentUser = useSelector(state => state.auth.user);
 
     const currentChat = useSelector(state => state.chat.currentChat);
 
@@ -34,26 +34,19 @@ const ChatLayout = () => {
 
         const fetchRooms = async () => {
 
+            if (!selectedUser?.id) return 
+
             try {
-                const response = await api.get('/rooms/');
 
-                const rooms = response?.data || [];
+                const response = await api.get(`/rooms/?receiver_id=${selectedUser?.id}`);
 
-                const userRooms = rooms.filter(
-
-                    room =>
-
-                        room?.current_receiver === currentUser?.id ||
-
-                        room?.current_owner === currentUser?.id
-                );
-
-                userRooms.forEach(room => dispatch(addRoom(room)));
 
                 // Définir automatiquement un chat si aucun sélectionné
-                if (userRooms.length > 0 && !currentChat) {
+                if (response?.data?.length > 0 && response?.data[0]) {
 
-                    dispatch(addCurrentChat(userRooms[0]));
+                    dispatch(addRoom(response?.data[0]));
+
+                    dispatch(addCurrentChat(response?.data[0]));
                 }
 
                 ///console.log("LES ROOMS", userRooms);
@@ -66,37 +59,36 @@ const ChatLayout = () => {
 
         fetchRooms();
 
-    }, [dispatch, currentUser, currentChat]);
+    }, [selectedUser?.id, dispatch]);
 
-    // 🔁 Récupérer l'utilisateur sélectionné si vide
-    useEffect(() => {
+
+    //🔁 Récupérer l'utilisateur sélectionné si vide
+    const getReceiver =useCallback( (firstUserId) => {
 
         const fetchSelectedUser = async () => {
 
-            if (!selectedUser && allChats.length > 0) {
+            if (!firstUserId) return
 
-                try {
+            try {
 
-                    const firstUserId = allChats[0]?.current_receiver;
+                const response = await api.get(`/clients/${firstUserId}/`);
 
-                    const response = await api.get(`/clients/${firstUserId}/`);
+                const user = response?.data;
 
-                    const user = response?.data;
+                if (user) {
 
-                    if (user) {
-
-                        dispatch(addUser(user));
-                    }
-                } catch (e) {
-
-                    ///console.error("Erreur lors de la récupération de l'utilisateur :", e);
+                    dispatch(addUser(user));
                 }
+            } catch (e) {
+
+                ///console.error("Erreur lors de la récupération de l'utilisateur :", e);
             }
+
         };
 
         fetchSelectedUser();
 
-    }, [selectedUser, allChats, dispatch]);
+    }, [dispatch]);
 
     // 🔁 Si plus de chat, vider l'utilisateur sélectionné
     useEffect(() => {
@@ -111,9 +103,9 @@ const ChatLayout = () => {
     // 🗑 Supprimer une room
     const handleDeleteRoom = room => {
 
-        dispatch(addMessageNotif(`Discussion ${room?.name?.slice(5, 15)} supprimée`));
+        dispatch(addMessageNotif(`Discussion ${selectedUser?.prenom+ room?.name?.slice(10, 15)} supprimée`));
 
-        dispatch(deleteRoomAsync(room.name));
+        dispatch(deleteRoomAsync(room));
     };
 
     return (
@@ -157,9 +149,9 @@ const ChatLayout = () => {
                                 {allChats.map((room, index) => (
 
                                 <li
-                                    key={room.name || index}
+                                    key={index}
 
-                                    className={`flex items-center justify-between p-2 rounded-lg text-sm font-medium transition-colors
+                                    className={`w-full flex items-center justify-between p-2 rounded-lg text-sm font-medium transition-colors
 
                                     ${currentChat?.name === room?.name
                                         ? 'bg-blue-500 text-white'
@@ -168,10 +160,13 @@ const ChatLayout = () => {
                                 >
                                     <span
 
-                                        onClick={() => {
-                                            dispatch(addCurrentChat(room));
-                                            setShowSidebar(false);
-                                        }}
+                                        onClick={
+                                            () => {
+                                                dispatch(addCurrentChat(room))
+
+                                                getReceiver(room?.current_receiver)
+                                            }
+                                        }
 
                                         className="flex gap-2 cursor-pointer flex-grow"
                                     >
@@ -184,11 +179,11 @@ const ChatLayout = () => {
                                         <div className="flex flex-col leading-tight">
 
                                             <span className="text-md font-medium text-gray-600">
-                                                {selectedUser?.prenom || "Prénom"}
+                                                 {room?.name?.slice(5, 20) || "Prénom"}
                                             </span>
 
                                             <span className="text-xs text-gray-500">
-                                                {selectedUser?.nom?.toLowerCase() || "Nom"}
+                                                    {selectedUser?.nom?.toLowerCase()}{room?.current_receiver}{room?.current_owner}
                                             </span>
 
                                         </div>
@@ -238,7 +233,7 @@ const ChatLayout = () => {
                     color: "var(--color-text)"
                 }}
             >
-                <ChatApp roomName={currentChat} />
+                <ChatApp setShow={setShowSidebar} />
 
             </div>
 

@@ -59,7 +59,7 @@ const OwnerPopover = ({ owner, onClose }) => {
                     api.post('rooms/',
 
                         {
-                            "name": `room_${owner?.nom}_${res}`,
+                            "name": `room_${owner?.nom}${owner?.id}${res}`,
 
                             "current_owner": currentUser?.id,
 
@@ -70,9 +70,13 @@ const OwnerPopover = ({ owner, onClose }) => {
 
                         resp => {
 
-                            dispatch(newRoom({ name: `room_${owner?.nom}_${res}` }))
+                            dispatch(newRoom(resp?.data?.name))
 
-                            dispatch(addCurrentChat(`room_${owner?.nom}_${res}`))
+                            dispatch(addCurrentChat(resp?.data))
+
+                            dispatch(addRoom(resp?.data))
+
+                            dispatch(addUser(owner))
 
                         }
 
@@ -82,41 +86,45 @@ const OwnerPopover = ({ owner, onClose }) => {
 
                             const errorMsg = err?.response?.data;
 
-                            console.error("Erreur lors de la création du chat:", errorMsg);
-
                             const roomAlreadyExists =
                                 errorMsg?.name?.[0]?.includes("already exists") ||
-                                errorMsg?.current_receiver?.[0]?.includes("already exists");
+                                errorMsg?.current_receiver?.[0]?.includes("already exists")||
                                 errorMsg?.current_owner?.[0]?.includes("already exists");
 
                             if (roomAlreadyExists) {
 
-                                const ownerPhone = selectedProductOwner?.telephone;
+                                const response = api.get(`/rooms/?receiver_id=${selectedProductOwner?.id}`);
 
-                                const ownerName = owner?.nom;
+                                dispatch(addRoom(response?.data));
 
-                                if (ownerPhone && ownerName) {
+                                dispatch(addCurrentChat(response?.data));
 
-                                    hashPassword(ownerPhone)
+                                //const ownerPhone = selectedProductOwner?.telephone;
 
-                                        .then(hashed => {
+                                //const ownerName = owner?.nom;
 
-                                            const roomName = `room_${ownerName}_${hashed}`;
+                                //if (ownerPhone && ownerName) {
 
-                                            console.log("le room", roomName);
+                                //    hashPassword(ownerPhone)
 
-                                            dispatch(addRoom({ name: roomName }));
+                                //        .then(hashed => {
 
-                                            dispatch(addCurrentChat({name:roomName}));
+                                //            const roomName = `room_${ownerName}_${hashed}`;
 
-                                        })
-                                        .catch(hashErr => {
+                                //            console.log("le room", roomName);
 
-                                            console.error("Erreur lors du hachage du numéro de téléphone:", hashErr);
-                                        });
-                                } else {
-                                    console.warn("Données manquantes pour créer une room de fallback.");
-                                }
+                                //            dispatch(addRoom({ name: roomName }));
+
+                                //            dispatch(addCurrentChat({name:roomName}));
+
+                                //        })
+                                //        .catch(hashErr => {
+
+                                //            console.error("Erreur lors du hachage du numéro de téléphone:", hashErr);
+                                //        });
+                                //} else {
+                                //    console.warn("Données manquantes pour créer une room de fallback.");
+                                //}
 
                             } else {
                                 console.error("Erreur inconnue lors de la création du chat:", errorMsg);
@@ -126,7 +134,7 @@ const OwnerPopover = ({ owner, onClose }) => {
 
                 } catch (err) {
 
-                    console.log("ERREUR DE LA CREATION DU CHAT", err)
+                    console.log("OwnerProfil.jsx, ERREUR DE LA CREATION DU CHAT")
                 }
 
                 dispatch(newRoom({ name: `room_${owner?.nom}_${res}` }))

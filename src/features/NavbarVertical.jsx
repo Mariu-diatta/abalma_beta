@@ -83,6 +83,33 @@ const VertcalNavbar = ({ children }) => {
     }, [isSidebarOpen]);
 
 
+    useEffect(() => {
+
+        const fetchRooms = async () => {
+
+            try {
+
+                const response = await api.get("allRoomes");
+
+                // Définir automatiquement un chat si aucun sélectionné
+                if (response?.data?.length > 0) {
+                    response.data.forEach(room => {
+                        dispatch(addRoom(room));
+                    });
+                }
+
+                ///console.log("LES ROOMS", userRooms);
+
+            } catch (err) {
+
+                //console.error("Erreur lors du chargement des rooms:", err);
+            }
+        };
+
+        fetchRooms();
+
+    }, [dispatch]);
+
     return (
 
         <div
@@ -280,7 +307,7 @@ const VertcalNavbar = ({ children }) => {
                                     }}
                                 >
 
-                                    {allRooms.length}
+                                    {allRooms?.length}
 
                                 </span>
 
