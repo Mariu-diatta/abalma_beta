@@ -1,59 +1,84 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { backendBase } from "../utils";
+import { addMessageNotif } from "../slices/chatSlice";
 //import { addMessageNotif } from "../slices/chatSlice";
 
  const NotificationsComponent = ({ userId }) => {
 
     const currentNotifMessages = useSelector(state => state.chat.messageNotif);
 
-    const dispatch = useDispatch();
+    const currentUser = useSelector(state => state.auth.user)
 
-    useEffect(() => {
+     const dispatch = useDispatch();
 
-        //process.env.NODE_ENV === 'production'
-        const backendBase = true
-            ? 'wss://backend-mpb0.onrender.com'
-            : 'ws://localhost:8000';
+     const ws = useRef(null);
 
-        const socketUrl = `${backendBase}/chat/notifications/${userId}/`;
+     useEffect(() => {
 
-        const socket = new WebSocket(socketUrl);
+         //process.env.NODE_ENV === 'production'
+         if (!currentUser?.id) return 
 
-        socket.onopen = () => {
+         const socketUrl = `${backendBase}/chat/notifications/${currentUser?.id}/`;
 
-            //console.log("✅ WebSocket connecté");
-        };
+         if (ws.current) {
+             ws.current.close();
+         }
 
-        socket.onmessage = (event) => {
+         ws.current= new WebSocket(socketUrl);
 
-            try {
-                //const data = JSON.parse(event.data);
+         ws.current.onopen = () => {
 
-                ////if (data.type === "send_notification" && data.payload) {
+             console.log("✅ Notification WebSocket connecté");
+         };
 
-                ////    //console.log("🔔 Notification reçue:", data);
+         ws.current.onmessage = (event) => {
 
-                ////    dispatch(addMessageNotif(data.message));
-                ////}
-            } catch (e) {
+             try {
+                 const data = JSON.parse(event.data);
 
-            //    console.error("Erreur JSON:", e);
-            }
-        };
+                 //console.log("donnée notification", data)
 
-        socket.onclose = () => {
+                 if (data.type === "send_notification" && data && data?.user_id !== currentUser?.id) {
 
-        //    console.warn("❌ WebSocket fermé");
-        };
+                     //console.log("🔔 Notification reçue:", data);
 
-        socket.onerror = (err) => {
+                     dispatch(addMessageNotif(data.content));
+                 }
+             } catch (e) {
 
-        //    console.error("❗ WebSocket erreur:", err);
-        };
+                 //    console.error("Erreur JSON:", e);
+             }
+         };
 
-        return () => socket.close();
+         ws.current.onclose = () => {
 
-    }, [userId, dispatch]);
+             //    console.warn("❌ WebSocket fermé");
+         };
+
+         ws.current.onerror = (err) => {
+
+             //    console.error("❗ WebSocket erreur:", err);
+         };
+
+         return () => ws.current.close();
+
+     }, [userId, dispatch, currentUser?.id]);
+
+     useEffect(
+
+         () => {
+             if (currentNotifMessages && ws.current?.readyState === WebSocket.OPEN) {
+                 ws.current.send(JSON.stringify({
+                     user: currentUser,
+                     content: currentNotifMessages[0],
+                     title: currentNotifMessages[0]
+
+                 }));
+
+             }
+         }
+     )
 
     return (
 

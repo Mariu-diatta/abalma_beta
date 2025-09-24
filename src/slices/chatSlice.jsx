@@ -90,9 +90,9 @@ export const deleteRoomAsync = (room) => async (dispatch) => {
 
     try {
 
-        const resp = await api.delete(`/rooms/${room?.pk}/`);
+        await api.delete(`/rooms/${room?.pk}/`);
 
-        console.log(resp?.data)
+        //console.log(resp?.data)
         //const pk_id = resp?.data[0]?.pk;
 
         //if (pk_id) {

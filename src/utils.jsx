@@ -3,6 +3,13 @@ import api from "./services/Axios";
 import { login, updateCompteUser} from "./slices/authSlice";
 import { setCurrentNav, updateTheme } from "./slices/navigateSlice";
 
+
+
+export const backendBase = process.env.NODE_ENV === 'production'
+    ? 'wss://backend-mpb0.onrender.com'
+    : 'ws://localhost:8000';
+
+
 //covertion de la date de la transaction
 export const convertDate = (dat) => {
 

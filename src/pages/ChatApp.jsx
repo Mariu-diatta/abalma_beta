@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import api from '../services/Axios';
-import { formatDateRelative } from '../utils';
+import { backendBase, formatDateRelative } from '../utils';
 
 const ChatApp = ({ setShow }) => {
     const ws = useRef(null);
@@ -23,10 +23,6 @@ const ChatApp = ({ setShow }) => {
     // 🔌 Connexion WebSocket
     useEffect(() => {
         if (!currentChat?.name) return;
-
-        const backendBase = process.env.NODE_ENV === 'production'
-            ? 'wss://backend-mpb0.onrender.com'
-            : 'ws://localhost:8000';
 
         const socketUrl = `${backendBase}/chats/${currentChat.name}/`;
 
