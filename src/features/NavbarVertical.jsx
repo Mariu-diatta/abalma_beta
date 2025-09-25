@@ -94,8 +94,15 @@ const VertcalNavbar = ({ children }) => {
 
                 // Définir automatiquement un chat si aucun sélectionné
                 if (response?.data?.length > 0) {
+
                     response.data.forEach(room => {
-                        dispatch(addRoom(room));
+
+                        const isCurrentUserInThisChat = room?.current_receiver === currentUser?.id || room?.current_owner === currentUser?.id
+
+                        console.log("Valeur de la comparaison", isCurrentUserInThisChat)
+
+                        if (isCurrentUserInThisChat) dispatch(addRoom(room));
+                       
                     });
                 }
 
@@ -109,7 +116,7 @@ const VertcalNavbar = ({ children }) => {
 
         fetchRooms();
 
-    }, [dispatch]);
+    }, [dispatch, currentUser]);
 
     return (
 

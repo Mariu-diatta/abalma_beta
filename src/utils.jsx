@@ -3,6 +3,7 @@ import api from "./services/Axios";
 import { login, updateCompteUser} from "./slices/authSlice";
 import { setCurrentNav, updateTheme } from "./slices/navigateSlice";
 
+export const maintenant = new Date();
 
 export const getPhotoUser = (obj) => obj?.sender?.image || obj?.sender?.photo_url
 
