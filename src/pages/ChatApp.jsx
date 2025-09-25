@@ -44,13 +44,13 @@ const ChatApp = ({ setShow }) => {
             }
         };
 
-        ws.current.onerror = (e) => console.error("❌ WebSocket error :", e);
-        ws.current.onclose = () => console.log("🔌 WebSocket fermé :", currentChat.name);
+        //ws.current.onerror = (e) => console.error("❌ WebSocket error :", e);
+        //ws.current.onclose = () => console.log("🔌 WebSocket fermé :", currentChat.name);
 
         // Cleanup à la fin ou avant la prochaine exécution
         return () => {
             if (ws.current) {
-                console.log("🧹 Nettoyage WebSocket :", currentChat.name);
+                //console.log("🧹 Nettoyage WebSocket :", currentChat.name);
                 ws.current.close();
             }
         };
@@ -80,7 +80,7 @@ const ChatApp = ({ setShow }) => {
 
             } catch (err) {
 
-                console.error("❌ Erreur chargement messages :", err);
+                //console.error("❌ Erreur chargement messages :", err);
             }
         };
 

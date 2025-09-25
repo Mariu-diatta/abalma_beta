@@ -134,7 +134,9 @@ const ProfileCard = () => {
             const fd = new FormData();
 
             Object.entries(formData).forEach(([key, value]) => fd.append(key, value));
-            console.log(updateImageCover)
+
+            //console.log(updateImageCover)
+
             if (updateImage) fd.append('image', updateImage);
 
             if (updateImageCover) fd.append('image_cover', updateImageCover);
@@ -145,7 +147,7 @@ const ProfileCard = () => {
 
             });
 
-            console.log("donne", updateUser?.data?.data)
+            //console.log("donne", updateUser?.data?.data)
 
             dispatch(updateUserData(updateUser?.data?.data))
 
@@ -155,7 +157,7 @@ const ProfileCard = () => {
 
         } catch (error) {
 
-            console.error('❌ Erreur mise à jour :', error);
+            //console.error('❌ Erreur mise à jour :', error);
 
             const errorMessage = error?.response?.data?.detail || error?.response?.data?.errors?.image_cover?.[0]
 
