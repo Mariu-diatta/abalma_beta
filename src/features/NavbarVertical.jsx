@@ -99,8 +99,6 @@ const VertcalNavbar = ({ children }) => {
 
                         const isCurrentUserInThisChat = room?.current_receiver === currentUser?.id || room?.current_owner === currentUser?.id
 
-                        console.log("Valeur de la comparaison", isCurrentUserInThisChat)
-
                         if (isCurrentUserInThisChat) dispatch(addRoom(room));
                        
                     });

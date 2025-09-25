@@ -33,13 +33,17 @@ const ChatApp = ({ setShow}) => {
         ws.current.onopen = () => console.log("✅ WebSocket connecté :", currentChat.name);
 
         ws.current.onmessage = (e) => {
+
             try {
+
                 const data = JSON.parse(e.data);
+
                 if (data.type === "chat_message" && data.payload) {
-                    console.log("Le message", data.payload)
+
                     setMessages(prev => [...prev, data.payload]);
                 }
             } catch (err) {
+
                 console.error("❌ Erreur parsing WebSocket :", err);
             }
         };
@@ -68,8 +72,6 @@ const ChatApp = ({ setShow}) => {
             try {
 
                 const loaded = [];
-
-                console.log("current message", currentChat )
 
                 currentChat?.messages?.forEach(msg =>
 

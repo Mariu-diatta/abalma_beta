@@ -28,15 +28,24 @@ const ChatLayout = () => {
 
     // Récupération du sender
     const getSender = useCallback(
+
         async (userId) => {
+
             if (!userId || senders[userId]) return; // évite doublons
+
             try {
+
                 const res = await api.get(`/clients/${userId}/`);
+
                 const user = res?.data;
+
                 if (user && user?.id !== currentUser?.id) {
+
                     setSenders((prev) => ({ ...prev, [userId]: user }));
                 }
+
             } catch (e) {
+
                 console.error(e);
             }
         },
@@ -45,18 +54,26 @@ const ChatLayout = () => {
 
     // Récupération du receiver
     const getReceiver = useCallback(
+
         async (userId) => {
+
             if (!userId || receivers[userId]) return; // évite doublons
             try {
                 const res = await api.get(`/clients/${userId}/`);
+
                 const user = res?.data;
+
                 if (user) {
+
                     setReceivers((prev) => ({ ...prev, [userId]: user }));
                 }
+
             } catch (e) {
+
                 console.error(e);
             }
         },
+
         [receivers]
     );
 
@@ -72,10 +89,12 @@ const ChatLayout = () => {
     // Charger la room d'un utilisateur sélectionné
     useEffect(() => {
         const fetchRooms = async () => {
+
             if (!selectedUser?.id) return;
+
             try {
                 const response = await api.get(`/rooms/?receiver_id=${selectedUser?.id}`);
-                console.log("les rooms 2", response?.data)
+
                 const response_room = response?.data[0];
 
                 if (response?.data?.length > 0 && response_room) {
@@ -83,8 +102,6 @@ const ChatLayout = () => {
                     response?.data?.forEach(
 
                         room => {
-
-                            console.log(room?.current_receiver, currentUser?.id, room?.current_owner)
 
                             if (room?.current_receiver === currentUser?.id || room?.current_owner === currentUser?.id) {
 
@@ -102,25 +119,33 @@ const ChatLayout = () => {
         };
 
         fetchRooms();
+
     }, [selectedUser?.id, dispatch, currentUser?.id]);
 
 
     // Charger la room d'un utilisateur sélectionné
     useEffect(() => {
+
         const fetchRooms = async () => {
+
             if (!currentUser?.id) return;
+
             try {
                 const response = await api.get(`/rooms/?receiver_id=${currentUser?.id}`);
-                console.log("les rooms 1", response?.data)
+
                 if (response?.data?.length > 0) {
+
                     response?.data?.forEach(
+
                         room => {
+
                             dispatch(addRoom(room));
                         }
                     )
 
                 }
             } catch (err) {
+
                 console.error('Erreur lors du chargement des rooms:', err);
             }
         };
