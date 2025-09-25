@@ -30,6 +30,27 @@ const ChatLayout = () => {
 
     const selectedUser = useSelector(state => state.chat.userSlected);
 
+    const [receivers, setReceivers] = useState({});
+
+
+    //Recupération du receveurs
+    const getReceiver = useCallback(async (userId) => {
+
+        if (!userId || receivers[userId]) return; // si déjà en cache, pas besoin
+
+        try {
+            const res = await api.get(`/clients/${userId}/`);
+            const user = res?.data;
+            if (user) {
+                setReceivers(prev => ({ ...prev, [userId]: user }));
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    }, [receivers]);
+
+
+
     // 🔁 Récupérer les rooms au démarrage
     useEffect(() => {
 
@@ -51,7 +72,7 @@ const ChatLayout = () => {
                             if (isCurrentUserInChat) {
 
                                 dispatch(addRoom(room));
-
+                                getReceiver(room?.current_receiver)
                             }
 
                         }
@@ -68,7 +89,7 @@ const ChatLayout = () => {
 
         fetchRooms();
 
-    }, [dispatch, currentUser?.id]);
+    }, [dispatch, currentUser?.id, getReceiver]);
 
     // 🔁 Récupérer les rooms au démarrage
     useEffect(() => {
@@ -103,34 +124,6 @@ const ChatLayout = () => {
     }, [selectedUser?.id, dispatch]);
 
 
-    //🔁 Récupérer l'utilisateur sélectionné si vide
-    const getReceiver =useCallback( (firstUserId) => {
-
-        const fetchSelectedUser = async () => {
-
-            if (!firstUserId) return
-
-            try {
-
-                const response = await api.get(`/clients/${firstUserId}/`);
-
-                const user = response?.data;
-
-                if (user) {
-
-                    dispatch(addUser(user));
-                }
-            } catch (e) {
-
-                ///console.error("Erreur lors de la récupération de l'utilisateur :", e);
-            }
-
-        };
-
-        fetchSelectedUser();
-
-    }, [dispatch]);
-
     // 🔁 Si plus de chat, vider l'utilisateur sélectionné
     useEffect(() => {
 
@@ -140,6 +133,7 @@ const ChatLayout = () => {
         }
 
     }, [allChats.length, dispatch]);
+
 
     // 🗑 Supprimer une room
     const handleDeleteRoom = room => {
@@ -187,60 +181,73 @@ const ChatLayout = () => {
                     ) : (
                             <ul className="mt-5 space-y-2">
 
-                                {allChats.map((room, index) => (
+                                {
+                                    allChats.map(
 
-                                <li
-                                    key={index}
+                                        (room, index) => { 
 
-                                    className={`w-full flex items-center justify-between p-2 rounded-lg text-sm font-medium transition-colors
+                                            getReceiver(room?.current_receiver)
 
-                                    ${currentChat?.name === room?.name
-                                        ? 'bg-blue-500 text-white'
-                                        : 'hover:bg-gray-100 text-gray-800'
-                                    }`}
-                                >
-                                    <span
+                                            const currentReceiver = receivers[room?.current_receiver];
 
-                                        onClick={
-                                            () => {
-                                                dispatch(addCurrentChat(room))
+                                            return (
 
-                                                getReceiver(room?.current_receiver)
-                                            }
+                                                <li
+                                                    key={index}
+
+                                                    className={`w-full flex items-center justify-between p-2 rounded-lg text-sm font-medium transition-colors
+
+                                                    ${currentChat?.name === room?.name
+                                                        ? 'bg-blue-500 text-white'
+                                                        : 'hover:bg-gray-100 text-gray-800'
+                                                    }`}
+                                                >
+                                                    <span
+
+                                                        onClick={
+                                                            () => {
+                                                                dispatch(addCurrentChat(room));
+
+                                                                getReceiver(room?.current_receiver)
+                                                            }
+                                                        }
+
+                                                        className="flex gap-2 cursor-pointer flex-grow"
+                                                    >
+                                                        <img
+                                                            src={currentReceiver?.image || currentReceiver?.photo_url }
+                                                            alt={`${currentReceiver?.nom || "Moi"} avatar`}
+                                                            className="h-7 w-7 rounded-full object-cover"
+                                                        />
+
+                                                        <div className="flex flex-col leading-tight">
+
+                                                            <span className="text-md font-medium text-gray-600">
+                                                                {currentReceiver?.prenom?.slice(0, 20) || "Prénom"}
+                                                            </span>
+
+                                                            <span className="text-xs text-gray-500">
+                                                                {currentReceiver?.nom?.toLowerCase()}
+                                                            </span>
+
+                                                        </div>
+
+                                                    </span>
+
+                                                    <button
+                                                        onClick={() => handleDeleteRoom(room)}
+                                                        className="cursor-pointer ml-2 text-red-600 hover:text-red-800 text-xs"
+                                                        aria-label={`Supprimer ${room.name}`}
+                                                    >
+                                                        ✕
+                                                    </button>
+
+                                                </li>
+
+                                            )
                                         }
-
-                                        className="flex gap-2 cursor-pointer flex-grow"
-                                    >
-                                        <img
-                                            src={selectedUser?.image}
-                                            alt={`${selectedUser?.nom || "Moi"} avatar`}
-                                            className="h-7 w-7 rounded-full object-cover"
-                                        />
-
-                                        <div className="flex flex-col leading-tight">
-
-                                            <span className="text-md font-medium text-gray-600">
-                                                 {room?.name?.slice(5, 20) || "Prénom"}
-                                            </span>
-
-                                            <span className="text-xs text-gray-500">
-                                                    {selectedUser?.nom?.toLowerCase()}{room?.current_receiver}{room?.current_owner}
-                                            </span>
-
-                                        </div>
-
-                                    </span>
-
-                                    <button
-                                        onClick={() => handleDeleteRoom(room)}
-                                        className="cursor-pointer ml-2 text-red-600 hover:text-red-800 text-xs"
-                                        aria-label={`Supprimer ${room.name}`}
-                                    >
-                                        ✕
-                                    </button>
-
-                                </li>
-                            ))}
+                                    )
+                                }
                         </ul>
                     )}
                 </div>
@@ -274,7 +281,7 @@ const ChatLayout = () => {
                     color: "var(--color-text)"
                 }}
             >
-                <ChatApp setShow={setShowSidebar} />
+                <ChatApp setShow={setShowSidebar} currentReceivers={receivers} />
 
             </div>
 

@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { backendBase, formatDateRelative } from '../utils';
 
-const ChatApp = ({ setShow }) => {
+const ChatApp = ({ setShow, currentReceivers }) => {
     const ws = useRef(null);
     const messagesEndRef = useRef(null);
     const currentChat = useSelector(state => state.chat.currentChat);
@@ -66,16 +66,21 @@ const ChatApp = ({ setShow }) => {
         const fetchOldMessages = async () => {
 
             try {
+
                 const loaded = [];
+
                 currentChat?.messages?.forEach(msg =>
+
                     loaded.push({
+
                         message: msg?.text,
+
                         sender: msg?.user,
+
                         date: msg?.created_at_formatted,
                     })
                 )
-           
-
+          
                 setMessages(loaded);
 
             } catch (err) {
@@ -110,16 +115,19 @@ const ChatApp = ({ setShow }) => {
         <div className="flex flex-col h-full p-4 md:p-6 bg-white rounded-2xl shadow overflow-hidden">
 
             {/* 👤 En-tête utilisateur */}
-            {selectedUser && (
+            {currentReceivers && (
                 <div className="flex items-center gap-3 text-gray-700 mb-3">
                     <img
-                        src={selectedUser?.image || "/default-avatar.png"}
-                        alt={`${selectedUser?.nom || "Utilisateur"} avatar`}
+                        src={currentReceivers[currentChat?.current_receiver]?.image ||
+                            currentReceivers[currentChat?.current_receiver]?.photo_url ||
+                            "/default-avatar.png"
+                        }
+                        alt={`${currentReceivers?.nom || "Utilisateur"} avatar`}
                         className="h-8 w-8 rounded-full object-cover"
                     />
                     <div>
-                        <p className="text-md font-semibold text-blue-600">{selectedUser?.prenom || "Prénom"}</p>
-                        <p className="text-xs text-gray-500">{selectedUser?.nom?.toLowerCase() || "Nom"}</p>
+                        <p className="text-md font-semibold text-blue-600">{currentReceivers[currentChat?.current_receiver]?.prenom || "Prénom"}</p>
+                        <p className="text-xs text-gray-500">{currentReceivers[currentChat?.current_receiver]?.nom?.toLowerCase() || "Nom"}</p>
                     </div>
                 </div>
             )}
@@ -157,7 +165,10 @@ const ChatApp = ({ setShow }) => {
 
                                     {!isCurrentUser && (
                                         <img
-                                            src={msg?.sender?.image || msg?.sender?.photo_url}
+                                            src={
+                                                currentReceivers[currentChat?.current_receiver]?.image ||
+                                                currentReceivers[currentChat?.current_receiver]?.photo_url
+                                            }
                                             alt="avatar"
                                             className="h-5 w-5 rounded-full object-cover"
                                         />
@@ -169,7 +180,10 @@ const ChatApp = ({ setShow }) => {
 
                                     {isCurrentUser && (
                                         <img
-                                            src={msg?.sender?.image || msg?.sender?.photo_url}
+                                            src={
+                                                msg?.sender?.image ||
+                                                msg?.sender?.photo_url
+                                            }
                                             alt="avatar"
                                             className="h-5 w-5 rounded-full object-cover"
                                         />

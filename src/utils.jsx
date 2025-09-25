@@ -522,3 +522,4 @@ export const NotificationToggle = ({ checked, onChange, t }) => (
 
     </div>
 );
+
