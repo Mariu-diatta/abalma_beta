@@ -1,3 +1,4 @@
+import { ButtonScrollTopDown } from "../components/ButtonScroll";
 import HomeContain from "../components/HomeContain";
 import HomeLayout from "../layouts/HomeLayout";
 
@@ -7,7 +8,11 @@ const Home = () => {
 
         <HomeLayout>
 
-            <HomeContain/>
+            <ButtonScrollTopDown>
+
+                <HomeContain/>
+
+            </ButtonScrollTopDown>
 
         </HomeLayout>
     )

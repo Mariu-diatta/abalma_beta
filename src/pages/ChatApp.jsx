@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import api from '../services/Axios';
 import { backendBase, formatDateRelative } from '../utils';
 
 const ChatApp = ({ setShow }) => {
@@ -17,11 +16,9 @@ const ChatApp = ({ setShow }) => {
     const allRoomsChats = useSelector(state => state.chat.currentChats);
     const selectedUser = useSelector(state => state.chat.userSlected);
 
-
-
-
     // 🔌 Connexion WebSocket
     useEffect(() => {
+
         if (!currentChat?.name) return;
 
         const socketUrl = `${backendBase}/chats/${currentChat.name}/`;
@@ -69,19 +66,15 @@ const ChatApp = ({ setShow }) => {
         const fetchOldMessages = async () => {
 
             try {
-                if (!selectedUser?.id) return
-
-                const response = await api.get(`/rooms/?receiver_id=${selectedUser?.id}`);
                 const loaded = [];
-                response?.data?.forEach(room =>
-                    room?.messages?.forEach(msg =>
-                        loaded.push({
-                            message: msg?.text,
-                            sender: msg?.user,
-                            date: msg?.created_at_formatted,
-                        })
-                    )
-                );
+                currentChat?.messages?.forEach(msg =>
+                    loaded.push({
+                        message: msg?.text,
+                        sender: msg?.user,
+                        date: msg?.created_at_formatted,
+                    })
+                )
+           
 
                 setMessages(loaded);
 
@@ -93,7 +86,7 @@ const ChatApp = ({ setShow }) => {
 
         fetchOldMessages()
 
-    }, [selectedUser]);
+    }, [selectedUser, currentChat?.messages]);
 
     // 📜 Scroll vers le bas à chaque message
     useEffect(() => {
@@ -164,9 +157,9 @@ const ChatApp = ({ setShow }) => {
 
                                     {!isCurrentUser && (
                                         <img
-                                            src={msg?.sender?.image}
+                                            src={msg?.sender?.image || msg?.sender?.photo_url}
                                             alt="avatar"
-                                            className="h-7 w-7 rounded-full object-cover"
+                                            className="h-5 w-5 rounded-full object-cover"
                                         />
                                     )}
 
@@ -176,9 +169,9 @@ const ChatApp = ({ setShow }) => {
 
                                     {isCurrentUser && (
                                         <img
-                                            src={msg?.sender?.image}
+                                            src={msg?.sender?.image || msg?.sender?.photo_url}
                                             alt="avatar"
-                                            className="h-7 w-7 rounded-full object-cover"
+                                            className="h-5 w-5 rounded-full object-cover"
                                         />
                                     )}
 

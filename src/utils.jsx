@@ -4,6 +4,8 @@ import { login, updateCompteUser} from "./slices/authSlice";
 import { setCurrentNav, updateTheme } from "./slices/navigateSlice";
 
 
+export const getPhotoUser = (obj) => obj?.sender?.image || obj?.sender?.photo_url
+
 
 export const backendBase = process.env.NODE_ENV === 'production'
     ? 'wss://backend-mpb0.onrender.com'

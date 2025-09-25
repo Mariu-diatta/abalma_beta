@@ -4,6 +4,7 @@ import NavbarHeader from '../pages/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { setCurrentNav } from '../slices/navigateSlice';
+import ScrollTop, { ButtonScrollTopDown } from '../components/ButtonScroll';
 
 const HomeLayout = ({ children }) => {
     const dispatch = useDispatch();
@@ -38,9 +39,15 @@ const HomeLayout = ({ children }) => {
                 { marginBottom: '30px' }
             }
         >
+        
+
             <NavbarHeader />
 
-            {children}
+            <ScrollTop />
+
+            <ButtonScrollTopDown>
+                {children}
+            </ButtonScrollTopDown>
 
             <Footer />
 

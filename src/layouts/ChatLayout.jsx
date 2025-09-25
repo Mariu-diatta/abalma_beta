@@ -20,6 +20,7 @@ const ChatLayout = () => {
 
     const [showSidebar, setShowSidebar] = useState(false);
 
+    const currentUser = useSelector(state => state.auth.user);
 
     const dispatch = useDispatch();
 
@@ -34,23 +35,63 @@ const ChatLayout = () => {
 
         const fetchRooms = async () => {
 
+            try {
+
+                const response = await api.get("allRoomes");
+
+                // Définir automatiquement un chat si aucun sélectionné
+                if (response?.data?.length > 0 && response?.data) {
+
+                    response?.data?.foreach(
+
+                        room => {
+
+                            const isCurrentUserInChat = (room?.current_owner === currentUser?.id) || (room?.current_receiver === currentUser?.id) 
+
+                            if (isCurrentUserInChat) {
+
+                                dispatch(addRoom(room));
+
+                            }
+
+                        }
+                    )
+
+                    dispatch(addCurrentChat(response?.data[0]));
+                }
+
+            } catch (err) {
+
+                //console.error("Erreur lors du chargement des rooms:", err);
+            }
+        };
+
+        fetchRooms();
+
+    }, [dispatch, currentUser?.id]);
+
+    // 🔁 Récupérer les rooms au démarrage
+    useEffect(() => {
+
+        const fetchRooms = async () => {
+
             if (!selectedUser?.id) return 
 
             try {
 
                 const response = await api.get(`/rooms/?receiver_id=${selectedUser?.id}`);
 
-
                 // Définir automatiquement un chat si aucun sélectionné
-                if (response?.data?.length > 0 && response?.data[0]) {
+                const response_room = response?.data[0]
 
-                    dispatch(addRoom(response?.data[0]));
+                if (response?.data?.length > 0 && response_room) {
 
-                    dispatch(addCurrentChat(response?.data[0]));
+                    dispatch(addRoom(response_room));
+
+                    dispatch(addCurrentChat(response_room));
                 }
 
                 ///console.log("LES ROOMS", userRooms);
-
             } catch (err) {
 
                 //console.error("Erreur lors du chargement des rooms:", err);

@@ -9,6 +9,7 @@ import { addRoom } from "../slices/chatSlice";
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from "react-router";
 import AccountDropdownUserProfil from "../components/DropDownAccount";
+import ScrollTop, { ButtonScrollTopDown } from "../components/ButtonScroll";
 
 
 const VertcalNavbar = ({ children }) => {
@@ -565,7 +566,11 @@ const VertcalNavbar = ({ children }) => {
                         }
 
                     > 
-                        {children}
+                        <ScrollTop/>
+
+                        <ButtonScrollTopDown>
+                            {children}
+                        </ButtonScrollTopDown>
 
                     </section>
 

@@ -2,6 +2,7 @@ import React from "react";
 import AttentionAlertMessage from "../components/AlertMessage";
 import { Outlet} from 'react-router-dom';
 import HomeLayout from "./HomeLayout";
+import ScrollTop from "../components/ButtonScroll";
 
 
 const FormLayout = ({ children }) => {
@@ -30,6 +31,7 @@ const FormLayout = ({ children }) => {
                                     }
                                 }
                             >
+                               <ScrollTop/>
                             
                                {children}
 
