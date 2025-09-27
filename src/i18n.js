@@ -22,6 +22,7 @@ i18n
      en: {
 
         translation: {
+            no_message:"There is no message",
              creatAccountSucces: "Account succesfully created",
              password: {
                  initPswd: "Password reset.",
@@ -491,6 +492,7 @@ i18n
      fr: {
 
          translation: {
+             no_message: "Aucun message à afficher",
              creatAccountSucces:"'Compte créé avec succès.",
              password: {
                  initPswd: "Mot de passe réinitialisé.",

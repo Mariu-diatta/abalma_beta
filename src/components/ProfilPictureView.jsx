@@ -7,7 +7,7 @@ const ProfilPictureView = ({ currentUser, message, children }) => {
 
     return (
 
-        <div className="flex flex-col items-center justify-center min-h-[300px] text-center text-gray-500 text-lg">
+        <div className="flex flex-col items-center justify-center max-h-[75dvh] min-h-[75dvh] text-center text-gray-500 text-lg">
 
             <img
                 alt=""

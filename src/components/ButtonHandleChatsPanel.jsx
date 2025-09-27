@@ -6,7 +6,7 @@ const ButtonToggleChatsPanel = ({ showSidebar, setShowSidebar }) => {
 
         <button
             onClick = {() => setShowSidebar(!showSidebar)}
-            className = "md:hidden border-0 text-white px-0 py-0 rounded-full shadow-sm  bg-white mb-1"
+            className = "md:hidden border-0 text-white pe-2 py-0 rounded-full  bg-white mb-1"
             aria-label="Toggle menu"
         >
              {

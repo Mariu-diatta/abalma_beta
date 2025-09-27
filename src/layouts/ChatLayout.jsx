@@ -224,7 +224,7 @@ const ChatLayout = () => {
     return (
 
         <div
-            className="grid grid-cols-12  flex justify-center items-start mx-auto gap-2 overflow-hidden pb-2  bg-grey-100 min-h-[100dvh] mb-4 "
+            className="grid grid-cols-12  flex justify-center items-start mx-auto gap-2 pb-2  bg-grey-100  mb-4 fixed"
             style={{
                 backgroundColor: 'var(--color-bg)',
                 color: 'var(--color-text)',
@@ -336,8 +336,8 @@ const ChatLayout = () => {
 
             </div>
 
-            {/* Main Chat Area */}
-            <div className="col-span-12 md:col-span-8  p-0 overflow-y-none scrollbor_hidden">
+             {/*Main Chat Area */}
+            <div className="col-span-12 md:col-span-8  p-0  scrollbor_hidden  ">
                 <div
                     className="lg:me-2 lg:pe-2 lg:ps-1 flex overflow_hidden "
                     style={{

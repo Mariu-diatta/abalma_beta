@@ -1,5 +1,8 @@
 import React from 'react'
 import { formatDateRelative, maintenant } from '../utils';
+import ProfilPictureView from './ProfilPictureView';
+import { useTranslation } from 'react-i18next';
+
 
 const PrintMessagesOnChat = ({ messages, currentUser, selectedUser, messagesEndRef }) => {
 
@@ -7,7 +10,7 @@ const PrintMessagesOnChat = ({ messages, currentUser, selectedUser, messagesEndR
 
         <>
 
-            <ul className="flex-1 overflow-y-auto border-b-0  mb-10 px-2 mx-3 mt-8 scrollbor_hidden h-screen mb-7 pb-6">
+            <ul className="flex-1 overflow-y-auto border-b-0  mb-10 px-2 mx-3 mt-8 scrollbor_hidden max-h-[70dvh] min-h-[70dvh] md:px-[3vh]">
 
                 {(() => {
 
@@ -90,3 +93,39 @@ const PrintMessagesOnChat = ({ messages, currentUser, selectedUser, messagesEndR
 }
 
 export default PrintMessagesOnChat;
+
+export const BoxMessagesChats = ({ selectedUser, messages, currentUser, messagesEndRef }) => {
+
+    const { t } = useTranslation();
+
+    return (
+        <div className="relative flex-1 space-y-0 pr-2 max-h-[100dvh] min-h-[100dvh]">
+
+            <div className="w-full h-px bg-gray-300 mb-3" />
+
+            {/* 💬 Liste des messages */}
+
+            {
+                (messages?.length === 0) ?
+                    (
+                        <ProfilPictureView
+                            currentUser={selectedUser}
+                            message={t("no_message")}
+                        />
+                    )
+                    :
+                    (
+                        <PrintMessagesOnChat
+                            messages={messages}
+                            currentUser={currentUser}
+                            selectedUser={selectedUser}
+                            messagesEndRef={messagesEndRef}
+                        />
+
+                    )
+
+            }
+
+        </div>
+    )
+}

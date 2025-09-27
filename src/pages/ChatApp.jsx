@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { backendBase} from '../utils';
 import ButtonToggleChatsPanel from '../components/ButtonHandleChatsPanel';
-import ProfilPictureView from '../components/ProfilPictureView';
-import PrintMessagesOnChat from '../components/PrintMessagesObChats';
+import { BoxMessagesChats } from '../components/BoxMessagesOnChats';
+import InputBoxChat from '../components/InputBoxChat';
 
 const ChatApp = ({ setShow , show}) => {
 
@@ -129,10 +129,10 @@ const ChatApp = ({ setShow , show}) => {
     return (
 
         <div
-            className="flex flex-col w-screen rounded-2xl  overflow-hidden  bg-grey  border-grey-600 shadow-lg  z-8 w-full mb-0 "
+            className="flex flex-col w-screen rounded-2xl  overflow-hidden    bg-none shadow-lg  z-8 w-full mb-0  "
         >
 
-            <div className="flex justify-between items-align-center p-2">
+            <div className="flex justify-between items-align-center p-2 bg-none max-h-[10dvh] min-h-[10dvh]">
 
                 {/* 👤 En-tête utilisateur */}
                 {
@@ -161,60 +161,21 @@ const ChatApp = ({ setShow , show}) => {
 
             </div>
 
-            <div className="relative flex-1 space-y-0 pr-2">         
-
-                <div className="w-full h-px bg-gray-300 mb-3" />
-
-                {/* 💬 Liste des messages */}
-
-                {
-                        (messages?.length===0) ?
-                        (
-                            <ProfilPictureView
-                                currentUser={selectedUser} /
-                            >
-                        )
-                        :
-                        (
-                            <PrintMessagesOnChat
-                                messages={messages}
-                                currentUser={currentUser}
-                                selectedUser={selectedUser}
-                                messagesEndRef={messagesEndRef}
-                            />
-
-                        )
-
-                }
-                  
-            </div>
+            <BoxMessagesChats
+                selectedUser={selectedUser}
+                messages={messages}
+                currentUser={currentUser}
+                messagesEndRef={messagesEndRef}
+            />
 
             {/* 📥 Zone d’entrée */}
-            <div className="bg-white fixed bottom-2  flex items-center gap-2 px-2 py-2 bg-white  rounded-xl w-full max-w-lg mb-0">
-                <input
-                    disabled={allRoomsChats.length === 0}
-                    value={input}
-                    onChange={e => { setInput(e.target.value); setShow(false); }}
-                    onKeyDown={e => e.key === "Enter" && sendMessage()}
-                    placeholder="Votre message..."
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-                />
-
-                <button
-                    onClick={sendMessage}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl text-sm"
-                    aria-label="Envoyer"
-                >
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M12 2a1 1 0 0 1 .932.638l7 18a1 1 0 0 1-1.326 1.281L13 19.517V13a1 1 0 1 0-2 0v6.517l-5.606 2.402a1 1 0 0 1-1.326-1.281l7-18A1 1 0 0 1 12 2Z"
-                        />
-                    </svg>
-                </button>
-            </div>
-
+            <InputBoxChat
+                allRoomsChats={allRoomsChats}
+                input={input}
+                setInput={setInput}
+                setShow={setShow}
+                sendMessage={sendMessage}
+            />
 
         </div>
     );
