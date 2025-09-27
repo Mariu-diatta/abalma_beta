@@ -252,51 +252,64 @@ const ProfileCard = () => {
 
     // Create or fetch chat room
     const getRoomByName = useCallback(
+
         async (room) => {
+
             try {
-                const response = await api.get(`/rooms/?name=${room?.name}`);
+                const response = await api.get(`/rooms/?receiver_id=${selectedProductOwner?.id}`);
                 dispatch(addCurrentChat(response[0]));
+
             } catch (err) {
                 console.error('❌ Erreur chargement messages :', err);
             }
         },
-        [dispatch]
+        [dispatch, selectedProductOwner]
     );
 
     const creatNewRoom = async () => {
+
         try {
             const hashedPhone = await hashPassword(selectedProductOwner?.telephone);
             const roomName = `room_${selectedProductOwner?.nom}_${hashedPhone}`;
             await getRoomByName({ name: roomName });
             const roomExists = allChats?.some((room) => room?.name === currentChat?.nom);
+
             if (roomExists) {
                 dispatch(setCurrentNav('message_inbox'));
                 navigate('/message_inbox');
                 return;
             }
+
            await api.post('rooms/', {
                 name: roomName,
                 current_owner: profileData?.id,
                 current_receiver: selectedProductOwner?.id,
-            });
+           });
+
             dispatch(setCurrentNav('message_inbox'));
             navigate('/message_inbox');
+
         } catch (err) {
+
             const errorMsg = err?.response?.data;
             const roomAlreadyExists = [
                 errorMsg?.name?.[0],
                 errorMsg?.current_receiver?.[0],
                 errorMsg?.current_owner?.[0],
             ].some((msg) => msg?.includes('already exists'));
+
             if (roomAlreadyExists) {
+
                 try {
                     const fallbackHash = await hashPassword(selectedProductOwner?.telephone);
-                    const fallbackRoom = `room_${selectedProductOwner?.nom}_${fallbackHash}`;
+                    const fallbackRoom = `room_${selectedProductOwner?.email}_${fallbackHash}`;
                     dispatch(addRoom(fallbackRoom));
                     dispatch(addCurrentChat(fallbackRoom));
+
                 } catch (hashErr) {
                     console.error('❌ Erreur fallback (hash):', hashErr);
                 }
+
             } else {
                 console.error('❌ Erreur création chat:', errorMsg);
             }
