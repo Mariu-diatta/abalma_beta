@@ -21,6 +21,7 @@ const api = axios.create({
 
 // 🔐 1. CSRF support (si Django CSRF activé)
 export const fetchCsrfToken = async () => {
+
     try {
 
         await api.get('set-csrf/'); // ton endpoint pour initialiser le cookie CSRF
@@ -33,6 +34,7 @@ export const fetchCsrfToken = async () => {
         }
 
     } catch (error) {
+
         console.error("Erreur CSRF :", error);
     }
 };
@@ -57,6 +59,26 @@ api.interceptors.response.use(
             !originalRequest?.url?.includes('/refresh/')
         ) {
             originalRequest._retry = true;  
+
+
+            if (error?.response?.data?.detail === "Informations d'authentification non fournies.") {
+
+                if (window.confirm("Votre session a expiré veullez vous reconnecter")) {
+
+                    try {
+
+                        return window.location.href = "/logIn";
+
+                    } catch (error) {
+
+                        //showMessage(dispatch, { Type: "Erreur", Message: error?.message || error?.request?.response });
+
+                    } finally {
+
+                        //setLoading(false)
+                    }
+                }
+            }
 
             try {
                 // On laisse le serveur décider si le refresh cookie est valide

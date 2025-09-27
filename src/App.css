@@ -241,3 +241,7 @@ body .style_bg {
 .animate-scroll:hover {
     animation-play-state: paused;
 }
+
+html, body, #root {
+    height: 100%;
+}

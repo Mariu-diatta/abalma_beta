@@ -1,10 +1,10 @@
-
-
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { backendBase, formatDateRelative, maintenant} from '../utils';
+import ButtonToggleChatsPanel from '../components/ButtonHandleChatsPanel';
 
-const ChatApp = ({ setShow}) => {
+const ChatApp = ({ setShow , show}) => {
+
     const ws = useRef(null);
     const messagesEndRef = useRef(null);
     const currentChat = useSelector(state => state.chat.currentChat);
@@ -53,6 +53,7 @@ const ChatApp = ({ setShow}) => {
 
         // Cleanup à la fin ou avant la prochaine exécution
         return () => {
+
             if (ws.current) {
                 //console.log("🧹 Nettoyage WebSocket :", currentChat.name);
                 ws.current.close();
@@ -60,7 +61,6 @@ const ChatApp = ({ setShow}) => {
         };
 
     }, [currentChat?.name]);
-
 
     useEffect(() => {
 
@@ -99,137 +99,177 @@ const ChatApp = ({ setShow}) => {
 
     // 📜 Scroll vers le bas à chaque message
     useEffect(() => {
+
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+
     }, [messages]);
 
     // ✉️ Envoi de message
     const sendMessage = useCallback(() => {
+
         const trimmed = input.trim();
+
         if (trimmed && ws.current?.readyState === WebSocket.OPEN) {
+
             ws.current.send(JSON.stringify({
+
                 sender: currentUser,
+
                 message: trimmed,
 
             }));
+
             setInput("");
         }
+
     }, [input, currentUser]);
 
     return (
-        <div className="flex flex-col h-full p-4 md:p-6 bg-white rounded-2xl shadow overflow-hidden">
 
-            {/* 👤 En-tête utilisateur */}
-            {selectedUser && (
-                <div className="flex items-center gap-3 text-gray-700 mb-3">
-                    <img
-                        src={selectedUser?.image ||
-                            selectedUser?.photo_url ||
-                            "/default-avatar.png"
-                        }
-                        alt={`${selectedUser?.nom || "Utilisateur"} avatar`}
-                        className="h-8 w-8 rounded-full object-cover"
-                    />
-                    <div>
-                        <p className="text-md font-semibold text-blue-600">{selectedUser?.prenom || "Prénom"}</p>
-                        <p className="text-xs text-gray-500">{selectedUser?.nom?.toLowerCase() || "Nom"}</p>
-                    </div>
-                </div>
-            )}
+        <div
+            className="flex flex-col w-screen rounded-2xl  overflow-hidden  bg-grey  border-grey-600 shadow-lg  z-8 w-full mb-0 "
+        >
 
-            <div className="w-full h-px bg-gray-300 mb-3" />
+            <div className="flex justify-between items-align-center p-2">
 
-            {/* 💬 Liste des messages */}
-            <ul className="flex-1 overflow-y-auto space-y-3 pr-2">
-                {(() => {
-                    let lastDateLabel = null;
+                {/* 👤 En-tête utilisateur */}
+                {
+                    selectedUser && (
 
-                    return messages.map((msg, idx) => {
-                        const isCurrentUser = msg.sender?.email === currentUser?.email;
-                        const alignment = isCurrentUser ? "justify-end" : "justify-start";
-                        const bubbleColor = isCurrentUser
-                            ? "bg-blue-500 text-white rounded-br-none"
-                            : "bg-gray-200 text-gray-800 rounded-bl-none";
+                        <div className="flex items-center gap-3 text-gray-700 mb-3">
+                            <img
+                                src={selectedUser?.image ||
+                                    selectedUser?.photo_url ||
+                                    "/default-avatar.png"
+                                }
+                                alt={`${selectedUser?.nom || "Utilisateur"} avatar`}
+                                className="h-[40px] w-[40px] rounded-full object-cover"
+                            />
+                            <div>
+                                <p className="text-md font-semibold text-blue-600">{selectedUser?.prenom || "Prénom"}</p>
+                                <p className="text-xs text-gray-500">{selectedUser?.nom?.toLowerCase() || "Nom"}</p>
+                            </div>
+                        </div>
+                    )
+                }
 
-                        const currentDateLabel = formatDateRelative(msg.date);
+                <div className="w-0" />
 
-                        const showDateLabel = currentDateLabel !== lastDateLabel;
+                <ButtonToggleChatsPanel showSidebar={show} setShowSidebar={setShow}/>
 
-                        lastDateLabel = currentDateLabel;
+            </div>
 
-                        return (
-                            <React.Fragment key={`${msg.date}-${idx}`}>
+            <div className="relative flex-1 space-y-0 pr-2">         
 
-                                {showDateLabel && (
-                                    <li className="text-center text-xs text-gray-500 py-2">
-                                        {currentDateLabel}
-                                    </li>
-                                )}
+                <div className="w-full h-px bg-gray-300 mb-3" />
 
-                                <li className={`flex items-end gap-2 ${alignment}`}>
+                {/* 💬 Liste des messages */}
+                <ul className="flex-1 overflow-y-auto border-b-0  mb-10 px-2 mx-3 mt-8 scrollbor_hidden h-screen mb-7 pb-6">
 
-                                    {!isCurrentUser && (
-                                        <img
-                                            src={
-                                                selectedUser?.image ||
-                                                selectedUser?.photo_url
-                                            }
-                                            alt="avatar"
-                                            className="h-5 w-5 rounded-full object-cover shadow-lg"
-                                        />
+                    {(() => {
+
+                        let lastDateLabel = null;
+
+                        return messages.map((msg, idx) => {
+
+                            const isCurrentUser = msg.sender?.email === currentUser?.email;
+                            const alignment = isCurrentUser ? "justify-end" : "justify-start";
+                            const bubbleColor = isCurrentUser
+                                ? "bg-blue-300 text-white rounded-br-none"
+                                : "bg-gray-200 text-gray-800 rounded-bl-none";
+
+                            const currentDateLabel = formatDateRelative(msg.date);
+
+                            const showDateLabel = currentDateLabel !== lastDateLabel;
+
+                            lastDateLabel = currentDateLabel;
+
+                            return (
+
+                                <React.Fragment key={`${msg.date}-${idx}`} >
+
+                                    {showDateLabel && (
+
+                                        <li className="text-center text-xs text-gray-500 py-2">
+                                            {currentDateLabel}
+                                        </li>
                                     )}
 
-                                    <div className="d-flex flex-col w-auto">
+                                    <li className={`flex items-end gap-2 ${alignment}`}>
 
-                                        <div className={`w-full px-2 py-2 text-sm shadow rounded-2xl flex flex-col shadow-lg ${bubbleColor}`}>
-                                            <p >{msg?.message}</p>
+                                        {!isCurrentUser && (
+
+                                            <img
+                                                src={
+                                                    selectedUser?.image ||
+                                                    selectedUser?.photo_url
+                                                }
+                                                alt="avatar"
+                                                className="h-5 w-5 rounded-full object-cover shadow-lg"
+                                            />
+                                        )}
+
+                                        <div className="d-flex flex-col w-auto">
+
+                                            <div className={`w-full px-2 py-2 text-sm shadow rounded-2xl flex flex-col shadow-md ${bubbleColor}`}>
+                                                <p>{msg?.message}</p>
+                                            </div>
+
+                                            <p className="text-[9px] text-grey-500 mt-1">{(msg?.date?.split(" ")[1]) || maintenant.toLocaleTimeString()}</p>
+
                                         </div>
-
-                                        <p className="text-xs text-grey-500 mt-1">{(msg?.date?.split(" ")[1]) || maintenant.toLocaleTimeString()}</p>
-
-                                    </div>
                                     
+                                        {isCurrentUser && (
+                                            <img
+                                                src={
+                                                    msg?.sender?.image ||
+                                                    msg?.sender?.photo_url
+                                                }
+                                                alt="avatar"
+                                                className="h-5 w-5 rounded-full object-cover"
+                                            />
+                                        )}
 
-                                    {isCurrentUser && (
-                                        <img
-                                            src={
-                                                msg?.sender?.image ||
-                                                msg?.sender?.photo_url
-                                            }
-                                            alt="avatar"
-                                            className="h-5 w-5 rounded-full object-cover"
-                                        />
-                                    )}
+                                    </li>
 
-                                </li>
+                                    <div ref={messagesEndRef} />
 
-                            </React.Fragment>
-                        );
-                    });
-                })()}
-                <div ref={messagesEndRef} />
-            </ul>
+                                </React.Fragment>
+                            );
+                        });
+                    })()}
 
+                </ul>
+
+            </div>
 
             {/* 📥 Zone d’entrée */}
-            <div className="mt-4 flex gap-2">
+            <div className="bg-white fixed bottom-2  flex items-center gap-2 px-2 py-2 bg-white  rounded-xl w-full max-w-lg mb-0">
                 <input
                     disabled={allRoomsChats.length === 0}
                     value={input}
-                    onChange={e => { setInput(e.target.value); setShow(false) }}
+                    onChange={e => { setInput(e.target.value); setShow(false); }}
                     onKeyDown={e => e.key === "Enter" && sendMessage()}
                     placeholder="Votre message..."
-                    className="flex-1 px-4 py-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
+
                 <button
                     onClick={sendMessage}
                     className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl text-sm"
                     aria-label="Envoyer"
                 >
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path fillRule="evenodd" clipRule="evenodd" d="M12 2a1 1 0 0 1 .932.638l7 18a1 1 0 0 1-1.326 1.281L13 19.517V13a1 1 0 1 0-2 0v6.517l-5.606 2.402a1 1 0 0 1-1.326-1.281l7-18A1 1 0 0 1 12 2Z" />
+                        <path
+                            fillRule="evenodd"
+                            clipRule="evenodd"
+                            d="M12 2a1 1 0 0 1 .932.638l7 18a1 1 0 0 1-1.326 1.281L13 19.517V13a1 1 0 1 0-2 0v6.517l-5.606 2.402a1 1 0 0 1-1.326-1.281l7-18A1 1 0 0 1 12 2Z"
+                        />
                     </svg>
                 </button>
             </div>
+
+
         </div>
     );
 };

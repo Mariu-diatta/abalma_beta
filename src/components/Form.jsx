@@ -180,7 +180,7 @@ const RegisterForm = () => {
                             placeholder={t('form.confirmPassword')}
                             value={form.password1}
                             onChange={handleChange}
-                            autoComplete="new-password"
+                            autoComplete="off"
 
                         />
 

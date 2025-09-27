@@ -29,6 +29,8 @@ export default function AccountDropdownUserProfil() {
 
     const currentNotifMessages = useSelector(state => state.chat.messageNotif);
 
+    const currentNav = useSelector(state => state.navigate.currentNav);
+
     const trigger = useRef(null);
 
     const dropdown = useRef(null);
@@ -121,14 +123,17 @@ export default function AccountDropdownUserProfil() {
 
         <section
             style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
-            className="flex items-center justify-center px-2  bg-transparent rounded-lg absolute top-0 bg-gray-2 dark:bg-dark z-[10] mb-6 fixed bg-white">
+            className={`flex items-center justify-center px-2  bg-transparent rounded-lg absolute top-0 bg-gray-2 dark:bg-dark z-[10] mb-6 fixed bg-white`}
+        >
 
             <AttentionAlertMessage/>
 
             {/* Mobile only - fixed bottom bar */}
             <div
-                className="fixed bottom-0 w-max-100 left-0 right-0 z-0 flex items-center justify-around sm:flex md:hidden lg:hidden"
-
+                className={
+                    `fixed bottom-0 w-max-100 left-0 right-0 z-0 flex items-center justify-around sm: flex md: hidden lg: hidden
+                    ${currentNav === "message_inbox" ? "hidden" : ""}`
+                }
                 style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
             >
 
@@ -300,7 +305,6 @@ export default function AccountDropdownUserProfil() {
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
                             </svg>
 
-
                             <div className="whitespace-nowrap">{t("param")} </div>
 
                         </div>
@@ -332,7 +336,6 @@ export default function AccountDropdownUserProfil() {
                         </button>
                         :
                         <LoadingCard/>
-
                     }
 
                 </div>
