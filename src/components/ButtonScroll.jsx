@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+//import { useSelector } from "react-redux";
 
 export const ButtonScrollTopDown = ({ children }) => {
 
     const [atTop, setAtTop] = useState(true);
     const [isScrollable, setIsScrollable] = useState(false);
-    const currentNav = useSelector(state => state.navigate.currentNav);
-    const isCurentNavInChat=currentNav === "message_inbox"
+    //const currentNav = useSelector(state => state.navigate.currentNav);
+    //const isCurentNavInChat=currentNav === "message_inbox"
 
     useEffect(() => {
         const checkScrollability = () => {

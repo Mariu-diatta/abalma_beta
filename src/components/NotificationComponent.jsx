@@ -1,83 +1,92 @@
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { backendBase } from "../utils";
-import { addMessageNotif } from "../slices/chatSlice";
+import { addMessageNotif, removeRoom } from "../slices/chatSlice";
 //import { addMessageNotif } from "../slices/chatSlice";
 
- const NotificationsComponent = ({ userId }) => {
+ const NotificationsComponent = () => {
 
     const currentNotifMessages = useSelector(state => state.chat.messageNotif);
 
     const currentUser = useSelector(state => state.auth.user)
 
-     const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-     const ws = useRef(null);
+    const selectedUser = useSelector((state) => state.chat.userSlected);
+
+     const deleteChat = useSelector((state) => state.chat.deleteChat);
+
+    const ws = useRef(null);
 
      useEffect(() => {
+         if (!currentUser?.id) return;
 
-         //process.env.NODE_ENV === 'production'
-         if (!currentUser?.id) return 
+         const socketUrl = `${backendBase}/chat/notifications/${currentUser.id}/`;
 
-         const socketUrl = `${backendBase}/chat/notifications/${currentUser?.id}/`;
+         // Fermer une ancienne connexion avant d'en ouvrir une nouvelle
+         //if (ws.current) {
+         //    ws.current.close();
+         //}
 
-         if (ws.current) {
-             ws.current.close();
-         }
-
-         ws.current= new WebSocket(socketUrl);
+         ws.current = new WebSocket(socketUrl);
 
          ws.current.onopen = () => {
-
              console.log("✅ Notification WebSocket connecté");
          };
 
          ws.current.onmessage = (event) => {
-
              try {
                  const data = JSON.parse(event.data);
 
-                 //console.log("donnée notification", data)
+                 if (
+                     data?.typeNotif === "Delete" &&
+                     data?.typeItem === "Delete" &&
+                     (deleteChat?.pk !== data?.room_pk)
+                 ) {
+                      
+                     dispatch(addMessageNotif(data?.content));
 
-                 if (data.type === "send_notification" && data && data?.user_id !== currentUser?.id) {
-
-                     //console.log("🔔 Notification reçue:", data);
-
-                     dispatch(addMessageNotif(data.content));
+                     dispatch(removeRoom({ pk: data?.room_pk }))
                  }
              } catch (e) {
-
-                 //    console.error("Erreur JSON:", e);
+                 console.error("❌ Erreur JSON:", e);
              }
          };
 
          ws.current.onclose = () => {
-
-             //    console.warn("❌ WebSocket fermé");
+             console.warn("❌ WebSocket fermé");
          };
 
          ws.current.onerror = (err) => {
-
-             //    console.error("❗ WebSocket erreur:", err);
+             console.error("❗ WebSocket erreur:", err);
          };
 
-         return () => ws.current.close();
+         return () => {
+             if (ws.current) {
+                 ws.current.close();
+             }
+         };
+     }, [currentUser, dispatch, selectedUser, deleteChat]); // 👈 uniquement l'ID utilisateur en dépendance
 
-     }, [userId, dispatch, currentUser?.id]);
 
      useEffect(
 
          () => {
              if (currentNotifMessages && ws.current?.readyState === WebSocket.OPEN) {
+
                  ws.current.send(JSON.stringify({
                      user: currentUser,
                      content: currentNotifMessages[0],
-                     title: currentNotifMessages[0]
+                     title: currentNotifMessages[0],
+                     room_pk: deleteChat?.pk,
+                     typeItem: "Chat",
+                     receiver_id: deleteChat?.current_receiver,
+                     typeNotif:"Delete"
 
                  }));
 
              }
-         }
+         },[currentNotifMessages,currentUser,deleteChat]
      )
 
     return (

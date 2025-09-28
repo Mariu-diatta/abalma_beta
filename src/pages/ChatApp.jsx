@@ -18,7 +18,7 @@ const ChatApp = ({ setShow , show}) => {
     const allRoomsChats = useSelector(state => state.chat.currentChats);
     const selectedUser = useSelector(state => state.chat.userSlected);
 
-    // 🔌 Connexion WebSocket
+    // 🔌 Connexion WebSocket pour les messages
     useEffect(() => {
 
         if (!currentChat?.name) return;
@@ -64,6 +64,7 @@ const ChatApp = ({ setShow , show}) => {
 
     }, [currentChat?.name]);
 
+    //récupérer les messages du chats
     useEffect(() => {
 
         setMessages([])

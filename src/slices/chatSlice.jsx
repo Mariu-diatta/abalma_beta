@@ -3,8 +3,9 @@ import api from '../services/Axios';
 
 const initialState = {
     currentChats: [], // Liste des rooms actuellement actives (sans doublon)
-    newChat: {},
-    currentChat:{},
+    newChat: null,
+    deleteChat: null,
+    currentChat:null,
     userSlected: null,
     messageNotif: [],
 };
@@ -20,6 +21,8 @@ const chatSlice = createSlice({
         // ➕ Ajouter une room s'il n'existe pas déjà
         addRoom: (state, action) => {
 
+            if (!action.payload?.pk) return
+
             const exists = state.currentChats.some(room => room?.pk === action.payload?.pk);
 
             if (!exists) {
@@ -31,12 +34,14 @@ const chatSlice = createSlice({
         // ➖ Supprimer une room par nom
         removeRoom: (state, action) => {
 
+            if (!action.payload) return 
+
             const room_pk = action.payload?.pk;
 
             // Si le chat supprimé est le chat courant, on le réinitialise
             if (state.currentChat?.pk === room_pk) {
 
-                state.currentChat = {};
+                state.currentChat = null;
             }
 
             // Supprimer localement le chat de la liste
@@ -79,28 +84,27 @@ const chatSlice = createSlice({
         },
         cleanAllMessageNotif: (state) => {
             state.messageNotif = [];
-        }
+        },
+
+        getDeleteChat: (state, action) => {
+
+            state.deleteChat = action.payload;
+
+        },
     },
 });
 
 export const { addRoom, removeRoom, clearRooms, newRoom, addUser, addCurrentChat, addMessageNotif,
-    removeMessageNotif, cleanAllMessageNotif} = chatSlice.actions;
+    removeMessageNotif, cleanAllMessageNotif, getDeleteChat} = chatSlice.actions;
 
 export const deleteRoomAsync = (room) => async (dispatch) => {
+
+    // Mise à jour du store après succès
+    dispatch(getDeleteChat(room));
 
     try {
 
         await api.delete(`/rooms/${room?.pk}/`);
-
-        //console.log(resp?.data)
-        //const pk_id = resp?.data[0]?.pk;
-
-        //if (pk_id) {
-        //    await api.delete(`/rooms/${pk_id}/`);
-        //}
-
-        // Mise à jour du store après succès
-        dispatch(removeRoom(room));
 
     } catch (err) {
 

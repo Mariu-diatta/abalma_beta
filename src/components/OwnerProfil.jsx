@@ -78,6 +78,9 @@ const OwnerPopover = ({ owner, onClose }) => {
 
                             dispatch(addUser(owner))
 
+
+                            console.log("Le room actuel créé: OwnerProfil", resp?.data)
+
                         }
 
                     ).catch(
@@ -94,6 +97,24 @@ const OwnerPopover = ({ owner, onClose }) => {
                             if (roomAlreadyExists) {
 
                                 const response = api.get(`/rooms/?receiver_id=${selectedProductOwner?.id}`);
+
+                                console.log("Le room actuel: OwnerProfil", response?.data)
+
+                                //if (response?.data?.length > 0) {
+
+                                //    response?.data?.forEach(
+
+                                //        room => {
+
+                                //            if (room?.messages.length > 0) {
+
+                                //                dispatch(addRoom(room));
+                                //            }
+
+                                //        }
+                                //    )
+
+                                //}
 
                                 dispatch(addRoom(response?.data));
 

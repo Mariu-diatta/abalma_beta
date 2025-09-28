@@ -8,13 +8,14 @@ import { LoginWithGoogle } from '../firebase';
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import LoadingCard from '../components/LoardingSpin';
-import { loginClient } from '../utils';
+import { fetchRooms, loginClient } from '../utils';
 import { ButtonSimple } from '../components/Button';
 import { useNavigate } from 'react-router-dom'; // 
 import { useSelector } from 'react-redux';
 import FormLayout from '../layouts/FormLayout';
 import { showMessage } from '../components/AlertMessage';
 import TitleCompGen from '../components/TitleComponentGen';
+import { addRoom } from '../slices/chatSlice';
 
 
 const LogIn = () => {
@@ -26,9 +27,10 @@ const LogIn = () => {
     const emailRef = useRef(null);
     const { t } = useTranslation();
     const componentRef = useRef(null);
-    const navigate =useNavigate();
-    const currentNav = useSelector(state => state.navigate.currentNav);
+    const navigate = useNavigate();
 
+    const currentNav = useSelector(state => state.navigate.currentNav);
+    const currentUser = useSelector(state => state.auth.user)
 
     useEffect(() => {
 
@@ -65,7 +67,6 @@ const LogIn = () => {
 
     }, []);
 
-
     useEffect(() => {
 
         // Petite pause pour laisser le navigateur autofill
@@ -87,7 +88,6 @@ const LogIn = () => {
         if (currentNav === "home") navigate("/", { replace: true })
 
     }, [currentNav, navigate])
-
 
     const handleSignIn = async () => {
 
@@ -129,6 +129,12 @@ const LogIn = () => {
         }
     };
 
+
+    useEffect(() => {
+
+        fetchRooms(currentUser, dispatch, addRoom);
+
+    }, [dispatch, currentUser]);
 
     return (
 

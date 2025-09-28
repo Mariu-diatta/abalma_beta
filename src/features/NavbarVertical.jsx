@@ -10,6 +10,8 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from "react-router";
 import AccountDropdownUserProfil from "../components/DropDownAccount";
 import ScrollTop, { ButtonScrollTopDown } from "../components/ButtonScroll";
+import ProButtonUi from "../components/ButtonPro";
+import { fetchRooms } from "../utils";
 
 
 const VertcalNavbar = ({ children }) => {
@@ -35,23 +37,20 @@ const VertcalNavbar = ({ children }) => {
         return (currentNav === id)
     }
 
-    // 🔎 Fetch Rooms
+    //// 🔎 Fetch Rooms
     useEffect(() => {
 
         const fetchRooms = async () => {
 
             try {
-                const { data = [] } = await api.get("/rooms/");
+                const data= await api.get("/rooms/");
 
                 const userRooms = data?.filter(
 
-                    room =>
-                        room?.current_receiver === currentUser?.id ||
-
-                        room?.current_owner === currentUser?.id
+                    room => (room?.current_receiver === currentUser?.id && room?.messages.length > 0) || room?.current_owner === currentUser?.id
                 );
 
-                userRooms.forEach(room => dispatch(addRoom(room)));
+                (userRooms?.length>0) && userRooms.forEach(room => dispatch(addRoom(room)));
 
             } catch (error) {
 
@@ -61,7 +60,7 @@ const VertcalNavbar = ({ children }) => {
 
         fetchRooms();
 
-    }, [currentUser?.id, dispatch]);
+    }, [currentUser, dispatch]);
 
     // 📦 Click en dehors de la sidebar
     useEffect(() => {
@@ -86,33 +85,7 @@ const VertcalNavbar = ({ children }) => {
 
     useEffect(() => {
 
-        const fetchRooms = async () => {
-
-            try {
-
-                const response = await api.get("allRoomes");
-
-                // Définir automatiquement un chat si aucun sélectionné
-                if (response?.data?.length > 0) {
-
-                    response.data.forEach(room => {
-
-                        const isCurrentUserInThisChat = room?.current_receiver === currentUser?.id || room?.current_owner === currentUser?.id
-
-                        if (isCurrentUserInThisChat) dispatch(addRoom(room));
-                       
-                    });
-                }
-
-                ///console.log("LES ROOMS", userRooms);
-
-            } catch (err) {
-
-                //console.error("Erreur lors du chargement des rooms:", err);
-            }
-        };
-
-        fetchRooms();
+        fetchRooms(currentUser, dispatch, addRoom);
 
     }, [dispatch, currentUser]);
 
@@ -158,7 +131,7 @@ const VertcalNavbar = ({ children }) => {
 
                 ref={sidebarRef}
 
-                className={`bg-white fixed top-0 left-0 z-[40] w-64 h-full transition-transform ${isSidebarOpen ? '' : '-translate-x-full'} sm:translate-x-0`}
+                className={`bg-none fixed top-0 left-0 z-[40] w-64 h-full transition-transform ${isSidebarOpen ? '' : '-translate-x-full'} sm:translate-x-0`}
 
                 aria-label="Sidebar"
             >
@@ -180,7 +153,7 @@ const VertcalNavbar = ({ children }) => {
 
                         <li>
 
-                            <span className="flex items-center p-text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group mb-5">
+                            <span className="flex items-center p-text-gray-900 rounded-lg dark:text-white  group mb-5">
 
                                 <Logo />
 
@@ -191,7 +164,7 @@ const VertcalNavbar = ({ children }) => {
                         <li>
                             <button
 
-                                className={`w-full flex items-center justify-between text-left gap-x-3 p-2 w-full text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-md ${(currentNav === "account_home") && "bg-gray-100"}`}
+                                className={`w-full flex items-center justify-between text-left gap-x-3 p-2 w-full text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-full ${(currentNav === "account_home") && "bg-gray-100"}`}
 
                                 onClick={
 
@@ -283,20 +256,20 @@ const VertcalNavbar = ({ children }) => {
 
                             <button
 
-                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-md ${(currentNav === "message_inbox") && "bg-gray-100"}`}
+                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-full ${(currentNav === "message_inbox") && "bg-gray-100"}`}
 
                                 onClick={() => { navigate("/message_inbox"); dispatch(setCurrentNav("message_inbox")) }}
                             >
                                 {
                                     (currentNav === "message_inbox") ?
 
-                                    <svg className="shadow-lg w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                    <svg className="shadow-lg rounded-full  w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                         <path fillRule="evenodd" d="M4 3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h1v2a1 1 0 0 0 1.707.707L9.414 13H15a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4Z" clipRule="evenodd" />
                                         <path fillRule="evenodd" d="M8.023 17.215c.033-.03.066-.062.098-.094L10.243 15H15a3 3 0 0 0 3-3V8h2a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-1v2a1 1 0 0 1-1.707.707L14.586 18H9a1 1 0 0 1-.977-.785Z" clipRule="evenodd" />
                                     </svg>
 
                                     :
-                                    <svg className="shadow-lg  w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <svg className="shadow-lg rounded-full   w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M9 17h6l3 3v-3h2V9h-2M4 4h11v8H9l-3 3v-3H4V4Z" />
                                     </svg>
                                 }
@@ -305,7 +278,7 @@ const VertcalNavbar = ({ children }) => {
 
                                 <span
 
-                                    className="shadow-lg inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm  text-blue-900 bg-blue-50 rounded-full dark:bg-blue-900 dark:text-blue-300"
+                                    className="shadow-lg rounded-full  inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm  text-blue-900 bg-blue-50 rounded-full dark:bg-blue-900 dark:text-blue-300"
 
                                     style={{
                                         backgroundColor: "var(--color-bg)",
@@ -325,20 +298,20 @@ const VertcalNavbar = ({ children }) => {
 
                             <button
 
-                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-md ${(currentNav === "add_product") && "bg-gray-100"}`}
+                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-full ${(currentNav === "add_product") && "bg-gray-100"}`}
 
                                 onClick={() => { navigate("/add_product"); dispatch(setCurrentNav("add_product")) }}
                             >
                                 {
                                     (currentNav === "add_product") ?
 
-                                    <svg className="shadow-lg  shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 24">
+                                    <svg className="shadow-lg rounded-full   shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 24">
 
                                         <path fillRule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4.243a1 1 0 1 0-2 0V11H7.757a1 1 0 1 0 0 2H11v3.243a1 1 0 1 0 2 0V13h3.243a1 1 0 1 0 0-2H13V7.757Z" clipRule="evenodd" />
 
                                     </svg>
                                     :
-                                    <svg className="shadow-lg  w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <svg className="shadow-lg rounded-full  w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                     </svg>
                                 }
@@ -355,20 +328,20 @@ const VertcalNavbar = ({ children }) => {
 
                                 onClick={() => { navigate("/user_blogs"); dispatch(setCurrentNav("user_blogs")) }}
 
-                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-md ${(currentNav === "user_blogs") && "bg-gray-100"}`}                            >
+                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-full ${(currentNav === "user_blogs") && "bg-gray-100"}`}                            >
 
                                 <div className="flex gap-2">
 
                                     {
                                         (currentNav === "user_blogs") ?
 
-                                        <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                        <svg className="shadow-lg rounded-full w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                             <path fillRule="evenodd" d="M14 4.182A4.136 4.136 0 0 1 16.9 3c1.087 0 2.13.425 2.899 1.182A4.01 4.01 0 0 1 21 7.037c0 1.068-.43 2.092-1.194 2.849L18.5 11.214l-5.8-5.71 1.287-1.31.012-.012Zm-2.717 2.763L6.186 12.13l2.175 2.141 5.063-5.218-2.141-2.108Zm-6.25 6.886-1.98 5.849a.992.992 0 0 0 .245 1.026 1.03 1.03 0 0 0 1.043.242L10.282 19l-5.25-5.168Zm6.954 4.01 5.096-5.186-2.218-2.183-5.063 5.218 2.185 2.15Z" clipRule="evenodd" />
                                         </svg>
 
                                         :
 
-                                        <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <svg className="shadow-lg rounded-full  w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M10.779 17.779 4.36 19.918 6.5 13.5m4.279 4.279 8.364-8.643a3.027 3.027 0 0 0-2.14-5.165 3.03 3.03 0 0 0-2.14.886L6.5 13.5m4.279 4.279L6.499 13.5m2.14 2.14 6.213-6.504M12.75 7.04 17 11.28" />
                                         </svg>
                                     }
@@ -387,17 +360,17 @@ const VertcalNavbar = ({ children }) => {
 
                                 onClick={() => { navigate("/dashboard"); dispatch(setCurrentNav("dashboard")) }}
 
-                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-md ${(currentNav === "dashboard") && "bg-gray-100"}`}                            >
+                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-full ${(currentNav === "dashboard") && "bg-gray-100"}`}>
 
-                                <div className="flex gap-2">
+                                <div className="flex gap-2 ">
 
                                     {
                                         (currentNav === "dashboard") ?
-                                            <svg className="shadow-lg  w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                            <svg className="shadow-lg  w-6 h-6 text-gray-800 dark:text-white rounded-full" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                                 <path d="M18.045 3.007 12.31 3a1.965 1.965 0 0 0-1.4.585l-7.33 7.394a2 2 0 0 0 0 2.805l6.573 6.631a1.957 1.957 0 0 0 1.4.585 1.965 1.965 0 0 0 1.4-.585l7.409-7.477A2 2 0 0 0 21 11.479v-5.5a2.972 2.972 0 0 0-2.955-2.972Zm-2.452 6.438a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z" />
                                             </svg>
                                             :
-                                            <svg className="shadow-lg  w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            <svg className="shadow-lg  w-6 h-6 text-gray-800 dark:text-white rounded-full" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M15.583 8.445h.01M10.86 19.71l-6.573-6.63a.993.993 0 0 1 0-1.4l7.329-7.394A.98.98 0 0 1 12.31 4l5.734.007A1.968 1.968 0 0 1 20 5.983v5.5a.992.992 0 0 1-.316.727l-7.44 7.5a.974.974 0 0 1-1.384.001Z" />
                                             </svg>
                                     }
@@ -412,26 +385,7 @@ const VertcalNavbar = ({ children }) => {
 
                     </ul>
 
-                    {
-                        (!currentUser?.is_pro) &&
-                        <ul className="pt-4 mt-4 space-y-2  border-t border-gray-200 dark:border-gray-700 cursor-pointer">
-
-                            <li>
-                                <span className="flex items-center p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-
-                                    <svg className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 17 20">
-
-                                        <path d="M7.958 19.393a7.7 7.7 0 0 1-6.715-3.439c-2.868-4.832 0-9.376.944-10.654l.091-.122a3.286 3.286 0 0 0 .765-3.288A1 1 0 0 1 4.6.8c.133.1.313.212.525.347A10.451 10.451 0 0 1 10.6 9.3c.5-1.06.772-2.213.8-3.385a1 1 0 0 1 1.592-.758c1.636 1.205 4.638 6.081 2.019 10.441a8.177 8.177 0 0 1-7.053 3.795Z" />
-
-                                    </svg>
-
-                                    <span className="ms-3 " onClick={() => alert("SERVICE PAS ENCORE DISPONIBLE")}>{t('AccountPage.upgrade')}</span>
-
-                                </span>
-                            </li>
-
-                        </ul>
-                    }
+                    <ProButtonUi/>
 
                     <ul
                         className="scrollbor_hidden h-full lg:h-[300px] py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800  mt-1 space-y-1  border-t border-gray-200 dark:border-gray-700"

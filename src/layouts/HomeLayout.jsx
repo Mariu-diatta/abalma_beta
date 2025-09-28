@@ -7,6 +7,7 @@ import { setCurrentNav } from '../slices/navigateSlice';
 import ScrollTop, { ButtonScrollTopDown } from '../components/ButtonScroll';
 
 const HomeLayout = ({ children }) => {
+
     const dispatch = useDispatch();
 
     const currentUser = useSelector((state) => state.auth.user);

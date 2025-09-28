@@ -22,7 +22,9 @@ i18n
      en: {
 
         translation: {
-            no_message:"There is no message",
+             LOGOUT_CONFIRM: "Do you want to log out?",
+             NO_SERVICE_PRO: "SERVICE NOT AVAILABLE YET",
+             no_message:"There is no message",
              creatAccountSucces: "Account succesfully created",
              password: {
                  initPswd: "Password reset.",
@@ -492,6 +494,8 @@ i18n
      fr: {
 
          translation: {
+             NO_SERVICE_PRO: "SERVICE PAS ENCORE DISPONIBLE",
+             LOGOUT_CONFIRM: "Voulez-vous vous deconnecter?",
              no_message: "Aucun message à afficher",
              creatAccountSucces:"'Compte créé avec succès.",
              password: {

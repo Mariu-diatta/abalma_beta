@@ -13,6 +13,7 @@ import {
     cleanAllMessageNotif,
     clearRooms,
     deleteRoomAsync,
+    removeRoom,
 } from '../slices/chatSlice';
 import { clearCart } from '../slices/cartSlice';
 import { logout } from '../slices/authSlice';
@@ -27,6 +28,8 @@ const ChatLayout = () => {
     const allChats = useSelector((state) => state.chat.currentChats);
     const currentChat = useSelector((state) => state.chat.currentChat);
     const selectedUser = useSelector((state) => state.chat.userSlected);
+
+    const deleteChat = useSelector((state) => state.chat.deleteChat);
 
     const [receivers, setReceivers] = useState({});
     const [senders, setSenders] = useState({});
@@ -101,7 +104,7 @@ const ChatLayout = () => {
     // Charger la room d'un utilisateur sélectionné
     useEffect(() => {
 
-        const fetchRooms = async () => {
+        const fetchRoom = async () => {
 
             if (!selectedUser?.id) return;
 
@@ -110,20 +113,18 @@ const ChatLayout = () => {
 
                 const response_room = response?.data[0];
 
-                if (response?.data?.length > 0 && response_room) {
+                if ((response_room?.current_receiver === currentUser?.id) && (response_room?.messages.length > 0) && (response?.data?.length > 0) ) {
 
-                    response?.data?.forEach(
+                    if ((response_room?.current_receiver === currentUser?.id || response_room?.current_owner === currentUser?.id)) {
 
-                        room => {
+                        console.log("Romm with lenght", response_room?.messages.length)
 
-                            if (room?.current_receiver === currentUser?.id || room?.current_owner === currentUser?.id) {
+                        dispatch(addRoom(response_room));
 
-                                dispatch(addRoom(response_room));
+                        dispatch(addCurrentChat(response_room));
+                    }
+       
 
-                                dispatch(addCurrentChat(response_room));
-                            }
-                        }
-                    )
                 }
             } catch (err) {
 
@@ -162,11 +163,11 @@ const ChatLayout = () => {
             }
         };
 
-        fetchRooms();
+        fetchRoom();
 
     }, [selectedUser?.id, dispatch, currentUser?.id, navigate]);
 
-    // Charger la room d'un utilisateur sélectionné
+    // Charger la room de l'utilisateur actuel 
     useEffect(() => {
 
         const fetchRooms = async () => {
@@ -182,7 +183,14 @@ const ChatLayout = () => {
 
                         room => {
 
-                            dispatch(addRoom(room));
+
+                            if (room?.messages.length>0) {
+
+                                console.log("room with lenght:::", room?.messages.length)
+
+                                dispatch(addRoom(room));
+                            }
+            
                         }
                     )
 
@@ -208,7 +216,18 @@ const ChatLayout = () => {
 
     }, [allChats.length, dispatch]);
 
+    //suppresion du room
     const handleDeleteRoom = (room) => {
+
+        if (deleteChat === room) {
+            return
+        }
+
+        dispatch(removeRoom(room))            
+
+        dispatch(deleteRoomAsync(room));
+
+        dispatch(addCurrentChat(null))
 
         dispatch(
 
@@ -218,7 +237,6 @@ const ChatLayout = () => {
             )
         );
 
-        dispatch(deleteRoomAsync(room));
     };
 
     return (

@@ -7,6 +7,37 @@ export const maintenant = new Date();
 
 export const getPhotoUser = (obj) => obj?.sender?.image || obj?.sender?.photo_url
 
+//fetch all rooms
+
+export const fetchRooms = async (currentUser, dispatch, addRoom) => {
+
+    if(!currentUser) return
+
+    try {
+
+        const response = await api.get("allRoomes");
+
+        // Définir automatiquement un chat si aucun sélectionné
+        if (response?.data?.length > 0) {
+
+            response.data.forEach(room => {
+
+                const isCurrentUserInThisChat = room?.current_receiver === currentUser?.id || room?.current_owner === currentUser?.id
+
+                const numberMessagesRoom = room?.messages.length
+
+                if (isCurrentUserInThisChat && (numberMessagesRoom > 0)) dispatch(addRoom(room));
+
+            });
+        }
+
+        ///console.log("LES ROOMS", userRooms);
+
+    } catch (err) {
+
+        //console.error("Erreur lors du chargement des rooms:", err);
+    }
+};
 
 export const backendBase = process.env.NODE_ENV === 'production'
     ? 'wss://backend-mpb0.onrender.com'
@@ -75,7 +106,6 @@ export function formatDateRelative(dateString, lang = 'fr') {
     }
 }
 
-
 //Enregistrement de la liste des catefories
 export const  LIST_CATEGORY=[
 
@@ -121,7 +151,6 @@ export const applyTheme = (newTheme, dispatch) => {
         metaThemeColor.setAttribute('content', newTheme === 'dark' ? '#000000' : '#ffffff');
     }
 }
-
 
 //vérifier sile user est déjà un follower
 export const isAlreadyFollowed = async (clientId, setIsFollow, setIsLoading) => {
