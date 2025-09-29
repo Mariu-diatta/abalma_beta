@@ -104,7 +104,8 @@ export const BlogPage = () => {
          
     return (
 
-        <div className="absolute fixed w-[100dvw] md:left-[19dvw] md:w-[80dvw] dark:bg-gray-900 z-8 shadow-sm h-screen pb-[5dvh]">
+
+        <div className=" dark:bg-gray-900 bg_home z-0 shadow-sm h-full">
 
 
             <div className="mx-0 lg:mx-auto  max-w-screen-auto text-center lg:mb-3 mb-2">
@@ -125,20 +126,21 @@ export const BlogPage = () => {
 
                 {
                     !isLoading ?
-                    <div className="overflow-y-auto h-[65dvh] scrollbor_hidden grid gap-2 lg:grid-cols-2 pb-5">
+
+                    <div className="grid gap-2 lg:grid-cols-2">
 
                         {fetchBlogs()}
 
+                        <div className="flex justify-end  pr-2 my-8 ">
+
+                            <ModalFormCreatBlog />
+
+                        </div>
                     </div>
                     :
                     <LoadingCard />
                 }
 
-                <div className="fixed bottom-2 right-5 justify-end  pr-2 my-8">
-
-                    <ModalFormCreatBlog />
-
-                </div>
 
 
             </div>

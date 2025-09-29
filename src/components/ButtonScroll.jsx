@@ -1,34 +1,33 @@
 import { useEffect, useRef, useState } from "react";
-//import { useSelector } from "react-redux";
 
 export const ButtonScrollTopDown = ({ children }) => {
+    const topRef = useRef(null);
+    const bottomRef = useRef(null);
 
-    const [atTop, setAtTop] = useState(true);
     const [isScrollable, setIsScrollable] = useState(false);
-    //const currentNav = useSelector(state => state.navigate.currentNav);
-    //const isCurentNavInChat=currentNav === "message_inbox"
+    const [atTop, setAtTop] = useState(true);
 
     useEffect(() => {
         const checkScrollability = () => {
-            // Vérifie si la hauteur du document dépasse la hauteur de la fenêtre
             const scrollable = document.documentElement.scrollHeight > window.innerHeight;
             setIsScrollable(scrollable);
         };
 
         const handleScroll = () => {
             const scrollY = window.scrollY || document.documentElement.scrollTop;
-            setAtTop(scrollY < 100);
+            setAtTop(scrollY > 0); // proche du haut
         };
 
-        // Vérifie dès le montage
         checkScrollability();
         handleScroll();
 
         window.addEventListener("scroll", handleScroll);
         window.addEventListener("resize", checkScrollability);
 
-        // Vérifie aussi quand le DOM change (si du contenu s’ajoute après coup)
-        const observer = new MutationObserver(checkScrollability);
+        const observer = new MutationObserver(() => {
+            checkScrollability();
+            handleScroll();
+        });
         observer.observe(document.body, { childList: true, subtree: true, attributes: true });
 
         return () => {
@@ -39,37 +38,37 @@ export const ButtonScrollTopDown = ({ children }) => {
     }, []);
 
     const handleScrollClick = () => {
-        if (atTop) {
-            window.scrollTo({
-                top: document.body.scrollHeight,
-                behavior: "smooth",
-            });
-        } else {
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth",
-            });
+        if (atTop && bottomRef.current) {
+            bottomRef.current.scrollIntoView({ behavior: "smooth" });
+        } else if (topRef.current) {
+            topRef.current.scrollIntoView({ behavior: "smooth" });
         }
     };
 
-
     return (
         <>
+            {/* point d’ancrage en haut */}
+            <div ref={topRef}></div>
+
             {children}
 
-            {/* Affiche le bouton uniquement si scrollable */}
+            {/* point d’ancrage en bas */}
+            <div ref={bottomRef}></div>
+
             {isScrollable && (
                 <button
-                    className="fixed right-4 bottom-[50px] md:bottom-6 p-3 rounded-full bg-gradient-to-br from-purple-300 to-blue-300 hover:bg-gradient-to-br hover:from-purple-400 text-purple-600 dark:border-b-purple-500 dark:text-purple-500"
-                    onClick={handleScrollClick}
+                    className="fixed right-4 bottom-[50px] md:bottom-6 p-3 rounded-full shadow-lg bg-gradient-to-br from-purple-300 to-blue-300 hover:from-purple-400 hover:to-blue-400 text-purple-600 transition-colors"
+                    onClick={()=>handleScrollClick()}
                 >
                     {atTop ? (
-                        <svg className="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 9-7 7-7-7" />
+                        // flèche vers le bas
+                        <svg className="w-5 h-5 text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m5 9 7 7 7-7" />
                         </svg>
                     ) : (
-                        <svg className="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m5 15 7-7 7 7" />
+                        // flèche vers le haut
+                        <svg className="w-5 h-5 text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 15-7-7-7 7" />
                         </svg>
                     )}
                 </button>
@@ -77,6 +76,7 @@ export const ButtonScrollTopDown = ({ children }) => {
         </>
     );
 };
+
 
 
 const ScrollTop = () => {
