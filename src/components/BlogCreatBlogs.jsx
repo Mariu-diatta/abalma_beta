@@ -183,7 +183,7 @@ export const ModalFormCreatBlog = () => {
             {/* Modal */}
             {isOpen && (
                 <div
-                    className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-2"
+                    className="fixed inset-0 bg-black/50  flex items-center justify-center p-2 inset-0"
                     aria-labelledby="modal-title"
                     aria-describedby="modal-description"
                     role="dialog"
@@ -191,7 +191,7 @@ export const ModalFormCreatBlog = () => {
                 >
                     <div
                         ref={modalRef}
-                        className="bg-white dark:bg-gray-700 rounded-lg shadow-sm w-full max-w-2xl p-2 relative"
+                        className="bg-white rounded-lg shadow-lg w-full max-w-2xl p-2 relative inset-0"
                     >
                         {/* Header */}
                         <div className="flex justify-between gap-4  mb-4">

@@ -107,7 +107,6 @@ export const BlogPage = () => {
 
         <div className=" dark:bg-gray-900 bg_home z-0 shadow-sm h-full">
 
-
             <div className="mx-0 lg:mx-auto  max-w-screen-auto text-center lg:mb-3 mb-2">
 
                 <TitleCompGen title={t("blog.title")} />
@@ -122,7 +121,9 @@ export const BlogPage = () => {
 
             </div>
 
-            <div className="py-1 px-2 w-full mx-0 lg:mx-auto lg:py-2 lg:px-6  ">
+
+
+            <div className="py-1 px-2 w-full mx-0 lg:mx-auto lg:py-2 lg:px-6">
 
                 {
                     !isLoading ?
@@ -131,19 +132,20 @@ export const BlogPage = () => {
 
                         {fetchBlogs()}
 
-                        <div className="flex justify-end  pr-2 my-8 ">
+                        <div className="fixed pr-2 my-2 top-8 right-2">
 
                             <ModalFormCreatBlog />
 
                         </div>
+
                     </div>
                     :
                     <LoadingCard />
                 }
 
-
-
             </div>
+
+
 
 
         </div>
@@ -175,7 +177,7 @@ const BlogCard = (blog) => {
 
     return (
 
-        <div className="relative w-auto p-1 flex flex-col justify-between rounded-lg border border-gray-200 shadow-sm dark:bg-gray-800 dark:border-gray-700 max-h-[25vh] min-h-[25vh]">
+        <div className="relative w-auto p-1 flex flex-col justify-between rounded-lg  shadow-sm dark:bg-gray-800 dark:border-gray-700 max-h-[25vh] min-h-[25vh]">
 
             <div className="flex justify-between items-center mb-5 text-gray-500">
 

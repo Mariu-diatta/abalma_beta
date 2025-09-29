@@ -298,7 +298,7 @@ const ChatLayout = () => {
                                                     key={index}
                                                     className={`w-full flex items-center justify-between p-2 rounded-lg text-sm font-medium transition-colors
                                                     ${currentChat?.name === room?.name
-                                                        ? 'bg-blue-50 text-white'
+                                                        ? 'bg-blue-50 text-white shadow-md'
                                                         : 'hover:bg-gray-100 text-gray-800'
                                                     }`}
                                                 >
@@ -333,7 +333,7 @@ const ChatLayout = () => {
 
                                                     <button
                                                         onClick={() => handleDeleteRoom(room)}
-                                                        className="cursor-pointer ml-2 text-red-600 hover:text-red-800 text-xs"
+                                                        className="cursor-pointer ml-2 bg-red-50 hover:bg-red-200 text-lg shadow-lg h-7 w-7 rounded-full"
                                                         aria-label={`Supprimer ${room.name}`}
                                                     >
                                                         ✕

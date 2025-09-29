@@ -98,104 +98,99 @@ const UsersContactsList = () => {
     
     return (
 
-        <>
+        <div className="absolute fixed w-[99dvw] md:w-[80dvw] m-auto sm:rounded-lg style-bgpb-6 mb-6  ">
 
             <TitleCompGen title={t('ParamText.title')} />
 
             {
                 loading ?
-                    <>
-                        < LoadingCard />
-                    </>
-                    :
-                    <div className="flex flex-col justify-between">
+                <LoadingCard />
+                :
+                    <div className="flex flex-col justify-between  h-[75dvh] ">
+                    {/* Bar d'action */}
+                    <div className="flex items-center justify-between flex-wrap md:flex-nowrap space-y-4 md:space-y-0 pb-4 dark:bg-gray-900 px-4 style-bg">
 
-                        {/* Bar d'action */}
-                        <div className="flex items-center justify-between flex-wrap md:flex-nowrap space-y-4 md:space-y-0 pb-4 dark:bg-gray-900 px-4 style-bg">
+                        {/* Dropdown de filtre */}
+                        <div className="relative style-bg">
 
-                            {/* Dropdown de filtre */}
-                            <div className="relative style-bg">
+                            <button
+
+                                onClick={toggleDropdown}
+
+                                className="inline-flex items-center text-gray-500  hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+                            >
+                                {statusFilter === "Tous" ? "Filtrer par statut" : statusFilter}
+
+                                <svg className="w-2.5 h-2.5 ms-2.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+
+                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
+
+                                </svg>
+
+                            </button>
+
+                            {isDropdownOpen && (
+
+                                <div className="absolute mt-2 z-10 divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600 bg-white dark:bg-dark-300">
+
+                                    <ul className="py-1 text-sm text-gray-700 dark:text-gray-200">
+
+                                        {["Tous", "Online"].map((status) => (
+
+                                            <li key={status}>
+
+                                                <button
+
+                                                    onClick={() => handleStatusFilter(status)}
+
+                                                    className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                                >
+                                                    {status === "Tous" ? t('ParamText.filterAll') : status}
+
+                                                </button>
+
+                                            </li>
+                                        ))}
+
+                                    </ul>
+
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Recherche + Bouton supprimer */}
+                        <div className="flex items-center gap-4">
+
+                            {selectedUsers.length >= 2 && (
 
                                 <button
 
-                                    onClick={toggleDropdown}
+                                    onClick={handleDeleteSelected}
 
-                                    className="inline-flex items-center text-gray-500  hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+                                    className="text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 rounded-lg px-4 py-2 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-800"
                                 >
-                                    {statusFilter === "Tous" ? "Filtrer par statut" : statusFilter}
-
-                                    <svg className="w-2.5 h-2.5 ms-2.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-
-                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
-
-                                    </svg>
+                                    {t('ParamText.alertDelete')}
 
                                 </button>
+                            )}
 
-                                {isDropdownOpen && (
+                            <div className="relative">
 
-                                    <div className="absolute mt-2 z-10 divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600 bg-white dark:bg-dark-300">
+                                <input
+                                    type="text"
+                                    value={searchTerm}
+                                    onChange={handleSearchChange}
+                                    className="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                                    placeholder={t('ParamText.searchPlaceholder')}
+                                />
 
-                                        <ul className="py-1 text-sm text-gray-700 dark:text-gray-200">
+                                <div className="absolute inset-y-0 left-0 flex items-center ps-3 pointer-events-none">
 
-                                            {["Tous", "Online"].map((status) => (
+                                    <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
 
-                                                <li key={status}>
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
 
-                                                    <button
-
-                                                        onClick={() => handleStatusFilter(status)}
-
-                                                        className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                    >
-                                                        {status === "Tous" ? t('ParamText.filterAll') : status}
-
-                                                    </button>
-
-                                                </li>
-                                            ))}
-
-                                        </ul>
-
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Recherche + Bouton supprimer */}
-                            <div className="flex items-center gap-4">
-
-                                {selectedUsers.length >= 2 && (
-
-                                    <button
-
-                                        onClick={handleDeleteSelected}
-
-                                        className="text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 rounded-lg px-4 py-2 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-800"
-                                    >
-                                        {t('ParamText.alertDelete')}
-
-                                    </button>
-                                )}
-
-                                <div className="relative">
-
-                                    <input
-                                        type="text"
-                                        value={searchTerm}
-                                        onChange={handleSearchChange}
-                                        className="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-                                        placeholder={t('ParamText.searchPlaceholder')}
-                                    />
-
-                                    <div className="absolute inset-y-0 left-0 flex items-center ps-3 pointer-events-none">
-
-                                        <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-
-                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-
-                                        </svg>
-
-                                    </div>
+                                    </svg>
 
                                 </div>
 
@@ -203,11 +198,13 @@ const UsersContactsList = () => {
 
                         </div>
 
-                        <div className="overflow-y-auto h-screen scrollbor_hidden">
+                    </div>
 
-                            <table className="w-full text-sm text-left style-bg  px-3 ">
+                    <div className="relative overflow-y-auto h-[80dvh] scrollbor_hidden">
 
-                                <thead className="text-md style_bg">
+                        <table className="w-full text-sm text-left style-bg  px-3 ">
+
+                            <thead className="text-md style_bg">
 
                                 <tr className="style_bg text-sm">
 
@@ -232,7 +229,7 @@ const UsersContactsList = () => {
 
                             </thead>
 
-                                <tbody className="">
+                            <tbody className=" ">
 
                                 {
                                     filteredUsers.map((user, i) => (
@@ -280,16 +277,16 @@ const UsersContactsList = () => {
                                     )
                                 }
 
-                                </tbody>
+                            </tbody>
 
-                            </table>
-
-                        </div>
+                        </table>
 
                     </div>
+
+                </div>
             }
 
-        </>
+        </div>
     );
 };
 

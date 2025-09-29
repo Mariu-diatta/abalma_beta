@@ -16,6 +16,7 @@ import FormLayout from '../layouts/FormLayout';
 import { showMessage } from '../components/AlertMessage';
 import TitleCompGen from '../components/TitleComponentGen';
 import { addRoom } from '../slices/chatSlice';
+import ScrollTop from '../components/ButtonScroll';
 
 
 const LogIn = () => {
@@ -143,6 +144,8 @@ const LogIn = () => {
             {
                 (!loading) ?
                 <>
+
+
                     <TitleCompGen title={t("login")} />
 
                     <form
@@ -150,6 +153,7 @@ const LogIn = () => {
                         onSubmit={(e) => { e.preventDefault(); handleSignIn(); }}
                         ref={componentRef}
                     >
+                        <ScrollTop />
 
                         <InputBox
                             type="email"
@@ -171,6 +175,7 @@ const LogIn = () => {
                             autoComplete="current-password"
                             required
                         />
+                     
 
                         <div className="mb-10">
 

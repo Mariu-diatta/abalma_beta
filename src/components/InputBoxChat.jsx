@@ -6,7 +6,7 @@ const InputBoxChat=({allRoomsChats, input, setInput, setShow, sendMessage})=>{
 
         <div className=" fixed bottom-0 md:bottom-2 w-screen md:w-[50dvw] p-0">
 
-	         <div className="bg-none  flex items-center gap-2 px-2 py-2  rounded-xl mb-0">
+	         <div className="bg-none  flex items-center gap-0 me-0 px-2 py-2  rounded-xl mb-0">
             
                 <input
                     disabled={allRoomsChats.length === 0}
@@ -14,12 +14,12 @@ const InputBoxChat=({allRoomsChats, input, setInput, setShow, sendMessage})=>{
                     onChange={e => { setInput(e.target.value); setShow(false); }}
                     onKeyDown={e => e.key === "Enter" && sendMessage()}
                     placeholder="Votre message..."
-                    className="bg-none flex-1 px-3 py-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className="bg-none flex-1 px-3 py-2 border border-gray-300 rounded-e-none rounded-xl text-sm focus:outline-none focus:ring-0 "
                 />
 
                 <button
                     onClick={sendMessage}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl text-sm"
+                    className="rounded-e-full border border-gray-300 px-5 py-2 text-base  text-white transition bg-gradient-to-br from-purple-300 to-blue-300 hover:bg-gradient-to-br hover:from-purple-400 "
                     aria-label="Envoyer"
                 >
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">

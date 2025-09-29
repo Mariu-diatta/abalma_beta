@@ -55,3 +55,5 @@ export const {  updateCompteUser, updateUserData, getFirebaseToken, login, logou
 
 export default authSlice.reducer;
 
+
+
