@@ -34,7 +34,7 @@ const HomeLayout = ({ children }) => {
 
         <div
 
-            className="items-start justify-center d-flex flex-column style-bg mx-1 mb-5"
+            className=" d-flex flex-column items-start justify-between style-bg mx-1 mb-5"
 
             style={
                 { marginBottom: '30px' }

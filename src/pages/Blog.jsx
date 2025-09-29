@@ -104,7 +104,7 @@ export const BlogPage = () => {
          
     return (
 
-        <div className="absolute fixed w-[100dvw] md:left-[19dvw] md:w-[80dvw] dark:bg-gray-900 z-8 shadow-sm h-screen pb-[5dvh]">
+        <div className="absolute fixed w-[100dvw] md:left-[19dvw] md:w-[80dvw] dark:bg-gray-900 z-8 shadow-sm h-screen pb-[5dvh] max-h-[100dvh]">
 
 
             <div className="mx-0 lg:mx-auto  max-w-screen-auto text-center lg:mb-3 mb-2">

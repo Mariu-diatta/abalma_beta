@@ -60,11 +60,8 @@ const Tabs = () => {
 
         contacts: (
 
-            <div className="absolute fixed w-[80dvw] m-auto sm:rounded-lg style-bg ">
+            <UsersContactsList />
 
-                <UsersContactsList />
-
-            </div>
         ),
     };
 
