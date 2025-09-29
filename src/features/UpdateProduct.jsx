@@ -260,7 +260,7 @@ const UpdateProduct = () => {
                             onSubmit={submitForm}
                             className={
                                 `${((user?.is_fournisseur && user?.is_verified)) ?
-                                    "w-100  m-0 md:w-auto"
+                                    "w-100  md:w-auto"
                                     :
                                     "opacity-50 pointer-events-none cursor-not-allowed"
                                 }`}

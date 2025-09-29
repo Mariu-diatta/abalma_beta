@@ -134,7 +134,7 @@ export const BlogPage = () => {
                     <LoadingCard />
                 }
 
-                <div className="fixed bottom-3 right-5 justify-end  pr-2 my-8">
+                <div className="fixed bottom-2 right-5 justify-end  pr-2 my-8">
 
                     <ModalFormCreatBlog />
 
