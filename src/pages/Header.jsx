@@ -316,7 +316,7 @@ const NavbarHeader = () => {
 
             >
                 {/* Logo */}
-                <div className="">
+                <div className="" >
                     <Logo />
                 </div>
 

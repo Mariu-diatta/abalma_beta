@@ -25,7 +25,8 @@ i18n
              cookie_banner: {
                 text1: "This website uses cookies to improve your experience",
                 text2: "Learn more",
-                text3:"Accept"
+                text3: "Accept",
+                text4:"Denied"
              },
              delete_blog_confirm:"Confirm delete blog",
              LOGOUT_CONFIRM: "Do you want to log out?",
@@ -503,7 +504,8 @@ i18n
              cookie_banner: {
                  text1: "Ce site utilise des cookies pour améliorer votre expérience",
                  text2: "En savoir plus",
-                 text3:"Acepter"
+                 text3: "Acepter",
+                 text4: "Refuser",
              },
              delete_blog_confirm: "Confirmer la suprresion du blog",
              NO_SERVICE_PRO: "SERVICE PAS ENCORE DISPONIBLE",

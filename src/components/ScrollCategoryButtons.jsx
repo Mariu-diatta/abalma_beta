@@ -165,7 +165,7 @@ const ScrollableCategoryButtons = ({
                                     onClick={() => {
                                         setActiveCategory(cat.replace(" ", "_"));
                                     }}
-                                    className={`z-2 whitespace-nowrap px-4  py-2 rounded-full text-sm transition  hover:bg-gradient-to-br hover:from-purple-400 ${activeCategory === cat
+                                    className={`z-2 whitespace-nowrap px-4  py-2 rounded-full text-sm transition  hover:bg-gradient-to-br hover:from-purple-400 ${(activeCategory.replace(" ", "_")).toLowerCase() === (cat.replace(" ", "_")).toLowerCase()
                                         ? "bg-blue-400 text-white bg-gradient-to-br from-purple-300 to-blue-300" //
                                         : "text-blue-700 border border-blue-300 hover:bg-blue-300 hover:text-white scale-100 hover:scale-110"
                                         }`}

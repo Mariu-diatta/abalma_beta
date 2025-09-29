@@ -65,6 +65,7 @@ api.interceptors.response.use(
         ) {
             originalRequest._retry = true;  
 
+            console.log("IS USER LOGED ??", authState?.isAuthenticated)
 
             if ((error?.response?.data?.detail === "Informations d'authentification non fournies.") && authState?.isAuthenticated) {
 
