@@ -47,27 +47,28 @@ const MyBlogsList = () => {
     /** 🟢 Supprimer un produit */
     const handleDelete = async (blog) => {
 
-        if (!window.confirm(t("modifyProduct.confirmDeleteProduct")) && !blog?.id) return;
+        if (window.confirm(t("delete_blog_confirm"))){
 
-        setTriggerdBtnId(blog?.id)
+            setTriggerdBtnId(blog?.id)
 
-        setLoadingDelete(true);
+            setLoadingDelete(true);
 
-        try {
+            try {
 
-            await api.delete(`/blogs/${blog?.id}/`);
+                await api.delete(`/blogs/${blog?.id}/`);
 
-            setBlogs((prev) => prev.filter((p) => p.id !== blog?.id)); // Mise à jour locale
+                setBlogs((prev) => prev.filter((p) => p.id !== blog?.id)); // Mise à jour locale
 
-        } catch (error) {
+            } catch (error) {
 
-            console.error("Erreur de suppression:", error);
+                console.error("Erreur de suppression:", error);
 
-        } finally {
+            } finally {
 
-            setLoadingDelete(false)
-            setTriggerdBtnId(null)
+                setLoadingDelete(false)
+                setTriggerdBtnId(null)
 
+            }
         }
     };
 

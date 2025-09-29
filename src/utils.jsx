@@ -412,7 +412,7 @@ export const loginClient = async (data, dispatch, setIsLoading, navigate) => {
 
     } catch (error) {
 
-        console.log("Erreur lors du loign", error)
+        //console.log("Erreur lors du loign", error)
 
         const errorMessage = error?.response?.data?.detail || error?.message || error?.request?.message || error
 

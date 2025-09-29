@@ -13,7 +13,7 @@ const TablesRecapActivities = ({ loading, productsTrasactionBought }) => {
 
     return (
 
-        <div className="absolute fixed w-[100dvw] md:w-[80dvw] sm:rounded-lg style-bg h-full overflow-y-auto scrollbor_hidden pb-6">
+        <div className="absolute fixed w-[98dvw] md:w-[80dvw] sm:rounded-lg style-bg overflow-y-auto scrollbor_hidden pb-6  overflow-hidden h-full">
 
             <div className="mb-6 text-center style_bg">
 
@@ -27,7 +27,7 @@ const TablesRecapActivities = ({ loading, productsTrasactionBought }) => {
 
             </div>
 
-            <div className="relative overflow-y-auto h-screen w-auto left-0 scrollbor_hidden">
+            <div className="relative overflow-y-auto max-h-[60dvh] w-auto left-0 scrollbor_hidden mb-[30dvh]">
 
                 <div className="overflow-x-auto">
 
