@@ -107,71 +107,80 @@ const MyBlogsList = () => {
 
             </nav>
 
-            {loading ? (
-                <LoadingCard />
-            ) : (
-                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 shadow-sm p-2">
+            {
+                loading ?
+                (
+                    <LoadingCard />
+                )
+                : 
+                (
+                    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 shadow-sm p-2">
 
-                    <thead className="text-sm style_bg">
+                        <thead className="text-sm style_bg">
 
-                        <tr>
-                            <th className="px-6 py-3">{t('blog.blogName')}</th>
-                            <th className="px-6 py-3">{t("blog.blogContent")}</th>
-                            <th className="px-6 py-3">{t("blog.dateBlog")}</th>
-                            {/*<th className="px-6 py-3">{t("tableEntries.price")}</th>*/}
-                            {/*<th className="px-6 py-3"></th>*/}
-                            <th className="px-6 py-3"></th>
-                        </tr>
-                    </thead> 
+                            <tr>
+                                <th className="px-6 py-3">{t('blog.blogName')}</th>
+                                <th className="px-6 py-3">{t("blog.blogContent")}</th>
+                                <th className="px-6 py-3">{t("blog.dateBlog")}</th>
+                                {/*<th className="px-6 py-3">{t("tableEntries.price")}</th>*/}
+                                {/*<th className="px-6 py-3"></th>*/}
+                                <th className="px-6 py-3"></th>
+                            </tr>
 
-                    <tbody>
+                        </thead> 
 
-                        {
-                            Array.isArray(blogs) &&
+                        <tbody>
 
-                            blogs.map((blog) => (
+                            {
+                                Array.isArray(blogs) &&
 
-                                <tr
-                                    key={blog?.id}
+                                blogs.map((blog) => (
 
-                                    className="dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
-                                >
+                                    <tr
+                                        key={blog?.id}
 
-                                    <td className="px-6 py-4">
-                                        {blog?.title_blog}
-                                    </td>
+                                        className="dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
+                                    >
 
-                                    <td className="px-6 py-4 overflow-x-auto overflow-y-auto">
-                                        {blog?.blog_message}
-                                    </td>
+                                        <td className="px-6 py-4">
+                                            {blog?.title_blog}
+                                        </td>
 
-                                    <td className="px-6 py-4">
-                                        {formatISODate(blog?.created_at)}
-                                    </td>
+                                        <td className="px-6 py-4 overflow-x-auto overflow-y-auto">
+                                            {blog?.blog_message}
+                                        </td>
 
-                                    <td className="px-6 py-4 gap-2">
+                                        <td className="px-6 py-4">
+                                            {formatISODate(blog?.created_at)}
+                                        </td>
 
-                                        {
-                                            !(loadingDelete &&  triggerdBtnId===blog?.id)?
-                                            <ButtonSimple
+                                        <td className="px-6 py-4 gap-2">
 
-                                                onHandleClick={() => handleDelete(blog)}
+                                            {
+                                                !(loadingDelete &&  triggerdBtnId===blog?.id)?
+                                                <ButtonSimple
 
-                                                className="px-3 rounded-md hover:bg-gray-100 bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-br hover:to-orange-500"
+                                                    onHandleClick={() => handleDelete(blog)}
 
-                                                title={t("delete")}
-                                            />
-                                            :
-                                            <LoadingCard />
-                                        }
+                                                    className="px-3 rounded-md hover:bg-gray-100 bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-br hover:to-orange-500"
 
-                                    </td>
+                                                    title={t("delete")}
+                                                />
+                                                :
+                                                <LoadingCard />
+                                            }
 
-                                </tr>
-                            ))}
-                    </tbody>
-                </table>
-            )}
+                                        </td>
+
+                                    </tr>
+                                ))}
+
+                        </tbody>
+
+                    </table>
+                )
+            }
+
         </div>
     );
 };

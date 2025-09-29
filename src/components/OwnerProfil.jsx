@@ -300,13 +300,14 @@ const OwnerAvatar = ({ owner }) => {
 
             {
                 owner?.image ?
+
                     <img
 
                         src={owner?.image}
 
                         alt={owner?.nom || 'Fournisseur'}
 
-                        className="h-6 w-6 rounded-full object-cover cursor-pointer ring-1 ring-gray-300 hover:ring-blue-500 transition z-[2999]"
+                        className="h-8 w-8 rounded-full object-cover cursor-pointer ring-1 ring-gray-300 hover:ring-blue-500 transition z-[2999]"
 
                         title={owner?.nom}
 
@@ -317,7 +318,7 @@ const OwnerAvatar = ({ owner }) => {
                     />
                     :
                     <svg
-                        className="w-6 h-6 text-gray-800 dark:text-white cursor-pointer"
+                        className="h-9 w-9 text-gray-800 dark:text-white cursor-pointer"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="currentColor"
                         viewBox="0 0 24 24"

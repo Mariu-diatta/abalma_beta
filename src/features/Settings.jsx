@@ -5,6 +5,8 @@ import { updateTheme } from '../slices/navigateSlice';
 import { useTranslation } from 'react-i18next';
 import DeleteProfilAccount from '../components/DeleteAccount';
 import { FloatingInput, NotificationToggle, ThemeSelector, applyTheme } from '../utils';
+import { ButtonScrollTopDown } from '../components/ButtonScroll';
+import TitleCompGen from '../components/TitleComponentGen';
 
 const SettingsForm = () => {
 
@@ -196,74 +198,85 @@ const SettingsForm = () => {
     }, [cartData]);
 
     return (
-        <div className="w-auto flex flex-col lg:flex-row justify-center items-start gap-8 px-2 py-1 style-bg">
 
-            <div className="w-full lg:w-full xl:w-full sticky top-0 self-start h-fit max-h-screen overflow-y-auto dark:bg-gray-800  scrollbor_hidden rounded-lg p-1 space-y-6">
+        <div className="flex flex-col justify-center items-center mx-auto w-full">
 
-                <h2 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">{t("settingsText.accountSettings")}</h2>
+            <span className="font-extrabold text-gray-500 dark:text-gray-400 text-2xl ">
 
-                {/* Compte form */}
-                <form onSubmit={updatePassword} className="w-auto dark:bg-gray-800 shadow-md rounded-lg m-0 space-y-3 lg:px-6 py-3">
+                <TitleCompGen title={t("settingsText.accountSettings")} />
 
-                    <div className="flex items-center gap-4">
-                        {currentUserData?.image ? (
-                            <img src={currentUserData.image} alt="Profil" className="w-16 h-16 rounded-full object-cover" />
-                        ) : (
-                            <div className="w-16 h-16 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center text-gray-500">?</div>
-                        )}
-                        <input type="file" accept="image/*" onChange={handleImageUpload} className="text-sm text-gray-700 dark:text-gray-300" />
-                    </div>
+            </span>
 
-                    <FloatingInput id="name" name="name" label={currentUserData?.nom || t('settingsText.nameLabel')} value={form.name} onChange={handleChange} disabled />
-                    <FloatingInput id="email" name="email" label={t('settingsText.emailLabel')} type="email" value={currentUserData?.email || form.email} onChange={handleChange} disabled />
-                    <FloatingInput id="password" name="password" label={t('settingsText.passwordLabel')} type="password" value={form.password} onChange={handleChange} />
-                    <button type="submit" className="w-full py-2 px-4 mt-4 text-sm text-white bg-blue-100 hover:bg-blue-700 rounded-md">{t('settingsText.changePassword')}</button>
+            <div
+                className="w-full md:w-1/2 md:mx-auto flex flex-col lg:flex-row justify-center items-center gap-8  py-3 style-bg "
+            >
 
-                </form>
+                <div className="w-auto p-2 xl:w-full  self-center  max-h-full overflow-y-auto bg-gray-100 dark:bg-gray-800  scrollbor_hidden rounded-lg space-y-6 ">
 
-                {/* Préférences */}
-                <form onSubmit={(e)=>handleSubmit(e)} className="w-auto dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6">
+                    {/* Compte form */}
+                    <form onSubmit={updatePassword} className="w-auto p-2 dark:bg-gray-800 shadow-md rounded-lg space-y-3  py-3">
 
-                    <ThemeSelector value={form.theme} onChange={handleUpdateThem} t={t} />
+                        <div className="flex items-center gap-4">
+                            {currentUserData?.image ? (
+                                <img src={currentUserData.image} alt="Profil" className="w-16 h-16 rounded-full object-cover" />
+                            ) : (
+                                <div className="w-16 h-16 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center text-gray-500">?</div>
+                            )}
+                            <input type="file" accept="image/*" onChange={handleImageUpload} className="text-sm text-gray-700 dark:text-gray-300" />
+                        </div>
 
-                    <NotificationToggle checked={form.notifications} onChange={handleChange} t={t} />
+                        <FloatingInput id="name" name="name" label={currentUserData?.nom || t('settingsText.nameLabel')} value={form.name} onChange={handleChange} disabled />
+                        <FloatingInput id="email" name="email" label={t('settingsText.emailLabel')} type="email" value={currentUserData?.email || form.email} onChange={handleChange} disabled />
+                        <FloatingInput id="password" name="password" label={t('settingsText.passwordLabel')} type="password" value={form.password} onChange={handleChange} />
+                        <button type="submit" className="w-full py-2 px-4 mt-4 text-sm text-white bg-blue-100 hover:bg-blue-700 rounded-md">{t('settingsText.changePassword')}</button>
 
-                    <button type="submit" className="w-full py-2 px-4 mt-4 text-sm text-white bg-blue-100 hover:bg-blue-700 rounded-md">{t('settingsText.save')}</button>
+                    </form>
 
-                </form>
+                    {/* Préférences */}
+                    <form onSubmit={(e)=>handleSubmit(e)} className="w-auto p-2 dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6">
 
-                <DeleteProfilAccount />
+                        <ThemeSelector value={form.theme} onChange={handleUpdateThem} t={t} />
+
+                        <NotificationToggle checked={form.notifications} onChange={handleChange} t={t} />
+
+                        <button type="submit" className="w-full py-2 px-4 mt-4 text-sm text-white bg-blue-100 hover:bg-blue-700 rounded-md">{t('settingsText.save')}</button>
+
+                    </form>
+
+                    {/* Paiement */}
+                   <form onSubmit={handleSubmitCard} className="w-full p-2 dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6">
+
+                        <h3 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">{t("settingsText.paymentMethod")}</h3>
+
+                        <FloatingInput type="number" id="cardNumber" name="cardNumber" label={t('settingsText.cardNumberLabel')} maxLength={19} value={form.cardNumber} onChange={handleChange} />
+
+                        <div className="flex gap-4">
+                            <FloatingInput type="date" id="expiry" name="expiry" label={t('settingsText.expiryLabel')} wrapperClass="w-1/2" value={form.expiry} onChange={handleChange} />
+                            <FloatingInput type="number" id="cvv" name="cvv" label="CVV" maxLength={4} wrapperClass="w-1/2" value={form.cvv} onChange={handleChange} />
+                        </div>
+
+                        <h3 className="text-lg text-gray-800 dark:text-white mt-4">{t('settingsText.billingAddress')}</h3>
+
+                        <FloatingInput type="text" id="address" name="address" label={t('settingsText.addressLabel')} value={form.address} onChange={handleChange} />
+
+                        <div className="flex gap-4">
+                            <FloatingInput type="text" id="city" name="city" label={t('settingsText.cityLabel')} wrapperClass="w-1/2" value={form.city} onChange={handleChange} />
+                            <FloatingInput type="number" id="zip" name="zip" label={t('settingsText.zipLabel')} wrapperClass="w-1/2" value={form.zip} onChange={handleChange} />
+                        </div>
+
+                        <FloatingInput type="text" id="country" name="country" label={t('settingsText.countryLabel')} value={form.country} onChange={handleChange} />
+
+                        <button type="submit" className="w-full py-2 px-4 mt-4 text-sm text-white bg-blue-100 hover:bg-blue-700 rounded-md">{t('settingsText.saveCard')}</button>
+
+                    </form>
+
+                    <DeleteProfilAccount />
+
+                </div>
 
             </div>
 
-            {/* Paiement */}
-            <form onSubmit={handleSubmitCard} className="w-full dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6">
-
-                <h3 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">{t("settingsText.paymentMethod")}</h3>
-
-                <FloatingInput type="number" id="cardNumber" name="cardNumber" label={t('settingsText.cardNumberLabel')} maxLength={19} value={form.cardNumber} onChange={handleChange} />
-
-                <div className="flex gap-4">
-                    <FloatingInput type="date" id="expiry" name="expiry" label={t('settingsText.expiryLabel')} wrapperClass="w-1/2" value={form.expiry} onChange={handleChange} />
-                    <FloatingInput type="number" id="cvv" name="cvv" label="CVV" maxLength={4} wrapperClass="w-1/2" value={form.cvv} onChange={handleChange} />
-                </div>
-
-                <h3 className="text-lg text-gray-800 dark:text-white mt-4">{t('settingsText.billingAddress')}</h3>
-
-                <FloatingInput type="text" id="address" name="address" label={t('settingsText.addressLabel')} value={form.address} onChange={handleChange} />
-
-                <div className="flex gap-4">
-                    <FloatingInput type="text" id="city" name="city" label={t('settingsText.cityLabel')} wrapperClass="w-1/2" value={form.city} onChange={handleChange} />
-                    <FloatingInput type="number" id="zip" name="zip" label={t('settingsText.zipLabel')} wrapperClass="w-1/2" value={form.zip} onChange={handleChange} />
-                </div>
-
-                <FloatingInput type="text" id="country" name="country" label={t('settingsText.countryLabel')} value={form.country} onChange={handleChange} />
-
-                <button type="submit" className="w-full py-2 px-4 mt-4 text-sm text-white bg-blue-100 hover:bg-blue-700 rounded-md">{t('settingsText.saveCard')}</button>
-
-            </form>
-
-        </div>
+       </div>
     );
 };
 

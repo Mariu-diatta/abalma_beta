@@ -1,13 +1,8 @@
 import React, { useEffect, useState} from 'react';
-import ProductsRecapTable from './ProductRecaptable';
 import UsersContactsList from '../components/ContactUser';
 import api from '../services/Axios';
 import { useTranslation } from 'react-i18next';
-import ListProductShoppingCart from './ListProductShoppingCart';
-import LoadingCard from '../components/LoardingSpin';
-import MyProductList from '../components/MyProductsList';
-import TitleCompGen from '../components/TitleComponentGen';
-import MyBlogsList from '../components/ListManagerBlogs';
+import TablesRecapActivities from '../components/TablesRecapActivities';
 
 const Tabs = () => {
 
@@ -31,10 +26,10 @@ const Tabs = () => {
         const getProduct = async () => {
 
             try {
+
                 const productTransaction = await api.get('product/fournisseur/transaction/');
 
                 //console.log("DashbordProfileUsr, LES PRODUITS BOUGHT DE LA TRANSACTION", productTransaction?.data);
-
                 setProductsTrasactionBought(productTransaction?.data);
 
             } catch (e) {
@@ -51,57 +46,21 @@ const Tabs = () => {
 
     }, []);
 
-
-
     const tabContent = {
 
         dashboard: (
 
-            <div className="p-2 pt-0 mt-0 space-y-6 max-w-7xl mx-auto style-bg mb-2  h-screan mb-2 pb-3 ">
+            <TablesRecapActivities
 
-                <div className="mb-6 text-center style_bg">
-    
-                    <TitleCompGen title={t('Dashboard.welcomeTitle')} />
+                loading={loading}
 
-                    <p className="mt-2 text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto style_bg">
-
-                        {t('Dashboard.welcomeText')}
-
-                    </p>
-
-                </div>
-
-                <div className="overflow-x-auto">
-
-                    <ListProductShoppingCart/>
-
-                </div>
-
-                {
-                    loading ? 
-                    <LoadingCard/>
-                    :
-                    <div >
-                    {
-                        (productsTrasactionBought?.length > 0) && (
-
-                            <ProductsRecapTable products={productsTrasactionBought}/>
-                        )
-                    }
-                    </div >
-                }
-
-                <MyProductList/>
-
-                <MyBlogsList/>
-
-
-            </div>
+                productsTrasactionBought={productsTrasactionBought}
+            />
         ),
 
         contacts: (
 
-            <div className="p-1 max-full mx-auto text-gray-700 dark:text-gray-300 h-screan">
+            <div className="absolute fixed w-[80dvw] m-auto sm:rounded-lg style-bg ">
 
                 <UsersContactsList />
 

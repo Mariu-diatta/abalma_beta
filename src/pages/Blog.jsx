@@ -104,34 +104,37 @@ export const BlogPage = () => {
          
     return (
 
-        <div className=" dark:bg-gray-900 bg_home z-8 shadow-sm h-full">
+        <div className="absolute fixed w-[100dvw] md:left-[19dvw] md:w-[80dvw] dark:bg-gray-900 z-8 shadow-sm h-screen pb-[5dvh]">
 
-            <div className="py-1 px-2 w-full h-screen mx-0 lg:mx-auto lg:py-2 lg:px-6 style-bg">
 
-                <div className="mx-0 lg:mx-auto  max-w-screen-auto text-center lg:mb-16 mb-8">
+            <div className="mx-0 lg:mx-auto  max-w-screen-auto text-center lg:mb-3 mb-2">
 
-                    <TitleCompGen title={t("blog.title")}/>
+                <TitleCompGen title={t("blog.title")} />
 
-                    <p className="font-light text-gray-500 sm:text-xl dark:text-gray-400">{t("blog.maint_text_content")}</p>
+                <p className="font-light text-gray-500 sm:text-xl dark:text-gray-400">{t("blog.maint_text_content")}</p>
 
-                </div>
+            </div>
 
-                <div className={`flex mx-auto items-center md:hidden ${(currentNav === "home" || currentNav === "blogs") ? "" : "hidden"}`} >
+            <div className={`flex mx-auto items-center md:hidden ${(currentNav === "home" || currentNav === "blogs") ? "" : "hidden"}`} >
 
-                    <SearchBar onSearch={getDataBlogSearch} />
+                <SearchBar onSearch={getDataBlogSearch} />
 
-                </div>
+            </div>
+
+            <div className="py-1 px-2 w-full mx-0 lg:mx-auto lg:py-2 lg:px-6  ">
 
                 {
                     !isLoading ?
-                    <div className="grid gap-2 lg:grid-cols-2">
+                    <div className="overflow-y-auto h-[65dvh] scrollbor_hidden grid gap-2 lg:grid-cols-2 pb-5">
+
                         {fetchBlogs()}
+
                     </div>
                     :
                     <LoadingCard />
                 }
 
-                <div className="flex justify-end  pr-2 my-8">
+                <div className="fixed bottom-3 right-5 justify-end  pr-2 my-8">
 
                     <ModalFormCreatBlog />
 
@@ -170,7 +173,7 @@ const BlogCard = (blog) => {
 
     return (
 
-        <article className="w-auto p-1 rounded-lg border border-gray-200 shadow-sm dark:bg-gray-800 dark:border-gray-700">
+        <div className="relative w-auto p-1 flex flex-col justify-between rounded-lg border border-gray-200 shadow-sm dark:bg-gray-800 dark:border-gray-700 max-h-[25vh] min-h-[25vh]">
 
             <div className="flex justify-between items-center mb-5 text-gray-500">
 
@@ -201,7 +204,7 @@ const BlogCard = (blog) => {
             </div>
 
 
-        </article>
+        </div>
     );
 };
 
