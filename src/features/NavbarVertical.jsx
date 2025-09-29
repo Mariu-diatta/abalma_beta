@@ -164,7 +164,7 @@ const VertcalNavbar = ({ children }) => {
                         <li>
                             <button
 
-                                className={`w-full flex items-center justify-between text-left gap-x-3 p-2 w-full text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-full ${(currentNav === "account_home") && "bg-gray-100"}`}
+                                className={`w-full flex items-center justify-between text-left gap-x-3 p-2 w-full text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-full ${(currentNav === "account_home") && "bg-gray-100 shadow-sm"}`}
 
                                 onClick={
 
@@ -256,7 +256,7 @@ const VertcalNavbar = ({ children }) => {
 
                             <button
 
-                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-full ${(currentNav === "message_inbox") && "bg-gray-100"}`}
+                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-full ${(currentNav === "message_inbox") && "bg-gray-100 shadow-sm"}`}
 
                                 onClick={() => { navigate("/message_inbox"); dispatch(setCurrentNav("message_inbox")) }}
                             >
@@ -298,7 +298,7 @@ const VertcalNavbar = ({ children }) => {
 
                             <button
 
-                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-full ${(currentNav === "add_product") && "bg-gray-100"}`}
+                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-full  ${(currentNav === "add_product") && "bg-gray-100 shadow-sm"}`}
 
                                 onClick={() => { navigate("/add_product"); dispatch(setCurrentNav("add_product")) }}
                             >
@@ -328,7 +328,7 @@ const VertcalNavbar = ({ children }) => {
 
                                 onClick={() => { navigate("/user_blogs"); dispatch(setCurrentNav("user_blogs")) }}
 
-                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-full ${(currentNav === "user_blogs") && "bg-gray-100"}`}                            >
+                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-full  ${(currentNav === "user_blogs") && "bg-gray-100 shadow-sm"}`}                            >
 
                                 <div className="flex gap-2">
 
@@ -360,7 +360,7 @@ const VertcalNavbar = ({ children }) => {
 
                                 onClick={() => { navigate("/dashboard"); dispatch(setCurrentNav("dashboard")) }}
 
-                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-full ${(currentNav === "dashboard") && "bg-gray-100"}`}>
+                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-full  ${(currentNav === "dashboard") && "bg-gray-100 shadow-sm"}`}>
 
                                 <div className="flex gap-2 ">
 

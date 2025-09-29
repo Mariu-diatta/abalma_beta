@@ -483,7 +483,8 @@ const ProfileCard = () => {
                                 
                                 <>
                                     {
-                                       (!profileData?.is_pro && !isProFormVisible && isCurrentUser) && (
+                                        (!profileData?.is_pro && !isProFormVisible && isCurrentUser) && (
+
                                             <button
                                                 onClick={() => setIsProFormVisible(true)}
                                                 className="flex items-center gap-2 text-sm border border-blue-400 rounded-full py-2 px-4 hover:bg-blue-100 dark:hover:bg-blue-900"
@@ -503,7 +504,9 @@ const ProfileCard = () => {
                                                         d="m8.032 12 1.984 1.984 4.96-4.96m4.55 5.272.893-.893a1.984 1.984 0 0 0 0-2.806l-.893-.893a1.984 1.984 0 0 1-.581-1.403V7.04a1.984 1.984 0 0 0-1.984-1.984h-1.262a1.983 1.983 0 0 1-1.403-.581l-.893-.893a1.984 1.984 0 0 0-2.806 0l-.893.893a1.984 1.984 0 0 1-1.403.581H7.04A1.984 1.984 0 0 0 5.055 7.04v1.262c0 .527-.209 1.031-.581 1.403l-.893.893a1.984 1.984 0 0 0 0 2.806l.893.893c.372.372.581.876.581 1.403v1.262a1.984 1.984 0 0 0 1.984 1.984h1.262c.527 0 1.031.209 1.403.581l.893.893a1.984 1.984 0 0 0 2.806 0l.893-.893a1.985 1.985 0 0 1 1.403-.581h1.262a1.984 1.984 0 0 0 1.984-1.984V15.7c0-.527.209-1.031.581-1.403Z"
                                                     />
                                                 </svg>
+
                                                 {t('ProfilText.passerPro')}
+
                                             </button>
                                         )
                                     }
@@ -612,7 +615,7 @@ const ProfileCard = () => {
                                     (
                                         <button
                                             onClick={() => setIsEditing(true)}
-                                            className=" py-1 border border-gray-300 cursor-pointer inline-flex items-center gap-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-sm px-1 sm:px-2  hover:bg-gray-200 dark:hover:bg-gray-600 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors duration-200 w-2/3 md:w-auto"
+                                            className="h-8 w-1/2 border border-gray-300 cursor-pointer flex items-center justify-center gap-0 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-sm px-0 sm:px-2  hover:bg-gray-200 dark:hover:bg-gray-600 focus:ring-0 focus:ring-blue-500 focus:outline-none transition-colors duration-200  md:w-auto"
                                             aria-label={t('ProfilText.modifierProfil')}
                                             style={{
                                                 backgroundColor: "var(--color-bg)",
@@ -642,7 +645,7 @@ const ProfileCard = () => {
                                 }
 
                                 {
-                                    !isCurrentUser && selectedProductOwner && (
+                                    (!isCurrentUser && selectedProductOwner) && (
 
                                     <button
                                         onClick={() => {
@@ -650,7 +653,7 @@ const ProfileCard = () => {
                                             creatNewRoom();
                                             navigate('/message_inbox');
                                         }}
-                                            className="flex items-center gap-1 rounded-full  text-white text-sm px-3 py-1  text-base  text-white transition bg-gradient-to-br from-purple-300 to-blue-300 hover:bg-gradient-to-br hover:from-purple-400 w-2/3 md:w-auto"
+                                        className="h-8 w-1/2 md:w-auto border border-gray-300 cursor-pointer flex items-center justify-center gap-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-sm px-1 sm:px-2  hover:bg-gray-200 dark:hover:bg-gray-600 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors duration-200 w-2/3 md:w-auto"
                                     >
                                         <span className="whitespace-nowrap px-2">{!messageVisible ? 'Message' : 'X'}</span>
 
@@ -671,7 +674,7 @@ const ProfileCard = () => {
 
                                                 <button
                                                     onClick={(e) => updateAccountToFournisseur(e)}
-                                                    className="flex items-center gap-1 rounded-full bg-indigo-300 text-white text-sm px-3 py-1 hover:bg-indigo-400 w-2/3 md:w-auto"
+                                                    className="h-8 w-1/2 md:w-auto flex items-center gap-1 rounded-full bg-indigo-300 text-white text-sm px-3 py-1 hover:bg-indigo-400 w-2/3 md:w-auto"
                                                     title="Devenir un fournisseur"
                                                 >
                                                     <svg
@@ -763,7 +766,7 @@ const ProfileCard = () => {
                                 <button
                                     type="button"
                                     onClick={() => setIsProFormVisible(false)}
-                                    className="rounded-full bg-red-300 text-white px-4 py-2 hover:bg-red-400 text-sm"
+                                    className="h-8 w-1/2 md:w-auto rounded-full bg-red-300 text-white px-4 py-2 hover:bg-red-400 text-sm"
                                 >
                                     {t('ProfilText.annuler')}
 

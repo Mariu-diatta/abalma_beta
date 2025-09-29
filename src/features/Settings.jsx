@@ -5,7 +5,6 @@ import { updateTheme } from '../slices/navigateSlice';
 import { useTranslation } from 'react-i18next';
 import DeleteProfilAccount from '../components/DeleteAccount';
 import { FloatingInput, NotificationToggle, ThemeSelector, applyTheme } from '../utils';
-import { ButtonScrollTopDown } from '../components/ButtonScroll';
 import TitleCompGen from '../components/TitleComponentGen';
 
 const SettingsForm = () => {
@@ -199,7 +198,7 @@ const SettingsForm = () => {
 
     return (
 
-        <div className="flex flex-col justify-center items-center mx-auto w-full">
+        <div className="flex flex-col justify-center items-center mx-auto w-full p-2">
 
             <span className="font-extrabold text-gray-500 dark:text-gray-400 text-2xl ">
 
@@ -208,10 +207,10 @@ const SettingsForm = () => {
             </span>
 
             <div
-                className="w-full md:w-1/2 md:mx-auto flex flex-col lg:flex-row justify-center items-center gap-8  py-3 style-bg "
+                className="w-full md:w-1/2 md:mx-auto flex flex-col lg:flex-row justify-center items-center gap-8  py-3  "
             >
 
-                <div className="w-auto p-2 xl:w-full  self-center  max-h-full overflow-y-auto bg-gray-100 dark:bg-gray-800  scrollbor_hidden rounded-lg space-y-6 ">
+                <div className="w-auto p-2 xl:w-full  self-center  max-h-full overflow-y-auto bg-gray-50 dark:bg-gray-80  scrollbor_hidden rounded-lg space-y-6 ">
 
                     {/* Compte form */}
                     <form onSubmit={updatePassword} className="w-auto p-2 dark:bg-gray-800 shadow-md rounded-lg space-y-3  py-3">
@@ -228,7 +227,8 @@ const SettingsForm = () => {
                         <FloatingInput id="name" name="name" label={currentUserData?.nom || t('settingsText.nameLabel')} value={form.name} onChange={handleChange} disabled />
                         <FloatingInput id="email" name="email" label={t('settingsText.emailLabel')} type="email" value={currentUserData?.email || form.email} onChange={handleChange} disabled />
                         <FloatingInput id="password" name="password" label={t('settingsText.passwordLabel')} type="password" value={form.password} onChange={handleChange} />
-                        <button type="submit" className="w-full py-2 px-4 mt-4 text-sm text-white bg-blue-100 hover:bg-blue-700 rounded-md">{t('settingsText.changePassword')}</button>
+
+                        <button type="submit" className="w-full py-2 px-4 mt-4 text-sm text-white bg-blue-100 hover:bg-blue-400 rounded-md">{t('settingsText.changePassword')}</button>
 
                     </form>
 
@@ -239,12 +239,12 @@ const SettingsForm = () => {
 
                         <NotificationToggle checked={form.notifications} onChange={handleChange} t={t} />
 
-                        <button type="submit" className="w-full py-2 px-4 mt-4 text-sm text-white bg-blue-100 hover:bg-blue-700 rounded-md">{t('settingsText.save')}</button>
+                        <button type="submit" className="w-full py-2 px-4 mt-4 text-sm text-white bg-blue-100 hover:bg-blue-400 rounded-md">{t('settingsText.save')}</button>
 
                     </form>
 
                     {/* Paiement */}
-                   <form onSubmit={handleSubmitCard} className="w-full p-2 dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6">
+                    <form onSubmit={handleSubmitCard} className="w-full p-2 dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6">
 
                         <h3 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">{t("settingsText.paymentMethod")}</h3>
 
@@ -266,7 +266,7 @@ const SettingsForm = () => {
 
                         <FloatingInput type="text" id="country" name="country" label={t('settingsText.countryLabel')} value={form.country} onChange={handleChange} />
 
-                        <button type="submit" className="w-full py-2 px-4 mt-4 text-sm text-white bg-blue-100 hover:bg-blue-700 rounded-md">{t('settingsText.saveCard')}</button>
+                        <button type="submit" className="w-full py-2 px-4 mt-4 text-sm text-white bg-blue-100 hover:bg-blue-400 rounded-md">{t('settingsText.saveCard')}</button>
 
                     </form>
 

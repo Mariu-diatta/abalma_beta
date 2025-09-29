@@ -55,15 +55,16 @@ const OwnerPopover = ({ owner, onClose }) => {
 
             res => {
 
+                //console.log("les id utilisateur", owner?.id, currentUser?.id)
                 try {
                     api.post('rooms/',
 
                         {
-                            "name": `room_${owner?.nom}${owner?.id}${res}`,
+                            "name": `room_${owner?.nom}${owner?.id}${res}${currentUser?.id}`,
 
                             "current_owner": currentUser?.id,
 
-                            "current_receiver": owner?.id
+                            "current_receiver": owner?.id 
                         }
 
                     ).then(
@@ -79,7 +80,7 @@ const OwnerPopover = ({ owner, onClose }) => {
                             dispatch(addUser(owner))
 
 
-                            console.log("Le room actuel créé: OwnerProfil", resp?.data)
+                            //console.log("Le room actuel créé: OwnerProfil", resp?.data)
 
                         }
 
@@ -98,7 +99,7 @@ const OwnerPopover = ({ owner, onClose }) => {
 
                                 const response = api.get(`/rooms/?receiver_id=${selectedProductOwner?.id}`);
 
-                                console.log("Le room actuel: OwnerProfil", response?.data)
+                                //console.log("Le room actuel: OwnerProfil", response?.data)
 
                                 //if (response?.data?.length > 0) {
 
@@ -148,14 +149,14 @@ const OwnerPopover = ({ owner, onClose }) => {
                                 //}
 
                             } else {
-                                console.error("Erreur inconnue lors de la création du chat:", errorMsg);
+                                //console.error("Erreur inconnue lors de la création du chat:", errorMsg);
                             }
                         }
                     )
 
                 } catch (err) {
 
-                    console.log("OwnerProfil.jsx, ERREUR DE LA CREATION DU CHAT")
+                    //console.log("OwnerProfil.jsx, ERREUR DE LA CREATION DU CHAT")
                 }
 
                 dispatch(newRoom({ name: `room_${owner?.nom}_${res}` }))

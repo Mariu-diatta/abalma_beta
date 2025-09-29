@@ -53,13 +53,13 @@ import { addMessageNotif, removeRoom } from "../slices/chatSlice";
              }
          };
 
-         ws.current.onclose = () => {
-             console.warn("❌ WebSocket fermé");
-         };
+         //ws.current.onclose = () => {
+         //    console.warn("❌ WebSocket fermé");
+         //};
 
-         ws.current.onerror = (err) => {
-             console.error("❗ WebSocket erreur:", err);
-         };
+         //ws.current.onerror = (err) => {
+         //    console.error("❗ WebSocket erreur:", err);
+         //};
 
          return () => {
              if (ws.current) {
@@ -91,7 +91,7 @@ import { addMessageNotif, removeRoom } from "../slices/chatSlice";
 
     return (
 
-        <div className="flex hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg px-2 ">
+        <div className="flex bg-white-50 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-full px-1 py-1 ">
 
             <svg className="w-6 h-6 text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
 

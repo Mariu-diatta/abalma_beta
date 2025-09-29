@@ -122,8 +122,8 @@ export default function AccountDropdownUserProfil() {
     return (
 
         <section
-            style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
-            className={`flex items-center justify-center px-2  bg-transparent rounded-lg absolute top-0 bg-gray-2 dark:bg-dark z-[10] mb-6 fixed bg-white`}
+            
+            className={`bg-none flex items-center justify-center px-2  bg-transparent rounded-lg absolute top-0 bg-gray-2 dark:bg-dark z-[10] mb-6 fixed `}
         >
 
             <AttentionAlertMessage/>
@@ -171,13 +171,13 @@ export default function AccountDropdownUserProfil() {
 
                 onClick={() => setDropdownOpen(!dropdownOpen)}
 
-                className="hover:bg-gray-50 dark:hover:bg-gray-800 relative inline-flex h-6 items-center justify-center gap-0 rounded-lg  dark:bg-dark-2 px-1 my-2 dark:text-white"
+                className="hover:bg-gray-50 dark:hover:bg-gray-800 relative inline-flex  my-0 w-auto items-center justify-center gap-0 rounded-lg  dark:bg-dark-2 px-1 my-2 dark:text-white shadow-sm"
 
             >
                 {
                     currentUser?.image || currentUser?.photo_url? (
 
-                        <div className="flex items-center relative h-[30px] w-[30px] rounded-full gap-0">
+                        <div className="flex items-center relative h-[30px] w-[30px] rounded-full gap-0 h-8 ">
 
                             <img
                                 src={currentUser?.image || currentUser?.photo_url}
@@ -240,7 +240,7 @@ export default function AccountDropdownUserProfil() {
 
                 onBlur={() => setDropdownOpen(false)}
 
-                className={` shadow-lg bg-transparent absolute right-0 top-full me-3 overflow-hidden rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${dropdownOpen ? "block z-50 bg-white" : "hidden"}`}
+                className={`shadow-sm bg-transparent absolute right-0 top-full me-3 overflow-hidden rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${dropdownOpen ? "block z-50 bg-white" : "hidden"}`}
 
                 style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
             >

@@ -86,8 +86,11 @@ api.interceptors.response.use(
             }
 
             try {
+
                 // On laisse le serveur décider si le refresh cookie est valide
-                //await api.post('/refresh/');
+                const response = await api.post('/refresh/');
+
+                console.log("Les données lors du refresh: ", response?.data)
 
                 // ✅ Nouvelle tentative
                 return api(originalRequest);

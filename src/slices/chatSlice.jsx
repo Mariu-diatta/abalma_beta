@@ -108,7 +108,7 @@ export const deleteRoomAsync = (room) => async (dispatch) => {
 
     } catch (err) {
 
-        console.error("ChatSlice.jsx = Erreur de suppression");
+        console.error("ChatSlice.jsx = Erreur de suppression", err);
     }
 };
 

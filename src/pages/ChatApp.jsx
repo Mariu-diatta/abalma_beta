@@ -32,7 +32,7 @@ const ChatApp = ({ setShow , show}) => {
 
         ws.current = new WebSocket(socketUrl);
 
-        ws.current.onopen = () => console.log("✅ WebSocket connecté :", currentChat.name);
+        ws.current.onopen = () => console.log("✅ WebSocket connecté :", currentChat.name.slice(20,40));
 
         ws.current.onmessage = (e) => {
 

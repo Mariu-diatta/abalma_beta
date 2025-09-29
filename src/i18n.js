@@ -22,6 +22,11 @@ i18n
      en: {
 
         translation: {
+             cookie_banner: {
+                text1: "This website uses cookies to improve your experience",
+                text2: "Learn more",
+                text3:"Accept"
+             },
              delete_blog_confirm:"Confirm delete blog",
              LOGOUT_CONFIRM: "Do you want to log out?",
              NO_SERVICE_PRO: "SERVICE NOT AVAILABLE YET",
@@ -495,6 +500,11 @@ i18n
      fr: {
 
          translation: {
+             cookie_banner: {
+                 text1: "Ce site utilise des cookies pour améliorer votre expérience",
+                 text2: "En savoir plus",
+                 text3:"Acepter"
+             },
              delete_blog_confirm: "Confirmer la suprresion du blog",
              NO_SERVICE_PRO: "SERVICE PAS ENCORE DISPONIBLE",
              LOGOUT_CONFIRM: "Voulez-vous vous deconnecter?",
@@ -574,7 +584,7 @@ i18n
                   "add_or_update_product": "Ajouter / Modifier un produit",
                   ChooseImage: 'Choisissez une image',
                   "paiement_methode": "Méthode de paiement",
-                  name_product:"Nom de la guerre",
+                  name_product:"Nom du produit",
                   informations: "Informations sur le produit",
                   paimement_infos: "Informations sur le paiement",
                   informations_livraison:"Informations de livraison",
