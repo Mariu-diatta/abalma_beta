@@ -79,7 +79,7 @@ const Footer = () => {
 
         <footer
 
-            className="w-full bg-[var(--color-bg)] text-[var(--color-text)] text-sm flex flex-col items-center justify-center z-10 mt-0 mb-[30px]"
+            className="w-full bg-[var(--color-bg)] text-[var(--color-text)] text-sm flex flex-col items-center justify-center mt-0"
 
             style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
         >
@@ -260,7 +260,7 @@ const Footer = () => {
             </div>
 
             {/* Bas de page */}
-            <div className="w-full  text-center text-sm dark:text-gray-400 px-4 pt-2 mt-5 border-t border-gray-400 dark:border-dark-3 mb-8 lg:mb-0 bg-none">
+            <div className="w-full  text-center text-sm dark:text-gray-400 px-4 pt-2 mb-5 border-t border-gray-400 dark:border-dark-3 mb-8 pb-8 lg:mb-0 bg-none">
 
                 <p className="text-sm dark:text-gray-400 mb-1 bg-none">
                     &copy; 2025 <strong>Abalma</strong> {t("footer_toutDroit")}

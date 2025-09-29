@@ -153,7 +153,7 @@ body .style_bg {
     border-radius: 15px; /* Coins arrondis (ajustez la valeur si besoin) */
     overflow: hidden; /* Assure que l'image respecte les coins arrondis */
     margin: 1px; /* Marges de 20px de tous les côtés (ajustez selon besoin) */
-    padding-top:50px !important;
+    padding-top:60px !important;
 }
 
 
@@ -164,7 +164,7 @@ body .style_bg {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.02); /* Couche semi-transparente (noir à 10% d'opacité) */
+    background: rgba(0, 0, 0, 0.01); /* Couche semi-transparente (noir à 10% d'opacité) */
     z-index: 1; /* Sous le contenu */
     border-radius: 15px; /* Coins arrondis pour le pseudo-élément */
 }

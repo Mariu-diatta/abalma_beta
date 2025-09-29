@@ -55,7 +55,7 @@ export const ButtonScrollTopDown = ({ children }) => {
             {/* point d’ancrage en bas */}
             <div ref={bottomRef}></div>
 
-            {isScrollable && (
+            {isScrollable && false && (
                 <button
                     className="fixed right-4 bottom-[50px] md:bottom-6 p-3 rounded-full shadow-lg bg-gradient-to-br from-purple-300 to-blue-300 hover:from-purple-400 hover:to-blue-400 text-purple-600 transition-colors"
                     onClick={()=>handleScrollClick()}

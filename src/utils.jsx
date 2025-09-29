@@ -239,15 +239,15 @@ export const recordUnfollowUser = async (clientId) => {
 
     } catch (error) {
 
-        const message =
+        //const message =
 
-            error.response?.data?.error ||
+        //    error.response?.data?.error ||
 
-            error.message ||
+        //    error.message ||
 
-            'Erreur inconnue';
+        //    'Erreur inconnue';
 
-        console.error('Erreur lors de l’enregistrement de la vue :', message);
+        //console.error('Erreur lors de l’enregistrement de la vue :', message);
     }
 }
 

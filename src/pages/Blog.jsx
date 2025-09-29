@@ -105,7 +105,7 @@ export const BlogPage = () => {
     return (
 
 
-        <div className=" dark:bg-gray-900 bg_home z-0 shadow-sm h-full">
+        <div className=" dark:bg-gray-900 bg_home z-0 shadow-sm h-full py-6">
 
             <div className="mx-0 lg:mx-auto  max-w-screen-auto text-center lg:mb-3 mb-2">
 
