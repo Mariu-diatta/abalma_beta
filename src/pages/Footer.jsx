@@ -187,7 +187,8 @@ const Footer = () => {
 
                         <div className="flex gap-2 bg-none">
                             <a
-                                href="/home"
+                                href="/"
+                                onClick={() => alert("Nous serons bientôt présent sur ce réseau")}
                                 className="flex h-8 w-8 items-center justify-center rounded-full border border-stroke text-dark hover:border-primary hover:bg-primary hover:text-white dark:border-dark-3 dark:text-white dark:hover:border-primary"
                             >
                                 <svg  viewBox="0 0 8 16" className="w-5 h-5  fill-current">
@@ -196,7 +197,8 @@ const Footer = () => {
                             </a>
 
                             <a
-                                href="/home"
+                                href="/"
+                                onClick={()=>alert("Nous serons bientôt présent sur ce réseau") }
                                 className="flex h-8 w-8 items-center justify-center rounded-full border border-stroke text-dark hover:border-primary hover:bg-primary hover:text-white dark:border-dark-3 dark:text-white dark:hover:border-primary"
                             >
                                 <svg className="w-5 h-5  text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -205,7 +207,8 @@ const Footer = () => {
 
                             </a>
                             <a
-                                href="/home"
+                                href="/"
+                                onClick={() => alert("Nous serons bientôt présent sur ce réseau")}
                                 className="flex h-8 w-8 items-center justify-center rounded-full border border-stroke text-dark hover:border-primary hover:bg-primary hover:text-white dark:border-dark-3 dark:text-white dark:hover:border-primary"
                             >
                                 <svg viewBox="0 0 16 12" className="w-5 h-5 fill-current">
@@ -214,7 +217,8 @@ const Footer = () => {
                             </a>
 
                             <a
-                                href="/home"
+                                href="/"
+                                onClick={() => alert("Nous serons bientôt présent sur ce réseau")}
                                 className="flex h-8 w-8 items-center justify-center rounded-full border border-stroke text-dark hover:border-primary hover:bg-primary hover:text-white dark:border-dark-3 dark:text-white dark:hover:border-primary"
                             >
                                 <svg viewBox="0 0 14 14" className="w-5 h-5  fill-current">
