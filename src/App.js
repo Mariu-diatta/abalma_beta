@@ -40,9 +40,7 @@ function App() {
 
 export default App;
 
-
-
-export default function SEO() {
+export function SEO() {
 
     const { i18n } = useTranslation();
 
