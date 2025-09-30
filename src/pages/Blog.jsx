@@ -121,8 +121,6 @@ export const BlogPage = () => {
 
             </div>
 
-
-
             <div className="py-1 px-2 w-full mx-0 lg:mx-auto lg:py-2 lg:px-6 h-screen mb-6 pt-5" >
 
                 {
@@ -130,9 +128,7 @@ export const BlogPage = () => {
 
                     <div className="grid gap-2 lg:grid-cols-2">
 
-                            {fetchBlogs()}
-
-
+                         {fetchBlogs()}
 
                     </div>
                     :
