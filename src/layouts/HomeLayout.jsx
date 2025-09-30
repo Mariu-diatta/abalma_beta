@@ -32,25 +32,21 @@ const HomeLayout = ({ children }) => {
 
     return (
 
-        <div
-
-            className=" d-flex flex-column items-start justify-between style-bg mx-1 mb-5"
-
-            style={
-                { marginBottom: '30px' }
-            }
-        >
-        
+        <div className=" d-flex flex-column items-start justify-between style-bg mx-1 mb-[30px]" >
 
             <NavbarHeader />
 
-            <ScrollTop />
+            <div className="mt-[20px]">
 
-            <ButtonScrollTopDown>
-                {children}
-            </ButtonScrollTopDown>
+                <ScrollTop />
 
-            <Footer />
+                <ButtonScrollTopDown>
+                    {children}
+                </ButtonScrollTopDown>
+
+                <Footer />
+
+            </div>
 
         </div>
     );

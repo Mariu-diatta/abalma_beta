@@ -137,7 +137,7 @@ export const BlogPage = () => {
                 }
 
 
-                <div className="fixed  top-3  right-2  shadow-lg rounded-full bg-none z-0">
+                <div className="fixed  top-[3dvh]  right-5  shadow-lg rounded-full bg-none z-0">
 
                     <ModalFormCreatBlog />
 

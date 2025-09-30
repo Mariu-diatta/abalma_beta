@@ -298,7 +298,7 @@ const NavbarHeader = () => {
 
     return (
 
-        <nav className="sticky top-0 z-20 h-[20px]">
+        <nav className="sticky top-0 z-20 max-h-[20px] min-h-[20px]">
 
             <header
 
@@ -320,6 +320,7 @@ const NavbarHeader = () => {
                     <Logo />
                 </div>
 
+                {/*{ Button de navigation qui s'adapte en fonction de l'écran}*/}
                 <ButtonNavigate tabs={getTabsNavigationsItems(currentNav,t)} />
 
                 {

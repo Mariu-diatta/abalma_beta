@@ -87,7 +87,7 @@ export const ButtonNavigate = ({ tabs }) => {
 
                             className={({ isActive }) =>
                                 `
-                                    whitespace-nowrap text-center w-full text-center items-center flex flex-col lg:flex-row gap-1 text-[14px] rounded-full
+                                    whitespace-nowrap text-center w-full text-center items-center flex flex-col lg:flex-row gap-1 text-[12px] md:text-[14px] rounded-full
                                     px-1 
                                     transition
                                     border-t sm:border-b-0 lg:border-b lg:border-t-0

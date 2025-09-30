@@ -641,7 +641,7 @@ i18n
              All: 'Tous',
 
              homePan: {
-                 title: "Toute grande entreprise commence par un premier pas.",
+                 title: "Tout grand business commence par un premier pas.",
                  content: "Bienvenue sur la plateforme Abalma ! Nous vous accompagnons pour optimiser votre présence sur les réseaux sociaux, renforcer votre visibilité et accélérer la croissance de votre activité."
              },
 
