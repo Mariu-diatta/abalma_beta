@@ -254,8 +254,8 @@ const GridProductDefault = ({ categorie_item }) => {
 
                             <button
                                 onClick={() => {
-                                    dispatch(setCurrentNav("add_product"));
-                                    navigate("/add_product");
+                                    dispatch(setCurrentNav("add-product"));
+                                    navigate("/add-product");
                                 }}
                                 title="Ajouter un nouveau produit"
                                 className="mt-5 flex items-center justify-center rounded-md shadow-lg border border-gray-300 h-20 w-20 bg-white hover:bg-gray-100 transition"

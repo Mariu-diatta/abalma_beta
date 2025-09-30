@@ -22,6 +22,46 @@ i18n
      en: {
 
         translation: {
+             helpPage: {
+                 problemType: {
+                     index: "Problem Type",
+                     connexion: "Login issue",
+                     paiement: "Payment issue",
+                     bug: "Technical bug",
+                     autre: "Other",
+                     select: "-- Sélectionner un problème --",
+                     send: "Send",
+                     description:"Description"
+                 },
+                currentMessages: {
+                    index:"Common Messages",
+                     connectAccount: "Unable to log into my account",
+                     forgetPwd: "Forgot or invalid password",
+                     slowConnect: "The site is slow or does not load properly",
+                     errorPay: "Error during payment or order validation",
+                     printMobile: "Display issue on mobile",
+                     unexceptMessage: "I receive an unexpected error",
+                },
+                advices: {
+                    text1: "Impossible de se connecter à mon compte",
+                    text2: "Vérifiez votre connexion Internet et réessayez. Si le problème persiste, réinitialisez votre mot de passe.",
+                    text3: "Utilisez la fonction 'Mot de passe oublié' pour réinitialiser votre mot de passe.",
+                    text4: "Essayez de vider le cache de votre navigateur ou d’utiliser un autre navigateur.",
+                    text5: "Vérifiez vos informations bancaires et assurez-vous que votre carte est valide.",
+                    text6: "Essayez de faire un zoom arrière ou de changer l’orientation de l’écran.",
+                    text7: "Prenez une capture d’écran et contactez le support technique."
+                }
+             },
+             Produits: "Products",
+             habits: "Clothes",
+             Livres: "Books",
+             Jouets: "Toys",
+             Vehicules: "Car/Bicycle",
+             Jeux_videos: "Videos game",
+             Sacs: "Bags",
+             Meubles:"Furnitures",
+             logout: "Did you really want to logout???",
+             connect_first: "You have to connect at first !!!",
              cookie_banner: {
                 text1: "This website uses cookies to improve your experience",
                 text2: "Learn more",
@@ -501,6 +541,47 @@ i18n
      fr: {
 
          translation: {
+
+             helpPage: {
+                 problemType: {
+                     index: "Type de problème",
+                     connexion: "Problème de connexion",
+                     paiement: "Problème de paiement",
+                     bug: "Bug technique",
+                     autre: "Autre",
+                     select: "-- Select a problem--",
+                     send: "Send",
+                     description: "Description"
+                 },
+                 currentMessages: {
+                     index:"Messages courants",
+                     connectAccount: "Impossible de se connecter à mon compte",
+                     forgetPwd: "Mot de passe oublié ou invalide",
+                     slowConnect: "Le site est lent ou ne charge pas correctement",
+                     errorPay: "Erreur lors du paiement ou de la validation de la commande",
+                     printMobile: "Problème d'affichage sur mobile",
+                     unexceptMessage: "Je reçois une erreur inattendue",
+                 },
+                 advices: {
+                     text1: "Unable to log into my account",
+                     text2: "Check your internet connection and try again. If the problem persists, reset your password.",
+                     text3: "Use the 'Forgot Password' function to reset your password.",
+                     text4: "Try clearing your browser cache or use a different browser.",
+                     text5: "Check your banking information and make sure your card is valid.",
+                     text6: "Try zooming out or changing the screen orientation.",
+                     text7: "Take a screenshot and contact technical support."
+                 }
+             },
+             Produits: "Produits",
+             habits: "Habits",
+             Livres: "Livres",
+             Jouets: "Jeux",
+             Vehicules: "Véhicules",
+             Jeux_videos: "jeux vidéos",
+             Sacs: "Sacs",
+             Meubles: "Meubles",
+             logout: "Voulez-vous vraiment vous déconnecter???",
+             connect_first: "Vous devrez vous connecter avant !!!",
              cookie_banner: {
                  text1: "Ce site utilise des cookies pour améliorer votre expérience",
                  text2: "En savoir plus",

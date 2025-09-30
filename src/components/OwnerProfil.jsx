@@ -167,9 +167,9 @@ const OwnerPopover = ({ owner, onClose }) => {
 
         dispatch(addUser(owner))
 
-        dispatch(setCurrentNav("message_inbox"))
+        dispatch(setCurrentNav("message-inbox"))
 
-        return navigate("/message_inbox")
+        return navigate("/message-inbox")
     }
 
     if (!owner) return null
@@ -224,7 +224,7 @@ const OwnerPopover = ({ owner, onClose }) => {
 
                         dispatch(setCurrentNav("user_profil_product"));
 
-                        navigate("/user_profil")
+                        navigate("/user-profil")
 
                         onClose();
                     }}

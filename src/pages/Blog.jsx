@@ -190,7 +190,7 @@ const BlogCard = (blog) => {
 
                 {blog?.user && <OwnerAvatar owner={blog?.user} />}
 
-                <a href={"/logIn"} className="inline-flex items-center font-medium text-primary-600 text-sm dark:text-primary-500 hover:underline">
+                <a href={"/login"} className="inline-flex items-center font-medium text-primary-600 text-sm dark:text-primary-500 hover:underline">
 
                     {t("blog.reaMore")}
 

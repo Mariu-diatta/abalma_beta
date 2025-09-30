@@ -85,7 +85,7 @@ export default function AccountDropdownUserProfil() {
 
         setLoading(true)
 
-        if (window.confirm("Voulez-vous vous deconnecter???")) {
+        if (window.confirm(t("logout"))) {
 
             try {
 
@@ -99,9 +99,9 @@ export default function AccountDropdownUserProfil() {
 
                 dispatch(logout());
 
-                dispatch(setCurrentNav("/logIn"))
+                dispatch(setCurrentNav("login"))
 
-                return navigate("/logIn", { replace: true });
+                return navigate("/login", { replace: true });
 
 
 
@@ -132,7 +132,7 @@ export default function AccountDropdownUserProfil() {
             <div
                 className={
                     `fixed bottom-0 w-max-100 left-0 right-0 z-0 flex items-center justify-around sm: flex md: hidden lg: hidden
-                    ${currentNav === "message_inbox" ? "hidden" : ""}`
+                    ${currentNav === "message-inbox" ? "hidden" : ""}`
                 }
                 style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
             >
@@ -261,9 +261,9 @@ export default function AccountDropdownUserProfil() {
 
                             () => {
 
-                                navigate("/user_profil");
+                                navigate("/user-profil");
 
-                                dispatch(setCurrentNav("user_profil"))
+                                dispatch(setCurrentNav("user-profil"))
                             }
                         }
                     >

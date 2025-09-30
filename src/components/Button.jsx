@@ -16,7 +16,7 @@ const WhiteRoundedButton = ({ titleButton, to }) => {
 
         <NavLink
 
-            to={to}
+            to={`/${to}`}
 
             className={
 
@@ -78,8 +78,8 @@ export const ButtonNavigate = ({ tabs }) => {
                         !((
                             (tab.label === "About") ||
                             (removeAccents(tab.label) === removeAccents(t('about'))) ||
-                            (tab.label === "Blogs")) && ((currentNav === "/logIn") ||
-                            (currentNav === "/Register") || (currentNav === "/register"))) &&
+                            (tab.label === "Blogs")) && ((currentNav === "login") ||
+                            (currentNav === "register"))) &&
 
                         <NavLink
 

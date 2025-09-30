@@ -7,6 +7,35 @@ export const maintenant = new Date();
 
 export const getPhotoUser = (obj) => obj?.sender?.image || obj?.sender?.photo_url
 
+
+export const messages = (t) => [
+    {
+        text: t("helpPage.currentMessages.connectAccount"),
+        advice: t("helpPage.advices.text1", "Vérifiez votre connexion Internet et réessayez. Si le problème persiste, réinitialisez votre mot de passe.")
+    },
+    {
+        text: t("helpPage.currentMessages.forgetPwd"),
+        advice: t("helpPage.advices.text2", "Utilisez la fonction 'Mot de passe oublié' pour réinitialiser votre mot de passe.")
+    },
+    {
+        text: t("helpPage.currentMessages.slowConnect"),
+        advice: t("helpPage.advices.text3", "Essayez de vider le cache de votre navigateur ou d’utiliser un autre navigateur.")
+    },
+    {
+        text: t("helpPage.currentMessages.errorPay"),
+        advice: t("helpPage.advices.text4", "Vérifiez vos informations bancaires et assurez-vous que votre carte est valide.")
+    },
+    {
+        text: t("helpPage.currentMessages.printMobile"),
+        advice: t("helpPage.advices.text5", "Essayez de faire un zoom arrière ou de changer d’orientation de l’écran.")
+    },
+    {
+        text: t("helpPage.currentMessages.unexceptMessage"),
+        advice: t("helpPage.advices.text6", "Prenez une capture d’écran et contactez le support technique.")
+    },
+];
+
+
 //fetch all rooms
 
 export const fetchRooms = async (currentUser, dispatch, addRoom) => {
@@ -111,9 +140,9 @@ export const  LIST_CATEGORY=[
 
     { idx: "jouets", filter: "JOUETS" }, { idx: "sacs", filter: "SACS" }, { idx: "habits" , filter:"HABITS"},
 
-    { idx: "livres", filter: "LIVRES" }, { idx: "Jeux_video", filter: "JEUX_VIDEO" }, { idx: "Meubles", filter: "MEUBLES" }, { idx: "Vehicules" , filter:"VEHICULES"},
+    { idx: "livres", filter: "LIVRES" }, { idx: "jeux-video", filter: "JEUX_VIDEO" }, { idx: "meubles", filter: "MEUBLES" }, { idx: "vehicules" , filter:"VEHICULES"},
 
-    { idx: "Fournitures_scolaires", filter: "FOURNISSEURS_SCOLAIRES" }, { idx: "divers", filter: "DIVERS" }, { idx: "telephones", filter: "TELEPHONIE" }
+    { idx: "fournitures-scolaires", filter: "FOURNISSEURS_SCOLAIRES" }, { idx: "divers", filter: "DIVERS" }, { idx: "telephones", filter: "TELEPHONIE" }
 ]
 
 //nombre d'étoiles en fonctions des vues
@@ -258,7 +287,7 @@ export const productViews = async (dataProduct, setProductNbViews) => {
 
     try {
 
-        const { data } = await api.get(`/products_details/${dataProduct?.id}/`);
+        const { data } = await api.get(`/products-details/${dataProduct?.id}/`);
 
         setProductNbViews(data?.total_views);
 
@@ -405,9 +434,9 @@ export const loginClient = async (data, dispatch, setIsLoading, navigate) => {
 
             dispatch(updateCompteUser(response?.data?.compte))
 
-            dispatch(setCurrentNav("account_home"))
+            dispatch(setCurrentNav("account-home"))
 
-            navigate("/account_home", {replace:true})
+            navigate("/account-home", {replace:true})
         }
 
     } catch (error) {
@@ -592,7 +621,7 @@ export const getTabsNavigationsItems = (currentNav,t) => {
                 label: t('about'),
                 endPoint: '/about',
                 logo:
-                    ((currentNav === "about") && !(currentNav === "/logIn") && !(currentNav === "/Register") && !(currentNav === "/register")) ?
+                    ((currentNav === "about") && !(currentNav === "login") && !(currentNav === "register")) ?
                         (
                             <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                 <path fillRule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm9.408-5.5a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM10 10a1 1 0 1 0 0 2h1v3h-1a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-1v-4a1 1 0 0 0-1-1h-2Z" clipRule="evenodd" />
@@ -625,7 +654,7 @@ export const getTabsNavigationsItems = (currentNav,t) => {
                 label: 'Blogs',
                 endPoint: '/blogs',
                 logo:
-                    (!(currentNav === "blogs") && !(currentNav === "/logIn") && !(currentNav === "/Register") && !(currentNav === "/register")) ?
+                    (!(currentNav === "blogs") && !(currentNav === "login") && !(currentNav === "/register")) ?
                         (
                             <svg
                                 className="w-6 h-6 text-gray-800 dark:text-white"

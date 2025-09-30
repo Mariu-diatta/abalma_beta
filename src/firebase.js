@@ -103,9 +103,9 @@ export function LoginWithGoogle() {
 
             dispatch(login(res.data?.user)); // user info uniquement
 
-            dispatch(setCurrentNav("account_home"));
+            dispatch(setCurrentNav("account-home"));
 
-            navigate("/account_home", { replace: true });
+            navigate("/account-home", { replace: true });
 
 
         } catch (err) {

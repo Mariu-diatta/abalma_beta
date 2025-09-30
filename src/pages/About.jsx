@@ -122,8 +122,8 @@ const AboutContainer = () => {
                             <button
 
                                 onClick={() => {
-                                    navigate('/logIn');
-                                    dispatch(setCurrentNav('/logIn'));
+                                    navigate('/login');
+                                    dispatch(setCurrentNav('/login'));
                                 }}
 
                                 className="inline-flex items-center justify-center py-3 px-7 text-base font-medium text-white rounded-md bg-primary transition-all duration-300 ease-in-out hover:bg-opacity-90 hover:scale-105"

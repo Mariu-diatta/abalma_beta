@@ -683,8 +683,8 @@ const UpdateProduct = () => {
 
                                 <ButtonSimple
                                     onHandleClick={() => {
-                                        dispatch(setCurrentNav("user_profil"));
-                                        navigate("/user_profil");
+                                        dispatch(setCurrentNav("user-profil"));
+                                        navigate("/user-profil");
                                     }}
                                     title={t('add_product.switch_to_supplier')}
                                     type="button"

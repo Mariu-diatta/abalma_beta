@@ -66,29 +66,29 @@ const routes = [
                         children: [
 
                             ...[
-                                { path: "help", element: <HelpPage/> },
+                                { path: "help", class_rendered: <HelpPage/> },
 
                                 { path: "payment", class_rendered: <ListProductShoppingCart /> },
 
-                                { path: "payment_card", class_rendered: <ListProductShoppingCart /> },
+                                { path: "payment-card", class_rendered: <ListProductShoppingCart /> },
 
-                                { path: "user_blogs", class_rendered: <BlogPage /> },
+                                { path: "user-blogs", class_rendered: <BlogPage /> },
 
                                 { path: "settings", class_rendered: <SettingsForm /> },
 
-                                { path: "user_profil", class_rendered: <ProfileCard /> },
+                                { path: "user-profil", class_rendered: <ProfileCard /> },
 
                                 { path: "dashboard", class_rendered: <Tabs /> },
 
-                                { path: "payment_product", class_rendered: <ProductsRecapTable /> },
+                                { path: "payment-product", class_rendered: <ProductsRecapTable /> },
 
-                                { path: "all_products", class_rendered: <GridLayoutProduct /> },
+                                { path: "all-products", class_rendered: <GridLayoutProduct /> },
 
-                                { path: "account_home", class_rendered: <GridLayoutProduct /> },
+                                { path: "account-home", class_rendered: <GridLayoutProduct /> },
 
-                                { path: "add_product", class_rendered: <UpdateProduct /> },
+                                { path: "add-product", class_rendered: <UpdateProduct /> },
 
-                                { path: "message_inbox", class_rendered: <ChatLayout /> }
+                                { path: "message-inbox", class_rendered: <ChatLayout /> }
 
                             ].map(
 

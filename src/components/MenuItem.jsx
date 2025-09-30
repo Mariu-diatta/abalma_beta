@@ -8,17 +8,17 @@ import bureau from "../../src/assets/bureau_18081488.png"
 import gaming_ from "../../src/assets/gaming_6749691.png"  
 import bags from "../../src/assets/shopping-bags_8079986.png" 
 
-export const menuItems = [
+export const menuItems =(t)=>[
     {
-        name: 'Produits',
+        name: t('Produits'),
         to: '/produits/',
-        id: "all_products",
+        id: "all-products",
         svg: (
             <img className="rounded-sm " src={packProduct} alt="" width="25" />
         ),
     },
     {
-        name: 'habits',
+        name: t('habits'),
         to: '/products/filter/?categorie_product=HABITS',
         id: 'habits',
         svg: (
@@ -26,7 +26,7 @@ export const menuItems = [
         ),
     },
     {
-        name: 'Livres',
+        name: t('Livres'),
         to: '/products/filter/?categorie_product=LIVRES',
         id: 'livres',
         svg: (
@@ -45,7 +45,7 @@ export const menuItems = [
     //    ),
     //},
     {
-        name: 'Jouets',
+        name: t('Jouets'),
         to: '/products/filter/?categorie_product=JOUETS',
         id: 'jouets',
         svg: (
@@ -63,31 +63,31 @@ export const menuItems = [
     //    ),
     //},
     {
-        name: 'Véhicules',
+        name: t('Vehicules'),
         to: '/products/filter/?categorie_product=VEHICULES', 
-        id: 'Vehicules',
+        id: 'vehicules',
         svg: (
             <img className="rounded-sm " src={road} alt="" width="25" /> 
         ),
     },
     {
-        name: 'Meubles',
+        name: t('Meubles'),
         to: '/products/filter/?categorie_product=MEUBLES',
-        id: 'Meubles',
+        id: 'meubles',
         svg: (
             <img className="rounded-sm " src={bureau} alt="" width="25" />
         ),
     },
     {
-        name: 'Jeux vidéos',
+        name: t('Jeux_videos'),
         to: '/products/filter/?categorie_product=JEUX_VIDEO',
-        id: 'Jeux_video',
+        id: 'jeux-video',
         svg: (
             <img className="rounded-sm " src={gaming_} alt="" width="25"  /> 
         ),
     },
     {
-        name: 'Sacs',
+        name: t('Sacs'),
         to: '/products/filter/?categorie_product=SACS',
         id: 'sacs',
         svg: (

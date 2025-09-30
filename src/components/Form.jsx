@@ -197,7 +197,7 @@ const RegisterForm = () => {
                         <Link
                             to="/login"
                             className="text-sm lg:text-md text-primary hover:underline"
-                            onClick={() => dispatch(setCurrentNav("/logIn"))}
+                            onClick={() => dispatch(setCurrentNav("login"))}
                         >
                             {t("login")}
                         </Link>

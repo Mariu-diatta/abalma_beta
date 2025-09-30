@@ -33,7 +33,7 @@ const ProfileCard = () => {
 
     // Determine user profile based on navigation context
     const userProfile = useMemo(() => {
-        if (currentNav === 'user_profil' || currentNav === 'home') return profileData;
+        if ((currentNav === 'user-profil') || (currentNav === 'home')) return profileData;
         if (currentNav === 'user_profil_product') return selectedProductOwner;
         return null;
     }, [currentNav, profileData, selectedProductOwner]);
@@ -275,8 +275,8 @@ const ProfileCard = () => {
             const roomExists = allChats?.some((room) => room?.name === currentChat?.nom);
 
             if (roomExists) {
-                dispatch(setCurrentNav('message_inbox'));
-                navigate('/message_inbox');
+                dispatch(setCurrentNav('message-inbox'));
+                navigate('/message-inbox');
                 return;
             }
 
@@ -286,8 +286,8 @@ const ProfileCard = () => {
                 current_receiver: selectedProductOwner?.id,
            });
 
-            dispatch(setCurrentNav('message_inbox'));
-            navigate('/message_inbox');
+            dispatch(setCurrentNav('message-inbox'));
+            navigate('/message-inbox');
 
         } catch (err) {
 
@@ -651,7 +651,7 @@ const ProfileCard = () => {
                                         onClick={() => {
                                             setMessageVisible(!messageVisible);
                                             creatNewRoom();
-                                            navigate('/message_inbox');
+                                            navigate('/message-inbox');
                                         }}
                                         className="h-8 w-1/2 md:w-auto border border-gray-300 cursor-pointer flex items-center justify-center gap-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-sm px-1 sm:px-2  hover:bg-gray-200 dark:hover:bg-gray-600 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors duration-200 w-2/3 md:w-auto"
                                     >

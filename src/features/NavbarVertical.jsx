@@ -164,15 +164,15 @@ const VertcalNavbar = ({ children }) => {
                         <li>
                             <button
 
-                                className={`w-full flex items-center justify-between text-left gap-x-3 p-2 w-full text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-full ${(currentNav === "account_home") && "bg-gray-100 shadow-sm"}`}
+                                className={`w-full flex items-center justify-between text-left gap-x-3 p-2 w-full text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-full ${(currentNav === "account-home") && "bg-gray-100 shadow-sm"}`}
 
                                 onClick={
 
                                     () => {
 
-                                        navigate("/account_home");
+                                        navigate("/account-home");
 
-                                        dispatch(setCurrentNav("account_home"));
+                                        dispatch(setCurrentNav("account-home"));
                                     }
                                 }
                             >
@@ -233,6 +233,7 @@ const VertcalNavbar = ({ children }) => {
 
                                     {
                                         currentUser?.is_pro && (
+
                                             <span
 
                                                 className="shadow-lg inline-flex items-center justify-center px-2 text-xs text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300"
@@ -256,12 +257,12 @@ const VertcalNavbar = ({ children }) => {
 
                             <button
 
-                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-full ${(currentNav === "message_inbox") && "bg-gray-100 shadow-sm"}`}
+                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-full ${(currentNav === "message-inbox") && "bg-gray-100 shadow-sm"}`}
 
-                                onClick={() => { navigate("/message_inbox"); dispatch(setCurrentNav("message_inbox")) }}
+                                onClick={() => { navigate("/message-inbox"); dispatch(setCurrentNav("message-inbox")) }}
                             >
                                 {
-                                    (currentNav === "message_inbox") ?
+                                    (currentNav === "message-inbox") ?
 
                                     <svg className="shadow-lg rounded-full  w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                         <path fillRule="evenodd" d="M4 3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h1v2a1 1 0 0 0 1.707.707L9.414 13H15a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4Z" clipRule="evenodd" />
@@ -298,12 +299,12 @@ const VertcalNavbar = ({ children }) => {
 
                             <button
 
-                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-full  ${(currentNav === "add_product") && "bg-gray-100 shadow-sm"}`}
+                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-full  ${(currentNav === "add-product") && "bg-gray-100 shadow-sm"}`}
 
-                                onClick={() => { navigate("/add_product"); dispatch(setCurrentNav("add_product")) }}
+                                onClick={() => { navigate("/add-product"); dispatch(setCurrentNav("add-product")) }}
                             >
                                 {
-                                    (currentNav === "add_product") ?
+                                    (currentNav === "add-product") ?
 
                                     <svg className="shadow-lg rounded-full   shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 24">
 
@@ -326,14 +327,14 @@ const VertcalNavbar = ({ children }) => {
 
                             <button
 
-                                onClick={() => { navigate("/user_blogs"); dispatch(setCurrentNav("user_blogs")) }}
+                                onClick={() => { navigate("/user-blogs"); dispatch(setCurrentNav("user-blogs")) }}
 
-                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-full  ${(currentNav === "user_blogs") && "bg-gray-100 shadow-sm"}`}                            >
+                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-full  ${(currentNav === "user-blogs") && "bg-gray-100 shadow-sm"}`}                            >
 
                                 <div className="flex gap-2">
 
                                     {
-                                        (currentNav === "user_blogs") ?
+                                        (currentNav === "user-blogs") ?
 
                                         <svg className="shadow-lg rounded-full w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                             <path fillRule="evenodd" d="M14 4.182A4.136 4.136 0 0 1 16.9 3c1.087 0 2.13.425 2.899 1.182A4.01 4.01 0 0 1 21 7.037c0 1.068-.43 2.092-1.194 2.849L18.5 11.214l-5.8-5.71 1.287-1.31.012-.012Zm-2.717 2.763L6.186 12.13l2.175 2.141 5.063-5.218-2.141-2.108Zm-6.25 6.886-1.98 5.849a.992.992 0 0 0 .245 1.026 1.03 1.03 0 0 0 1.043.242L10.282 19l-5.25-5.168Zm6.954 4.01 5.096-5.186-2.218-2.183-5.063 5.218 2.185 2.15Z" clipRule="evenodd" />
@@ -396,7 +397,7 @@ const VertcalNavbar = ({ children }) => {
                         }}
                     >
 
-                        {menuItems.map(({ name, to, svg, id }, index) => (
+                        {menuItems(t).map(({ name, to, svg, id }, index) => (
 
                             <li key={index}>
 
@@ -460,13 +461,18 @@ const VertcalNavbar = ({ children }) => {
                         <button
                             type="button"
                             role="tab"
-                            aria-selected={currentNav === 9}
+                            aria-selected={currentNav ==="help"}
                             aria-controls={`${9}-tab`}
                             id={`${9}-tab-button`}
-                            onClick={() => { navigate(`/help`); dispatch(setCurrentNav(`help`)) }}
+                            onClick={
+                                () => {
+                                    navigate(`/help`);
+                                    dispatch(setCurrentNav(`help`))
+                                }
+                            }
                             className={`cursor-pointer ml-3 inline-block px-1 py-3 border-b-2 rounded-t-md transition-colors duration-300 
-                                    ${currentNav === 9
-                                    ? 'border-b-purple-600 text-purple-600 dark:border-b-purple-500 dark:text-purple-500'
+                                    ${currentNav === "help"
+                                    ? 'border-b-gray-600 text-purple-600 dark:border-b-purple-500 dark:text-purple-500'
                                     : 'border-b-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
                                 } focus:outline-none`}
                         >

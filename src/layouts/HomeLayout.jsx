@@ -18,7 +18,7 @@ const HomeLayout = ({ children }) => {
 
         if (currentUser) {
 
-            dispatch(setCurrentNav('account_home'));
+            dispatch(setCurrentNav('account-home'));
 
             setIsConnected(true);
         }
@@ -27,7 +27,7 @@ const HomeLayout = ({ children }) => {
 
     if (isConnected) {
 
-        return <Navigate to="/account_home" replace />;
+        return <Navigate to="/account-home" replace />;
     }
 
     return (

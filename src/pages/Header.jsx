@@ -333,7 +333,7 @@ const NavbarHeader = () => {
 
                 {
 
-                    (!(currentNav === "/logIn") && !(currentNav === "/Register") && !(currentNav === "/register")) &&
+                    (!(currentNav === "login") && !(currentNav === "register")) &&
 
                     <>
                         {/* Toggle Button for Mobile */}
@@ -370,9 +370,9 @@ const NavbarHeader = () => {
                                 style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                                 className="text-sm absolute top-4 flex flex-col items-start justify-start gap-3 p-1 sm:hidden shadow-lg w-full py-5 bg-white "
                             >
-                                <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
+                                <WhiteRoundedButton titleButton={t('login')} to="login" />
 
-                                <WhiteRoundedButton titleButton={t('register')} to="/register" />
+                                <WhiteRoundedButton titleButton={t('register')} to="register" />
 
                                 <ThemeToggle />
 
@@ -397,9 +397,9 @@ const NavbarHeader = () => {
                                 </>
                             }
 
-                            <WhiteRoundedButton titleButton={t('login')} to="/logIn" />
+                            <WhiteRoundedButton titleButton={t('login')} to="login" />
 
-                            <WhiteRoundedButton titleButton={t('register')} to="/register" />
+                            <WhiteRoundedButton titleButton={t('register')} to="register" />
 
                         </div>
 

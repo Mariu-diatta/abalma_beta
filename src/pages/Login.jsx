@@ -200,9 +200,9 @@ const LogIn = () => {
                         <span className="whitespace-nowrap pr-0.5">{t("notRegistered")}</span>
 
                         <NavLink
-                            to="/Register"
+                            to="/register"
                             className="whitespace-nowrap text-blue-700 hover:underline text-sm lg:text-md dark:text-blue-300"
-                            onClick={() => dispatch(setCurrentNav("/Register"))}
+                            onClick={() => dispatch(setCurrentNav("register"))}
                         >
                             {t("register")}
                         </NavLink>
