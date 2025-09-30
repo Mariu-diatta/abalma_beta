@@ -137,7 +137,7 @@ export const BlogPage = () => {
                 }
 
 
-                <div className="fixed pr-2 my-2 top-2 right-2 pb-7 mt-7">
+                <div className="fixed  top-3  right-2  shadow-lg rounded-full bg-none z-0">
 
                     <ModalFormCreatBlog />
 
@@ -156,7 +156,7 @@ const BlogPageHome = () => {
     return (
 
         <HomeLayout >
-             
+
             <BlogPage />
 
         </HomeLayout>

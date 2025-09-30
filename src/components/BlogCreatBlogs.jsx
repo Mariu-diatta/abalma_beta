@@ -148,7 +148,7 @@ export const ModalFormCreatBlog = () => {
 
     return (
 
-        <div className="mb-8" role="dialog" aria-modal="true" ref={modalRef_} >
+        <div className="bg-none z-0"  ref={modalRef_} >
 
             {/* Toggle Button */}
             {
@@ -183,7 +183,7 @@ export const ModalFormCreatBlog = () => {
             {/* Modal */}
             {isOpen && (
                 <div
-                    className="fixed inset-0 bg-black/50  flex items-center justify-center p-2 inset-0 mb-8"
+                    className="fixed inset-0 bg-black/50  flex items-center justify-center p-2 inset-0 mb-8 w-full h-full z-[9999] pb-8 bottom-[500px]"
                     aria-labelledby="modal-title"
                     aria-describedby="modal-description"
                     role="dialog"

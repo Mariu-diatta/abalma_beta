@@ -29,7 +29,7 @@ i18n
                      paiement: "Payment issue",
                      bug: "Technical bug",
                      autre: "Other",
-                     select: "-- Sélectionner un problème --",
+                     select: "-- Select a problem--",
                      send: "Send",
                      description:"Description"
                  },
@@ -43,14 +43,15 @@ i18n
                      unexceptMessage: "I receive an unexpected error",
                 },
                 advices: {
-                    text1: "Impossible de se connecter à mon compte",
-                    text2: "Vérifiez votre connexion Internet et réessayez. Si le problème persiste, réinitialisez votre mot de passe.",
-                    text3: "Utilisez la fonction 'Mot de passe oublié' pour réinitialiser votre mot de passe.",
-                    text4: "Essayez de vider le cache de votre navigateur ou d’utiliser un autre navigateur.",
-                    text5: "Vérifiez vos informations bancaires et assurez-vous que votre carte est valide.",
-                    text6: "Essayez de faire un zoom arrière ou de changer l’orientation de l’écran.",
-                    text7: "Prenez une capture d’écran et contactez le support technique."
+                    text1: "Unable to log into my account",
+                    text2: "Check your internet connection and try again. If the problem persists, reset your password.",
+                    text3: "Use the 'Forgot Password' function to reset your password.",
+                    text4: "Try clearing your browser cache or use a different browser.",
+                    text5: "Check your banking information and make sure your card is valid.",
+                    text6: "Try zooming out or changing the screen orientation.",
+                    text7: "Take a screenshot and contact technical support."
                 }
+
              },
              Produits: "Products",
              habits: "Clothes",
@@ -563,13 +564,13 @@ i18n
                      unexceptMessage: "Je reçois une erreur inattendue",
                  },
                  advices: {
-                     text1: "Unable to log into my account",
-                     text2: "Check your internet connection and try again. If the problem persists, reset your password.",
-                     text3: "Use the 'Forgot Password' function to reset your password.",
-                     text4: "Try clearing your browser cache or use a different browser.",
-                     text5: "Check your banking information and make sure your card is valid.",
-                     text6: "Try zooming out or changing the screen orientation.",
-                     text7: "Take a screenshot and contact technical support."
+                     text1: "Impossible de se connecter à mon compte",
+                     text2: "Vérifiez votre connexion Internet et réessayez. Si le problème persiste, réinitialisez votre mot de passe.",
+                     text3: "Utilisez la fonction 'Mot de passe oublié' pour réinitialiser votre mot de passe.",
+                     text4: "Essayez de vider le cache de votre navigateur ou d’utiliser un autre navigateur.",
+                     text5: "Vérifiez vos informations bancaires et assurez-vous que votre carte est valide.",
+                     text6: "Essayez de faire un zoom arrière ou de changer l’orientation de l’écran.",
+                     text7: "Prenez une capture d’écran et contactez le support technique."
                  }
              },
              Produits: "Produits",
