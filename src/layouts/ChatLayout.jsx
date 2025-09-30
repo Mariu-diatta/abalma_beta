@@ -242,7 +242,7 @@ const ChatLayout = () => {
     return (
 
         <div
-            className="grid grid-cols-12  flex justify-center items-start mx-auto gap-2 pb-2  bg-grey-100  mb-4 fixed"
+            className="grid grid-cols-12  flex justify-center items-start mx-auto gap-2 pb-1 bg-grey-100  mb-2 fixed  md:mt-0"
             style={{
                 backgroundColor: 'var(--color-bg)',
                 color: 'var(--color-text)',
@@ -265,7 +265,7 @@ const ChatLayout = () => {
                         }
                     }
                 >
-                    <div className="p-1 gap-3 pt-6 ">
+                    <div className="p-1 gap-3 pt-6 mt-5 ">
 
                         <h2 className="font-bold text-gray-500 mb-6 h-3">Discussions</h2>
 
@@ -278,7 +278,7 @@ const ChatLayout = () => {
                             )
                             :
                             (
-                            <ul className="mt-5 space-y-2 ">
+                            <ul className="mt-6 space-y-2 ">
 
                                 {
                                     allChats.map(
@@ -296,7 +296,7 @@ const ChatLayout = () => {
 
                                                 <li
                                                     key={index}
-                                                    className={`w-full flex items-center justify-between p-2 rounded-lg text-sm font-medium transition-colors
+                                                    className={`w-full flex items-center justify-between px-2 py-1 rounded-lg text-sm font-medium transition-colors
                                                     ${currentChat?.name === room?.name
                                                         ? 'bg-gradient-to-br from-purple-100 to-blue-100 hover:bg-gradient-to-br hover:from-purple-200 text-white-800 shadow-sm'
                                                         : 'hover:bg-gray-100 text-gray-800 shadow-sm'

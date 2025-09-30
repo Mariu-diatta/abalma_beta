@@ -111,7 +111,7 @@ const VertcalNavbar = ({ children }) => {
 
                 type="button"
 
-                className="inline-flex items-center mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                className=" z-8 fixed top-2 left-2 inline-flex items-center mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
             >
 
                 <span className="sr-only">...</span>
@@ -513,7 +513,7 @@ const VertcalNavbar = ({ children }) => {
 
                         aria-labelledby={`${currentNav}-tab-button`}
 
-                        className="h-full dark:bg-gray-800 rounded-lg w-auto sm:mb-[30px] sm:pb-[50px] sm:z-[1000] mt-3 mb-2 sm:pt-2"
+                        className="h-full dark:bg-gray-800 rounded-lg w-auto sm:mb-[30px] sm:pb-[50px] sm:z-[1000] mt-3 mb-2 sm:pt-6"
 
                         style={
 
@@ -528,7 +528,11 @@ const VertcalNavbar = ({ children }) => {
                         <ScrollTop/>
 
                         <ButtonScrollTopDown>
-                            {children}
+
+                            <section className="mt-[40px] md:mt-auto">
+                                {children}
+                            </section>
+
                         </ButtonScrollTopDown>
 
                     </section>

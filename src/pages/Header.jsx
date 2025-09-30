@@ -340,8 +340,7 @@ const NavbarHeader = () => {
                         <button
                             onClick={() => setOpen(!open)}
                             id="navbarToggler"
-                            className={
-                                `
+                            className={`
                             ${open && "navbarTogglerActive"} 
                             sm:hidden absolute right-1 top-1/2 transform -translate-y-1/2 
                             z-[71] px-3 py-[6px] rounded-lg 
