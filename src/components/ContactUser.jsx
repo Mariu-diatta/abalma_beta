@@ -237,7 +237,7 @@ const UsersContactsList = () => {
                                         (user?.id !== currentuser?.id)
                                             && 
                                             (
-                                                <tr key={i} className="dark:bg-gray-100 hover:bg-gray-100 dark:hover:bg-gray-40 shadow-xs p-3 py-2 rounded-lg hover:rounded-lg hover:text-blue-300">
+                                                <tr key={i} className="dark:bg-gray-100 hover:bg-gray-100 dark:hover:bg-gray-40 shadow-xs hover:shadow-sm p-3 py-2 rounded-lg hover:rounded-lg hover:text-blue-300">
 
                                                     <td className="p-4 hidden">
 

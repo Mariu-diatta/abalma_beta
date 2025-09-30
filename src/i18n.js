@@ -550,7 +550,7 @@ i18n
                      paiement: "Problème de paiement",
                      bug: "Bug technique",
                      autre: "Autre",
-                     select: "-- Select a problem--",
+                     select: "-- Sélectionner votre problème--",
                      send: "Send",
                      description: "Description"
                  },

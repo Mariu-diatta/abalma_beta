@@ -300,11 +300,11 @@ const OwnerAvatar = ({ owner }) => {
         <div className="relative inline-block " ref={containerRef}>
 
             {
-                owner?.image ?
+                (owner?.image || owner?.photo_url) ?
 
                     <img
 
-                        src={owner?.image}
+                        src={owner?.image || owner?.photo_url}
 
                         alt={owner?.nom || 'Fournisseur'}
 
