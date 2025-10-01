@@ -4,6 +4,7 @@ import { messages } from "../utils";
 import { useTranslation } from 'react-i18next';
 import api from "../services/Axios";
 import LoadingCard from "../components/LoardingSpin";
+import { useSelector } from "react-redux";
 
 const HelpPage = () => {
     const { t } = useTranslation();
@@ -11,12 +12,23 @@ const HelpPage = () => {
     const [description, setDescription] = useState("");
     const [submitted, setSubmitted] = useState(false);
     const [loading, setLoading] = useState(false);
+    const currentUser = useSelector(state => state.auth.user)
+
+    const sendData = () => {
+
+        setSubmitted(!submitted);
+
+        setProblemType("")
+
+        setDescription("")
+
+    }
 
     const handleSubmit =async (e) => {
         e.preventDefault();
 
-        if (!problemType || !description.trim()) {
-            alert("Merci de remplir tous les champs.");
+        if (!problemType || !description.trim()|| !currentUser) {
+            alert(t("alertSuccesMessageFormHelp.text3"));
             return;
         }
 
@@ -28,13 +40,13 @@ const HelpPage = () => {
             const response = await api.post("help/messages/",
                 {
                     "title": problemType,
-                    "content": description
+                    "content": description,
                 }
             )
 
             console.log("Support request:", { problemType, description }, response?.detail);
 
-            setSubmitted(true);
+            sendData();
 
         } catch (e) {
 
@@ -46,12 +58,21 @@ const HelpPage = () => {
     };
 
     if (submitted) {
+
         return (
-            <div className="max-w-lg mx-auto p-6 bg-white border border-gray-200 rounded-lg shadow-md text-center">
-                <h2 className="text-xl font-bold mb-2">✅ Merci pour votre retour !</h2>
+
+            <div className="relative max-w-lg mx-auto p-6 bg-white border border-gray-200 rounded-lg shadow-md text-center">
+
+                <button className="absolute font-bold right-2 top-2" onClick={() => sendData()}>⨉</button> 
+
+                <h2 className="text-xl font-bold mb-2">✅ {t("alertSuccesMessageFormHelp.text1")}</h2>
+
                 <p className="text-gray-600">
-                    Notre équipe de support analysera votre problème dès que possible.
+
+                    {t("alertSuccesMessageFormHelp.text2")}
+
                 </p>
+
             </div>
         );
     }

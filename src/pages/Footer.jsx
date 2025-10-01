@@ -187,8 +187,7 @@ const Footer = () => {
 
                         <div className="flex gap-2 bg-none">
                             <a
-                                href="/"
-                                onClick={() => alert("Nous serons bientôt présent sur ce réseau")}
+                                href="https://www.facebook.com/profile.php?id=61578340873240/"
                                 className="flex h-8 w-8 items-center justify-center rounded-full border border-stroke text-dark hover:border-primary hover:bg-primary hover:text-white dark:border-dark-3 dark:text-white dark:hover:border-primary"
                             >
                                 <svg  viewBox="0 0 8 16" className="w-5 h-5  fill-current">

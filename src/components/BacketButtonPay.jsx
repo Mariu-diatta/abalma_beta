@@ -1,9 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentNav } from "../slices/navigateSlice";
 import { useNavigate } from "react-router";
+import { useTranslation } from 'react-i18next';
 
 
 const PayBack = () => {
+
+    const { t } = useTranslation();
 
     const dispatch = useDispatch();
 
@@ -22,15 +25,15 @@ const PayBack = () => {
 
                         navigate("/payment");
 
-                        dispatch(setCurrentNav("/payment"));
+                        dispatch(setCurrentNav("payment"));
                     }
                     : () => {
 
-                        if (window.confirm("Connectez-vous pour voir les articles que vous avez ajoutés à votre panier.")) {
+                        if (window.confirm(t("connectAlertPaiement"))) {
 
-                            dispatch(setCurrentNav("/logIn"));
+                            dispatch(setCurrentNav("login"));
 
-                            navigate("/logIn");
+                            navigate("/login");
                         }
 
                     }

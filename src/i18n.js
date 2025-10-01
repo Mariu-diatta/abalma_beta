@@ -22,6 +22,12 @@ i18n
      en: {
 
         translation: {
+             alertSuccesMessageFormHelp: {
+                text1: "Thank you for your feedback!",
+                text2: "Our support team will review your issue as soon as possible.",
+                text3: "Please fill in all the fields."
+             },
+             connectAlertPaiement: "Log in to see the items you have added to your cart.",
              helpPage: {
                  problemType: {
                      index: "Problem Type",
@@ -542,7 +548,12 @@ i18n
      fr: {
 
          translation: {
-
+             connectAlertPaiement: "Connectez-vous pour voir les articles que vous avez ajoutés à votre panier.",
+             alertSuccesMessageFormHelp: {
+                 text1: "Merci pour votre retour !",
+                 text2: "Notre équipe de support analysera votre problème dès que possible.",
+                 text3: "Merci de remplir tous les champs."
+             },
              helpPage: {
                  problemType: {
                      index: "Type de problème",
