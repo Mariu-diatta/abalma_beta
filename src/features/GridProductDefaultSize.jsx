@@ -139,7 +139,7 @@ const GridProductDefault = ({ categorie_item }) => {
                     (productData?.length > 0 && cols?.length > 0) ?
                     (
 
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-2 w-[100dvw] mx-auto justify-center overflow-x-hidden">
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-1 mt-2 w-[100dvw] mx-auto overflow-x-hidden">
 
                             {cols.map((products, colIdx) => (
 
@@ -156,7 +156,7 @@ const GridProductDefault = ({ categorie_item }) => {
 
                                             <div
                                                 key={product?.id}
-                                                className={` w-[50dvw] min-h-50 rounded-lg  transition transform hover:-translate-y-1 ${isInCart
+                                                className={`w-[50dvw] md:w-50 min-h-50 rounded-lg  transition transform hover:-translate-y-1 ${isInCart
                                                         ? "opacity-50 pointer-events-none bg-gray-100"
                                                         : "bg-white"
                                                     }`}
