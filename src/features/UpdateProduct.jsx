@@ -189,7 +189,7 @@ const UpdateProduct = () => {
 
             notify("Erreur", error?.message || error?.request?.response || "Erreur inconnue lors de la création du produit.");
 
-            if (error.response?.data) {
+            if (error?.response?.data) {
 
                 const errors = error.response.data;
 
@@ -257,13 +257,16 @@ const UpdateProduct = () => {
                     <div className="shadow-lg max-w-2xl px-2 py-1 lg:py-2" >
 
                         <form
+
                             onSubmit={submitForm}
+
                             className={
                                 `${((user?.is_fournisseur && user?.is_verified)) ?
                                     "w-full  md:w-auto"
                                     :
                                     "opacity-50 pointer-events-none cursor-not-allowed"
-                                }`}
+                                }`
+                            }
                         >
                             {/* 🔽 Ici on garde tous tes champs de formulaire (inchangés) */}
                             {/* ... ton grand bloc avec les inputs/select/textarea ... */}
@@ -666,9 +669,11 @@ const UpdateProduct = () => {
                                     <>
                                         {
                                             <div className="flex gap-3 justify-center items-center m-auto my-2">
+
                                                 <ButtonSimple
                                                     title={"Valider"}
                                                 />
+
                                             </div>
                                         }
                                     </>
@@ -682,10 +687,12 @@ const UpdateProduct = () => {
                             !(user?.is_fournisseur && user?.is_verified) && (
 
                                 <ButtonSimple
-                                    onHandleClick={() => {
-                                        dispatch(setCurrentNav("user-profil"));
-                                        navigate("/user-profil");
-                                    }}
+                                    onHandleClick={
+                                        () => {
+                                            dispatch(setCurrentNav("user-profil"));
+                                            navigate("/user-profil");
+                                        }
+                                    }
                                     title={t('add_product.switch_to_supplier')}
                                     type="button"
                                 />

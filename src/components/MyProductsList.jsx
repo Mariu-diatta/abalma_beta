@@ -25,12 +25,17 @@ const MyProductList = () => {
         if (!getUpdateProduct?.id) return;
 
         setProducts((prevProducts) =>
+
             prevProducts.map((prod) =>
+
                 prod.code_reference === getUpdateProduct.code_reference
+
                     ? getUpdateProduct
+
                     : prod
             )
         );
+
     }, [getUpdateProduct]);
 
     /** 🟢 Charger les produits de l’utilisateur */
@@ -92,6 +97,7 @@ const MyProductList = () => {
     };
 
     return (
+
         <div
 
             className="style_bg mb-2 relative overflow-x-auto sm:rounded-md p-2"
@@ -126,95 +132,103 @@ const MyProductList = () => {
 
             </nav>
 
-            {loading ? (
-                <LoadingCard/>
-            ) : (
-                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 shadow-sm p-2">
-                    <thead className="text-sm style_bg">
-                        <tr>
-                            <th className="px-16 py-3">
-                                <span className="sr-only">{t("tableEntries.image")}</span>
-                            </th>
-                            <th className="px-6 py-3">{t("tableEntries.product")}</th>
-                            <th className="px-6 py-3">{t("tableEntries.category")}</th>
-                            <th className="px-6 py-3">{t("tableEntries.quantity")}</th>
-                            <th className="px-6 py-3">{t("tableEntries.price")}</th>
-                            <th className="px-6 py-3"></th>
-                            <th className="px-6 py-3"></th>
-                        </tr>
-                    </thead>
+            {
+                loading ? (
+                    <LoadingCard/>
+                )
+                :
+                (
+                    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 shadow-sm p-2">
+                    
+                        <thead className="text-sm style_bg">
+                        
+                            <tr>
+                                <th className="px-16 py-3">
+                                    <span className="sr-only">{t("tableEntries.image")}</span>
+                                </th>
+                                <th className="px-6 py-3">{t("tableEntries.product")}</th>
+                                <th className="px-6 py-3">{t("tableEntries.category")}</th>
+                                <th className="px-6 py-3">{t("tableEntries.quantity")}</th>
+                                <th className="px-6 py-3">{t("tableEntries.price")}</th>
+                                <th className="px-6 py-3"></th>
+                                <th className="px-6 py-3"></th>
+                            </tr>
 
-                    <tbody>
+                        </thead>
 
-                        {
-                            Array.isArray(products) &&
+                        <tbody>
 
-                            products.map((product) => (
+                            {
+                                Array.isArray(products) &&
 
-                                <tr
-                                    key={product?.id}
+                                products.map((product) => (
 
-                                    className="dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
-                                >
-                                    <td className="p-1">
+                                    <tr
+                                        key={product?.id}
 
-                                        <div className="w-10 h-10 md:w-20 md:h-20 overflow-hidden rounded-lg border border-gray-200 dark:border-gray-600">
+                                        className="dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
+                                    >
+                                        <td className="p-1">
 
-                                            <img
-                                                src={product?.image_product}
-                                                alt={"product"}
-                                                className="object-contain w-auto h-auto"
-                                            />
+                                            <div className="w-10 h-10 md:w-20 md:h-20 overflow-hidden rounded-lg border border-gray-200 dark:border-gray-600">
 
-                                        </div>
+                                                <img
+                                                    src={product?.image_product}
+                                                    alt={"product"}
+                                                    className="object-contain w-auto h-auto"
+                                                />
+                                                
+                                            </div>
 
-                                    </td>
+                                        </td>
 
-                                    <td className="px-6 py-1 ">
-                                        <div className="overflow-y-auto h-[12dvh] scrollbor_hidden text-sm">
-                                         {product?.description_product}
-                                        </div>
-                                    </td>
+                                        <td className="px-6 py-1 ">
+                                            <div className="overflow-y-auto h-[12dvh] scrollbor_hidden text-sm">
+                                             {product?.description_product}
+                                            </div>
+                                        </td>
 
-                                    <td className="px-6 py-4">
-                                        {product?.categorie_product}
-                                    </td>
+                                        <td className="px-6 py-4">
+                                            {product?.categorie_product}
+                                        </td>
 
-                                    <td className="px-6 py-4">
-                                        {product?.quantity_product}
-                                    </td>
+                                        <td className="px-6 py-4">
+                                            {product?.quantity_product}
+                                        </td>
 
-                                    <td className="px-6 py-4">
-                                        <RendrePrixProduitMonnaie item={product} />
-                                    </td>
+                                        <td className="px-6 py-4">
+                                            <RendrePrixProduitMonnaie item={product} />
+                                        </td>
 
-                                    <td className="px-6 py-4 gap-2">
-                                        <CenteredModal product={product} />
-                                    </td>
+                                        <td className="px-6 py-4 gap-2">
+                                            <CenteredModal product={product} />
+                                        </td>
 
-                                    <td className="px-6 py-4 gap-2">
+                                        <td className="px-6 py-4 gap-2">
 
-                                        {
-                                            loadingDelete && (selectedBtnProduct === product?.id) ?
-                                            <LoadingCard/>
-                                            :
-                                            <ButtonSimple
+                                            {
+                                                loadingDelete && (selectedBtnProduct === product?.id) ?
+                                                <LoadingCard/>
+                                                :
+                                                <ButtonSimple
 
-                                                onHandleClick={() => handleDelete(product?.id)}
+                                                    onHandleClick={() => handleDelete(product?.id)}
 
-                                                className="px-3 rounded-md hover:bg-gray-100 bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-br hover:to-orange-500"
+                                                    className="px-3 rounded-md hover:bg-gray-100 bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-br hover:to-orange-500"
 
-                                                title={t("delete")}
-                                            />
-                                        }
+                                                    title={t("delete")}
+                                                />
+                                            }
 
-                                    </td>
+                                        </td>
 
-                                </tr>
-                            ))}
-                    </tbody>
+                                    </tr>
+                                ))}
+                        </tbody>
                 </table>
-            )}
+                )
+            }
+
         </div>
     );
 };
@@ -261,11 +275,14 @@ export function CenteredModal({ product }) {
     const handleFileSelect = (file) => setImageFile(file);
 
     const onChangeClick = useCallback((e) => {
+
         const { name, value } = e.target;
+
         setDataProduct((prev) => ({
             ...prev,
             [name]: value,
         }));
+
     }, []);
 
     const handleSubmit = useCallback(
@@ -276,21 +293,21 @@ export function CenteredModal({ product }) {
 
             setLoading(true);
             const formData = new FormData();
-            formData.append("categorie_product", dataProduct.categorie_product);
-            formData.append("Currency_price", dataProduct.Currency_price);
-            formData.append("quantity_product", dataProduct.quantity_product);
-            formData.append("price_product", dataProduct.price_product);
-            formData.append("color_product", dataProduct.color_product);
-            formData.append("operation_product", dataProduct.operation_product);
-            formData.append("code_reference", dataProduct.code_reference?.trim());
-            formData.append("taille_product", dataProduct.taille_product);
-            formData.append("description_product", dataProduct.description_product?.trim());
+            formData.append("categorie_product", dataProduct?.categorie_product);
+            formData.append("Currency_price", dataProduct?.Currency_price);
+            formData.append("quantity_product", dataProduct?.quantity_product);
+            formData.append("price_product", dataProduct?.price_product);
+            formData.append("color_product", dataProduct?.color_product);
+            formData.append("operation_product", dataProduct?.operation_product);
+            formData.append("code_reference", dataProduct?.code_reference?.trim());
+            formData.append("taille_product", dataProduct?.taille_product);
+            formData.append("description_product", dataProduct?.description_product?.trim());
 
             if (imageFile) {
                 formData.append("image_product", imageFile);
             }
 
-            formData.append("name_product", dataProduct.name_product);
+            formData.append("name_product", dataProduct?.name_product);
 
             formData.append("fournisseur", parseInt(currentUserCompte?.user));
 
@@ -304,7 +321,7 @@ export function CenteredModal({ product }) {
 
                 dispatch(setProductUpdate(dataProduct))
 
-                setAlertMessage("Produit ajouté avec succès ✅");
+                setAlertMessage(t("addProductModify"));
 
                 setIsOpen(false);
 
@@ -321,7 +338,7 @@ export function CenteredModal({ product }) {
                 setSelectedBtnUpdate(null)
             }
         },
-        [dataProduct, imageFile, currentUserCompte?.user, product?.id, dispatch]
+        [dataProduct, imageFile, currentUserCompte?.user, product?.id, dispatch,t]
     );
 
     const handleClose = useCallback(() => {
@@ -347,7 +364,8 @@ export function CenteredModal({ product }) {
                 className="px-2 py-1 bg-gradient-to-br from-purple-400 hover:bg-gradient-to-br hover:from-purple-400 text-white rounded-lg hover:bg-blue-700 text-xs"
             />
           
-            {isOpen && (
+            {
+                isOpen && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50 overflow-y-auto h-full pt-6">
 
                     <div className="flex flex-col gap-3 shadow-lg p-6 rounded-lg bg-white max-w-2xl w-full">
@@ -355,10 +373,11 @@ export function CenteredModal({ product }) {
                         <h2 className="text-lg font-sm text-gray-800">{t('modifyProduct.title_modify_product')}</h2>
 
                         <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-3">
+                            
                             <input
                                 type="text"
                                 name="name_product"
-                                value={dataProduct.name_product}
+                                value={dataProduct?.name_product}
                                 onChange={onChangeClick}
                                 placeholder="Nom du produit"
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5"
@@ -367,7 +386,7 @@ export function CenteredModal({ product }) {
                             <select
                                 id="operation_product"
                                 name="operation_product"
-                                value={dataProduct.operation_product}
+                                value={dataProduct?.operation_product}
                                 onChange={onChangeClick}
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5"
                                 required
@@ -395,7 +414,7 @@ export function CenteredModal({ product }) {
                             <input
                                 type="number"
                                 name="price_product"
-                                value={dataProduct.price_product}
+                                value={dataProduct?.price_product}
                                 onChange={onChangeClick}
                                 placeholder="Prix"
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5"
@@ -405,7 +424,7 @@ export function CenteredModal({ product }) {
                             <input
                                 type="number"
                                 name="quantity_product"
-                                value={dataProduct.quantity_product}
+                                value={dataProduct?.quantity_product}
                                 onChange={onChangeClick}
                                 placeholder="Quantité"
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5"
@@ -449,10 +468,15 @@ export function CenteredModal({ product }) {
 
                         </form>
 
-                        {alertMessage && (
-                            <p className="mt-2 text-green-600 font-medium">{alertMessage}</p>
-                        )}
+                        {
+                            alertMessage && (
+
+                                <p className="mt-2 text-green-600 font-medium">{alertMessage}</p>
+                            )
+                        }
+
                     </div>
+
                 </div>
             )}
         </div>

@@ -22,6 +22,7 @@ i18n
      en: {
 
         translation: {
+             addProductModify: "Product successfully added✅",
              alertSuccesMessageFormHelp: {
                 text1: "Thank you for your feedback!",
                 text2: "Our support team will review your issue as soon as possible.",
@@ -548,6 +549,7 @@ i18n
      fr: {
 
          translation: {
+             addProductModify: "Produit ajouté avec succès ✅",
              connectAlertPaiement: "Connectez-vous pour voir les articles que vous avez ajoutés à votre panier.",
              alertSuccesMessageFormHelp: {
                  text1: "Merci pour votre retour !",
