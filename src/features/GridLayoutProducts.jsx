@@ -61,7 +61,9 @@ const GridLayoutProduct = () => {
         setLoading(true);
 
         const isDefaultCategory = (cleanCategory) => {
+
             if (!cleanCategory) return true;
+
             return cleanCategory === DEFAULT_ACTIVE_CATEGORY?.toLowerCase();
         }
 

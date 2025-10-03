@@ -170,8 +170,10 @@ const MyProductList = () => {
 
                                     </td>
 
-                                    <td className="px-6 py-4">
-                                        {product?.description_product}
+                                    <td className="px-6 py-1 ">
+                                        <div className="overflow-y-auto h-[12dvh] scrollbor_hidden text-sm">
+                                         {product?.description_product}
+                                        </div>
                                     </td>
 
                                     <td className="px-6 py-4">
@@ -415,7 +417,7 @@ export function CenteredModal({ product }) {
                                 value={dataProduct?.description_product}
                                 onChange={onChangeClick}
                                 rows="4"
-                                className="col-span-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5"
+                                className="col-span-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 h-20 overflo-y-auto scrollbor_hidden"
                                 placeholder="Description du produit..."
                                 required
                             />

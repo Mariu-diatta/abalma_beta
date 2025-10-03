@@ -152,7 +152,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
     return (
 
-        <div className="w-full flex items-center ">
+        <>
 
             {
                 showLeft && <button className="z-50 absolute left-6 top-1/2 rounded-full px-3 cursor-pointer" onClick={() => scroll("left")}> <ChevronLeft className="w-5 h-5 text-gray-300" /></button>
@@ -170,29 +170,29 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                 <div className="fixed inset-0 z-40 w-screen overflow-y-auto">
 
-                    <div className="flex min-h-full items-stretch justify-center text-center md:items-center">
+                    <div
 
-                        <div className="flex w-full transform text-left text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-4xl">
+                        className="flex min-h-full items-stretch justify-center text-center 
+                        items-center 
+                        w-full transform text-left text-base transition 
+                        md:my-8 md:max-w-2xl md:px-4 lg:max-w-4xl 
+                        relative items-center m-auto justify-center"
 
-                            <div
+                        style={
+                            {
+                                backgroundColor: "var(--color-bg)",
+                                color: "var(--color-text)"
+                            }
+                        }
 
-                                className="relative flex w-full items-center "
-
-                                style={
-                                    {
-                                        backgroundColor: "var(--color-bg)",
-                                        color: "var(--color-text)"
-                                    }
-                                }
-
-                            >
+                    >
 
                                 <div className="flex gap-2">
 
                                     <div className="absolute bottom-0 left-2 mt-5 lg:mt-auto  lg:left-auto lg:right-12 lg:top-0 lg:bottom-auto md:top-1 md:bottom-auto flex items-between gap-1 ">
 
                                         {
-                                            !isProductAdd &&
+                                            (!isProductAdd) &&
                                             <button
 
                                                 onClick={(e) => handleAddToCart_(e)}
@@ -233,7 +233,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                                     </div>
 
-                                    <div className="fixed lg:absolute top-0 right-0">
+                                    <div className="fixed lg:absolute top-0 right-0 z-50">
 
                                         <button
 
@@ -243,7 +243,6 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                                             className="z-20 rounded-full flex items-center justify-center p-3  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         >
-                                            <span className="sr-only">Close</span>
 
                                             <svg
                                                 className="z-0 size-10 lg:size-5"
@@ -271,28 +270,39 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                                 </div>
 
-                                <div className="gap-y-8  grid w-full grid-cols-1 items-start sm:grid-cols-12 lg:gap-x-1">
+                                <div className="relative gap-y-8  grid w-full grid-cols-1 items-start sm:grid-cols-12 lg:gap-x-1 mx-h-[100dvh]">
 
-                                    <img
+                                    <div className="relative sm:col-span-6 lg:col-span-7 max-h-[100dvh]  flex items-center justify-center my-auto mx-auto overflow-auto scrollbor_hidden">
+                                        <img
+                                            src={currentSelectedProductView?.image_product}
+                                            alt="Product"
+                                            className="max-w-full max-h-full object-contain items-center "
+                                        />
+                                    </div>
 
-                                        src={currentSelectedProductView?.image_product}
+                                    <div className="sm:col-span-6 lg:col-span-5 w-full h-full  lg:mt-6 lg:pt-2 p-2  mb-8 pb-8 gap-y-8 " >
 
-                                        alt="Product"
+                                        <div className="flex flex-col ">
 
-                                        className="aspect-4/5 w-full  object-cover sm:col-span-6 lg:col-span-7"
-                                    />
+                                            <h2 className="text-2xl font-bold  sm:pr-12">
 
-                                    <div className="sm:col-span-6 lg:col-span-5  lg:mt-6 lg:pt-2 p-2  mb-8 pb-8 gap-y-8 w-full" >
+                                                {currentSelectedProductView?.categorie_product}
 
-                                        <h2 className="text-2xl font-bold  sm:pr-12">
+                                            </h2>
 
-                                            {currentSelectedProductView?.categorie_product}
+                                            <h3 className="text-xl   sm:pr-12">
 
-                                        </h2>
+                                                {currentSelectedProductView?.name_product}
+
+                                            </h3>
+
+                                        </div>
 
                                         <section className="mt-2 ">
 
-                                            <p className="text-2xl 0"> <RendrePrixProduitMonnaie item={currentSelectedProductView}/> </p>
+                                            <p className="text-2xl 0">
+                                                <RendrePrixProduitMonnaie item={currentSelectedProductView} />
+                                            </p>
 
                                             <PrintNumberStars t={t} productNbViews={productNbViews} />
 
@@ -348,7 +358,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                                         </fieldset>
 
-                                        <h2 className="text-sm  mt-5">
+                                        <h2 className="text-sm  mt-5 h-[42dvh] overflow-y-auto scrollbor_hidden ">
 
                                             {currentSelectedProductView?.description_product}
 
@@ -384,14 +394,14 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                                                         htmlFor={`${label}-${value}`}
 
-                                                        className="group relative flex flex-col items-center justify-center border border-gray-300  rounded-md px-1 py-1 text-xs text-gray-800 hover:bg-gray-100 transition-all duration-150"
+                                                        className="relative overflow-x-auto scrollbor_hidden w-full group relative flex flex-col items-center justify-center border border-gray-300  rounded-md px-1 py-1 text-xs text-gray-800 hover:bg-gray-100 transition-all duration-150"
                                                     >
                                                         <input
                                                             type="radio"
                                                             name="productDetail"
                                                             id={`${label}-${value}`}
                                                             value={value}
-                                                            className="sr-only lowercase"
+                                                            className="absolute sr-only lowercase"
                                                         />
 
                                                         <span className="text-xs">{label.toLowerCase()}</span>
@@ -466,18 +476,15 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                             </div>
 
-                        </div>
-
                     </div>
 
-                </div>
-
             </div>
+
 
             {
                 showRight && <button className="z-50 absolute right-6 top-1/2 rounded-full px-3 cursor-pointer" onClick={() => scroll("right")}> <ChevronRight className="w-5 h-5 text-gray-300" /></button>
             }
-        </div>
+        </>
     );
 };
 

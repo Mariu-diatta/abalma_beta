@@ -50,7 +50,7 @@ const ProductCard = ({
                     }}
                     src={item?.image_product}
                     alt={item?.name_product}
-                    className="w-full h-55 object-cover rounded-lg mb-2 transition duration-300 ease-in-out hover:brightness-75 hover:grayscale"
+                    className="w-full h-60 itmes-center justify-center m-auto object-center object-cover rounded-lg mb-2 transition duration-300 ease-in-out hover:brightness-75 hover:grayscale"
                     onError={(e) => {
                         if (e.target.src !== window.location.origin + "/default-product.jpg") {
                             e.target.src = "/default-product.jpg";

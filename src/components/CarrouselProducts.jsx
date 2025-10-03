@@ -20,7 +20,7 @@ const Carousel = ({ products, openModal, owners }) => {
         if (!products || !Array.isArray(products)) return [];
 
         return products.filter(
-            (item) => item?.quanttity_product_sold >= 0 
+            (item) => item?.quantity_product>0
         );
 
     }, [products]);

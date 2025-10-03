@@ -8,45 +8,31 @@ function ImageGalleryPan({ imagesEls, openModal, owners }) {
 
     return (
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-1 scrollbor_hidden_ overflow-y-auto h-full">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 scrollbor_hidden_ overflow-y-auto h-full items-center">
 
             {
                 imagesEls?.map(item => {
 
-                    return <div
+                    return  <img
                                 key={item?.id}
+                                src={item?.image_product}
+                                alt={item?.name_product}
+                                className="min-w-[30dvh] min-h-[30dvh] object-cover rounded-lg  transition duration-300 ease-in-out hover:brightness-75 hover:grayscale"
+                                onClick={() => {
+                                    openModal(item);
+                                    dispatch(addUser(owners[item?.fournisseur]));
+                                }}
+                                onError={(e) => {
+                                    if (e.target.src !== window.location.origin + "/default-product.jpg") {
+                                        e.target.src = "/default-product.jpg";
+                                    }
+                                }}
 
-                                style={
-                                    {
-                                        width: '200px',
-                                        height: '200px',
-                                    }}
-                           >
-                                <img
-
-                                    src={item?.image_product}
-                                    alt={item?.name_product}
-                                    className="w-full h-55 object-cover rounded-lg mb-2 transition duration-300 ease-in-out hover:brightness-75 hover:grayscale scale-100"
-                                    onClick={() => {
-                                        openModal(item);
-                                        dispatch(addUser(owners[item?.fournisseur]));
-                                    }}
-                                    onError={(e) => {
-                                        if (e.target.src !== window.location.origin + "/default-product.jpg") {
-                                            e.target.src = "/default-product.jpg";
-                                        }
-                                    }}
-
-                                    style={{
-                                        transform: `scale(${0.5})`,
-                                        transformOrigin: 'center',
-                                        transition: 'transform 0.3s ease',
-                                        width: '100%',
-                                        height: '100%'
-                                    }}
-                                />
-                          </div>
-
+                                style={{
+                                    transform: `scale(${0.5})`,
+                                    transformOrigin: 'center',
+                                }}
+                            />
                     }
                 )
             }

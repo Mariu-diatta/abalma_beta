@@ -67,7 +67,7 @@ api.interceptors.response.use(
 
             console.log("IS USER LOGED ??", authState?.isAuthenticated)
 
-            if ((error?.response?.data?.detail === "Informations d'authentification non fournies.") && authState?.isAuthenticated) {
+            if ((error?.response?.data?.detail === "Informations d'authentification non fournies.") ) {
 
                 if (window.confirm("Votre session a expiré, veuillez vous reconnecter. / Your session has expired.Please log in again.")) {
 

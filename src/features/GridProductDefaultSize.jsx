@@ -156,7 +156,7 @@ const GridProductDefault = ({ categorie_item }) => {
 
                                             <div
                                                 key={product?.id}
-                                                className={`rounded-lg p-1 transition transform hover:-translate-y-1 ${isInCart
+                                                className={`w-50 min-h-50 rounded-lg p-1 transition transform hover:-translate-y-1 ${isInCart
                                                         ? "opacity-50 pointer-events-none bg-gray-100"
                                                         : "bg-white"
                                                     }`}
