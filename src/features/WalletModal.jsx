@@ -76,7 +76,7 @@ const WalletModal = () => {
 
                 onClick={toggleModal}
 
-                className="rounded-full cursor-pointer text-gray-900  hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium text-sm p-3 inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700"
+                className="z-20 rounded-full cursor-pointer text-gray-900  hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium text-sm p-3 inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700"
 
                 aria-haspopup="dialog"
 

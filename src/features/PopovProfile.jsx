@@ -73,7 +73,7 @@ const ProfilPopPov = () => {
                 aria-haspopup="true"
                 aria-expanded={isVisible}
                 aria-controls="popover-user-profile"
-                className="hover:bg-gray-200 focus:outline-none font-medium rounded-full text-sm p-3 text-center dark:bg-gray-700 dark:hover:bg-gray-600"
+                className="cursor-pointer hover:bg-gray-200 focus:outline-none font-medium rounded-full text-sm p-3 text-center dark:bg-gray-700 dark:hover:bg-gray-600"
             >
                 <svg
                     className="w-5 h-5 text-blue-800 dark:text-white"

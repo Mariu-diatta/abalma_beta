@@ -187,7 +187,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                     >
 
-                                <div className="flex gap-2">
+                                <div className="flex gap-2 mb-5">
 
                                     <div className="absolute bottom-0 left-2 mt-5 lg:mt-auto  lg:left-auto lg:right-12 lg:top-0 lg:bottom-auto md:top-1 md:bottom-auto flex items-between gap-1 ">
 
@@ -199,7 +199,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                                                 title="Ajouter au panier"
 
-                                                className="flex items-center justify-center p-3 rounded-full  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                className="z-20 cursor-pointer flex items-center justify-center p-3 rounded-full  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
 
                                                 aria-label="Ajouter au panier"
 
@@ -219,7 +219,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                                             <div
                                                 title="Profil Produit Popov"
 
-                                                className="z-20 rounded-full "
+                                            className=" z-20 rounded-full "
 
                                                 tabIndex={0}
 
@@ -241,7 +241,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                                             onClick={onClose}
 
-                                            className="z-20 rounded-full flex items-center justify-center p-3  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            className="cursor-pointer z-20 rounded-full flex items-center justify-center p-3  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         >
 
                                             <svg

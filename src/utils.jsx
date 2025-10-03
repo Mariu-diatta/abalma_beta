@@ -287,7 +287,7 @@ export const productViews = async (dataProduct, setProductNbViews) => {
 
     try {
 
-        const { data } = await api.get(`/products-details/${dataProduct?.id}/`);
+        const { data } = await api.get(`/products_details/${dataProduct?.id}/`);
 
         setProductNbViews(data?.total_views);
 
