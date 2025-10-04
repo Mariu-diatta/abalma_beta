@@ -139,7 +139,7 @@ const GridProductDefault = ({ categorie_item }) => {
                     (productData?.length > 0 && cols?.length > 0) ?
                     (
 
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-1 mt-2 w-[100dvw] mx-auto overflow-x-hidden">
+                        <div className="grid grid-cols-2 md:grid-cols-5 gap-1 mt-2 w-[100dvw] md:w-auto mx-auto overflow-x-hidden">
 
                             {cols.map((products, colIdx) => (
 
