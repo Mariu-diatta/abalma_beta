@@ -1,5 +1,4 @@
 import React from 'react'
-import { BASE_URL_ } from '../services/Axios'
 
 const ViewProduct = ({ productSelected }) => {
 
@@ -10,7 +9,7 @@ const ViewProduct = ({ productSelected }) => {
 
             <div>
 
-                <img className="h-auto max-w-full rounded-lg" src={BASE_URL_ + productSelected.image_product} alt="" />
+                <img className="h-auto max-w-full rounded-lg" src={productSelected?.image_product} alt="" />
 
             </div>
 

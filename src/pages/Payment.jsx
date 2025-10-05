@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-//import DatePickerWithFullWidthButtons from '../components/Date';
-//import InputBox from '../components/InputBoxFloat';
 import PaymentCard from '../components/PaymentTools';
 import { useDispatch, useSelector } from 'react-redux';
 import api from '../services/Axios';
@@ -45,13 +43,6 @@ export const PaymentForm = () => {
     const dispatch=useDispatch()
 
     const currentUser = useSelector(state => state.auth.user);
-
-    //const [formData, setFormData] = useState({
-    //    name: '',
-    //    cardNumber: '',
-    //    expiry: '',
-    //    cvv: '',
-    //});
 
     const boughtProduct = async (e) => {
 
@@ -107,11 +98,6 @@ export const PaymentForm = () => {
 
     }
 
-    //const handleChange = (e) => {
-    //    const { name, value } = e.target;
-    //    setFormData(prev => ({ ...prev, [name]: value }));
-    //};
-
     const handleSubmit = (e) => {
         e.preventDefault();
         //console.log('Form submitted:', formData);
@@ -143,36 +129,6 @@ export const PaymentForm = () => {
         >
 
             <AttentionAlertMesage/>  
-           
-            {/*<h2 className="text-2xl font-bold mb-6 text-center">Payment Form</h2>*/}
-
-            {/*<InputBox*/}
-            {/*    type={"text"}*/}
-            {/*    placeholder={"Name on Card"}*/}
-            {/*    name={"name"}*/}
-            {/*    value={formData.name}*/}
-            {/*    onChange={handleChange}*/}
-            {/*/>*/}
-
-            {/*<InputBox*/}
-            {/*    type={"Number"}*/}
-            {/*    placeholder={"Card Number"}*/}
-            {/*    name={"cardNumber"}*/}
-            {/*    value={formData.cardNumber}*/}
-            {/*    onChange={handleChange}*/}
-            {/*/>*/}
-
-            {/*<InputBox*/}
-            {/*    type={"Number"}*/}
-            {/*    placeholder={"CVV"}*/}
-            {/*    name={"cvv"}*/}
-            {/*    value={formData.cvv}*/}
-            {/*    onChange={handleChange}*/}
-            {/*    maxLength="4"*/}
-
-            {/*/>*/}
-
-            {/*<DatePickerWithFullWidthButtons />*/}
 
             {
                 !loading?
@@ -219,8 +175,6 @@ export function PaymentAppPayPal({ amount }) {
             client: currentUser.id
         }
 
-        //console.log("Payload envoyé :", payload)
-
         try {
 
             // Envoi en JSON  const products =
@@ -234,8 +188,6 @@ export function PaymentAppPayPal({ amount }) {
                     }
                 }
             )
-
-            //console.log("Réponse backend :", products.data)
 
             showMessage(dispatch, { Type: "Message", Message: "Transaction effectué" });
 
