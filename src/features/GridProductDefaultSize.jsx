@@ -171,7 +171,7 @@ const GridProductDefault = ({ categorie_item }) => {
                                                 >
                                                     <img
                                                         src={product.image_product}
-                                                        alt={product.description_product}
+                                                        alt={"alt_prod"}
                                                         onClick={() => {
                                                             openModal(product);
                                                             dispatch(addUser(owner));
