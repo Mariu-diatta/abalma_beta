@@ -12,78 +12,86 @@ const PrintMessagesOnChat = ({ messages, currentUser, selectedUser, messagesEndR
 
             <ul className="flex-1 overflow-y-auto border-b-0  mb-10 px-2 mx-3 mt-8 scrollbor_hidden max-h-[70dvh] min-h-[70dvh] md:px-[3vh]">
 
-                {(() => {
+                {
+                    (
+                        () => {
 
-                    let lastDateLabel = null;
+                            let lastDateLabel = null;
 
-                    return messages.map((msg, idx) => {
+                            return messages.map(
 
-                        const isCurrentUser = msg.sender?.email === currentUser?.email;
-                        const alignment = isCurrentUser ? "justify-end" : "justify-start";
-                        const bubbleColor = isCurrentUser
-                            ? "bg-blue-300 text-white rounded-br-none"
-                            : "bg-gray-200 text-gray-800 rounded-bl-none";
+                                (msg, idx) => {
 
-                        const currentDateLabel = formatDateRelative(msg.date);
+                                    const isCurrentUser = msg.sender?.email === currentUser?.email;
+                                    const alignment = isCurrentUser ? "justify-end" : "justify-start";
+                                    const bubbleColor = isCurrentUser
+                                        ? "bg-blue-300 text-white rounded-br-none"
+                                        : "bg-gray-200 text-gray-800 rounded-bl-none";
 
-                        const showDateLabel = currentDateLabel !== lastDateLabel;
+                                    const currentDateLabel = formatDateRelative(msg.date);
 
-                        lastDateLabel = currentDateLabel;
+                                    const showDateLabel = currentDateLabel !== lastDateLabel;
 
-                        return (
+                                    lastDateLabel = currentDateLabel;
 
-                            <React.Fragment key={`${msg.date}-${idx}`} >
+                                    return (
 
-                                {showDateLabel && (
+                                        <React.Fragment key={`${msg.date}-${idx}`} >
 
-                                    <li className="text-center text-xs text-gray-500 py-2">
-                                        {currentDateLabel}
-                                    </li>
-                                )}
+                                            {showDateLabel && (
 
-                                <li className={`flex items-end gap-2 ${alignment}`}>
+                                                <li className="text-center text-xs text-gray-500 py-2">
+                                                    {currentDateLabel}
+                                                </li>
+                                            )}
 
-                                    {!isCurrentUser && (
+                                            <li className={`flex items-end gap-2 ${alignment}`}>
 
-                                        <img
-                                            src={
-                                                selectedUser?.image ||
-                                                selectedUser?.photo_url
-                                            }
-                                            alt="avatar"
-                                            className="h-5 w-5 rounded-full object-cover shadow-lg"
-                                        />
-                                    )}
+                                                {!isCurrentUser && (
 
-                                    <div className="d-flex flex-col w-auto">
+                                                    <img
+                                                        src={
+                                                            selectedUser?.image ||
+                                                            selectedUser?.photo_url
+                                                        }
+                                                        alt="avatar"
+                                                        className="h-5 w-5 rounded-full object-cover shadow-lg"
+                                                    />
+                                                )}
 
-                                        <div className={`w-full px-2 py-2 text-sm shadow rounded-2xl flex flex-col shadow-md ${bubbleColor}`}>
-                                            <p>{msg?.message}</p>
-                                        </div>
+                                                <div className="d-flex flex-col w-auto">
 
-                                        <p className="text-[9px] text-grey-500 mt-1">{(msg?.date?.split(" ")[1]) || maintenant.toLocaleTimeString()}</p>
+                                                    <div className={`w-full px-2 py-2 text-sm shadow rounded-2xl flex flex-col shadow-md ${bubbleColor}`}>
+                                                        <p>{msg?.message}</p>
+                                                    </div>
 
-                                    </div>
+                                                    <p className="text-[9px] text-grey-500 mt-1">{(msg?.date?.split(" ")[1]) || maintenant.toLocaleTimeString()}</p>
 
-                                    {isCurrentUser && (
-                                        <img
-                                            src={
-                                                msg?.sender?.image ||
-                                                msg?.sender?.photo_url
-                                            }
-                                            alt="avatar"
-                                            className="h-5 w-5 rounded-full object-cover"
-                                        />
-                                    )}
+                                                </div>
 
-                                </li>
+                                                {isCurrentUser && (
+                                                    <img
+                                                        src={
+                                                            msg?.sender?.image ||
+                                                            msg?.sender?.photo_url
+                                                        }
+                                                        alt="avatar"
+                                                        className="h-5 w-5 rounded-full object-cover"
+                                                    />
+                                                )}
 
-                                <div ref={messagesEndRef} />
+                                            </li>
 
-                            </React.Fragment>
-                        );
-                    });
-                })()}
+                                            <div ref={messagesEndRef} />
+
+                                        </React.Fragment>
+                                    );
+                            
+                                }
+                            );
+                        }
+                    )()
+                }
 
             </ul>
 

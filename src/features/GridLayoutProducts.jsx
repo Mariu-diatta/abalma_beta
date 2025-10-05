@@ -252,41 +252,60 @@ const GridLayoutProduct = () => {
                 <LoadingCard />
                 :
                 <>
-                    {filteredItems.length > 0 ? (
+                    {
+                        filteredItems.length > 0 ? (
 
-                        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-2 sm:gap-3">
+                            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-2 sm:gap-3">
 
-                            {filteredItems.length>0 && filteredItems.map(item => {
+                                {/* --- Regroupement des produits par catégorie --- */}
+                                {Object.entries(
+                                    filteredItems.reduce((acc, item) => {
+                                        const cat = item?.categorie_product || "Autres";
+                                        if (!acc[cat]) acc[cat] = [];
+                                        acc[cat].push(item);
+                                        return acc;
+                                    }, {})
+                                )
+                                    // 🔀 Mélange aléatoire des catégories à chaque affichage
+                                    .sort(() => Math.random() - 0.5)
+                                    // 🔁 Affichage de chaque catégorie + ses produits
+                                    .map(([category, items]) => (
+                                        <React.Fragment key={category}>
+                                            {/* Nom de la catégorie */}
+                                            <li className="text-center text-xs text-gray-500 py-2 col-span-full  rounded-full w-1/2 mx-auto shadow-lg my-2">
+                                                {category}
+                                            </li>
 
-                                const isInCart = cartItems?.some(product => product?.id === item?.id);
+                                            {/* Produits de la catégorie */}
+                                            {items.map((item) => {
+                                                const isInCart = cartItems?.some((product) => product?.id === item?.id);
+                                                const owner = owners[item?.fournisseur];
 
-                                const owner = owners[item?.fournisseur];
+                                                return (
+                                                    <ProductCard
+                                                        key={item?.id}
+                                                        id={item?.id}
+                                                        item={item}
+                                                        isInCart={isInCart}
+                                                        owner={owner}
+                                                        openModal={openModal}
+                                                        owners={owners}
+                                                        qut_sold={item?.quanttity_product_sold}
+                                                    />
+                                                );
+                                            })}
+                                        </React.Fragment>
+                                    ))}
 
-                                return (
-
-                                    <ProductCard
-                                        id={item?.id}
-                                        item={item}
-                                        isInCart={isInCart}
-                                        owner={owner}
-                                        openModal={openModal}
-                                        owners={owners}
-                                        qut_sold={item?.quanttity_product_sold}
-                                    />
-                                );
-                            })}
-
-                        </div>
-
-                    ) : (
-
-                        <div className="flex items-center justify-center mx-auto max-w-md p-4 rounded-full border border-gray-200 mb-2">
- 
-                            <span className="text-sm">{t('ListItemsFilterProduct.noProduct')}</span>
-
-                        </div>
-                     )}
-
+                            </div>
+                        ) 
+                        : 
+                        (
+                            <div className="flex items-center justify-center mx-auto max-w-md p-4 rounded-full border border-gray-200 mb-2">
+                                <span className="text-sm">{t('ListItemsFilterProduct.noProduct')}</span>
+                            </div>
+                        )
+                    }
                 </>
 
             }
