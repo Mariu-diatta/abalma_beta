@@ -268,11 +268,13 @@ const GridLayoutProduct = () => {
                                 )
                                     // 🔀 Mélange aléatoire des catégories à chaque affichage
                                     .sort(() => Math.random() - 0.5)
-                                    // 🔁 Affichage de chaque catégorie + ses produits
+                                        // 🔁 Affichage de chaque catégorie + ses produits
+
                                     .map(([category, items]) => (
                                         <React.Fragment key={category}>
+
                                             {/* Nom de la catégorie */}
-                                            <li className="text-center text-xs text-gray-500 py-2 col-span-full  rounded-full w-1/2 mx-auto shadow-lg my-2">
+                                            <li className="text-center text-xs text-gray-500 py-2 col-span-full  rounded-full w-auto mx-auto shadow-sm my-2 px-5">
                                                 {category}
                                             </li>
 
