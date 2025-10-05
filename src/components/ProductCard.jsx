@@ -1,10 +1,13 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import OwnerAvatar from "./OwnerProfil";
 import ScrollingContent from "./ScrollContain";
-import PrintNumberStars from "./SystemStar";
 import { useTranslation } from 'react-i18next';
 import { addMessageNotif, addUser } from "../slices/chatSlice";
 import { addToCart } from "../slices/cartSlice";
+import React from "react";
+
+// Import lazy du composant
+const PrintNumberStars = React.lazy(() => import("./SystemStar"));
 
 
 const ProductCard = ({
@@ -21,8 +24,6 @@ const ProductCard = ({
     const dispatch = useDispatch();
 
     const { t } = useTranslation();
-
-    const productNbViews = useSelector(state => state.cart.nbrProductViews)
 
 
     return (
@@ -73,17 +74,22 @@ const ProductCard = ({
 
                     <OwnerAvatar owner={owner}/>
 
-                    {item?.quantity_product !== "0" && (
-                        <span className="text-xs text-gray-600">
-                            {t("quantity")} {item?.quantity_product}
-                        </span>
-                    )}
+                    {
+                        (item?.quantity_product !== "0") &&
+                        (
+                            <span className="text-xs text-gray-600">
+
+                                {t("quantity")} {item?.quantity_product}
+
+                            </span>
+                        )
+                    }
 
                 </div>
 
 
                 {/* Étoiles & Reviews */}
-                <PrintNumberStars productNbViews={productNbViews} t={t} />
+                <PrintNumberStars productNbViews={item?.total_views} t={t} />
 
 
                 {/* Description */}

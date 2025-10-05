@@ -158,7 +158,7 @@ export const numberStarsViews = (numberStars_) => {
 
     else if (numberStars >= 5) return 2;
 
-    else if (numberStars === 1) return 1;
+    else if (numberStars >= 1) return 1;
 
     else return 0;
 };

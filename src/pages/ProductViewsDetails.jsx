@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addMessageNotif } from "../slices/chatSlice";
 import WalletModal from "../features/WalletModal";
 import ProfilPopPov from "../features/PopovProfile";
-import { addToCart, updateNumberProductViews, updateSelectedProduct } from "../slices/cartSlice";
+import { addToCart,updateSelectedProduct } from "../slices/cartSlice";
 import { useTranslation } from 'react-i18next';
 import { productViews } from "../utils";
 import RendrePrixProduitMonnaie from "../components/ConvertCurrency";
@@ -99,18 +99,14 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
     }, [dispatch, products, indexOfCurrentProduct]);
 
-    useEffect(() =>{
-
-        productViews(currentSelectedProductView, setProductNbViews)
-
-    }, [currentSelectedProductView]);
-
-
     useEffect(() => {
 
-        dispatch(updateNumberProductViews(productNbViews))
+        if (isOpen) {
 
-    }, [dispatch, productNbViews]);
+            productViews(currentSelectedProductView, setProductNbViews)
+        }
+
+    }, [currentSelectedProductView, isOpen]);
 
 
     useEffect(

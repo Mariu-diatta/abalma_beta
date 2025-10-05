@@ -26,7 +26,7 @@ const UpdateProduct = () => {
     const [dataProduct, setDataProduct] = useState({
         date_emprunt: "",
         price_product: "",
-        Currency_price: "",
+        currency_price: "",
         color_product: "",
         date_fin_emprunt: "",
         categorie_product: "",
@@ -129,7 +129,7 @@ const UpdateProduct = () => {
             // ✅ Préparation des données à envoyer
             const formData = new FormData();
             formData.append("categorie_product", dataProduct.categorie_product);
-            formData.append("Currency_price", dataProduct.Currency_price);
+            formData.append("currency_price", dataProduct.Currency_price);
             formData.append("quantity_product", dataProduct.quantity_product);
             formData.append("price_product", dataProduct.price_product);
             formData.append("color_product", dataProduct.color_product);
@@ -167,7 +167,7 @@ const UpdateProduct = () => {
                 date_emprunt: "",
                 taille_product: "MEDIUM",
                 price_product: "",
-                Currency_price: "",
+                currency_price: "",
                 color_product: "",
                 date_fin_emprunt: "",
                 categorie_product: "",

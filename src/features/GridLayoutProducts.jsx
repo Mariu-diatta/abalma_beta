@@ -26,8 +26,6 @@ const GridLayoutProduct = () => {
 
     const lang = useSelector((state) => state?.navigate?.lang);
 
-    const productNbViews = useSelector(state => state.cart.nbrProductViews)
-
     const currentNav = useSelector(state => state.navigate.currentNav);
 
     const DEFAULT_ACTIVE_CATEGORY = lang === 'fr' ? 'Tous' : 'Tous';
@@ -92,9 +90,9 @@ const GridLayoutProduct = () => {
 
                         api.get(`clients/${id}/`)
 
-                            .then(res => ({ id, data: res.data }))
+                        .then(res => ({ id, data: res.data }))
 
-                            .catch(() => ({ id, data: null }))
+                        .catch(() => ({ id, data: null }))
                     )
                 );
 
@@ -125,7 +123,9 @@ const GridLayoutProduct = () => {
 
 
         const isDefaultCategory = (cleanCategory) => {
+
                 if (!cleanCategory) return true;
+
                 return cleanCategory === DEFAULT_ACTIVE_CATEGORY?.toLowerCase();
         }
 
@@ -265,11 +265,10 @@ const GridLayoutProduct = () => {
                                 return (
 
                                     <ProductCard
-                                        key={item?.id}
+                                        id={item?.id}
                                         item={item}
                                         isInCart={isInCart}
                                         owner={owner}
-                                        productNbViews={productNbViews}
                                         openModal={openModal}
                                         owners={owners}
                                         qut_sold={item?.quanttity_product_sold}
