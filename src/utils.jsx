@@ -2,6 +2,7 @@ import { showMessage } from "./components/AlertMessage";
 import api from "./services/Axios";
 import { login, updateCompteUser} from "./slices/authSlice";
 import { setCurrentNav, updateTheme } from "./slices/navigateSlice";
+import { store } from "./store/Store";
 
 export const maintenant = new Date();
 
@@ -135,14 +136,28 @@ export function formatDateRelative(dateString, lang = 'fr') {
     }
 }
 
+
+const storeSates = store.getState()
+
+const currentLang = storeSates?.navigate?.lang
+
+const isLang = (currentLang==="ang")?true:false
+
 //Enregistrement de la liste des catefories
 export const  LIST_CATEGORY=[
 
-    { idx: "jouets", filter: "JOUETS" }, { idx: "sacs", filter: "SACS" }, { idx: "habits" , filter:"HABITS"},
+    { idx: "jouets", filter: isLang ? "TOYS" : "JOUETS" },
+    { idx: "sacs", filter: isLang ? "BAC" : "SACS" },
+    { idx: "habits", filter: isLang ? "CLOSES" : "HABITS" },
 
-    { idx: "livres", filter: "LIVRES" }, { idx: "jeux-video", filter: "JEUX_VIDEO" }, { idx: "meubles", filter: "MEUBLES" }, { idx: "vehicules" , filter:"VEHICULES"},
+    { idx: "livres", filter: isLang ? "BOOKS" : "LIVRES" },
+    { idx: "jeux-video", filter: isLang ? "VIDEOS_GAME" : "JEUX_VIDEO" },
+    { idx: "meubles", filter: isLang ? "FURNITURE":"MEUBLES" },
+    { idx: "vehicules", filter: isLang ? "CARS" : "VEHICULES" },
 
-    { idx: "fournitures-scolaires", filter: "FOURNISSEURS_SCOLAIRES" }, { idx: "divers", filter: "DIVERS" }, { idx: "telephones", filter: "TELEPHONIE" }
+    { idx: "fournitures-scolaires", filter: "FOURNISSEURS_SCOLAIRES" },
+    { idx: "divers", filter: "DIVERS" },
+    { idx: "telephones", filter: "TELEPHONIE" }
 ]
 
 //nombre d'étoiles en fonctions des vues
@@ -308,19 +323,19 @@ export function removeAccents(str) {
 export const ListItemsFilterProduct = {
     Tous: { fr: "Tous", en: "All" },
     JOUETS: { fr: "Jouets", en: "Toys" },
-    HABITS: { fr: "Habits", en: "Clothes" },
-    MATERIELS_INFORMATIQUES: { fr: "Matériels informatiques", en: "Computer_Equipment" },
+    HABITS: { fr: "Habits", en: "clothes" },
+    MATERIELS_INFORMATIQUES: { fr: "matériels informatiques", en: "computer equipment" },
     CAHIERS: { fr: "Cahiers", en: "Notebooks" },
     SACS: { fr: "Sacs", en: "Bags" },
     LIVRES: { fr: "Livres", en: "Books" },
-    ELECTROMENAGER: { fr: "Électroménager", en: "Home_Appliances" },
-    TELEPHONIE: { fr: "Téléphonie", en: "Telephony" },
+    ELECTROMENAGER: { fr: "Électroménagers", en: "home appliances" },
+    TELEPHONIES: { fr: "Téléphones", en: "phones" },
     ACCESSOIRES: { fr: "Accessoires", en: "Accessories" },
     SPORT: { fr: "Sport", en: "Sport" },
-    JEUX_VIDEO: { fr: "Jeux vidéo", en: "Video_Games" },
+    JEUX_VIDEO: { fr: "jeux vidéo", en: "video games" },
     MEUBLES: { fr: "Meubles", en: "Furniture" },
     VEHICULES: { fr: "Véhicules", en: "Vehicles" },
-    FOURNITURES_SCOLAIRES: { fr: "Fournitures scolaires", en: "School_Supplies" },
+    FOURNITURES_SCOLAIRES: { fr: "fournitures scolaires", en: "school supplies" },
     DIVERS: { fr: "Divers", en: "Miscellaneous" },
     BIJOUX: { fr: "Bijoux", en: "Jewelry" },
     COSMETIQUES: { fr: "Cosmétiques", en: "Cosmetics" },
@@ -329,8 +344,29 @@ export const ListItemsFilterProduct = {
     noProduct: { fr: "Aucun produit disponible", en: "No product available" }
 };
 
+//définitions des constantes pour la liste déroulantes
+export const LIST_CATEGORIES = [
+    "All",
+    "JOUET",
+    "HABITS",
+    "MATERIELS_INFORMATIQUES",
+    "CAHIERS",
+    "SACS",
+    "LIVRES",
+    "ELECTROMENAGER",
+    "TELEPHONIE",
+    "ACCESSOIRES",
+    "SPORT",
+    "JEUX_VIDEO",
+    "MEUBLES",
+    "VEHICULES",
+    "FOURNITURES_SCOLAIRES",
+    "DIVERS",
+]
+
 // Fonction utilitaire
 export function translateCategory(value) {
+
     const entries = Object.entries(ListItemsFilterProduct);
 
     for (const [key, translations] of entries) {
@@ -460,24 +496,7 @@ export const isCurrentUser = (currentUser, SelectedUser) => {
     return (currentUser.id === SelectedUser.id && currentUser?.email === SelectedUser?.email)
 }
 
-export const LIST_CATEGORIES = [
-    "All",
-    "JOUET",
-    "HABITS",
-    "MATERIELS_INFORMATIQUES",
-    "CAHIERS",
-    "SACS",
-    "LIVRES",
-    "ELECTROMENAGER",
-    "TELEPHONIE",
-    "ACCESSOIRES",
-    "SPORT",
-    "JEUX_VIDEO",
-    "MEUBLES",
-    "VEHICULES",
-    "FOURNITURES_SCOLAIRES",
-    "DIVERS",
-]
+
 
 // 📦 Composants réutilisables internes :
 export const FloatingInput = ({ id, name, label, type = 'text', value, onChange, maxLength, wrapperClass = '', disabled }) => (

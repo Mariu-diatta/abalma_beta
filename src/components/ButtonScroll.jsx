@@ -8,14 +8,24 @@ export const ButtonScrollTopDown = ({ children }) => {
     const [atTop, setAtTop] = useState(true);
 
     useEffect(() => {
+
         const checkScrollability = () => {
-            const scrollable = document.documentElement.scrollHeight > window.innerHeight;
+
+            const scrollable = document.documentElement.scrollHeight >= window.innerHeight;
+
+            console.log("valuer du scroller", document.documentElement.scrollHeight, "\nvaleur de la fenêtre", window.innerHeight)
+
             setIsScrollable(scrollable);
         };
 
         const handleScroll = () => {
+
             const scrollY = window.scrollY || document.documentElement.scrollTop;
-            setAtTop(scrollY > 0); // proche du haut
+
+            console.log("valuer du scrollY", window.scrollY, "\nvaleur scrool Top", document.documentElement.scrollTop)
+
+            if (scrollY > 0) setAtTop(true)
+            else setAtTop(false)     
         };
 
         checkScrollability();
@@ -28,20 +38,23 @@ export const ButtonScrollTopDown = ({ children }) => {
             checkScrollability();
             handleScroll();
         });
-        observer.observe(document.body, { childList: true, subtree: true, attributes: true });
+
+        observer.observe(document.body, { childList:true, subtree: true, attributes: true});
 
         return () => {
             window.removeEventListener("scroll", handleScroll);
             window.removeEventListener("resize", checkScrollability);
             observer.disconnect();
         };
-    }, []);
+    },[]);
 
     const handleScrollClick = () => {
-        if (atTop && bottomRef.current) {
-            bottomRef.current.scrollIntoView({ behavior: "smooth" });
+        console.log("Valeur du top :::", atTop)
+        if (!atTop && bottomRef.current) {
+            bottomRef.current.scrollTo({ bottom: 0, behavior: 'smooth' });
         } else if (topRef.current) {
-            topRef.current.scrollIntoView({ behavior: "smooth" });
+            alert("btn scroll handle")
+            topRef.current.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
 
@@ -55,10 +68,10 @@ export const ButtonScrollTopDown = ({ children }) => {
             {/* point d’ancrage en bas */}
             <div ref={bottomRef}></div>
 
-            {isScrollable && false && (
+            {isScrollable && (
                 <button
-                    className="fixed right-4 bottom-[50px] md:bottom-6 p-3 rounded-full shadow-lg bg-gradient-to-br from-purple-300 to-blue-300 hover:from-purple-400 hover:to-blue-400 text-purple-600 transition-colors"
-                    onClick={()=>handleScrollClick()}
+                    className="hidden cursor-pointer fixed right-4 bottom-[50px] md:bottom-6 p-3 rounded-full shadow-lg bg-gradient-to-br from-purple-300 to-blue-300 hover:from-purple-400 hover:to-blue-400 text-purple-600 transition-colors"
+                    onClick={(e)=>handleScrollClick(e)}
                 >
                     {atTop ? (
                         // flèche vers le bas

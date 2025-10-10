@@ -23,7 +23,7 @@ const ScrollableCategoryButtons = ({
 
     const categories = useMemo(
 
-        () => LIST_CATEGORIES.map((cat) => t(`ListItemsFilterProduct.${cat}`)),
+        () => LIST_CATEGORIES?.map((cat) => t(`ListItemsFilterProduct.${cat}`)),
 
         [t]
     );
@@ -124,25 +124,26 @@ const ScrollableCategoryButtons = ({
 
     return (
         <>
-            <ProductSpecifiViews products={products} openModal={openModal} owners={owners} btnId={btnId} panelRef={panelRef}/>
+            <ProductSpecifiViews products={products} openModal={openModal} owners={owners} panelRef={panelRef}/>
 
             <div
 
-                className="relative w-full mb-4 sticky top-[45px] z-[7] bg-white mt-[30px]"
+                className="relative w-full mb-4 sticky top-[45px] z-[7]  mt-[30px] bg-none"
 
-                style={{
-
-                    backgroundColor: "var(--color-bg)",
-
-                    color: "var(--color-text)"
-                }}
-            >
+           >
 
                 {
                     showLeft && (
                         <button
 
-                            className="absolute left-0 top-1/2 -translate-y-1/2 z-5 bg-white p-2 shadow rounded-full"
+                            className="absolute left-0 top-1/2 -translate-y-1/2 z-5 p-2 shadow rounded-full bg-none"
+
+                            style={{
+
+                                backgroundColor: "var(--color-bg)",
+
+                                color: "var(--color-text)"
+                            }}
 
                             onClick={() => scroll("left")}
                         >
@@ -152,25 +153,39 @@ const ScrollableCategoryButtons = ({
                     )
                 }
 
-                <div ref={scrollRef} className="overflow-x-auto px-10 scrollbor_hidden_ ">
+                <div
+                    ref={scrollRef}
 
-                    <div className="flex py-2 gap-1">
+                    className="overflow-x-auto px-10 scrollbor_hidden_ bg-none"
+                >
+
+                    <div
+                        className="flex py-2 gap-1 bg-none"
+                    >
 
                         {
                             categories?.map((cat) => (
                                 <button
                                     key={cat}
                                     onMouseEnter={() => setBtnId(true)}
-                                    onMouseOver={() => setProductSpecificHandler(cat.replace(" ", "_"))}
-                                    onClick={() => {
-                                        setActiveCategory(cat.replace(" ", "_"));
+                                    onMouseOver={() => setProductSpecificHandler(cat?.replace(" ", "_"))}
+                                    style={{
+
+                                        backgroundColor: "var(--color-bg)",
+
+                                        color: "var(--color-text)"
                                     }}
-                                    className={`z-2 whitespace-nowrap px-4  py-2 rounded-full text-sm transition  hover:bg-gradient-to-br hover:from-purple-400 ${(activeCategory.replace(" ", "_")).toLowerCase() === (cat.replace(" ", "_")).toLowerCase()
+                                    onClick={() => {
+                                        setActiveCategory(cat?.replace("_", " "));
+                                    }}
+                                    className={`
+                                        z-2 whitespace-nowrap px-4  py-2 rounded-full text-sm transition  hover:bg-gradient-to-br hover:from-purple-300 
+                                        ${(activeCategory?.replace(" ", "_")).toLowerCase() === (cat?.replace(" ", "_")).toLowerCase()
                                         ? "bg-blue-400 text-white bg-gradient-to-br from-purple-300 to-blue-300" //
-                                        : "text-blue-700 border border-blue-300 hover:bg-blue-300 hover:text-white scale-100 hover:scale-110"
+                                        : "text-blue-700 border border-blue-100 hover:bg-blue-300 hover:text-white scale-100 hover:scale-110"
                                         }`}
                                 >
-                                    {cat.replace("_", " ")}
+                                    {cat?.replace("_", " ")}
                                 </button>
                             ))
                         }
@@ -183,8 +198,14 @@ const ScrollableCategoryButtons = ({
                     showRight && (
 
                         <button
-                            className="absolute right-0 top-1/2 -translate-y-1/2 z-5 bg-white p-2 shadow rounded-full"
+                            className="absolute right-0 top-1/2 -translate-y-1/2 z-5 p-2 shadow rounded-full"
                             onClick={() => scroll("right")}
+                            style={{
+
+                                backgroundColor: "var(--color-bg)",
+
+                                color: "var(--color-text)"
+                            }}
                         >
                             <ChevronRight className="w-5 h-5 text-gray-600" />
 

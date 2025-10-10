@@ -75,7 +75,9 @@ const GridProductDefault = ({ categorie_item }) => {
         try {
 
             const { data: products } = await api.get(`/products/filter/?categorie_product=${category}`);
+
             const availableProducts = products.filter(p => parseInt(p.quantity_product) !== 0);
+
             setProductData(availableProducts);
 
             const ownerIds = [...new Set(availableProducts.map(p => p.fournisseur).filter(Boolean))];
@@ -87,16 +89,21 @@ const GridProductDefault = ({ categorie_item }) => {
             ));
 
             const ownerMap = responses.reduce((acc, { id, data }) => {
+
                 if (data) acc[id] = data;
+
                 return acc;
+
             }, {});
 
             setOwners(ownerMap);
+
             dispatch(updateCategorySelected(category));
 
         } catch (error) {
         //    console.error("Erreur de chargement des produits :", error);
         } finally {
+
             setIsLoading(false);
         }
 
@@ -104,14 +111,19 @@ const GridProductDefault = ({ categorie_item }) => {
 
     // Fetch on category change
     useEffect(() => {
+
         fetchProductsAndOwners(categorie_item);
+
     }, [fetchProductsAndOwners, categorie_item]);
 
     // Fetch on search
     useEffect(() => {
+
         if (searchProductByName) {
+
             fetchProductsAndOwners(searchProductByName);
         }
+
     }, [fetchProductsAndOwners, searchProductByName]);
 
     return (
@@ -119,14 +131,17 @@ const GridProductDefault = ({ categorie_item }) => {
         <div className="py-1 justify-center">
 
             {
-                (productData?.length > 0) && (
+                (productData?.length > 0)
+                && (
 
-                <div className="flex mx-auto items-center w-auto md:w-1/2 px-2">
-                    <SearchBar
-                        onSearch={setSearchProductByName}
-                        disabled={shouldDisableSearch}
-                    />
-                </div>
+                    <div className="flex mx-auto items-center w-auto md:w-1/2 px-2">
+
+                        <SearchBar
+                            onSearch={setSearchProductByName}
+                            disabled={shouldDisableSearch}
+                        />
+
+                    </div>
                 )
             }
 
@@ -141,111 +156,117 @@ const GridProductDefault = ({ categorie_item }) => {
 
                         <div className="grid grid-cols-2 md:grid-cols-5 gap-1 mt-2 w-[100dvw] md:w-auto mx-auto overflow-x-hidden">
 
-                            {cols.map((products, colIdx) => (
+                        {
+                            cols.map((products, colIdx) => (
 
                                 <div key={colIdx} className="grid gap-1">
 
-                                    {products.map(product => {
+                                    {
+                                        products.map(product => {
 
-                                        const isInCart = cartItems.some(p => p.id === product.id);
-                                        const owner = owners[product.fournisseur];
+                                                const isInCart = cartItems.some(p => p.id === product.id);
+                                                const owner = owners[product.fournisseur];
 
-                                        productViews(product, setProductNbViews);
+                                                productViews(product, setProductNbViews);
 
-                                        return (
+                                                return (
 
-                                            <div
-                                                key={product?.id}
-                                                className={`w-[50dvw] md:w-50 min-h-50 rounded-lg  transition transform hover:-translate-y-1 ${isInCart
-                                                        ? "opacity-50 pointer-events-none bg-gray-100"
-                                                        : "bg-white"
-                                                    }`}
-                                                style={{
-                                                    backgroundColor: "var(--color-bg)",
-                                                    color: "var(--color-text)"
-                                                }}
-                                            >
-                                                <div
-                                                    className="relative w-full block rounded-lg overflow-hidden"
-                                                    aria-label={`Voir le produit ${product?.product_name}`}
-                                                >
-                                                    <img
-                                                        src={product.image_product}
-                                                        alt={"alt_prod"}
-                                                        onClick={() => {
-                                                            openModal(product);
-                                                            dispatch(addUser(owner));
+                                                    <div
+                                                        key={product?.id}
+                                                        className={`w-[50dvw] md:w-50 min-h-50 rounded-lg  transition transform hover:-translate-y-1 ${isInCart
+                                                                ? "opacity-50 pointer-events-none bg-gray-100"
+                                                                : "bg-white"
+                                                            }`}
+                                                        style={{
+                                                            backgroundColor: "var(--color-bg)",
+                                                            color: "var(--color-text)"
                                                         }}
-                                                        loading="lazy"
-                                                        className="h-auto w-full rounded-lg transition duration-300 ease-in-out hover:brightness-75 hover:grayscale"
-                                                    />
-                                                </div>
-
-                                                <div className="p-1">
-
-                                                    <div className="flex justify-between items-center mb-1">
-
-                                                        <OwnerAvatar owner={owner} />
-
-                                                        {product?.quantity_product !== "0" && (
-                                                            <span className="text-xs text-gray-600">
-                                                                {t("quantity")} {product?.quantity_product}
-                                                            </span>
-                                                        )}
-                                                    </div>
-
-                                                    <PrintNumberStars productNbViews={productNbViews} t={t} />
-
-                                                    <p className="text-xs truncate mb-1 md:text-sm">
-                                                        {product?.description_product}
-                                                    </p>
-
-                                                    <div className="whitespace-nowrap flex text-xs gap-1 md:hidden dark:bg-white-100 p-1 rounded-lg">
-                                                        <p>{t('quantity_sold')}</p>{product?.quatity_sold}
-                                                    </div>
-
-                                                    <div className="flex justify-between items-center">
-                                                        <ScrollingContent
-                                                            item={product}
-                                                            t={t}
-                                                            qut_sold={product?.quatity_sold}
-                                                        />
-
-                                                        <button
-                                                            title="Ajouter au panier"
-                                                            onClick={() => {
-                                                                dispatch(addToCart(product));
-                                                                dispatch(
-                                                                    addMessageNotif(
-                                                                        `Produit ${product?.code_reference} sélectionné le ${Date.now()}`
-                                                                    )
-                                                                );
-                                                            }}
-                                                            className="cursor-pointer p-1 rounded-full hover:bg-green-100 transition"
+                                                    >
+                                                        <div
+                                                            className="relative w-full block rounded-lg overflow-hidden"
+                                                            aria-label={`Voir le produit ${product?.product_name}`}
                                                         >
-                                                            <svg
-                                                                className="w-8 h-6 text-gray-800 dark:text-white border-1 rounded-lg"
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                fill="none"
-                                                                viewBox="0 0 24 24"
-                                                            >
-                                                                <path
-                                                                    stroke="currentColor"
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    strokeWidth="1"
-                                                                    d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7h-1M8 7h-.688M13 5v4m-2-2h4"
-                                                                />
-                                                            </svg>
+                                                            <img
+                                                                src={product.image_product}
+                                                                alt={"alt_prod"}
+                                                                onClick={() => {
+                                                                    openModal(product);
+                                                                    dispatch(addUser(owner));
+                                                                }}
+                                                                loading="lazy"
+                                                                className="h-auto w-full rounded-lg transition duration-300 ease-in-out hover:brightness-75 hover:grayscale"
+                                                            />
+                                                        </div>
 
-                                                        </button>
+                                                        <div className="p-1">
+
+                                                            <div className="flex justify-between items-center mb-1">
+
+                                                                <OwnerAvatar owner={owner} />
+
+                                                                {product?.quantity_product !== "0" && (
+                                                                    <span className="text-xs text-gray-600">
+                                                                        {t("quantity")} {product?.quantity_product}
+                                                                    </span>
+                                                                )}
+                                                            </div>
+
+                                                            <PrintNumberStars productNbViews={productNbViews} t={t} />
+
+                                                            <p className="text-xs truncate mb-1 md:text-sm">
+                                                                {product?.description_product}
+                                                            </p>
+
+                                                            <div className="whitespace-nowrap flex text-xs gap-1 md:hidden dark:bg-white-100 p-1 rounded-lg">
+                                                                <p>{t('quantity_sold')}</p>{product?.quatity_sold}
+                                                            </div>
+
+                                                            <div className="flex justify-between items-center">
+                                                                <ScrollingContent
+                                                                    item={product}
+                                                                    t={t}
+                                                                    qut_sold={product?.quatity_sold}
+                                                                />
+
+                                                                <button
+                                                                    title="Ajouter au panier"
+                                                                    onClick={() => {
+                                                                        dispatch(addToCart(product));
+                                                                        dispatch(
+                                                                            addMessageNotif(
+                                                                                `Produit ${product?.code_reference} sélectionné le ${Date.now()}`
+                                                                            )
+                                                                        );
+                                                                    }}
+                                                                    className="cursor-pointer p-1 rounded-full hover:bg-green-100 transition"
+                                                                >
+                                                                    <svg
+                                                                        className="w-8 h-6 text-gray-800 dark:text-white border-1 rounded-lg"
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        fill="none"
+                                                                        viewBox="0 0 24 24"
+                                                                    >
+                                                                        <path
+                                                                            stroke="currentColor"
+                                                                            strokeLinecap="round"
+                                                                            strokeLinejoin="round"
+                                                                            strokeWidth="1"
+                                                                            d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7h-1M8 7h-.688M13 5v4m-2-2h4"
+                                                                        />
+                                                                    </svg>
+
+                                                                </button>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
+                                                );
+                                            }
+                                        )
+                                    }
+
                                 </div>
-                            ))}
+                            ))
+                        }
                         </div>
                     ) 
                     : 

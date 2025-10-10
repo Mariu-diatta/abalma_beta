@@ -94,7 +94,7 @@ const ProductCard = ({
 
                 {/* Description */}
                 <p className="text-xs text-start truncate mb-1 md:text-sm whitespace-nowrap overflow-y-auto w-full scrollbor_hidden ">
-                    {item?.description_product}
+                    {item?.description_product.toLowerCase()}
                 </p>
 
                 <div className="whitespace-nowrap flex text-xs gap-1 md:hidden bg-grey-200 text-green dark:bg-white-100 my-auto w-auto p-1 rounded-lg"><p>{t('quantity_sold')}</p>{qut_sold} </div>

@@ -80,7 +80,7 @@ import { addMessageNotif, removeRoom } from "../slices/chatSlice";
                      title: currentNotifMessages[0],
                      room_pk: deleteChat?.pk,
                      typeItem: "Chat",
-                     receiver_id: deleteChat?.current_receiver,
+                     receiver_id: deleteChat?.current_receiver,   
                      typeNotif:"Delete"
 
                  }));

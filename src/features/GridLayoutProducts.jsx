@@ -18,25 +18,23 @@ const GridLayoutProduct = () => {
 
     const { t } = useTranslation();
 
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
 
     const dispatch = useDispatch();
 
     const cartItems = useSelector(state => state?.cart?.items);
 
-    const lang = useSelector((state) => state?.navigate?.lang);
-
     const currentNav = useSelector(state => state.navigate.currentNav);
 
-    const DEFAULT_ACTIVE_CATEGORY = lang === 'fr' ? 'Tous' : 'Tous';
+    const DEFAULT_ACTIVE_CATEGORY ='Tous';
 
-    const [activeCategory, setActiveCategory] = useState(DEFAULT_ACTIVE_CATEGORY);
+    const [activeButtonCategory, setActiveButtonCategory] = useState(DEFAULT_ACTIVE_CATEGORY);
 
     const [modalData, setModalData] = useState(null);
 
     const [searchData, setSearchData] = useState("null");
 
-    const [activeBtnOver, setActiveBtnOver] = useState(DEFAULT_ACTIVE_CATEGORY);
+    const [isButtonOver, setIsButtonOver] = useState(DEFAULT_ACTIVE_CATEGORY);
 
     const [owners, setOwners] = useState({});
 
@@ -55,22 +53,23 @@ const GridLayoutProduct = () => {
 
     useEffect(() => {
 
-
         setLoading(true);
 
         const isDefaultCategory = (cleanCategory) => {
 
             if (!cleanCategory) return true;
 
-            return cleanCategory === DEFAULT_ACTIVE_CATEGORY?.toLowerCase();
+            return cleanCategory?.toLowerCase() === DEFAULT_ACTIVE_CATEGORY?.toLowerCase();
         }
 
         const fetchProductsAndOwners = async () => {
 
             try {
-                const translatedCategory = translateCategory(activeCategory);
+                const translatedCategory = translateCategory(activeButtonCategory);
 
-                const cleanCategory = removeAccents(translatedCategory)?.toLowerCase();
+                let cleanCategory = removeAccents(translatedCategory)?.toLowerCase();
+
+                if (translatedCategory === "TELEPHONIES") { cleanCategory = "TELEPHONIE"}
 
                 const url = isDefaultCategory(cleanCategory)
                     ? "products/filter/"
@@ -117,7 +116,7 @@ const GridLayoutProduct = () => {
 
         fetchProductsAndOwners();
 
-    }, [activeCategory, DEFAULT_ACTIVE_CATEGORY]);
+    }, [activeButtonCategory]);
 
     useEffect(() => {
 
@@ -133,9 +132,11 @@ const GridLayoutProduct = () => {
 
 
             try {
-                const translatedCategory = translateCategory(activeBtnOver);
+                const translatedCategory = translateCategory(isButtonOver.replace("_", " ").toLocaleUpperCase());
 
-                const cleanCategory = removeAccents(translatedCategory)?.toLowerCase();
+                var cleanCategory = removeAccents(translatedCategory)?.toLowerCase();
+
+                if (translatedCategory === "TELEPHONIES") { cleanCategory = "TELEPHONIE" }
 
                 const url = isDefaultCategory(cleanCategory)
                     ? "products/filter/"
@@ -175,13 +176,12 @@ const GridLayoutProduct = () => {
 
                 // console.error("Erreur lors du chargement :", error);
             } finally {
-
             }
         };
 
         fetchProductsAndOwners();
 
-    }, [activeBtnOver, DEFAULT_ACTIVE_CATEGORY]);
+    }, [isButtonOver]);
 
     useEffect(
 
@@ -230,21 +230,24 @@ const GridLayoutProduct = () => {
 
             </div>
 
+            
             <ScrollableCategoryButtons
 
-                activeCategory={activeCategory}
+                activeCategory={activeButtonCategory}
 
-                setActiveCategory={setActiveCategory}
+                setActiveCategory={setActiveButtonCategory}
 
                 products={filteredItemsPopover}
 
-                setActiveBtnOver={setActiveBtnOver}
+                setActiveBtnOver={setIsButtonOver}
 
                 openModal={openModal}
 
                 owners={owners}
 
             />
+            
+
 
             {
                 (loading) ?
@@ -258,46 +261,50 @@ const GridLayoutProduct = () => {
                             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-2 sm:gap-3">
 
                                 {/* --- Regroupement des produits par catégorie --- */}
-                                {Object.entries(
-                                    filteredItems.reduce((acc, item) => {
-                                        const cat = item?.categorie_product || "Autres";
-                                        if (!acc[cat]) acc[cat] = [];
-                                        acc[cat].push(item);
-                                        return acc;
-                                    }, {})
-                                )
-                                    // 🔀 Mélange aléatoire des catégories à chaque affichage
-                                    .sort(() => Math.random() - 0.5)
-                                        // 🔁 Affichage de chaque catégorie + ses produits
+                                {
+                                    Object.entries(
 
+                                        filteredItems.reduce((acc, item) => {
+                                            const cat = item?.categorie_product || "Autres";
+                                            if (!acc[cat]) acc[cat] = [];
+                                            acc[cat].push(item);
+                                            return acc;
+                                        }, {})
+                                    )
                                     .map(([category, items]) => (
+
                                         <React.Fragment key={category}>
 
                                             {/* Nom de la catégorie */}
                                             <li className="text-center text-xs text-gray-500 py-2 col-span-full  rounded-full w-auto mx-auto shadow-sm my-2 px-5">
-                                                {category}
+                                                {t(`add_product.categories.${category}`)}
                                             </li>
 
                                             {/* Produits de la catégorie */}
-                                            {items.map((item) => {
-                                                const isInCart = cartItems?.some((product) => product?.id === item?.id);
-                                                const owner = owners[item?.fournisseur];
+                                            {
+                                                items.map((item) => {
 
-                                                return (
-                                                    <ProductCard
-                                                        key={item?.id}
-                                                        id={item?.id}
-                                                        item={item}
-                                                        isInCart={isInCart}
-                                                        owner={owner}
-                                                        openModal={openModal}
-                                                        owners={owners}
-                                                        qut_sold={item?.quanttity_product_sold}
-                                                    />
-                                                );
-                                            })}
+                                                        const isInCart = cartItems?.some((product) => product?.id === item?.id);
+                                                        const owner = owners[item?.fournisseur];
+
+                                                        return (
+                                                            <ProductCard
+                                                                key={item?.id}
+                                                                id={item?.id}
+                                                                item={item}
+                                                                isInCart={isInCart}
+                                                                owner={owner}
+                                                                openModal={openModal}
+                                                                owners={owners}
+                                                                qut_sold={item?.quanttity_product_sold}
+                                                            />
+                                                        );
+                                                    }
+                                                )
+                                            }
                                         </React.Fragment>
-                                    ))}
+                                    ))
+                                }
 
                             </div>
                         ) 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import TitleCompGen from "../components/TitleComponentGen";
+import TitleCompGen, { TitleCompGenLitle } from "../components/TitleComponentGen";
 import { messages } from "../utils";
 import { useTranslation } from 'react-i18next';
 import api from "../services/Axios";
@@ -61,7 +61,17 @@ const HelpPage = () => {
 
         return (
 
-            <div className="relative max-w-lg mx-auto p-6 bg-white border border-gray-200 rounded-lg shadow-md text-center">
+            <div
+                className="relative max-w-lg mx-auto p-6 bg-white border border-gray-200 rounded-lg shadow-md text-center"
+
+                style={{
+
+                    backgroundColor: "var(--color-bg)",
+
+                    color: "var(--color-text)"
+                }}
+
+            >
 
                 <button className="absolute font-bold right-2 top-2" onClick={() => sendData()}>⨉</button> 
 
@@ -79,9 +89,29 @@ const HelpPage = () => {
 
     return (
 
-        <div className="d-flex flex-column items-start justify-between style-bg mx-1 mb-5 m-auto mb-6">
+        <div
+            className="d-flex flex-column items-start justify-between style-bg mx-1 mb-5 m-auto mb-6"
 
-            <div className="text-start py-2 px-8 max-w-md dark:bg-gray-800 dark:text-white flex flex-wrap gap-1 mb-6">
+            style={{
+
+                backgroundColor: "var(--color-bg)",
+
+                color: "var(--color-text)"
+            }}
+
+        >
+
+            <div
+
+                className="text-start py-2 px-8 max-w-md dark:bg-gray-800 dark:text-white flex flex-wrap gap-1 mb-6"
+
+                style={{
+
+                    backgroundColor: "var(--color-bg)",
+
+                    color: "var(--color-text)"
+                }}
+            >
 
                 <TitleCompGen title="Support & Aide" />
 
@@ -92,12 +122,36 @@ const HelpPage = () => {
                 <form
                     onSubmit={handleSubmit}
                     className="translate-y-0 transition-all duration-1000 ease-in-out w-full p-4 max-w-md bg-white  rounded-lg shadow-lg mx-auto"
+
+                    style={{
+
+                        backgroundColor: "var(--color-bg)",
+
+                        color: "var(--color-text)"
+                    }}
                 >
                     {/* Sélecteur */}
-                    <div className="mb-4">
-                        <label className="block mb-2 text-sm font-medium text-gray-900">
+                    <div
+                        className="mb-4"
+                        style={{
+
+                            backgroundColor: "var(--color-bg)",
+
+                            color: "var(--color-text)"
+                        }}
+                    >
+                        <label
+                            className="block mb-2 text-sm font-medium text-gray-900"
+                            style={{
+
+                                backgroundColor: "var(--color-bg)",
+
+                                color: "var(--color-text)"
+                            }}
+                        >
                             {t('helpPage.problemType.index')}
                         </label>
+
                         <select
                             value={problemType}
                             onChange={(e) => setProblemType(e.target.value)}
@@ -113,9 +167,19 @@ const HelpPage = () => {
 
                     {/* Zone de texte */}
                     <div className="mb-4">
-                        <label className="block mb-2 text-sm font-medium text-gray-900">
+
+                        <label
+                            className="block mb-2 text-sm font-medium text-gray-900"
+                            style={{
+
+                                backgroundColor: "var(--color-bg)",
+
+                                color: "var(--color-text)"
+                            }}
+                        >
                             {t('helpPage.problemType.description')}
                         </label>
+
                         <textarea
                             rows="4"
                             placeholder="Décrivez votre problème..."
@@ -159,11 +223,31 @@ export const MessagesListWithPopover = () => {
     const { t } = useTranslation();
 
     return (
-        <div className="mx-auto max-w-md ">
+        <div
+            className="mx-auto max-w-md"
 
-            <h2 className="text-xl font-bold mb-4">{t('helpPage.currentMessages.index')}</h2>
+            style={{
 
-            <ul className="space-y-3 shadow-sm rounded-lg bg-white border border-gray-200 border-0 p-2">
+                backgroundColor: "var(--color-bg)",
+
+                color: "var(--color-text)"
+            }}
+
+        >
+
+            <TitleCompGenLitle title={t('helpPage.currentMessages.index')} />
+
+            <ul
+
+                className="space-y-3 shadow-sm rounded-lg bg-white border border-gray-200 border-0 p-2"
+
+                style={{
+
+                    backgroundColor: "var(--color-bg)",
+
+                    color: "var(--color-text)"
+                }}
+            >
 
                 {
                     messages(t)?.map(
@@ -173,8 +257,14 @@ export const MessagesListWithPopover = () => {
                             <li key={index} className="relative">
 
                                 <button
-                                    className="text-left w-full p-2 hover:bg-gray-100 rounded-md bg-gray-50 shadow-sm cursor-pointer"
+                                    className="text-left w-full p-2 hover:bg-gray-100 rounded-md bg-gray-50 shadow-sm cursor-pointer "
                                     onClick={() => setActiveIndex(activeIndex === index ? null : index)}
+                                    style={{
+
+                                        backgroundColor: "var(--color-bg)",
+
+                                        color: "var(--color-text)"
+                                    }}
                                 >
                                     {item.text}
                                 </button>

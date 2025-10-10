@@ -183,296 +183,297 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                     >
 
-                                <div className="flex gap-2 mb-5">
+                        <div className="flex gap-2 mb-5">
 
-                                    <div className="absolute bottom-0 left-2 mt-5 lg:mt-auto  lg:left-auto lg:right-12 lg:top-0 lg:bottom-auto md:top-1 md:bottom-auto flex items-between gap-1 ">
+                            <div className="absolute bottom-0 left-2 mt-5 lg:mt-auto  lg:left-auto lg:right-12 lg:top-0 lg:bottom-auto md:top-1 md:bottom-auto flex items-between gap-1 ">
 
-                                        {
-                                            (!isProductAdd) &&
-                                            <button
+                                {
+                                    (!isProductAdd) &&
+                                    <button
 
-                                                onClick={(e) => handleAddToCart_(e)}
+                                        onClick={(e) => handleAddToCart_(e)}
 
-                                                title="Ajouter au panier"
+                                        title="Ajouter au panier"
 
-                                                className="z-20 cursor-pointer flex items-center justify-center p-3 rounded-full  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="z-20 cursor-pointer flex items-center justify-center p-3 rounded-full  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
 
-                                                aria-label="Ajouter au panier"
+                                        aria-label="Ajouter au panier"
 
-                                            >
-                                                <svg className="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
-                                                </svg>
+                                    >
+                                        <svg className="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
+                                        </svg>
 
-                                            </button>
-                                        }
+                                    </button>
+                                }
 
-                                        <WalletModal/>
+                                <WalletModal/>
 
-                                        {
-                                            isCurrentUser &&
+                                {
+                                    isCurrentUser &&
 
-                                            <div
-                                                title="Profil Produit Popov"
+                                    <div
+                                        title="Profil Produit Popov"
 
-                                            className=" z-20 rounded-full "
+                                    className=" z-20 rounded-full "
 
-                                                tabIndex={0}
+                                        tabIndex={0}
 
-                                                aria-label="Profil Produit Popov"
+                                        aria-label="Profil Produit Popov"
 
-                                            >
-                                                <ProfilPopPov/>
-
-                                            </div>
-                                        }
+                                    >
+                                        <ProfilPopPov/>
 
                                     </div>
-
-                                    <div className="fixed lg:absolute top-0 right-0 z-50">
-
-                                        <button
-
-                                            type="button"
-
-                                            onClick={onClose}
-
-                                            className="cursor-pointer z-20 rounded-full flex items-center justify-center p-3  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        >
-
-                                            <svg
-                                                className="z-0 size-10 lg:size-5"
-
-                                                fill="none"
-
-                                                viewBox="0 0 24 24"
-
-                                                strokeWidth={1}
-
-                                                stroke="currentColor"
-
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    d="M6 18L18 6M6 6l12 12"
-                                                />
-
-                                            </svg>
-
-                                        </button>
-
-                                    </div>
-
-                                </div>
-
-                                <div className="relative gap-y-8  grid w-full grid-cols-1 items-start sm:grid-cols-12 lg:gap-x-1 mx-h-[100dvh]">
-
-                                    <div className="relative sm:col-span-6 lg:col-span-7 max-h-[100dvh]  flex items-center justify-center my-auto mx-auto overflow-auto scrollbor_hidden">
-                                        <img
-                                            src={currentSelectedProductView?.image_product}
-                                            alt="Product"
-                                            className="max-w-full max-h-full object-contain items-center "
-                                        />
-                                    </div>
-
-                                    <div className="sm:col-span-6 lg:col-span-5 w-full h-full  lg:mt-6 lg:pt-2 p-2  mb-8 pb-8 gap-y-8 " >
-
-                                        <div className="flex flex-col ">
-
-                                            <h2 className="text-2xl font-bold  sm:pr-12">
-
-                                                {currentSelectedProductView?.categorie_product}
-
-                                            </h2>
-
-                                            <h3 className="text-xl   sm:pr-12">
-
-                                                {currentSelectedProductView?.name_product}
-
-                                            </h3>
-
-                                        </div>
-
-                                        <section className="mt-2 ">
-
-                                            <p className="text-2xl 0">
-                                                <RendrePrixProduitMonnaie item={currentSelectedProductView} />
-                                            </p>
-
-                                            <PrintNumberStars t={t} productNbViews={productNbViews} />
-
-                                        </section>
-
-                                        {/* Color Options */}
-                                        <fieldset>
-
-                                            <legend className="text-sm font-medium ">
-
-                                                {currentSelectedProductView?.color_prouct}
-
-                                            </legend>
-
-                                            <div className="mt-4 flex items-center gap-x-3">
-
-                                                {["white", "gray", "black"].map((color) => (
-
-                                                    <div
-
-                                                        key={color}
-
-                                                        className="flex rounded-full outline outline-black/10"
-
-                                                    >
-                                                        <input
-
-                                                            type="radio"
-
-                                                            name="color"
-
-                                                            value={color}
-
-                                                            className={`size-8 appearance-none rounded-full ${color === "white"
-
-                                                                ? "bg-white"
-
-                                                                : color === "gray"
-
-                                                                    ? "bg-gray-200"
-
-                                                                    : "bg-gray-900"
-
-                                                                } checked:outline-2 checked:outline-offset-2 checked:outline-gray-400 focus-visible:outline-3 focus-visible:outline-offset-3`}
-
-                                                            defaultChecked={color === "white"}
-                                                        />
-
-                                                    </div>
-                                                ))}
-
-                                            </div>
-
-                                        </fieldset>
-
-                                        <h2 className="text-sm  mt-5 h-[42dvh] overflow-y-auto scrollbor_hidden ">
-
-                                            {currentSelectedProductView?.description_product}
-
-                                        </h2>
-
-                                        {/* Size Options */}
-                                        <fieldset className="mt-10">
-
-                                            <div className="flex items-center justify-between">
-
-                                                <div className="text-sm font-medium">
-
-                                                    {currentSelectedProductView?.color_prouct}
-
-                                                </div>
-
-                                            </div>
-
-                                            <div className="z-0 mt-4 mb-2 sm:mb-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-1">
-
-                                                {[
-                                                    { label: "Type", value: currentSelectedProductView?.type_choice },
-                                                    { label: "Quantité", value: currentSelectedProductView?.quantity_product },
-                                                    { label: "Taille", value: currentSelectedProductView?.taille_product },
-                                                    { label: "Opération", value: currentSelectedProductView?.operation_product },
-                                                    { label: "Catégorie", value: currentSelectedProductView?.categorie_product },
-
-                                                ].map(({ label, value }, idx) => (
-
-                                                    label && value  && <label
-
-                                                        key={`${label}-${idx}`}
-
-                                                        htmlFor={`${label}-${value}`}
-
-                                                        className="relative overflow-x-auto scrollbor_hidden w-full group relative flex flex-col items-center justify-center border border-gray-300  rounded-md px-1 py-1 text-xs text-gray-800 hover:bg-gray-100 transition-all duration-150"
-                                                    >
-                                                        <input
-                                                            type="radio"
-                                                            name="productDetail"
-                                                            id={`${label}-${value}`}
-                                                            value={value}
-                                                            className="absolute sr-only lowercase"
-                                                        />
-
-                                                        <span className="text-xs">{label.toLowerCase()}</span>
-
-                                                        <span className="text-xs">{value.toLowerCase() || "N/A"}</span>
-
-                                                    </label>
-                                                ))}
-
-                                            </div>
-
-                                        </fieldset>
-
-                                        <div className="overflow-x-auto w-full  scrollbor_hidden flex gap-2 ">
-                                            {/*information complémentaire*/}
-                                            <fieldset className="flex  gap-4 items-center text-sm text-gray-600 p-3 rounded-md shadow-sm animate-scroll">
-
-                                                {
-                                                    getLogoTitlOperation(t, currentSelectedProductView).map((el, idx)=>
-
-                                                        <span className="flex items-center gap-1 justify-center  whitespace-nowrap" key={idx}>
-
-                                                            <span className="flex items-center gap-2 justify-center font-medium px-3 text-gray-700">
-
-                                                                <img className="rounded-sm " src={el?.logo} alt="" width="25" />
-
-                                                                <span>{el?.title}:</span>
-
-                                                            </span>
-
-                                                            <span>{el?.do}</span>
-
-                                                        </span>
-                                                    )
-                                                }
-
-                                            </fieldset>
-
-
-                                        </div>
-
-                                        <fieldset className="absolute bottom-2 right-2 text-xs text-gray-500">
-
-                                            {(() => {
-
-                                                const createdDate = new Date(currentSelectedProductView?.created);
-
-                                                const now = new Date();
-
-                                                const isToday = createdDate.toDateString() === now.toDateString();
-
-                                                const formattedTime = createdDate.toLocaleTimeString("fr-FR", {
-
-                                                    hour: "2-digit",
-
-                                                    minute: "2-digit",
-                                                });
-
-                                                const formattedDate = createdDate.toLocaleDateString("fr-FR");
-
-                                                return isToday
-
-                                                    ? `${t("phrasaleDate")} ${formattedTime}`
-
-                                                    : `${formattedDate} ${t('at')} ${formattedTime}`;
-                                            })()}
-
-                                        </fieldset>
-
-                                    </div>
-                                </div>
+                                }
 
                             </div>
 
+                            <div className="fixed lg:absolute top-0 right-0 z-50">
+
+                                <button
+
+                                    type="button"
+
+                                    onClick={onClose}
+
+                                    className="cursor-pointer z-20 rounded-full flex items-center justify-center p-3  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                >
+
+                                    <svg
+                                        className="z-0 size-10 lg:size-5"
+
+                                        fill="none"
+
+                                        viewBox="0 0 24 24"
+
+                                        strokeWidth={1}
+
+                                        stroke="currentColor"
+
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M6 18L18 6M6 6l12 12"
+                                        />
+
+                                    </svg>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                        <div className="relative gap-y-8  grid w-full grid-cols-1 items-start sm:grid-cols-12 lg:gap-x-1 mx-h-[100dvh]">
+
+                            <div className="relative sm:col-span-6 lg:col-span-7 max-h-[100dvh]  flex items-center justify-center my-auto mx-auto overflow-auto scrollbor_hidden">
+                                <img
+                                    src={currentSelectedProductView?.image_product}
+                                    alt="Product"
+                                    className="max-w-full max-h-full object-contain items-center "
+                                />
+                            </div>
+
+                            <div className="sm:col-span-6 lg:col-span-5 w-full h-full  lg:mt-6 lg:pt-2 p-2  mb-8 pb-8 gap-y-8 " >
+
+                                <div className="flex flex-col ">
+
+                                    <h2 className="text-2xl font-bold  sm:pr-12">
+
+                                        {currentSelectedProductView?.categorie_product}
+
+                                    </h2>
+
+                                    <h3 className="text-xl   sm:pr-12">
+
+                                        {currentSelectedProductView?.name_product}
+
+                                    </h3>
+
+                                </div>
+
+                                <section className="mt-2 ">
+
+                                    <p className="text-2xl 0">
+                                        <RendrePrixProduitMonnaie item={currentSelectedProductView} />
+                                    </p>
+
+                                    <PrintNumberStars t={t} productNbViews={productNbViews} />
+
+                                </section>
+
+                                {/* Color Options */}
+                                <fieldset>
+
+                                    <legend className="text-sm font-medium ">
+
+                                        {currentSelectedProductView?.color_prouct}
+
+                                    </legend>
+
+                                    <div className="mt-4 flex items-center gap-x-3">
+
+                                        {["white", "gray", "black"].map((color) => (
+
+                                            <div
+
+                                                key={color}
+
+                                                className="flex rounded-full outline outline-black/10"
+
+                                            >
+                                                <input
+
+                                                    type="radio"
+
+                                                    name="color"
+
+                                                    value={color}
+
+                                                    className={`size-8 appearance-none rounded-full ${color === "white"
+
+                                                        ? "bg-white"
+
+                                                        : color === "gray"
+
+                                                            ? "bg-gray-200"
+
+                                                            : "bg-gray-900"
+
+                                                        } checked:outline-2 checked:outline-offset-2 checked:outline-gray-400 focus-visible:outline-3 focus-visible:outline-offset-3`}
+
+                                                    defaultChecked={color === "white"}
+                                                />
+
+                                            </div>
+                                        ))}
+
+                                    </div>
+
+                                </fieldset>
+
+                                <h2 className="text-sm  mt-5 h-[42dvh] overflow-y-auto scrollbor_hidden ">
+
+                                    {currentSelectedProductView?.description_product?.toLowerCase()}
+
+                                </h2>
+
+                                {/* Size Options */}
+                                <fieldset className="mt-10">
+
+                                    <div className="flex items-center justify-between">
+
+                                        <div className="text-sm font-medium">
+
+                                            {currentSelectedProductView?.color_prouct}
+
+                                        </div>
+
+                                    </div>
+
+                                    <div className="z-0 mt-4 mb-2 sm:mb-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-1">
+
+                                        {[
+                                            { label: "Type", value: currentSelectedProductView?.type_choice },
+                                            { label: "Quantité", value: currentSelectedProductView?.quantity_product },
+                                            { label: "Taille", value: currentSelectedProductView?.taille_product },
+                                            { label: "Opération", value: currentSelectedProductView?.operation_product },
+                                            { label: "Catégorie", value: currentSelectedProductView?.categorie_product },
+
+                                        ].map(({ label, value }, idx) => (
+
+                                            label && value  && <label
+
+                                                key={`${label}-${idx}`}
+
+                                                htmlFor={`${label}-${value}`}
+
+                                                className="relative overflow-x-auto scrollbor_hidden w-full group relative flex flex-col items-center justify-center border border-gray-300  rounded-md px-1 py-1 text-xs text-gray-800 hover:bg-gray-100 transition-all duration-150"
+                                            >
+                                                <input
+                                                    type="radio"
+                                                    name="productDetail"
+                                                    id={`${label}-${value}`}
+                                                    value={value}
+                                                    className="absolute sr-only lowercase"
+                                                />
+
+                                                <span className="text-xs">{label.toLowerCase()}</span>
+
+                                                <span className="text-xs">{value.toLowerCase() || "N/A"}</span>
+
+                                            </label>
+                                        ))}
+
+                                    </div>
+
+                                </fieldset>
+
+                                <div className="overflow-x-auto w-full  scrollbor_hidden flex gap-2 ">
+                                    {/*information complémentaire*/}
+                                    <fieldset className="flex  gap-4 items-center text-sm text-gray-600 p-3 rounded-md shadow-sm animate-scroll">
+
+                                        {
+                                            getLogoTitlOperation(t, currentSelectedProductView).map((el, idx)=>
+
+                                                <span className="flex items-center gap-1 justify-center  whitespace-nowrap" key={idx}>
+
+                                                    <span className="flex items-center gap-2 justify-center font-medium px-3 text-gray-700">
+
+                                                        <img className="rounded-sm " src={el?.logo} alt="" width="25" />
+
+                                                        <span>{el?.title}:</span>
+
+                                                    </span>
+
+                                                    <span>{el?.do}</span>
+
+                                                </span>
+                                            )
+                                        }
+
+                                    </fieldset>
+
+
+                                </div>
+
+                                <fieldset className="absolute bottom-2 right-2 text-xs text-gray-500">
+
+                                    {(() => {
+
+                                        const createdDate = new Date(currentSelectedProductView?.created);
+
+                                        const now = new Date();
+
+                                        const isToday = createdDate.toDateString() === now.toDateString();
+
+                                        const formattedTime = createdDate.toLocaleTimeString("fr-FR", {
+
+                                            hour: "2-digit",
+
+                                            minute: "2-digit",
+                                        });
+
+                                        const formattedDate = createdDate.toLocaleDateString("fr-FR");
+
+                                        return isToday
+
+                                            ? `${t("phrasaleDate")} ${formattedTime}`
+
+                                            : `${formattedDate} ${t('at')} ${formattedTime}`;
+                                    })()}
+
+                                </fieldset>
+
+                            </div>
+
+                        </div>
+
                     </div>
+
+                </div>
 
             </div>
 

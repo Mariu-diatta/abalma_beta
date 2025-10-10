@@ -71,6 +71,8 @@ api.interceptors.response.use(
 
                     try {
 
+                        //await api.post("refresh/");
+
                         return window.location.href = "/logIn";
 
                     } catch (error) {

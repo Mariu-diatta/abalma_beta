@@ -8,7 +8,7 @@ function ImageGalleryPan({ imagesEls, openModal, owners }) {
 
     return (
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 scrollbor_hidden_ overflow-y-auto h-full items-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-1 scrollbor_hidden overflow-y-auto h-full w-full pb-4 pt-4">
 
             {
                 imagesEls?.map(item => {
@@ -17,7 +17,7 @@ function ImageGalleryPan({ imagesEls, openModal, owners }) {
                                 key={item?.id}
                                 src={item?.image_product}
                                 alt={item?.name_product}
-                                className="min-w-[30dvh] min-h-[30dvh] object-cover rounded-lg  transition duration-300 ease-in-out hover:brightness-75 hover:grayscale"
+                                className="relatif  object-cover rounded-lg transition duration-300 ease-in-out hover:brightness-75 hover:grayscale hover:scale-60"
                                 onClick={() => {
                                     openModal(item);
                                     dispatch(addUser(owners[item?.fournisseur]));
@@ -29,7 +29,7 @@ function ImageGalleryPan({ imagesEls, openModal, owners }) {
                                 }}
 
                                 style={{
-                                    transform: `scale(${0.5})`,
+                                    transform: `scale(${1})`,
                                     transformOrigin: 'center',
                                 }}
                             />

@@ -25,9 +25,17 @@ const TitleCompGen = ({ title }) => {
 
     return (
 
-        <div className="relative overflow-hidden w-full px-4 pt-4 pb-4" ref={containerRef}>
+        <div
 
-            <h1 ref={contentRef} className={`${shouldScroll?"animate-scroll":""} inline-block whitespace-nowrap text-2xl font-extrabold text-gray-500 dark:text-white`}>
+            className="relative overflow-hidden w-full px-4 pt-4 pb-4" ref={containerRef}
+        >
+
+            <h1
+                
+                ref={contentRef}
+                className={`${shouldScroll ? "animate-scroll" : ""} inline-block whitespace-nowrap text-2xl font-extrabold text-gray-500 dark:text-white`}
+
+            >
 
                 {title}
 
@@ -65,7 +73,12 @@ export const TitleCompGenLitle = ({ title }) => {
 
     return (
 
-        <div className="relative overflow-hidden w-full px-4 pt-4 pb-4" ref={containerRef}>
+        <div className="relative overflow-hidden w-full px-4 pt-4 pb-4" ref={containerRef} style={{
+
+            backgroundColor: "var(--color-bg)",
+
+            color: "var(--color-text)"
+        }}>
 
             <h1 ref={contentRef} className={`${shouldScroll ? "animate-scroll" : ""} inline-block whitespace-nowrap text-md font-extrabold text-gray-500 dark:text-white`}>
 

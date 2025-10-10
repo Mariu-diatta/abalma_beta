@@ -401,7 +401,16 @@ const VertcalNavbar = ({ children }) => {
 
                             <li key={index}>
 
-                                <div className={`flex items-center px-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${greyStyleColor(id)?"bg-grey-0":""}`}>
+                                <div
+
+                                    className={`flex items-center px-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${greyStyleColor(id) ? "bg-grey-0" : ""}`}
+
+
+                                    style={{
+
+                                        color: "var(--color-text)"
+                                    }}
+                                >
 
                                     <div>
                                         {svg}
