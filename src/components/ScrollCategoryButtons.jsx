@@ -168,7 +168,7 @@ const ScrollableCategoryButtons = ({
                                 <button
                                     key={cat}
                                     onMouseEnter={() => setBtnId(true)}
-                                    onMouseOver={() => setProductSpecificHandler(cat?.replace(" ", "_"))}
+                                    onMouseOver={() => setProductSpecificHandler(cat?.replace("_", " "))}
                                     style={{
 
                                         backgroundColor: "var(--color-bg)",

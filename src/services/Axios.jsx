@@ -1,6 +1,5 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { store } from "../store/Store";
 
 //// Dev
 //export const BASE_URL = 'http://127.0.0.1:8000/';
@@ -8,11 +7,9 @@ import { store } from "../store/Store";
 // Prod
 export const BASE_URL = 'https://backend-mpb0.onrender.com/';
 
-const storeSates = store.getState()
-
-const authState = storeSates?.auth
 
 const api = axios.create({
+
     baseURL: BASE_URL,
     headers: {
         'Content-Type': 'application/json',
@@ -62,8 +59,6 @@ api.interceptors.response.use(
             !originalRequest?.url?.includes('/refresh/')
         ) {
             originalRequest._retry = true;  
-
-            console.log("IS USER LOGED ??", authState?.isAuthenticated)
 
             if ((error?.response?.data?.detail === "Informations d'authentification non fournies.") ) {
 

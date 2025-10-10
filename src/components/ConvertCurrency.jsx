@@ -28,7 +28,7 @@ const RendrePrixProduitMonnaie = ({ item }) => {
                 className="whitespace-nowrap text-blue-700 dark:text-blue-400 font-semibold text-sm sm:text-base"
                 aria-label={(prixFormat === "$") ? `${t('monnaie.prix_label')}` : prixFormat}
             >
-                {prixFormate}
+                {prixFormate.split(",")[0]}<span className="text-[12px]">,{prixFormate.split(",")[1]}</span >
 
             </span>
         );

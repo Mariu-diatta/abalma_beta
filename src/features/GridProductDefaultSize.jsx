@@ -42,7 +42,8 @@ const GridProductDefault = ({ categorie_item }) => {
     const [modalData, setModalData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [productNbViews, setProductNbViews] = useState(null);
-    const [searchProductByName, setSearchProductByName] = useState('');
+    const categorySelectedData = useSelector(state => state?.navigate?.categorySelectedOnSearch)
+
 
     // Open modal with product
     const openModal = (product) => {
@@ -119,31 +120,20 @@ const GridProductDefault = ({ categorie_item }) => {
     // Fetch on search
     useEffect(() => {
 
-        if (searchProductByName) {
+        if (categorySelectedData) {
 
-            fetchProductsAndOwners(searchProductByName);
+            fetchProductsAndOwners(categorySelectedData);
         }
 
-    }, [fetchProductsAndOwners, searchProductByName]);
+    }, [fetchProductsAndOwners, categorySelectedData]);
 
     return (
 
         <div className="py-1 justify-center">
 
-            {
-                (productData?.length > 0)
-                && (
-
-                    <div className="flex mx-auto items-center w-auto md:w-1/2 px-2">
-
-                        <SearchBar
-                            onSearch={setSearchProductByName}
-                            disabled={shouldDisableSearch}
-                        />
-
-                    </div>
-                )
-            }
+            <SearchBar
+                disabled={shouldDisableSearch}
+            />
 
             {
                 isLoading ?

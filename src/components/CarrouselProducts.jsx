@@ -74,7 +74,7 @@ const Carousel = ({ products, openModal, owners }) => {
                                         }`}
                                 />
                                 <span
-                                    className={`dark:text-white w-2/3 text-sm absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-lg font-sm z-4 rounded-lg shadow-sm p-2 overflow-auto h-1/3 w-2/3 scrollbor_hidden ${idx === currentIndex ? "opacity-100" : "opacity-0"
+                                    className={`dark:text-white w-2/3 text-sm absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-lg font-sm z-4 rounded-lg  p-2 overflow-auto h-1/3 w-2/3 scrollbor_hidden ${idx === currentIndex ? "opacity-100" : "opacity-0"
                                         }`}
                                 >
                                     {prod?.description_product.toLowerCase()}
@@ -92,6 +92,7 @@ const Carousel = ({ products, openModal, owners }) => {
                                             }}
                                             type="button"
                                             className="bg-none w-full sm:w-auto absolute bottom-0 left-1/2 -translate-x-1/2 -translate-y-1/2 py-1 px-5 me-2 mb-2 text-sm text-gray-900 focus:outline-none rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 z-[10]"
+                                        
                                         >
                                             {t("views_product")}
 

@@ -243,6 +243,8 @@ const NavbarHeader = () => {
 
     const currentNav = useSelector(state => state.navigate.currentNav);
 
+    const categorySelectedData = useSelector(state => state?.navigate?.categorySelectedOnSearch)
+
     const { t } = useTranslation();
 
     const [open, setOpen] = useState(false);
@@ -251,17 +253,24 @@ const NavbarHeader = () => {
 
     const ref = useRef(null);
 
-    const getDataSeachSelectedItem = async (data) => {
+    useEffect(
+        () => {
 
-        try {
+            const getDataSeachSelectedItem = async (data = categorySelectedData) => {
 
-            await api.get(`product/fimter?search=${data?.query}`)
+                try {
 
-        } catch (e) {
+                    await api.get(`product/fimter?search=${data?.query}`)
 
-        }
-    }
+                } catch (e) {
 
+                }
+            }
+
+            getDataSeachSelectedItem()
+
+        }, [categorySelectedData]
+    )
 
 
     useEffect(() => {
@@ -316,21 +325,12 @@ const NavbarHeader = () => {
 
             >
                 {/* Logo */}
-                <div className="" >
-                    <Logo />
-                </div>
+                <Logo />
 
                 {/*{ Button de navigation qui s'adapte en fonction de l'écran}*/}
                 <ButtonNavigate tabs={getTabsNavigationsItems(currentNav,t)} />
 
-                {
-                    (currentNav === "home" || currentNav === "blogs") &&
-                    <div className={`hidden md:block w-1/3`} >
-
-                        <SearchBar onSearch={getDataSeachSelectedItem} />
-
-                    </div>
-                }
+                <SearchBar/>
 
                 {
 

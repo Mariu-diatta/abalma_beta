@@ -11,7 +11,7 @@ const ProductSpecifiViews = ({ products, openModal, owners, panelRef }) => {
     if (products?.length<=0) {
 
         return (
-            <div className="flex items-center justify-center mx-auto max-w-md p-4 rounded-full border border-gray-200 mb-2 min-h-70 max-h-70">
+            <div className="flex border-0 items-center justify-center mx-auto max-w-md p-4 rounded-md border border-gray-200 mb-2 min-h-70 max-h-70">
                 <span className="text-sm">{t('ListItemsFilterProduct.noProduct')}</span>
             </div>
         )
@@ -21,7 +21,7 @@ const ProductSpecifiViews = ({ products, openModal, owners, panelRef }) => {
 
         <div
             ref={panelRef}
-            className={`flex gap-2 bg-grey-9000 shadow-lg rounded-md min-h-70 max-h-70 w-full mt-1`}
+            className={`flex gap-2 bg-grey-9000 shadow-xs rounded-md min-h-70 max-h-70 w-full mt-1`}
         >
             <div style={{ flex: 2 }} className="hidden lg:block">
 
@@ -54,7 +54,7 @@ const ProductSpecifiViews = ({ products, openModal, owners, panelRef }) => {
 
                 <ImageGalleryPan
 
-                    imagesEls={products}
+                    products={products}
 
                     openModal={openModal}
 

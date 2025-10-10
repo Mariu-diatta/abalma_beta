@@ -27,12 +27,19 @@ export default function ScrollingContent({ item, qut_sold, t }) {
                     }`}
             >
                 <span className="text-blue-700 font-semibold text-sm flex gap-2 items-center">
+
                     <RendrePrixProduitMonnaie item={item} />
+
                     <div className="flex items-center gap-1 hidden md:flex text-blue-50 dark:text-black rounded-lg px-2 py-1 text-xs font-medium">
+
                         <span className="whitespace-nowrap">{t("quantity_sold")}</span>
+
                         <span className="text-sm">{qut_sold}</span>
+
                     </div>
+
                 </span>
+
             </div>
         </div>
     );

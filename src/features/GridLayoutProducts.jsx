@@ -24,15 +24,13 @@ const GridLayoutProduct = () => {
 
     const cartItems = useSelector(state => state?.cart?.items);
 
-    const currentNav = useSelector(state => state.navigate.currentNav);
-
     const DEFAULT_ACTIVE_CATEGORY ='Tous';
 
     const [activeButtonCategory, setActiveButtonCategory] = useState(DEFAULT_ACTIVE_CATEGORY);
 
-    const [modalData, setModalData] = useState(null);
+    const categorySelectedData = useSelector(state => state?.navigate?.categorySelectedOnSearch)
 
-    const [searchData, setSearchData] = useState("null");
+    const [modalData, setModalData] = useState(null);
 
     const [isButtonOver, setIsButtonOver] = useState(DEFAULT_ACTIVE_CATEGORY);
 
@@ -189,21 +187,26 @@ const GridLayoutProduct = () => {
 
             const getDataSearch = async () => {
 
-                try {
-                    const { data: products } = await api.get(`products/filter/?search=${searchData?.query}`)
+                setLoading(true)
 
-                    const filtered = products.filter(item => item?.categorie_product === searchData?.category);
+                try {
+                    const { data: products } = await api.get(`products/filter/?search=${categorySelectedData?.query}`)
+
+                    const filtered = products.filter(item => item?.categorie_product === categorySelectedData?.category);
 
                     setFilteredItems(filtered);
 
                 } catch (e) {
 
+                } finally {
+
+                    setLoading(false)
                 }
             }
 
             getDataSearch()
 
-        }, [searchData]
+        }, [categorySelectedData]
     )
   
     return (
@@ -219,18 +222,8 @@ const GridLayoutProduct = () => {
                 color: "var(--color-text)"
             }}
         >
-        
-            <div
-                  className={`flex mx-auto items-center  
-                  ${(currentNav === "account_home" ) ? "w-full md:w-1/2" : "md:hidden"} 
-                  sticky top-[55px] z-[5] 
-                  ${(currentNav === "home" || currentNav === "blogs" || currentNav === "account_home" || currentNav === "all_products") ? "" : "hidden"}`}
-            >
-                <SearchBar  onSearch={setSearchData} />
-
-            </div>
-
-            
+            <SearchBar/>
+ 
             <ScrollableCategoryButtons
 
                 activeCategory={activeButtonCategory}

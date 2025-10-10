@@ -21,9 +21,9 @@ export const BlogPage = () => {
 
     const [isLoading, setIsLoading] = useState(false)
 
-    const currentNav = useSelector(state => state.navigate.currentNav);
-
     const currentAddedBlog = useSelector(state => state.cart.contentBlog);
+
+    const categorySelectedData = useSelector(state => state?.navigate?.categorySelectedOnSearch)
 
     const dispatch = useDispatch()
 
@@ -78,29 +78,37 @@ export const BlogPage = () => {
         }, [dispatch]
     )
 
-    const getDataBlogSearch= async (data) => {
+    useEffect(
+        () => {
+            const getDataBlogSearch = async (data = categorySelectedData) => {
 
-        const getBlogs = async () => {
+                const getBlogs = async () => {
 
-            setIsLoading(true)
+                    setIsLoading(true)
 
-            try {
+                    try {
 
-                const blogs = await api.get(`blogs/?search=${data?.query}`);
+                        const blogs = await api.get(`blogs/?search=${data?.query}`);
 
-                setBlogs(blogs.data)
+                        setBlogs(blogs.data)
 
-                setIsLoading(false)
+                        setIsLoading(false)
 
-            } catch (err) {
+                    } catch (err) {
 
-                setIsLoading(false)
+                        setIsLoading(false)
+                    }
+                }
+
+                getBlogs()
+
             }
-        }
+            getDataBlogSearch()
 
-        getBlogs()
+        },[categorySelectedData]
+    )
 
-    }
+
          
     return (
 
@@ -115,11 +123,8 @@ export const BlogPage = () => {
 
             </div>
 
-            <div className={`flex mx-auto items-center md:hidden ${(currentNav === "home" || currentNav === "blogs") ? "" : "hidden"}`} >
 
-                <SearchBar onSearch={getDataBlogSearch} />
-
-            </div>
+            <SearchBar />
 
             <div className="py-1 px-2 w-full mx-0 lg:mx-auto lg:py-2 lg:px-6 h-screen mb-6 pt-5" >
 
