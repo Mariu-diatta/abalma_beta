@@ -51,8 +51,6 @@ const MyProductList = () => {
 
                 const productsOwner = await api.get("owner/product");
 
-                //console.log("Mes propres produits", productsOwner?.data)
-
                 setProducts(productsOwner?.data);
 
             } catch (error) {
@@ -161,10 +159,10 @@ const MyProductList = () => {
                             {
                                 Array.isArray(products) &&
 
-                                products.map((product) => (
+                                products.map((prod,_) => (
 
                                     <tr
-                                        key={product?.id}
+                                        key={prod?.id}
 
                                         className="dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
                                     >
@@ -173,8 +171,8 @@ const MyProductList = () => {
                                             <div className="w-10 h-10 md:w-20 md:h-20 overflow-hidden rounded-lg border border-gray-200 dark:border-gray-600">
 
                                                 <img
-                                                    src={product?.image_product}
-                                                    alt={"product"}
+                                                    src={prod?.image_product}
+                                                    alt={prod?.name_product}
                                                     className="object-contain w-auto h-auto"
                                                 />
                                                 
@@ -184,35 +182,35 @@ const MyProductList = () => {
 
                                         <td className="px-6 py-1 ">
                                             <div className="overflow-y-auto h-[12dvh] scrollbor_hidden text-sm">
-                                             {product?.description_product}
+                                             {prod?.description_product}
                                             </div>
                                         </td>
 
                                         <td className="px-6 py-4">
-                                            {product?.categorie_product}
+                                            {prod?.categorie_product}
                                         </td>
 
                                         <td className="px-6 py-4">
-                                            {product?.quantity_product}
+                                            {prod?.quantity_product}
                                         </td>
 
                                         <td className="px-6 py-4">
-                                            <RendrePrixProduitMonnaie item={product} />
+                                            <RendrePrixProduitMonnaie item={prod} />
                                         </td>
 
                                         <td className="px-6 py-4 gap-2">
-                                            <CenteredModal product={product} />
+                                            <CenteredModal product={prod} />
                                         </td>
 
                                         <td className="px-6 py-4 gap-2">
 
                                             {
-                                                loadingDelete && (selectedBtnProduct === product?.id) ?
+                                                loadingDelete && (selectedBtnProduct === prod?.id) ?
                                                 <LoadingCard/>
                                                 :
                                                 <ButtonSimple
 
-                                                    onHandleClick={() => handleDelete(product?.id)}
+                                                    onHandleClick={() => handleDelete(prod?.id)}
 
                                                     className="px-3 rounded-md hover:bg-gray-100 bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-br hover:to-orange-500"
 

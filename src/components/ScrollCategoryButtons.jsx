@@ -116,11 +116,9 @@ const ScrollableCategoryButtons = ({
         if (productSpecificHandler) {
 
             setActiveBtnOver(productSpecificHandler);
-
-            dispatch(updateCategorySelected({ query: "", category: productSpecificHandler }))
         }
 
-    }, [productSpecificHandler, setActiveBtnOver, dispatch]);
+    }, [productSpecificHandler, setActiveBtnOver]);
 
     return (
         <>
