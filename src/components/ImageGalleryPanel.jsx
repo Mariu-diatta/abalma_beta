@@ -14,7 +14,7 @@ function ImageGalleryPan({ products, openModal, owners }) {
             {
                 products?.map((item,k)=> {
 
-                    return <section className="flex flex-col">
+                    return <section className="flex flex-col" key={k}>
                                 <img
                                     key={k}
                                     src={item?.image_product}
