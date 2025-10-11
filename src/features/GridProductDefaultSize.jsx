@@ -133,7 +133,7 @@ const GridProductDefault = ({ categorie_item }) => {
 
             {
                 (currentUser && currentUser?.is_connected) &&
-                <div className={`${cols?.length===0?"hidden":""} md:w-1/2 flex m-auto justify-center  my-1`}>
+                <div className={`${cols?.length<=4?"hidden":""} md:w-1/2 flex m-auto justify-center  my-1`}>
                     <SearchBar
                         disabled={shouldDisableSearch}
                     />
