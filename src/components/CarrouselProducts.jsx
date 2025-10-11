@@ -62,7 +62,7 @@ const Carousel = ({ products, openModal, owners }) => {
             <div className="relative overflow-hidden rounded-lg h-70 lg:h-70 md:h-auto">
 
                 {
-                    filteredProducts.map((prod, idx) => (
+                    filteredProducts.length>0 && filteredProducts.map((prod, idx) => (
 
                             <section className="shadow-lg " key={idx}>
 
@@ -108,7 +108,7 @@ const Carousel = ({ products, openModal, owners }) => {
 
             <button
                 onClick={prevSlide}
-                className="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-1 py-12"
+                className={`${(filteredProducts.length <= 1) ?"hidden":''} absolute top-0 left-0 z-10 flex items-center justify-center h-full px-1 py-12`}
             >
                 <ChevronLeft className="w-6 h-6 text-white" />
 
@@ -116,7 +116,7 @@ const Carousel = ({ products, openModal, owners }) => {
 
             <button
                 onClick={nextSlide}
-                className="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-1 py-12"
+                className={`${(filteredProducts.length <=1 )? "hidden" : ''} absolute top-0 right-0 z-10 flex items-center justify-center h-full px-1 py-12`}
             >
                 <ChevronRight className="w-6 h-6 text-white" />
 

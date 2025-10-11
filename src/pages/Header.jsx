@@ -345,9 +345,10 @@ const NavbarHeader = () => {
                             className={`
                             ${open && "navbarTogglerActive"} 
                             sm:hidden 
-                            z-[71] px-3  rounded-lg 
+                            z-[71] px-3 py-3  rounded-lg 
                             text-black
                             dark:bg-dark-3 dark:text-white dark:bg-white
+                            items-center
                             focus:outline-none
                             `}
 

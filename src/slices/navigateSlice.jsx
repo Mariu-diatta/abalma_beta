@@ -13,7 +13,9 @@ const initialState = {
 
     lang: 'fr',
 
-    categorySelectedOnSearch:null,
+    categorySelectedOnSearch: null,
+
+    currentButonCategoryHover: null,
 };
 
 const navigateSlice = createSlice({
@@ -60,9 +62,14 @@ const navigateSlice = createSlice({
 
             state.categorySelectedOnSearch = action.payload;
         },
+
+        updateCurrentButtonCategoryHover: (state, action) => {
+
+            state.currentButonCategoryHover = action.payload;
+        },
     }
 });
 
-export const { clearMessage, setCurrentMessage, setPreviousNav, setCurrentNav, updateTheme, updateLang, updateCategorySelected } = navigateSlice.actions; 
+export const { clearMessage, setCurrentMessage, setPreviousNav, setCurrentNav, updateTheme, updateLang, updateCategorySelected, updateCurrentButtonCategoryHover } = navigateSlice.actions; 
 
 export default navigateSlice.reducer;

@@ -9,6 +9,8 @@ const SearchBar = ({disabled = false }) => {
 
     const { t } = useTranslation();
     const categorySelectedOnSearch = useSelector(state => state.navigate.categorySelectedOnSearch)
+    const categoryButtonHover = useSelector(state => state?.navigate?.currentButonCategoryHover)
+
     const [selectedCategory, setSelectedCategory] = useState(categorySelectedOnSearch?.category || "");
     const dispatch=useDispatch()
     const [searchTerm, setSearchTerm] = useState('');
@@ -34,6 +36,15 @@ const SearchBar = ({disabled = false }) => {
             setSelectedCategory(categorySelectedOnSearch?.category)
 
         }, [categorySelectedOnSearch]
+    )
+
+    useEffect(
+
+        () => {
+
+            setSelectedCategory(categoryButtonHover)
+
+        }, [categoryButtonHover]
     )
 
     useEffect(() => {
@@ -70,20 +81,12 @@ const SearchBar = ({disabled = false }) => {
 
                 <div className="w-full">
 
-                    {/* Dropdown Button */}
-                    {/*<nav*/}
-                    {/*    className="w-20 overflow-x-hidden whitespace-nowrap shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-gray-900 bg-gray-100   rounded-s-full hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white "*/}
-                    {/*>*/}
-                    {/*    {selectedCategory}*/}
-                    {/*</nav>*/}
-
-                    {/* Search Input */}
                     <div className="relative">
 
                         <input
                             ref={searchBtnRef}
                             type="search"
-                            className={`block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-full border-0 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none focus:ring-0`}
+                            className={`block px-2.5 py-1.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-full border-0 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none focus:ring-0`}
                             placeholder={`${t("Search")} ${selectedCategory ? selectedCategory?.replace(/_/g, " ").toLowerCase() : (t('All')).toLowerCase() } `}
                             value={searchTerm}
                             onChange={(e) => {

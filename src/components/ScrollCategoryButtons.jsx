@@ -3,13 +3,12 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRef, } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from 'react-i18next';
-import { updateCategorySelected } from '../slices/navigateSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import ProductSpecifiViews from './ProductSpecificPopovViews';
 import { LIST_CATEGORIES } from '../utils';
+import { updateCurrentButtonCategoryHover } from '../slices/navigateSlice';
 
 const ScrollableCategoryButtons = ({
-    activeCategory,
     setActiveCategory,
     setActiveBtnOver,
     products,
@@ -36,9 +35,9 @@ const ScrollableCategoryButtons = ({
 
     const [showRight, setShowRight] = useState(false);
 
-    const [btnId, setBtnId] = useState(false);
-
     const [productSpecificHandler, setProductSpecificHandler] = useState(null);
+
+    const [activateButtonCategory, setActivateButtonCategory] = useState(null);
 
     const updateButtonsVisibility = useCallback(() => {
 
@@ -84,41 +83,17 @@ const ScrollableCategoryButtons = ({
 
     }, [updateButtonsVisibility]);
 
-    useEffect(() => {
-
-        const handleClickOutside = (e) => {
-
-            if (panelRef.current && !panelRef.current.contains(e.target) && !scrollRef.current.contains(e.target)) {
-
-                setBtnId(false);
-            }
-        };
-
-        document.addEventListener("dblclick", handleClickOutside);
-
-        return () => document.removeEventListener("dblclick", handleClickOutside);
-
-    }, []);
-
-    useEffect(() => {
-
-        if (btnId) {
-
-            setActiveCategory(activeCategory);
-
-            dispatch(updateCategorySelected({ query: "", category: activeCategory }))
-        }
-
-    }, [btnId, dispatch, activeCategory, setActiveCategory]);
 
     useEffect(() => {
 
         if (productSpecificHandler) {
 
             setActiveBtnOver(productSpecificHandler);
+
+            dispatch(updateCurrentButtonCategoryHover(productSpecificHandler))
         }
 
-    }, [productSpecificHandler, setActiveBtnOver]);
+    }, [productSpecificHandler, setActiveBtnOver, dispatch]);
 
     return (
         <>
@@ -163,27 +138,38 @@ const ScrollableCategoryButtons = ({
 
                         {
                             categories?.map((cat) => (
+
                                 <button
+
                                     key={cat}
-                                    onMouseEnter={() => setBtnId(true)}
-                                    onMouseOver={() => setProductSpecificHandler(cat?.replace("_", " "))}
-                                    style={{
 
-                                        backgroundColor: "var(--color-bg)",
+                                    onMouseOver={
+                                        () => setProductSpecificHandler(cat?.replace("_", ""))
+                                    }
 
-                                        color: "var(--color-text)"
-                                    }}
-                                    onClick={() => {
-                                        setActiveCategory(cat?.replace("_", " "));
-                                    }}
+                                    style={
+                                        {
+                                            backgroundColor: "var(--color-bg)",
+                                            color: "var(--color-text)"
+                                        }
+                                    }
+
+                                    onClick={
+                                        () => {
+                                            setActiveCategory(cat?.replace("_", " "));
+                                            setActivateButtonCategory(cat?.replace("_", " "))
+                                        }
+                                    }
+
                                     className={`
-                                        z-2 whitespace-nowrap px-4  py-2 rounded-full text-sm transition  hover:bg-gradient-to-br hover:from-purple-300 
-                                        ${(activeCategory?.replace(" ", "_")).toLowerCase() === (cat?.replace(" ", "_")).toLowerCase()
+                                        z-2 whitespace-nowrap px-4  py-1 rounded-full text-sm transition  hover:bg-gradient-to-br hover:from-purple-300 
+                                        ${activateButtonCategory?.toLowerCase() === (cat?.replace("_", ""))?.toLowerCase()
                                         ? "bg-blue-400 text-white bg-gradient-to-br from-purple-300 to-blue-300" //
-                                        : "text-blue-700 border border-blue-100 hover:bg-blue-300 hover:text-white scale-100 hover:scale-110"
+                                        : "text-blue-700 border border-blue-100 hover:bg-blue-300 hover:text-white scale-100 hover:scale-100 hover:shadow-lg"
                                         }`}
                                 >
                                     {cat?.replace("_", " ")}
+
                                 </button>
                             ))
                         }

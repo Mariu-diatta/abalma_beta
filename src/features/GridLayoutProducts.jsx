@@ -233,8 +233,6 @@ const GridLayoutProduct = () => {
  
             <ScrollableCategoryButtons
 
-                activeCategory={activeButtonCategory}
-
                 setActiveCategory={setActiveButtonCategory}
 
                 products={filteredItemsPopover}
