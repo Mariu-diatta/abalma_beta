@@ -254,9 +254,11 @@ const NavbarHeader = () => {
     const ref = useRef(null);
 
     useEffect(
-        () => {
 
+        () => {
             const getDataSeachSelectedItem = async (data = categorySelectedData) => {
+
+                if (!data?.query) return
 
                 try {
 
@@ -311,7 +313,7 @@ const NavbarHeader = () => {
 
             <header
 
-                className="w-full flex items-center style-bg h-[50px] m-0  mx-auto px-4 flex items-center justify-between relative bg-white"
+                className="flex w-full items-center justify-between  h-[50px] px-1  bg-white"
 
                 ref={ref}
 
@@ -325,10 +327,9 @@ const NavbarHeader = () => {
 
             >
                 {/* Logo */}
-                <Logo />
+                 <Logo />
 
-                {/*{ Button de navigation qui s'adapte en fonction de l'écran}*/}
-                <ButtonNavigate tabs={getTabsNavigationsItems(currentNav,t)} />
+                <ButtonNavigate tabs={getTabsNavigationsItems(currentNav, t)} />
 
                 <SearchBar/>
 
@@ -336,17 +337,17 @@ const NavbarHeader = () => {
 
                     (!(currentNav === "login") && !(currentNav === "register")) &&
 
-                    <>
+                    <span>
                         {/* Toggle Button for Mobile */}
                         <button
                             onClick={() => setOpen(!open)}
                             id="navbarToggler"
                             className={`
                             ${open && "navbarTogglerActive"} 
-                            sm:hidden absolute right-1 top-1/2 transform -translate-y-1/2 
-                            z-[71] px-3 py-[6px] rounded-lg 
+                            sm:hidden 
+                            z-[71] px-3  rounded-lg 
                             text-black
-                            dark:bg-dark-3 dark:text-white mb-2 dark:bg-white
+                            dark:bg-dark-3 dark:text-white dark:bg-white
                             focus:outline-none
                             `}
 
@@ -385,10 +386,10 @@ const NavbarHeader = () => {
 
                         <div
                             style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
-                            className="hidden sm:flex items-center justify-center gap-3 w-auto bg-white"
+                            className="hidden sm:flex items-center justify-center gap-3 w-auto bg-white mx-1"
                         >
                             {
-                                currentNav === "home" &&
+                                (currentNav === "home") &&
                                 <>
                                     <ThemeToggle />
 
@@ -404,7 +405,7 @@ const NavbarHeader = () => {
 
                         </div>
 
-                    </>
+                    </span>
 
                 }
 

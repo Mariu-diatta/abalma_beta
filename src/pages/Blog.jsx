@@ -25,6 +25,8 @@ export const BlogPage = () => {
 
     const categorySelectedData = useSelector(state => state?.navigate?.categorySelectedOnSearch)
 
+    const currentUser = useSelector(state => state.auth.user);
+
     const dispatch = useDispatch()
 
     const fetchBlogs = useCallback(() => {
@@ -107,8 +109,6 @@ export const BlogPage = () => {
 
         },[categorySelectedData]
     )
-
-
          
     return (
 
@@ -124,7 +124,10 @@ export const BlogPage = () => {
             </div>
 
 
-            <SearchBar />
+            {
+                (currentUser && currentUser?.is_connected) &&
+                <SearchBar />
+            }
 
             <div className="py-1 px-2 w-full mx-0 lg:mx-auto lg:py-2 lg:px-6 h-screen mb-6 pt-5" >
 

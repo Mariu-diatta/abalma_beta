@@ -60,6 +60,7 @@ export const ButtonNavigate = ({ tabs }) => {
                 lg:justify-between
                 dark:bg-dark-2
                 px-4 z-10 
+                mx-1
              "
             style={
                 {

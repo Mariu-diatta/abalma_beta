@@ -40,6 +40,8 @@ const GridLayoutProduct = () => {
 
     const closeModal = () => setModalData(null);
 
+    const currentUser = useSelector(state => state.auth.user);
+
     useEffect(
 
         () => {
@@ -222,7 +224,12 @@ const GridLayoutProduct = () => {
                 color: "var(--color-text)"
             }}
         >
-            <SearchBar/>
+            {
+                (currentUser && currentUser?.is_connected) &&
+                <div className="md:w-1/2 flex m-auto justify-center my-1">
+                    <SearchBar />
+                </div>
+            }
  
             <ScrollableCategoryButtons
 

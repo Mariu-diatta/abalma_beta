@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 export const ButtonScrollTopDown = ({ children }) => {
+
     const topRef = useRef(null);
     const bottomRef = useRef(null);
 
@@ -13,8 +14,6 @@ export const ButtonScrollTopDown = ({ children }) => {
 
             const scrollable = document.documentElement.scrollHeight >= window.innerHeight;
 
-            console.log("valuer du scroller", document.documentElement.scrollHeight, "\nvaleur de la fenêtre", window.innerHeight)
-
             setIsScrollable(scrollable);
         };
 
@@ -22,9 +21,8 @@ export const ButtonScrollTopDown = ({ children }) => {
 
             const scrollY = window.scrollY || document.documentElement.scrollTop;
 
-            console.log("valuer du scrollY", window.scrollY, "\nvaleur scrool Top", document.documentElement.scrollTop)
-
             if (scrollY > 0) setAtTop(true)
+
             else setAtTop(false)     
         };
 
@@ -49,11 +47,9 @@ export const ButtonScrollTopDown = ({ children }) => {
     },[]);
 
     const handleScrollClick = () => {
-        console.log("Valeur du top :::", atTop)
         if (!atTop && bottomRef.current) {
             bottomRef.current.scrollTo({ bottom: 0, behavior: 'smooth' });
         } else if (topRef.current) {
-            alert("btn scroll handle")
             topRef.current.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };

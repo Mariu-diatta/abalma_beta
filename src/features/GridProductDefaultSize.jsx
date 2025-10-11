@@ -131,9 +131,14 @@ const GridProductDefault = ({ categorie_item }) => {
 
         <div className="py-1 justify-center">
 
-            <SearchBar
-                disabled={shouldDisableSearch}
-            />
+            {
+                (currentUser && currentUser?.is_connected) &&
+                <div className="md:w-1/2 flex m-auto justify-center  my-1">
+                    <SearchBar
+                        disabled={shouldDisableSearch}
+                    />
+                </div>
+            }
 
             {
                 isLoading ?

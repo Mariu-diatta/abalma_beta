@@ -12,11 +12,11 @@ function ImageGalleryPan({ products, openModal, owners }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-1 scrollbor_hidden overflow-y-auto h-full w-full pb-4 pt-4">
 
             {
-                products?.map(item => {
+                products?.map((item,k)=> {
 
                     return <section className="flex flex-col">
                                 <img
-                                    key={item?.id}
+                                    key={k}
                                     src={item?.image_product}
                                     alt={item?.name_product}
                                     className="relatif  object-cover rounded-lg transition duration-300 ease-in-out hover:brightness-75 hover:grayscale hover:scale-60"
