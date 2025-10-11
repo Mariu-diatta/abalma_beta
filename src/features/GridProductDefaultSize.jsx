@@ -133,7 +133,7 @@ const GridProductDefault = ({ categorie_item }) => {
 
             {
                 (currentUser && currentUser?.is_connected) &&
-                <div className="md:w-1/2 flex m-auto justify-center  my-1">
+                <div className={`${cols?.length===0?"hidden":""} md:w-1/2 flex m-auto justify-center  my-1`}>
                     <SearchBar
                         disabled={shouldDisableSearch}
                     />
@@ -152,7 +152,7 @@ const GridProductDefault = ({ categorie_item }) => {
                         <div className="grid grid-cols-2 md:grid-cols-5 gap-1 mt-2 w-[100dvw] md:w-auto mx-auto overflow-x-hidden">
 
                         {
-                            cols.map((products, colIdx) => (
+                            cols?.map((products, colIdx) => (
 
                                 <div key={colIdx} className="grid gap-1">
 
