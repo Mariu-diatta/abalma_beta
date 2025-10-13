@@ -133,10 +133,13 @@ const GridProductDefault = ({ categorie_item }) => {
 
             {
                 (currentUser && currentUser?.is_connected) &&
-                <div className={`${cols?.length<=4?"hidden":""} md:w-1/2 flex m-auto justify-center  my-1`}>
+
+                <div className={`${cols?.length <= 4 ? "hidden" : ""} md:w-1/2 flex m-auto justify-center  my-1`}>
+
                     <SearchBar
                         disabled={shouldDisableSearch}
                     />
+
                 </div>
             }
 
@@ -160,9 +163,12 @@ const GridProductDefault = ({ categorie_item }) => {
                                         products.map(product => {
 
                                                 const isInCart = cartItems.some(p => p.id === product.id);
+
                                                 const owner = owners[product.fournisseur];
 
-                                                productViews(product, setProductNbViews);
+                                            //const p=productViews(product, setProductNbViews);
+
+                                            console.log(product)
 
                                                 return (
 
@@ -206,7 +212,7 @@ const GridProductDefault = ({ categorie_item }) => {
                                                                 )}
                                                             </div>
 
-                                                            <PrintNumberStars productNbViews={productNbViews} t={t} />
+                                                            <PrintNumberStars productNbViews={product?.total_views} t={t} />
 
                                                             <p className="text-xs truncate mb-1 md:text-sm">
                                                                 {product?.description_product}
@@ -217,6 +223,7 @@ const GridProductDefault = ({ categorie_item }) => {
                                                             </div>
 
                                                             <div className="flex justify-between items-center">
+
                                                                 <ScrollingContent
                                                                     item={product}
                                                                     t={t}

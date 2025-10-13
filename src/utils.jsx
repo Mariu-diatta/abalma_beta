@@ -306,10 +306,14 @@ export const productViews = async (dataProduct, setProductNbViews) => {
 
         setProductNbViews(data?.total_views);
 
+        return 1
+
     } catch (error) {
 
         console.error("Erreur lors du chargement du produit :", error);
     }
+
+    return 0
 };
 
 export function removeAccents(str) {

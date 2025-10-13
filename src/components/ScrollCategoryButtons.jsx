@@ -96,6 +96,7 @@ const ScrollableCategoryButtons = ({
     }, [productSpecificHandler, setActiveBtnOver, dispatch]);
 
     return (
+
         <>
             <ProductSpecifiViews products={products} openModal={openModal} owners={owners} panelRef={panelRef}/>
 

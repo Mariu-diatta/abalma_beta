@@ -34,7 +34,7 @@ export default function ScrollingContent({ item, qut_sold, t }) {
 
                         <span className="whitespace-nowrap">{t("quantity_sold")}</span>
 
-                        <span className="text-sm">{qut_sold}</span>
+                        <span className="text-sm">{qut_sold || 0}</span>
 
                     </div>
 
