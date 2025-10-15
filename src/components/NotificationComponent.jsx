@@ -2,7 +2,6 @@ import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { backendBase } from "../utils";
 import { addMessageNotif, removeRoom } from "../slices/chatSlice";
-//import { addMessageNotif } from "../slices/chatSlice";
 
  const NotificationsComponent = () => {
 
@@ -62,10 +61,11 @@ import { addMessageNotif, removeRoom } from "../slices/chatSlice";
          //};
 
          return () => {
-             if (ws.current) {
+             if (ws?.current) {
                  ws.current.close();
              }
          };
+
      }, [currentUser, dispatch, selectedUser, deleteChat]); // 👈 uniquement l'ID utilisateur en dépendance
 
 

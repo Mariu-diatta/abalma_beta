@@ -75,6 +75,8 @@ const chatSlice = createSlice({
 
         addMessageNotif: (state, action) => {
 
+            if (state.currentChats.includes(action?.payload)) return 
+
             state.messageNotif.push(action?.payload)
 
         },

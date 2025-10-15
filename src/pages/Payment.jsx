@@ -191,7 +191,7 @@ export function PaymentAppPayPal({ amount }) {
 
             showMessage(dispatch, { Type: "Message", Message: "Transaction effectué" });
 
-            dispatch(addMessageNotif("Transaction effectué"))
+            //dispatch(addMessageNotif("Transaction effectué"))
 
             dispatch(clearCart())
 
@@ -228,6 +228,7 @@ export function PaymentAppPayPal({ amount }) {
                     onClick={() => {
                         try {
                             boughtProduct(); // Exécution de ta fonction
+                            dispatch(addMessageNotif("Transaction effectué"))
                         } catch (e) {
                             console.error("Erreur dans boughtProduct:", e);
                             // Ne rien retourner ici => PayPal continue normalement
