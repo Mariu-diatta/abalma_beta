@@ -43,6 +43,7 @@ const ProductCard = ({
         >
             {/* Image & Modal Trigger */}
             <div>
+
                 <img
                     key={id}
                     onClick={() => {
@@ -64,6 +65,7 @@ const ProductCard = ({
                         transition: 'transform 0.3s ease',
                     }}
                 />
+
             </div>
 
             {/* Infos Produit */}

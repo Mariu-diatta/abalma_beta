@@ -29,24 +29,14 @@ const TablesRecapActivities = ({ loading, productsTrasactionBought }) => {
 
             <div className="relative overflow-y-auto max-h-[60dvh] w-auto left-0 scrollbor_hidden mb-[30dvh]">
 
-                <div className="overflow-x-auto">
-
-                    <ListProductShoppingCart />
-
-                </div>
+                <ListProductShoppingCart />
 
                 {
                     loading ?
                         <LoadingCard/>
                         :
-                        <div >
-                            {
-                                (productsTrasactionBought?.length > 0) && (
+                        <ProductsRecapTable products={productsTrasactionBought} />
 
-                                    <ProductsRecapTable products={productsTrasactionBought} />
-                                )
-                            }
-                        </div >
                 }
 
                 <MyProductList />

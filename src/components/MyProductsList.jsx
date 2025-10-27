@@ -28,7 +28,7 @@ const MyProductList = () => {
 
             prevProducts.map((prod) =>
 
-                prod.code_reference === getUpdateProduct.code_reference
+                prod?.code_reference === getUpdateProduct?.code_reference
 
                     ? getUpdateProduct
 
@@ -159,7 +159,7 @@ const MyProductList = () => {
                             {
                                 Array.isArray(products) &&
 
-                                products.map((prod,_) => (
+                                products?.map((prod,_) => (
 
                                     <tr
                                         key={prod?.id}

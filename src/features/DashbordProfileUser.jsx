@@ -76,7 +76,7 @@ const Tabs = () => {
                 <ul className="flex space-x-0 overflow-x-auto text-sm font-medium text-center style_bg">
 
                     {
-                        tabs.map((tab) => (
+                        tabs?.map((tab) => (
 
                             <li key={tab.id} role="presentation">
 
@@ -92,7 +92,7 @@ const Tabs = () => {
                                             : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
                                         } focus:outline-none `}
                                 >
-                                    {tab.label}
+                                    {tab?.label}
 
                                 </button>
 
