@@ -16,6 +16,7 @@ import NumberFollowFollowed from '../components/FollowUserComp';
 import InputBox from '../components/InputBoxFloat';
 
 const ProfileCard = () => {
+
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -28,7 +29,6 @@ const ProfileCard = () => {
     const selectedProductOwner = useSelector((state) => state.chat.userSlected);
     const allChats = useSelector((state) => state.chat.currentChats);
     const currentChat = useSelector((state) => state.chat.currentChat);
-
     const [sedingProofDoc, setSedingProofDoc]=useState(false)
 
     // Determine user profile based on navigation context
@@ -39,10 +39,12 @@ const ProfileCard = () => {
     }, [currentNav, profileData, selectedProductOwner]);
 
     const isCurrentUser = useMemo(
+
         () => {
 
             return (userProfile?.email === profileData?.email && userProfile?.id === profileData?.id);
         },
+
         [userProfile?.email, profileData.email, userProfile?.id, profileData.id ]
     );
 
@@ -79,6 +81,7 @@ const ProfileCard = () => {
 
             setPreviewUrlBackground(userProfile.image_cover || null);
         }
+
     }, [userProfile]);
 
     // Form data state
@@ -99,17 +102,23 @@ const ProfileCard = () => {
 
     // Handle image uploads
     const handleImageUpload = (e, isBackground = false) => {
+
         const file = e.target.files?.[0];
+
         if (!file) return;
+
         const url = URL.createObjectURL(file);
+
         if (isBackground) {
             setUpdateImageCover(file);
             setPreviewUrlBackground(url);
             setIsEditingPhotoBg(false);
+
         } else {
             setUpdateImage(file);
             setPreviewUrl(url);
         }
+
         setIsEditing(true);
     };
 

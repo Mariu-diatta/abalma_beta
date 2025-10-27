@@ -28,8 +28,11 @@ const OwnerPopover = ({ owner, onClose }) => {
     const selectedProductOwner = useSelector(state => state.chat.userSlected)
 
     const nomLength = owner?.nom?.length || 0;
+
     const prenomLength = owner?.prenom?.length || 0;
+
     const maxLength = Math.max(nomLength, prenomLength);
+
     const calculatedWidth = `${maxLength * 0.6 + 3}rem`; // ou px/rem adapté à la police
 
 
@@ -55,7 +58,6 @@ const OwnerPopover = ({ owner, onClose }) => {
 
             res => {
 
-                //console.log("les id utilisateur", owner?.id, currentUser?.id)
                 try {
                     api.post('rooms/',
 
@@ -78,10 +80,6 @@ const OwnerPopover = ({ owner, onClose }) => {
                             dispatch(addRoom(resp?.data))
 
                             dispatch(addUser(owner))
-
-
-                            //console.log("Le room actuel créé: OwnerProfil", resp?.data)
-
                         }
 
                     ).catch(
@@ -222,7 +220,7 @@ const OwnerPopover = ({ owner, onClose }) => {
 
                         dispatch(addUser(owner));
 
-                        dispatch(setCurrentNav("user_profil_product"));
+                        dispatch(setCurrentNav("user-profil"));
 
                         navigate("/user-profil")
 
@@ -293,7 +291,7 @@ const OwnerAvatar = ({ owner }) => {
 
     const containerRef = useRef(null);
 
-    if(!owner) return 
+    if (!owner) return 
 
     return (
 
