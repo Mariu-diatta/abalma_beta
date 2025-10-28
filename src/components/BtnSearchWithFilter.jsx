@@ -98,7 +98,7 @@ const SearchBar = ({disabled = false }) => {
 
                         <button
                             type="submit"
-                            className="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-300 rounded-e-full  hover:bg-blue-400 focus:ring-1 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 bg-gradient-to-br from-purple-300 to-blue-300 hover:bg-gradient-to-br hover:from-purple-400 "
+                            className="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-none rounded-e-full  hover:bg-blue-400 focus:ring-1 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 bg-gradient-to-br from-purple-300 to-blue-300 hover:bg-gradient-to-br hover:from-purple-400 "
                             disabled={disabled}
                         >
                             <svg className="w-4 h-4" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
