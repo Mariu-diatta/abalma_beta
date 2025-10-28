@@ -144,8 +144,6 @@ const GridLayoutProduct = () => {
 
                 const { data: products } = await api.get(url);
 
-                console.log("les données de la ", products)
-
                 const filtered = products.filter(item => parseInt(item?.quantity_product) !== 0);
 
                 setFilteredItemsPopover(filtered);

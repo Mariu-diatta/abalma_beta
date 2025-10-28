@@ -232,7 +232,7 @@ const UsersContactsList = () => {
                             <tbody className=" ">
 
                                 {
-                                    filteredUsers.map((user, i) => (
+                                    filteredUsers?.map((user, i) => (
 
                                         (user?.id !== currentuser?.id)
                                             && 

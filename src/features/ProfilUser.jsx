@@ -24,7 +24,7 @@ const ProfileCard = () => {
     // Redux state
     const currentUser = useSelector((state) => state.auth.user);
     const currentOwnUser = useSelector((state) => state.chat.userSlected);
-    const profileData = useSelector((state) => state.auth.user);
+    //const profileData = useSelector((state) => state.auth.user);
     const currentNav = useSelector((state) => state.navigate.currentNav);
     const selectedProductOwner = useSelector((state) => state.chat.userSlected);
     const allChats = useSelector((state) => state.chat.currentChats);
@@ -33,19 +33,19 @@ const ProfileCard = () => {
 
     // Determine user profile based on navigation context
     const userProfile = useMemo(() => {
-        if ((currentNav === 'user-profil') || (currentNav === 'home')) return profileData;
-        if (currentNav === 'user_profil_product') return selectedProductOwner;
+        if ((currentNav === 'user-profil') || (currentNav === 'home')) return currentUser;
+        else if (currentNav === 'user-profil-contact') return selectedProductOwner;
         return null;
-    }, [currentNav, profileData, selectedProductOwner]);
+    }, [currentNav, currentUser, selectedProductOwner]);
 
     const isCurrentUser = useMemo(
 
         () => {
 
-            return (userProfile?.email === profileData?.email && userProfile?.id === profileData?.id);
+            return (userProfile?.email === currentUser?.email && userProfile?.id === currentUser?.id);
         },
 
-        [userProfile?.email, profileData.email, userProfile?.id, profileData.id ]
+        [userProfile, currentUser]
     );
 
     // Component state
@@ -291,7 +291,7 @@ const ProfileCard = () => {
 
            await api.post('rooms/', {
                 name: roomName,
-                current_owner: profileData?.id,
+                current_owner: currentUser?.id,
                 current_receiver: selectedProductOwner?.id,
            });
 
@@ -492,7 +492,7 @@ const ProfileCard = () => {
                                 
                                 <>
                                     {
-                                        (!profileData?.is_pro && !isProFormVisible && isCurrentUser) && (
+                                        (!currentUser?.is_pro && !isProFormVisible && isCurrentUser) && (
 
                                             <button
                                                 onClick={() => setIsProFormVisible(true)}
@@ -793,7 +793,7 @@ const ProfileCard = () => {
             <AttentionAlertMesage/>
 
             {
-                (profileData?.is_fournisseur && !profileData?.is_verified) &&
+                (currentUser?.is_fournisseur && !currentUser?.is_verified) &&
 
                 (
 
