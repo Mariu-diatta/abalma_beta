@@ -18,7 +18,7 @@ const PrintMessagesOnChat = ({ messages, currentUser, selectedUser, messagesEndR
 
                             let lastDateLabel = null;
 
-                            return messages.map(
+                            return messages?.map(
 
                                 (msg, idx) => {
 

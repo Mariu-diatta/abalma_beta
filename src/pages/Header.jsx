@@ -274,7 +274,6 @@ const NavbarHeader = () => {
         }, [categorySelectedData]
     )
 
-
     useEffect(() => {
         function handleClickOutside(event) {
 
