@@ -8,102 +8,189 @@ import bureau from "../../src/assets/bureau_18081488.png"
 import gaming_ from "../../src/assets/gaming_6749691.png"  
 import bags from "../../src/assets/shopping-bags_8079986.png" 
 
-export const menuItems =(t)=>[
+export const MenuItems = (t) => [
+
     {
         name: t('Produits'),
         to: '/produits/',
         id: "all-products",
-        svg: (
-            <img className="rounded-sm " src={packProduct} alt="" width="25" />
-        ),
+        svg: <img className="rounded-sm" src={packProduct} alt="" width="25" />,
+    },
+
+    // --- Catégories principales ---
+    {
+        name: t('Musique'),
+        to: '/products/filter/?categorie_product=MUSIQUE',
+        id: 'musique',
+        svg: <img className="rounded-sm" src={"musique"} alt="" width="25" />,
     },
     {
-        name: t('habits'),
+        name: t('Habits'),
         to: '/products/filter/?categorie_product=HABITS',
         id: 'habits',
-        svg: (
-            <img className="rounded-sm border-0" src={tshirt} alt="" width="25" />
-        ),
+        svg: <img className="rounded-sm" src={tshirt} alt="" width="25" />,
     },
     {
         name: t('Livres'),
         to: '/products/filter/?categorie_product=LIVRES',
         id: 'livres',
-        svg: (
-            <img className="rounded-sm " src={book} alt="" width="25" /> 
-
-        ),
+        svg: <img className="rounded-sm" src={book} alt="" width="25" />,
     },
-    //{
-    //    name: 'Materiels',
-    //    to: '/products/filter/?categorie_product=MATERIELS_INFORMATIQUES',
-    //    id: 'materiels',
-    //    svg: (
-    //        <svg className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 21 23">
-    //            <path d="M8.4 6.763c-.251.1-.383.196-.422.235L6.564 5.584l2.737-2.737c1.113-1.113 3.053-1.097 4.337.187l1.159 1.159a1 1 0 0 1 1.39.022l4.105 4.105a1 1 0 0 1 .023 1.39l1.345 1.346a1 1 0 0 1 0 1.415l-2.052 2.052a1 1 0 0 1-1.414 0l-1.346-1.346a1 1 0 0 1-1.323.039L11.29 8.983a1 1 0 0 1 .04-1.324l-.849-.848c-.18-.18-.606-.322-1.258-.25a3.271 3.271 0 0 0-.824.202Zm1.519 3.675L3.828 16.53a1 1 0 0 0 0 1.414l2.736 2.737a1 1 0 0 0 1.414 0l6.091-6.091-4.15-4.15Z" />
-    //        </svg>
-    //    ),
-    //},
     {
         name: t('Jouets'),
         to: '/products/filter/?categorie_product=JOUETS',
         id: 'jouets',
-        svg: (
-            <img className="rounded-sm " src={toy_car} alt="" width="25" /> 
-        ),
+        svg: <img className="rounded-sm" src={toy_car} alt="" width="25" />,
     },
-    //{
-    //    name: 'Electronique',
-    //    to: '/products/filter/?categorie_product=ELECTROMENAGER',
-    //    id: 'electronique',
-    //    svg: (
-    //        <svg className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 21 21">
-    //            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v5m-3 0h6M4 11h16M5 15h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1Z" />
-    //        </svg>
-    //    ),
-    //},
     {
-        name: t('Vehicules'),
-        to: '/products/filter/?categorie_product=VEHICULES', 
+        name: t('Véhicules'),
+        to: '/products/filter/?categorie_product=VEHICULES',
         id: 'vehicules',
-        svg: (
-            <img className="rounded-sm " src={road} alt="" width="25" /> 
-        ),
+        svg: <img className="rounded-sm" src={road} alt="" width="25" />,
     },
     {
         name: t('Meubles'),
         to: '/products/filter/?categorie_product=MEUBLES',
         id: 'meubles',
-        svg: (
-            <img className="rounded-sm " src={bureau} alt="" width="25" />
-        ),
+        svg: <img className="rounded-sm" src={bureau} alt="" width="25" />,
     },
     {
-        name: t('Jeux_videos'),
+        name: t('Jeux vidéo'),
         to: '/products/filter/?categorie_product=JEUX_VIDEO',
         id: 'jeux-video',
-        svg: (
-            <img className="rounded-sm " src={gaming_} alt="" width="25"  /> 
-        ),
+        svg: <img className="rounded-sm" src={gaming_} alt="" width="25" />,
     },
     {
         name: t('Sacs'),
         to: '/products/filter/?categorie_product=SACS',
         id: 'sacs',
-        svg: (
-            <img className="rounded-sm " src={bags} alt = "" width = "25"/>
-        ),
-    }
+        svg: <img className="rounded-sm" src={bags} alt="" width="25" />,
+    },
+
+    // --- Nouvelles catégories ---
+    {
+        name: t('Électronique'),
+        to: '/products/filter/?categorie_product=ELECTRONIQUE',
+        id: 'electronique',
+        svg: <img className="rounded-sm" src={"electronics"} alt="" width="25" />,
+    },
+    {
+        name: t('Sport'),
+        to: '/products/filter/?categorie_product=SPORT',
+        id: 'sport',
+        svg: <img className="rounded-sm" src={"sport"} alt="" width="25" />,
+    },
+    {
+        name: t('Électroménager'),
+        to: '/products/filter/?categorie_product=ELECTROMENAGER',
+        id: 'electromenager',
+        svg: <img className="rounded-sm" src={"home_appliance"} alt="" width="25" />,
+    },
+    {
+        name: t('Bijoux'),
+        to: '/products/filter/?categorie_product=BIJOUX',
+        id: 'bijoux',
+        svg: <img className="rounded-sm" src={"jewelry"} alt="" width="25" />,
+    },
+    {
+        name: t('Cosmétiques'),
+        to: '/products/filter/?categorie_product=COSMETIQUES',
+        id: 'cosmetiques',
+        svg: <img className="rounded-sm" src={"cosmetics"} alt="" width="25" />,
+    },
+    {
+        name: t('Santé & Beauté'),
+        to: '/products/filter/?categorie_product=SANTE_BEAUTE',
+        id: 'sante-beaute',
+        svg: <img className="rounded-sm" src={"health_beauty"} alt="" width="25" />,
+    },
+    {
+        name: t('Maison & Décoration'),
+        to: '/products/filter/?categorie_product=MAISON_DECORATION',
+        id: 'maison-decoration',
+        svg: <img className="rounded-sm" src={"home_deco"} alt="" width="25" />,
+    },
+    {
+        name: t('Bébés & Puériculture'),
+        to: '/products/filter/?categorie_product=BEBES',
+        id: 'bebes',
+        svg: <img className="rounded-sm" src={"baby"} alt="" width="25" />,
+    },
+    {
+        name: t('Jardinage'),
+        to: '/products/filter/?categorie_product=JARDINAGE',
+        id: 'jardinage',
+        svg: <img className="rounded-sm" src={"gardening"} alt="" width="25" />,
+    },
+    {
+        name: t('Bricolage'),
+        to: '/products/filter/?categorie_product=BRICOLAGE',
+        id: 'bricolage',
+        svg: <img className="rounded-sm" src={"tools"} alt="" width="25" />,
+    },
+    {
+        name: t('Animaux'),
+        to: '/products/filter/?categorie_product=ANIMAUX',
+        id: 'animaux',
+        svg: <img className="rounded-sm" src={"pets"} alt="" width="25" />,
+    },
+    {
+        name: t('Chaussures'),
+        to: '/products/filter/?categorie_product=CHAUSSURES',
+        id: 'chaussures',
+        svg: <img className="rounded-sm" src={"shoes"} alt="" width="25" />,
+    },
+    {
+        name: t('Films & Séries'),
+        to: '/products/filter/?categorie_product=FILMS_SERIES',
+        id: 'films-series',
+        svg: <img className="rounded-sm" src={"movies"} alt="" width="25" />,
+    },
+    {
+        name: t('Services'),
+        to: '/products/filter/?categorie_product=SERVICES',
+        id: 'services',
+        svg: <img className="rounded-sm" src={"services"} alt="" width="25" />,
+    },
+    {
+        name: t('Art & Artisanat'),
+        to: '/products/filter/?categorie_product=ART',
+        id: 'art',
+        svg: <img className="rounded-sm" src={"art"} alt="" width="25" />,
+    },
+    {
+        name: t('Voyage & Loisirs'),
+        to: '/products/filter/?categorie_product=VOYAGE',
+        id: 'voyage',
+        svg: <img className="rounded-sm" src={"travel"} alt="" width="25" />,
+    },
+    {
+        name: t('High-Tech'),
+        to: '/products/filter/?categorie_product=HIGH_TECH',
+        id: 'high-tech',
+        svg: <img className="rounded-sm" src={"hightech"} alt="" width="25" />,
+    },
+    {
+        name: t('Auto-Moto'),
+        to: '/products/filter/?categorie_product=AUTOMOTO',
+        id: 'automoto',
+        svg: <img className="rounded-sm" src={"automoto"} alt="" width="25" />,
+    },
+    {
+        name: t('Matériel médical'),
+        to: '/products/filter/?categorie_product=MEDICAL',
+        id: 'medical',
+        svg: <img className="rounded-sm" src={"medical"} alt="" width="25" />,
+    },
 ];
+
 
 
 export const lesAccount = async () => {
 
     try {
 
-        const response = await api.get('/clients/')
-
-        console.log(response.data)
+        await api.get('/clients/')
 
     } catch (error) {
 

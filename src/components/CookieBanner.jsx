@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 const CookieBanner = () => {
+
     const [visible, setVisible] = useState(false); // bannière affichée
     const [consentGiven, setConsentGiven] = useState(false); // a accepté ou pas
     const { t } = useTranslation();

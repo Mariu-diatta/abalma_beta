@@ -21,12 +21,13 @@ const WhiteRoundedButton = ({ titleButton, to }) => {
             className={
 
                 ({ isActive }) =>
-                    `whitespace-nowrap text-center dark:bg-dark  ${titleButton === t('register') ? "border border-gray-[0.1px] bg-gradient-to-br from-purple-300 to-blue-300 hover:bg-gradient-to-br hover:from-purple-400 " :"border-t sm:border-b-0 lg:border-b lg:border-t-0 hover:bg-gradient-to-br from-purple-300 to-blue-300 hover:bg-gradient-to-br hover:from-purple-400 "} border-gray-200 rounded-full inline-flex items-center justify-center px-3 py-1 text-center text-[14px] transition-all duration-200
+                    `whitespace-nowrap text-center dark:bg-dark  ${titleButton === t('register') ? "border border-gray-[0.1px] bg-gradient-to-br from-purple-50 to-blue-100 hover:bg-gradient-to-br hover:from-purple-100 " :"border-t sm:border-b-0 lg:border-b lg:border-t-0 hover:bg-gradient-to-br from-purple-50 to-blue-100 hover:bg-gradient-to-br hover:from-purple-100 "} border-gray-100 rounded-full inline-flex items-center justify-center px-3 py-1 text-center text-[14px] transition-all duration-200
                  ${isActive
                         ? 'bg-[#1B44C8] border-[#1B44C8] text-white'
-                        : 'bg-primary border-primary text-grey hover:bg-blue-400 hover:border-[#1B44C8]'
+                        : 'bg-primary border-primary text-grey hover:bg-blue-50'
                     }`
             }
+
             onClick={() => dispatch(setCurrentNav(to)) }
         >
 
@@ -71,46 +72,48 @@ export const ButtonNavigate = ({ tabs }) => {
                 }
             }
         >
-            {tabs.map((tab) => (
+            {
+                tabs?.map((tab) => (
 
-                <li key={tab.id} className="w-full sm:w-auto gap-6 px-1 ">
+                        <li key={tab.id} className="w-full sm:w-auto gap-6 px-1 ">
 
-                    {
-                        !((
-                            (tab.label === "About") ||
-                            (removeAccents(tab.label) === removeAccents(t('about'))) ||
-                            (tab.label === "Blogs")) && ((currentNav === "login") ||
-                            (currentNav === "register"))) &&
+                            {
+                                !((
+                                    (tab.label === "About") ||
+                                    (removeAccents(tab.label) === removeAccents(t('about'))) ||
+                                    (tab.label === "Blogs")) && ((currentNav === "login") ||
+                                    (currentNav === "register"))) &&
 
-                        <NavLink
+                                <NavLink
 
-                            to={tab.endPoint}
+                                    to={tab.endPoint}
 
-                            className={({ isActive }) =>
-                                `
-                                    whitespace-nowrap text-center w-full text-center items-center flex flex-col lg:flex-row gap-1 text-[12px] md:text-[14px] rounded-full
-                                    px-1 
-                                    transition
-                                    border-t sm:border-b-0 lg:border-b lg:border-t-0
-                                    ${isActive
-                                    ? 'border-gray-300 rounded-lg'
-                                    : 'border-transparent text-gray-100 dark:text-gray-700 hover:bg-blue-400 dark:hover:bg-dark-3 hover:rounded-full hover:bg-gradient-to-br from-purple-300 to-blue-300 hover:bg-gradient-to-br hover:from-purple-400 '
-                                }
-                                `
+                                    className={({ isActive }) =>
+                                        `
+                                            whitespace-nowrap text-center w-full text-center items-center flex flex-col lg:flex-row gap-1 text-[12px] md:text-[14px] rounded-full
+                                            px-1 
+                                            transition
+                                            border-t sm:border-b-0 lg:border-b lg:border-t-0
+                                            ${isActive
+                                            ? 'border-gray-100 rounded-lg'
+                                            : 'border-transparent text-gray-100 dark:text-gray-700 hover:bg-blue-50 dark:hover:bg-dark-3 hover:rounded-full hover:bg-gradient-to-br from-purple-0 to-blue-50 hover:bg-gradient-to-br hover:from-purple-50 '
+                                        }
+                                        `
+                                    }
+
+                                    onClick={() => dispatch(setCurrentNav(tab.id))}
+                                >
+                                    <>{tab.logo}</>
+
+                                    <>{tab.label}</>
+
+                                </NavLink>
                             }
 
-                            onClick={() => dispatch(setCurrentNav(tab.id))}
-                        >
-                            <>{tab.logo}</>
 
-                            <>{tab.label}</>
-
-                        </NavLink>
-                    }
-
-
-                </li>
-            ))
+                        </li>
+                    )
+                )
             }
         </ul>
     );
@@ -121,7 +124,7 @@ export const ButtonSimple = ({
     title,
     onHandleClick = () => { },
     type = "submit",
-    className = "w-auto flex items-center m-auto cursor-pointer rounded-md border border-blue-600 bg-blue-300 px-5 py-2 text-base  text-white transition bg-gradient-to-br from-purple-300 to-blue-300 hover:bg-gradient-to-br hover:from-purple-400 px-2 rounded-lg"
+    className = "w-auto flex items-center m-auto cursor-pointer rounded-md border border-blue-100 bg-blue-0 px-5 py-2 text-base  text-white-900 transition bg-gradient-to-br from-purple-0 to-blue-100 hover:bg-gradient-to-br hover:from-purple-100 px-2 rounded-lg"
 }) => {
 
 

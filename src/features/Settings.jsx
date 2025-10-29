@@ -3,9 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import api from '../services/Axios';
 import { updateTheme } from '../slices/navigateSlice';
 import { useTranslation } from 'react-i18next';
-import DeleteProfilAccount from '../components/DeleteAccount';
-import { FloatingInput, NotificationToggle, ThemeSelector, applyTheme } from '../utils';
+import { applyTheme } from '../utils';
 import TitleCompGen from '../components/TitleComponentGen';
+import DeleteProfilAccount from './DeleteAccount';
+import FloatingInput from '../components/InputFloating';
+import NotificationToggle from '../components/NotificationToggle';
+import ThemeSelector from '../components/Them';
 
 const SettingsForm = () => {
 
@@ -270,7 +273,7 @@ const SettingsForm = () => {
 
                     </form>
 
-                    <DeleteProfilAccount />
+                    <DeleteProfilAccount/>
 
                 </div>
 

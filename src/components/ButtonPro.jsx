@@ -6,7 +6,7 @@ import { useNavigate } from "react-router";
 import { setCurrentNav } from '../slices/navigateSlice';
 
 
-const ProButtonUi = () => {
+const UpgradeToProButton = () => {
 
     const { t } = useTranslation();
 
@@ -53,4 +53,4 @@ const ProButtonUi = () => {
     )
 }
 
-export default ProButtonUi;
+export default UpgradeToProButton;

@@ -4,11 +4,16 @@ import { login, updateCompteUser} from "./slices/authSlice";
 import { setCurrentNav, updateTheme } from "./slices/navigateSlice";
 import { store } from "./store/Store";
 
+
+// 🕒 Constantes globales
 export const maintenant = new Date();
 
-export const getPhotoUser = (obj) => obj?.sender?.image || obj?.sender?.photo_url
+
+// 📸 Obtenir la photo d’un utilisateur
+export const getPhotoUser = (obj) => obj?.sender?.image || obj?.sender?.photo_url;
 
 
+// 💬 Messages d’aide (support)
 export const messages = (t) => [
     {
         text: t("helpPage.currentMessages.connectAccount"),
@@ -37,50 +42,16 @@ export const messages = (t) => [
 ];
 
 
-//fetch all rooms
-
-export const fetchRooms = async (currentUser, dispatch, addRoom) => {
-
-    if(!currentUser) return
-
-    try {
-
-        const response = await api.get("allRoomes");
-
-        // Définir automatiquement un chat si aucun sélectionné
-        if (response?.data?.length > 0) {
-
-            response.data.forEach(room => {
-
-                const isCurrentUserInThisChat = room?.current_receiver === currentUser?.id || room?.current_owner === currentUser?.id
-
-                const numberMessagesRoom = room?.messages.length
-
-                if (isCurrentUserInThisChat && (numberMessagesRoom > 0)) dispatch(addRoom(room));
-
-            });
-        }
-
-        ///console.log("LES ROOMS", userRooms);
-
-    } catch (err) {
-
-        //console.error("Erreur lors du chargement des rooms:", err);
-    }
-};
-
+// 🌐 URL du backend WebSocket
 export const backendBase = process.env.NODE_ENV === 'production'
     ? 'wss://backend-mpb0.onrender.com'
     : 'ws://localhost:8000';
 
 
-//covertion de la date de la transaction
+// 🗓️ Fonctions de date et formatage
 export const convertDate = (dat) => {
-
     const date = new Date(dat);
-
-    const formatted = date.toLocaleString("fr-FR", {
-
+    return date.toLocaleString("fr-FR", {
         day: "2-digit",
         month: "2-digit",
         year: "numeric",
@@ -88,296 +59,182 @@ export const convertDate = (dat) => {
         minute: "2-digit",
         second: "2-digit",
     });
-
-    return formatted
-}
+};
 
 export function formatDateRelative(dateString, lang = 'fr') {
-
-    // Parse la date: '24-09-2025 15:15:52' → en objet Date
-    if (!dateString) return 
-
+    if (!dateString) return;
     const parts = dateString.split(/[- :]/);
     const parsedDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}T${parts[3]}:${parts[4]}:${parts[5]}`);
-
-    // Réinitialiser les heures pour comparer juste les jours
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const targetDate = new Date(parsedDate);
-    targetDate.setHours(0, 0, 0, 0);
-
-    // Calcul de la différence en jours
-    const diffTime = targetDate - today;
-    const diffDays = diffTime / (1000 * 60 * 60 * 24);
-
-    // Traductions
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const targetDate = new Date(parsedDate); targetDate.setHours(0, 0, 0, 0);
+    const diffDays = (targetDate - today) / (1000 * 60 * 60 * 24);
     const labels = {
-        fr: {
-            today: "Aujourd'hui",
-            yesterday: "Hier",
-            format: (d) => `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`
-        },
-        en: {
-            today: "Today",
-            yesterday: "Yesterday",
-            format: (d) => `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}/${d.getFullYear()}`
-        }
+        fr: { today: "Aujourd'hui", yesterday: "Hier", format: (d) => `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}` },
+        en: { today: "Today", yesterday: "Yesterday", format: (d) => `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}/${d.getFullYear()}` }
     };
-
     const locale = labels[lang] || labels['fr'];
-
-    if (diffDays === 0) {
-        return locale.today;
-    } else if (diffDays === -1) {
-        return locale.yesterday;
-    } else {
-        return locale.format(parsedDate);
-    }
+    if (diffDays === 0) return locale.today;
+    if (diffDays === -1) return locale.yesterday;
+    return locale.format(parsedDate);
 }
 
 
-const storeSates = store.getState()
-
-const currentLang = storeSates?.navigate?.lang
-
-const isLang = (currentLang==="ang")?true:false
-
-//Enregistrement de la liste des catefories
-export const  LIST_CATEGORY=[
-
-    { idx: "jouets", filter: isLang ? "TOYS" : "JOUETS" },
-    { idx: "sacs", filter: isLang ? "BAC" : "SACS" },
-    { idx: "habits", filter: isLang ? "CLOSES" : "HABITS" },
-
-    { idx: "livres", filter: isLang ? "BOOKS" : "LIVRES" },
-    { idx: "jeux-video", filter: isLang ? "VIDEOS_GAME" : "JEUX_VIDEO" },
-    { idx: "meubles", filter: isLang ? "FURNITURE":"MEUBLES" },
-    { idx: "vehicules", filter: isLang ? "CARS" : "VEHICULES" },
-
-    { idx: "fournitures-scolaires", filter: "FOURNISSEURS_SCOLAIRES" },
-    { idx: "divers", filter: "DIVERS" },
-    { idx: "telephones", filter: "TELEPHONIE" }
-]
-
-//nombre d'étoiles en fonctions des vues
-export const numberStarsViews = (numberStars_) => {
-
-    const numberStars = parseInt(numberStars_, 10);
-
-    if (numberStars >= 40) return 4;
-
-    else if (numberStars >= 30) return 4;
-
-    else if (numberStars >= 10) return 3;
-
-    else if (numberStars >= 5) return 2;
-
-    else if (numberStars >= 1) return 1;
-
-    else return 0;
-};
-
-//appliqué le thème 
-export const applyTheme = (newTheme, dispatch) => {
-
-    document.body.classList.remove('dark', 'light');
-
-    document.body.classList.add(newTheme);
-
-
-    dispatch(updateTheme(newTheme));
-
-    const metaThemeColor = document.querySelector("meta[name=theme-color]");
-
-    if (metaThemeColor) {
-
-        metaThemeColor.setAttribute('content', newTheme === 'dark' ? '#000000' : '#ffffff');
-    }
-}
-
-//vérifier sile user est déjà un follower
-export const isAlreadyFollowed = async (clientId, setIsFollow, setIsLoading) => {
-
-    try {
-
-        const response = await api.get(`/clients/${clientId}/alreadyFollow/`, {
-
-            withCredentials: true, // pour envoyer les cookies de session
-
-            headers: {
-
-                'Content-Type': 'application/json',
-            },
-        });
-
-        setIsFollow(response.data)
-
-        //console.log('Already followed :', response.data || response.data?.message || 'Succès');
-
-    } catch (error) {
-
-        //const message =
-
-        //    error.response?.data?.error ||
-
-        //    error.message ||
-
-        //    'Erreur inconnue';
-
-        //console.error('Erreur lors de l’enregistrement de la vue :', message);
-
-    } finally {
-
-        setIsLoading(false)
-    }
-};
-
-//Incrémenter ou enregistrer les user qui  viens de follow
-export const recordFollowUser = async (clientId) => {
-
-    try {
-
-        await api.post(`/clients/${clientId}/follow/`, {
-
-            withCredentials: true, // pour envoyer les cookies de session
-
-            headers: {
-
-                'Content-Type': 'application/json',
-            },
-        });
-
-        //console.log('Vue enregistrée :', response.data || response.data?.message || 'Succès');
-
-    } catch (error) {
-
-        //const message =
-
-        //    error.response?.data?.error ||
-
-        //    error.message ||
-
-        //    'Erreur inconnue';
-
-    //    console.error('Erreur lors de l’enregistrement de la vue :', message);
-    }
-};
-
-//Incrémenter ou enregistrer les user qui  viens de follow
-export const recordUnfollowUser = async (clientId) => {
-
-    try {
-
-        await api.post(`/clients/${clientId}/unfollow/`, {
-
-            withCredentials: true, // pour envoyer les cookies de session
-
-            headers: {
-
-                'Content-Type': 'application/json',
-            },
-        });
-
-        //console.log('Vue enregistrée :', response.data || response.data?.message || 'Succès');
-
-    } catch (error) {
-
-        //const message =
-
-        //    error.response?.data?.error ||
-
-        //    error.message ||
-
-        //    'Erreur inconnue';
-
-        //console.error('Erreur lors de l’enregistrement de la vue :', message);
-    }
-}
-
-//enregistrer la vue sur le produit
-export const productViews = async (dataProduct, setProductNbViews) => {
-
-    if (!dataProduct?.id) return; // Pas d'appel si pas d'ID
-
-    try {
-
-        const { data } = await api.get(`/products_details/${dataProduct?.id}/`);
-
-        setProductNbViews(data?.total_views);
-
-        return 1
-
-    } catch (error) {
-
-        console.error("Erreur lors du chargement du produit :", error);
-    }
-
-    return 0
-};
-
+// 🧮 Fonctions utilitaires
 export function removeAccents(str) {
-
-    if (!str) return "Tous"
-
+    if (!str) return "Tous";
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
-//liste des filter catégories pour les produits
+export const numberStarsViews = (n) => n >= 40 ? 4 : n >= 30 ? 4 : n >= 10 ? 3 : n >= 5 ? 2 : n >= 1 ? 1 : 0;
+
+export const applyTheme = (newTheme, dispatch) => {
+    document.body.classList.remove('dark', 'light');
+    document.body.classList.add(newTheme);
+    dispatch(updateTheme(newTheme));
+    const meta = document.querySelector("meta[name=theme-color]");
+    if (meta) meta.setAttribute('content', newTheme === 'dark' ? '#000000' : '#ffffff');
+};
+
+
+// 🧠 Données du store
+const storeSates = store.getState();
+const currentLang = storeSates?.navigate?.lang;
+const isLang = (currentLang === "ang");
+
+
+// 📨 Requêtes & interactions backend
+export const fetchRooms = async (currentUser, dispatch, addRoom) => {
+
+    if (!currentUser) return;
+
+    try {
+
+        const response = await api.get("allRoomes");
+
+        if (response?.data?.length > 0) {
+
+            response.data.forEach(room => {
+                const isCurrentUserInThisChat = room?.current_receiver === currentUser?.id || room?.current_owner === currentUser?.id;
+                const numberMessagesRoom = room?.messages.length;
+                if (isCurrentUserInThisChat && (numberMessagesRoom > 0)) dispatch(addRoom(room));
+            });
+        }
+
+    } catch { }
+};
+
+export const isAlreadyFollowed = async (clientId, setIsFollow, setIsLoading) => {
+    try {
+        const response = await api.get(`/clients/${clientId}/alreadyFollow/`, {
+            withCredentials: true,
+            headers: { 'Content-Type': 'application/json' },
+        });
+        setIsFollow(response.data);
+    } finally { setIsLoading(false); }
+};
+
+export const recordFollowUser = async (clientId) => {
+    try { await api.post(`/clients/${clientId}/follow/`, { withCredentials: true }); } catch { }
+};
+export const recordUnfollowUser = async (clientId) => {
+    try { await api.post(`/clients/${clientId}/unfollow/`, { withCredentials: true }); } catch { }
+};
+
+export const productViews = async (dataProduct, setProductNbViews) => {
+    // ✅ Vérification sécurisée des paramètres
+    if (!dataProduct?.id || typeof setProductNbViews !== "function") return 0;
+
+    try {
+
+        const response = await api.get(`/products_details/${dataProduct.id}/`);
+
+        const totalViews = response?.data?.total_views ?? 0;
+
+        // ✅ Mise à jour de l’état si possible
+        setProductNbViews(totalViews);
+
+        return 1; // succès
+    } catch (error) {
+        console.error("❌ Erreur lors du chargement du produit :", error.message || error);
+        return 0; // échec
+    }
+};
+
+
+// 🛒 Catégories et filtres produits
+// ============================
+// 🔹 Base des catégories
+// ============================
+
+export const CATEGORIES = {
+    JOUETS: { fr: "Jouets", en: "Toys", idx: "jouets" },
+    HABITS: { fr: "Habits", en: "Clothes", idx: "habits" },
+    MATERIELS_INFORMATIQUES: { fr: "Matériels informatiques", en: "Computer Equipment", idx: "materiels-informatiques" },
+    CAHIERS: { fr: "Cahiers", en: "Notebooks", idx: "cahiers" },
+    SACS: { fr: "Sacs", en: "Bags", idx: "sacs" },
+    LIVRES: { fr: "Livres", en: "Books", idx: "livres" },
+    ELECTROMENAGER: { fr: "Électroménager", en: "Home Appliances", idx: "electromenager" },
+    TELEPHONIE: { fr: "Téléphonie", en: "Telephony", idx: "telephonie" },
+    ACCESSOIRES: { fr: "Accessoires", en: "Accessories", idx: "accessoires" },
+    SPORT: { fr: "Sport", en: "Sports Equipment", idx: "sport" },
+    JEUX_VIDEO: { fr: "Jeux vidéo", en: "Video Games", idx: "jeux-video" },
+    MEUBLES: { fr: "Meubles", en: "Furniture", idx: "meubles" },
+    VEHICULES: { fr: "Véhicules", en: "Vehicles", idx: "vehicules" },
+    FOURNITURES_SCOLAIRES: { fr: "Fournitures scolaires", en: "School Supplies", idx: "fournitures-scolaires" },
+    DIVERS: { fr: "Divers", en: "Miscellaneous", idx: "divers" },
+    BIJOUX: { fr: "Bijoux", en: "Jewelry", idx: "bijoux" },
+    COSMETIQUES: { fr: "Cosmétiques", en: "Cosmetics", idx: "cosmetiques" },
+    ALIMENTATION: { fr: "Alimentation", en: "Food", idx: "alimentation" },
+    MUSIQUE: { fr: "Musique", en: "Music", idx: "musique" },
+    SANTE_BEAUTE: { fr: "Santé & Beauté", en: "Health & Beauty", idx: "sante-beaute" },
+    MAISON_DECORATION: { fr: "Maison & Décoration", en: "Home & Decoration", idx: "maison-decoration" },
+    BEBES: { fr: "Bébés & Puériculture", en: "Baby & Toddler", idx: "bebes" },
+    JARDINAGE: { fr: "Jardinage", en: "Gardening", idx: "jardinage" },
+    BRICOLAGE: { fr: "Bricolage", en: "DIY & Tools", idx: "bricolage" },
+    ANIMAUX: { fr: "Animaux", en: "Pet Supplies", idx: "animaux" },
+    CHAUSSURES: { fr: "Chaussures", en: "Shoes", idx: "chaussures" },
+    ELECTRONIQUE: { fr: "Électronique", en: "Electronics", idx: "electronique" },
+    FILMS_SERIES: { fr: "Films & Séries", en: "Movies & Series", idx: "films-series" },
+    SERVICES: { fr: "Services", en: "Services", idx: "services" },
+    ART: { fr: "Art & Artisanat", en: "Art & Craft", idx: "art" },
+    JEWELRY: { fr: "Montres & Bijoux", en: "Watches & Jewelry", idx: "jewelry" },
+    VOYAGE: { fr: "Voyage & Loisirs", en: "Travel & Leisure", idx: "voyage" },
+    MEDICAL: { fr: "Matériel médical", en: "Medical Equipment", idx: "medical" },
+    HIGH_TECH: { fr: "High-Tech", en: "Gadgets & Innovation", idx: "high-tech" },
+    AUTOMOTO: { fr: "Auto-moto", en: "Automotive", idx: "automoto" }
+};
+
+// ============================
+// 🔹 Génération dynamique
+// ============================
+
+// ✅ Liste simple (pour les selects)
+export const LIST_CATEGORIES = ["ALL", ...Object.keys(CATEGORIES)];
+
+// ✅ Liste utilisée pour les filtres produits
 export const ListItemsFilterProduct = {
     Tous: { fr: "Tous", en: "All" },
-    JOUETS: { fr: "Jouets", en: "Toys" },
-    HABITS: { fr: "Habits", en: "clothes" },
-    MATERIELS_INFORMATIQUES: { fr: "matériels informatiques", en: "computer equipment" },
-    CAHIERS: { fr: "Cahiers", en: "Notebooks" },
-    SACS: { fr: "Sacs", en: "Bags" },
-    LIVRES: { fr: "Livres", en: "Books" },
-    ELECTROMENAGER: { fr: "Électroménagers", en: "home appliances" },
-    TELEPHONIES: { fr: "Téléphones", en: "phones" },
-    ACCESSOIRES: { fr: "Accessoires", en: "Accessories" },
-    SPORT: { fr: "Sport", en: "Sport" },
-    JEUX_VIDEO: { fr: "jeux vidéo", en: "video games" },
-    MEUBLES: { fr: "Meubles", en: "Furniture" },
-    VEHICULES: { fr: "Véhicules", en: "Vehicles" },
-    FOURNITURES_SCOLAIRES: { fr: "fournitures scolaires", en: "school supplies" },
-    DIVERS: { fr: "Divers", en: "Miscellaneous" },
-    BIJOUX: { fr: "Bijoux", en: "Jewelry" },
-    COSMETIQUES: { fr: "Cosmétiques", en: "Cosmetics" },
-    ALIMENTATION: { fr: "Alimentation", en: "Food" },
-    MUSIQUE: { fr: "Musique", en: "Music" },
+    ...CATEGORIES,
     noProduct: { fr: "Aucun produit disponible", en: "No product available" }
 };
 
-//définitions des constantes pour la liste déroulantes
-export const LIST_CATEGORIES = [
-    "All",
-    "JOUET",
-    "HABITS",
-    "MATERIELS_INFORMATIQUES",
-    "CAHIERS",
-    "SACS",
-    "LIVRES",
-    "ELECTROMENAGER",
-    "TELEPHONIE",
-    "ACCESSOIRES",
-    "SPORT",
-    "JEUX_VIDEO",
-    "MEUBLES",
-    "VEHICULES",
-    "FOURNITURES_SCOLAIRES",
-    "DIVERS",
-]
+// ✅ Liste dynamique pour le front (idx + filter)
+export const LIST_CATEGORY = Object.entries(CATEGORIES).map(([key, { idx }]) => ({
+    idx,
+    filter: isLang ? key.toUpperCase() : key
+}));
 
-// Fonction utilitaire
+// ============================
+// 🔹 Fonction de traduction inverse
+// ============================
+
 export function translateCategory(value) {
 
-    const entries = Object.entries(ListItemsFilterProduct);
+    const entries = Object.entries(CATEGORIES);
 
-    for (const [key, translations] of entries) {
-        if (
-            translations.fr.toLowerCase() === value.toLowerCase() ||
-            translations.en.toLowerCase() === value.toLowerCase()
-        ) {
+    for (const [key, { fr, en }] of entries) {
+
+        if (value.toLowerCase() === fr.toLowerCase() || value.toLowerCase() === en.toLowerCase()) {
             return key;
         }
     }
@@ -385,72 +242,31 @@ export function translateCategory(value) {
     return null; // clé non trouvée
 }
 
-// Mapping des symboles monétaires
-export const symbolesMonnaies = {
-    EUR: '€',
-    USD: '$',
-    XOF: 'CFA', // Franc CFA (Afrique de l'Ouest)
-    // XAF: 'CFA', // Franc CFA (Afrique centrale), si nécessaire
-    CHF: 'CHF', // Franc suisse, si c'est ce que vous voulez
-};
+// 💰 Gestion des monnaies
+export const symbolesMonnaies = { EUR: '€', USD: '$', XOF: 'CFA', CHF: 'CHF' };
 
-// Configuration des monnaies avec symboles et ordre
 export const configurationMonnaies = {
-    EUR: { symbole: '€', position: 'apres', code: 'EUR' }, // Après en fr-FR
-    USD: { symbole: '$', position: 'avant', code: 'USD' }, // Avant en en-US, après en fr-CA
-    XOF: { symbole: 'CFA', position: 'apres', code: 'XOF' }, // Après pour franc CFA
-    CHF: { symbole: 'CHF', position: 'apres', code: 'CHF' }, // Après en fr-CH
+    EUR: { symbole: '€', position: 'apres', code: 'EUR' },
+    USD: { symbole: '$', position: 'avant', code: 'USD' },
+    XOF: { symbole: 'CFA', position: 'apres', code: 'XOF' },
+    CHF: { symbole: 'CHF', position: 'apres', code: 'CHF' },
 };
-
-// Fonction pour formater le prix avec la monnaie
 export const formaterPrix = (prix, monnaie, t, locale = 'fr-FR') => {
-
-    if (monnaie === "EURO") {
-        monnaie = "EUR"
-    } else if (monnaie === "FRANC") {
-        monnaie = "XOF"
-    } else {
-        monnaie = "USD"
-    }
-
-    if (!prix || !monnaie || !symbolesMonnaies[monnaie] || !configurationMonnaies[monnaie]) {
-        return t('monnaie.inconnue', 'Prix non disponible');
-    }
-    const config = configurationMonnaies[monnaie]
-
+    if (monnaie === "EURO") monnaie = "EUR";
+    else if (monnaie === "FRANC") monnaie = "XOF";
+    else monnaie = "USD";
+    if (!prix || !monnaie || !symbolesMonnaies[monnaie] || !configurationMonnaies[monnaie]) return t('monnaie.inconnue', 'Prix non disponible');
+    const config = configurationMonnaies[monnaie];
     try {
-
-        const formatter = new Intl.NumberFormat(locale, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-        });
-
+        const formatter = new Intl.NumberFormat(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         const price_format = formatter.format(prix);
-
-        return config.position === 'avant'
-            ? `${config.symbole}${price_format}`
-            : `${price_format} ${config.symbole}`;
-
-    } catch (error) {
-
+        return config.position === 'avant' ? `${config.symbole}${price_format}` : `${price_format} ${config.symbole}`;
+    } catch {
         return `${prix} ${symbolesMonnaies[monnaie] || monnaie}`;
     }
 };
 
-//Formatage de date
-export function formatISODate(isoDateStr) {
-    const date = new Date(isoDateStr);
-    const day = String(date.getUTCDate()).padStart(2, '0');
-    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-    const year = date.getUTCFullYear();
-    const hours = String(date.getUTCHours()).padStart(2, '0');
-    const minutes = String(date.getUTCMinutes()).padStart(2, '0');
-    const seconds = String(date.getUTCSeconds()).padStart(2, '0');
-
-    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
-}
-
-// Fonction de login avec l'API
+// 👥 Authentification & création de compte
 export const loginClient = async (data, dispatch, setIsLoading, navigate) => {
 
     try {
@@ -462,7 +278,7 @@ export const loginClient = async (data, dispatch, setIsLoading, navigate) => {
                 'Content-Type': 'multipart/form-data',
             },
 
-            withcredentials:true  
+            withcredentials: true
         });
 
 
@@ -476,7 +292,7 @@ export const loginClient = async (data, dispatch, setIsLoading, navigate) => {
 
             dispatch(setCurrentNav("account-home"))
 
-            navigate("/account-home", {replace:true})
+            navigate("/account-home", { replace: true })
         }
 
     } catch (error) {
@@ -485,7 +301,7 @@ export const loginClient = async (data, dispatch, setIsLoading, navigate) => {
 
         const errorMessage = error?.response?.data?.detail || error?.message || error?.request?.message || error
 
-        showMessage(dispatch, { Type: "Erreur", Message: errorMessage  });
+        showMessage(dispatch, { Type: "Erreur", Message: errorMessage });
 
         throw error;
 
@@ -494,61 +310,6 @@ export const loginClient = async (data, dispatch, setIsLoading, navigate) => {
         setIsLoading(false)
     }
 };
-
-export const isCurrentUser = (currentUser, SelectedUser) => {
-
-    return (currentUser.id === SelectedUser.id && currentUser?.email === SelectedUser?.email)
-}
-
-
-
-// 📦 Composants réutilisables internes :
-export const FloatingInput = ({ id, name, label, type = 'text', value, onChange, maxLength, wrapperClass = '', disabled }) => (
-
-    <div className={`relative ${wrapperClass}`}>
-
-        <input
-            type={type}
-            id={id}
-            name={name}
-            value={value}
-            onChange={onChange}
-            placeholder=" "
-            maxLength={maxLength}
-            disabled={disabled || false}
-            className="peer block w-full px-2.5 pt-5 pb-2.5 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600"
-        />
-
-        <label htmlFor={id} className="absolute text-sm text-gray-500 dark:text-gray-400 top-4 left-2.5 transition-all scale-75 -translate-y-4 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-4">
-            {label}
-        </label>
-
-    </div>
-);
-
-//ajout des thème
-export const ThemeSelector = ({ value, onChange, t }) => (
-
-    <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-
-        <label className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">{t('settingsText.theme')}</label>
-
-        <select
-            name="theme"
-            value={value}
-            onChange={onChange}
-            className="style-bg border-0 bg-gray-50 border-0 border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 p-2.5"
-        >
-            <option value="light">{t('settingsText.themeLight')}</option>
-
-            <option value="dark">{t('settingsText.themeDark')}</option>
-
-        </select>
-
-    </div>
-);
-
-//création d'un client
 export const CreateClient = async (data, setLoading, showMessage, dispatch, t) => {
     try {
         const response = await api.post('inscription/', data, {
@@ -584,28 +345,11 @@ export const CreateClient = async (data, setLoading, showMessage, dispatch, t) =
     }
 };
 
-//notification des message
-export const NotificationToggle = ({ checked, onChange, t }) => (
+export const isCurrentUser = (currentUser, SelectedUser) => currentUser.id === SelectedUser.id && currentUser?.email === SelectedUser?.email;
 
-    <div className="flex items-center">
 
-        <input
-            id="notifications"
-            type="checkbox"
-            name="notifications"
-            checked={checked}
-            onChange={onChange}
-            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600"
-        />
-
-        <label htmlFor="notifications" className="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-            {t('settingsText.notifications')}
-        </label>
-
-    </div>
-);
-
-export const getTabsNavigationsItems = (currentNav,t) => {
+// 🧭 Navigation
+export const getTabsNavigationsItems = (currentNav, t) => {
 
     return (
 
@@ -707,6 +451,26 @@ export const getTabsNavigationsItems = (currentNav,t) => {
         ]
     )
 };
+export const ItemsNav = ["home", "blogs", "account-home", "all-products"];
+
+//Formatage de date
+export function formatISODate(isoDateStr) {
+    const date = new Date(isoDateStr);
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const year = date.getUTCFullYear();
+    const hours = String(date.getUTCHours()).padStart(2, '0');
+    const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+    const seconds = String(date.getUTCSeconds()).padStart(2, '0');
+
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+}
+
+
+
+
+
+
 
 
 

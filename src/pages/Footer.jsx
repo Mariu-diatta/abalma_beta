@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Logo from "../components/LogoApp";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { LanguageDropdown } from "./Header";
+import LanguageDropdown from "../features/Langages";
 
 const Footer = () => {
 
@@ -16,18 +16,24 @@ const Footer = () => {
 
   
     useEffect(() => {
+
         const observer = new IntersectionObserver(
+
             (entries) => {
+
                 entries.forEach((entry) => {
+
                     if (entry.isIntersecting) {
                         entry.target.classList.add("animate-in");
                         entry.target.classList.remove("animate-out");
+
                     } else {
                         entry.target.classList.add("animate-out");
                         entry.target.classList.remove("animate-in");
                     }
                 });
             },
+
             { threshold: 0.05 } // Déclenche quand 10% du composant est visible
         );
 
@@ -36,9 +42,12 @@ const Footer = () => {
         if (node) {
             observer.observe(node);
         }
+
         // Nettoyage de l'observateur lors du démontage
         return () => {
+
             if (node) {
+
                 node.removeEventListener('scroll', () => { console.log(node) });
             }
         };
@@ -176,7 +185,7 @@ const Footer = () => {
                     {/* Langue */}
                     <div className="flex items-center gap-3 text-sm">
                         <span>{t("choose_language")}</span>
-                        <LanguageDropdown />
+                        <LanguageDropdown/>
                     </div>
 
                    <>
@@ -301,7 +310,7 @@ const NavLink = ({ link, label, className = "text-sm" }) => {
     );
 };
 
-export function MyCheckbox() {
+function MyCheckbox() {
     const [isChecked, setIsChecked] = useState(() => {
         const saved = localStorage.getItem("ACCEPT_POLICY");
         return saved === "true"; // transforme string en boolean

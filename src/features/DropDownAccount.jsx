@@ -9,9 +9,9 @@ import toast from 'react-hot-toast';
 import i18n from "i18next";
 import { useTranslation } from 'react-i18next';
 import { setCurrentNav } from "../slices/navigateSlice";
-import AttentionAlertMessage, { showMessage } from "./AlertMessage";
-import LoadingCard from "./LoardingSpin";
-import NotificationGroup from "./NotificationGrouped";
+import AttentionAlertMessage, { showMessage } from "../components/AlertMessage";
+import NotificationGroup from "../components/NotificationGrouped";
+import LoadingCard from "../components/LoardingSpin";
 
 export default function AccountDropdownUserProfil() {
 

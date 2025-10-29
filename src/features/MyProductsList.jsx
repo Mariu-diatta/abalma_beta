@@ -2,11 +2,11 @@ import React, { useCallback, useEffect, useState} from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import api from "../services/Axios";
-import LoadingCard from "./LoardingSpin";
 import FormElementFileUpload from "../features/FormFile";
 import { setProductUpdate } from "../slices/cartSlice";
-import RendrePrixProduitMonnaie from "./ConvertCurrency";
-import { ButtonSimple } from "./Button";
+import RendrePrixProduitMonnaie from "../features/ConvertCurrency";
+import LoadingCard from "../components/LoardingSpin";
+import { ButtonSimple } from "../components/Button";
 
 const MyProductList = () => {
 
@@ -50,8 +50,6 @@ const MyProductList = () => {
             try {
 
                 const productsOwner = await api.get("owner/product");
-
-                console.log("les données du frontend pour les produits:::", productsOwner?.data)
 
                 setProducts(productsOwner?.data);
 

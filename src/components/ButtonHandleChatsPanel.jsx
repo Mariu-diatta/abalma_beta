@@ -51,7 +51,7 @@ const ButtonToggleChatsPanel = ({ showSidebar, setShowSidebar }) => {
                 )
             }
 
-            </button>
+        </button>
     )
 }
 

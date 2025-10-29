@@ -1,7 +1,8 @@
-import { LanguageDropdown, ThemeToggle } from "../pages/Header";
 import { Toaster } from 'react-hot-toast';
 import NotificationsComponent from "./NotificationComponent";
 import PayBack from "./BacketButtonPay";
+import ThemeToggle from '../features/Theme';
+import LanguageDropdown from '../features/Langages';
 
 
 const NotificationGroup = ({ currentNotifMessages, notify, changeLanguage}) => (
@@ -9,7 +10,7 @@ const NotificationGroup = ({ currentNotifMessages, notify, changeLanguage}) => (
     <>
 
         {
-            (currentNotifMessages.length > 0) && (
+            (currentNotifMessages?.length > 0) && (
 
                 <button
 

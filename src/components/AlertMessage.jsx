@@ -19,14 +19,20 @@ const AttentionAlertMessage = () => {
 
         const timeout = setTimeout(() => {
 
-            dispatch(clearMessage());
 
             setShow(false);
 
+            dispatch(clearMessage());
 
         }, 5000);
 
-        return () => clearTimeout(timeout);
+        return () => {
+
+            setShow(false);
+
+            clearTimeout(timeout);
+
+        };
 
     }, [dispatch, messageAlert]);
 

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import api from "../services/Axios";
-import OwnerAvatar from "./OwnerProfil";
 import { useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
-import LoadingCard from "./LoardingSpin";
-import TitleCompGen from "./TitleComponentGen";
+import TitleCompGen from "../components/TitleComponentGen";
+import LoadingCard from "../components/LoardingSpin";
+import OwnerAvatar from "../components/OwnerProfil";
 
 const UsersContactsList = () => {
 
@@ -95,7 +95,6 @@ const UsersContactsList = () => {
         // logique de suppression à intégrer ici
     };
 
-    
     return (
 
         <div className="absolute fixed w-[98dvw] md:w-[80dvw] m-auto sm:rounded-lg style-bg pb-6 mb-6  ">
@@ -104,7 +103,7 @@ const UsersContactsList = () => {
 
             {
                 loading ?
-                <LoadingCard />
+                <LoadingCard/>
                 :
                     <div className="flex flex-col justify-between  h-[75dvh] ">
                     {/* Bar d'action */}

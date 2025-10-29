@@ -1,6 +1,6 @@
 import { ButtonScrollTopDown } from "../components/ButtonScroll";
-import HomeContain from "../components/HomeContain";
 import HomeLayout from "../layouts/HomeLayout";
+import HomeContain from "./HomeContain";
 
 const Home = () => {
 

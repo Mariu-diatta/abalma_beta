@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { backendBase} from '../utils';
 import ButtonToggleChatsPanel from '../components/ButtonHandleChatsPanel';
-import { BoxMessagesChats } from '../components/BoxMessagesOnChats';
 import InputBoxChat from '../components/InputBoxChat';
+import BoxMessagesChats from '../features/MessageBoxChat';
 
 const ChatApp = ({ setShow , show}) => {
 
@@ -140,6 +140,7 @@ const ChatApp = ({ setShow , show}) => {
                     selectedUser && (
 
                         <div className="flex items-center gap-3 text-gray-700 mb-3">
+
                             <img
                                 src={selectedUser?.image ||
                                     selectedUser?.photo_url ||
@@ -148,10 +149,12 @@ const ChatApp = ({ setShow , show}) => {
                                 alt={`${selectedUser?.nom || "Utilisateur"} avatar`}
                                 className="h-[40px] w-[40px] rounded-full object-cover"
                             />
+
                             <div>
                                 <p className="text-md font-semibold text-blue-600">{selectedUser?.prenom || "Prénom"}</p>
                                 <p className="text-xs text-gray-500">{selectedUser?.nom?.toLowerCase() || "Nom"}</p>
                             </div>
+
                         </div>
                     )
                 }

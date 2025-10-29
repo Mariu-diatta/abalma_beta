@@ -6,13 +6,13 @@ import ProfilPopPov from "../features/PopovProfile";
 import { addToCart,updateSelectedProduct } from "../slices/cartSlice";
 import { useTranslation } from 'react-i18next';
 import { productViews } from "../utils";
-import RendrePrixProduitMonnaie from "../components/ConvertCurrency";
 import PrintNumberStars from "../components/SystemStar";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useMemo } from "react";
 import express_delivery from "../../src/assets/express-delivery_1981844.png"
 import home_5657414 from "../../src/assets/home-address_12248895.png"
 import pay_8331969 from "../../src/assets/pay_8331969.png" 
+import RendrePrixProduitMonnaie from "../features/ConvertCurrency";
 
 
 const getLogoTitlOperation = (t, prod) => {
@@ -25,8 +25,6 @@ const getLogoTitlOperation = (t, prod) => {
 
         ]
     )
-
-
 }
 
 
@@ -102,7 +100,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
     useEffect(() => {
 
         if (isOpen) {
-
+            setIsProductAdd(false);
             productViews(currentSelectedProductView, setProductNbViews)
         }
 
@@ -118,7 +116,6 @@ const ProductModal = ({ isOpen, onClose, products}) => {
             setIsCurrentUser(isCurrent_User)
 
         }, [currentUser?.id, selectedUser?.id, currentUser?.email, selectedUser?.email]
-
     )
 
     // Sans paramètre, pour un appel manuel

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useSelector} from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import api from "../services/Axios";
-import LoadingCard from "./LoardingSpin"
-import { ButtonSimple } from "./Button";
 import { formatISODate } from "../utils";
+import LoadingCard from "../components/LoardingSpin";
+import { ButtonSimple } from "../components/Button";
 
 const MyBlogsList = () => {
 
@@ -111,7 +111,7 @@ const MyBlogsList = () => {
             {
                 loading ?
                 (
-                    <LoadingCard />
+                    <LoadingCard/>
                 )
                 : 
                 (
@@ -135,7 +135,7 @@ const MyBlogsList = () => {
                             {
                                 Array.isArray(blogs) &&
 
-                                blogs.map((blog) => (
+                                blogs?.map((blog) => (
 
                                     <tr
                                         key={blog?.id}

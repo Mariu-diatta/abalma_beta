@@ -1,10 +1,11 @@
 import React from 'react'
-import TitleCompGen from './TitleComponentGen'
 import ListProductShoppingCart from '../features/ListProductShoppingCart'
 import ProductsRecapTable from '../features/ProductRecaptable'
-import MyProductList from './MyProductsList'
-import MyBlogsList from './ListManagerBlogs'
+
 import { useTranslation } from 'react-i18next';
+import MyProductList from '../features/MyProductsList';
+import MyBlogsList from '../features/ListManagerBlogs';
+import TitleCompGen from '../components/TitleComponentGen';
 
 const TablesRecapActivities = ({productsTrasactionBought }) => {
 
@@ -32,9 +33,9 @@ const TablesRecapActivities = ({productsTrasactionBought }) => {
 
                 <ProductsRecapTable products={productsTrasactionBought} />
 
-                <MyProductList />
+                <MyProductList/>
 
-                <MyBlogsList />
+                <MyBlogsList/>
 
             </div>
 

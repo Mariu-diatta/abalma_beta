@@ -2,10 +2,10 @@ import React, { useEffect,  useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import api from '../services/Axios';
 import { useTranslation } from 'react-i18next';
-import LoadingCard from './LoardingSpin';
-import { ButtonSimple } from './Button';
-import TitleCompGen from './TitleComponentGen';
 import { updateContentBlog } from '../slices/cartSlice';
+import LoadingCard from '../components/LoardingSpin';
+import { ButtonSimple } from '../components/Button';
+import TitleCompGen from '../components/TitleComponentGen';
 
 export const ModalFormCreatBlog = () => {
 

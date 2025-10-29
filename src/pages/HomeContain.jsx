@@ -1,9 +1,9 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 import image from '../assets/image.jpg'
-import Testimonial from './AbalmaActivities';
 import GridLayoutProduct from '../features/GridLayoutProducts';
-import TitleCompGen from './TitleComponentGen';
+import Testimonial from '../components/AbalmaActivities';
+import TitleCompGen from '../components/TitleComponentGen';
 
 
 const HomeContain = () => {
@@ -26,14 +26,14 @@ const HomeContain = () => {
 
             <GridLayoutProduct />
 
-            <div className="animate-in m-0 relative pb-6 mt-6 dark:bg-dark lg:pt-[150px] style-bg bg_home shadow-sm rounded-lg -mx-4 flex flex-wrap">
+            <div className="animate-in m-0 relative pb-6 mt-6 dark:bg-dark lg:pt-[150px] style-bg bg_home shadow-sm rounded-lg -mx-4 flex flex-wrap hidden">
 
 
                 <div className="w-full px-4 lg:w-5/12">
 
                     <div className="hero-content">
 
-                        <div className="shadow-sm px-1 animate-trains translate-y-0 transition-all duration-1000 ease-in-out mt-[10px] rounded-md">
+                        <div className="shadow-sm px-1 animate-trains translate-y-0 transition-all duration-1000 ease-in-out mt-[10px] rounded-md hidden">
 
                             <h4 className="mb-2  !leading-[1.208] text-dark dark:text-white sm:text-[42px] lg:text-[20px] xl:text-2xl mt-6">
                                 {t("homePage.headline")}
@@ -45,7 +45,7 @@ const HomeContain = () => {
 
                         </div>
 
-                        <ul className="flex flex-wrap items-center">
+                        <ul className="flex flex-wrap items-center hidden">
 
                             <li>
                               
@@ -105,7 +105,7 @@ const HomeContain = () => {
                 <div className="hidden px-4 lg:block lg:w-1/12"></div>
 
 
-                <div className="w-full px-2 lg:w-6/12 sticky top-10 self-start">
+                <div className="w-full px-2 lg:w-6/12 sticky top-10 self-start hidden">
 
                     <div className="lg:ml-auto lg:text-right">
 

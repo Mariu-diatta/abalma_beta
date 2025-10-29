@@ -3,13 +3,13 @@ import React, { useEffect, useState , lazy, useCallback} from 'react';
 import { useTranslation } from 'react-i18next';
 import api from '../services/Axios';
 import LoadingCard from '../components/LoardingSpin';
-import { ModalFormCreatBlog } from '../components/BlogCreatBlogs';
 import SearchBar from '../components/BtnSearchWithFilter';
 import { useDispatch, useSelector } from 'react-redux';
 import { formatISODate } from '../utils';
 import { updateCategorySelected } from '../slices/navigateSlice';
 import TitleCompGen,{ TitleCompGenLitle } from '../components/TitleComponentGen';
 import OwnerAvatar from '../components/OwnerProfil';
+import { ModalFormCreatBlog } from '../features/BlogCreatBlogs';
 const HomeLayout = lazy(() => import('../layouts/HomeLayout'));
 
 
@@ -145,9 +145,9 @@ export const BlogPage = () => {
                 }
 
 
-                <div className="fixed  top-[3dvh]  right-5  shadow-lg rounded-full bg-none z-0">
+                <div className="fixed  top-[3dvh]  right-5  shadow-lg rounded-full z-0">
 
-                    <ModalFormCreatBlog />
+                    <ModalFormCreatBlog/>
 
                 </div>
 
@@ -184,7 +184,7 @@ const BlogCard = (blog) => {
 
         <div className="relative w-auto p-1 flex flex-col justify-between rounded-lg  shadow-sm dark:bg-gray-800 dark:border-gray-700 max-h-[25vh] min-h-[25vh]">
 
-            <div className="flex justify-between items-center mb-5 text-gray-500">
+            <div className="flex justify-between items-center mb-5 text-gray-500 bg-none">
 
                 <TitleCompGenLitle title={blog?.title_blog}/>
 
@@ -198,7 +198,7 @@ const BlogCard = (blog) => {
 
                 {blog?.user && <OwnerAvatar owner={blog?.user} />}
 
-                <a href={"/login"} className="inline-flex items-center font-medium text-primary-600 text-sm dark:text-primary-500 hover:underline">
+                <button className="inline-flex items-center font-medium text-primary-600 text-sm dark:text-primary-500 hover:underline">
 
                     {t("blog.reaMore")}
 
@@ -208,7 +208,7 @@ const BlogCard = (blog) => {
 
                     </svg>
 
-                </a>
+                </button>
 
             </div>
 

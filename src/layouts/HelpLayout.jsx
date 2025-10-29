@@ -155,7 +155,7 @@ const HelpPage = () => {
                         <select
                             value={problemType}
                             onChange={(e) => setProblemType(e.target.value)}
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            className="bg-gray-50 border-0  text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                         >
                             <option value="">{t('helpPage.problemType.select')}</option> 
                             <option value="connexion">{t('helpPage.problemType.connexion')}</option>
@@ -185,7 +185,7 @@ const HelpPage = () => {
                             placeholder="Décrivez votre problème..."
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
-                            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg  focus:ring-blue-0"
                         />
                     </div>
 
@@ -194,7 +194,7 @@ const HelpPage = () => {
                         (!loading)?
                         <button
                             type="submit"
-                            className="w-full text-white bg-gradient-to-br from-purple-300 to-blue-300 hover:from-purple-400 hover:to-blue-400 text-purple-600 rounded-lg text-sm px-5 py-2.5"
+                            className="w-full text-white bg-gradient-to-br from-purple-50 to-blue-100 hover:from-purple-100 hover:to-blue-400 text-purple-600 rounded-lg text-sm px-5 py-2.5"
                         >
                             {t('helpPage.problemType.send')}
                         </button>

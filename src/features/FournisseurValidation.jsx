@@ -4,7 +4,7 @@ import api from '../services/Axios';
 import { updateUserData } from '../slices/authSlice';
 import  AttentionAlertMessage, { showMessage } from '../components/AlertMessage';
 import { useTranslation } from 'react-i18next';
-import LoadingCard from './LoardingSpin';
+import LoadingCard from '../components/LoardingSpin';
 
 
 

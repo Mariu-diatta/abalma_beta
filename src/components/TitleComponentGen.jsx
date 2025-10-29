@@ -73,14 +73,9 @@ export const TitleCompGenLitle = ({ title }) => {
 
     return (
 
-        <div className="relative overflow-hidden w-full px-4 pt-4 pb-4" ref={containerRef} style={{
+        <div className="relative overflow-hidden w-full px-4 pt-4 pb-4"  ref={containerRef}>
 
-            backgroundColor: "var(--color-bg)",
-
-            color: "var(--color-text)"
-        }}>
-
-            <h1 ref={contentRef} className={`${shouldScroll ? "animate-scroll" : ""} inline-block whitespace-nowrap text-md font-extrabold text-gray-500 dark:text-white`}>
+            <h1 ref={contentRef} className={` ${shouldScroll ? "animate-scroll" : ""} inline-block whitespace-nowrap text-md font-extrabold text-gray-500 dark:text-white`}>
 
                 {title}
 

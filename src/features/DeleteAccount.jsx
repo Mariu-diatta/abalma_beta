@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { logout } from "../slices/authSlice";
 import { useTranslation } from 'react-i18next';
 import api from "../services/Axios";
-import LoadingCard from "./LoardingSpin";
 import { setCurrentNav } from "../slices/navigateSlice";
+import LoadingCard from "../components/LoardingSpin";
 
 
 const DeleteProfilAccount = () => {

@@ -4,9 +4,9 @@ import { useRef, } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from 'react-i18next';
 import { useDispatch} from 'react-redux';
-import ProductSpecifiViews from './ProductSpecificPopovViews';
 import { LIST_CATEGORIES } from '../utils';
 import { updateCurrentButtonCategoryHover } from '../slices/navigateSlice';
+import ProductSpecifiViews from './ProductSpecificPopovViews';
 
 const ScrollableCategoryButtons = ({
     setActiveCategory,
@@ -163,10 +163,10 @@ const ScrollableCategoryButtons = ({
                                     }
 
                                     className={`
-                                        z-2 whitespace-nowrap px-4  py-1 rounded-full text-sm transition  hover:bg-gradient-to-br hover:from-purple-300 
+                                        z-2 whitespace-nowrap px-4  py-1 rounded-full text-sm transition  hover:bg-gradient-to-br hover:from-purple-100 
                                         ${activateButtonCategory?.toLowerCase() === (cat?.replace("_", ""))?.toLowerCase()
-                                        ? "bg-blue-400 text-white bg-gradient-to-br from-purple-300 to-blue-300" //
-                                        : "text-blue-700 border border-blue-100 hover:bg-blue-300 hover:text-white scale-100 hover:scale-100 hover:shadow-lg"
+                                        ? "bg-blue-50 text-white bg-gradient-to-br from-purple-50 to-blue-100" //
+                                        : "text-blue-100 border border-blue-50 hover:bg-blue-100 hover:text-white scale-100 hover:scale-100 hover:shadow-lg"
                                         }`}
                                 >
                                     {cat?.replace("_", " ")}

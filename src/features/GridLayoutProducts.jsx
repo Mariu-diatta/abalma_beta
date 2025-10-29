@@ -8,7 +8,7 @@ import LoadingCard from '../components/LoardingSpin';
 import { removeAccents, translateCategory } from '../utils';
 import SearchBar from '../components/BtnSearchWithFilter';
 import ProductCard from '../components/ProductCard';
-import ScrollableCategoryButtons from '../components/ScrollCategoryButtons';
+import ScrollableCategoryButtons from './ScrollCategoryButtons';
 
 const GridLayoutProduct = () => {
 

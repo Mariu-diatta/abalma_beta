@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import RendrePrixProduitMonnaie from "./ConvertCurrency";
+import RendrePrixProduitMonnaie from "../features/ConvertCurrency";
 
 export default function ScrollingContent({ item, qut_sold, t }) {
     const containerRef = useRef(null);

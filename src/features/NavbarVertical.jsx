@@ -4,14 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCurrentNav } from "../slices/navigateSlice";
 import api from "../services/Axios";
 import Logo from "../components/LogoApp";
-import { menuItems } from "../components/MenuItem";
+import { MenuItems } from "../components/MenuItem";
 import { addRoom } from "../slices/chatSlice";
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from "react-router";
-import AccountDropdownUserProfil from "../components/DropDownAccount";
 import ScrollTop, { ButtonScrollTopDown } from "../components/ButtonScroll";
 import ProButtonUi from "../components/ButtonPro";
 import { fetchRooms } from "../utils";
+import AccountDropdownUserProfil from "./DropDownAccount";
 
 
 const VertcalNavbar = ({ children }) => {
@@ -397,7 +397,7 @@ const VertcalNavbar = ({ children }) => {
                         }}
                     >
 
-                        {menuItems(t).map(({ name, to, svg, id }, index) => (
+                        {MenuItems(t).map(({ name, to, svg, id }, index) => (
 
                             <li key={index}>
 

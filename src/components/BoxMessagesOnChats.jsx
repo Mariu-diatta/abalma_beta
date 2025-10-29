@@ -1,7 +1,5 @@
 import React from 'react'
 import { formatDateRelative, maintenant } from '../utils';
-import ProfilPictureView from './ProfilPictureView';
-import { useTranslation } from 'react-i18next';
 
 
 const PrintMessagesOnChat = ({ messages, currentUser, selectedUser, messagesEndRef }) => {
@@ -38,26 +36,30 @@ const PrintMessagesOnChat = ({ messages, currentUser, selectedUser, messagesEndR
 
                                         <React.Fragment key={`${msg.date}-${idx}`} >
 
-                                            {showDateLabel && (
+                                            {
+                                                showDateLabel && (
 
-                                                <li className="text-center text-xs text-gray-500 py-2">
-                                                    {currentDateLabel}
-                                                </li>
-                                            )}
+                                                    <li className="text-center text-xs text-gray-500 py-2">
+                                                        {currentDateLabel}
+                                                    </li>
+                                                )
+                                            }
 
                                             <li className={`flex items-end gap-2 ${alignment}`}>
 
-                                                {!isCurrentUser && (
+                                                {
+                                                    !isCurrentUser && (
 
-                                                    <img
-                                                        src={
-                                                            selectedUser?.image ||
-                                                            selectedUser?.photo_url
-                                                        }
-                                                        alt="avatar"
-                                                        className="h-5 w-5 rounded-full object-cover shadow-lg"
-                                                    />
-                                                )}
+                                                        <img
+                                                            src={
+                                                                selectedUser?.image ||
+                                                                selectedUser?.photo_url
+                                                            }
+                                                            alt="avatar"
+                                                            className="h-5 w-5 rounded-full object-cover shadow-lg"
+                                                        />
+                                                    )
+                                                }
 
                                                 <div className="d-flex flex-col w-auto">
 
@@ -69,16 +71,18 @@ const PrintMessagesOnChat = ({ messages, currentUser, selectedUser, messagesEndR
 
                                                 </div>
 
-                                                {isCurrentUser && (
-                                                    <img
-                                                        src={
-                                                            msg?.sender?.image ||
-                                                            msg?.sender?.photo_url
-                                                        }
-                                                        alt="avatar"
-                                                        className="h-5 w-5 rounded-full object-cover"
-                                                    />
-                                                )}
+                                                {
+                                                    isCurrentUser && (
+                                                        <img
+                                                            src={
+                                                                msg?.sender?.image ||
+                                                                msg?.sender?.photo_url
+                                                            }
+                                                            alt="avatar"
+                                                            className="h-5 w-5 rounded-full object-cover"
+                                                        />
+                                                    )
+                                                }
 
                                             </li>
 
@@ -102,38 +106,4 @@ const PrintMessagesOnChat = ({ messages, currentUser, selectedUser, messagesEndR
 
 export default PrintMessagesOnChat;
 
-export const BoxMessagesChats = ({ selectedUser, messages, currentUser, messagesEndRef }) => {
 
-    const { t } = useTranslation();
-
-    return (
-        <div className="relative flex-1 space-y-0 pr-2 max-h-[100dvh] min-h-[100dvh]">
-
-            <div className="w-full h-px bg-gray-300 mb-3" />
-
-            {/* 💬 Liste des messages */}
-
-            {
-                (messages?.length === 0) ?
-                    (
-                        <ProfilPictureView
-                            currentUser={selectedUser}
-                            message={t("no_message")}
-                        />
-                    )
-                    :
-                    (
-                        <PrintMessagesOnChat
-                            messages={messages}
-                            currentUser={currentUser}
-                            selectedUser={selectedUser}
-                            messagesEndRef={messagesEndRef}
-                        />
-
-                    )
-
-            }
-
-        </div>
-    )
-}

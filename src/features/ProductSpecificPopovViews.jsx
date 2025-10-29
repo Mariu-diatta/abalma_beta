@@ -1,7 +1,8 @@
-import Carousel from "./CarrouselProducts"
-import ImageGallery from "./ImageGallery"
-import ImageGalleryPan from "./ImageGalleryPanel"
+
 import { useTranslation } from 'react-i18next';
+import Carousel from '../components/CarrouselProducts';
+import ImageGalleryPan from './ImageGalleryPanel';
+import ImageGallery from './ImageGallery';
 
 
 const ProductSpecifiViews = ({ products, openModal, owners, panelRef }) => {

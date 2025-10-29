@@ -10,7 +10,7 @@ const Logo = () => {
             <img
                 src={logoApp}
                 alt="Logo Abalma"
-                className="w-30 object-contain transition-transform duration-300 p-1 hover:scale-110 scale-100 items-center justify-center"  
+                className="w-25 object-contain transition-transform duration-300 p-1 hover:scale-110 scale-100 items-center justify-center"  
             />
 
         </>

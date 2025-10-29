@@ -8,12 +8,12 @@ import { setCurrentNav } from '../slices/navigateSlice';
 import { hashPassword } from '../components/OwnerProfil';
 import AttentionAlertMesage, { showMessage } from '../components/AlertMessage';
 import { useTranslation } from 'react-i18next';
-import { ModalFormCreatBlog } from '../components/BlogCreatBlogs';
-import GetValidateUserFournisseur from '../components/FournisseurValidation';
 import LoadingCard from '../components/LoardingSpin';
 import FollowProfilUser from '../components/ViewsProfilUser';
 import NumberFollowFollowed from '../components/FollowUserComp';
 import InputBox from '../components/InputBoxFloat';
+import { ModalFormCreatBlog } from './BlogCreatBlogs';
+import GetValidateUserFournisseur from './FournisseurValidation';
 
 const ProfileCard = () => {
 
@@ -714,7 +714,7 @@ const ProfileCard = () => {
                                     )
                                 }
 
-                                {isCurrentUser && <ModalFormCreatBlog />}
+                                {isCurrentUser && <ModalFormCreatBlog/>}
                             </>
                         )}
                     </div>

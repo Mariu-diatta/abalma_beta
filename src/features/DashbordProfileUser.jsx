@@ -1,8 +1,8 @@
 import React, { useEffect, useState} from 'react';
-import UsersContactsList from '../components/ContactUser';
 import api from '../services/Axios';
 import { useTranslation } from 'react-i18next';
-import TablesRecapActivities from '../components/TablesRecapActivities';
+import UsersContactsList from './ContactUser';
+import TablesRecapActivities from './TablesRecapActivities';
 
 const Tabs = () => {
 
@@ -55,7 +55,7 @@ const Tabs = () => {
 
         contacts: (
 
-            <UsersContactsList />
+            <UsersContactsList/>
 
         ),
     };

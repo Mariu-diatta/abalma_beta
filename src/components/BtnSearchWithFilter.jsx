@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCategorySelected } from '../slices/navigateSlice';
 import { useTranslation } from 'react-i18next';
-import { LIST_CATEGORY } from '../utils';
+import { ItemsNav, LIST_CATEGORY} from '../utils';
 
 
 const SearchBar = ({disabled = false }) => {
@@ -16,8 +16,6 @@ const SearchBar = ({disabled = false }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const searchBtnRef = useRef(null);
     const currentNav = useSelector(state => state.navigate.currentNav);
-
-    const ItemsNav = ["home", "blogs", "account-home", "all-products"]
 
     const [itemsNav, setItemsNav] = useState([])
 
@@ -98,7 +96,7 @@ const SearchBar = ({disabled = false }) => {
 
                         <button
                             type="submit"
-                            className="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-none rounded-e-full  hover:bg-blue-400 focus:ring-1 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 bg-gradient-to-br from-purple-300 to-blue-300 hover:bg-gradient-to-br hover:from-purple-400 "
+                            className="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-none rounded-e-full  hover:bg-blue-100 focus:ring-1 focus:outline-none focus:ring-blue-300 dark:bg-blue-100 dark:hover:bg-blue-100 dark:focus:ring-blue-100 bg-gradient-to-br from-purple-50 to-blue-100 hover:bg-gradient-to-br hover:from-purple-100 "
                             disabled={disabled}
                         >
                             <svg className="w-4 h-4" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

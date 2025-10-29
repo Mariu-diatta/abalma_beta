@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect} from 'react';
 import Footer from '../pages/Footer';
 import NavbarHeader from '../pages/Header';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,20 +12,16 @@ const HomeLayout = ({ children }) => {
 
     const currentUser = useSelector((state) => state.auth.user);
 
-    const [isConnected, setIsConnected] = useState(false);
-
     useEffect(() => {
 
         if (currentUser) {
 
             dispatch(setCurrentNav('account-home'));
-
-            setIsConnected(true);
         }
 
     }, [currentUser, dispatch]);
 
-    if (isConnected) {
+    if (currentUser) {
 
         return <Navigate to="/account-home" replace />;
     }

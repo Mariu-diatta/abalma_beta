@@ -1,7 +1,7 @@
 
 import { useDispatch } from "react-redux";
 import { addUser } from "../slices/chatSlice";
-import RendrePrixProduitMonnaie from "./ConvertCurrency";
+import RendrePrixProduitMonnaie from "../features/ConvertCurrency";
 
 function ImageGalleryPan({ products, openModal, owners }) {
 
