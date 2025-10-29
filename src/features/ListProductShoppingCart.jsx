@@ -174,7 +174,7 @@ const ListProductShoppingCart = () => {
 
                                     </td>
 
-                                    <td className="px-6 py-4  ">{description_product}</td>
+                                    <td className="px-6 py-4  ">{description_product?.slice(0, 6)}</td>
 
                                     <td className="px-6 py-4  ">{categorie_product}</td>
 

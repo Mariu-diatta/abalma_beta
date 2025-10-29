@@ -51,6 +51,8 @@ const MyProductList = () => {
 
                 const productsOwner = await api.get("owner/product");
 
+                console.log("les données du frontend pour les produits:::", productsOwner?.data)
+
                 setProducts(productsOwner?.data);
 
             } catch (error) {
@@ -182,7 +184,7 @@ const MyProductList = () => {
 
                                         <td className="px-6 py-1 ">
                                             <div className="overflow-y-auto h-[12dvh] scrollbor_hidden text-sm">
-                                             {prod?.description_product}
+                                                {prod?.description_product?.slice(0, 6)}...
                                             </div>
                                         </td>
 

@@ -8,8 +8,6 @@ const Tabs = () => {
 
     const { t } = useTranslation();
 
-    const [loading, setLoading] = useState(true)
-
     const [activeTab, setActiveTab] = useState('dashboard');
 
     const [productsTrasactionBought, setProductsTrasactionBought] = useState([])
@@ -38,7 +36,7 @@ const Tabs = () => {
 
             } finally {
 
-                setLoading(false)
+                //setLoading(false)
             }
         };
 
@@ -51,9 +49,6 @@ const Tabs = () => {
         dashboard: (
 
             <TablesRecapActivities
-
-                loading={loading}
-
                 productsTrasactionBought={productsTrasactionBought}
             />
         ),

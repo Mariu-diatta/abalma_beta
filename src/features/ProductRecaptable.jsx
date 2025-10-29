@@ -271,7 +271,7 @@ const ProductsRecapTable = ({ products }) => {
 
                                 <tr key={cle}>
 
-                                    <td className="px-4 py-3">{item?.description_product || '-'}</td>
+                                    <td className="px-4 py-3">{item?.description_product?.slice(0, 6) || '-'}</td>
 
                                     <td className="px-4 py-3">{item?.categorie_product || '-'}</td>
 

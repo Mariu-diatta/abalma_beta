@@ -148,7 +148,7 @@ const MyBlogsList = () => {
                                         </td>
 
                                         <td className="px-6 py-4 overflow-x-auto overflow-y-auto">
-                                            {blog?.blog_message}
+                                            {blog?.blog_message?.slice(0,6)}...
                                         </td>
 
                                         <td className="px-6 py-4">

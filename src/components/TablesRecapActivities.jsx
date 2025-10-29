@@ -1,19 +1,18 @@
 import React from 'react'
 import TitleCompGen from './TitleComponentGen'
 import ListProductShoppingCart from '../features/ListProductShoppingCart'
-import LoadingCard from './LoardingSpin'
 import ProductsRecapTable from '../features/ProductRecaptable'
 import MyProductList from './MyProductsList'
 import MyBlogsList from './ListManagerBlogs'
 import { useTranslation } from 'react-i18next';
 
-const TablesRecapActivities = ({ loading, productsTrasactionBought }) => {
+const TablesRecapActivities = ({productsTrasactionBought }) => {
 
     const { t } = useTranslation();
 
     return (
 
-        <div className="absolute fixed w-[98dvw] md:w-[80dvw] sm:rounded-lg style-bg overflow-y-auto scrollbor_hidden pb-6  overflow-hidden h-full">
+        <div className="absolute fixed w-[98dvw] md:w-[80dvw] sm:rounded-lg style-bg  scrollbor_hidden pb-6  overflow-hidden ">
 
             <div className="mb-6 text-center style_bg">
 
@@ -31,13 +30,7 @@ const TablesRecapActivities = ({ loading, productsTrasactionBought }) => {
 
                 <ListProductShoppingCart />
 
-                {
-                    loading ?
-                        <LoadingCard/>
-                        :
-                        <ProductsRecapTable products={productsTrasactionBought} />
-
-                }
+                <ProductsRecapTable products={productsTrasactionBought} />
 
                 <MyProductList />
 
