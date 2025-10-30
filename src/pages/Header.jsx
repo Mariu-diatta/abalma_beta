@@ -1,15 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Outlet } from 'react-router-dom';
-import WhiteRoundedButton, { ButtonNavigate } from "../components/Button";
+import { ButtonNavigate } from "../components/Button";
 import Logo from "../components/LogoApp";
 import {  useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
-import { getTabsNavigationsItems } from "../utils";
+import { ENDPOINTS, getTabsNavigationsItems } from "../utils";
 import SearchBar from "../components/BtnSearchWithFilter";
 import api from "../services/Axios";
-import NotificationsComponent from "../components/NotificationComponent";
-import PayBack from "../components/BacketButtonPay";
-import ThemeToggle from "../features/Theme";
+import MobileNav, { DesktopNav } from "../features/FooterMobileNav";
 
 
 const NavbarHeader = () => {
@@ -107,9 +105,10 @@ const NavbarHeader = () => {
 
                 {
 
-                    (!(currentNav === "login") && !(currentNav === "register")) &&
+                    (!(currentNav === ENDPOINTS.LOGIN) && !(currentNav === ENDPOINTS.REGISTER)) &&
 
                     <span>
+
                         {/* Toggle Button for Mobile */}
                         <button
                             onClick={() => setOpen(!open)}
@@ -132,51 +131,10 @@ const NavbarHeader = () => {
                         </button>
 
                         {/* Navigation */}
-
-                        <nav
-                            id="navbarCollapse"
-                            className={`sm:hidden absolute top-1/2 right-0  w-full max-w-[250px] z-[70] rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${!open && "hidden"}
-                            lg:static lg:block lg:max-w-full lg:w-auto`}
-                        >
-
-                            {/* Boutons et Dropdown (Mobile) */}
-
-                            <div
-                                style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
-                                className="text-sm absolute top-4 flex flex-col items-start justify-start gap-3 p-1 sm:hidden shadow-lg w-full py-5 bg-white "
-                            >
-                                <WhiteRoundedButton titleButton={t('login')} to="login" />
-
-                                <WhiteRoundedButton titleButton={t('register')} to="register" />
-
-                                <ThemeToggle />
-
-                            </div>
-
-                        </nav>
+                        <MobileNav open={open} />
 
                         {/* Boutons et Dropdown (Desktop) */}
-
-                        <div
-                            style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
-                            className="hidden sm:flex items-center justify-center gap-3 w-auto bg-white mx-1"
-                        >
-                            {
-                                (currentNav === "home") &&
-                                <>
-                                    <ThemeToggle/>
-
-                                    <NotificationsComponent />
-
-                                    <PayBack />
-                                </>
-                            }
-
-                            <WhiteRoundedButton titleButton={t('login')} to="login" />
-
-                            <WhiteRoundedButton titleButton={t('register')} to="register" />
-
-                        </div>
+                        <DesktopNav/>
 
                     </span>
 

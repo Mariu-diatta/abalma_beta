@@ -466,6 +466,25 @@ export function formatISODate(isoDateStr) {
     return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
 }
 
+//Endpoints
+export const ENDPOINTS = {
+    REGISTER: "register",
+    LOGIN: "login",
+    MESSAGE_INBOX: "message-inbox",
+    HOME: "home",
+    ACCOUNT_HOME: "account-home",
+    USER_PROFIL: "user-profil",
+    PAYMENT:"payment"
+}
+
+export const CONSTANTS = {
+    ABOUT: "About",
+    BLOGS: "Blogs",
+    ERRREUR: "Erreur"
+}
+
+   
+
 
 
 

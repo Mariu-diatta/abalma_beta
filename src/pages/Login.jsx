@@ -8,7 +8,7 @@ import { LoginWithGoogle } from '../firebase';
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import LoadingCard from '../components/LoardingSpin';
-import { fetchRooms, loginClient } from '../utils';
+import { ENDPOINTS, fetchRooms, loginClient } from '../utils';
 import { ButtonSimple } from '../components/Button';
 import { useNavigate } from 'react-router-dom'; // 
 import { useSelector } from 'react-redux';
@@ -29,7 +29,6 @@ const LogIn = () => {
     const { t } = useTranslation();
     const componentRef = useRef(null);
     const navigate = useNavigate();
-
     const currentNav = useSelector(state => state.navigate.currentNav);
     const currentUser = useSelector(state => state.auth.user)
 
@@ -86,7 +85,7 @@ const LogIn = () => {
 
     useEffect(() => {
 
-        if (currentNav === "home") navigate("/", { replace: true })
+        if (currentNav === ENDPOINTS.HOME) navigate("/", { replace: true })
 
     }, [currentNav, navigate])
 
@@ -102,7 +101,6 @@ const LogIn = () => {
 
             setEmail(email)
         }
-
 
         setLoading(true)
 
@@ -146,65 +144,67 @@ const LogIn = () => {
                 <>
 
 
-                    <TitleCompGen title={t("login")} />
+                        <TitleCompGen title={t("login")} />
 
-                    <form
-                        className="translate-y-0 transition-all duration-1000 ease-in-out"
-                        onSubmit={(e) => { e.preventDefault(); handleSignIn(); }}
-                        ref={componentRef}
-                    >
-                        <ScrollTop />
+                        <form
+                            className="translate-y-0 transition-all duration-1000 ease-in-out"
+                            onSubmit={(e) => { e.preventDefault(); handleSignIn(); }}
+                            ref={componentRef}
+                        >
+                            <ScrollTop />
 
-                        <InputBox
-                            type="email"
-                            name="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder={t('form.email')}
-                            autoComplete="email"
-                            required
-                        />
+                            <InputBox
+                                type="email"
+                                name="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder={t('form.email')}
+                                autoComplete="email"
+                                required
+                            />
 
-                        <InputBox
-                            type="password"
-                            name="password"
-                            value={pwd}
-                            onChange={(e) => setPwd(e.target.value)}
-                            placeholder={t('form.password')}
-                            ref={emailRef}
-                            autoComplete="current-password"
-                            required
-                        />
-                     
+                            <InputBox
+                                type="password"
+                                name="password"
+                                value={pwd}
+                                onChange={(e) => setPwd(e.target.value)}
+                                placeholder={t('form.password')}
+                                ref={emailRef}
+                                autoComplete="current-password"
+                                required
+                            />
 
-                        <div className="mb-10">
 
-                            <ButtonSimple title="Sign In" />
+                            <div className="mb-10">
 
-                        </div>
+                                <ButtonSimple title="Sign In" />
 
-                    </form>
+                            </div>
 
-                    <NavLink
-                        to="/forgetPassword"
-                        className="whitespace-nowrap mb-2 inline-block  text-sm lg:text-md text-blue-600 hover:text-primary hover:underline dark:text-blue-600"
-                        onClick={() => dispatch(setCurrentNav("forgetPassword"))}
-                    >
-
-                        {t("forgetPwd")}
-
-                    </NavLink>
-
-                    <p className="text-sm lg:text-md text-base text-blue-600 dark:text-blue-400 flex items-center justify-center gap-2">
-
-                        <span className="whitespace-nowrap pr-0.5">{t("notRegistered")}</span>
+                        </form>
 
                         <NavLink
-                            to="/register"
-                            className="whitespace-nowrap text-blue-700 hover:underline text-sm lg:text-md dark:text-blue-300"
-                            onClick={() => dispatch(setCurrentNav("register"))}
+                            to="/forgetPassword"
+                            className="whitespace-nowrap mb-2 inline-block  text-sm lg:text-md text-blue-600 hover:text-primary hover:underline dark:text-blue-600"
+                            onClick={() => dispatch(setCurrentNav("forgetPassword"))}
                         >
+
+                            {t("forgetPwd")}
+
+                        </NavLink>
+
+                        <p className="text-sm lg:text-md text-base text-blue-600 dark:text-blue-400 flex items-center justify-center gap-2">
+
+                            <span className="whitespace-nowrap pr-0.5">{t("notRegistered")}</span>
+
+                            <NavLink
+                                to={`/${ENDPOINTS.REGISTER}`}
+                                className="whitespace-nowrap text-blue-700 hover:underline text-sm lg:text-md dark:text-blue-300"
+                                onClick={() => dispatch(setCurrentNav(ENDPOINTS.REGISTER))}
+                            >
+
                             {t("register")}
+
                         </NavLink>
 
                     </p>

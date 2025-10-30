@@ -9,6 +9,7 @@ import image_2 from '../assets/image_2.jpg';
 import image_3 from '../assets/image_3.jpg';
 import HoverImage from '../components/HoverImage';
 import TitleCompGen from '../components/TitleComponentGen';
+import { ENDPOINTS } from '../utils';
 
 const About = () => {
 
@@ -30,15 +31,21 @@ const AboutContainer = () => {
     const rightSectionRef = useRef(null);
 
     useEffect(() => {
+
         const observerOptions = { threshold: 0.2 };
+
         const observer = new IntersectionObserver((entries) => {
+
             entries.forEach((entry) => {
+
                 if (entry.isIntersecting) {
+
                     entry.target.classList.add(
                         'opacity-100',
                         'translate-y-0',
                         'scale-100'
                     );
+
                     entry.target.classList.remove(
                         'opacity-0',
                         'translate-y-10',
@@ -46,15 +53,19 @@ const AboutContainer = () => {
                     );
                 }
             });
+
         }, observerOptions);
 
         const nodes = [leftSectionRef.current, rightSectionRef.current];
+
         nodes.forEach((node) => node && observer.observe(node));
 
         return () => observer.disconnect();
+
     }, []);
 
     return (
+
         <section className="overflow-hidden  pt-6 pb-1 lg:pt-6 lg:pb-3 dark:bg-dark bg-home animate-fade-in">
 
             <div className="container mx-auto">
@@ -71,12 +82,15 @@ const AboutContainer = () => {
                             <div className="w-full px-3 sm:px-4 xl:w-1/2">
 
                                 {[{ img: image_1, text: t('about_image_text') }, { img: image_2, text: t('about_image_text2') }].map((prod, idx) => (
+
                                     <div key={idx} className="py-3 sm:py-4">
+
                                         <HoverImage
                                             src={prod?.img}
                                             alt={t(`image_${idx + 1}_alt`)}
                                             text={prod?.text}
                                         />
+
                                     </div>
                                 ))}
 
@@ -121,10 +135,15 @@ const AboutContainer = () => {
 
                             <button
 
-                                onClick={() => {
-                                    navigate('/login');
-                                    dispatch(setCurrentNav('login'));
-                                }}
+                                onClick={
+
+                                    () => {
+
+                                        navigate(`/${ENDPOINTS.LOGIN}`);
+
+                                        dispatch(setCurrentNav(ENDPOINTS.LOGIN));
+                                    }
+                                }
 
                                 className="inline-flex items-center justify-center py-3 px-7 text-base font-medium text-white rounded-md bg-primary transition-all duration-300 ease-in-out hover:bg-opacity-90 hover:scale-105"
                             >

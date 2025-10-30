@@ -8,6 +8,7 @@ import { useDispatch} from "react-redux";
 import { ButtonSimple } from "../components/Button";
 import FormLayout from "../layouts/FormLayout";
 import TitleCompGen from "../components/TitleComponentGen";
+import { ENDPOINTS } from "../utils";
 
 const LayoutPwdForget = () => {
 
@@ -97,7 +98,7 @@ const LayoutPwdForget = () => {
 
                         clearInterval(timer);
 
-                        window.location.href = "/login";
+                        window.location.href = `/${ENDPOINTS.LOGIN}`;
                     }
                     return prev - 1;
                 });

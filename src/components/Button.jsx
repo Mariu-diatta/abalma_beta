@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { setCurrentNav } from "../slices/navigateSlice";
-import { removeAccents } from "../utils";
+import { CONSTANTS, ENDPOINTS, removeAccents } from "../utils";
 import { useTranslation } from 'react-i18next';
 
 
@@ -21,7 +21,7 @@ const WhiteRoundedButton = ({ titleButton, to }) => {
             className={
 
                 ({ isActive }) =>
-                    `whitespace-nowrap text-center dark:bg-dark  ${titleButton === t('register') ? "border border-gray-[0.1px] bg-gradient-to-br from-purple-50 to-blue-100 hover:bg-gradient-to-br hover:from-purple-100 " :"border-t sm:border-b-0 lg:border-b lg:border-t-0 hover:bg-gradient-to-br from-purple-50 to-blue-100 hover:bg-gradient-to-br hover:from-purple-100 "} border-gray-100 rounded-full inline-flex items-center justify-center px-3 py-1 text-center text-[14px] transition-all duration-200
+                    `whitespace-nowrap text-center dark:bg-dark  ${titleButton === t(ENDPOINTS.REGISTER) ? "border border-gray-[0.1px] bg-gradient-to-br from-purple-50 to-blue-100 hover:bg-gradient-to-br hover:from-purple-100 " :"border-t sm:border-b-0 lg:border-b lg:border-t-0 hover:bg-gradient-to-br from-purple-50 to-blue-100 hover:bg-gradient-to-br hover:from-purple-100 "} border-gray-100 rounded-full inline-flex items-center justify-center px-3 py-1 text-center text-[14px] transition-all duration-200
                  ${isActive
                         ? 'bg-[#1B44C8] border-[#1B44C8] text-white'
                         : 'bg-primary border-primary text-grey hover:bg-blue-50'
@@ -79,10 +79,10 @@ export const ButtonNavigate = ({ tabs }) => {
 
                             {
                                 !((
-                                    (tab.label === "About") ||
+                                    (tab.label === CONSTANTS.ABOUT) ||
                                     (removeAccents(tab.label) === removeAccents(t('about'))) ||
-                                    (tab.label === "Blogs")) && ((currentNav === "login") ||
-                                    (currentNav === "register"))) &&
+                                    (tab.label === CONSTANTS.BLOGS)) && ((currentNav === ENDPOINTS.LOGIN) ||
+                                    (currentNav === ENDPOINTS.REGISTER))) &&
 
                                 <NavLink
 

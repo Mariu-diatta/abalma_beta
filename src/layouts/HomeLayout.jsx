@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { setCurrentNav } from '../slices/navigateSlice';
 import ScrollTop, { ButtonScrollTopDown } from '../components/ButtonScroll';
+import { ENDPOINTS } from '../utils';
 
 const HomeLayout = ({ children }) => {
 
@@ -16,14 +17,14 @@ const HomeLayout = ({ children }) => {
 
         if (currentUser) {
 
-            dispatch(setCurrentNav('account-home'));
+            dispatch(setCurrentNav(ENDPOINTS.ACCOUNT_HOME));
         }
 
     }, [currentUser, dispatch]);
 
     if (currentUser) {
 
-        return <Navigate to="/account-home" replace />;
+        return <Navigate to={`/${ENDPOINTS.ACCOUNT_HOME}`} replace />;
     }
 
     return (

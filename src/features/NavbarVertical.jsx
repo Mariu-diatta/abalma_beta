@@ -10,8 +10,9 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from "react-router";
 import ScrollTop, { ButtonScrollTopDown } from "../components/ButtonScroll";
 import ProButtonUi from "../components/ButtonPro";
-import { fetchRooms } from "../utils";
+import { ENDPOINTS, fetchRooms } from "../utils";
 import AccountDropdownUserProfil from "./DropDownAccount";
+import { NavigateLoginButtons } from "./FooterMobileNav";
 
 
 const VertcalNavbar = ({ children }) => {
@@ -170,9 +171,9 @@ const VertcalNavbar = ({ children }) => {
 
                                     () => {
 
-                                        navigate("/account-home");
+                                        navigate(`/${ENDPOINTS.ACCOUNT_HOME}`);
 
-                                        dispatch(setCurrentNav("account-home"));
+                                        dispatch(setCurrentNav(ENDPOINTS.ACCOUNT_HOME));
                                     }
                                 }
                             >
@@ -555,6 +556,8 @@ const VertcalNavbar = ({ children }) => {
                 </div>
 
             </div>
+
+            <NavigateLoginButtons />
 
         </div>
     )

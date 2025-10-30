@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { clearMessage, setCurrentMessage } from "../slices/navigateSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { CONSTANTS } from "../utils";
 
 const AttentionAlertMessage = () => {
 
@@ -8,7 +9,7 @@ const AttentionAlertMessage = () => {
 
     const messageAlert = useSelector((state) => state.navigate.messageAlert);
 
-    const isError = useMemo(() => messageAlert?.Type === "Erreur", [messageAlert]);
+    const isError = useMemo(() => messageAlert?.Type === CONSTANTS.ERRREUR, [messageAlert]);
 
     const [show, setShow] = useState(false);
 
@@ -18,7 +19,6 @@ const AttentionAlertMessage = () => {
         if (messageAlert) setShow(true)
 
         const timeout = setTimeout(() => {
-
 
             setShow(false);
 

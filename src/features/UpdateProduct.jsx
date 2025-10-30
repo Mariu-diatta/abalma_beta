@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import LoadingCard from '../components/LoardingSpin';
 import { ButtonSimple } from '../components/Button';
 import TitleCompGen from '../components/TitleComponentGen';
+import { ENDPOINTS } from '../utils';
 
 const UpdateProduct = () => {
 
@@ -689,8 +690,8 @@ const UpdateProduct = () => {
                                 <ButtonSimple
                                     onHandleClick={
                                         () => {
-                                            dispatch(setCurrentNav("user-profil"));
-                                            navigate("/user-profil");
+                                            dispatch(setCurrentNav(ENDPOINTS?.USER_PROFIL));
+                                            navigate(`/${ENDPOINTS?.USER_PROFIL}`);
                                         }
                                     }
                                     title={t('add_product.switch_to_supplier')}

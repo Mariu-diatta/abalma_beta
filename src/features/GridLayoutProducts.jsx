@@ -226,9 +226,7 @@ const GridLayoutProduct = () => {
         >
             {
                 (currentUser && currentUser?.is_connected) &&
-                <div className="md:w-1/2 flex m-auto justify-center my-1">
                     <SearchBar />
-                </div>
             }
  
             <ScrollableCategoryButtons

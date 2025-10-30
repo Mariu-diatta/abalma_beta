@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCurrentNav } from "../slices/navigateSlice";
 import { useNavigate } from "react-router";
 import { useTranslation } from 'react-i18next';
+import { ENDPOINTS } from "../utils";
 
 
 const PayBack = () => {
@@ -17,23 +18,25 @@ const PayBack = () => {
     const currentUser = useSelector(state => state.auth.user);
 
     return (
+
         <button
 
             onClick={
+
                 currentUser
                     ? () => {
 
-                        navigate("/payment");
+                        navigate(`/${ENDPOINTS?.PAYMENT}`);
 
-                        dispatch(setCurrentNav("payment"));
+                        dispatch(setCurrentNav(ENDPOINTS.PAYMENT));
                     }
                     : () => {
 
                         if (window.confirm(t("connectAlertPaiement"))) {
 
-                            dispatch(setCurrentNav("login"));
+                            dispatch(setCurrentNav(ENDPOINTS.LOGIN));
 
-                            navigate("/login");
+                            navigate(`/${ENDPOINTS.LOGIN}`);
                         }
 
                     }

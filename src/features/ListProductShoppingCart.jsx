@@ -140,7 +140,7 @@ const ListProductShoppingCart = () => {
                     <tbody>
 
                     {
-                        data.items.map(
+                        data?.items?.map(
                             (
                                 { id, description_product, categorie_product, image_product, price_product, quantity_product, quanttity_product_sold }) => (
 

@@ -120,7 +120,6 @@ const ProductsRecapTable = ({ products }) => {
             style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
         >
             <nav
-
                 className="flex items-center gap-2 m-2 style_bg"
 
                 style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
@@ -151,7 +150,7 @@ const ProductsRecapTable = ({ products }) => {
                         (e) => setSelectedStatus(e.target.value)
                     }
 
-                    className="px-3 py-2 border rounded-lg bg-gray-100 border-gray-300"
+                    className="w-full md:w-auto px-2 py-2  pr-4 border rounded-lg bg-gray-100 border-gray-300"
 
                     style={
 
@@ -162,7 +161,7 @@ const ProductsRecapTable = ({ products }) => {
                     <option value="">{t('TableRecap.statusAll')}</option>
 
                     {
-                        displayedStatus.map(
+                        displayedStatus?.map(
 
                             status => (
 
@@ -194,7 +193,7 @@ const ProductsRecapTable = ({ products }) => {
 
                     onChange={e => setSearchTerm(e.target.value)}
 
-                    className="w-full sm:w-80 rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    className="w-full md:w-auto  rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 />
 
             </div>
@@ -253,7 +252,7 @@ const ProductsRecapTable = ({ products }) => {
                     >
 
                         {
-                            (paginatedProducts.length === 0) ?
+                            (paginatedProducts?.length === 0) ?
                             (
 
                                 <tr>
@@ -267,7 +266,7 @@ const ProductsRecapTable = ({ products }) => {
                                 </tr>
 
                             ) : (
-                                paginatedProducts.map((item, cle ) => (
+                                paginatedProducts?.map((item, cle ) => (
 
                                 <tr key={cle}>
 
@@ -452,13 +451,14 @@ function TransactionsDropdown({ transactionsData, onSubTransactionSelect }) {
         return selectedTransaction.items.map((entry) => entry.subTransaction);
     };
 
+    if (transactionsData?.length===0) return
 
     return (
 
-        <div className="flex flex-col md:flex-row gap-4">
+        <div className="flex flex-col md:flex-row gap-2 w-auto">
 
             {/* Dropdown 1: Transactions */}
-            <div className="relative inline-block">
+            <div className="relative inline-block sm:w-full">
 
                 <button
 
@@ -466,7 +466,7 @@ function TransactionsDropdown({ transactionsData, onSubTransactionSelect }) {
 
                     onClick={() => setDropdownOpen1(!dropdownOpen1)}
 
-                    className="border rounded-lg bg-gray-100 border-gray-300 inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-stroke px-6 py-3 text-base  text-dark dark:border-dark-3 dark:bg-dark-2 dark:text-white"
+                    className={`w-full md:w-auto  border rounded-lg bg-gray-100 border-gray-300 inline-flex h-10 items-center justify-between gap-2 rounded-lg border border-stroke px-2 py-3 text-base  text-dark dark:border-dark-3 dark:bg-dark-2 dark:text-white ${transactionsData.length>0?"":"hidden"}`}
 
                     style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                 >
@@ -493,7 +493,7 @@ function TransactionsDropdown({ transactionsData, onSubTransactionSelect }) {
 
                 </button>
 
-                {dropdownOpen1 && (
+                {dropdownOpen1 && transactionsData.length>0 && (
 
                     <div
 
@@ -534,11 +534,11 @@ function TransactionsDropdown({ transactionsData, onSubTransactionSelect }) {
                 <button
                     ref={trigger2}
                     onClick={() => setDropdownOpen2(!dropdownOpen2)}
-                    className="border rounded-lg bg-gray-100 border-gray-300 inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-stroke  px-6 py-3 text-base text-dark dark:border-dark-3 dark:bg-dark-2 dark:text-white"
+                    className="sm:w-full border rounded-lg bg-gray-100 border-gray-300 inline-flex h-10 items-center justify-between gap-2 rounded-lg border border-stroke  px-2 py-3 text-base text-dark dark:border-dark-3 dark:bg-dark-2 dark:text-white"
                     disabled={!selectedTransaction}
                     style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                 >
-                    {t('sub_transaction')}
+                    <p className="whitespace-nowrap">{t('sub_transaction')} </p>
 
                     <span
                         className={`duration-100 ${dropdownOpen2 ? "-scale-y-100" : ""}`}
@@ -561,7 +561,7 @@ function TransactionsDropdown({ transactionsData, onSubTransactionSelect }) {
 
                 </button>
 
-                {dropdownOpen2 && selectedTransaction && (
+                {dropdownOpen2 && selectedTransaction.length>0 && (
 
                     <div
 
