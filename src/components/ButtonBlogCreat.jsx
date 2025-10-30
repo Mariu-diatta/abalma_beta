@@ -17,7 +17,7 @@ const ButtonCreateBlog = ({ handleToggleModal, isOpen }) => {
         }
     };
 
-    if (![CONSTANTS?.BLOGS, ENDPOINTS?.USER_BLOGS].includes(currentNav)) return;
+    if (![CONSTANTS?.BLOGS, ENDPOINTS?.USER_BLOGS, ENDPOINTS?.BLOG].includes(currentNav)) return;
 
     return (
 
