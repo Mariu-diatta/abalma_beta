@@ -26,15 +26,15 @@ const ButtonCreateBlog = ({ handleToggleModal, isOpen }) => {
             aria-expanded={isOpen}
             aria-controls="modal-blog-form"
             className="
-          fixed bottom-6 right-6 -translate-y-1/2
-          h-10 px-3 rounded-full flex items-center gap-2
-          text-white text-sm
-          bg-gradient-to-br from-purple-50 to-blue-100
-          hover:from-purple-50 hover:to-blue-100
-          shadow-lg shadow-blue-100 dark:shadow-none
-          transition-all duration-200
-          z-50
-      "
+              fixed bottom-[60px] right-6 -translate-y-1/2
+              h-10 px-3 rounded-full flex items-center gap-2
+              text-white text-sm
+              bg-gradient-to-br from-purple-50 to-blue-100
+              hover:from-purple-50 hover:to-blue-100
+              shadow-lg shadow-blue-100 dark:shadow-none
+              transition-all duration-200
+              z-50
+          "
         >
             <div className="group relative flex items-center gap-2">
 
@@ -50,6 +50,7 @@ const ButtonCreateBlog = ({ handleToggleModal, isOpen }) => {
                         strokeWidth="1"
                         d="M7 19H5a1 1 0 0 1-1-1v-1a3 3 0 0 1 3-3h1m4-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm7.441 1.559a1.907 1.907 0 0 1 0 2.698l-6.069 6.069L10 19l.674-3.372 6.07-6.07a1.907 1.907 0 0 1 2.697 0Z"
                     />
+
                 </svg>
 
                 <div
@@ -63,6 +64,7 @@ const ButtonCreateBlog = ({ handleToggleModal, isOpen }) => {
                 >
                     {t("blog.blog")}
                 </div>
+
             </div>
 
         </button>
