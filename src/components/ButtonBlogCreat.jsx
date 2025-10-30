@@ -1,10 +1,13 @@
 ﻿import React from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
+import { CONSTANTS, ENDPOINTS } from "../utils";
 
 const ButtonCreateBlog = ({ handleToggleModal, isOpen }) => {
+
     const { t } = useTranslation();
     const currentUser = useSelector((state) => state.auth.user);
+    const currentNav = useSelector(state => state.navigate.currentNav);
 
     const handleClick = () => {
         if (currentUser?.email) {
@@ -14,7 +17,10 @@ const ButtonCreateBlog = ({ handleToggleModal, isOpen }) => {
         }
     };
 
+    if (![CONSTANTS?.BLOGS, ENDPOINTS?.USER_BLOGS].includes(currentNav)) return;
+
     return (
+
         <button
             onClick={handleClick}
             aria-expanded={isOpen}
