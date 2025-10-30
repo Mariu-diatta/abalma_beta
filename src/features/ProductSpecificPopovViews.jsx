@@ -1,8 +1,8 @@
 
 import { useTranslation } from 'react-i18next';
-import Carousel from '../components/CarrouselProducts';
-import ImageGalleryPan from './ImageGalleryPanel';
-import ImageGallery from './ImageGallery';
+import ProductsDisplayWithCarousel from '../components/CarrouselProducts';
+import CategoryProductsImagesGalleryDisplay from './ImageGalleryPanel';
+import CategoryProductsCardDisplay from './ImageGallery';
 
 
 const ProductSpecifiViews = ({ products, openModal, owners, panelRef }) => {
@@ -22,11 +22,11 @@ const ProductSpecifiViews = ({ products, openModal, owners, panelRef }) => {
 
         <div
             ref={panelRef}
-            className={`flex gap-2 bg-grey-9000 shadow-xs rounded-md min-h-70 max-h-70 w-full mt-1`}
+            className={`flex gap-2 bg-grey-9000 shadow-xs rounded-md min-h-70 max-h-70 w-full mt-1 z-0`}
         >
             <div style={{ flex: 2 }} className="hidden lg:block">
 
-                <ImageGallery
+                <CategoryProductsCardDisplay
 
                     imagesEls={products}
 
@@ -40,7 +40,7 @@ const ProductSpecifiViews = ({ products, openModal, owners, panelRef }) => {
 
             <div style={{ flex: 3 }}>
 
-                <Carousel
+                <ProductsDisplayWithCarousel
 
                     products={products}
 
@@ -53,7 +53,7 @@ const ProductSpecifiViews = ({ products, openModal, owners, panelRef }) => {
 
             <div style={{ flex: 2 }}>
 
-                <ImageGalleryPan
+                <CategoryProductsImagesGalleryDisplay
 
                     products={products}
 

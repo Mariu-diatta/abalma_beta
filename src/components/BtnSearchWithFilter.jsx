@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCategorySelected } from '../slices/navigateSlice';
 import { useTranslation } from 'react-i18next';
-import { ItemsNav, LIST_CATEGORY} from '../utils';
+import { ENDPOINTS, ItemsNav, LIST_CATEGORY} from '../utils';
 import clsx from "clsx";
 
 const SearchBar = ({disabled = false }) => {
@@ -72,15 +72,15 @@ const SearchBar = ({disabled = false }) => {
     return (
 
         <span
-            className={`sticky top-2 flex justify-center m-auto z-20 mb-2 sm:mt-6
+            className={`flex justify-center items-start z-10 md:w-1/2 ${currentNav === ENDPOINTS?.HOME ? "" :"sticky top-1"}
                   ${ItemsNav.includes(currentNav) || itemsNav.includes(currentNav) ? "w-full" : "hidden"}`}
         >
             <form
                 onSubmit={handleSubmit}
                 className={clsx(
-                    "mx-2",
+                    "mt-0",
                     "relative flex",
-                    searchTerm ? "w-full md:w-1/2" : "w-full  md:w-1/2"
+                    searchTerm ? "w-full" : "w-full  md:w-1/2"
                 )}
             >
                 <button

@@ -186,8 +186,6 @@ const ChatLayout = () => {
 
                             if (room?.messages.length>0) {
 
-                                console.log("room with lenght:::", room?.messages.length)
-
                                 dispatch(addRoom(room));
                             }
             
@@ -270,7 +268,7 @@ const ChatLayout = () => {
                         <h2 className="font-bold text-gray-500 mb-6 h-3">Discussions</h2>
 
                         {
-                            (allChats.length === 0) ?
+                            (allChats?.length === 0) ?
                             (
                                 <p className="text-center text-md font-bold">
                                     {t('message.nomessage')}
@@ -281,7 +279,7 @@ const ChatLayout = () => {
                             <ul className="mt-6 space-y-2 ">
 
                                 {
-                                    allChats.map(
+                                    allChats?.map(
 
                                         (room, index) => {
 
@@ -298,7 +296,7 @@ const ChatLayout = () => {
                                                     key={index}
                                                     className={`w-full flex items-center justify-between px-2 py-1 rounded-lg text-sm font-medium transition-colors
                                                     ${currentChat?.name === room?.name
-                                                        ? 'bg-gradient-to-br from-purple-100 to-blue-100 hover:bg-gradient-to-br hover:from-purple-200 text-white-800 shadow-sm'
+                                                        ? 'bg-gradient-to-br from-purple-0 to-blue-100 hover:bg-gradient-to-br hover:from-purple-50 text-white-800 shadow-sm'
                                                         : 'hover:bg-gray-100 text-gray-800 shadow-sm'
                                                     }`}
                                                 >
@@ -333,7 +331,7 @@ const ChatLayout = () => {
 
                                                     <button
                                                         onClick={() => handleDeleteRoom(room)}
-                                                        className="cursor-pointer ml-2 bg-red-50 hover:bg-red-200 text-lg shadow-sm h-7 w-7 rounded-full"
+                                                        className="cursor-pointer ml-2 bg-none hover:bg-red-200 text-lg shadow-sm h-7 w-7 rounded-full"
                                                         aria-label={`Supprimer ${room.name}`}
                                                     >
                                                         ✕

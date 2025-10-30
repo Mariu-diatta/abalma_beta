@@ -120,7 +120,9 @@ export const fetchRooms = async (currentUser, dispatch, addRoom) => {
             });
         }
 
-    } catch { }
+    } catch {
+
+    }
 };
 
 export const isAlreadyFollowed = async (clientId, setIsFollow, setIsLoading) => {
@@ -209,7 +211,7 @@ export const CATEGORIES = {
 // ============================
 
 // ✅ Liste simple (pour les selects)
-export const LIST_CATEGORIES = ["ALL", ...Object.keys(CATEGORIES)];
+export const LIST_CATEGORIES = ["All", ...Object.keys(CATEGORIES)];
 
 // ✅ Liste utilisée pour les filtres produits
 export const ListItemsFilterProduct = {
@@ -474,13 +476,23 @@ export const ENDPOINTS = {
     HOME: "home",
     ACCOUNT_HOME: "account-home",
     USER_PROFIL: "user-profil",
-    PAYMENT:"payment"
+    PAYMENT: "payment",
+    HELP: "help",
+    SETTINGS: "settings",
+    ADD_PRODUCT: "add-product",
+    USER_BLOGS: "user-blogs",
+    DASHBOARD:"dashboard"
 }
 
 export const CONSTANTS = {
     ABOUT: "About",
     BLOGS: "Blogs",
-    ERRREUR: "Erreur"
+    ERRREUR: "Erreur",
+    ALL: "Tous",
+    DARK: 'dark',
+    LIGHT: 'light',
+    THEME: 'theme',
+    CHAT_MESSAGE: "chat_message"
 }
 
    

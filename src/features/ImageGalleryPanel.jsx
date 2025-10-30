@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { addUser } from "../slices/chatSlice";
 import RendrePrixProduitMonnaie from "../features/ConvertCurrency";
 
-function ImageGalleryPan({ products, openModal, owners }) {
+function CategoryImagesDisplay({ products, openModal, owners }) {
 
     const dispatch = useDispatch()
 
@@ -14,12 +14,13 @@ function ImageGalleryPan({ products, openModal, owners }) {
             {
                 products?.map((item,k)=> {
 
-                    return <section className="flex flex-col" key={k}>
+                    return <section className="flex flex-col z-0" key={k}>
+
                                 <img
                                     key={k}
                                     src={item?.image_product}
                                     alt={item?.name_product}
-                                    className="relatif  object-cover rounded-lg transition duration-300 ease-in-out hover:brightness-75 hover:grayscale hover:scale-60"
+                                    className="relatif  object-cover rounded-lg transition duration-300 ease-in-out hover:brightness-75 hover:grayscale hover:scale-60 z-0"
                                     onClick={() => {
                                         openModal(item);
                                         dispatch(addUser(owners[item?.fournisseur]));
@@ -47,5 +48,5 @@ function ImageGalleryPan({ products, openModal, owners }) {
     );
 }
 
-export default ImageGalleryPan;
+export default CategoryImagesDisplay;
 

@@ -16,7 +16,7 @@ const ProfilPictureView = ({ currentUser, message, children }) => {
                 className="h-30 w-30 rounded-full object-cover cursor-pointer ring-1 ring-gray-300 hover:ring-blue-500 transition mb-4"
             />
 
-            <div className="w-full h-px bg-gray-300" />
+            <div className="w-full h-px bg-gray-100" />
 
             <p className="mb-1">{message || t('TableRecap.noProducts')}</p>
 

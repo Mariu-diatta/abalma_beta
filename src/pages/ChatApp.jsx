@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { backendBase} from '../utils';
+import { CONSTANTS, backendBase} from '../utils';
 import ButtonToggleChatsPanel from '../components/ButtonHandleChatsPanel';
 import InputBoxChat from '../components/InputBoxChat';
 import BoxMessagesChats from '../features/MessageBoxChat';
@@ -40,7 +40,7 @@ const ChatApp = ({ setShow , show}) => {
 
                 const data = JSON.parse(e.data);
 
-                if (data.type === "chat_message" && data.payload) {
+                if (data.type === CONSTANTS?.CHAT_MESSAGE && data.payload) {
 
                     setMessages(prev => [...prev, data.payload]);
                 }
@@ -130,7 +130,7 @@ const ChatApp = ({ setShow , show}) => {
     return (
 
         <div
-            className="flex flex-col w-screen rounded-2xl  overflow-hidden    bg-none shadow-lg  z-8 w-full mb-0  "
+            className="flex flex-col w-screen rounded-2xl  overflow-hidden bg-none shadow-sm  z-8 w-full mb-0  "
         >
 
             <div className="flex justify-between items-align-center p-2 bg-none max-h-[10dvh] min-h-[10dvh]">

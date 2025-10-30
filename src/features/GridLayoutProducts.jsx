@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateSelectedProduct } from '../slices/cartSlice';
 import api from '../services/Axios';
-import ProductModal from '../pages/ProductViewsDetails';
+import ModalViewProduct from '../pages/ProductViewsDetails';
 import { useTranslation } from 'react-i18next';
 import LoadingCard from '../components/LoardingSpin';
-import { removeAccents, translateCategory } from '../utils';
+import { CONSTANTS, removeAccents, translateCategory } from '../utils';
 import SearchBar from '../components/BtnSearchWithFilter';
 import ProductCard from '../components/ProductCard';
-import ScrollableCategoryButtons from './ScrollCategoryButtons';
+import ScrollableButtonsCategoryProducts from './ScrollCategoryButtons';
 
 const GridLayoutProduct = () => {
 
@@ -24,7 +24,7 @@ const GridLayoutProduct = () => {
 
     const cartItems = useSelector(state => state?.cart?.items);
 
-    const DEFAULT_ACTIVE_CATEGORY ='Tous';
+    const DEFAULT_ACTIVE_CATEGORY = CONSTANTS?.ALL;
 
     const [activeButtonCategory, setActiveButtonCategory] = useState(DEFAULT_ACTIVE_CATEGORY);
 
@@ -65,11 +65,10 @@ const GridLayoutProduct = () => {
         const fetchProductsAndOwners = async () => {
 
             try {
+
                 const translatedCategory = translateCategory(activeButtonCategory);
 
                 let cleanCategory = removeAccents(translatedCategory)?.toLowerCase();
-
-                if (translatedCategory === "TELEPHONIES") { cleanCategory = "TELEPHONIE"}
 
                 const url = isDefaultCategory(cleanCategory)
                     ? "products/filter/"
@@ -116,7 +115,7 @@ const GridLayoutProduct = () => {
 
         fetchProductsAndOwners();
 
-    }, [activeButtonCategory]);
+    }, [activeButtonCategory,DEFAULT_ACTIVE_CATEGORY]);
 
     useEffect(() => {
 
@@ -130,13 +129,10 @@ const GridLayoutProduct = () => {
 
         const fetchProductsAndOwners = async () => {
 
-
             try {
                 const translatedCategory = translateCategory(isButtonOver.replace("_", " ").toLocaleUpperCase());
 
                 var cleanCategory = removeAccents(translatedCategory)?.toLowerCase();
-
-                if (translatedCategory === "TELEPHONIES") { cleanCategory = "TELEPHONIE" }
 
                 const url = isDefaultCategory(cleanCategory)
                     ? "products/filter/"
@@ -181,7 +177,7 @@ const GridLayoutProduct = () => {
 
         fetchProductsAndOwners();
 
-    }, [isButtonOver]);
+    }, [isButtonOver, DEFAULT_ACTIVE_CATEGORY]);
 
     useEffect(
 
@@ -226,10 +222,10 @@ const GridLayoutProduct = () => {
         >
             {
                 (currentUser && currentUser?.is_connected) &&
-                    <SearchBar />
+                <SearchBar />
             }
  
-            <ScrollableCategoryButtons
+            <ScrollableButtonsCategoryProducts
 
                 setActiveCategory={setActiveButtonCategory}
 
@@ -243,8 +239,6 @@ const GridLayoutProduct = () => {
 
             />
             
-
-
             {
                 (loading) ?
 
@@ -252,9 +246,10 @@ const GridLayoutProduct = () => {
                 :
                 <>
                     {
-                        filteredItems.length > 0 ? (
+                        (filteredItems?.length > 0) ? 
+                        (
 
-                            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-2 sm:gap-3">
+                            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-2 sm:gap-3 z-0">
 
                                 {/* --- Regroupement des produits par catégorie --- */}
                                 {
@@ -278,12 +273,14 @@ const GridLayoutProduct = () => {
 
                                             {/* Produits de la catégorie */}
                                             {
-                                                items.map((item) => {
+                                                items?.map((item) => {
 
                                                         const isInCart = cartItems?.some((product) => product?.id === item?.id);
+
                                                         const owner = owners[item?.fournisseur];
 
                                                         return (
+
                                                             <ProductCard
                                                                 key={item?.id}
                                                                 id={item?.id}
@@ -298,6 +295,7 @@ const GridLayoutProduct = () => {
                                                     }
                                                 )
                                             }
+
                                         </React.Fragment>
                                     ))
                                 }
@@ -307,7 +305,11 @@ const GridLayoutProduct = () => {
                         : 
                         (
                             <div className="flex items-center justify-center mx-auto max-w-md p-4 rounded-full border border-gray-200 mb-2">
-                                <span className="text-sm">{t('ListItemsFilterProduct.noProduct')}</span>
+                                
+                                <span className="text-sm">
+                                    {t('ListItemsFilterProduct.noProduct')}
+                                </span>
+
                             </div>
                         )
                     }
@@ -315,7 +317,7 @@ const GridLayoutProduct = () => {
 
             }
 
-            <ProductModal isOpen={!!modalData} onClose={closeModal} products={filteredItems}/>
+            <ModalViewProduct isOpen={!!modalData} onClose={closeModal} products={filteredItems}/>
 
         </div>
     );

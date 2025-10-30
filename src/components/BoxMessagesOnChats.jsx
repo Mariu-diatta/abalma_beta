@@ -24,7 +24,7 @@ const PrintMessagesOnChat = ({ messages, currentUser, selectedUser, messagesEndR
                                     const alignment = isCurrentUser ? "justify-end" : "justify-start";
                                     const bubbleColor = isCurrentUser
                                         ? "bg-blue-300 text-white rounded-br-none"
-                                        : "bg-gray-200 text-gray-800 rounded-bl-none";
+                                        : "text-gray-500 rounded-bl-none border border-gray-100";
 
                                     const currentDateLabel = formatDateRelative(msg.date);
 
@@ -63,7 +63,7 @@ const PrintMessagesOnChat = ({ messages, currentUser, selectedUser, messagesEndR
 
                                                 <div className="d-flex flex-col w-auto">
 
-                                                    <div className={`w-full px-2 py-2 text-sm shadow rounded-2xl flex flex-col shadow-md ${bubbleColor}`}>
+                                                    <div className={`w-full px-2 py-2 text-sm rounded-2xl flex flex-col shadow-md ${bubbleColor}`}>
                                                         <p>{msg?.message}</p>
                                                     </div>
 

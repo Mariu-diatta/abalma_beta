@@ -5,7 +5,7 @@ import ThemeToggle from '../features/Theme';
 import LanguageDropdown from '../features/Langages';
 
 
-const NotificationGroup = ({ currentNotifMessages, notify, changeLanguage}) => (
+const GroupThemNotifPayLangageButtons = ({ currentNotifMessages, notify, changeLanguage}) => (
 
     <>
 
@@ -37,4 +37,4 @@ const NotificationGroup = ({ currentNotifMessages, notify, changeLanguage}) => (
     </>
 );
 
-export default NotificationGroup;
+export default GroupThemNotifPayLangageButtons;

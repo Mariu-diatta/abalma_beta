@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch} from 'react-redux';
 import { LIST_CATEGORIES } from '../utils';
 import { updateCurrentButtonCategoryHover } from '../slices/navigateSlice';
-import ProductSpecifiViews from './ProductSpecificPopovViews';
+import HoverCategoryProductDisplay from './ProductSpecificPopovViews';
 
 const ScrollableCategoryButtons = ({
     setActiveCategory,
@@ -98,7 +98,7 @@ const ScrollableCategoryButtons = ({
     return (
 
         <>
-            <ProductSpecifiViews products={products} openModal={openModal} owners={owners} panelRef={panelRef}/>
+            <HoverCategoryProductDisplay products={products} openModal={openModal} owners={owners} panelRef={panelRef}/>
 
             <div
 
