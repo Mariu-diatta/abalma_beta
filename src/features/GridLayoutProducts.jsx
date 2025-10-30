@@ -249,7 +249,7 @@ const GridLayoutProduct = () => {
                         (filteredItems?.length > 0) ? 
                         (
 
-                            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-2 sm:gap-3 z-0">
+                            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-2 sm:gap-3 z-0 mb-[100px]">
 
                                 {/* --- Regroupement des produits par catégorie --- */}
                                 {

@@ -7,7 +7,8 @@ import { useTranslation } from 'react-i18next';
 import { ENDPOINTS, getTabsNavigationsItems } from "../utils";
 import SearchBar from "../components/BtnSearchWithFilter";
 import api from "../services/Axios";
-import MobileNav, { DesktopNav } from "../features/FooterMobileNav";
+import MobileNav from "../features/FooterMobileNav";
+import DesktopNav from "../features/FooterDeskTopNav";
 
 
 const NavbarHeader = () => {

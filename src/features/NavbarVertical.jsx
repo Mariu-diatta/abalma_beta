@@ -560,8 +560,6 @@ const VertcalNavbar = ({ children }) => {
 
             </div>
 
-            <NavigateLoginButtons />
-
         </div>
     )
 }
