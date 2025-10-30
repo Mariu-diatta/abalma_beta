@@ -180,7 +180,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                     >
 
-                        <div className="flex gap-2 mb-5">
+                        <div className="flex gap-2">
 
                             <div className="absolute bottom-0 left-2 mt-5 lg:mt-auto  lg:left-auto lg:right-12 lg:top-0 lg:bottom-auto md:top-1 md:bottom-auto flex items-between gap-1 ">
 
@@ -351,14 +351,14 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                                 </fieldset>
 
-                                <h2 className="text-sm  mt-5 h-[42dvh] overflow-y-auto scrollbor_hidden ">
+                                <h2 className="text-sm  my-5 h-auto overflow-y-auto scrollbor_hidden ">
 
                                     {currentSelectedProductView?.description_product?.toLowerCase()}
 
                                 </h2>
 
                                 {/* Size Options */}
-                                <fieldset className="mt-10">
+                                <fieldset className="mt-auto">
 
                                     <div className="flex items-center justify-between">
 
@@ -370,7 +370,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                                     </div>
 
-                                    <div className="z-0 mt-4 mb-2 sm:mb-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-1">
+                                    <div className="z-0 mt-1 mb-1 sm:mb-1 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-1">
 
                                         {[
                                             { label: "Type", value: currentSelectedProductView?.type_choice },
@@ -387,7 +387,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                                                 htmlFor={`${label}-${value}`}
 
-                                                className="relative overflow-x-auto scrollbor_hidden w-full group relative flex flex-col items-center justify-center border border-gray-300  rounded-md px-1 py-1 text-xs text-gray-800 hover:bg-gray-100 transition-all duration-150"
+                                                className="relative overflow-x-auto scrollbor_hidden w-full group relative flex flex-col items-center justify-center border border-gray-100  rounded-md px-1 py-1 text-xs text-gray-800 hover:bg-gray-100 transition-all duration-150"
                                             >
                                                 <input
                                                     type="radio"
@@ -408,18 +408,19 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                                 </fieldset>
 
-                                <div className="overflow-x-auto w-full  scrollbor_hidden flex gap-2 ">
+                                <div className="border-0 overflow-x-auto w-full  scrollbor_hidden flex gap-2 ">
+
                                     {/*information complémentaire*/}
-                                    <fieldset className="flex  gap-4 items-center text-sm text-gray-600 p-3 rounded-md shadow-sm animate-scroll">
+                                    <fieldset className="border-0 flex  gap-4 items-center text-sm text-gray-600 p-3 rounded-md  animate-scroll">
 
                                         {
                                             getLogoTitlOperation(t, currentSelectedProductView).map((el, idx)=>
 
-                                                <span className="flex items-center gap-1 justify-center  whitespace-nowrap" key={idx}>
+                                                <span className="border-0 flex items-center gap-1 justify-center  whitespace-nowrap" key={idx}>
 
-                                                    <span className="flex items-center gap-2 justify-center font-medium px-3 text-gray-700">
+                                                    <span className="border-0 flex items-center gap-2 justify-center font-medium px-3 text-gray-700">
 
-                                                        <img className="rounded-sm " src={el?.logo} alt="" width="25" />
+                                                        <img className="rounded-sm border-0 " src={el?.logo} alt="" width="20" height="20"/>
 
                                                         <span>{el?.title}:</span>
 
