@@ -31,7 +31,7 @@ export const BlogPage = () => {
 
     const fetchBlogs = useCallback(() => {
 
-        return blogs.map((post, index) => (
+        return blogs?.map((post, index) => (
 
             <BlogCard key={index} {...post} />
         ));
@@ -81,7 +81,9 @@ export const BlogPage = () => {
     )
 
     useEffect(
+
         () => {
+
             const getDataBlogSearch = async (data = categorySelectedData) => {
 
                 const getBlogs = async () => {
@@ -113,7 +115,7 @@ export const BlogPage = () => {
     return (
 
 
-        <div className=" dark:bg-gray-900 bg_home z-0 shadow-sm  py-6">
+        <div className="h-full py-1 overflow-y-auto scrollbor_hidden">
 
             <div className="mx-0 lg:mx-auto  max-w-screen-auto text-center lg:mb-3 mb-2">
 
@@ -129,12 +131,12 @@ export const BlogPage = () => {
                 <SearchBar />
             }
 
-            <div className="py-1 px-2 w-full mx-0 lg:mx-auto lg:py-2 lg:px-6 h-screen mb-6 pt-5" >
+            <div className="relative overflow-x-hidden fixed py-1 px-2 w-full mx-0 lg:mx-auto lg:py-2 lg:px-6 my-6" >
 
                 {
                     !isLoading ?
 
-                    <div className="grid gap-2 lg:grid-cols-2">
+                    <div className="grid gap-6 lg:grid-cols-2 overflow-y-auto h-full py-6 mb-[100px]">
 
                          {fetchBlogs()}
 
@@ -144,12 +146,8 @@ export const BlogPage = () => {
 
                 }
 
+                <ModalFormCreatBlog/>
 
-                <div className="fixed  top-[3dvh]  right-5  shadow-lg rounded-full z-0">
-
-                    <ModalFormCreatBlog/>
-
-                </div>
 
             </div>
 
@@ -163,7 +161,7 @@ const BlogPageHome = () => {
 
     return (
 
-        <HomeLayout >
+        <HomeLayout>
 
             <BlogPage />
 

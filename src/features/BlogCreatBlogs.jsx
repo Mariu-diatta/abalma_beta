@@ -1,17 +1,17 @@
 import React, { useEffect,  useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import api from '../services/Axios';
 import { useTranslation } from 'react-i18next';
 import { updateContentBlog } from '../slices/cartSlice';
 import LoadingCard from '../components/LoardingSpin';
 import { ButtonSimple } from '../components/Button';
 import TitleCompGen from '../components/TitleComponentGen';
+import ButtonCreatBlog from '../components/ButtonBlogCreat';
 
 export const ModalFormCreatBlog = () => {
 
     const { t } = useTranslation();
     const [loading, setLoading] = useState(true);
-    const profileData = useSelector((state) => state.auth.user);
     const [isOpen, setIsOpen] = useState(false);
     const modalRef = useRef(null);
     const modalRef_ = useRef(null);
@@ -150,40 +150,11 @@ export const ModalFormCreatBlog = () => {
 
         <div className="bg-none z-0"  ref={modalRef_} >
 
-            {/* Toggle Button */}
-            {
-                
-                <button
-                    onClick={(profileData && profileData?.email) ? handleToggleModal : () => alert(t("connect_first"))}
-                    className="h-8  md:w-auto  rounded-full flex gap-1 bg-blue-300 text-white text-sm px-1 py-1 hover:bg-blue-700 items-centerbg-gradient-to-br from-purple-100 to-blue-50 bg-gradient-to-br hover:from-purple-100 "
-                    aria-expanded={isOpen}
-                    aria-controls="modal-blog-form"
-                >
-                    <svg
-                        className="w-5 h-5 text-white"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                    >
-                        <path
-                            stroke="currentColor"
-                            strokeLinecap="square"
-                            strokeLinejoin="round"
-                            strokeWidth="1"
-                            d="M7 19H5a1 1 0 0 1-1-1v-1a3 3 0 0 1 3-3h1m4-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm7.441 1.559a1.907 1.907 0 0 1 0 2.698l-6.069 6.069L10 19l.674-3.372 6.07-6.07a1.907 1.907 0 0 1 2.697 0Z"
-                        />
-
-                    </svg>
-
-                    <span className="whitespace-nowrap px-2">{t("blog.blog")}</span>
-
-                </button>
-            }
-
             {/* Modal */}
-            {isOpen && (
+            {
+                isOpen && (
                 <div
-                    className="fixed inset-0 bg-black/50  flex items-center justify-center p-2 inset-0 mb-8 w-full h-full z-[9999] pb-8 bottom-[500px]"
+                    className="fixed w-full h-full inset-0 bg-black/50  flex items-center justify-center p-2 inset-0 mb-8  z-[100] pb-8 "
                     aria-labelledby="modal-title"
                     aria-describedby="modal-description"
                     role="dialog"
@@ -191,7 +162,7 @@ export const ModalFormCreatBlog = () => {
                 >
                     <div
                         ref={modalRef}
-                        className="bg-white rounded-lg shadow-lg w-full max-w-2xl p-2 relative"
+                        className="bg-white rounded-lg shadow-lg w-full max-w-2xl p-2"
                     >
                         {/* Header */}
                         <div className="flex justify-between gap-4  mb-4">
@@ -304,7 +275,14 @@ export const ModalFormCreatBlog = () => {
 
                     </div>
                 </div>
-            )}
+                )
+            }
+
+            {/* Toggle Button */}
+            <ButtonCreatBlog
+                handleToggleModal={handleToggleModal}
+                isOpen={isOpen}
+            />
 
         </div>
     );
