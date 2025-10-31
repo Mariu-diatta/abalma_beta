@@ -27,7 +27,7 @@ const TablesRecapActivities = ({productsTrasactionBought }) => {
 
             </div>
 
-            <div className="relative overflow-y-auto max-h-[60dvh] w-auto left-0 scrollbor_hidden mb-[30dvh]">
+            <div className="relative overflow-y-auto max-h-[60dvh] w-auto left-0 scrollbor_hidden mb-[30dvh] pb-[30dvh]">
 
                 <ListProductShoppingCart />
 

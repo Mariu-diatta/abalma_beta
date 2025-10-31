@@ -27,6 +27,7 @@ const ChatApp = ({ setShow , show}) => {
 
         // Ferme l'ancienne connexion si elle existe
         if (ws.current) {
+
             ws.current.close();
         }
 
@@ -40,10 +41,11 @@ const ChatApp = ({ setShow , show}) => {
 
                 const data = JSON.parse(e.data);
 
-                if (data.type === CONSTANTS?.CHAT_MESSAGE && data.payload) {
+                if (data?.type === CONSTANTS?.CHAT_MESSAGE && data.payload) {
 
                     setMessages(prev => [...prev, data.payload]);
                 }
+
             } catch (err) {
 
                 console.error("❌ Erreur parsing WebSocket :", err);
@@ -78,7 +80,7 @@ const ChatApp = ({ setShow , show}) => {
 
                 currentChat?.messages?.forEach(msg =>
 
-                    loaded.push({
+                    loaded?.push({
 
                         message: msg?.text,
 
