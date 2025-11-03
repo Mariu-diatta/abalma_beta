@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { updateTheme } from '../slices/navigateSlice';
 import { CONSTANTS, applyTheme } from '../utils';
