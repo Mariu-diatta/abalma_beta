@@ -11,9 +11,85 @@ import { useTranslation } from 'react-i18next';
 import LoadingCard from '../components/LoardingSpin';
 import { ButtonSimple } from '../components/Button';
 import TitleCompGen from '../components/TitleComponentGen';
-import { ENDPOINTS } from '../utils';
+import { ENDPOINTS, capitalizeFirstLetter } from '../utils';
+import { useEffect } from 'react';
 
-const UpdateProduct = () => {
+const ProductSummary = ({ product, onEdit, onDelete, onAddNew, t }) => {
+
+    if (!product) return null;
+
+    return (
+        <div
+            className="flex flex-col gap-4 
+                 shadow-lg p-4 rounded-lg bg-white w-100 m-auto"
+        >
+
+            <div className="flex flex-col gap-3 text-gray-700 dark:text-gray-300 text-sm">
+                <p className="flex justify-between">
+                    <span className="font-medium">{capitalizeFirstLetter(t("name"))}:</span>
+                    <span>{product.name_product}</span>
+                </p>
+                <p className="flex justify-between">
+                    <span className="font-medium">{capitalizeFirstLetter(t("price"))}:</span>
+                    <span>{product.price_product} {product.currency_price}</span>
+                </p>
+                <p className="flex justify-between">
+                    <span className="font-medium">{capitalizeFirstLetter(t("size"))}:</span>
+                    <span>{product.taille_product}</span>
+                </p>
+                <p className="flex justify-between">
+                    <span className="font-medium">{capitalizeFirstLetter(t("color"))}:</span>
+                    <span>{product.color_product}</span>
+                </p>
+                <p className="flex justify-between">
+                    <span className="font-medium">{capitalizeFirstLetter(t("quantity"))}:</span>
+                    <span>{product.quantity_product}</span>
+                </p>
+                <p className="flex justify-between">
+                    <span className="font-medium">{capitalizeFirstLetter(t("description"))}:</span>
+                    <span className="h-50  overflow-y-auto">{product.description_product}</span>
+                </p>
+                <p className="flex justify-between">
+                    <span className="font-medium">{capitalizeFirstLetter(t("delivery"))}:</span>
+                    <span>{product.delivery}</span>
+                </p>
+                {/* Ajouter d’autres champs si nécessaire */}
+            </div>
+
+            {/* Actions */}
+            <div className="flex justify-end mt-4 gap-1">
+
+                <button
+                    onClick={onEdit}
+                    className="bg-yellow-100 hover:bg-yellow-200 text-white text-[12px] px-1 py-1 rounded-md transition-colors"
+                >
+                    {t("edit")}
+
+                </button>
+
+                <button
+                    onClick={onDelete}
+                    className="bg-red-100 hover:bg-red-200 text-white text-[12px] px-1 py-1 rounded-md transition-colors"
+                >
+                    {t("delete")}
+
+                </button>
+
+                <button
+                    onClick={onAddNew}
+                    className="bg-green-100 hover:bg-green-200 text-white text-[12px] px-1 py-1 rounded-md transition-colors"
+                >
+                    {t("add_new_product")}
+                </button>
+            </div>
+        </div>
+    );
+};
+
+
+
+
+const AddUploadProduct = () => {
 
     const [imageFile, setImageFile] = useState(null);
     const [isProductAdded, setIsProductAdded] = useState(false);
@@ -23,8 +99,9 @@ const UpdateProduct = () => {
     const dispatch = useDispatch();
     const currentUserCompte = useSelector((state) => state.auth.compteUser);
     const user = useSelector((state) => state.auth.user);
+    const [isEditing, setIsEditing] = useState(false);
 
-    const [dataProduct, setDataProduct] = useState({
+    const initData = {
         date_emprunt: "",
         price_product: "",
         currency_price: "",
@@ -40,9 +117,11 @@ const UpdateProduct = () => {
         name_product: "",
         paymentMethod: "",
         adress: "",
-        delivery:"",
+        delivery: "",
         taille_product: "MEDIUM"
-    });
+    }
+
+    const [dataProduct, setDataProduct] = useState(initData);
 
     const handleFileSelect = (file) => setImageFile(file);
 
@@ -161,29 +240,6 @@ const UpdateProduct = () => {
 
             dispatch(addMessageNotif(`Produit ${dataProduct?.code_reference} créé le ${new Date().toLocaleString()}`));
 
-            // Reset formulaire
-            handleFileSelect(null);
-
-            setDataProduct({
-                date_emprunt: "",
-                taille_product: "MEDIUM",
-                price_product: "",
-                currency_price: "",
-                color_product: "",
-                date_fin_emprunt: "",
-                categorie_product: "",
-                code_reference: "",
-                operation_product: "",
-                image_product: null,
-                description_product: "",
-                fournisseur: "",
-                quantity_product: 1,
-                name_product: "",
-                paymentMethod: "",
-                adress: "",
-                delivery:""
-            });
-
             setIsProductAdded(true)
 
         } catch (error) {
@@ -209,11 +265,22 @@ const UpdateProduct = () => {
         }
     };
 
+    useEffect(
+
+        () => {
+
+            if (isEditing) return
+
+            setDataProduct(dataProduct)
+
+        }, [isEditing, dataProduct]
+    )
+
     return (
 
         <div
 
-            className="bg-white dark:bg-gray-900 rounded-md flex flex-col justify-center items-center  w-full"
+            className="bg-white dark:bg-gray-900 rounded-md flex flex-col justify-center items-center  w-full pb-[20dvh]"
 
             style={
                 {
@@ -222,36 +289,66 @@ const UpdateProduct = () => {
                 }
             }
         >
-            <span className="font-extrabold text-gray-500 dark:text-gray-400 text-2xl ">
+            <span className={`font-extrabold text-gray-500 dark:text-gray-400 text-2xl ${isProductAdded && "hidden"}`}>
 
-                <TitleCompGen title={t('add_product.add_or_update_product')} />
+                <TitleCompGen title={t('add_product.add_or_update_product')} />             
+
+            </span>
+
+            <span className={`font-extrabold text-gray-500 dark:text-gray-400 text-2xl z-10 ${!isProductAdded && "hidden"}`}>
+
+                <TitleCompGen title={t("product_summary")} />              
 
             </span>
 
             {/* ✅ Message d’alerte toujours visible s’il existe */}
             <div className="mb-4">
+
                 <AttentionAlertMesage />
+
             </div>
 
             {
                 isProductAdded ?
                 (
-                    <div
-                        className="absolute flex flex-col gap-3 
-                                    left-1/2 top-1/2 
-                                    -translate-x-1/2 -translate-y-1/2
-                                    shadow-lg p-2 rounded-lg bg-white"
-                    >
+                        <ProductSummary
+                            product={dataProduct}
+                            t={t}
+                            onEdit={() => {
+                                // Logique pour modifier le produit
+                                setIsEditing(true);
+                            }}
+                            onDelete={() => {
+                                // Réinitialiser les données du produit
+                                setDataProduct({
+                                    date_emprunt: "",
+                                    taille_product: "MEDIUM",
+                                    price_product: "",
+                                    currency_price: "",
+                                    color_product: "",
+                                    date_fin_emprunt: "",
+                                    categorie_product: "",
+                                    code_reference: "",
+                                    operation_product: "",
+                                    image_product: null,
+                                    description_product: "",
+                                    fournisseur: "",
+                                    quantity_product: 1,
+                                    name_product: "",
+                                    paymentMethod: "",
+                                    adress: "",
+                                    delivery: ""
+                                });
+                                setIsProductAdded(false);
+                            }}
+                            onAddNew={() => {
+                                setIsProductAdded(false); // Fermer le récapitulatif et ouvrir le formulaire
+                                setDataProduct(initData);
+                                // Reset formulaire
+                                handleFileSelect(null);
+                            }}
+                        />
 
-                        <button
-                            onClick={() => setIsProductAdded(false)}
-                            className="border p-1 rounded-md"
-                        >
-                            {t('add_new_product')}
-
-                        </button>
-
-                    </div>
                 )
                 :
                 (
@@ -688,13 +785,16 @@ const UpdateProduct = () => {
                             !(user?.is_fournisseur && user?.is_verified) && (
 
                                 <ButtonSimple
+
                                     onHandleClick={
                                         () => {
                                             dispatch(setCurrentNav(ENDPOINTS?.USER_PROFIL));
                                             navigate(`/${ENDPOINTS?.USER_PROFIL}`);
                                         }
                                     }
+
                                     title={t('add_product.switch_to_supplier')}
+
                                     type="button"
                                 />
                             )
@@ -708,4 +808,4 @@ const UpdateProduct = () => {
     );
 };
 
-export default UpdateProduct;
+export default AddUploadProduct;

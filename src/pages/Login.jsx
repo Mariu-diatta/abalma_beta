@@ -177,7 +177,7 @@ const LogIn = () => {
 
                             <div className="mb-10">
 
-                                <ButtonSimple title="Sign In" />
+                                <ButtonSimple title={t("login")} />
 
                             </div>
 

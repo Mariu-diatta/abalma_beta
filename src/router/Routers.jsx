@@ -16,7 +16,7 @@ import ProfileCard from "../features/ProfilUser";
 import PrivacyPolicy from "../features/PrivacyPolicy";
 import LayoutPwdForget from "../pages/forgetPassword";
 import VertcalNavbar from "../features/NavbarVertical";
-import UpdateProduct from "../features/UpdateProduct";
+import AddUploadProduct from "../features/UpdateProduct";
 import ChatLayout from "../layouts/ChatLayout";
 import GridProductDefault from "../features/GridProductDefaultSize";
 import Tabs from "../features/DashbordProfileUser";
@@ -86,7 +86,7 @@ const routes = [
 
                                 { path: "account-home", class_rendered: <GridLayoutProduct /> },
 
-                                { path: "add-product", class_rendered: <UpdateProduct /> },
+                                { path: "add-product", class_rendered: <AddUploadProduct /> },
 
                                 { path: "message-inbox", class_rendered: <ChatLayout /> }
 

@@ -72,7 +72,7 @@ const SearchBar = ({disabled = false }) => {
     return (
 
         <span
-            className={`flex justify-center items-start z-10 md:w-1/2 ${currentNav === ENDPOINTS?.HOME ? "" :"sticky top-0 my-0"}
+            className={`flex justify-center items-start z-20 md:w-1/2 ${currentNav === ENDPOINTS?.HOME ? "" :"sticky top-0 my-0"}
                   ${ItemsNav.includes(currentNav) ? "w-full" : "hidden"}`}
         >
             <form

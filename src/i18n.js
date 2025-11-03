@@ -22,6 +22,8 @@ i18n
      en: {
 
         translation: {
+             edit:"Edit",
+             product_summary:"Product data summary",
              typing:"is writing ....",
              addProductModify: "Product successfully added✅",
              alertSuccesMessageFormHelp: {
@@ -356,7 +358,7 @@ i18n
             view: 'View',
             delete: "Delete",
             welcome: "Welcome",
-            login: "Log In",
+            login: "Sing in",
             register: "Creat an account",
             home: "Home",
             about: "About",
@@ -635,6 +637,8 @@ i18n
      fr: {
 
          translation: {
+             edit:"Modifier",
+             product_summary:"Résumer du produit",
              typing: "est en train d'écrire...",
              addProductModify: "Produit ajouté avec succès ✅",
              connectAlertPaiement: "Connectez-vous pour voir les articles que vous avez ajoutés à votre panier.",
