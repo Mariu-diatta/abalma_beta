@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCurrentNav } from "../slices/navigateSlice";
 import api from "../services/Axios";
 import Logo from "../components/LogoApp";
-import { MenuItems } from "../components/MenuItem";
+import { menuItems } from "../components/MenuItem";
 import { addRoom } from "../slices/chatSlice";
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from "react-router";
@@ -258,7 +258,13 @@ const VertcalNavbar = ({ children }) => {
 
                                 className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-full ${(currentNav === ENDPOINTS?.MESSAGE_INBOX) && "bg-gray-50"}`}
 
-                                onClick={() => { navigate(`/${ENDPOINTS?.MESSAGE_INBOX}`); dispatch(setCurrentNav(ENDPOINTS?.MESSAGE_INBOX)) }}
+                                onClick={
+
+                                    () => {
+                                        navigate(`/${ENDPOINTS?.MESSAGE_INBOX}`);
+                                        dispatch(setCurrentNav(ENDPOINTS?.MESSAGE_INBOX))
+                                    }
+                                }
                             >
                                 {
                                     (currentNav === ENDPOINTS?.MESSAGE_INBOX) ?
@@ -300,7 +306,15 @@ const VertcalNavbar = ({ children }) => {
 
                                 className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-full  ${(currentNav === "add-product") && "bg-gray-50"}`}
 
-                                onClick={() => { navigate(`/${ENDPOINTS?.ADD_PRODUCT}`); dispatch(setCurrentNav(ENDPOINTS?.ADD_PRODUCT)) }}
+                                onClick={
+
+                                    () => {
+
+                                        navigate(`/${ENDPOINTS?.ADD_PRODUCT}`);
+
+                                        dispatch(setCurrentNav(ENDPOINTS?.ADD_PRODUCT))
+                                    }
+                                }
                             >
                                 {
                                     (currentNav === ENDPOINTS?.ADD_PRODUCT) ?
@@ -358,9 +372,12 @@ const VertcalNavbar = ({ children }) => {
 
                             <button
 
-                                onClick={() => {
-                                    navigate(`/${ENDPOINTS?.DASHBOARD}`); dispatch(setCurrentNav(ENDPOINTS?.DASHBOARD))
-                                }
+                                onClick={
+
+                                    () => {
+
+                                        navigate(`/${ENDPOINTS?.DASHBOARD}`); dispatch(setCurrentNav(ENDPOINTS?.DASHBOARD))
+                                    }
                                 }
 
                                 className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 group cursor-pointer rounded-full  ${(currentNav === "dashboard") && "bg-gray-50"}`}>
@@ -400,7 +417,7 @@ const VertcalNavbar = ({ children }) => {
                     >
 
                         {
-                            MenuItems(t).map(({ name, to, svg, id }, index) => (
+                            menuItems(t).map(({ name, to, svg, id }, index) => (
 
                             <li key={index}>
 
@@ -415,9 +432,15 @@ const VertcalNavbar = ({ children }) => {
                                     }}
                                 >
 
-                                    <div>
-                                        {svg}
-                                    </div>
+                                    {
+                                        svg?
+                                        <div className=" p-1 rounded-full shadow-sm  border border-gray-200">
+                                            {svg}
+                                        </div>
+                                        :
+                                        <div className=" p-1 rounded-full shadow-sm  border border-gray-200 h-8 w-8">
+                                        </div>
+                                    }
 
                                     {to ? (
                                         <button

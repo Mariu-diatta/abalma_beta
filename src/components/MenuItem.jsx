@@ -8,7 +8,7 @@ import bureau from "../../src/assets/bureau_18081488.png"
 import gaming_ from "../../src/assets/gaming_6749691.png"  
 import bags from "../../src/assets/shopping-bags_8079986.png" 
 
-export const MenuItems = (t) => [
+export const menuItems = (t) => [
 
     {
         name: t('Produits'),
@@ -22,7 +22,7 @@ export const MenuItems = (t) => [
         name: t('Musique'),
         to: '/products/filter/?categorie_product=MUSIQUE',
         id: 'musique',
-        svg: <img className="rounded-sm" src={"musique"} alt="" width="25" />,
+        svg:null // <img className="rounded-sm" src={"musique"} alt="" width="25" />,
     },
     {
         name: t('Habits'),
@@ -43,7 +43,7 @@ export const MenuItems = (t) => [
         svg: <img className="rounded-sm" src={toy_car} alt="" width="25" />,
     },
     {
-        name: t('Véhicules'),
+        name: t('Vehicules'),
         to: '/products/filter/?categorie_product=VEHICULES',
         id: 'vehicules',
         svg: <img className="rounded-sm" src={road} alt="" width="25" />,
@@ -55,7 +55,7 @@ export const MenuItems = (t) => [
         svg: <img className="rounded-sm" src={bureau} alt="" width="25" />,
     },
     {
-        name: t('Jeux vidéo'),
+        name: t('Jeux_video'),
         to: '/products/filter/?categorie_product=JEUX_VIDEO',
         id: 'jeux-video',
         svg: <img className="rounded-sm" src={gaming_} alt="" width="25" />,
@@ -69,134 +69,126 @@ export const MenuItems = (t) => [
 
     // --- Nouvelles catégories ---
     {
-        name: t('Électronique'),
+        name: t('Electronique'),
         to: '/products/filter/?categorie_product=ELECTRONIQUE',
         id: 'electronique',
-        svg: <img className="rounded-sm" src={"electronics"} alt="" width="25" />,
+        svg: null // <img className="rounded-sm" src={"electronics"} alt="" width="25" />,
     },
     {
         name: t('Sport'),
         to: '/products/filter/?categorie_product=SPORT',
         id: 'sport',
-        svg: <img className="rounded-sm" src={"sport"} alt="" width="25" />,
+        svg: null // <img className="rounded-sm" src={"sport"} alt="" width="25" />,
     },
     {
-        name: t('Électroménager'),
+        name: t('Electroménager'),
         to: '/products/filter/?categorie_product=ELECTROMENAGER',
         id: 'electromenager',
-        svg: <img className="rounded-sm" src={"home_appliance"} alt="" width="25" />,
+        svg: null // <img className="rounded-sm" src={"home_appliance"} alt="" width="25" />,
     },
     {
         name: t('Bijoux'),
         to: '/products/filter/?categorie_product=BIJOUX',
         id: 'bijoux',
-        svg: <img className="rounded-sm" src={"jewelry"} alt="" width="25" />,
+        svg: null // <img className="rounded-sm" src={"jewelry"} alt="" width="25" />,
     },
     {
-        name: t('Cosmétiques'),
+        name: t('Cosmetiques'),
         to: '/products/filter/?categorie_product=COSMETIQUES',
         id: 'cosmetiques',
-        svg: <img className="rounded-sm" src={"cosmetics"} alt="" width="25" />,
+        svg: null // <img className="rounded-sm" src={"cosmetics"} alt="" width="25" />,
     },
     {
-        name: t('Santé & Beauté'),
+        name: t('Sante_beaute'),
         to: '/products/filter/?categorie_product=SANTE_BEAUTE',
         id: 'sante-beaute',
-        svg: <img className="rounded-sm" src={"health_beauty"} alt="" width="25" />,
+        svg: null // <img className="rounded-sm" src={"health_beauty"} alt="" width="25" />,
     },
     {
-        name: t('Maison & Décoration'),
+        name: t('Maison_decoration'),
         to: '/products/filter/?categorie_product=MAISON_DECORATION',
         id: 'maison-decoration',
-        svg: <img className="rounded-sm" src={"home_deco"} alt="" width="25" />,
+        svg: null // <img className="rounded-sm" src={"home_deco"} alt="" width="25" />,
     },
     {
-        name: t('Bébés & Puériculture'),
+        name: t('Bebes_puericulture'),
         to: '/products/filter/?categorie_product=BEBES',
         id: 'bebes',
-        svg: <img className="rounded-sm" src={"baby"} alt="" width="25" />,
+        svg: null // <img className="rounded-sm" src={"baby"} alt="" width="25" />,
     },
     {
         name: t('Jardinage'),
         to: '/products/filter/?categorie_product=JARDINAGE',
         id: 'jardinage',
-        svg: <img className="rounded-sm" src={"gardening"} alt="" width="25" />,
+        svg: null // <img className="rounded-sm" src={"gardening"} alt="" width="25" />,
     },
     {
         name: t('Bricolage'),
         to: '/products/filter/?categorie_product=BRICOLAGE',
         id: 'bricolage',
-        svg: <img className="rounded-sm" src={"tools"} alt="" width="25" />,
+        svg: null // <img className="rounded-sm" src={"tools"} alt="" width="25" />,
     },
     {
         name: t('Animaux'),
         to: '/products/filter/?categorie_product=ANIMAUX',
         id: 'animaux',
-        svg: <img className="rounded-sm" src={"pets"} alt="" width="25" />,
+        svg: null // <img className="rounded-sm" src={"pets"} alt="" width="25" />,
+    },
+    {
+        name: t('Telephone'),
+        to: '/products/filter/?categorie_product=TELEPHONY',
+        id: 'telephonie',
+        svg: null // <img className="rounded-sm" src={"pets"} alt="" width="25" />,
     },
     {
         name: t('Chaussures'),
         to: '/products/filter/?categorie_product=CHAUSSURES',
         id: 'chaussures',
-        svg: <img className="rounded-sm" src={"shoes"} alt="" width="25" />,
+        svg: null // <img className="rounded-sm" src={"shoes"} alt="" width="25" />,
     },
     {
-        name: t('Films & Séries'),
+        name: t('Films_series'),
         to: '/products/filter/?categorie_product=FILMS_SERIES',
         id: 'films-series',
-        svg: <img className="rounded-sm" src={"movies"} alt="" width="25" />,
+        svg: null // <img className="rounded-sm" src={"movies"} alt="" width="25" />,
     },
     {
         name: t('Services'),
         to: '/products/filter/?categorie_product=SERVICES',
         id: 'services',
-        svg: <img className="rounded-sm" src={"services"} alt="" width="25" />,
+        svg: null // <img className="rounded-sm" src={"services"} alt="" width="25" />,
     },
     {
-        name: t('Art & Artisanat'),
+        name: t('Art_artisanat'),
         to: '/products/filter/?categorie_product=ART',
         id: 'art',
-        svg: <img className="rounded-sm" src={"art"} alt="" width="25" />,
+        svg: null // <img className="rounded-sm" src={"art"} alt="" width="25" />,
     },
     {
-        name: t('Voyage & Loisirs'),
+        name: t('Voyage_loisirs'),
         to: '/products/filter/?categorie_product=VOYAGE',
         id: 'voyage',
-        svg: <img className="rounded-sm" src={"travel"} alt="" width="25" />,
+        svg: null // <img className="rounded-sm" src={"travel"} alt="" width="25" />,
     },
     {
-        name: t('High-Tech'),
+        name: t('High_Tech'),
         to: '/products/filter/?categorie_product=HIGH_TECH',
         id: 'high-tech',
-        svg: <img className="rounded-sm" src={"hightech"} alt="" width="25" />,
+        svg: null // <img className="rounded-sm" src={"hightech"} alt="" width="25" />,
     },
     {
-        name: t('Auto-Moto'),
+        name: t('Auto_Moto'),
         to: '/products/filter/?categorie_product=AUTOMOTO',
         id: 'automoto',
-        svg: <img className="rounded-sm" src={"automoto"} alt="" width="25" />,
+        svg: null // <img className="rounded-sm" src={"automoto"} alt="" width="25" />,
     },
     {
-        name: t('Matériel médical'),
+        name: t('Materiel_medical'),
         to: '/products/filter/?categorie_product=MEDICAL',
         id: 'medical',
-        svg: <img className="rounded-sm" src={"medical"} alt="" width="25" />,
+        svg: null // <img className="rounded-sm" src={"medical"} alt="" width="25" />,
     },
 ];
-
-
-
-export const lesAccount = async () => {
-
-    try {
-
-        await api.get('/clients/')
-
-    } catch (error) {
-
-        console.error('Erreur lors de la récupération des clients', error)
-    }
-}
 
 
 
