@@ -62,7 +62,7 @@ const HelpPage = () => {
         return (
 
             <div
-                className="relative max-w-lg mx-auto p-6 bg-white border border-gray-200 rounded-lg shadow-md text-center"
+                className="relative max-w-lg mx-auto p-6 bg-white border border-gray-200 rounded-lg shadow-md text-center "
 
                 style={{
 
@@ -90,7 +90,7 @@ const HelpPage = () => {
     return (
 
         <div
-            className="d-flex flex-column items-start justify-between style-bg mx-1 mb-5 m-auto mb-6"
+            className="d-flex flex-column items-start justify-between style-bg mx-1 mb-5 m-auto mb-6 pb-[20dvh]"
 
             style={{
 

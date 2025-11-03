@@ -201,7 +201,7 @@ const SettingsForm = () => {
 
     return (
 
-        <div className="flex flex-col justify-center items-center mx-auto w-full p-2">
+        <div className="flex flex-col justify-center items-center mx-auto w-full p-2 pb-[20dvh]">
 
             <span className="font-extrabold text-gray-500 dark:text-gray-400 text-2xl ">
 
