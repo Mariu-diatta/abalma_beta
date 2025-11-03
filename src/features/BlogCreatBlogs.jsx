@@ -249,7 +249,7 @@ export const ModalFormCreatBlog = () => {
                             )}
 
                             {/* Footer */}
-                            <div className="flex gap-2 pt-1">
+                            <div className="flex justify-end items-end gap-1 pt-1">
 
                                 {
                                     loading?
@@ -263,7 +263,7 @@ export const ModalFormCreatBlog = () => {
                                 <button
                                     type="button"
                                     onClick={handleClose}
-                                    className="px-4 py-2 rounded-md text-sm border bg-red-300 border-gray-300 text-gray-100 hover:bg-red-400"
+                                    className="px-1 py-1 rounded-md text-sm border bg-red-300 border-gray-300 text-gray-100 hover:bg-red-400"
                                 >
                                     {t("blog.cancel")}
 

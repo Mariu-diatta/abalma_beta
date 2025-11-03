@@ -25,25 +25,25 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
             <button
                 ref={trigger}
                 onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="hover:bg-gray-50 dark:hover:bg-gray-800 relative inline-flex items-center justify-center gap-1 rounded-lg dark:bg-dark-2 px-1 dark:text-white"
+                className="hover:bg-gray-50 dark:hover:bg-gray-800 relative inline-flex items-center justify-center gap-0 rounded-lg dark:bg-dark-2 px-1 dark:text-white"
             >
                 {
                     (currentUser?.image || currentUser?.photo_url) ? (
 
-                        <div className="flex items-center justify center relative w-[30px] rounded-full gap-0 h-6 ">
+                        <div className="flex items-center justify-center relative rounded-full gap-0 w-6.5  h-6.5 p-0">
 
                             <img
                                 src={currentUser?.image || currentUser?.photo_url}
                                 alt="avatar"
                                 title={currentUser?.email}
-                                className="h-6 w-6 rounded-full object-cover object-center cursor-pointer items-center justify-center mb-1"
+                                className="h-6.5 w-6.5 rounded-full object-cover object-center cursor-pointer items-center justify-center mb-1"
                             />
 
                             {
                                 currentUser?.is_connected &&
                                 (
 
-                                    <span className="absolute right-2 top-0.5 block h-[6px] w-[5px] rounded-full bg-[#219653] dark:border-dark">
+                                    <span className="absolute right-0 top-0.5 block h-[6px] w-[5px] rounded-full bg-[#219653] dark:border-dark">
 
                                     </span>
 
@@ -73,7 +73,7 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
                         </div>
                     )}
 
-                <span className={`transition-transform duration-100 m-0 ${dropdownOpen ? "-scale-y-100" : ""}`}>
+                <span className={`transition-transform duration-100 px-0 mx-0 ${dropdownOpen ? "-scale-y-100" : ""}`}>
 
                     <svg className="w-6 h-8 text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
 

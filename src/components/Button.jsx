@@ -58,7 +58,7 @@ export const ButtonNavigate = ({ tabs }) => {
                 lg:static lg:flex 
                 lg:flex-row 
                 lg:w-auto
-                lg:justify-between
+                justify-between
                 dark:bg-dark-2
                 px-4 z-10 
                 mx-1

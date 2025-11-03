@@ -19,7 +19,7 @@ const GroupThemNotifPayLangageButtons = ({ notify, changeLanguage }) => {
 
         <div
             className = {`
-                rounded-lg
+                rounded-lg bg-none
                 flex items-center justify-around gap-2 z-50
                 ${currentNav === ENDPOINTS?.MESSAGE_INBOX ? "hidden" : ""}
     
@@ -31,8 +31,10 @@ const GroupThemNotifPayLangageButtons = ({ notify, changeLanguage }) => {
                 sm:flex md:flex lg:flex
 
             `}
-            style = {{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
         >
+
+                {/*style = {{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}*/}
+
 
                 {
                     (currentNotifMessages?.length > 0) && (

@@ -261,7 +261,9 @@ const VertcalNavbar = ({ children }) => {
                                 onClick={
 
                                     () => {
+
                                         navigate(`/${ENDPOINTS?.MESSAGE_INBOX}`);
+
                                         dispatch(setCurrentNav(ENDPOINTS?.MESSAGE_INBOX))
                                     }
                                 }
