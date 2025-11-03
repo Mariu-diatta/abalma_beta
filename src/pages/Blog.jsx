@@ -13,6 +13,27 @@ import { ModalFormCreatBlog } from '../features/BlogCreatBlogs';
 const HomeLayout = lazy(() => import('../layouts/HomeLayout'));
 
 
+const BlogList = ({ blogs }) => {
+
+    // Fonction pour générer les cartes de blog
+    const renderBlogs = useCallback(() => {
+
+        if (!blogs || blogs.length === 0) return <p>Aucun blog disponible.</p>;
+
+        return blogs.map((post, index) => <BlogCard key={index} {...post} />);
+
+    }, [blogs]);
+
+    return (
+
+        <div className="grid gap-6 lg:grid-cols-2 overflow-y-auto min-h-full py-6 mb-[25dvh]">
+
+            <div className="blog-list ">{renderBlogs()}</div>
+
+        </div>
+    )
+};
+
 export const BlogPage = () => {
 
     const { t } = useTranslation();
@@ -27,16 +48,7 @@ export const BlogPage = () => {
 
     const currentUser = useSelector(state => state.auth.user);
 
-    const dispatch = useDispatch()
-
-    const fetchBlogs = useCallback(() => {
-
-        return blogs?.map((post, index) => (
-
-            <BlogCard key={index} {...post} />
-        ));
-
-    }, [blogs]);
+    const dispatch = useDispatch();
 
     useEffect(
 
@@ -115,7 +127,7 @@ export const BlogPage = () => {
     return (
 
 
-        <div className="h-full py-1 overflow-y-auto scrollbor_hidden">
+        <div className="min-h-full py-1 overflow-y-auto scrollbor_hidden">
 
             <div className="mx-0 lg:mx-auto  max-w-screen-auto text-center lg:mb-3 mb-2">
 
@@ -134,13 +146,8 @@ export const BlogPage = () => {
             <div className="relative overflow-x-hidden fixed py-1 px-2 w-full mx-0 lg:mx-auto lg:py-2 lg:px-6 my-6" >
 
                 {
-                    !isLoading ?
-
-                    <div className="grid gap-6 lg:grid-cols-2 overflow-y-auto h-full py-6 mb-[100px]">
-
-                         {fetchBlogs()}
-
-                    </div>
+                    !isLoading?
+                    <BlogList blogs={blogs} />
                     :
                     <LoadingCard />
 
@@ -180,7 +187,7 @@ const BlogCard = (blog) => {
 
     return (
 
-        <div className="relative w-auto p-1 flex flex-col justify-between rounded-lg  shadow-sm dark:bg-gray-800 dark:border-gray-700 max-h-[25vh] min-h-[25vh]">
+        <div className="relative w-auto p-1 flex flex-col justify-between rounded-lg  shadow-md hover:shadow-lg dark:bg-gray-800 dark:border-gray-700 max-h-[25vh] min-h-[25vh]">
 
             <div className="flex justify-between items-center mb-5 text-gray-500 bg-none">
 
