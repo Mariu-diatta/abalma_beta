@@ -92,7 +92,7 @@ const VertcalNavbar = ({ children }) => {
 
         <div
 
-            className="overflow-y-auto h-full"
+            className="overflow-y-auto h-full pt-2"
 
             style={
                 {
@@ -110,7 +110,7 @@ const VertcalNavbar = ({ children }) => {
 
                 type="button"
 
-                className=" z-8 fixed top-2 left-2 inline-flex items-center mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-gray-100 dark:text-gray-100 dark:hover:bg-gray-100 dark:focus:ring-gray-50"
+                className=" z-8 fixed top-0 left-2 inline-flex items-center ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-gray-100 dark:text-gray-100 dark:hover:bg-gray-100 dark:focus:ring-gray-50"
             >
 
                 <span className="sr-only">...</span>
@@ -533,7 +533,7 @@ const VertcalNavbar = ({ children }) => {
 
                         aria-labelledby={`${currentNav}-tab-button`}
 
-                        className="h-full dark:bg-gray-800 rounded-lg w-auto sm:mb-[30px] sm:pb-[50px] sm:z-[1000] mt-3 mb-2 sm:pt-6"
+                        className="h-full dark:bg-gray-800 rounded-lg w-auto sm:mb-[30px] sm:pb-[50px] sm:z-[1000] mt-0 mb-2 sm:pt-1"
 
                         style={
 

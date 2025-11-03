@@ -24,13 +24,7 @@ export default function ButtonsNavigateThemecolorPayDropdownaccount() {
 
     const dispatch = useDispatch();
 
-    const nbItems = useSelector(state => state.cart.nbItem);
-
-    const currentUser = useSelector(state => state.auth.user);
-
     const currentNotifMessages = useSelector(state => state.chat.messageNotif);
-
-    const currentNav = useSelector(state => state.navigate.currentNav);
 
     const trigger = useRef(null);
 
@@ -122,6 +116,7 @@ export default function ButtonsNavigateThemecolorPayDropdownaccount() {
 
     return (
 
+
         <section
             
             className={`bg-none flex items-center justify-center px-2  rounded-lg absolute top-0  fixed z-10`}
@@ -129,54 +124,31 @@ export default function ButtonsNavigateThemecolorPayDropdownaccount() {
 
             <AttentionAlertMessage/>
 
-            {/* Responsive container */}
-            <div
-                className={`
-                    rounded-lg
-                    flex items-center justify-around gap-2 z-50
-                    ${currentNav === ENDPOINTS?.MESSAGE_INBOX ? "hidden" : ""}
-    
-                    /* Mobile: fixed bottom bar */
-                    fixed bottom-0 left-0 right-0 md:static 
-                    md:justify-between
 
-                    /* Visible: mobile + desktop without duplicating the component */
-                    sm:flex md:flex lg:flex
+            <GroupThemNotifPayLangageButtons
 
-               `}
-                style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
-            >
-                <GroupThemNotifPayLangageButtons
-                    currentUser={currentUser}
-                    currentNotifMessages={currentNotifMessages}
-                    notify={notify}
-                    changeLanguage={changeLanguage}
-                    nbItems={nbItems}
-                    dispatch={dispatch}
-                    navigate={navigate}
-                />
+                notify={notify}
 
-                {/* Avatar + dropdown */}
-                <AccountMenuUser
+                changeLanguage={changeLanguage}
 
-                    dropdown={dropdown}
+            />
 
-                    setDropdownOpen={setDropdownOpen}
+            {/* Avatar + dropdown */}
+            <AccountMenuUser
 
-                    dropdownOpen={dropdownOpen}
+                dropdown={dropdown}
 
-                    trigger={trigger}
+                setDropdownOpen={setDropdownOpen}
 
-                    getUserLogOut={getUserLogOut}
+                dropdownOpen={dropdownOpen}
 
-                    loading={loading}
+                trigger={trigger}
 
-                />
+                getUserLogOut={getUserLogOut}
 
-            </div>
+                loading={loading}
 
-
-
+            />
             
         </section>
     );

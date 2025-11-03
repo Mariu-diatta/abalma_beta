@@ -557,7 +557,7 @@ i18n
              ListItemsFilterProduct: {
                  ACCESSOIRES: "Accessories",
                  ALIMENTATION: "Food",
-                 ALL: "All",
+                 All: "All",
                  ANIMAUX: "Pet Supplies",
                  ART: "Art & Craft",
                  AUTOMOTO: "Automotive",
