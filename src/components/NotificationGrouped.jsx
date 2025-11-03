@@ -5,7 +5,7 @@ import ThemeToggle from '../features/Theme';
 import LanguageDropdown from '../features/Langages';
 
 
-const GroupThemNotifPayLangageButtons = ({children, currentNotifMessages, notify, changeLanguage}) => (
+const GroupThemNotifPayLangageButtons = ({currentNotifMessages, notify, changeLanguage}) => (
 
     <div className="flex items-center justify-center">
 
@@ -32,9 +32,6 @@ const GroupThemNotifPayLangageButtons = ({children, currentNotifMessages, notify
         <PayBack />
 
         <LanguageDropdown changeLanguage={changeLanguage}/>
-
-        {children}
-
 
     </div>
 );

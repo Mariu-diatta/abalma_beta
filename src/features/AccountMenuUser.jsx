@@ -19,22 +19,18 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
 
     return (
-        <div className='z-[1999]'>
+        <div className='z-[1999] flex items-center justify-center'>
 
             {/* Avatar + dropdown */ }
             <button
-
                 ref={trigger}
-
                 onClick={() => setDropdownOpen(!dropdownOpen)}
-
-                className="hover:bg-gray-50 dark:hover:bg-gray-800 relative inline-flex w-auto items-center justify-center gap-0 rounded-lg  dark:bg-dark-2 px-1  dark:text-white my-2"
-
+                className="hover:bg-gray-50 dark:hover:bg-gray-800 relative inline-flex items-center justify-center gap-1 rounded-lg dark:bg-dark-2 px-1 dark:text-white "
             >
                 {
                     (currentUser?.image || currentUser?.photo_url) ? (
 
-                        <div className="flex items-center justify center relative w-[30px] rounded-full gap-0 h-6 mt-1">
+                        <div className="flex items-center justify center relative w-[30px] rounded-full gap-0 h-6 mt-3">
 
                             <img
                                 src={currentUser?.image || currentUser?.photo_url}

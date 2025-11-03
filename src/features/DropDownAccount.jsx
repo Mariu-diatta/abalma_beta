@@ -142,6 +142,7 @@ export default function ButtonsNavigateThemecolorPayDropdownaccount() {
 
                     /* Visible: mobile + desktop without duplicating the component */
                     sm:flex md:flex lg:flex
+
                `}
                 style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
             >
@@ -153,25 +154,24 @@ export default function ButtonsNavigateThemecolorPayDropdownaccount() {
                     nbItems={nbItems}
                     dispatch={dispatch}
                     navigate={navigate}
-                >
-                    {/* Avatar + dropdown */}
-                    <AccountMenuUser
+                />
 
-                        dropdown={dropdown}
+                {/* Avatar + dropdown */}
+                <AccountMenuUser
 
-                        setDropdownOpen={setDropdownOpen}
+                    dropdown={dropdown}
 
-                        dropdownOpen={dropdownOpen}
+                    setDropdownOpen={setDropdownOpen}
 
-                        trigger={trigger}
+                    dropdownOpen={dropdownOpen}
 
-                        getUserLogOut={getUserLogOut}
+                    trigger={trigger}
 
-                        loading={loading}
+                    getUserLogOut={getUserLogOut}
 
-                    />
+                    loading={loading}
 
-                </GroupThemNotifPayLangageButtons>
+                />
 
             </div>
 
