@@ -7,7 +7,7 @@ import LanguageDropdown from '../features/Langages';
 
 const GroupThemNotifPayLangageButtons = ({children, currentNotifMessages, notify, changeLanguage}) => (
 
-    <>
+    <div className="flex items-center justify-center">
 
         {
             (currentNotifMessages?.length > 0) && (
@@ -36,7 +36,7 @@ const GroupThemNotifPayLangageButtons = ({children, currentNotifMessages, notify
         {children}
 
 
-    </>
+    </div>
 );
 
 export default GroupThemNotifPayLangageButtons;

@@ -28,7 +28,7 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
                 onClick={() => setDropdownOpen(!dropdownOpen)}
 
-                className="hover:bg-gray-50 dark:hover:bg-gray-800 relative inline-flex w-auto items-center justify-center gap-0 rounded-lg  dark:bg-dark-2 px-1  ms-1 dark:text-white my-3"
+                className="hover:bg-gray-50 dark:hover:bg-gray-800 relative inline-flex w-auto items-center justify-center gap-0 rounded-lg  dark:bg-dark-2 px-1  dark:text-white my-2"
 
             >
                 {
@@ -40,7 +40,7 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
                                 src={currentUser?.image || currentUser?.photo_url}
                                 alt="avatar"
                                 title={currentUser?.email}
-                                className="h-6 w-6 rounded-full object-cover object-center cursor-pointer items-center "
+                                className="h-6 w-6 rounded-full object-cover object-center cursor-pointer items-center justify-center mb-1"
                             />
 
                             {
