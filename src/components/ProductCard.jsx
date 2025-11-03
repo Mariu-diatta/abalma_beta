@@ -25,7 +25,6 @@ const ProductCard = ({
 
     const { t } = useTranslation();
 
-
     return (
 
         <div

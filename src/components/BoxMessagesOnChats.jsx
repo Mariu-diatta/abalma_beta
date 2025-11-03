@@ -1,8 +1,13 @@
 import React from 'react'
 import { formatDateRelative, maintenant } from '../utils';
+import { useSelector } from 'react-redux';
 
 
-const PrintMessagesOnChat = ({ messages, currentUser, selectedUser, messagesEndRef }) => {
+const PrintMessagesOnChat = ({ messages, messagesEndRef }) => {
+
+    const selectedUser = useSelector((state) => state.chat.userSlected);
+
+    const currentUser = useSelector((state) => state.auth.user);
 
     return (
 
@@ -16,12 +21,25 @@ const PrintMessagesOnChat = ({ messages, currentUser, selectedUser, messagesEndR
 
                             let lastDateLabel = null;
 
+                            if (!currentUser?.id) return
+
                             return messages?.map(
 
                                 (msg, idx) => {
 
-                                    const isCurrentUser = msg.sender?.email === currentUser?.email;
+                                    var isCurrentUser = false
+
+                                    if (msg.sender_id?.id === currentUser?.id || msg.sender_id === currentUser?.id)
+                                    {
+                                        isCurrentUser = true
+
+                                    } else {
+
+                                        isCurrentUser = false
+                                    }
+
                                     const alignment = isCurrentUser ? "justify-end" : "justify-start";
+
                                     const bubbleColor = isCurrentUser
                                         ? "bg-blue-300 text-white rounded-br-none"
                                         : "text-gray-500 rounded-bl-none border border-gray-100";
@@ -45,7 +63,7 @@ const PrintMessagesOnChat = ({ messages, currentUser, selectedUser, messagesEndR
                                                 )
                                             }
 
-                                            <li className={`flex items-end gap-2 ${alignment}`}>
+                                            <li className={`flex items-end gap-2 pb-3 ${alignment}`}>
 
                                                 {
                                                     !isCurrentUser && (
@@ -64,7 +82,7 @@ const PrintMessagesOnChat = ({ messages, currentUser, selectedUser, messagesEndR
                                                 <div className="d-flex flex-col w-auto">
 
                                                     <div className={`w-full px-2 py-2 text-sm rounded-2xl flex flex-col shadow-md ${bubbleColor}`}>
-                                                        <p>{msg?.message}</p>
+                                                        <p>{msg?.text}</p>
                                                     </div>
 
                                                     <p className="text-[9px] text-grey-500 mt-1">{(msg?.date?.split(" ")[1]) || maintenant.toLocaleTimeString()}</p>

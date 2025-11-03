@@ -1,8 +1,11 @@
+import { useSelector } from "react-redux";
 import PrintMessagesOnChat from "../components/BoxMessagesOnChats";
 import ProfilPictureView from "../components/ProfilPictureView";
 import { useTranslation } from 'react-i18next';
 
-const BoxMessagesChats = ({ selectedUser, messages, currentUser, messagesEndRef }) => {
+const BoxMessagesChats = ({ messages, messagesEndRef }) => {
+
+    const selectedUser = useSelector((state) => state.chat.userSlected);
 
     const { t } = useTranslation();
 
@@ -25,7 +28,6 @@ const BoxMessagesChats = ({ selectedUser, messages, currentUser, messagesEndRef 
                     (
                         <PrintMessagesOnChat
                             messages={messages}
-                            currentUser={currentUser}
                             selectedUser={selectedUser}
                             messagesEndRef={messagesEndRef}
                         />

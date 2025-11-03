@@ -57,7 +57,7 @@ export default function PhoneInput({ form, handleChange, setForm }) {
                     )
                 }
             >
-                {countries.map((c) => (
+                {countries?.map((c) => (
 
                     <option key={c.name} value={c.name} className={c.className} disabled={c?.disabled}>
 

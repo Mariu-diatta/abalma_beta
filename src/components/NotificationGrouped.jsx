@@ -5,7 +5,7 @@ import ThemeToggle from '../features/Theme';
 import LanguageDropdown from '../features/Langages';
 
 
-const GroupThemNotifPayLangageButtons = ({ currentNotifMessages, notify, changeLanguage}) => (
+const GroupThemNotifPayLangageButtons = ({children, currentNotifMessages, notify, changeLanguage}) => (
 
     <>
 
@@ -16,7 +16,7 @@ const GroupThemNotifPayLangageButtons = ({ currentNotifMessages, notify, changeL
 
                     onClick={notify}
 
-                    className="bg-none cursor-pointer relative flex items-center justify-center h-8 w-8 px-1 py-1 mx-4 rounded-full dark:bg-dark-2 text-white dark:text-white shadow-sm"
+                    className="bg-none cursor-pointer relative flex items-center justify-center h-8 w-8 px-1 mx-4 rounded-full dark:bg-dark-2 text-white dark:text-white"
 
                 >
                     <NotificationsComponent/>
@@ -31,7 +31,9 @@ const GroupThemNotifPayLangageButtons = ({ currentNotifMessages, notify, changeL
 
         <PayBack />
 
-        <LanguageDropdown changeLanguage={changeLanguage} />
+        <LanguageDropdown changeLanguage={changeLanguage}/>
+
+        {children}
 
 
     </>

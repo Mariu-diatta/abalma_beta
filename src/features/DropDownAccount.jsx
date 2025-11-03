@@ -124,7 +124,7 @@ export default function ButtonsNavigateThemecolorPayDropdownaccount() {
 
         <section
             
-            className={`bg-none flex items-center justify-center px-2  rounded-lg absolute top-0  fixed z-10 `}
+            className={`bg-none flex items-center justify-center px-2  rounded-lg absolute top-0  fixed z-10`}
         >
 
             <AttentionAlertMessage/>
@@ -153,26 +153,30 @@ export default function ButtonsNavigateThemecolorPayDropdownaccount() {
                     nbItems={nbItems}
                     dispatch={dispatch}
                     navigate={navigate}
-                />
+                >
+                    {/* Avatar + dropdown */}
+                    <AccountMenuUser
+
+                        dropdown={dropdown}
+
+                        setDropdownOpen={setDropdownOpen}
+
+                        dropdownOpen={dropdownOpen}
+
+                        trigger={trigger}
+
+                        getUserLogOut={getUserLogOut}
+
+                        loading={loading}
+
+                    />
+
+                </GroupThemNotifPayLangageButtons>
+
             </div>
 
 
-            {/* Avatar + dropdown */}
-            <AccountMenuUser
 
-                dropdown={dropdown}
-
-                setDropdownOpen={setDropdownOpen}
-
-                dropdownOpen={dropdownOpen}
-
-                trigger={trigger}
-
-                getUserLogOut={getUserLogOut}
-
-                loading={loading }
-
-            />
             
         </section>
     );

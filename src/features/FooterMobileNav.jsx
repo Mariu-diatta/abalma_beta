@@ -22,7 +22,7 @@ const MobileNav = ({ open }) => {
     >
       <div
         style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
-        className="text-sm absolute top-4 flex flex-col items-start justify-start gap-3 p-1 sm:hidden shadow-lg w-full py-5 bg-white"
+        className="text-sm absolute top-3 flex flex-col items-start justify-start gap-3 p-1 sm:hidden shadow-lg w-full py-5 bg-white"
       >
         <WhiteRoundedButton titleButton={t(ENDPOINTS.LOGIN)} to={ENDPOINTS.LOGIN} />
 

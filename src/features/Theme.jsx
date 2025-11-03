@@ -60,8 +60,9 @@ const ThemeToggle = () => {
 
             type="button"
 
-            className="shadow-sm cursor-pointer inline-flex flex-col items-center rounded-full justify-center px-1 py-1 hover:bg-gray-50 dark:hover:bg-gray-800 group h-8 w-8"
+            className=" cursor-pointer  flex-col items-center rounded-full justify-center px-1 py-1 hover:bg-gray-50 dark:hover:bg-gray-800 group h-8 w-8 hidden"
         >
+            {/*inline-flex*/}
             <span className="text-[14px] text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500">
 
                 {

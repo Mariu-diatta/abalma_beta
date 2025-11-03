@@ -1,39 +1,42 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { CONSTANTS, backendBase} from '../utils';
+import { backendBase} from '../utils';
 import ButtonToggleChatsPanel from '../components/ButtonHandleChatsPanel';
 import InputBoxChat from '../components/InputBoxChat';
 import BoxMessagesChats from '../features/MessageBoxChat';
+import { useTranslation } from 'react-i18next';
+
 
 const ChatApp = ({ setShow , show}) => {
 
+    const { t } = useTranslation();
     const ws = useRef(null);
     const messagesEndRef = useRef(null);
-    const currentChat = useSelector(state => state.chat.currentChat);
+
+    const currentChat = useSelector((state) => state.chat.currentChat);
+    const currentUser = useSelector((state) => state.auth.user);
+    const allRoomsChats = useSelector((state) => state.chat.currentChats);
+    const selectedUser = useSelector((state) => state.chat.userSlected);
 
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState("");
+    const [typing, setTyping] = useState(false);
 
-    const currentUser = useSelector(state => state.auth.user);
-    const allRoomsChats = useSelector(state => state.chat.currentChats);
-    const selectedUser = useSelector(state => state.chat.userSlected);
-
-    // 🔌 Connexion WebSocket pour les messages
+    // ✅ WebSocket connection
     useEffect(() => {
 
-        if (!currentChat?.name) return;
+        if (!currentUser) return;
 
-        const socketUrl = `${backendBase}/chats/${currentChat.name}/`;
+        const socketUrl = `${backendBase}/ws/private/${currentUser?.id}/`;
 
-        // Ferme l'ancienne connexion si elle existe
-        if (ws.current) {
-
-            ws.current.close();
-        }
+        if (ws.current) ws.current.close();
 
         ws.current = new WebSocket(socketUrl);
 
-        ws.current.onopen = () => console.log("✅ WebSocket connecté :", currentChat.name.slice(20,40));
+        ws.current.onopen = () => {
+
+            console.log("✅ WS connecté pour :", currentChat?.name);
+        };
 
         ws.current.onmessage = (e) => {
 
@@ -41,93 +44,105 @@ const ChatApp = ({ setShow , show}) => {
 
                 const data = JSON.parse(e.data);
 
-                if (data?.type === CONSTANTS?.CHAT_MESSAGE && data.payload) {
+                if (data.action === "new_message") {
 
-                    setMessages(prev => [...prev, data.payload]);
+                    setMessages((prev) => [...prev, data?.message]);
+                }
+
+                if (data.action === "typing") {
+
+                    // typing effect here later
+                    setTyping(true);
+
+                    setTimeout(() => {
+
+                        setTyping(false);
+
+                    }, 1800);
                 }
 
             } catch (err) {
 
-                console.error("❌ Erreur parsing WebSocket :", err);
+                console.error("❌ WS parse error:", err);
             }
         };
 
-        //ws.current.onerror = (e) => console.error("❌ WebSocket error :", e);
-        //ws.current.onclose = () => console.log("🔌 WebSocket fermé :", currentChat.name);
+        ws.current.onclose = () => console.log("🔌 WS fermé :", currentChat?.name);
 
-        // Cleanup à la fin ou avant la prochaine exécution
-        return () => {
+        return () => ws.current?.close();
 
-            if (ws.current) {
-                //console.log("🧹 Nettoyage WebSocket :", currentChat.name);
-                ws.current.close();
-            }
-        };
+    }, [currentChat, currentUser]);
 
-    }, [currentChat?.name]);
-
-    //récupérer les messages du chats
+    // ✅ Load previous messages
     useEffect(() => {
 
-        setMessages([])
+        setMessages([]);
 
-        // 🔁 Fetch des anciens messages
-        const fetchOldMessages = async () => {
+        if (!currentChat?.messages) return;
 
-            try {
+        const formatted = currentChat.messages.map((msg) => ({
+            id: msg?.id,
+            text: msg.text,
+            sender_id: msg?.user,
+            created_at: msg?.created_at_formatted,
+        }));
 
-                const loaded = [];
+        setMessages(formatted);
 
-                currentChat?.messages?.forEach(msg =>
+    }, [currentChat, selectedUser]);
 
-                    loaded?.push({
-
-                        message: msg?.text,
-
-                        sender: msg?.user,
-
-                        date: msg?.created_at_formatted,
-                    })
-                )
-          
-                setMessages(loaded);
-
-            } catch (err) {
-
-                //console.error("❌ Erreur chargement messages :", err);
-            }
-        };
-
-        fetchOldMessages()
-
-    }, [selectedUser, currentChat?.messages]);
-
-    // 📜 Scroll vers le bas à chaque message
+    // ✅ Scroll to bottom
     useEffect(() => {
 
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
 
     }, [messages]);
 
-    // ✉️ Envoi de message
+    // ✅ Send Message
     const sendMessage = useCallback(() => {
 
         const trimmed = input.trim();
 
-        if (trimmed && ws.current?.readyState === WebSocket.OPEN) {
+        if (!trimmed || !ws.current || ws.current.readyState !== WebSocket.OPEN) return;
+
+        ws.current.send(
+
+            JSON.stringify({
+                action: "send_message",
+                sender_id: currentUser?.id,
+                receiver_id: selectedUser?.id,
+                text: trimmed,
+            })
+        );
+
+        setInput("");
+
+    }, [input, currentUser?.id, selectedUser?.id]);
+
+    // ✅ detect typing
+    const handleTyping = () => {
+
+        if (ws.current?.readyState === WebSocket.OPEN) {
 
             ws.current.send(JSON.stringify({
-
-                sender: currentUser,
-
-                message: trimmed,
-
+                action: "typing",
+                sender_id: currentUser?.id,
+                receiver_id: selectedUser?.id,
             }));
-
-            setInput("");
         }
+    };
 
-    }, [input, currentUser]);
+
+    // ✅ detect read message
+    //const handleReadMessage = () => {
+    //    if (ws.current?.readyState === WebSocket.OPEN) {
+    //        ws.current.send(JSON.stringify({
+    //            action: "read",
+    //            reader_id: currentUser?.id,
+    //            room_id: currentChat?.id,
+    //        }));
+    //    }
+    //};
 
     return (
 
@@ -153,9 +168,21 @@ const ChatApp = ({ setShow , show}) => {
                             />
 
                             <div>
+
                                 <p className="text-md font-semibold text-blue-600">{selectedUser?.prenom || "Prénom"}</p>
+
                                 <p className="text-xs text-gray-500">{selectedUser?.nom?.toLowerCase() || "Nom"}</p>
+
                             </div>
+
+                            {
+                                typing && (
+
+                                    <div className="text-xs text-gray-500 pl-3 pb-1 animate-pulse">
+                                         {t('typing')}
+                                    </div>
+                                )
+                            }
 
                         </div>
                     )
@@ -168,10 +195,9 @@ const ChatApp = ({ setShow , show}) => {
             </div>
 
             <BoxMessagesChats
-                selectedUser={selectedUser}
                 messages={messages}
-                currentUser={currentUser}
                 messagesEndRef={messagesEndRef}
+                typing={typing}
             />
 
             {/* 📥 Zone d’entrée */}
@@ -181,6 +207,7 @@ const ChatApp = ({ setShow , show}) => {
                 setInput={setInput}
                 setShow={setShow}
                 sendMessage={sendMessage}
+                handleTyping={handleTyping}
             />
 
         </div>

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const InputBoxChat=({allRoomsChats, input, setInput, setShow, sendMessage})=>{
+const InputBoxChat = ({ allRoomsChats, input, setInput, setShow, sendMessage, handleTyping }) => {
 
     return(
 
@@ -9,16 +9,20 @@ const InputBoxChat=({allRoomsChats, input, setInput, setShow, sendMessage})=>{
 	         <div className="bg-none  flex items-center gap-0 me-0 px-2 py-2  rounded-xl mb-0">
             
                 <input
-                    disabled={allRoomsChats.length === 0}
+                    disabled={allRoomsChats?.length === 0}
                     value={input}
-                    onChange={e => { setInput(e.target.value); setShow(false); }}
+                    onChange={e => {
+                        setInput(e.target.value);
+                        setShow(false);
+                        handleTyping()
+                    }}
                     onKeyDown={e => e.key === "Enter" && sendMessage()}
                     placeholder="Votre message..."
                     className="bg-none flex-1 px-3 py-2 border-r-0 border border-gray-300 rounded-e-none rounded-xl text-sm focus:outline-none focus:ring-0 "
                 />
 
                 <button
-                    onClick={sendMessage}
+                    onClick={()=>sendMessage()}
                     className="rounded-e-full border-l-0 border border-gray-300 px-5 py-2 text-base  text-white transition bg-none from-purple-300 to-blue-300 hover:bg-gradient-to-br hover:from-purple-50 "
                     aria-label="Envoyer"
                 >
