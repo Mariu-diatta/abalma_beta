@@ -16,8 +16,6 @@ const GridLayoutProduct = () => {
 
     const [filteredItemsPopover, setFilteredItemsPopover] = useState([])
 
-    const { t } = useTranslation();
-
     const [loading, setLoading] = useState(false)
 
     const dispatch = useDispatch();
@@ -244,24 +242,48 @@ const GridLayoutProduct = () => {
 
                 <LoadingCard />
                 :
-                <>
-                    {
-                        (filteredItems?.length > 0) ? 
-                        (
+                <ListProductByCategory
+                    filteredItems={filteredItems}
+                    cartItems={cartItems}
+                    owners={owners}
+                    openModal={openModal}
+                />
 
-                            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-2 sm:gap-3 z-0 mb-[100px]">
+            }
 
-                                {/* --- Regroupement des produits par catégorie --- */}
-                                {
-                                    Object.entries(
+            <ModalViewProduct isOpen={!!modalData} onClose={closeModal} products={filteredItems}/>
 
-                                        filteredItems.reduce((acc, item) => {
-                                            const cat = item?.categorie_product || "Autres";
-                                            if (!acc[cat]) acc[cat] = [];
-                                            acc[cat].push(item);
-                                            return acc;
-                                        }, {})
-                                    )
+        </div>
+    );
+};
+
+export default GridLayoutProduct;
+
+
+const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) => {
+
+    const { t } = useTranslation();
+
+    return (
+
+        <>
+            {
+                (filteredItems?.length > 0) ?
+                    (
+
+                        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-2 sm:gap-3 z-0 mb-[100px]">
+
+                            {/* --- Regroupement des produits par catégorie --- */}
+                            {
+                                Object.entries(
+
+                                    filteredItems.reduce((acc, item) => {
+                                        const cat = item?.categorie_product || "Autres";
+                                        if (!acc[cat]) acc[cat] = [];
+                                        acc[cat].push(item);
+                                        return acc;
+                                    }, {})
+                                )
                                     .map(([category, items]) => (
 
                                         <React.Fragment key={category}>
@@ -275,55 +297,47 @@ const GridLayoutProduct = () => {
                                             {
                                                 items?.map((item) => {
 
-                                                        const isInCart = cartItems?.some((product) => product?.id === item?.id);
+                                                    const isInCart = cartItems?.some((product) => product?.id === item?.id);
 
-                                                        const owner = owners[item?.fournisseur];
+                                                    const owner = owners[item?.fournisseur];
 
-                                                        return (
+                                                    return (
 
-                                                            <ProductCard
-                                                                key={item?.id}
-                                                                id={item?.id}
-                                                                item={item}
-                                                                isInCart={isInCart}
-                                                                owner={owner}
-                                                                openModal={openModal}
-                                                                owners={owners}
-                                                                qut_sold={item?.quanttity_product_sold}
-                                                            />
-                                                        );
-                                                    }
+                                                        <ProductCard
+                                                            key={item?.id}
+                                                            id={item?.id}
+                                                            item={item}
+                                                            isInCart={isInCart}
+                                                            owner={owner}
+                                                            openModal={openModal}
+                                                            owners={owners}
+                                                            qut_sold={item?.quanttity_product_sold}
+                                                        />
+                                                    );
+                                                }
                                                 )
                                             }
 
                                         </React.Fragment>
                                     ))
-                                }
+                            }
 
-                            </div>
-                        ) 
-                        : 
-                        (
-                            <div className="flex items-center justify-center mx-auto max-w-md p-4 rounded-full border border-gray-200 mb-2">
-                                
-                                <span className="text-sm">
-                                    {t('ListItemsFilterProduct.noProduct')}
-                                </span>
+                        </div>
+                    )
+                    :
+                    (
+                        <div className="flex items-center justify-center mx-auto max-w-md p-4 rounded-full border border-gray-200 mb-2">
 
-                            </div>
-                        )
-                    }
-                </>
+                            <span className="text-sm">
+                                {t('ListItemsFilterProduct.noProduct')}
+                            </span>
 
+                        </div>
+                    )
             }
-
-            <ModalViewProduct isOpen={!!modalData} onClose={closeModal} products={filteredItems}/>
-
-        </div>
-    );
-};
-
-export default GridLayoutProduct;
+        </>
+    )
+}
 
 
 

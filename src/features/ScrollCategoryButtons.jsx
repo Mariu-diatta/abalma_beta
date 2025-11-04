@@ -133,49 +133,19 @@ const ScrollableCategoryButtons = ({
                     className="overflow-x-auto px-10 scrollbor_hidden_ bg-none"
                 >
 
-                    <div
-                        className="flex py-2 gap-1 bg-none"
-                    >
+                    <ListButtonsCategories
 
-                        {
-                            categories?.map((cat) => (
+                        categories={categories}
 
-                                <button
+                        setProductSpecificHandler={setProductSpecificHandler}
 
-                                    key={cat}
+                        setActiveCategory={setActiveCategory}
 
-                                    onMouseOver={
-                                        () => setProductSpecificHandler(cat?.replace("_", ""))
-                                    }
+                        setActivateButtonCategory={setActivateButtonCategory}
 
-                                    style={
-                                        {
-                                            backgroundColor: "var(--color-bg)",
-                                            color: "var(--color-text)"
-                                        }
-                                    }
+                        activateButtonCategory={activateButtonCategory}
 
-                                    onClick={
-                                        () => {
-                                            setActiveCategory(cat?.replace("_", " "));
-                                            setActivateButtonCategory(cat?.replace("_", " "))
-                                        }
-                                    }
-
-                                    className={`
-                                        z-2 whitespace-nowrap px-4  py-1 rounded-full text-sm transition  hover:bg-gradient-to-br hover:from-purple-100 
-                                        ${activateButtonCategory?.toLowerCase() === (cat?.replace("_", ""))?.toLowerCase()
-                                        ? "bg-blue-50 text-white bg-gradient-to-br from-purple-50 to-blue-100" //
-                                        : "text-blue-100 border border-blue-50 hover:bg-blue-100 hover:text-white scale-100 hover:scale-100 hover:shadow-lg"
-                                        }`}
-                                >
-                                    {cat?.replace("_", " ")}
-
-                                </button>
-                            ))
-                        }
-
-                    </div>
+                    />
 
                 </div>
 
@@ -197,9 +167,61 @@ const ScrollableCategoryButtons = ({
                         </button>
                     )
                 }
+
             </div>
         </>
     );
 };
 
 export default ScrollableCategoryButtons;
+
+
+
+const ListButtonsCategories = ({ categories, setProductSpecificHandler, setActiveCategory, setActivateButtonCategory, activateButtonCategory }) => {
+
+    return (
+        <div
+            className="flex py-2 gap-1 bg-none"
+        >
+
+            {
+                categories?.map((cat) => (
+
+                    <button
+
+                        key={cat}
+
+                        onMouseOver={
+                            () => setProductSpecificHandler(cat?.replace("_", ""))
+                        }
+
+                        style={
+                            {
+                                backgroundColor: "var(--color-bg)",
+                                color: "var(--color-text)"
+                            }
+                        }
+
+                        onClick={
+                            () => {
+                                setActiveCategory(cat?.replace("_", " "));
+                                setActivateButtonCategory(cat?.replace("_", " "))
+                            }
+                        }
+
+                        className={`
+                                        z-2 whitespace-nowrap px-4  py-1 rounded-full text-sm transition  hover:bg-gradient-to-br hover:from-purple-100 
+                                        ${activateButtonCategory?.toLowerCase() === (cat?.replace("_", ""))?.toLowerCase()
+                                ? "bg-blue-50 text-white bg-gradient-to-br from-purple-50 to-blue-100" //
+                                : "text-blue-100 border border-blue-50 hover:bg-blue-100 hover:text-white scale-100 hover:scale-100 hover:shadow-lg"
+                            }`}
+                    >
+                        {cat?.replace("_", " ")}
+
+                    </button>
+                ))
+            }
+
+        </div>
+    )
+}

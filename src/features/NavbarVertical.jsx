@@ -458,7 +458,7 @@ const VertcalNavbar = ({ children }) => {
                                                 }
                                             }
 
-                                            className={`cursor-pointer ml-3 inline-block px-1 py-3 border-b-2 rounded-t-md transition-colors duration-300 
+                                            className={`text-sm whitespace-nowrap cursor-pointer ml-3 inline-block px-1 py-3 border-b-2 rounded-t-md transition-colors duration-300 
                                                     ${(currentNav === id)
                                                     ? 'border-b-gray-600 text-gray-600 dark:border-b-gray-500 dark:text-gray-500'
                                                     : 'border-b-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
