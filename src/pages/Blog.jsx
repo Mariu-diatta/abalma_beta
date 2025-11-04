@@ -147,9 +147,9 @@ export const BlogPage = () => {
 
                 {
                     !isLoading?
-                    <BlogList blogs={blogs} />
+                    <BlogList blogs={blogs}/>
                     :
-                    <LoadingCard />
+                    <LoadingCard/>
 
                 }
 

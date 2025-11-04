@@ -21,12 +21,13 @@ import pets from "../../src/assets/veterinary.png"
 import services from "../../src/assets/service.png"
 import shoes from "../../src/assets/footwear.png"
 import movies from "../../src/assets/clapperboard.png"
-import phone from "../../src/assets/hobby.png"
+//import phone from "../../src/assets/hobby.png"
 import art from "../../src/assets/art.png"
 import travel from "../../src/assets/abroad.png"
 import hightech from "../../src/assets/laser-cutting.png"
 import automoto from "../../src/assets/race-bike.png"
 import medical from "../../src/assets/medical.png"
+import phone from "../../src/assets/phone.png"
 
 
 

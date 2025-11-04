@@ -45,10 +45,10 @@ const FollowProfilUser = ({ clientId }) => {
 
             if (!clientId) return;
 
-            isAlreadyFollowed(clientId, setFollowStatus, setIsLoading)
+            isAlreadyFollowed(clientId, setFollowStatus, setIsLoading, currentUser)
         },
 
-        [clientId]
+        [clientId, currentUser]
 
     )
 

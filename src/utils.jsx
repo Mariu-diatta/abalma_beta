@@ -125,7 +125,9 @@ export const fetchRooms = async (currentUser, dispatch, addRoom) => {
     }
 };
 
-export const isAlreadyFollowed = async (clientId, setIsFollow, setIsLoading) => {
+export const isAlreadyFollowed = async (clientId, setIsFollow, setIsLoading, currentUser) => {
+
+    if (!clientId || !currentUser || clientId===currentUser?.id ) return 
     try {
         const response = await api.get(`/clients/${clientId}/alreadyFollow/`, {
             withCredentials: true,

@@ -263,7 +263,7 @@ export const ModalFormCreatBlog = () => {
                                 <button
                                     type="button"
                                     onClick={handleClose}
-                                    className="px-1 py-1 rounded-md text-sm border bg-red-300 border-gray-300 text-gray-100 hover:bg-red-400"
+                                    className="px-1 py-1 rounded-full px-2 text-sm border bg-red-300 border-gray-300 text-gray-100 hover:bg-red-400"
                                 >
                                     {t("blog.cancel")}
 

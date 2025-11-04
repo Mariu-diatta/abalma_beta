@@ -124,7 +124,7 @@ export const ButtonSimple = ({
     title,
     onHandleClick = () => { },
     type = "submit",
-    className = "w-auto flex items-center m-auto cursor-pointer rounded-md border border-blue-100 bg-blue-0 px-5 py-2 text-base  text-white-900 transition bg-gradient-to-br from-purple-0 to-blue-100 hover:bg-gradient-to-br hover:from-purple-100 px-2 rounded-lg"
+    className = "w-auto flex items-center m-auto cursor-pointer rounded-full border border-blue-100 bg-blue-0 px-5 py-2 text-base  text-white-900 transition bg-gradient-to-br from-purple-0 to-blue-100 hover:bg-gradient-to-br hover:from-purple-100 px-2 "
 }) => {
 
 
