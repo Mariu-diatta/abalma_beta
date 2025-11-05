@@ -27,6 +27,8 @@ import SettingsForm from "../features/Settings";
 import BlogPageHome, { BlogPage } from "../pages/Blog";
 import { LIST_CATEGORY } from "../utils";
 import HelpPage from "../layouts/HelpLayout";
+import PaySuccess from "../features/PaySuccess";
+import PayCancel from "../features/PayCancel";
 
 
 // Routes Configuration
@@ -65,8 +67,12 @@ const routes = [
 
                         children: [
 
+                            { path: "success", element: <PaySuccess /> },
+
+                            { path: "cancel", element: <PayCancel /> },
+
                             ...[
-                                { path: "help", class_rendered: <HelpPage/> },
+                                { path: "help", class_rendered: <HelpPage /> },
 
                                 { path: "payment", class_rendered: <ListProductShoppingCart /> },
 

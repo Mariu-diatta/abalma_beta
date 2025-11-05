@@ -30,27 +30,23 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
                 {
                     (currentUser?.image || currentUser?.photo_url) ? (
 
-                        <div className="flex items-center justify-center relative rounded-full gap-0 w-6.5  h-6.5 p-0">
+                        <div className="relative flex items-center justify-center rounded-full">
 
                             <img
                                 src={currentUser?.image || currentUser?.photo_url}
                                 alt="avatar"
                                 title={currentUser?.email}
-                                className="h-6.5 w-6.5 rounded-full object-cover object-center cursor-pointer items-center justify-center mb-1"
+                                className="h-6.5 w-6.5 rounded-full object-cover cursor-pointer bg-gray-200"
                             />
 
                             {
-                                currentUser?.is_connected &&
-                                (
-
-                                    <span className="absolute right-0 top-0.5 block h-[6px] w-[5px] rounded-full bg-[#219653] dark:border-dark">
-
-                                    </span>
-
+                                currentUser?.is_connected && (
+                                    <span className="absolute right-0 top-0 h-2 w-2 rounded-full bg-[#219653] border border-white dark:border-dark"></span>
                                 )
                             }
 
                         </div>
+
 
                     ) : (
                         <div className="relative w-[30px] rounded-full " title={currentUser?.email}>

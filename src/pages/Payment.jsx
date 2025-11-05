@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useState } from 'react';
 import PaymentCard from '../components/PaymentTools';
 import { useDispatch, useSelector } from 'react-redux';
 import api from '../services/Axios';
@@ -8,8 +8,13 @@ import { addMessageNotif } from '../slices/chatSlice';
 import LoadingCard from '../components/LoardingSpin';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { useCallback } from 'react';
+import { payNow } from '../utils';
+import { useTranslation } from 'react-i18next';
+
 
 const Payment = ({ totalPrice }) => {
+
+    const { t } = useTranslation();
 
     const currentUser = useSelector(state => state.auth.user);
 
@@ -22,7 +27,26 @@ const Payment = ({ totalPrice }) => {
 
         <PaymentCard >
 
-            <PaymentForm />
+           <div className="flex flex-col justify-end items-start mb-6">
+                {/*<PaymentForm />*/}
+                <p className="bg-blue-100 px-1 mt-5">{"Données pour test PayPal"}</p>
+                <p>email test PayPal: <strong>{"sb-tedqi46004430@personal.example.com"}</strong></p>
+                <p>code test PayPal: <strong>{"2=;6Mw&}"}</strong></p>
+
+                <p className="bg-blue-100 px-1 mt-5">{"Codes de numéro de carte bancaire pour le test:"}</p>
+                <p>Code test strip: <strong>{"4242424242424242"}</strong></p>
+                <p>Code test strip: <strong>{"4000056655665556"}</strong></p>
+            
+           </div>
+            <button
+                onClick={() => {
+                    payNow({ email: currentUser?.email, amount: parseFloat(totalPrice) })
+                }}
+                className="rounded-lg h-full text-sm py-3 bg-blue-50 w-full my-2 cursor-pointer hover:bg-blue-100"
+            >
+                <p><strong>{t("stripe_pay")}</strong></p>
+
+            </button>
 
             <PaymentAppPayPal amount={totalPrice} />
 
@@ -80,7 +104,6 @@ export const PaymentForm = () => {
             )
 
             //console.log("Réponse backend :", products.data)
-
             showMessage(dispatch, { Type: "Message", Message: "Transaction effectué" });
 
             dispatch(addMessageNotif("Transaction effectué"))
@@ -158,8 +181,6 @@ export function PaymentAppPayPal({ amount }) {
 
     const currentUser = useSelector(state => state.auth.user);
 
-    const [isTransactionSucces, setIsTransactionSuccess]=useState(null)
-
     const boughtProduct = useCallback( async() => {
 
             //e.preventDefault()
@@ -211,30 +232,45 @@ export function PaymentAppPayPal({ amount }) {
         },[currentUser, dispatch, data]
     )
 
-    useEffect(
 
-        () => {
 
-            if (isTransactionSucces) {
+    const createOrder = (actions) => {
+        return actions.order.create({
+            purchase_units: [
+                {
+                    amount: {
+                        value: Number(amount).toFixed(2), // montant à 2 décimales
+                    },
+                },
+            ],
+        });
+    };
 
-                try {
+    const onApprovePayment = async (actions) => {
+        try {
+            const details = await actions.order.capture();
+            console.log("Paiement réussi :", details);
 
-                    boughtProduct(); // Exécution de ta fonction
+            // Appel fonction post-transaction
+            boughtProduct();
 
-                    dispatch(addMessageNotif("Transaction effectué"))
+            // Notification personnalisée
+            showMessage(dispatch, {
+                Type: "Message",
+                Message: `Merci ${details.payer.name.given_name}, votre paiement a été effectué !`,
+            });
+        } catch (err) {
+            handlePaymentError(err);
+        }
+    };
 
-                } catch (e) {
-
-                    console.error("Erreur dans boughtProduct:", e);
-                    // Ne rien retourner ici => PayPal continue normalement
-                }
-
-                setIsTransactionSuccess(null)
-            }
-
-        }, [isTransactionSucces, boughtProduct, dispatch]
-    )
-
+    const handlePaymentError = (err) => {
+        console.error("Erreur PayPal :", err);
+        showMessage(dispatch, {
+            Type: "Erreur",
+            Message: "Une erreur est survenue lors du paiement. Veuillez réessayer.",
+        });
+    };
 
     if (!currentUser && !currentUser?.is_connected) {
 
@@ -247,29 +283,15 @@ export function PaymentAppPayPal({ amount }) {
         <PayPalScriptProvider options={{ "client-id": process.env.REACT_APP_PAYPAL_CLIENT_ID }}>
 
             <PayPalButtons
-
-                style={{ layout: "vertical" }}
-
-                createOrder={(data, actions) => {
-                    return actions.order.create({
-                        purchase_units: [{ amount: { value: Number(amount).toFixed(2) } }]
-                    });
+                style={{
+                    layout: "vertical",
+                    color: "blue",
+                    shape: "rect",
+                    label: "paypal",
                 }}
-
-                onApprove={(data, actions) => {
-                    return actions.order.capture().then((details) => {
-                        console.log("Paiement réussi :", details);
-                        setIsTransactionSuccess(details)
-                        boughtProduct();
-                        alert(`Merci ${details.payer.name.given_name} !`);
-
-                    });
-                }}
-
-                onError={(err) => {
-                    console.error("Erreur PayPal :", err);
-                    alert("Erreur de paiement.");
-                }}
+                createOrder={(data, actions) => createOrder(actions)}
+                onApprove={(data, actions) => onApprovePayment(actions)}
+                onError={(err) => handlePaymentError(err)}
             />
         </PayPalScriptProvider>
     );

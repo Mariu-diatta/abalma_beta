@@ -502,8 +502,30 @@ export const CONSTANTS = {
 //put fist letter in upCase
 export function capitalizeFirstLetter(str) {
     if (!str) return "";
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase
+
 }
+
+//Paiment mode 
+export const payNow = async ({email, amount}) => {
+
+    try {
+
+        const dataStringify = {
+            amount,
+            email
+        }
+
+        const res = await api.post("/create-checkout-session/", dataStringify);
+
+        window.location.href = res?.data?.url;
+
+    } catch (err) {
+
+        console.log("Erreur de la donnée",err)
+    }
+
+};
 
 
 

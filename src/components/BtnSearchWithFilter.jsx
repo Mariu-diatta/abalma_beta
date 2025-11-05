@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCategorySelected } from '../slices/navigateSlice';
 import { useTranslation } from 'react-i18next';
-import { ENDPOINTS, ItemsNav, LIST_CATEGORY} from '../utils';
+import { ENDPOINTS, ItemsNav} from '../utils';
 import clsx from "clsx";
 
 const SearchBar = ({disabled = false }) => {
@@ -17,7 +17,7 @@ const SearchBar = ({disabled = false }) => {
     const searchBtnRef = useRef(null);
     const currentNav = useSelector(state => state.navigate.currentNav);
 
-    const [itemsNav, setItemsNav] = useState([])
+    //const [itemsNav, setItemsNav] = useState([])
 
     const handleSubmit = (e) => {
 
@@ -57,7 +57,7 @@ const SearchBar = ({disabled = false }) => {
             btn.addEventListener("focus", handleFocus);
         }
 
-        setItemsNav(LIST_CATEGORY.map(e => e?.idx));
+        //setItemsNav(LIST_CATEGORY.map(e => e?.idx));
 
         return () => {
 

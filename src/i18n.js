@@ -22,6 +22,7 @@ i18n
      en: {
 
         translation: {
+             stripe_pay: "Click here to pay securely with Stripe",
              edit:"Edit",
              product_summary:"Product data summary",
              typing:"is writing ....",
@@ -637,6 +638,7 @@ i18n
      fr: {
 
          translation: {
+             stripe_pay:'Procéder au paiement sécurisé via Stripe',
              edit:"Modifier",
              product_summary:"Résumer du produit",
              typing: "est en train d'écrire...",
