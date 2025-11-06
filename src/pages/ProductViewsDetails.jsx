@@ -34,6 +34,8 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
     const currentSelectedProductView = useSelector(state => state.cart.selectedProductView)
 
+    const [hiddenShowDirection, setHiddenShowDirection] = useState(false);
+
     const currentUser = useSelector(state => state.auth.user)
 
     const indexOfCurrentProduct = useMemo(() => {
@@ -101,6 +103,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
         if (isOpen) {
             setIsProductAdd(false);
+            setHiddenShowDirection(false);
             productViews(currentSelectedProductView, setProductNbViews)
         }
 
@@ -141,14 +144,14 @@ const ProductModal = ({ isOpen, onClose, products}) => {
         );
     };
 
-    if (!isOpen || !currentSelectedProductView) return null;
+    if (!isOpen || !currentSelectedProductView ) return null;
 
     return (
 
         <>
 
             {
-                showLeft && <button className="z-50 absolute left-6 top-1/2 rounded-full px-3 cursor-pointer" onClick={() => scroll("left")}> <ChevronLeft className="w-5 h-5 text-gray-300" /></button>
+                showLeft && !hiddenShowDirection && <button className="z-50 absolute left-6 top-1/2 rounded-full px-3 cursor-pointer" onClick={() => scroll("left")}> <ChevronLeft className="w-5 h-5 text-gray-300" /></button>
             }
 
             <div className="relative z-40" role="dialog" aria-modal="true" ref={popovRef}>
@@ -204,7 +207,10 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                                     </button>
                                 }
 
-                                <WalletModal/>
+                                <WalletModal
+
+                                    setHiddenShowDirection={setHiddenShowDirection}
+                                />
 
                                 {
                                     isCurrentUser &&
@@ -477,7 +483,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
 
             {
-                showRight && <button className="z-50 absolute right-6 top-1/2 rounded-full px-3 cursor-pointer" onClick={() => scroll("right")}> <ChevronRight className="w-5 h-5 text-gray-300" /></button>
+                showRight && !hiddenShowDirection && <button className="z-50 absolute right-6 top-1/2 rounded-full px-3 cursor-pointer" onClick={() => scroll("right")}> <ChevronRight className="w-5 h-5 text-gray-300" /></button>
             }
         </>
     );

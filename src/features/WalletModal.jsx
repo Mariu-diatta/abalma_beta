@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { PaymentAppPayPal } from '../pages/Payment';
+import Payment from '../pages/Payment';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -32,14 +32,13 @@ const CloseIcon = () => (
     </svg>
 );
 
-const WalletModal = () => {
+const WalletModal = ({ setHiddenShowDirection }) => {
 
     const [isOpen, setIsOpen] = useState(false);
 
     const currentSelectedProductView = useSelector(state => state.cart.selectedProductView)
 
     const currentUser = useSelector(state => state.auth.user)
-
 
     const { t } = useTranslation();
 
@@ -60,15 +59,18 @@ const WalletModal = () => {
             }
         };
 
+        setHiddenShowDirection(isOpen)
+
         window.addEventListener('keydown', handleEsc);
 
         return () => window.removeEventListener('keydown', handleEsc);
 
-    }, [isOpen]);
+    }, [isOpen, setHiddenShowDirection]);
 
     if (!currentUser && !currentUser?.is_connected) return
 
     return (
+
         <>
             <button
 
@@ -96,7 +98,7 @@ const WalletModal = () => {
                     id="wallet-modal"
                     role="dialog"
                     aria-modal="true"
-                    className="backdrop-blur-sm fixed inset-0 z-50 flex items-center justify-center bg-gray bg-opacity-50 overflow-y-auto pt-[50px]"
+                    className="backdrop-blur-sm fixed inset-0 z-200 shadow-lg w-full flex items-center justify-center bg-gray bg-opacity-50 overflow-y-auto pt-[50px]"
                     onClick={toggleModal}
 
                 >
@@ -135,33 +137,7 @@ const WalletModal = () => {
                                 {t("choosePaiementMode")}
                             </p>
 
-                            <ul className="space-y-3">
-
-                                {/*<li>*/}
-
-                                {/*    <button*/}
-
-                                {/*        type="button"*/}
-
-                                {/*        className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-60 hover:bg-gray-100 dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white w-full"*/}
-
-                                {/*        onClick={() => alert('MetaMask sélectionné')}*/}
-
-                                {/*        aria-label="Sélectionner MetaMask comme mode de paiement"*/}
-                                {/*    >*/}
-                                {/*        <MetaMaskIcon />*/}
-
-                                {/*        <span className="flex-1 ms-3 whitespace-nowrap">MetaMask</span>*/}
-
-                                {/*    </button>*/}
-                                {/*</li>*/}
-
-                                <li>
-                                    <PaymentAppPayPal amount={currentSelectedProductView?.price_product} />
-                                </li>
-
-                                {/* Ajouter d'autres options ici */}
-                            </ul>
+                            <Payment totalPrice={currentSelectedProductView?.price_product} />
 
                         </section>
 
