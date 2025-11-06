@@ -151,37 +151,29 @@ const ProductModal = ({ isOpen, onClose, products}) => {
         <>
 
             {
-                showLeft && !hiddenShowDirection && <button className="z-50 absolute left-6 top-1/2 rounded-full px-3 cursor-pointer" onClick={() => scroll("left")}> <ChevronLeft className="w-5 h-5 text-gray-300" /></button>
+                showLeft && !hiddenShowDirection && <button className="z-50 absolute left-6 top-1/2 rounded-full px-3 cursor-pointer" onClick={() => scroll("left")}> <ChevronLeft className="w-6 h-6 text-gray-300 bg-white/30 rounded-full hover:bg-white/80" /></button>
             }
 
-            <div className="relative z-40" role="dialog" aria-modal="true" ref={popovRef}>
-            
+            <div className="relative z-40 w-screen h-screen" role="dialog" aria-modal="true" ref={popovRef}>
+
+                {/* Overlay */}
                 <div
-                    className="fixed inset-0 bg-gray-500/75 transition-opacity md:block"
+                    className="fixed inset-0 bg-gray-500/75 transition-opacity"
                     aria-hidden="true"
                     onClick={onClose}
                     ref={buttonRef}
-                >
-                </div>
+                ></div>
 
-                <div className="fixed inset-0 z-40 w-screen overflow-y-auto">
+                {/* Conteneur centré */}
+                <div className="fixed inset-0 z-50 flex items-center justify-center">
 
                     <div
-
-                        className="flex min-h-full items-stretch justify-center text-center 
-                        items-center 
-                        w-full transform text-left text-base transition 
-                        md:my-8 md:max-w-2xl md:px-4 lg:max-w-4xl 
-                        relative items-center m-auto justify-center"
-
-                        style={
-                            {
-                                backgroundColor: "var(--color-bg)",
-                                color: "var(--color-text)"
-                            }
-                        }
-
+                        className="relative flex flex-col md:flex-row items-center justify-center 
+                                 w-full max-w-4xl bg-[var(--color-bg)] text-[var(--color-text)]
+                                 rounded-2xl shadow-xl overflow-hidden 
+                                 md:my-8 md:px-4 mx-auto transition"
                     >
+
 
                         <div className="flex gap-2">
 
@@ -454,19 +446,18 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                                 </fieldset>
 
-                            </div>
-
                         </div>
 
                     </div>
 
+                    </div>
                 </div>
 
             </div>
 
 
             {
-                showRight && !hiddenShowDirection && <button className="z-50 absolute right-6 top-1/2 rounded-full px-3 cursor-pointer" onClick={() => scroll("right")}> <ChevronRight className="w-5 h-5 text-gray-300" /></button>
+                showRight && !hiddenShowDirection && <button className="z-50 absolute right-6 top-1/2 rounded-full px-3 cursor-pointer" onClick={() => scroll("right")}> <ChevronRight className="w-6 h-6 text-gray-300 bg-white/30 hover:bg-white/80 rounded-full" /></button>
             }
         </>
     );
