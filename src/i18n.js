@@ -22,6 +22,14 @@ i18n
      en: {
 
         translation: {
+
+             payment_text: {
+                 cancel: "Votre paiement a été annulé.",
+                 success_text_1: "Paiement réussi !",
+                 success_transaction_done: "Merci ! Votre transaction a été effectuée avec succès.",
+                 success_transaction_message: "Un e-mail de confirmation vous sera envoyé sous peu.",
+                 btn_back_to_dashbord: "Retour à l’accueil"
+             },
              stripe_pay: "Pay with Stripe",
              edit:"Edit",
              product_summary:"Product data summary",
@@ -212,11 +220,13 @@ i18n
                      "FILMS_SERIES": "Movies & Series",
                      "FOURNITURES_SCOLAIRES": "School Supplies",
                      "HABITS": "Clothes",
+                     "HB": "Clothes",
                      "HIGH_TECH": "High-Tech / Gadgets",
                      "JARDINAGE": "Gardening",
                      "JEUX_VIDEO": "Video Games",
                      "JEWELRY": "Watches & Jewelry",
                      "JOUETS": "Toys",
+                     "JOUET": "Toys",
                      "LIVRES": "Books",
                      "MAISON_DECORATION": "Home & Decoration",
                      "MATERIELS_INFORMATIQUES": "Computer Equipment",
@@ -638,6 +648,13 @@ i18n
      fr: {
 
          translation: {
+             payment_text: {
+                 cancel: "Your payment has been cancelled.",
+                 success_text_1: "Payment successful!",
+                 success_transaction_done: "Thank you! Your transaction was completed successfully.",
+                 success_transaction_message: "A confirmation email will be sent to you shortly.",
+                 btn_back_to_dashbord: "Back to home"
+             },
              stripe_pay:'Payer avec Stripe',
              edit:"Modifier",
              product_summary:"Résumer du produit",
@@ -830,11 +847,13 @@ i18n
                       "FILMS_SERIES": "Films & Séries",
                       "FOURNITURES_SCOLAIRES": "Fournitures scolaires",
                       "HABITS": "Habits",
+                      "HB": "Habits",
                       "HIGH_TECH": "High-Tech / Gadgets",
                       "JARDINAGE": "Jardinage",
                       "JEUX_VIDEO": "Jeux vidéo",
                       "JEWELRY": "Montres & Bijoux",
                       "JOUETS": "Jouets",
+                      "JOUET": "Jouets",
                       "LIVRES": "Livres",
                       "MAISON_DECORATION": "Maison & Décoration",
                       "MATERIELS_INFORMATIQUES": "Matériels informatiques",

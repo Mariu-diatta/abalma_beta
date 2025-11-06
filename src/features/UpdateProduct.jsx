@@ -11,82 +11,8 @@ import { useTranslation } from 'react-i18next';
 import LoadingCard from '../components/LoardingSpin';
 import { ButtonSimple } from '../components/Button';
 import TitleCompGen from '../components/TitleComponentGen';
-import { ENDPOINTS, capitalizeFirstLetter } from '../utils';
+import { ENDPOINTS} from '../utils';
 import { useEffect } from 'react';
-
-const ProductSummary = ({ product, onEdit, onDelete, onAddNew, t }) => {
-
-    if (!product) return null;
-
-    return (
-        <div
-            className="flex flex-col gap-4 
-                 shadow-lg p-4 rounded-lg bg-white w-100 m-auto"
-        >
-
-            <div className="flex flex-col gap-3 text-gray-700 dark:text-gray-300 text-sm">
-                <p className="flex justify-between">
-                    <span className="font-medium">{capitalizeFirstLetter(t("name"))}:</span>
-                    <span>{product.name_product}</span>
-                </p>
-                <p className="flex justify-between">
-                    <span className="font-medium">{capitalizeFirstLetter(t("price"))}:</span>
-                    <span>{product.price_product} {product.currency_price}</span>
-                </p>
-                <p className="flex justify-between">
-                    <span className="font-medium">{capitalizeFirstLetter(t("size"))}:</span>
-                    <span>{product.taille_product}</span>
-                </p>
-                <p className="flex justify-between">
-                    <span className="font-medium">{capitalizeFirstLetter(t("color"))}:</span>
-                    <span>{product.color_product}</span>
-                </p>
-                <p className="flex justify-between">
-                    <span className="font-medium">{capitalizeFirstLetter(t("quantity"))}:</span>
-                    <span>{product.quantity_product}</span>
-                </p>
-                <p className="flex justify-between">
-                    <span className="font-medium">{capitalizeFirstLetter(t("description"))}:</span>
-                    <span className="h-50  overflow-y-auto">{product.description_product}</span>
-                </p>
-                <p className="flex justify-between">
-                    <span className="font-medium">{capitalizeFirstLetter(t("delivery"))}:</span>
-                    <span>{product.delivery}</span>
-                </p>
-                {/* Ajouter d’autres champs si nécessaire */}
-            </div>
-
-            {/* Actions */}
-            <div className="flex justify-end mt-4 gap-1">
-
-                <button
-                    onClick={onEdit}
-                    className="bg-yellow-100 hover:bg-yellow-200 text-white text-[12px] px-1 py-1 rounded-md transition-colors"
-                >
-                    {t("edit")}
-
-                </button>
-
-                <button
-                    onClick={onDelete}
-                    className="bg-red-100 hover:bg-red-200 text-white text-[12px] px-1 py-1 rounded-md transition-colors"
-                >
-                    {t("delete")}
-
-                </button>
-
-                <button
-                    onClick={onAddNew}
-                    className="bg-green-100 hover:bg-green-200 text-white text-[12px] px-1 py-1 rounded-md transition-colors"
-                >
-                    {t("add_new_product")}
-                </button>
-            </div>
-        </div>
-    );
-};
-
-
 
 
 const AddUploadProduct = () => {
@@ -809,3 +735,109 @@ const AddUploadProduct = () => {
 };
 
 export default AddUploadProduct;
+
+
+
+const ProductSummary = ({ product, onEdit, onDelete, onAddNew, t }) => {
+
+    if (!product) return null;
+
+    return (
+
+        <div
+            className="flex flex-col gap-4 
+                 shadow-lg p-4 rounded-lg bg-white w-100 m-auto"
+            style={
+                {
+                    backgroundColor: "var(--color-bg)",
+                    color: "var(--color-text)"
+                }
+            }
+        >
+
+            <div className="flex flex-col gap-3 text-gray-700 dark:text-gray-300 text-sm">
+
+                <p className="flex justify-between">
+                    <span className="font-medium">{t("name")}:</span>
+                    <span>{product?.name_product}</span>
+                </p>
+
+                <p className="flex justify-between">
+                    <span className="font-medium">{t("price")}:</span>
+                    <span>{product?.price_product} {product.currency_price}</span>
+                </p>
+
+                <p className="flex justify-between">
+                    <span className="font-medium">{t("size")}:</span>
+                    <span>{product?.taille_product}</span>
+                </p>
+
+                <p className="flex justify-between">
+                    <span className="font-medium">{t("color")}:</span>
+                    <span>{product?.color_product}</span>
+                </p>
+
+                <p className="flex justify-between">
+                    <span className="font-medium">{t("quantity")}:</span>
+                    <span>{product?.quantity_product}</span>
+                </p>
+
+                <p className="flex justify-between">
+                    <span className="font-medium">{t("description")}:</span>
+                    <span className="h-50  overflow-y-auto">{product.description_product}</span>
+                </p>
+
+                <p className="flex justify-between">
+                    <span className="font-medium">{t("delivery")}:</span>
+                    <span>{product.delivery}</span>
+                </p>
+                {/* Ajouter d’autres champs si nécessaire */}
+            </div>
+
+            {/* Actions */}
+            <div className="flex justify-end mt-4 gap-1">
+
+                <button
+                    onClick={onEdit}
+                    className="bg-yellow-100 hover:bg-yellow-200 text-white text-[12px] px-1 py-1 rounded-md transition-colors"
+                    style={
+                        {
+                            backgroundColor: "var(--color-bg)",
+                            color: "var(--color-text)"
+                        }
+                    }
+                >
+                    {t("edit")}
+
+                </button>
+
+                <button
+                    onClick={onDelete}
+                    className="bg-red-100 hover:bg-red-200 text-white text-[12px] px-1 py-1 rounded-md transition-colors"
+                    style={
+                        {
+                            backgroundColor: "var(--color-bg)",
+                            color: "var(--color-text)"
+                        }
+                    }
+                >
+                    {t("delete")}
+
+                </button>
+
+                <button
+                    onClick={onAddNew}
+                    className="bg-green-100 hover:bg-green-200 text-white text-[12px] px-1 py-1 rounded-md transition-colors"
+                    style={
+                        {
+                            backgroundColor: "var(--color-bg)",
+                            color: "var(--color-text)"
+                        }
+                    }
+                >
+                    {t("add_new_product")}
+                </button>
+            </div>
+        </div>
+    );
+};
