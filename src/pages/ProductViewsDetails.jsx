@@ -165,22 +165,19 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                 ></div>
 
                 {/* Conteneur centré */}
-                <div className="fixed inset-0 z-50 flex items-center justify-center">
+                <div className="fixed inset-0 z-50 flex items-center justify-center ">
 
                     <div
-                        className="relative flex flex-col md:flex-row items-center justify-center 
-                                 w-full max-w-4xl bg-[var(--color-bg)] text-[var(--color-text)]
-                                 rounded-2xl shadow-xl overflow-hidden 
-                                 md:my-8 md:px-4 mx-auto transition"
+                        className="relative flex flex-col md:flex-row items-stretch justify-center
+                             w-full h-screen max-w-4xl bg-[var(--color-bg)] text-[var(--color-text)]
+                             rounded-2xl shadow-xl overflow-hidden mx-auto transition
+                        "
                     >
-
-
-
-                        <div className="relative gap-y-12  grid w-full grid-cols-1 items-start sm:grid-cols-12 lg:gap-x-1 mx-h-[100dvh]">
-
+                        {/* Contenu en grille : image + détails */}
+                        <div className="grid grid-cols-1 sm:grid-cols-12 w-full h-full">
 
                             {/*image product  in the component*/}
-                            <div className="relative sm:col-span-6 lg:col-span-7 max-h-[100dvh]  flex items-center justify-center my-auto mx-auto overflow-auto scrollbor_hidden">
+                            <div className="sm:col-span-6 lg:col-span-7 flex items-center justify-center h-full w-full">
                                 <img
                                     src={currentSelectedProductView?.image_product}
                                     alt="Product"
@@ -189,7 +186,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                             </div>
 
                             {/*details product  in the component*/}
-                            <div className="sm:col-span-6 lg:col-span-5 w-full h-full  lg:mt-6 lg:pt-2 p-2  mb-8 pb-8 gap-y-8 " >
+                            <div className="sm:col-span-6 lg:col-span-5 flex flex-col justify-between w-full h-full px-4 overflow-y-auto pb-[5dvh] md:pb-0">
 
                                 {/*button close the component*/}
                                 <div className="flex fixed lg:absolute right-0 z-50 bg-gray top-2">
