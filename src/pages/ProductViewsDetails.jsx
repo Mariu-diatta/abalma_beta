@@ -185,54 +185,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                         <div className="flex gap-2">
 
-                            <div className="absolute bottom-0 left-2 mt-5 lg:mt-auto  lg:left-auto lg:right-12 lg:top-0 lg:bottom-auto md:top-1 md:bottom-auto flex items-between gap-1 ">
-
-                                {
-                                    (!isProductAdd) &&
-                                    <button
-
-                                        onClick={(e) => handleAddToCart_(e)}
-
-                                        title="Ajouter au panier"
-
-                                        className="z-20 cursor-pointer flex items-center justify-center p-3 rounded-full  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
-
-                                        aria-label="Ajouter au panier"
-
-                                    >
-                                        <svg className="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
-                                        </svg>
-
-                                    </button>
-                                }
-
-                                <WalletModal
-
-                                    setHiddenShowDirection={setHiddenShowDirection}
-                                />
-
-                                {
-                                    isCurrentUser &&
-
-                                    <div
-                                        title="Profil Produit Popov"
-
-                                    className=" z-20 rounded-full "
-
-                                        tabIndex={0}
-
-                                        aria-label="Profil Produit Popov"
-
-                                    >
-                                        <ProfilPopPov/>
-
-                                    </div>
-                                }
-
-                            </div>
-
-                            <div className="fixed lg:absolute top-0 right-0 z-50 bg-gray">
+                            <div className="fixed lg:absolute right-0 z-50 bg-gray pt-1.5">
 
                                 <button
 
@@ -240,30 +193,10 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                                     onClick={onClose}
 
-                                    className="cursor-pointer z-20 rounded-full flex items-center justify-center p-3  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="cursor-pointer z-20 rounded-full flex items-center justify-center px-2  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 >
 
-                                    <svg
-                                        className="z-0 size-10 lg:size-5 bg-white rounded-full"
-
-                                        fill="none"
-
-                                        onClick={onClose}
-
-                                        viewBox="0 0 24 24"
-
-                                        strokeWidth={1}
-
-                                        stroke="currentColor"
-
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M6 18L18 6M6 6l12 12"
-                                        />
-
-                                    </svg>
+                                    <span style={{ color:"#E5E7EB", fontSize:"20px"}}>✖</span>
 
                                 </button>
 
@@ -271,7 +204,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                         </div>
 
-                        <div className="relative gap-y-8  grid w-full grid-cols-1 items-start sm:grid-cols-12 lg:gap-x-1 mx-h-[100dvh]">
+                        <div className="relative gap-y-12  grid w-full grid-cols-1 items-start sm:grid-cols-12 lg:gap-x-1 mx-h-[100dvh]">
 
                             <div className="relative sm:col-span-6 lg:col-span-7 max-h-[100dvh]  flex items-center justify-center my-auto mx-auto overflow-auto scrollbor_hidden">
                                 <img
@@ -282,6 +215,54 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                             </div>
 
                             <div className="sm:col-span-6 lg:col-span-5 w-full h-full  lg:mt-6 lg:pt-2 p-2  mb-8 pb-8 gap-y-8 " >
+
+
+                                <div className="absolute bottom-0 left-2 mt-5 lg:mt-auto  lg:left-auto lg:right-12 lg:top-0 lg:bottom-auto md:top-1 md:bottom-auto flex items-between gap-5 w-auto">
+
+                                    {
+                                        (!isProductAdd) &&
+                                        <button
+
+                                            onClick={(e) => handleAddToCart_(e)}
+
+                                            title="Ajouter au panier"
+
+                                            className="z-20 cursor-pointer flex items-center justify-center p-3 rounded-full  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+
+                                            aria-label="Ajouter au panier"
+
+                                        >
+                                            <svg className="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
+                                            </svg>
+
+                                        </button>
+                                    }
+
+                                    <WalletModal
+
+                                        setHiddenShowDirection={setHiddenShowDirection}
+                                    />
+
+                                    {
+                                        isCurrentUser &&
+
+                                        <div
+                                            title="Profil Produit Popov"
+
+                                            className=" z-20 rounded-full "
+
+                                            tabIndex={0}
+
+                                            aria-label="Profil Produit Popov"
+
+                                        >
+                                            <ProfilPopPov />
+
+                                        </div>
+                                    }
+
+                                </div>
 
                                 <div className="flex flex-col ">
 
@@ -359,7 +340,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                                 </fieldset>
 
-                                <h2 className="text-sm  my-5 h-[20dvh] overflow-y-auto scrollbor_hidden ">
+                                <h2 className="text-sm  my-2 h-[20dvh] overflow-y-auto scrollbor_hidden ">
 
                                     {currentSelectedProductView?.description_product?.toLowerCase()}
 

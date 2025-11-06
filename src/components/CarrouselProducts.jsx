@@ -77,7 +77,7 @@ const Carousel = ({ products, openModal, owners }) => {
                                 className={`
                                     absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
                                     w-2/3 h-1/3 p-2 rounded-lg text-start overflow-auto
-                                    bg-white/80 dark:text-white
+                                    bg-white/30 dark:text-white scrollbor_hidden hover:bg-white
                                     ${idx === currentIndex ? `opacity-120 text-${prod?.color_product}` : "opacity-0"}
                                     z-10 scrollbar-hidden text-sm
                                   `}
@@ -95,7 +95,7 @@ const Carousel = ({ products, openModal, owners }) => {
                                                 setProductScroll(prod);
                                             }}
                                             type="button"
-                                            className="whitespace-nowrap  bg-white/80  w-auto mx-2  absolute bottom-0 left-1/2 -translate-x-1/2 -translate-y-1/2 py-1 px-5 me-2 mb-2 text-sm  focus:outline-none rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 z-[10]"
+                                            className="whitespace-nowrap  bg-white/80  w-auto mx-2  absolute bottom-0 left-1/2 -translate-x-1/2 -translate-y-1/2 py-1 px-5 me-2 mb-2 text-sm  focus:outline-none rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 z-5"
                                         >
                                             {t("views_product")}
 
@@ -111,7 +111,7 @@ const Carousel = ({ products, openModal, owners }) => {
 
             <button
                 onClick={prevSlide}
-                className={`${(filteredProducts.length <= 1) ? "hidden" : ''} cursor-pointer absolute top-0 left-0 z-10 flex items-center justify-center h-full px-1 py-12`}
+                className={`${(filteredProducts.length <= 1) ? "hidden" : ''} bg-white/10 cursor-pointer absolute top-0 left-0 z-5 flex items-center justify-center h-full px-1 py-12`}
             >
                 <ChevronLeft className="w-6 h-6 text-white" />
 
@@ -119,7 +119,7 @@ const Carousel = ({ products, openModal, owners }) => {
 
             <button
                 onClick={nextSlide}
-                className={`${(filteredProducts.length <=1 )? "hidden" : ''} cursor-pointer absolute top-0 right-0 z-10 flex items-center justify-center h-full px-1 py-12`}
+                className={`${(filteredProducts.length <=1 )? "hidden" : ''} bg-white/10  cursor-pointer absolute top-0 right-0 z-5 flex items-center justify-center h-full px-1 py-12`}
             >
                 <ChevronRight className="w-6 h-6 text-white" />
 
