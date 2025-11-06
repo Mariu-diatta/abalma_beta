@@ -111,17 +111,17 @@ const Carousel = ({ products, openModal, owners }) => {
 
             <button
                 onClick={prevSlide}
-                className={`${(filteredProducts.length <= 1) ? "hidden" : ''} bg-white/10 cursor-pointer absolute top-0 left-0 z-5 flex items-center justify-center h-full px-1 py-12`}
+                className={`${(filteredProducts.length <= 1) ? "hidden" : ''} w-8 h-8  cursor-pointer absolute top-0 left-0 z-5 flex items-center justify-center h-full px-1 py-12`}
             >
-                <ChevronLeft className="w-6 h-6 text-white" />
+                <ChevronLeft className="w-6 h-6 text-white bg-white/10 rounded-full" />
 
             </button>
 
             <button
                 onClick={nextSlide}
-                className={`${(filteredProducts.length <=1 )? "hidden" : ''} bg-white/10  cursor-pointer absolute top-0 right-0 z-5 flex items-center justify-center h-full px-1 py-12`}
+                className={`${(filteredProducts.length <= 1) ? "hidden" : ''} w-8 h-8   cursor-pointer absolute top-0 right-0 z-5 flex items-center justify-center h-full px-1 py-12`}
             >
-                <ChevronRight className="w-6 h-6 text-white" />
+                <ChevronRight className="w-6 h-6 text-white bg-white/10 rounded-full" />
 
             </button>
         </div>
