@@ -73,13 +73,18 @@ const Carousel = ({ products, openModal, owners }) => {
                                     className={` absolute top-1/2 left-1/2 w-full h-[300px] object-cover -translate-x-1/2 -translate-y-1/2 transition-opacity duration-700 ease-in-out scale-100 hover:scale-150 ${idx === currentIndex ? "opacity-100 z-2" : "opacity-0 z-2"
                                     }`}
                                 />
-                                <span
-                                className={`bg-white-80 text-center text-white  font-bold dark:text-white w-2/3 text-sm absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  z-4 rounded-lg  p-2 overflow-auto h-1/3 w-2/3 scrollbor_hidden ${idx === currentIndex ? "opacity-100" : "opacity-0"
-                                        }`}
-                                >
-                                    {prod?.description_product.toLowerCase()}
+                            <span
+                                className={`
+                                    absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+                                    w-2/3 h-1/3 p-2 rounded-lg text-start overflow-auto
+                                    bg-white/80 dark:text-white
+                                    ${idx === currentIndex ? `opacity-120 text-${prod?.color_product}` : "opacity-0"}
+                                    z-10 scrollbar-hidden text-sm
+                                  `}
+                            >
+                                {prod?.description_product.toLowerCase()}
 
-                                </span>
+                            </span>
 
                                 {
                                     (idx === currentIndex) && (
@@ -90,7 +95,7 @@ const Carousel = ({ products, openModal, owners }) => {
                                                 setProductScroll(prod);
                                             }}
                                             type="button"
-                                            className="whitespace-nowrap bg-none w-auto mx-2  absolute bottom-0 left-1/2 -translate-x-1/2 -translate-y-1/2 py-1 px-5 me-2 mb-2 text-sm text-gray-900 focus:outline-none rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 z-[10]"
+                                            className="whitespace-nowrap  bg-white/80  w-auto mx-2  absolute bottom-0 left-1/2 -translate-x-1/2 -translate-y-1/2 py-1 px-5 me-2 mb-2 text-sm  focus:outline-none rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 z-[10]"
                                         >
                                             {t("views_product")}
 

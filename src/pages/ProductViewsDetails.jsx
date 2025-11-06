@@ -320,7 +320,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                                     <div className="mt-4 flex items-center gap-x-3">
 
-                                        {["white", "gray", "black"].map((color) => (
+                                        {[currentSelectedProductView?.image_product].map((color) => (
 
                                             <div
 
@@ -345,7 +345,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                                                             ? "bg-gray-200"
 
-                                                            : "bg-gray-900"
+                                                            : "bg-black-900"
 
                                                         } checked:outline-2 checked:outline-offset-2 checked:outline-gray-400 focus-visible:outline-3 focus-visible:outline-offset-3`}
 

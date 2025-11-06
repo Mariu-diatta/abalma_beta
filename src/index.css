@@ -17,3 +17,14 @@ code {
 html, body, #root {
     height: 100%;
 }
+
+.navbar-mobile {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding-bottom: env(safe-area-inset-bottom); /* espace pour éviter la barre système */
+    background: rgba(255, 255, 255, 0.1); /* semi-transparent */
+    backdrop-filter: blur(10px); /* effet verre */
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
