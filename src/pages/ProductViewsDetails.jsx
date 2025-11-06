@@ -175,29 +175,11 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                     >
 
 
-                        <div className="flex gap-2">
-
-                            <div className="fixed lg:absolute right-0 z-50 bg-gray pt-1.5">
-
-                                <button
-
-                                    type="button"
-
-                                    onClick={onClose}
-
-                                    className="cursor-pointer z-20 rounded-full flex items-center justify-center px-2  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                >
-
-                                    <span style={{ color:"#E5E7EB", fontSize:"20px"}}>✖</span>
-
-                                </button>
-
-                            </div>
-
-                        </div>
 
                         <div className="relative gap-y-12  grid w-full grid-cols-1 items-start sm:grid-cols-12 lg:gap-x-1 mx-h-[100dvh]">
 
+
+                            {/*image product  in the component*/}
                             <div className="relative sm:col-span-6 lg:col-span-7 max-h-[100dvh]  flex items-center justify-center my-auto mx-auto overflow-auto scrollbor_hidden">
                                 <img
                                     src={currentSelectedProductView?.image_product}
@@ -206,7 +188,30 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                                 />
                             </div>
 
+                            {/*details product  in the component*/}
                             <div className="sm:col-span-6 lg:col-span-5 w-full h-full  lg:mt-6 lg:pt-2 p-2  mb-8 pb-8 gap-y-8 " >
+
+                                {/*button close the component*/}
+                                <div className="flex fixed lg:absolute right-0 z-50 bg-gray top-2">
+
+                                    <div className="">
+
+                                        <button
+
+                                            type="button"
+
+                                            onClick={onClose}
+
+                                            className="cursor-pointer z-20 rounded-full flex items-center justify-center px-2  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        >
+
+                                            <span style={{ color: "#E5E7EB", fontSize: "20px" }}>✖</span>
+
+                                        </button>
+
+                                    </div>
+
+                                </div>
 
 
                                 <div className="absolute bottom-0 left-2 mt-5 lg:mt-auto  lg:left-auto lg:right-12 lg:top-0 lg:bottom-auto md:top-1 md:bottom-auto flex items-between gap-5 w-auto">
