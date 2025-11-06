@@ -47,7 +47,7 @@ const Payment = ({ totalPrice}) => {
                     onClick={() => {
                         payNow({ email: currentUser?.email, amount: parseFloat(totalPrice) }, setLoading)
                     }}
-                    className="rounded-lg h-full text-sm py-3 bg-blue-50 w-full my-2 cursor-pointer hover:bg-blue-100"
+                    className="rounded-lg h-full text-md py-3 bg-blue-50 w-full my-2 cursor-pointer hover:bg-blue-100"
                 >
                     <p><strong>{t("stripe_pay")}</strong></p>
 
