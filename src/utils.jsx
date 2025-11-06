@@ -507,10 +507,10 @@ export function capitalizeFirstLetter(str) {
 }
 
 //Paiment mode 
-export const payNow = async ({email, amount}) => {
+export const payNow = async ({email, amount}, setLoading) => {
 
     try {
-
+        setLoading(true)
         const dataStringify = {
             amount,
             email
@@ -522,7 +522,11 @@ export const payNow = async ({email, amount}) => {
 
     } catch (err) {
 
-        console.log("Erreur de la donnée",err)
+        console.log("Erreur de la donnée", err)
+
+    } finally {
+
+        setLoading(false)
     }
 
 };

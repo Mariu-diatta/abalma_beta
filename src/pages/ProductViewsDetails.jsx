@@ -232,7 +232,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                             </div>
 
-                            <div className="fixed lg:absolute top-0 right-0 z-50">
+                            <div className="fixed lg:absolute top-0 right-0 z-50 bg-gray">
 
                                 <button
 
@@ -244,9 +244,11 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                                 >
 
                                     <svg
-                                        className="z-0 size-10 lg:size-5"
+                                        className="z-0 size-10 lg:size-5 bg-white rounded-full"
 
                                         fill="none"
+
+                                        onClick={onClose}
 
                                         viewBox="0 0 24 24"
 

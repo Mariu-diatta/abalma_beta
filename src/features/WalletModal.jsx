@@ -137,7 +137,7 @@ const WalletModal = ({ setHiddenShowDirection }) => {
                                 {t("choosePaiementMode")}
                             </p>
 
-                            <Payment totalPrice={currentSelectedProductView?.price_product} />
+                            <Payment totalPrice={currentSelectedProductView?.price_product}/>
 
                         </section>
 

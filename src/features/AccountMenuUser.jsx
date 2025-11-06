@@ -89,7 +89,7 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
                 onBlur={() => setDropdownOpen(false)}
 
-                className={`shadow-sm bg-transparent absolute right-0 top-full me-3 overflow-hidden rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${dropdownOpen ? "block z-100 bg-white" : "hidden"}`}
+                className={`shadow-sm bg-transparent absolute right-0 top-full me-3 overflow-hidden rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${dropdownOpen ? "block z-100 bg-white " : "hidden"}`}
 
                 style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
             >

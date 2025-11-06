@@ -12,11 +12,14 @@ import { payNow } from '../utils';
 import { useTranslation } from 'react-i18next';
 
 
-const Payment = ({ totalPrice }) => {
+const Payment = ({ totalPrice}) => {
 
     const { t } = useTranslation();
 
     const currentUser = useSelector(state => state.auth.user);
+
+    const [loading, setLoading] = useState(false);
+    const [loadingPayPal, setLoadingPayPal] = useState(false);
 
     if (!currentUser && !currentUser?.is_connected) {
 
@@ -38,17 +41,27 @@ const Payment = ({ totalPrice }) => {
                 <p>Code test strip: <strong>{"4000056655665556"}</strong></p>
             
            </div>
-            <button
-                onClick={() => {
-                    payNow({ email: currentUser?.email, amount: parseFloat(totalPrice) })
-                }}
-                className="rounded-lg h-full text-sm py-3 bg-blue-50 w-full my-2 cursor-pointer hover:bg-blue-100"
-            >
-                <p><strong>{t("stripe_pay")}</strong></p>
+            {
+                !loading?
+                <button
+                    onClick={() => {
+                        payNow({ email: currentUser?.email, amount: parseFloat(totalPrice) }, setLoading)
+                    }}
+                    className="rounded-lg h-full text-sm py-3 bg-blue-50 w-full my-2 cursor-pointer hover:bg-blue-100"
+                >
+                    <p><strong>{t("stripe_pay")}</strong></p>
 
-            </button>
+                </button>
+                :
+                <LoadingCard/>
+            }
 
-            <PaymentAppPayPal amount={totalPrice} />
+            {
+                !loadingPayPal?
+                <PaymentAppPayPal amount={totalPrice} setLoadingPayPal={setLoadingPayPal}/>
+                :
+                <LoadingCard />
+            }
 
         </PaymentCard >
 
@@ -171,7 +184,7 @@ export const PaymentForm = () => {
     );
 };
 
-export function PaymentAppPayPal({ amount }) {
+export function PaymentAppPayPal({ amount, setLoadingPayPal }) {
 
     //const [loading, setLoading] = useState(false)
 
@@ -201,6 +214,8 @@ export function PaymentAppPayPal({ amount }) {
 
             try {
 
+                setLoadingPayPal(true)
+
                 // Envoi en JSON  const products =
                 await api.post("transactions/products/",
 
@@ -226,10 +241,10 @@ export function PaymentAppPayPal({ amount }) {
 
             } finally {
 
-                //setLoading(false)
+                setLoadingPayPal(false)
             }
 
-        },[currentUser, dispatch, data]
+    }, [currentUser, dispatch, data, setLoadingPayPal]
     )
 
 
