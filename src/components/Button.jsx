@@ -52,7 +52,7 @@ export const ButtonNavigate = ({ tabs }) => {
 
         <ul
             className="
-                fixed bottom-0 left-0 w-full flex gap-2
+                fixed bottom-0 left-0 w-full flex gap-2  md:rounded-full lg:rounded-full rounded-none
                 border-0
                 sm:items-center
                 lg:static lg:flex 
@@ -61,7 +61,7 @@ export const ButtonNavigate = ({ tabs }) => {
                 justify-between
                 dark:bg-dark-2
                 px-4 z-10 
-                mx-1
+                mx-0
              "
             style={
                 {

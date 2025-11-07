@@ -62,21 +62,21 @@ const Carousel = ({ products, openModal, owners }) => {
             <div className="relative overflow-hidden rounded-lg h-70 lg:h-70 md:h-auto">
 
                 {
-                    filteredProducts.length>0 && filteredProducts.map((prod, idx) => (
+                    filteredProducts?.length>0 && filteredProducts.map((prod, idx) => (
 
                             <section className="shadow-lg " key={idx}>
 
                                 <img
                                     src={prod.image_product}
                                     alt={`Slide ${idx + 1}`}
-                                    title={`Nombre d'articles disponibles: ${prod.quantity_product}`}
+                                    title={`Nombre d'articles disponibles: ${prod?.quantity_product}`}
                                     className={` absolute top-1/2 left-1/2 w-full h-[300px] object-cover -translate-x-1/2 -translate-y-1/2 transition-opacity duration-700 ease-in-out scale-100 hover:scale-150 ${idx === currentIndex ? "opacity-100 z-2" : "opacity-0 z-2"
                                     }`}
                                 />
                             <span
                                 className={`
-                                    absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
-                                    w-2/3 h-1/3 p-2 rounded-lg text-start overflow-auto
+                                    absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-0.5 text-[12px]
+                                    w-2/3 h-1/3 p-0 m-0 rounded-lg text-start overflow-auto
                                     bg-white/30 dark:text-white scrollbor_hidden hover:bg-white
                                     ${idx === currentIndex ? `opacity-120 text-${prod?.color_product}` : "opacity-0"}
                                     z-10 scrollbar-hidden text-sm
@@ -95,7 +95,7 @@ const Carousel = ({ products, openModal, owners }) => {
                                                 setProductScroll(prod);
                                             }}
                                             type="button"
-                                            className="whitespace-nowrap  bg-white/80  w-auto mx-2  absolute bottom-0 left-1/2 -translate-x-1/2 -translate-y-1/2 py-1 px-5 me-2 mb-2 text-sm  focus:outline-none rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 z-5"
+                                            className="whitespace-nowrap  bg-white/80  w-auto mx-0  absolute bottom-0 left-1/2 -translate-x-1/2 -translate-y-1/2 py-1 px-5 me-2 mb-2 text-sm  focus:outline-none rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 z-5"
                                         >
                                             {t("views_product")}
 

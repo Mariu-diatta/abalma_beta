@@ -80,21 +80,13 @@ const NavbarHeader = () => {
 
     return (
 
-        <nav className="sticky top-0 z-20 max-h-[20px] min-h-[20px]">
+        <nav className="sticky top-0 z-20 max-h-[20px] min-h-[20px] bg-none">
 
             <header
 
-                className="flex w-full items-center justify-between  h-[50px] px-1  bg-white"
+                className="flex w-full items-center justify-between  h-[50px] px-1  bg-none"
 
                 ref={ref}
-
-                style={
-                    {
-                        backgroundColor: "var(--color-bg)",
-
-                        color: "var(--color-text)"
-                    }
-                }
 
             >
                 {/* Logo */}

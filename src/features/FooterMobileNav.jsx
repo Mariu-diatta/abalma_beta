@@ -16,7 +16,7 @@ const MobileNav = ({ open }) => {
 
     <nav
       id="navbarCollapse"
-      className={`sm:hidden absolute top-12 right-0 w-full max-w-[250px] z-50 rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${
+        className={`sm:hidden absolute top-12 right-0 w-full max-w-[250px] z-50 rounded-none md:rounded-lg lg:rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${
         !open && "hidden"
       } lg:static lg:block lg:max-w-full lg:w-auto`}
     >

@@ -29,7 +29,7 @@ const HomeLayout = ({ children }) => {
 
     return (
 
-        <div className=" d-flex flex-column items-start justify-between style-bg mx-1 mb-[30px]" >
+        <div className=" d-flex flex-column items-start justify-between style-bg mx-0 mb-[30px]" >
 
             <NavbarHeader />
 

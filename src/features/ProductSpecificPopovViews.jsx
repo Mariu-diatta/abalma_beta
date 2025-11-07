@@ -22,7 +22,7 @@ const ProductSpecifiViews = ({ products, openModal, owners, panelRef }) => {
 
         <div
             ref={panelRef}
-            className={`flex gap-2 bg-grey-9000 shadow-xs rounded-md min-h-70 max-h-70 w-full mt-1 z-0`}
+            className={`flex gap-0 gap-1 bg-grey-9000 shadow-xs rounded-md min-h-70 max-h-70 w-full mt-1 z-0 py-1 m-0`}
         >
             <div style={{ flex: 2 }} className="hidden lg:block">
 
