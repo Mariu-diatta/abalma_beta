@@ -13,6 +13,7 @@ import express_delivery from "../../src/assets/express-delivery_1981844.png"
 import home_5657414 from "../../src/assets/home-address_12248895.png"
 import pay_8331969 from "../../src/assets/pay_8331969.png" 
 import RendrePrixProduitMonnaie from "../features/ConvertCurrency";
+import TextParagraphs from "../components/TextToParagraph";
 
 
 const getLogoTitlOperation = (t, prod) => {
@@ -337,7 +338,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                                     <h2 className="text-sm  my-2 h-[20dvh] overflow-y-auto scrollbor_hidden ">
 
-                                        {currentSelectedProductView?.description_product?.toLowerCase()}
+                                        <TextParagraphs text={currentSelectedProductView?.description_product?.toLowerCase()}/>
 
                                     </h2>
 

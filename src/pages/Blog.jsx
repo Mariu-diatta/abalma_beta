@@ -10,6 +10,7 @@ import { updateCategorySelected } from '../slices/navigateSlice';
 import TitleCompGen,{ TitleCompGenLitle } from '../components/TitleComponentGen';
 import OwnerAvatar from '../components/OwnerProfil';
 import { ModalFormCreatBlog } from '../features/BlogCreatBlogs';
+import TextParagraphs from '../components/TextToParagraph';
 const HomeLayout = lazy(() => import('../layouts/HomeLayout'));
 
 
@@ -187,17 +188,7 @@ const BlogCard = (blog) => {
 
     return (
 
-        <div className="relative w-auto p-1 flex flex-col justify-between rounded-lg  shadow-md hover:shadow-lg dark:bg-gray-800 dark:border-gray-700 max-h-[25vh] min-h-[25vh]">
-
-            <div className="flex justify-between items-center mb-5 text-gray-500 bg-none">
-
-                <TitleCompGenLitle title={blog?.title_blog}/>
-
-                <span className="text-sm">{formatISODate(blog?.created_at)}</span>
-
-            </div>
-
-            <p className="mb-5 font-light text-gray-500 dark:text-gray-400 text-sm text-center">{blog?.blog_message}</p>
+        <div className="relative w-auto p-1 flex flex-col justify-between rounded-lg  shadow-md hover:shadow-lg dark:bg-gray-800 dark:border-gray-700 max-h-[25vh] min-h-[25vh] bg-gray-100">
 
             <div className="flex justify-between items-center">
 
@@ -217,10 +208,24 @@ const BlogCard = (blog) => {
 
             </div>
 
+            <p className="absolute mb-0 font-light text-gray-500 dark:text-gray-400 text-sm text-center overflow-y-auto h-full py-2 px-5 scrollbor_hidden">
+
+                <TitleCompGenLitle title={blog?.title_blog} />
+
+                <TextParagraphs text={blog?.blog_message}/>
+            </p>
+
+            <div className=" right-2 top-2 flex  mb-1 text-gray-500 bg-white/2">
+
+                <span className="text-sm">{formatISODate(blog?.created_at)}</span>
+
+            </div>
 
         </div>
     );
 };
+
+
 
 
 
