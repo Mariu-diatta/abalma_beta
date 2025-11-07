@@ -14,7 +14,7 @@ const HomeContain = () => {
 
         <>
 
-            <div className="mx-auto max-w-screen-md text-center lg:mb-2  mt-8 pt-2">
+            <div className="mx-auto max-w-screen-md text-center lg:mb-2  mt-8 pt-2 hidden">
 
                 <TitleCompGen title={t('homePan.title')} />
 

@@ -36,7 +36,7 @@ const ProductCard = ({
                 color: "var(--color-text)"
             }}
 
-            className={`var(--color-text) var(--color-bg) rounded-lg shadow-md transition transform hover:-translate-y-1 hover:shadow-lg ${isInCart ? "opacity-50 pointer-events-none bg-gray-100" : "bg-white"
+            className={`var(--color-text) var(--color-bg) rounded-lg shadow-xs transition transform hover:-translate-y-1 hover:shadow-lg ${isInCart ? "opacity-50 pointer-events-none bg-gray-100" : "bg-white"
                 }`}
         >
             {/* Image & Modal Trigger */}

@@ -289,7 +289,7 @@ const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) 
                                         <React.Fragment key={category}>
 
                                             {/* Nom de la catégorie */}
-                                            <li className="text-center text-xs text-gray-500 py-2 col-span-full  rounded-full w-auto mx-auto shadow-sm my-2 px-5">
+                                            <li className="text-center text-xs text-gray-500 py-0.5 col-span-full  rounded-full w-auto mx-auto shadow-sm my-0 px-5">
                                                 {t(`add_product.categories.${category}`)}
                                             </li>
 
