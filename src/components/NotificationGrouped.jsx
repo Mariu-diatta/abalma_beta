@@ -13,7 +13,7 @@ const GroupThemNotifPayLangageButtons = ({ notify, changeLanguage }) => {
 
     const currentNotifMessages = useSelector(state => state.chat.messageNotif);
 
-
+    if (currentNav === ENDPOINTS?.MESSAGE_INBOX) return
 
     return (
 

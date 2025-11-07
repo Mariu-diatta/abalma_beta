@@ -93,8 +93,8 @@ const PrintMessagesOnChat = ({ messages, messagesEndRef }) => {
                                                     isCurrentUser && (
                                                         <img
                                                             src={
-                                                                msg?.sender?.image ||
-                                                                msg?.sender?.photo_url
+                                                                currentUser?.image ||
+                                                                currentUser?.photo_url
                                                             }
                                                             alt="avatar"
                                                             className="h-5 w-5 rounded-full object-cover"
