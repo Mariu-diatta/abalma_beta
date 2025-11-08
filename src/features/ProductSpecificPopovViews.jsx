@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import ProductsDisplayWithCarousel from '../components/CarrouselProducts';
 import CategoryProductsImagesGalleryDisplay from './ImageGalleryPanel';
 import CategoryProductsCardDisplay from './ImageGallery';
-import { useEffect } from 'react';
+//import bg_image from '../assets/bg_image_.jpg'
 
 
 const ProductSpecifiViews = ({ products, openModal, owners, panelRef }) => {
@@ -19,6 +19,16 @@ const ProductSpecifiViews = ({ products, openModal, owners, panelRef }) => {
         )
     }
 
+    //    style = {{
+    //        backgroundImage: `url(${bg_image})`,
+    //            backgroundSize: "cover",
+    //                backgroundPosition: "center",
+    //                    backgroundRepeat: "no-repeat",
+    //                        height: "100vh", // facultatif, pour voir le fond sur toute la page
+               
+    //            }
+    //}
+
     return (
 
         <div
@@ -26,6 +36,7 @@ const ProductSpecifiViews = ({ products, openModal, owners, panelRef }) => {
             ref={panelRef}
 
             className={`flex gap-0 gap-1 bg-grey-9000 shadow-xs rounded-md min-h-70 max-h-70 w-full mt-1 z-0 py-1 m-0`}
+
         >
             <div style={{ flex: 2 }} className="hidden lg:block">
 

@@ -97,12 +97,12 @@ const NavbarHeader = () => {
                         // Scrolling UP
                         header.classList.remove("bg-none");
 
-                        header.classList.add("bg-white", "shadow-none");
+                        header.classList.add("bg-yellow-50", "shadow-none");
 
                     } else {
 
                         // Scrolling DOWN
-                        header.classList.remove("bg-white", "shadow-none");
+                        header.classList.remove("bg-yellow-50", "shadow-none");
 
                         header.classList.add("bg-none");
                     }
@@ -121,7 +121,7 @@ const NavbarHeader = () => {
 
                 id="header"
 
-                className="flex w-full items-center justify-between  h-[50px] px-1  bg-gray-100"
+                className="flex w-full items-center justify-between  h-[50px] px-1  bg-white"
 
                 ref={ref}
 
