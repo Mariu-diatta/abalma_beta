@@ -154,9 +154,9 @@ const NavbarHeader = () => {
                             `}
 
                         >
-                            <span className="block w-[30px] h-[2px] bg-gray-700 dark:bg-gray-400 my-[6px]" ></span>
-                            <span className="block w-[30px] h-[2px] bg-gray-700 dark:bg-gray-200 my-[6px]"></span>
-                            <span className="block w-[30px] h-[2px] bg-gray-700 dark:bg-gray-200 my-[6px]"></span>
+                            <span className="block w-6 h-0.5 text-gray-100 dark:text-white bg-gray-700 dark:bg-gray-400 my-[6px]" ></span>
+                            <span className="block w-4 h-0.5 text-gray-100 dark:text-white bg-gray-700 dark:bg-gray-200 my-[6px]"></span>
+                            <span className="block w-2 h-0.5 text-gray-100 dark:text-white bg-gray-700 dark:bg-gray-200 my-[6px]"></span>
 
                         </button>
 
