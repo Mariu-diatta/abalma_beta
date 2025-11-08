@@ -730,7 +730,7 @@ i18n
              cookie_banner: {
                  text1: "Ce site utilise des cookies pour améliorer votre expérience",
                  text2: "En savoir plus",
-                 text3: "Acepter",
+                 text3: "Accepter",
                  text4: "Refuser",
              },
              delete_blog_confirm: "Confirmer la suprresion du blog",
@@ -760,7 +760,7 @@ i18n
              adress: "Adresse",
              delivery: "Livraison",
              views_product:'Voir le produit',
-             about_us: "A propos de nous",
+             about_us: "A propos",
              file_selected: "Fichier sélectionné",
              read_more:"Lire plus",
              add_new_product: "Ajout nouveau produit",

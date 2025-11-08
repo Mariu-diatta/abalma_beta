@@ -422,7 +422,7 @@ export const getTabsNavigationsItems = (currentNav, t) => {
             },
             {
                 id: 'blogs',
-                label: 'Blogs',
+                label: 'Blog',
                 endPoint: '/blogs',
                 logo:
                     (!(currentNav === "blogs") && !(currentNav === "login") && !(currentNav === "/register")) ?
