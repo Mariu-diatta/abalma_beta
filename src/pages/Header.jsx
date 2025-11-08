@@ -97,12 +97,12 @@ const NavbarHeader = () => {
                         // Scrolling UP
                         header.classList.remove("bg-none");
 
-                        header.classList.add("bg-yellow-50", "shadow-none");
+                        header.classList.add("bg-white-50", "shadow-none");
 
                     } else {
 
                         // Scrolling DOWN
-                        header.classList.remove("bg-yellow-50", "shadow-none");
+                        header.classList.remove("bg-white-50", "shadow-none");
 
                         header.classList.add("bg-none");
                     }
