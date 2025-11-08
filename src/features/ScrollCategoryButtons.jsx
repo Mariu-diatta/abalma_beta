@@ -95,6 +95,7 @@ const ScrollableCategoryButtons = ({
 
     }, [productSpecificHandler, setActiveBtnOver, dispatch]);
 
+
     return (
 
         <>

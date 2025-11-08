@@ -11,7 +11,10 @@ import MobileNav from "../features/FooterMobileNav";
 import DesktopNav from "../features/FooterDeskTopNav";
 
 
+
 const NavbarHeader = () => {
+
+
 
     const currentNav = useSelector(state => state.navigate.currentNav);
 
@@ -78,13 +81,47 @@ const NavbarHeader = () => {
 
     }, [themeValue]);
 
+    useEffect(
+
+        () => {
+
+                let lastScroll = 0;
+
+                const header = document.getElementById("header");
+
+                window.addEventListener("scroll", () => {
+
+                    const currentScroll = window.scrollY;
+
+                    if (currentScroll < lastScroll) {
+                        // Scrolling UP
+                        header.classList.remove("bg-none");
+
+                        header.classList.add("bg-white", "shadow-none");
+
+                    } else {
+
+                        // Scrolling DOWN
+                        header.classList.remove("bg-white", "shadow-none");
+
+                        header.classList.add("bg-none");
+                    }
+
+                    lastScroll = currentScroll;
+                });
+        }
+
+    )
+
     return (
 
-        <nav className="sticky top-0 z-20 max-h-[20px] min-h-[20px] bg-none">
+        <nav className="sticky top-0 z-20 max-h-[20px] min-h-[20px] bg-none mt-0"  >
 
             <header
 
-                className="flex w-full items-center justify-between  h-[50px] px-1  bg-none"
+                id="header"
+
+                className="flex w-full items-center justify-between  h-[50px] px-1  bg-gray-100"
 
                 ref={ref}
 

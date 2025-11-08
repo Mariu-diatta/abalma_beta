@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import ProductsDisplayWithCarousel from '../components/CarrouselProducts';
 import CategoryProductsImagesGalleryDisplay from './ImageGalleryPanel';
 import CategoryProductsCardDisplay from './ImageGallery';
+import { useEffect } from 'react';
 
 
 const ProductSpecifiViews = ({ products, openModal, owners, panelRef }) => {
@@ -21,7 +22,9 @@ const ProductSpecifiViews = ({ products, openModal, owners, panelRef }) => {
     return (
 
         <div
+
             ref={panelRef}
+
             className={`flex gap-0 gap-1 bg-grey-9000 shadow-xs rounded-md min-h-70 max-h-70 w-full mt-1 z-0 py-1 m-0`}
         >
             <div style={{ flex: 2 }} className="hidden lg:block">

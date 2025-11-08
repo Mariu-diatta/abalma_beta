@@ -18,8 +18,7 @@ export const DesktopNav = () => {
     return (
 
         <div
-            style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
-            className="hidden sm:flex items-center justify-center gap-3 w-auto bg-white mx-1 z-20 rounded-full"
+            className="hidden sm:flex items-center justify-center gap-3 w-auto mx-1 z-20 rounded-full bg-white lg:bg-transparent md:bg-transparent"
         >
             {
                 (currentNav === ENDPOINTS?.HOME) &&
