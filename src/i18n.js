@@ -23,6 +23,7 @@ i18n
 
         translation: {
 
+             blogs:"Blog",
              payment_text: {
                  cancel: "Votre paiement a été annulé.",
                  success_text_1: "Paiement réussi !",
@@ -648,6 +649,7 @@ i18n
      fr: {
 
          translation: {
+             blogs: "Blog",
              payment_text: {
                  cancel: "Your payment has been cancelled.",
                  success_text_1: "Payment successful!",

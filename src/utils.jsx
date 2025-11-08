@@ -489,7 +489,7 @@ export const ENDPOINTS = {
 
 export const CONSTANTS = {
     ABOUT: "About",
-    BLOGS: "Blogs",
+    BLOGS: "Blog",
     ERRREUR: "Erreur",
     ALL: "Tous",
     DARK: 'dark',
