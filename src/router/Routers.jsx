@@ -25,10 +25,11 @@ import ProductsRecapTable from "../features/ProductRecaptable";
 import ListProductShoppingCart from "../features/ListProductShoppingCart";
 import SettingsForm from "../features/Settings";
 import BlogPageHome, { BlogPage } from "../pages/Blog";
-import { LIST_CATEGORY } from "../utils";
+import { HELLO_ABALMA, LIST_CATEGORY } from "../utils";
 import HelpPage from "../layouts/HelpLayout";
 import PaySuccess from "../features/PaySuccess";
 import PayCancel from "../features/PayCancel";
+import HomeAbalmaLayout, { HandleDataComponent } from "../layouts/AlloAbalmaLayout";
 
 
 // Routes Configuration
@@ -41,6 +42,8 @@ const routes = [
             { index: true, element: <Home /> },
 
             { index: "home", element: <Home /> },
+
+            { path: "helloAbalma", element: <HomeAbalmaLayout/> },
 
             { path: "register", element: <Register /> },
 
@@ -55,6 +58,23 @@ const routes = [
             { path: "forgetPassword/reset/:uidb64/:token", element: < LayoutPwdForget /> },
 
             { path: "logIn", element: <LogIn /> },
+
+            ...Object.values(HELLO_ABALMA).map(
+
+                (value) => (
+
+                    {
+                        path: value?.index, element: (
+
+                            <HomeAbalmaLayout>
+
+                                <HandleDataComponent item={value?.index} />
+
+                            </HomeAbalmaLayout>
+                        ),
+                    }
+                )
+            ),
 
             {
         

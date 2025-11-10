@@ -4,6 +4,7 @@ import image from '../assets/image.jpg'
 import GridLayoutProduct from '../features/GridLayoutProducts';
 import Testimonial from '../components/AbalmaActivities';
 import TitleCompGen from '../components/TitleComponentGen';
+import SubscriptionsPage from './SubscriptionCard';
 
 
 const HomeContain = () => {
@@ -126,6 +127,12 @@ const HomeContain = () => {
                     </div>
 
                 </div>
+
+            </div>
+
+            <div className=" text-center lg:mb-2  mt-8 pt-2 w-full">
+
+                <SubscriptionsPage />
 
             </div>
 

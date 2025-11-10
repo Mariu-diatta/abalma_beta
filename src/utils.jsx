@@ -484,7 +484,8 @@ export const ENDPOINTS = {
     ADD_PRODUCT: "add-product",
     USER_BLOGS: "user-blogs",
     DASHBOARD: "dashboard",
-    BLOG: "blogs"
+    BLOG: "blogs",
+    HELLO_ABALMA: "helloAbalma"
 }
 
 export const CONSTANTS = {
@@ -497,6 +498,231 @@ export const CONSTANTS = {
     THEME: 'theme',
     CHAT_MESSAGE: "chat_message"
 }
+
+export const HELLO_ABALMA = {
+    HOME: {
+        index:"home",
+        text: "Home",
+        logo: (
+            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="m4 12 8-8 8 8M6 10.5V19a1 1 0 0 0 1 1h3v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h3a1 1 0 0 0 1-1v-8.5" />
+            </svg>
+
+        )
+    },
+
+    OFRREURS: {
+        index: "offreurs",
+        text: "Offreurs",
+        logo:(
+            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-width="1" d="M4.5 17H4a1 1 0 0 1-1-1 3 3 0 0 1 3-3h1m0-3.05A2.5 2.5 0 1 1 9 5.5M19.5 17h.5a1 1 0 0 0 1-1 3 3 0 0 0-3-3h-1m0-3.05a2.5 2.5 0 1 0-2-4.45m.5 13.5h-7a1 1 0 0 1-1-1 3 3 0 0 1 3-3h3a3 3 0 0 1 3 3 1 1 0 0 1-1 1Zm-1-9.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z" />
+            </svg>
+
+        )
+    },
+
+    DEMANDE: {
+        index:"demande",
+        text: "Demande",
+        logo: (
+            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5" />
+            </svg>
+        )
+    },
+
+    ABONNEMENTS: {
+        index:"abonnements",
+        text: "Abonnement",
+
+        logo: (
+            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 4v15a1 1 0 0 0 1 1h15M8 16l2.5-5.5 3 3L17.273 7 20 9.667" />
+            </svg>
+
+        )
+    },
+
+    MESSAGES: {
+        index:"messages",
+        text: "Messages",
+        logo:(
+            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 17h6l3 3v-3h2V9h-2M4 4h11v8H9l-3 3v-3H4V4Z" />
+            </svg>
+
+            )
+ }
+}
+
+export const ALLO_ABALMA_CATEGORIES__ = {
+    MAISON: "Maison & Entretien",
+    BRICOLAGE: "Bricolage & Réparation",
+    BEAUTE: "Beauté & Bien-être",
+    CUISINE: "Cuisine & Restauration",
+    EDUCATION: "Éducation & Formation",
+    TRANSPORT: "Transport & Livraison",
+    INFORMATIQUE: "Informatique & Design",
+    MODE: "Mode & Couture",
+    EVENEMENTS: "Cérémonies & Événements",
+    AGRICULTURE: "Agriculture & Artisanat",
+    LOCATION: "Location d’objets",
+    SERVICES: "Aide & Services express",
+    AUTO: "Auto & Mécanique",
+    FAMILLE: "Famille & Garde d’enfants",
+    ANIMAUX: "Animaux & Soins",
+    ENTREPRISE: "Services aux entreprises",
+    RELIGIEUX: "Services religieux & communautaires"
+}
+export const ALLO_ABALMA_CATEGORIES = {
+    maison: {
+        text: "Maison & Entretien",
+        icon: "🏠",
+    },
+    bricolage: {
+        text: "Bricolage & Réparation",
+        icon: "🛠️",
+    },
+    beaute: {
+        text: "Beauté & Bien-être",
+        icon: "💆‍♀️",
+    },
+    cuisine: {
+        text: "Cuisine & Restauration",
+        icon: "🍳",
+    },
+    education: {
+        text: "Éducation & Formation",
+        icon: "📚",
+    },
+    transport: {
+        text: "Transport & Livraison",
+        icon: "🚚",
+    },
+    informatique: {
+        text: "Informatique & Design",
+        icon: "💻",
+    },
+    mode: {
+        text: "Mode & Couture",
+        icon: "👗",
+    },
+    ceremonie: {
+        text: "Cérémonies & Événements",
+        icon: "🎉",
+    },
+    agriculture: {
+        text: "Agriculture & Artisanat",
+        icon: "🌾",
+    },
+    location: {
+        text: "Location d’objets",
+        icon: "📦",
+    },
+    aide: {
+        text: "Aide & Services express",
+        icon: "⏱️",
+    },
+    auto: {
+        text: "Auto & Mécanique",
+        icon: "🚗",
+    },
+    famille: {
+        text: "Famille & Garde d’enfants",
+        icon: "👶",
+    },
+    animaux: {
+        text: "Animaux & Soins",
+        icon: "🐶",
+    },
+    entreprise: {
+        text: "Services aux entreprises",
+        icon: "📊",
+    },
+    religieux: {
+        text: "Services religieux & communautaires",
+        icon: "⛪",
+    },
+};
+
+export const featuresData = {
+    paiementMobile: {
+        text: "Paiement mobile intégré",
+        icon: "💳", // ou remplacer par un SVG/icône Lucide
+    },
+    filtreQuartier: {
+        text: "Filtre par quartier / commune",
+        icon: "📍",
+    },
+    contactDirect: {
+        text: "Contact direct via WhatsApp / appel",
+        icon: "📞",
+    },
+    modeCommunaute: {
+        text: "Mode Communauté",
+        icon: "🤝",
+    },
+    offresSpeciales: {
+        text: "Offres spéciales saisonnières",
+        icon: "🎁",
+    },
+    labelAbalma: {
+        text: "Label Abalma — Artisans vérifiés",
+        icon: "✅",
+    },
+    parrainage: {
+        text: "Système de parrainage",
+        icon: "🔗",
+    },
+};
+
+
+
+export const ALLO_ABALMA_FEATURES_LIST = [
+    {
+        key: "PAIEMENT_MOBILE",
+        title: "Paiement mobile intégré",
+        description: "Acceptez les paiements via Wave, Orange Money, Free Money ou autres services mobiles populaires.",
+        icon: "💳",
+    },
+    {
+        key: "FILTRE_LOCALISATION",
+        title: "Filtre par quartier / commune",
+        description: "Recherchez des services autour de vous à Dakar, Pikine, Rufisque, Thiès, ou dans votre ville.",
+        icon: "📍",
+    },
+    {
+        key: "CONTACT_DIRECT",
+        title: "Contact direct via WhatsApp / appel",
+        description: "Échangez directement avec les prestataires via WhatsApp ou par téléphone sans intermédiaire.",
+        icon: "📞",
+    },
+    {
+        key: "MODE_COMMUNAUTE",
+        title: "Mode Communauté",
+        description: "Rejoignez ou créez des groupes d’entraide par quartier pour partager et collaborer.",
+        icon: "🤝",
+    },
+    {
+        key: "OFFRES_SPECIALES",
+        title: "Offres spéciales saisonnières",
+        description: "Profitez de promotions exclusives pour le Ramadan, la Tabaski, le Magal, Noël, et d’autres fêtes.",
+        icon: "🎁",
+    },
+    {
+        key: "LABEL_ARTISANS",
+        title: "Label Abalma — Artisans vérifiés",
+        description: "Trouvez des artisans certifiés et bien notés pour plus de sécurité et de confiance.",
+        icon: "✅",
+    },
+    {
+        key: "PARRAINAGE",
+        title: "Système de parrainage",
+        description: "Invitez vos amis et gagnez des bonus en argent mobile pour chaque nouvelle inscription.",
+        icon: "🔗",
+    }
+];
 
    
 //put fist letter in upCase
@@ -530,6 +756,109 @@ export const payNow = async ({email, amount}, setLoading) => {
     }
 
 };
+
+// --- sample offerers dataset example
+export const offreurs = [
+    {
+        logo: "https://picsum.photos/seed/a/120/120",
+        nom: "A",
+        autoEntrepreneur: true,
+        activite: "Élagueur / taille arbres",
+        ville: "Evry-Courcouronnes",
+        distance: 0.9,
+        enLigne: "14:23",
+        note: 4.8,
+        category:"Elageur"
+    },
+    {
+        logo: "https://picsum.photos/seed/b/120/120",
+        nom: "D.",
+        autoEntrepreneur: false,
+        activite: "Paysagiste entretien",
+        ville: "Ris-Orangis",
+        distance: 2.7,
+        enLigne: "11:02",
+        note: 4.7,
+        category: "Entretient"
+    },
+    {
+        logo: "https://picsum.photos/seed/b/120/120",
+        nom: "Thomas G.",
+        autoEntrepreneur: false,
+        activite: "Paysagiste entretien",
+        ville: "Ris-Orangis",
+        distance: 2.7,
+        enLigne: "11:02",
+        note: 4.7,
+        category: "Entretient"
+    },
+    {
+        logo: "https://picsum.photos/seed/b/120/120",
+        nom: "G",
+        autoEntrepreneur: false,
+        activite: "Paysagiste entretien",
+        ville: "Ris-Orangis",
+        distance: 2.7,
+        enLigne: "11:02",
+        note: 4.7,
+        category: "Etretient"
+    },
+    {
+        logo: "https://picsum.photos/seed/b/120/120",
+        nom: "Thomas G.",
+        autoEntrepreneur: false,
+        activite: "Paysagiste entretien",
+        ville: "Ris-Orangis",
+        distance: 2.7,
+        enLigne: "11:02",
+        note: 4.7,
+        category: "Entretient"
+    },
+    {
+        logo: "https://picsum.photos/seed/b/120/120",
+        nom: "Thomas G.",
+        autoEntrepreneur: false,
+        activite: "Paysagiste entretien",
+        ville: "Ris-Orangis",
+        distance: 2.7,
+        enLigne: "11:02",
+        note: 4.7,
+        category: "Entretient"
+    },
+    {
+        logo: "https://picsum.photos/seed/b/120/120",
+        nom: "Thomas G.",
+        autoEntrepreneur: false,
+        activite: "Paysagiste entretien",
+        ville: "Ris-Orangis",
+        distance: 2.7,
+        enLigne: "11:02",
+        note: 4.7,
+        category: "Entretient"
+    },
+    {
+        logo: "https://picsum.photos/seed/b/120/120",
+        nom: "Thomas G.",
+        autoEntrepreneur: false,
+        activite: "Paysagiste entretien",
+        ville: "Ris-Orangis",
+        distance: 2.7,
+        enLigne: "11:02",
+        note: 4.7,
+        category: "Entretient"
+    },
+    {
+        logo: "https://picsum.photos/seed/c/120/120",
+        nom: "Patrick R.",
+        autoEntrepreneur: true,
+        activite: "Arboriste grimpeur",
+        ville: "Bondoufle",
+        distance: 3.1,
+        enLigne: "18:52",
+        note: 4.9,
+        category: "Ginpeur"
+    },
+];
 
 
 

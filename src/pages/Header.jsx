@@ -9,12 +9,11 @@ import SearchBar from "../components/BtnSearchWithFilter";
 import api from "../services/Axios";
 import MobileNav from "../features/FooterMobileNav";
 import DesktopNav from "../features/FooterDeskTopNav";
+import { NavLink } from "react-router-dom";
 
 
 
 const NavbarHeader = () => {
-
-
 
     const currentNav = useSelector(state => state.navigate.currentNav);
 
@@ -130,6 +129,25 @@ const NavbarHeader = () => {
                  <Logo />
 
                 <ButtonNavigate tabs={getTabsNavigationsItems(currentNav, t)} />
+
+                <NavLink
+
+                    className={
+
+                        ({ isActive }) =>
+                            `tx-sm md:text-[12px] lg:text-[12px] whitespace-nowrap text-center dark:bg-dark  ${true ? "border border-gray-[0.1px] bg-gradient-to-br from-purple-50 to-blue-100 hover:bg-gradient-to-br hover:from-purple-100 " : "border-t sm:border-b-0 lg:border-b lg:border-t-0 hover:bg-gradient-to-br from-purple-50 to-blue-100 hover:bg-gradient-to-br hover:from-purple-100 "} border-gray-100 rounded-full inline-flex items-center justify-center px-3 py-1 text-center text-[14px] transition-all duration-200
+                            ${isActive
+                                ? 'bg-[#1B44C8] border-[#1B44C8] text-white'
+                                : 'bg-primary border-primary text-grey hover:bg-blue-50'
+                            }`
+                    }
+
+                    to="/helloAbalma"
+                >
+
+                    HelloAbalma
+
+                </NavLink>
 
                 <SearchBar/>
 
