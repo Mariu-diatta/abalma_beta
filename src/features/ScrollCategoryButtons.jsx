@@ -103,7 +103,7 @@ const ScrollableCategoryButtons = ({
 
             <div
 
-                className=" w-full mb-0 sticky top-[45px] z-[7]  py-[0dvh] md:py-0 lg:py-0 bg-none mb-0"
+                className=" w-full mb-0 sticky top-[10dvh] z-[7]  py-[0dvh] md:py-0 lg:py-0 bg-none mb-0"
 
            >
 
