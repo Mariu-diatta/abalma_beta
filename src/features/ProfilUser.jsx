@@ -284,8 +284,11 @@ const ProfileCard = () => {
             const roomExists = allChats?.some((room) => room?.name === currentChat?.nom);
 
             if (roomExists) {
+
                 dispatch(setCurrentNav('message-inbox'));
+
                 navigate('/message-inbox');
+
                 return;
             }
 
@@ -296,6 +299,7 @@ const ProfileCard = () => {
            });
 
             dispatch(setCurrentNav('message-inbox'));
+
             navigate('/message-inbox');
 
         } catch (err) {
@@ -328,7 +332,7 @@ const ProfileCard = () => {
     return (
 
         <div
-            className="bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white"
+            className="bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white mt-0 p-0"
 
             style={{
                 backgroundColor: "var(--color-bg)",
@@ -339,7 +343,7 @@ const ProfileCard = () => {
 
             {/* Cover Image */}
             <div
-                className="relative h-48 sm:h-64 md:h-80 bg-cover bg-center bg-gray-200"
+                className="relative h-48 sm:h-64 md:h-80 bg-cover bg-center bg-gray-200 "
                 style={{
                     backgroundImage: `url(${previewUrlBackground || 'https://images.unsplash.com/photo-1612832020897-593fae15346e'
                         })`,
@@ -397,7 +401,7 @@ const ProfileCard = () => {
 
             {/* Profile Section */}
             <div
-                className="relative px-4 px-6 md:px-5 lg:px-5 pb-6 bg-white dark:bg-gray-900"
+                className="relative px-4  md:px-5 lg:px-5 pb-6 bg-white dark:bg-gray-900"
 
                 style={{
                     backgroundColor: "var(--color-bg)",
@@ -451,7 +455,7 @@ const ProfileCard = () => {
                 </div>
 
                 {/* User Info */}
-                <div className="pt-20 md:pt-2 lg:pt-2 sm:pl-40" >
+                <div className="pt-10 md:pt-2 lg:pt-2 sm:pl-40" >
 
                     {!isEditing ? (
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
