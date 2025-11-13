@@ -9,6 +9,7 @@ import DeleteProfilAccount from './DeleteAccount';
 import FloatingInput from '../components/InputFloating';
 import NotificationToggle from '../components/NotificationToggle';
 import ThemeSelector from '../components/Them';
+import SubscriptionsPage from '../pages/SubscriptionCard';
 
 const SettingsForm = () => {
 
@@ -278,7 +279,9 @@ const SettingsForm = () => {
                 </div>
 
             </div>
-
+            <div className=" text-center lg:mb-2  mt-8 pt-2">
+                <SubscriptionsPage />
+            </div>
        </div>
     );
 };

@@ -29,6 +29,7 @@ import { LIST_CATEGORY } from "../utils";
 import HelpPage from "../layouts/HelpLayout";
 import PaySuccess from "../features/PaySuccess";
 import PayCancel from "../features/PayCancel";
+import SubscriptionsPage from "../pages/SubscriptionCard";
 
 
 // Routes Configuration
@@ -70,6 +71,8 @@ const routes = [
                             { path: "success", element: <PaySuccess /> },
 
                             { path: "cancel", element: <PayCancel /> },
+
+                            { path: "subscription", element: <SubscriptionsPage/> },
 
                             ...[
                                 { path: "help", class_rendered: <HelpPage /> },

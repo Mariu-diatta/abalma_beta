@@ -484,7 +484,8 @@ export const ENDPOINTS = {
     ADD_PRODUCT: "add-product",
     USER_BLOGS: "user-blogs",
     DASHBOARD: "dashboard",
-    BLOG: "blogs"
+    BLOG: "blogs",
+    SUBSCRIPTION:"subscription"
 }
 
 export const CONSTANTS = {

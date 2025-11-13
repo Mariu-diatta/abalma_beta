@@ -19,6 +19,7 @@ const Payment = ({ totalPrice}) => {
     const currentUser = useSelector(state => state.auth.user);
 
     const [loading, setLoading] = useState(false);
+
     const [loadingPayPal, setLoadingPayPal] = useState(false);
 
     if (!currentUser && !currentUser?.is_connected) {

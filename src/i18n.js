@@ -23,6 +23,12 @@ i18n
 
         translation: {
 
+             redo_subscription: "Recommended",
+             Business:"Business",
+             discovery:"Discovery",
+             my_subscription: "Subscribe",
+             secure_subscription: "Secure payment via Stripe. Cancel anytime.",
+             subscription: "Choose a subscription",
              blogs:"Blog",
              payment_text: {
                  cancel: "Votre paiement a été annulé.",
@@ -649,6 +655,12 @@ i18n
      fr: {
 
          translation: {
+             Business: "Entreprise",
+             discovery: "Découvert",
+             redo_subscription: "Recommandé",
+             my_subscription: "Je m’abonne",
+             secure_subscription: "Paiement sécurisé via Stripe. Annulable à tout moment.",
+             subscription: "Choose a subscription",
              blogs: "Blog",
              payment_text: {
                  cancel: "Your payment has been cancelled.",
