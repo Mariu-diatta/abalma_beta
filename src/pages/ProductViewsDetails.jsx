@@ -336,7 +336,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                                     </fieldset>
 
-                                    <h2 className="text-sm  my-2 h-[20dvh] overflow-y-auto scrollbor_hidden ">
+                                    <h2 className="text-sm  my-2 h-[20dvh] overflow-y-auto scrollbor_hidden leading-relaxed whitespace-pre-line">
 
                                         <TextParagraphs text={currentSelectedProductView?.description_product?.toLowerCase()}/>
 
