@@ -280,6 +280,7 @@ i18n
                  "no_account": "No account"
              },
              "blog": {
+                 close:"Close",
                  blogName: 'Name',
                  blogContent: 'Content',
                  error_creating: "Error while creating the blog",
@@ -916,7 +917,8 @@ i18n
                   "unknown_error": "Erreur inconnue lors de la création du produit.",
                   "no_account": "Pas de compte"
               },
-            "blog": {
+             "blog": {
+                close:"Fermer",
                 blogName: 'Nom',
                 blogContent: 'Contenu',
                 error_creating: "Erreur lors de la création du blog",
@@ -938,7 +940,6 @@ i18n
             },
             "buy": "Acheter",
             "total_pay": "Total à payer",
-            "title_policy": "Politique de Confidentialité",
             "last_updated": "Dernière mise à jour : 20 mai 2025",
             "section_1_title": "1. Qui sommes-nous ?",
             "section_1_content": "Le site Abalma est édité par : Marius DIATTA, 1 villa des merveille, 77 Versailles (Votre adresse en France), mariusgdiatta@gmail.com : contact@votreplateforme.com",

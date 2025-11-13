@@ -70,7 +70,7 @@ const AboutContainer = () => {
 
             <div className="container mx-auto">
 
-                <div className="flex flex-wrap items-start justify-center -mx-4">
+                <div className="flex flex-wrap items-start justify-center -mx-4 ">
 
                     {/* LEFT SECTION */}
                     <div
