@@ -154,7 +154,7 @@ export default function SubscriptionsPage() {
 
             <h1 className="text-2xl font-bold text-gray-800 mb-8 flex items-center gap-5 my-5">
 
-                <p>{t("subscription")}</p>
+                <p>{t("Subscriptionb2b")}</p>
 
             </h1>
 

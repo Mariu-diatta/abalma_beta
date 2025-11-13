@@ -397,7 +397,7 @@ const ProfileCard = () => {
 
             {/* Profile Section */}
             <div
-                className="relative px-4 sm:px-6 pb-6 bg-white dark:bg-gray-900 shadow-md"
+                className="relative px-4 px-6 md:px-5 lg:px-5 pb-6 bg-white dark:bg-gray-900"
 
                 style={{
                     backgroundColor: "var(--color-bg)",
@@ -451,7 +451,7 @@ const ProfileCard = () => {
                 </div>
 
                 {/* User Info */}
-                <div className="pt-16 sm:pt-20 sm:pl-40" >
+                <div className="pt-20 md:pt-2 lg:pt-2 sm:pl-40" >
 
                     {!isEditing ? (
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

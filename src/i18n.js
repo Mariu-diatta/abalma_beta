@@ -22,7 +22,7 @@ i18n
      en: {
 
         translation: {
-
+             Subscriptionb2b:"S'ubscript for B2B",
              redo_subscription: "Recommended",
              Business:"Business",
              discovery:"Discovery",
@@ -655,8 +655,10 @@ i18n
      fr: {
 
          translation: {
+             title_policy:"Pourquoi Ablama ?",
              Business: "Entreprise",
              discovery: "Découvert",
+             Subscriptionb2b:"S'abonner pour B2B",
              redo_subscription: "Recommandé",
              my_subscription: "Je m’abonne",
              secure_subscription: "Paiement sécurisé via Stripe. Annulable à tout moment.",

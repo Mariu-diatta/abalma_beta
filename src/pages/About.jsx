@@ -117,9 +117,9 @@ const AboutContainer = () => {
                         ref={rightSectionRef}
                         className="w-full text-sm px-4 lg:w-1/2 xl:w-5/12 shadow-sm rounded-lg opacity-0 translate-y-10 scale-95 transition-all duration-700 ease-in-out mt-6 hover:shadow-xl sacle-100 hover:scale-105 "
                     >
-                        <div className="lg:mt-0 px-1">
+                        <div className="lg:mt-0 px-1 flex-col gap-5">
                   
-                            <TitleCompGen title={t('title')} />
+                            <TitleCompGen title={t('title_policy')} />
 
                             <h2 className="mb-5 text-sm font-medium text-gray-500 dark:text-white sm:text-xl transition-opacity duration-300 ease-in-out">
                                 {t('subtitle')}
