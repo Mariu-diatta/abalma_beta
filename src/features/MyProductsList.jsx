@@ -98,7 +98,7 @@ const MyProductList = () => {
 
         <div
 
-            className="style_bg mb-2 relative overflow-x-auto sm:rounded-md p-2"
+            className="style_bg mb-2 relative overflow-x-auto sm:rounded-md p-2 my-5"
 
             style={{
 

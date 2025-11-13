@@ -115,7 +115,7 @@ const ProductsRecapTable = ({ products }) => {
 
         <div
 
-            className="mt-1 w-full shadow-lg p-2"
+            className="mt-1 w-full shadow-lg p-2 my-5"
 
             style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
         >

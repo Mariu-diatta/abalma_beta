@@ -97,7 +97,7 @@ const UsersContactsList = () => {
 
     return (
 
-        <div className="absolute fixed w-[98dvw] md:w-[80dvw] m-auto sm:rounded-lg style-bg pb-6 mb-6  ">
+        <div className="absolute fixed w-[98dvw] md:w-[80dvw] m-auto sm:rounded-lg style-bg pb-6 mb-6  mt-5">
 
             <TitleCompGen title={t('ParamText.title')} />
 
