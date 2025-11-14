@@ -179,8 +179,6 @@ export const BlogPage = () => {
     );
 };
 
-
-
 const BlogPageHome = () => {
 
     return (
@@ -194,8 +192,6 @@ const BlogPageHome = () => {
 }
 
 export default BlogPageHome;
-
-
 
 //la carte article 
 const BlogCard = ({blog, handleClicked}) => {
@@ -257,7 +253,6 @@ const BlogCard = ({blog, handleClicked}) => {
     );
 };
 
-
 const BlogDetails = ({ blog, onClose }) => {
 
     const { t } = useTranslation();
@@ -286,6 +281,7 @@ const BlogDetails = ({ blog, onClose }) => {
 
                 {/* En-tête du blog */}
                 <div className="flex items-center justify-between mb-4">
+
                     <div className="flex items-center gap-3">
                         {blog?.user && <OwnerAvatar owner={blog.user} />}
                         <div>
@@ -297,6 +293,7 @@ const BlogDetails = ({ blog, onClose }) => {
                             </p>
                         </div>
                     </div>
+
                 </div>
 
                 {/* Image du blog si disponible */}
@@ -315,6 +312,7 @@ const BlogDetails = ({ blog, onClose }) => {
 
                 {/* Pied de carte */}
                 <div className="mt-6 text-right">
+
                     <button
                         onClick={() => onClose(false, null)}
                         className="inline-flex items-center px-4 py-2 text-sm font-medium 
@@ -323,7 +321,9 @@ const BlogDetails = ({ blog, onClose }) => {
                     >
                         {t("blog.close")}
                     </button>
+
                 </div>
+
             </div>
         </div>
     );

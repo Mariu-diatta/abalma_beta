@@ -14,6 +14,7 @@ import NumberFollowFollowed from '../components/FollowUserComp';
 import InputBox from '../components/InputBoxFloat';
 import { ModalFormCreatBlog } from './BlogCreatBlogs';
 import GetValidateUserFournisseur from './FournisseurValidation';
+import { ENDPOINTS } from '../utils';
 
 const ProfileCard = () => {
 
@@ -337,7 +338,7 @@ const ProfileCard = () => {
 
         () => {
 
-            if (currentNav==="account-home") navigate(`/${currentNav}`);
+            if (currentNav === ENDPOINTS?.ACCOUNT_HOME) navigate(`/${currentNav}`);
 
         }, [currentNav, navigate]
     )
