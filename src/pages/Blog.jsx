@@ -140,11 +140,6 @@ export const BlogPage = () => {
 
         },[categorySelectedData]
     )
-
-    if (currentUser) {
-
-        return 
-    }
          
     return (
 
