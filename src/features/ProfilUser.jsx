@@ -38,7 +38,7 @@ const ProfileCard = () => {
 
         else if (currentNav === 'user-profil-contact') return selectedProductOwner;
 
-        return navigate('/');
+        return navigate('/account-home');
 
     }, [currentNav, currentUser, selectedProductOwner, navigate]);
 
