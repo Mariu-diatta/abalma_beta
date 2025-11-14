@@ -38,7 +38,7 @@ const ProfileCard = () => {
 
         else if (currentNav === 'user-profil-contact') return selectedProductOwner;
 
-        return navigate('/account-home');
+        else return navigate('/account-home');
 
     }, [currentNav, currentUser, selectedProductOwner, navigate]);
 
@@ -332,6 +332,15 @@ const ProfileCard = () => {
             }
         }
     };
+
+    useEffect(
+
+        () => {
+
+            if (currentNav==="account-home") navigate(`/${currentNav}`);
+
+        }, [currentNav, navigate]
+    )
 
     return (
 
