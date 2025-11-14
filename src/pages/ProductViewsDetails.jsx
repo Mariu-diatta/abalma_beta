@@ -68,6 +68,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
     //const panelRef = useRef(null);
 
     const [showLeft, setShowLeft] = useState(true);
+
     const [showRight, setShowRight] = useState(true);
 
     useEffect(() => {
@@ -109,7 +110,6 @@ const ProductModal = ({ isOpen, onClose, products}) => {
         }
 
     }, [currentSelectedProductView, isOpen]);
-
 
     useEffect(
 

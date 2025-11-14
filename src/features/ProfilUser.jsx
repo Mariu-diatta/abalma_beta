@@ -33,10 +33,14 @@ const ProfileCard = () => {
 
     // Determine user profile based on navigation context
     const userProfile = useMemo(() => {
+
         if ((currentNav === 'user-profil') || (currentNav === 'home')) return currentUser;
+
         else if (currentNav === 'user-profil-contact') return selectedProductOwner;
-        return null;
-    }, [currentNav, currentUser, selectedProductOwner]);
+
+        return navigate('/');
+
+    }, [currentNav, currentUser, selectedProductOwner, navigate]);
 
     const isCurrentUser = useMemo(
 

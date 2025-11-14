@@ -39,7 +39,7 @@ const BlogList = ({ blogs }) => {
 
     return (
 
-        <div className="md:grid md:grid-cols-1 md:grid-cols-2  gap-2  min-h-full py-2 h-screen">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 py-2 min-h-screen content-start">
 
             {
                 (!viewMore) ?
@@ -79,7 +79,6 @@ export const BlogPage = () => {
 
         }, [currentAddedBlog]
     )
-
 
     useEffect(
 
@@ -141,6 +140,11 @@ export const BlogPage = () => {
 
         },[categorySelectedData]
     )
+
+    if (currentUser) {
+
+        return 
+    }
          
     return (
 
@@ -208,7 +212,7 @@ const BlogCard = ({blog, handleClicked}) => {
         <div
             className="relative w-auto p-2 flex flex-col justify-between rounded-lg 
                  bg-gray-100 dark:bg-gray-800 dark:border dark:border-gray-700 
-                 hover:shadow-md transition-shadow duration-300 h-[20dvh] overflow-hidden mb-3"
+                 hover:shadow-md transition-shadow duration-300 h-[20dvh] overflow-hidden"
         >
             {/* Header : Avatar + date */}
             <div className="flex justify-between items-center">
