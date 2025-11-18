@@ -97,7 +97,7 @@ const UsersContactsList = () => {
 
     return (
 
-        <div className="absolute fixed w-[98dvw] md:w-[80dvw] m-auto sm:rounded-lg style-bg pb-6 mb-6  mt-5">
+        <div className="absolute fixed w-[98dvw] md:w-[80dvw] m-auto sm:rounded-lg style-bg pb-6 mb-6  mt-5 pb-[30dvh]">
 
             <TitleCompGen title={t('ParamText.title')} />
 
@@ -260,7 +260,7 @@ const UsersContactsList = () => {
 
                                                     </td>
 
-                                                    <td className="px-auto py-1">{user?.description}</td>
+                                                    <td className="px-auto py-1">{user?.description?.slice(0,30)}...</td>
 
                                                     <td className="px-auto py-1 hidden">
                                                     

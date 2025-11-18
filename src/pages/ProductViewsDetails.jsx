@@ -166,7 +166,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                 ></div>
 
                 {/* Conteneur centré */}
-                <div className="fixed inset-0 z-50 flex items-center justify-center py-2 px-2 md:py-4 lg:py-4">
+                <div className="fixed inset-0 z-50 flex items-center justify-center py-2 px-1 md:py-4 lg:py-4">
 
                     <div
                         className="relative flex flex-col md:flex-row items-stretch justify-center
@@ -187,7 +187,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                             </div>
 
                             {/*details product  in the component*/}
-                            <div className="sm:col-span-6 lg:col-span-5 flex flex-col justify-between px-4 overflow-y-auto md:pb-0">
+                            <div className="sm:col-span-6 lg:col-span-5 flex-col justify-between px-1 overflow-y-auto md:pb-0 scrollbor_hidden">
 
                                 {/*button close the component*/}
                                 <div className="flex fixed lg:absolute right-0 z-50 bg-gray top-2">
@@ -278,9 +278,14 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                                     <section className="mt-2 ">
 
-                                        <p className="text-2xl 0">
-                                            <RendrePrixProduitMonnaie item={currentSelectedProductView} />
+
+                                        <p className="text-xl ">
+                                            {t("code_ref")}: {currentSelectedProductView?.code_reference}
                                         </p>
+
+                                        <h2 className="text-2xl ">
+                                            <RendrePrixProduitMonnaie item={currentSelectedProductView} />
+                                        </h2>
 
                                         <PrintNumberStars t={t} productNbViews={productNbViews} />
 
@@ -288,7 +293,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                                     {/* Color Options */}
                                     <fieldset>
-
+                                        {t("color_prod")}
                                         <legend className="text-sm font-medium ">
 
                                             {currentSelectedProductView?.color_prouct}
@@ -336,11 +341,11 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                                     </fieldset>
 
-                                    <h2 className="text-sm  my-2 h-[20dvh] overflow-y-auto scrollbor_hidden leading-relaxed whitespace-pre-line">
-
+                                    <div className="text-sm  my-2 h-[20dvh] overflow-y-auto scrollbor_hidden leading-relaxed whitespace-pre-line">
+                                        <h1 className="text-xl">{t('description_prod')} </h1>
                                         <TextParagraphs text={currentSelectedProductView?.description_product?.toLowerCase()}/>
 
-                                    </h2>
+                                    </div>
 
                                     {/* Size Options */}
                                     <fieldset className="mt-auto">
@@ -362,31 +367,36 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                                                 { label: "Quantité", value: currentSelectedProductView?.quantity_product },
                                                 { label: "Taille", value: currentSelectedProductView?.taille_product },
                                                 { label: "Opération", value: currentSelectedProductView?.operation_product },
-                                                { label: "Catégorie", value: currentSelectedProductView?.categorie_product },
+                                                { label: "Catégorie", value: currentSelectedProductView?.categorie_product }
 
                                             ].map(({ label, value }, idx) => (
 
-                                                label && value  && <label
+                                                (label && value) &&
+                                                <span className="flex-col overflow-x-auto scrollbor_hidden w-full mx-3">
 
-                                                    key={`${label}-${idx}`}
+                                                    <span className="text-sm">{label.toUpperCase()}</span>
 
-                                                    htmlFor={`${label}-${value}`}
+                                                    <label
 
-                                                    className="relative overflow-x-auto scrollbor_hidden w-full group relative flex flex-col items-center justify-center border border-gray-100  rounded-md px-1 py-1 text-xs text-gray-800 hover:bg-gray-100 transition-all duration-150"
-                                                >
-                                                    <input
-                                                        type="radio"
-                                                        name="productDetail"
-                                                        id={`${label}-${value}`}
-                                                        value={value}
-                                                        className="absolute sr-only lowercase"
-                                                    />
+                                                        key={`${label}-${idx}`}
 
-                                                    <span className="text-xs">{label.toLowerCase()}</span>
+                                                        htmlFor={`${label}-${value}`}
 
-                                                    <span className="text-xs">{value.toLowerCase() || "N/A"}</span>
+                                                        className="relative  group relative flex flex-col items-center justify-center border border-gray-100  rounded-md px-1 py-1 text-xs text-gray-800 hover:bg-gray-100 transition-all duration-150"
+                                                    >
 
-                                                </label>
+                                                        <input
+                                                            type="radio"
+                                                            name="productDetail"
+                                                            id={`${label}-${value}`}
+                                                            value={value}
+                                                            className="absolute sr-only lowercase"
+                                                        />
+
+                                                        <span className="text-xs bg-blue-100 p-2 rounded-full">{value.toLowerCase() || "N/A"}</span>
+
+                                                    </label>
+                                                </span>
                                             ))}
 
                                         </div>

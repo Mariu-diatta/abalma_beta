@@ -22,6 +22,9 @@ i18n
      en: {
 
         translation: {
+             description_prod: "Product description:",
+             color_prod: "Product color",
+             code_ref:"Reference code",
              Subscriptionb2b:"S'ubscript for B2B",
              redo_subscription: "Recommended",
              Business:"Business",
@@ -656,6 +659,9 @@ i18n
      fr: {
 
          translation: {
+             description_prod:"Description du produit:",
+             color_prod:"Couleur du produit",
+             code_ref: "Code référence",
              title_policy:"Pourquoi Ablama ?",
              Business: "Entreprise",
              discovery: "Découvert",

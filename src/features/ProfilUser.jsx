@@ -624,14 +624,7 @@ const ProfileCard = () => {
                         </form>
                     )}
 
-                    <textarea
-                        name="description"
-                        value={formData?.description}
-                        onChange={handleChange}
-                        disabled={!isEditing}
-                        className="w-full mt-2 rounded-lg border border-gray-200 p-2 text-sm focus:ring-2 focus:ring-blue-500"
-                        placeholder={t('ProfilText.descriptionPlaceholder')}
-                    />
+
 
                     <div className="flex flex-col sm:flex-row gap-2 mt-6">
 
@@ -805,6 +798,18 @@ const ProfileCard = () => {
                     )}
 
                 </div>
+
+
+                <textarea
+                    name="description"
+                    rows="5"
+                    maxlength="20"
+                    value={formData?.description}
+                    onChange={handleChange}
+                    disabled={!isEditing}
+                    className="w-full mt-2 rounded-lg border border-gray-200 p-2 text-sm focus:ring-2 focus:ring-blue-500 prose scrollbor_hidden"
+                    placeholder={t('ProfilText.descriptionPlaceholder')}
+                />
 
             </div>
 
