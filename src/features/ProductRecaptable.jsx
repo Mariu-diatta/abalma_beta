@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import ViewProduct from '../components/ViewProduct';
 import { useTranslation } from 'react-i18next';
 import { convertDate } from '../utils';
+import { ButtonSimple } from '../components/Button';
 
 const ProductsRecapTable = ({ products }) => {
 
@@ -308,9 +309,12 @@ const ProductsRecapTable = ({ products }) => {
                                                 }
                                             }
 
-                                            className="text-blue-600 hover:underline dark:text-blue-400"
+                                            className="text-blue-600 hover:underline dark:text-blue-400 cursor-pointer"
                                         >
-                                            {t('view')}
+                                            <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-width="1" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
+                                                <path stroke="currentColor" stroke-width="1" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                            </svg>
 
                                         </button>
 
@@ -318,16 +322,14 @@ const ProductsRecapTable = ({ products }) => {
 
                                     <td className="px-4 py-3">
 
-                                        <button
+                                        <ButtonSimple
 
-                                            onClick={() => { }}
+                                            onHandleClick={() => { }}
 
-                                            className="text-red-600 hover:text-red-800"
+                                            className="cursor-pointer px-3 rounded-md hover:bg-gray-100 bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-br hover:to-orange-500"
 
-                                        >
-                                            {t('delete')}
-
-                                        </button>
+                                            title={t("delete")}
+                                        />
 
                                     </td>
 
@@ -339,21 +341,19 @@ const ProductsRecapTable = ({ products }) => {
 
                 </table>
 
-
                 {
-                    (popoverOpen && product) && (
-
-                        <>
-                            <div className="fixed inset-0 bg-opacity-30 z-40" onClick={closePopover}></div>
-
-                            <div className="fixed top-1/2 left-1/2 z-50 max-w-full bg-white rounded-md shadow-lg p-4 transform -translate-x-1/2 -translate-y-1/2">
-
-                                <ViewProduct productSelected={product} />
-
+                    popoverOpen && product && (
+                        <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50 overflow-y-auto pt-[70dvh] h-auto" onClick={closePopover}>
+                            <div className="flex flex-col gap-3 shadow-lg  rounded-lg bg-white max-w-2xl w-full">
+                                <div className="relative z-40 h-full">
+                                        <ViewProduct productSelected={product} />
+                                </div>
                             </div>
-                        </>
+                        </div>
                     )
                 }
+
+
 
             </div>
 
@@ -503,7 +503,7 @@ function TransactionsDropdown({ transactionsData, onSubTransactionSelect }) {
 
                 </button>
 
-                {dropdownOpen1 && transactionsData.length>0 && (
+                {dropdownOpen1 && transactionsData?.length>0 && (
 
                     <div
 

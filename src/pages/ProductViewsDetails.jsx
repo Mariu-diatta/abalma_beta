@@ -360,7 +360,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                                         </div>
 
-                                        <div className="z-0 mt-1 mb-1 sm:mb-1 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-1">
+                                        <div className="z-0 mt-1 mb-1 sm:mb-1 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-1 w-full overflow-x-auto gap-2 scrollbor_hidden">
 
                                             {[
                                                 { label: "Type", value: currentSelectedProductView?.type_choice },
@@ -374,16 +374,16 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                                                 (label && value) &&
                                                 <span className="flex-col overflow-x-auto scrollbor_hidden w-full mx-3">
 
-                                                    <span className="text-sm">{label.toUpperCase()}</span>
-
                                                     <label
 
                                                         key={`${label}-${idx}`}
 
                                                         htmlFor={`${label}-${value}`}
 
-                                                        className="relative  group relative flex flex-col items-center justify-center border border-gray-100  rounded-md px-1 py-1 text-xs text-gray-800 hover:bg-gray-100 transition-all duration-150"
+                                                        className="w-full relative  group relative flex flex-col items-center justify-center border border-gray-100  rounded-md px-1 py-1 text-xs text-gray-800 hover:bg-gray-100 transition-all duration-150"
                                                     >
+
+                                                        <span className="text-xs my-1">{label.toUpperCase()}</span>
 
                                                         <input
                                                             type="radio"
