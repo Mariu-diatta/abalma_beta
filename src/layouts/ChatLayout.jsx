@@ -239,7 +239,7 @@ const ChatLayout = () => {
 
     return (
 
-        <div
+        <main
             className="grid grid-cols-12  flex justify-center items-start mx-auto gap-2 pb-1 bg-grey-100  mb-2 fixed  md:mt-0"
             style={{
                 backgroundColor: 'var(--color-bg)',
@@ -248,7 +248,7 @@ const ChatLayout = () => {
         >
             {/* Sidebar */}
 
-            <div className=" md:col-span-4">
+            <section className=" md:col-span-4">
 
                 <div
                     className={
@@ -350,10 +350,10 @@ const ChatLayout = () => {
 
                 </div>
 
-            </div>
+            </section>
 
              {/*Main Chat Area */}
-            <div className="col-span-12 md:col-span-8  p-0  scrollbor_hidden  ">
+            <section className="col-span-12 md:col-span-8  p-0  scrollbor_hidden  ">
                 <div
                     className="lg:me-2 lg:pe-2 lg:ps-1 flex overflow_hidden "
                     style={{
@@ -365,9 +365,9 @@ const ChatLayout = () => {
                     <ChatApp setShow={setShowSidebar} show={showSidebar} />
 
                 </div>
-            </div>
+            </section>
             
-        </div>
+        </main>
     );
 };
 

@@ -146,11 +146,11 @@ const ChatApp = ({ setShow , show}) => {
 
     return (
 
-        <div
+        <main
             className="flex flex-col w-screen rounded-2xl  overflow-hidden bg-none shadow-sm  z-8 w-full mb-0  "
         >
 
-            <div className="flex justify-between items-align-center p-2 bg-none max-h-[10dvh] min-h-[10dvh]">
+            <section className="flex justify-between items-align-center p-2 bg-none max-h-[10dvh] min-h-[10dvh]">
 
                 {/* 👤 En-tête utilisateur */}
                 {
@@ -192,7 +192,7 @@ const ChatApp = ({ setShow , show}) => {
 
                 <ButtonToggleChatsPanel showSidebar={show} setShowSidebar={setShow}/>
 
-            </div>
+            </section>
 
             <BoxMessagesChats
                 messages={messages}
@@ -210,7 +210,7 @@ const ChatApp = ({ setShow , show}) => {
                 handleTyping={handleTyping}
             />
 
-        </div>
+        </main>
     );
 };
 

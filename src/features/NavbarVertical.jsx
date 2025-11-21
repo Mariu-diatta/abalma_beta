@@ -90,18 +90,7 @@ const VertcalNavbar = ({ children }) => {
 
     return (
 
-        <div
-
-            className="overflow-y-auto h-full pt-2"
-
-            style={
-                {
-                    marginBottom: "50px",
-
-                    paddingBottom: "30px"
-                }
-            }
-        >
+        <main className="overflow-y-auto h-full pt-2  pb-[20dvh] mb-[20dvh]">
 
             {/* Toggle Button */}
             <button
@@ -124,8 +113,7 @@ const VertcalNavbar = ({ children }) => {
             </button>
 
             {/* Sidebar */}
-            <aside
-
+            <section
                 id="separator-sidebar"
 
                 ref={sidebarRef}
@@ -561,9 +549,9 @@ const VertcalNavbar = ({ children }) => {
 
                 </div>
 
-            </aside>
+            </section>
 
-            <div
+            <section
 
                 className="p-0 m-0  sm:ml-64 h-full"
 
@@ -622,9 +610,9 @@ const VertcalNavbar = ({ children }) => {
 
                 </div>
 
-            </div>
+            </section>
 
-        </div>
+        </main>
     )
 }
 

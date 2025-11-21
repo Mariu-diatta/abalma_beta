@@ -93,7 +93,7 @@ export const menuItems = (t) => [
 
     // --- Nouvelles catégories ---
     {
-        name: t('Electronique'),
+        name: t('ListItemsFilterProduct.ELECTROMENAGER'),
         to: '/products/filter/?categorie_product=ELECTRONIQUE',
         id: 'electronique',
         svg: <img className="rounded-sm" src={circuit_board} alt="" width="25" />,
@@ -159,7 +159,7 @@ export const menuItems = (t) => [
         svg: <img className="rounded-sm" src={pets} alt="" width="25" />,
     },
     {
-        name: t('Telephone'),
+        name: t('ListItemsFilterProduct.TELEPHONIE'),
         to: '/products/filter/?categorie_product=TELEPHONY',
         id: 'telephonie',
         svg:<img className="rounded-sm" src={phone} alt="" width="25" />,
@@ -210,7 +210,31 @@ export const menuItems = (t) => [
         name: t('Materiel_medical'),
         to: '/products/filter/?categorie_product=MEDICAL',
         id: 'medical',
-        svg:  <img className="rounded-sm" src={medical} alt="" width="25" />,
+        svg: <img className="rounded-sm" src={medical} alt="" width="25" />,
+    },
+    {
+        name: t('jewelry'),
+        to: '/products/filter/?categorie_product=JEWELRY',
+        id: 'JEWELRY',
+        svg: <img className="rounded-sm" src={medical} alt="" width="25" />,
+    },
+    {
+        name: t('ListItemsFilterProduct.MATERIELS_INFORMATIQUES'),
+        to: '/products/filter/?categorie_product=MATERIELS_INFORMATIQUES',
+        id: 'MATERIELS_INFORMATIQUES',
+        svg: <img className="rounded-sm" src={circuit_board} alt="" width="25" />,
+    },
+    {
+        name: t('ListItemsFilterProduct.CAHIERS'),
+        to: '/products/filter/?categorie_product=CAHIERS',
+        id: 'CAHIERS',
+        svg: <img className="rounded-sm" src={book} alt="" width="25" />,
+    },
+    {
+        name: t('ListItemsFilterProduct.ACCESSOIRES'),
+        to: '/products/filter/?categorie_product=ACCESSOIRES',
+        id: '  ACCESSOIRES',
+        svg: <img className="rounded-sm" src={shoes} alt="" width="25" />,
     },
 ];
 

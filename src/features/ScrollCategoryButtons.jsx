@@ -7,6 +7,7 @@ import { useDispatch} from 'react-redux';
 import { LIST_CATEGORIES } from '../utils';
 import { updateCurrentButtonCategoryHover } from '../slices/navigateSlice';
 import HoverCategoryProductDisplay from './ProductSpecificPopovViews';
+import { menuItems } from '../components/MenuItem';
 
 const ScrollableCategoryButtons = ({
     setActiveCategory,
@@ -180,9 +181,11 @@ export default ScrollableCategoryButtons;
 
 const ListButtonsCategories = ({ categories, setProductSpecificHandler, setActiveCategory, setActivateButtonCategory, activateButtonCategory }) => {
 
+    const { t } = useTranslation();
+
     return (
         <div
-            className="flex py-2 gap-1 bg-none"
+            className="flex py-2 gap-5 bg-none"
         >
 
             {
@@ -211,14 +214,19 @@ const ListButtonsCategories = ({ categories, setProductSpecificHandler, setActiv
                         }
 
                         className={`
-                                        z-2 whitespace-nowrap px-4  py-1 rounded-full text-sm transition  hover:bg-gradient-to-br hover:from-purple-100 
-                                        ${activateButtonCategory?.toLowerCase() === (cat?.replace("_", ""))?.toLowerCase()
+                                flex justify-center items-center gap-2 z-2 whitespace-nowrap max-h-[10dvh] max-w-[10dvw] min-h-[10dvh] min-w-[20dvw] overflow-x-auto scrollbor_hidden rounded-full text-sm transition  hover:bg-gradient-to-br hover:from-purple-100 border-gray-100
+                                ${activateButtonCategory?.toLowerCase() === (cat?.replace("_", ""))?.toLowerCase()
                                 ? "bg-blue-50 text-white bg-gradient-to-br from-purple-50 to-blue-100" //
                                 : "text-blue-100 border border-blue-50 hover:bg-blue-100 hover:text-white scale-100 hover:scale-100 hover:shadow-lg"
                             }`}
                     >
-                        {cat?.replace("_", " ")}
-
+                        <p className="relative">
+                            {cat?.replace("_", " ")}
+                        </p>
+                        {
+                             menuItems(t).find((item,_) => item?.name === cat?.replace("_", " ")
+                            )?.svg
+                        }
                     </button>
                 ))
             }

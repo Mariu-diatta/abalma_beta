@@ -129,7 +129,7 @@ const RegisterForm = () => {
 
             {
                 (!loading)?
-                <>
+                <section>
   
                     <TitleCompGen title={t('register')} />
 
@@ -209,7 +209,7 @@ const RegisterForm = () => {
 
                     <div className="absolute bottom-1 left-1" />
 
-                </>
+                </section>
                 :
                 <LoadingCard />
             } 

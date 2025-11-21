@@ -141,7 +141,7 @@ const LogIn = () => {
 
             {
                 (!loading) ?
-                <>
+                <section>
 
 
                         <TitleCompGen title={t("login")} />
@@ -208,29 +208,32 @@ const LogIn = () => {
                         </NavLink>
 
                     </p>
-                </>
+                </section>
                 :
                 <LoadingCard />
             }
 
-            <p className="mb-6 text-md text-bold text-gray-500 dark:text-dark-7 my-6">
-                {t('connect_with')}
-            </p>
+            <section>
+                <p className="mb-6 text-md text-bold text-gray-500 dark:text-dark-7 my-6">
+                    {t('connect_with')}
+                </p>
+            </section>
+            
+            <section>
+                <ul className="flex flex-wrap justify-between items-center sm:justify-center lg:flex-nowrap -mx-2 mb-12 w-full">
 
-            <ul className="flex flex-wrap justify-between items-center sm:justify-center lg:flex-nowrap -mx-2 mb-12 w-full">
+                    <li className="w-full">
 
-                <li className="w-full">
+                        <GoogleOAuthProvider clientId="154955455828-340tuohbjc1c4imb29uqi4hr9l5dm0sv.apps.googleusercontent.com">
 
-                    <GoogleOAuthProvider clientId="154955455828-340tuohbjc1c4imb29uqi4hr9l5dm0sv.apps.googleusercontent.com">
+                            <LoginWithGoogle />
 
-                        <LoginWithGoogle />
+                        </GoogleOAuthProvider>
 
-                    </GoogleOAuthProvider>
+                    </li>
 
-                </li>
-
-            </ul>
-
+                </ul>
+            </section >
         </FormLayout>
     );
 };

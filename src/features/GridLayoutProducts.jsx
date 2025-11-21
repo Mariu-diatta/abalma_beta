@@ -9,6 +9,7 @@ import { CONSTANTS, removeAccents, translateCategory } from '../utils';
 import SearchBar from '../components/BtnSearchWithFilter';
 import ProductCard from '../components/ProductCard';
 import ScrollableButtonsCategoryProducts from './ScrollCategoryButtons';
+import PaginationProduit from './ProductPagination';
 
 const GridLayoutProduct = () => {
 
@@ -236,6 +237,10 @@ const GridLayoutProduct = () => {
                 owners={owners}
 
             />
+
+            <div className="p-6">
+                <PaginationProduit products={filteredItems} />
+            </div>
             
             {
                 (loading) ?
@@ -250,6 +255,7 @@ const GridLayoutProduct = () => {
                 />
 
             }
+
 
             <ModalViewProduct isOpen={!!modalData} onClose={closeModal} products={filteredItems}/>
 

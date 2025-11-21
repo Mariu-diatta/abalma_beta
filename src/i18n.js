@@ -22,6 +22,7 @@ i18n
      en: {
 
         translation: {
+             jewelry: "Watches & Jewelry",
              description_prod: "Product description:",
              color_prod: "Product color",
              code_ref:"Reference code",
@@ -659,6 +660,7 @@ i18n
      fr: {
 
          translation: {
+             jewelry: "Montres & Bijoux",
              description_prod:"Description du produit:",
              color_prod:"Couleur du produit",
              code_ref: "Code référence",
@@ -720,7 +722,7 @@ i18n
                  }
              },
              Produits: "Produits",
-             Habits: "Vêtements",
+             Habits: "Habits",
              Livres: "Livres",
              Jouets: "Jouets",
              Vehicules: "Véhicules",
