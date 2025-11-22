@@ -1,5 +1,6 @@
 // TestimonialCarousel.jsx
 import React, { useEffect, useRef, useState } from "react";
+import api from "../services/Axios";
 
 /**
  * Props:
@@ -8,15 +9,24 @@ import React, { useEffect, useRef, useState } from "react";
  *  - autoplayInterval: ms (default 5000)
  */
 export default function TestimonialCarousel({
-    testimonials = [],
     autoplay = true,
     autoplayInterval = 5000,
-    children
 }) {
     const [index, setIndex] = useState(0);
-    const length = testimonials.length;
     const timerRef = useRef(null);
     const containerRef = useRef(null);
+    const [testimonials, setTestimonials] = useState([])
+    const length = testimonials.length;
+
+    // autoplay
+    useEffect(() => {
+        api.get("/content/testmony/").then(
+            resp => {
+                setTestimonials(resp.data)
+            }
+        )
+    }, []);
+
 
     // autoplay
     useEffect(() => {
@@ -68,6 +78,7 @@ export default function TestimonialCarousel({
     }
 
     return (
+
         <div
             ref={containerRef}
             className="relative w-full max-w-3xl mx-auto"
@@ -87,20 +98,20 @@ export default function TestimonialCarousel({
                             className="w-full flex-shrink-0  rounded-xl "
                             role="group"
                             aria-roledescription="slide"
-                            aria-label={`${t.author} — ${t.role}`}
+                            aria-label={`${t?.prenom} — ${t.role}`}
                         >
                             <div className="flex items-start gap-4 justify-center py-8 ">
                                 <div className="flex-shrink-0">
                                     <img
-                                        src={t.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(t.author)}&background=ddd`}
-                                        alt={t.author}
+                                        src={t?.image || t?.photo_url}
+                                        alt={t?.prenom}
                                         className="w-16 h-16 rounded-full object-cover"
                                     />
                                 </div>
 
                                 <div>
                                     <p className="text-gray-700 text-base leading-relaxed mb-4">
-                                        “{t.text}”
+                                        {t?.content}
                                     </p>
 
                                     <div className="text-sm">

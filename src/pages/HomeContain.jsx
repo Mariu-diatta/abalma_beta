@@ -6,17 +6,9 @@ import ServicesPlatforms from '../components/AbalmaActivities';
 import SubscriptionsPage from './SubscriptionCard';
 import TestimonialCarousel from '../components/Testimony';
 
-const testimonials = [
-    { id: 1, author: "Claire Dupont", role: "CEO, StartupX", text: "Abalma a transformé notre façon de vendre en ligne. Résultat immédiat." },
-    { id: 2, author: "Marc Leroy", role: "Responsable e-commerce", text: "Interface simple, support réactif — je recommande !" },
-    { id: 3, author: "Sophie Martin", role: "Indépendante", text: "Le suivi client est impeccable et l'intégration facile." },
-];
-
-
-
-
 
 const HomeContain = () => {
+
     const { t } = useTranslation();
 
     return (
@@ -57,7 +49,6 @@ const HomeContain = () => {
                 {/* ========= TESTIMONIALS ========= */}
                 <section aria-labelledby="testimonials" className="bg-gray-50 px-6 py-[10dvh] translate-y-0 transition-all duration-1000 ease-in-out">
                     <TestimonialCarousel
-                        testimonials={testimonials}
                         autoplay={true}
                         autoplayInterval={6000}
                     />

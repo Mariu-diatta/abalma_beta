@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TitleCompGen, { TitleCompGenLitle } from "../components/TitleComponentGen";
 import { messages } from "../utils";
 import { useTranslation } from 'react-i18next';
 import api from "../services/Axios";
 import LoadingCard from "../components/LoardingSpin";
 import { useSelector } from "react-redux";
+
 
 const HelpPage = () => {
     const { t } = useTranslation();
@@ -62,7 +63,7 @@ const HelpPage = () => {
         return (
 
             <div
-                className="relative max-w-lg mx-auto p-6 bg-white border border-gray-200 rounded-lg shadow-md text-center "
+                className="relative max-w-lg mx-auto p-6 bg-white border border-gray-200 rounded-lg shadow-sm text-center "
 
                 style={{
 
@@ -121,7 +122,7 @@ const HelpPage = () => {
 
                 <form
                     onSubmit={handleSubmit}
-                    className="translate-y-0 transition-all duration-1000 ease-in-out w-full p-4 max-w-md bg-white  rounded-lg shadow-lg mx-auto"
+                    className="translate-y-0 transition-all duration-1000 ease-in-out w-full p-4 max-w-md bg-white  rounded-lg shadow-lg mx-auto gap-5"
 
                     style={{
 
@@ -203,7 +204,9 @@ const HelpPage = () => {
                     }
                 </form>
 
-                <MessagesListWithPopover/>
+                <MessagesListWithPopover />
+
+                <TestmonyList/>
 
             </div>
 
@@ -283,5 +286,78 @@ export const MessagesListWithPopover = () => {
     );
 };
 
+
+function TestmonyList() {
+
+    const { t } = useTranslation();
+
+    const [items, setItems] = useState([]);
+    const [content, setContent] = useState("");
+
+    // Charger les témoignages (GET)
+    useEffect(() => {
+        api.get("content/testmony/")
+            .then((res) => res.data)
+            .then((data) => setItems(data));
+    }, []);
+
+    // Ajouter un témoignage (POST)
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        api.post("/content/testmony/", { content })
+            .then((res) => res.data)
+            .then((newItem) => {
+                setItems([newItem, ...items]);
+                setContent("");
+            });
+    };
+
+    return (
+        <div
+            className="relative max-w-lg mx-auto bg-white border border-gray-200 rounded-lg shadow-md text-center border-0 mt-10 w-full"
+
+            style={{
+
+                backgroundColor: "var(--color-bg)",
+
+                color: "var(--color-text)"
+            }}
+
+        >
+
+            <TitleCompGenLitle title={t('Comment')} />
+
+            {/* Formulaire d'envoi */}
+            <form onSubmit={handleSubmit}
+
+                className="gap-4 translate-y-0 transition-all duration-1000 ease-in-out w-full p-1 border-0 max-w-md bg-white  rounded-lg mx-auto"
+
+                style={{
+
+                    backgroundColor: "var(--color-bg)",
+
+                    color: "var(--color-text)"
+                }}
+            >
+                <textarea
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                    placeholder="Écris ton témoignage..."
+                    className="border-blue-800 p-3 rounded-xl w-full"
+                    rows="3"
+                    required
+                />
+                <button
+                    type="submit"
+                    className="w-full text-white bg-gradient-to-br from-purple-50 to-blue-100 hover:from-purple-100 hover:to-blue-400 text-purple-600 rounded-lg text-sm px-5 py-2.5"
+                >
+
+                    Envoyer
+
+                </button>
+            </form>
+        </div>
+    );
+}
 
 
