@@ -129,7 +129,7 @@ const SingleTestimonial = () => {
 
          <div className="relative w-full md:w-1/2 m-auto pb-16 md:w-11/12 lg:w-10/12 xl:w-8/12  p-2 my-1">
 
-            <div className="w-full items-center md:flex  p-2 border-0 shadow-sm rounded-full text-white" >
+            <div className="w-full items-center md:flex  p-2 border-0 shadow-sm rounded-lg text-white" >
 
                 <div className="relative mb-12 w-full max-w-[310px] md:mb-0 md:mr-12 md:max-w-[250px] lg:mr-14 lg:max-w-[280px] 2xl:mr-16">
 
