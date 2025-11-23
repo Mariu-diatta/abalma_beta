@@ -116,8 +116,6 @@ const LogIn = () => {
 
         } catch (e) {
 
-            console.log("Erreur: ", e)
-
             const errorMessage = e?.response?.data?.detail || e?.response?.data?.error
 
             showMessage(dispatch, { Type: "Erreur", Message: errorMessage || "Error not found: user not login" });
@@ -220,6 +218,7 @@ const LogIn = () => {
             </section>
             
             <section>
+
                 <ul className="flex flex-wrap justify-between items-center sm:justify-center lg:flex-nowrap -mx-2 mb-12 w-full">
 
                     <li className="w-full">
@@ -233,7 +232,9 @@ const LogIn = () => {
                     </li>
 
                 </ul>
+
             </section >
+
         </FormLayout>
     );
 };

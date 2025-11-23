@@ -20,11 +20,18 @@ export default function TestimonialCarousel({
 
     // autoplay
     useEffect(() => {
-        api.get("/content/testmony/").then(
-            resp => {
-                setTestimonials(resp.data)
-            }
-        )
+
+        try {
+            api.get("/content/testmony/").then(
+                resp => {
+                    setTestimonials(resp.data)
+                }
+            )
+        } catch (err) {
+
+        } finally {
+        }
+
     }, []);
 
 
@@ -92,7 +99,7 @@ export default function TestimonialCarousel({
                     style={{ transform: `translateX(-${index * 100}%)` }}
                     aria-live="polite"
                 >
-                    {testimonials.map((t) => (
+                    {testimonials?.map((t) => (
                         <article
                             key={t.id}
                             className="w-full flex-shrink-0  rounded-xl "
@@ -114,9 +121,12 @@ export default function TestimonialCarousel({
                                         {t?.content}
                                     </p>
 
-                                    <div className="text-sm">
-                                        <p className="font-medium text-gray-900">{t.author}</p>
-                                        {t.role && <p className="text-gray-500">{t.role}</p>}
+                                    <div className=" flex text-sm">
+                                        <p className="font-medium text-gray-900">{t?.prenom}</p> 
+                                        {t?.is_fournisseur && <p className="text-gray-500">✔️</p>} 
+                                    </div>
+                                    <div className=" flex text-sm">
+                                        <p className="font-medium text-gray-900">{t?.profession}</p>
                                     </div>
                                 </div>
                             </div>

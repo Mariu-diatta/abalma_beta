@@ -41,7 +41,7 @@ const HomeContain = () => {
                 {/* ========= SERVICES ========= */}
                 <section aria-labelledby="services" className="bg-gray-50 px-6">
                     <h2 id="services" className="text-2xl font-semibold mb-2 text-center">
-                        Nos Services
+                         Services
                     </h2>
                     <ServicesPlatforms/>
                 </section>

@@ -4,7 +4,8 @@ import { messages } from "../utils";
 import { useTranslation } from 'react-i18next';
 import api from "../services/Axios";
 import LoadingCard from "../components/LoardingSpin";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { showMessage } from "../components/AlertMessage";
 
 
 const HelpPage = () => {
@@ -290,9 +291,10 @@ export const MessagesListWithPopover = () => {
 function TestmonyList() {
 
     const { t } = useTranslation();
-
+    const [loading, setLoading] = useState(false);
     const [items, setItems] = useState([]);
     const [content, setContent] = useState("");
+    const dispatch =useDispatch()
 
     // Charger les témoignages (GET)
     useEffect(() => {
@@ -304,13 +306,26 @@ function TestmonyList() {
     // Ajouter un témoignage (POST)
     const handleSubmit = (e) => {
         e.preventDefault();
-        api.post("/content/testmony/", { content })
-            .then((res) => res.data)
-            .then((newItem) => {
-                setItems([newItem, ...items]);
-                setContent("");
-            });
+        setLoading(true)
+        try {
+            api.post("/content/testmony/", { content })
+                .then((res) => res.data)
+                .then((newItem) => {
+                    setItems([newItem, ...items]);
+                    setContent("");
+                });
+            showMessage(dispatch, { Type: "Erreur", Message: "✔️" });
+
+        } catch (error) {
+
+            console.error("Erreur loadind :", error);
+
+        } finally {
+            setLoading(false)
+        }
+
     };
+
 
     return (
         <div
@@ -326,6 +341,7 @@ function TestmonyList() {
         >
 
             <TitleCompGenLitle title={t('Comment')} />
+
 
             {/* Formulaire d'envoi */}
             <form onSubmit={handleSubmit}
@@ -347,14 +363,17 @@ function TestmonyList() {
                     rows="3"
                     required
                 />
-                <button
-                    type="submit"
-                    className="w-full text-white bg-gradient-to-br from-purple-50 to-blue-100 hover:from-purple-100 hover:to-blue-400 text-purple-600 rounded-lg text-sm px-5 py-2.5"
-                >
-
-                    Envoyer
-
-                </button>
+                {
+                    loading ?
+                    <LoadingCard/>
+                    :
+                    <button
+                        type="submit"
+                        className="w-full text-white bg-gradient-to-br from-purple-50 to-blue-100 hover:from-purple-100 hover:to-blue-400 text-purple-600 rounded-lg text-sm px-5 py-2.5"
+                    >
+                        Envoyer
+                    </button>
+                }
             </form>
         </div>
     );
