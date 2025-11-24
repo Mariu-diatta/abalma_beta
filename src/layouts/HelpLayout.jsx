@@ -328,7 +328,8 @@ function TestmonyList() {
 
 
     return (
-        <div
+
+        <main
             className="relative max-w-lg mx-auto bg-white border border-gray-200 rounded-lg shadow-md text-center border-0 mt-10 w-full"
 
             style={{
@@ -375,7 +376,8 @@ function TestmonyList() {
                     </button>
                 }
             </form>
-        </div>
+
+        </main>
     );
 }
 

@@ -62,7 +62,7 @@ const AttentionAlertMessage = () => {
             </div>
 
             {/* Contenu alerte */}
-            <div className="ml-3 flex items-start gap-3">
+            <main className="ml-3 flex items-start gap-3">
 
                 {/* Icône */}
                 <div className="h-[34px] w-[34px] mt-1">{/* SVG ici */}</div>
@@ -78,7 +78,7 @@ const AttentionAlertMessage = () => {
                     </p>
 
                 </div>
-            </div>
+            </main>
         </div>
     );
 };

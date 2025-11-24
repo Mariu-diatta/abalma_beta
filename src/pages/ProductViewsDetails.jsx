@@ -155,7 +155,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                 showLeft && !hiddenShowDirection && <button className="z-50 absolute left-6 top-1/2 rounded-full px-3 cursor-pointer" onClick={() => scroll("left")}> <ChevronLeft className="w-6 h-6 text-gray-300 bg-white/30 rounded-full hover:bg-white/80" /></button>
             }
 
-            <div className="relative z-40 w-screen h-full" role="dialog" aria-modal="true" ref={popovRef}>
+            <main className="relative z-40 w-screen h-full" role="dialog" aria-modal="true" ref={popovRef}>
 
                 {/* Overlay */}
                 <div
@@ -467,14 +467,16 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                     </div>
 
                     </div>
+
                 </div>
 
-            </div>
+            </main>
 
 
             {
                 showRight && !hiddenShowDirection && <button className="z-50 absolute right-6 top-1/2 rounded-full px-3 cursor-pointer" onClick={() => scroll("right")}> <ChevronRight className="w-6 h-6 text-gray-300 bg-white/30 hover:bg-white/80 rounded-full" /></button>
             }
+
         </>
     );
 };

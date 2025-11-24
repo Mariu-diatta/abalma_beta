@@ -11,7 +11,7 @@ const PrintMessagesOnChat = ({ messages, messagesEndRef }) => {
 
     return (
 
-        <>
+        <section>
 
             <ul className="flex-1 overflow-y-auto border-b-0  mb-10 px-2 mx-3 mt-8 scrollbor_hidden max-h-[70dvh] min-h-[70dvh] md:px-[3vh]">
 
@@ -117,7 +117,7 @@ const PrintMessagesOnChat = ({ messages, messagesEndRef }) => {
 
             </ul>
 
-        </>
+        </section>
 
     )
 }

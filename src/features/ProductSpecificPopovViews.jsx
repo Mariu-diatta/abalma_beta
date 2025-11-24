@@ -19,16 +19,6 @@ const ProductSpecifiViews = ({ products, openModal, owners, panelRef }) => {
         )
     }
 
-    //    style = {{
-    //        backgroundImage: `url(${bg_image})`,
-    //            backgroundSize: "cover",
-    //                backgroundPosition: "center",
-    //                    backgroundRepeat: "no-repeat",
-    //                        height: "100vh", // facultatif, pour voir le fond sur toute la page
-               
-    //            }
-    //}
-
     return (
 
         <div

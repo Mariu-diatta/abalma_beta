@@ -129,7 +129,8 @@ export default function SubscriptionsPage() {
 
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-6 bg-none">
+
+        <main className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-6 bg-none">
 
             <button
 
@@ -206,7 +207,9 @@ export default function SubscriptionsPage() {
                     highlight={false}
                     onSubscribe={()=>handleSubscribe("price_1SSl8mCEAhT0NnGVixibJU9I")}
                 />
+
             </div>
-        </div>
+
+        </main>
     );
 }

@@ -100,13 +100,22 @@ const ScrollableCategoryButtons = ({
     return (
 
         <>
-            <HoverCategoryProductDisplay products={products} openModal={openModal} owners={owners} panelRef={panelRef}/>
 
-            <div
+            <main>
+
+                <HoverCategoryProductDisplay
+                    products={products}
+                    openModal={openModal}
+                    owners={owners}
+                    panelRef={panelRef}
+                />
+
+            </main>
+
+            <section
 
                 className=" w-full mb-0 sticky top-[10dvh] z-5  py-[0dvh] md:py-0 lg:py-0 bg-none mb-0"
-
-           >
+            >
 
                 {
                     showLeft && (
@@ -151,6 +160,7 @@ const ScrollableCategoryButtons = ({
 
                 </div>
 
+
                 {
                     showRight && (
 
@@ -170,7 +180,13 @@ const ScrollableCategoryButtons = ({
                     )
                 }
 
-            </div>
+            </section>
+
+            {/* Exemple d’aside pour contenu secondaire (facultatif) */}
+            <aside>
+                {/* Ici tu peux mettre : filtres, recommandations, pubs, etc. */}
+            </aside>
+
         </>
     );
 };
@@ -178,59 +194,67 @@ const ScrollableCategoryButtons = ({
 export default ScrollableCategoryButtons;
 
 
-
-const ListButtonsCategories = ({ categories, setProductSpecificHandler, setActiveCategory, setActivateButtonCategory, activateButtonCategory }) => {
+const ListButtonsCategories = (
+    {
+        categories,
+        setProductSpecificHandler,
+        setActiveCategory,
+        setActivateButtonCategory,
+        activateButtonCategory
+    }) => {
 
     const { t } = useTranslation();
 
     return (
-        <div
-            className="flex py-2 gap-5 bg-none"
-        >
 
-            {
-                categories?.map((cat) => (
+            <div className="flex py-2 gap-5 bg-none">
 
-                    <button
+                {
+                    categories?.map((cat) => (
 
-                        key={cat}
+                        <button
 
-                        onMouseOver={
-                            () => setProductSpecificHandler(cat?.replace("_", ""))
-                        }
+                            key={cat}
 
-                        style={
-                            {
-                                backgroundColor: "var(--color-bg)",
-                                color: "var(--color-text)"
+                            onMouseOver={
+                                () => setProductSpecificHandler(cat?.replace("_", ""))
                             }
-                        }
 
-                        onClick={
-                            () => {
-                                setActiveCategory(cat?.replace("_", " "));
-                                setActivateButtonCategory(cat?.replace("_", " "))
+                            style={
+                                {
+                                    backgroundColor: "var(--color-bg)",
+                                    color: "var(--color-text)"
+                                }
                             }
-                        }
 
-                        className={`
-                                flex justify-center items-center gap-2 z-2 whitespace-nowrap max-h-[10dvh] max-w-[10dvw] min-h-[10dvh] min-w-[20dvw] overflow-x-auto scrollbor_hidden rounded-full text-sm transition  hover:bg-gradient-to-br hover:from-purple-100 border-gray-100
-                                ${activateButtonCategory?.toLowerCase() === (cat?.replace("_", ""))?.toLowerCase()
-                                ? "bg-blue-50 text-white bg-gradient-to-br from-purple-50 to-blue-100" //
-                                : "text-blue-100 border border-blue-50 hover:bg-blue-100 hover:text-white scale-100 hover:scale-100 hover:shadow-lg"
-                            }`}
-                    >
-                        <p className="relative">
+                            onClick={
+                                () => {
+                                    setActiveCategory(cat?.replace("_", " "));
+                                    setActivateButtonCategory(cat?.replace("_", " "))
+                                }
+                            }
+
+                            className={`
+                                    flex justify-center items-center gap-1 z-2 px-4 py-2 whitespace-nowrap  rounded-full text-sm transition bg-gradient-to-br from-gray-100  hover:bg-gradient-to-br hover:from-purple-100 border-gray-100
+                                    ${activateButtonCategory?.toLowerCase() === (cat?.replace("_", ""))?.toLowerCase()
+                                    ? "bg-blue-50 text-white bg-gradient-to-br from-purple-50 to-blue-100" //
+                                    : "text-blue-100 border border-blue-50 hover:bg-blue-100 hover:text-white scale-100 hover:scale-100 hover:shadow-lg"
+                                }`}
+                        >
+                        <p className="">
                             {cat?.replace("_", " ")}
                         </p>
-                        {
-                             menuItems(t).find((item,_) => item?.name === cat?.replace("_", " ")
-                            )?.svg
-                        }
-                    </button>
-                ))
-            }
+                        <>
 
-        </div>
+                            {
+                                 menuItems(t).find((item,_) => item?.name === cat?.replace("_", " ")
+                                )?.svg
+                            }
+                        </>
+                        </button>
+                    ))
+                }
+
+            </div>
     )
 }

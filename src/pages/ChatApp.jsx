@@ -194,21 +194,24 @@ const ChatApp = ({ setShow , show}) => {
 
             </section>
 
-            <BoxMessagesChats
-                messages={messages}
-                messagesEndRef={messagesEndRef}
-                typing={typing}
-            />
+            
+            <section>
+                <BoxMessagesChats
+                    messages={messages}
+                    messagesEndRef={messagesEndRef}
+                    typing={typing}
+                />
 
-            {/* 📥 Zone d’entrée */}
-            <InputBoxChat
-                allRoomsChats={allRoomsChats}
-                input={input}
-                setInput={setInput}
-                setShow={setShow}
-                sendMessage={sendMessage}
-                handleTyping={handleTyping}
-            />
+                {/* 📥 Zone d’entrée */}
+                <InputBoxChat
+                    allRoomsChats={allRoomsChats}
+                    input={input}
+                    setInput={setInput}
+                    setShow={setShow}
+                    sendMessage={sendMessage}
+                    handleTyping={handleTyping}
+                />
+            </section>
 
         </main>
     );

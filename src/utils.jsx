@@ -205,7 +205,8 @@ export const CATEGORIES = {
     VOYAGE: { fr: "Voyage & Loisirs", en: "Travel & Leisure", idx: "voyage" },
     MEDICAL: { fr: "Matériel médical", en: "Medical Equipment", idx: "medical" },
     HIGH_TECH: { fr: "High-Tech", en: "Gadgets & Innovation", idx: "high-tech" },
-    AUTOMOTO: { fr: "Auto-moto", en: "Automotive", idx: "automoto" }
+    AUTOMOTO: { fr: "Auto-moto", en: "Automotive", idx: "automoto" },
+    Tous: { fr: "Tous", en: "All" }
 };
 
 // ============================
@@ -213,11 +214,10 @@ export const CATEGORIES = {
 // ============================
 
 // ✅ Liste simple (pour les selects)
-export const LIST_CATEGORIES = ["All", ...Object.keys(CATEGORIES)];
+export const LIST_CATEGORIES = [...Object.keys(CATEGORIES)];
 
 // ✅ Liste utilisée pour les filtres produits
 export const ListItemsFilterProduct = {
-    Tous: { fr: "Tous", en: "All" },
     ...CATEGORIES,
     noProduct: { fr: "Aucun produit disponible", en: "No product available" }
 };

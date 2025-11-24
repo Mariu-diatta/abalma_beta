@@ -57,9 +57,10 @@ const Carousel = ({ products, openModal, owners }) => {
     if (!filteredProducts.length) return null;
 
     return (
+
         <div className="relative w-full">
 
-            <div className="relative overflow-hidden rounded-lg h-70 lg:h-70 md:h-auto">
+            <main className="relative overflow-hidden rounded-lg h-70 lg:h-70 md:h-auto">
 
                 {
                     filteredProducts?.length>0 && filteredProducts?.map((prod, idx) => (
@@ -107,7 +108,7 @@ const Carousel = ({ products, openModal, owners }) => {
                         )
                     )
                 }
-            </div>
+            </main>
 
             <button
                 onClick={prevSlide}

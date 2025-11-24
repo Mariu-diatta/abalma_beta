@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState , lazy, useCallback} from 'react';
+import React, { useEffect, useState , lazy, useCallback} from 'react';
 
 import { useTranslation } from 'react-i18next';
 import api from '../services/Axios';
@@ -261,7 +261,7 @@ const BlogDetails = ({ blog, onClose }) => {
 
     return (
 
-        <div
+        <main
             className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50"
             onClick={() => onClose(false, null)}
         >
@@ -325,7 +325,8 @@ const BlogDetails = ({ blog, onClose }) => {
                 </div>
 
             </div>
-        </div>
+
+        </main>
     );
 };
 

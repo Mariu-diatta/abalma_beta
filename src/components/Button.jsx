@@ -47,23 +47,24 @@ export const ButtonNavigate = ({ tabs }) => {
 
     const currentNav = useSelector(state => state.navigate.currentNav);
 
-
     return (
 
-        <ul
-            className="
-                fixed bottom-0 left-0 w-full flex gap-2  md:rounded-full lg:rounded-full  rounded-none bg-white lg:bg-transparent md:bg-transparent
-                border-0
-                sm:items-center
-                lg:static lg:flex 
-                lg:flex-row 
-                lg:w-auto
-                justify-between
-                dark:bg-dark-2
-                px-4 z-10 
-                mx-0
-             "
-        >
+        <section>
+
+            <ul
+                className="
+                    fixed bottom-0 left-0 w-full flex gap-2  md:rounded-full lg:rounded-full  rounded-none bg-white lg:bg-transparent md:bg-transparent
+                    border-0
+                    sm:items-center
+                    lg:static lg:flex 
+                    lg:flex-row 
+                    lg:w-auto
+                    justify-between
+                    dark:bg-dark-2
+                    px-4 z-10 
+                    mx-0
+                 "
+            >
             {
                 tabs?.map((tab) => (
 
@@ -107,7 +108,9 @@ export const ButtonNavigate = ({ tabs }) => {
                     )
                 )
             }
-        </ul>
+            </ul>
+
+        </section>
     );
 };
 
@@ -128,7 +131,7 @@ export const ButtonSimple = ({
             type={type}
         >
 
-        {title}
+            {title}
 
         </button>
     )

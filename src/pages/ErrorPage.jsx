@@ -16,8 +16,8 @@ const ErrorPage = () => {
 export default ErrorPage;
 
 
-
 const Error = () => {
+
     return (
         <>
             <section className="relative z-10 bg-primary py-[120px]">

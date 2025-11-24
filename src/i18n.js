@@ -603,7 +603,7 @@ i18n
              ListItemsFilterProduct: {
                  ACCESSOIRES: "Accessories",
                  ALIMENTATION: "Food",
-                 All: "All",
+                 Tous: "All",
                  ANIMAUX: "Pet Supplies",
                  ART: "Art & Craft",
                  AUTOMOTO: "Automotive",
@@ -1223,7 +1223,7 @@ i18n
                   validate:"Validate"
               },
              ListItemsFilterProduct: {
-                 All: "Tous",
+                 Tous: "Tous",
                  JOUETS: "Jouets",
                  HABITS: "Habits",
                  MATERIELS_INFORMATIQUES: "Matériels informatiques",
