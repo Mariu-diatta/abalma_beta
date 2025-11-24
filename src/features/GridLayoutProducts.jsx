@@ -223,7 +223,7 @@ const GridLayoutProduct = () => {
                 (currentUser && currentUser?.is_connected) &&
                 <SearchBar />
             }
- 
+
             <ScrollableButtonsCategoryProducts
 
                 setActiveCategory={setActiveButtonCategory}
@@ -238,10 +238,11 @@ const GridLayoutProduct = () => {
 
             />
 
-            <div className="p-6">
+            <aside className={`${(filteredItems?.length===0)?"hidden" : "p-6"}`}>
                 <PaginationProduit products={filteredItems} />
-            </div>
-            
+            </aside>
+
+            <main>
             {
                 (loading) ?
 
@@ -255,7 +256,7 @@ const GridLayoutProduct = () => {
                 />
 
             }
-
+            </main>
 
             <ModalViewProduct isOpen={!!modalData} onClose={closeModal} products={filteredItems}/>
 

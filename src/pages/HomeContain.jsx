@@ -29,7 +29,6 @@ const HomeContain = () => {
 
                 {/* ========= PRODUCTS ========= */}
                 <section aria-labelledby="products-title" className="mb-12">
-                    <h2 id="products-title" className="sr-only">Produits disponibles</h2>
                     <GridLayoutProduct />
                 </section>
 

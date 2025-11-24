@@ -207,7 +207,7 @@ const ListButtonsCategories = (
 
     return (
 
-            <div className="flex py-2 gap-5 bg-none">
+            <section className="flex py-2 gap-5 bg-none">
 
                 {
                     categories?.map((cat) => (
@@ -255,6 +255,6 @@ const ListButtonsCategories = (
                     ))
                 }
 
-            </div>
+            </section>
     )
 }
