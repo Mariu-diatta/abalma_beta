@@ -1,129 +1,131 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useState, useMemo } from "react";
-import { useTranslation } from 'react-i18next';
-import { addUser } from "../slices/chatSlice";
+import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-
+import { addUser } from "../slices/chatSlice";
 
 const Carousel = ({ products, openModal, owners }) => {
-
-    const [productScroll, setProductScroll] = useState(null);
-
     const [currentIndex, setCurrentIndex] = useState(0);
-
     const { t } = useTranslation();
-
-    const dispatch=useDispatch()
+    const dispatch = useDispatch();
 
     const filteredProducts = useMemo(() => {
-
-        if (!products || !Array.isArray(products)) return [];
-
-        return products.filter(
-            (item) => item?.quantity_product>0
-        );
-
+        if (!Array.isArray(products)) return [];
+        return products.filter((p) => p?.quantity_product > 0);
     }, [products]);
 
-    const pictures = filteredProducts.flatMap((product) => product.image_product || []);
+    const pictures = filteredProducts;
 
     const prevSlide = () => {
         setCurrentIndex((prev) =>
-            pictures.length ? (prev === 0 ? pictures.length - 1 : prev - 1) : 0
+            prev === 0 ? pictures.length - 1 : prev - 1
         );
     };
 
     const nextSlide = () => {
         setCurrentIndex((prev) =>
-            pictures.length ? (prev === pictures.length - 1 ? 0 : prev + 1) : 0
+            prev === pictures.length - 1 ? 0 : prev + 1
         );
     };
 
     useEffect(() => {
         if (!pictures.length) return;
-
-        const interval = setInterval(() => {
-
-            setCurrentIndex((prev) =>
-
-                prev === pictures.length - 1 ? 0 : prev + 1
-            );
-        }, 2000);
-
+        const interval = setInterval(nextSlide, 2500);
         return () => clearInterval(interval);
+    }, [pictures]);
 
-    }, [pictures, productScroll]);
+    if (!pictures.length) return null;
 
-    if (!filteredProducts.length) return null;
+    const current = pictures[currentIndex];
 
     return (
+        <div className="relative w-full rounded-lg overflow-hidden group">
 
-        <div className="relative w-full">
+            {/* IMAGE */}
+            <div className="relative h-70 md:h-70 w-full">
 
-            <main className="relative overflow-hidden rounded-lg h-70 lg:h-70 md:h-auto">
+                <img
+                    src={current.image_product}
+                    alt="product"
+                    className="
+                        w-full h-full object-cover
+                        transition-transform duration-700
+                        group-hover:scale-110
+                    "
+                />
 
-                {
-                    filteredProducts?.length>0 && filteredProducts?.map((prod, idx) => (
+                {/* OVERLAY GRADIENT */}
+                <div
+                    className="
+                        absolute inset-0
+                        bg-gradient-to-t from-gray/2 via-gray/20 to-transparent
+                        flex flex-col items-center justify-end
+                        p-6
+                        text-white
+                        transition-opacity duration-500 
+                    "
+                >
 
-                            <section className="shadow-lg " key={idx}>
+                    {/* DESCRIPTION */}
+                    <p
+                        className="
+                            text-sm md:text-base
+                            opacity-0 group-hover:opacity-100
+                            translate-y-5 group-hover:translate-y-0
+                            transition-all duration-500
+                            text-center
+                            px-2 py-1
+                            bg-black/50 text-white rounded-md
+                        "
+                    >
+                        {current.description_product?.toLowerCase()}
+                    </p>
 
-                                <img
-                                    src={prod.image_product}
-                                    alt={`Slide ${idx + 1}`}
-                                    title={`Nombre d'articles disponibles: ${prod?.quantity_product}`}
-                                    className={` absolute top-1/2 left-1/2 w-full h-[300px] object-cover -translate-x-1/2 -translate-y-1/2 transition-opacity duration-700 ease-in-out scale-100 hover:scale-150 ${idx === currentIndex ? "opacity-100 z-2" : "opacity-0 z-2"
-                                    }`}
-                                />
-                            <span
-                                className={`
-                                    absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-0.5 text-[12px]
-                                    w-2/3 h-1/3 p-0 m-0 rounded-lg text-start overflow-auto
-                                    bg-white/30 dark:text-white scrollbor_hidden hover:bg-white
-                                    ${idx === currentIndex ? `opacity-120 text-${prod?.color_product}` : "opacity-0"}
-                                    z-10 scrollbar-hidden text-sm
-                                  `}
-                            >
-                                {prod?.description_product.toLowerCase()}
+                    {/* BUTTON */}
+                    <button
+                        onClick={() => {
+                            openModal(current);
+                            dispatch(addUser(owners[current?.fournisseur]));
+                        }}
+                        className="
+                            mt-4 px-6 py-2 rounded-full text-sm
+                            bg-white/80 text-gray-800 backdrop-blur-sm
+                            hover:bg-white shadow-lg
+                            transition-all duration-300
+                            opacity-0 group-hover:opacity-100
+                            translate-y-5 group-hover:translate-y-0
+                        "
+                    >
+                        {t("views_product")}
+                    </button>
+                </div>
 
-                            </span>
+            </div>
 
-                                {
-                                    (idx === currentIndex) && (
-                                        <button
-                                            onClick={() => {
-                                                openModal(prod);
-                                                dispatch(addUser(owners[prod?.fournisseur]));
-                                                setProductScroll(prod);
-                                            }}
-                                            type="button"
-                                            className="whitespace-nowrap  bg-white/80  w-auto mx-0  absolute bottom-0 left-1/2 -translate-x-1/2 -translate-y-1/2 py-1 px-5 me-2 mb-2 text-sm  focus:outline-none rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 z-5"
-                                        >
-                                            {t("views_product")}
-
-                                        </button>
-                                    )
-                                }
-
-                            </section>
-                        )
-                    )
-                }
-            </main>
-
+            {/* LEFT BUTTON */}
             <button
                 onClick={prevSlide}
-                className={`${(filteredProducts.length <= 1) ? "hidden" : ''} w-8 h-8  cursor-pointer absolute top-0 left-0 z-5 flex items-center justify-center h-full px-1 py-12`}
+                className={`
+                    ${pictures.length <= 1 ? "hidden" : ""}
+                    absolute left-2 top-1/2 -translate-y-1/2
+                    bg-black/30 hover:bg-black/50
+                    p-2 rounded-full transition
+                `}
             >
-                <ChevronLeft className="w-6 h-6 text-white bg-white/10 rounded-full" />
-
+                <ChevronLeft className="text-white w-5 h-5" />
             </button>
 
+            {/* RIGHT BUTTON */}
             <button
                 onClick={nextSlide}
-                className={`${(filteredProducts.length <= 1) ? "hidden" : ''} w-8 h-8   cursor-pointer absolute top-0 right-0 z-5 flex items-center justify-center h-full px-1 py-12`}
+                className={`
+                    ${pictures.length <= 1 ? "hidden" : ""}
+                    absolute right-2 top-1/2 -translate-y-1/2
+                    bg-black/30 hover:bg-black/50
+                    p-2 rounded-full transition
+                `}
             >
-                <ChevronRight className="w-6 h-6 text-white bg-white/10 rounded-full" />
-
+                <ChevronRight className="text-white w-5 h-5" />
             </button>
         </div>
     );

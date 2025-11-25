@@ -64,9 +64,6 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
     const popovRef = useRef(null)
 
-    //const scrollRef = useRef(null);
-    //const panelRef = useRef(null);
-
     const [showLeft, setShowLeft] = useState(true);
 
     const [showRight, setShowRight] = useState(true);
@@ -152,12 +149,17 @@ const ProductModal = ({ isOpen, onClose, products}) => {
         <>
 
             {
-                showLeft && !hiddenShowDirection && <button className="z-50 absolute left-6 top-1/2 rounded-full px-3 cursor-pointer" onClick={() => scroll("left")}> <ChevronLeft className="w-6 h-6 text-gray-300 bg-white/30 rounded-full hover:bg-white/80" /></button>
+                showLeft && !hiddenShowDirection && <button className="fixed z-50 absolute left-1 top-1/2 rounded-full px-3 cursor-pointer" onClick={() => scroll("left")}> <ChevronLeft className="w-6 h-6 text-gray-300 bg-white/30 rounded-full hover:bg-white/80" /></button>
             }
 
-            <main className="relative z-40 w-screen h-full" role="dialog" aria-modal="true" ref={popovRef}>
+            <div
+                className="fixed inset-0 z-40"
+                role="dialog"
+                aria-modal="true"
+                ref={popovRef}
+            >
 
-                {/* Overlay */}
+                {/* ====== MODAL OVERLAY ====== */}
                 <div
                     className="fixed inset-0 bg-gray-500/75 transition-opacity"
                     aria-hidden="true"
@@ -165,28 +167,28 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                     ref={buttonRef}
                 ></div>
 
-                {/* Conteneur centré */}
-                <div className="fixed inset-0 z-50 flex items-center justify-center py-2 px-1 md:py-4 lg:py-4">
+                {/* ====== CONTENT ====== */}
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-2 md:p-0 md:mx-15 md:py-4">
 
-                    <div
+                    <main
                         className="relative flex flex-col md:flex-row items-stretch justify-center
-                             w-full h-full max-w-4xl bg-[var(--color-bg)] text-[var(--color-text)]
-                             rounded-2xl shadow-xl overflow-hidden mx-auto transition 
+                             w-screen h-full max-w-full  bg-[var(--color-bg)] text-[var(--color-text)]
+                             rounded-sm shadow-xl overflow-hidden mx-auto transition 
                         "
                     >
                         {/* Contenu en grille : image + détails */}
                         <div className="grid grid-cols-1 sm:grid-cols-12 w-full h-full">
 
-                            {/*image product  in the component*/}
-                            <div className="sm:col-span-6 lg:col-span-7 flex items-center justify-center h-full w-full">
+                            {/* IMAGE */}
+                            <div className="sm:col-span-6 lg:col-span-7 flex items-center justify-center h-full w-full relative">
                                 <img
                                     src={currentSelectedProductView?.image_product}
                                     alt="Product"
-                                    className="max-w-full max-h-full object-contain items-center "
+                                    className="max-w-full max-h-full object-contain"
                                 />
                             </div>
 
-                            {/*details product  in the component*/}
+                            {/* DETAILS */}
                             <div className="sm:col-span-6 lg:col-span-5 flex-col justify-between px-1 overflow-y-auto md:pb-0 scrollbor_hidden">
 
                                 {/*button close the component*/}
@@ -293,11 +295,10 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                                     {/* Color Options */}
                                     <fieldset>
+
                                         {t("color_prod")}
                                         <legend className="text-sm font-medium ">
-
                                             {currentSelectedProductView?.color_prouct}
-
                                         </legend>
 
                                         <div className="mt-4 flex items-center gap-x-3">
@@ -344,64 +345,37 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                                     <div className="text-sm  my-2 h-[20dvh] overflow-y-auto scrollbor_hidden leading-relaxed whitespace-pre-line">
                                         <h1 className="text-xl">{t('description_prod')} </h1>
                                         <TextParagraphs text={currentSelectedProductView?.description_product?.toLowerCase()}/>
-
                                     </div>
 
-                                    {/* Size Options */}
-                                    <fieldset className="mt-auto">
-
-                                        <div className="flex items-center justify-between">
-
-                                            <div className="text-sm font-medium">
-
-                                                {currentSelectedProductView?.color_prouct}
-
-                                            </div>
-
-                                        </div>
-
-                                        <div className="z-0 mt-1 mb-1 sm:mb-1 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-1 w-full overflow-x-auto gap-2 scrollbor_hidden">
-
+                                    {/* SIZE / INFO GRID */}
+                                    <fieldset>
+                                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
                                             {[
                                                 { label: "Type", value: currentSelectedProductView?.type_choice },
                                                 { label: "Quantité", value: currentSelectedProductView?.quantity_product },
                                                 { label: "Taille", value: currentSelectedProductView?.taille_product },
                                                 { label: "Opération", value: currentSelectedProductView?.operation_product },
-                                                { label: "Catégorie", value: currentSelectedProductView?.categorie_product }
+                                                { label: "Catégorie", value: currentSelectedProductView?.categorie_product },
+                                            ].map(
+                                                (item, index) =>
+                                                    item.value && (
+                                                        <div
+                                                            key={index}
+                                                            className="text-xs border p-2 rounded-md bg-gray-50 dark:bg-gray-800 dark:border-gray-700"
+                                                        >
+                                                            <strong className="font-semibold text-gray-700 dark:text-gray-200">
+                                                                {item.label}
+                                                            </strong>
 
-                                            ].map(({ label, value }, idx) => (
-
-                                                (label && value) &&
-                                                <span className="flex-col overflow-x-auto scrollbor_hidden w-full mx-3">
-
-                                                    <label
-
-                                                        key={`${label}-${idx}`}
-
-                                                        htmlFor={`${label}-${value}`}
-
-                                                        className="w-full relative  group relative flex flex-col items-center justify-center border border-gray-100  rounded-md px-1 py-1 text-xs text-gray-800 hover:bg-gray-100 transition-all duration-150"
-                                                    >
-
-                                                        <span className="text-xs my-1">{label.toUpperCase()}</span>
-
-                                                        <input
-                                                            type="radio"
-                                                            name="productDetail"
-                                                            id={`${label}-${value}`}
-                                                            value={value}
-                                                            className="absolute sr-only lowercase"
-                                                        />
-
-                                                        <span className="text-xs bg-blue-100 p-2 rounded-full">{value.toLowerCase() || "N/A"}</span>
-
-                                                    </label>
-                                                </span>
-                                            ))}
-
+                                                            <div className="mt-1 text-gray-900 dark:text-gray-300">
+                                                                {String(item.value).toLowerCase()}
+                                                            </div>
+                                                        </div>
+                                                    )
+                                            )}
                                         </div>
-
                                     </fieldset>
+
 
                                     <div className="border-0 overflow-x-auto w-full  scrollbor_hidden flex gap-2 ">
 
@@ -428,9 +402,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                                             }
 
                                         </fieldset>
-
-
-                                </div>
+                                    </div>
 
                                 </div>
 
@@ -466,15 +438,15 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                     </div>
 
-                    </div>
+                    </main>
 
                 </div>
 
-            </main>
+            </div>
 
 
             {
-                showRight && !hiddenShowDirection && <button className="z-50 absolute right-6 top-1/2 rounded-full px-3 cursor-pointer" onClick={() => scroll("right")}> <ChevronRight className="w-6 h-6 text-gray-300 bg-white/30 hover:bg-white/80 rounded-full" /></button>
+                showRight && !hiddenShowDirection && <button className="fixed z-50 absolute right-1 top-1/2 rounded-full px-3 cursor-pointer" onClick={() => scroll("right")}> <ChevronRight className="w-6 h-6 text-gray-300 bg-white/30 hover:bg-white/80 rounded-full" /></button>
             }
 
         </>
