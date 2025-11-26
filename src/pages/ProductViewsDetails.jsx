@@ -192,7 +192,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                             <div className="sm:col-span-6 lg:col-span-5 flex-col justify-between px-1 overflow-y-auto md:pb-0 scrollbor_hidden">
 
                                 {/*button close the component*/}
-                                <div className="flex fixed lg:absolute right-0 z-50 bg-gray top-2">
+                                <div className="flex fixed lg:absolute right-0 z-50 bg-gray top-1.5">
 
                                     <div className="">
 

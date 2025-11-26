@@ -28,10 +28,14 @@ function SubscriptionCard({
 
         <div
             className={`relative flex flex-col justify-between rounded-3xl border shadow-sm p-6 w-full max-w-sm transition hover:shadow-md hover:-translate-y-1
-            ${highlight
-                    ? "bg-gradient-to-br from-indigo-50 to-white border-indigo-200"
-                    : "bg-white/2 border-gray-200"
-                }`}
+                ${
+                    highlight
+                    ?
+                    "bg-gradient-to-br from-indigo-50 to-white border-indigo-200"
+                    :
+                    "bg-white/2 border-gray-200"
+                }`
+            }
         >
             {/* Étiquette Recommandé */}
             {highlight && (
@@ -42,23 +46,34 @@ function SubscriptionCard({
 
             {/* En-tête */}
             <div className="text-center mb-5">
+
                 <h3 className="text-xl font-bold text-gray-900">{title}</h3>
+
                 <p className="text-sm text-gray-500 mt-1">{subtitle}</p>
+
             </div>
 
             {/* Prix */}
             <div className="text-center mb-6">
+
                 <span className="text-3xl font-extrabold text-indigo-700">{price}</span>
+
             </div>
 
             {/* Liste des avantages */}
-            <ul className="flex flex-col gap-3 text-gray-700 mb-6">
-                {features.map((feature, i) => (
-                    <li key={i} className="flex items-center gap-2">
-                        <Check className="w-5 h-5 text-green-600" />
-                        <span className="text-sm">{feature}</span>
-                    </li>
-                ))}
+            <ul className={`flex flex-col gap-3 text-gray-700 mb-6 ${(features?.length<0) && "hidden"}`}>
+                {
+                    features.map((feature, i) => (
+
+                        <li key={i} className="flex items-center gap-2">
+
+                            <Check className="w-5 h-5 text-green-600" />
+
+                            <span className="text-sm">{feature}</span>
+
+                        </li>
+                    ))
+                }
             </ul>
 
             {/* Bouton */}
@@ -66,13 +81,17 @@ function SubscriptionCard({
                 onClick={onSubscribe}
                 className="w-full bg-indigo-50 hover:bg-indigo-100 text-white font-medium py-2.5 rounded-xl transition"
             >
-              {t("my_subscription")}
+                {t("my_subscription")}
+
             </button>
 
 
             <p className="text-center text-xs text-gray-400 mt-3">
-                {t("secure_subscription") }
+
+                {t("secure_subscription")}
+
             </p>
+
         </div>
     );
 }
@@ -90,7 +109,6 @@ export default function SubscriptionsPage() {
     const currentNav = useSelector(state => state.navigate.currentNav);
 
     const handleSubscribe = (amount = "price_1SSjTKCEAhT0NnGVt0SzuhBu") => {
-
 
         if (!currentUser) {
 
@@ -148,7 +166,9 @@ export default function SubscriptionsPage() {
                 }
             >
                 <svg className="cursor-pointer absolute left-2 top-2 w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" strokeLinecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7" />
+
+                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m15 19-7-7 7-7" />
+
                 </svg>
 
             </button >

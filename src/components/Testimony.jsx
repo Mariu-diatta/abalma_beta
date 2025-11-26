@@ -99,13 +99,13 @@ export default function TestimonialCarousel({
                     style={{ transform: `translateX(-${index * 100}%)` }}
                     aria-live="polite"
                 >
-                    {testimonials?.map((t) => (
+                    {testimonials?.map((t,index) => (
                         <article
-                            key={t.id}
+                            key={index}
                             className="w-full flex-shrink-0  rounded-xl "
                             role="group"
                             aria-roledescription="slide"
-                            aria-label={`${t?.prenom} — ${t.role}`}
+                            aria-label={`${t?.prenom}`}
                         >
                             <div className="flex items-start gap-4 justify-center py-8 ">
                                 <div className="flex-shrink-0">

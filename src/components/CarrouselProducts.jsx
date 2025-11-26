@@ -32,7 +32,7 @@ const Carousel = ({ products, openModal, owners }) => {
         if (!pictures.length) return;
         const interval = setInterval(nextSlide, 2500);
         return () => clearInterval(interval);
-    }, [pictures]);
+    });
 
     if (!pictures.length) return null;
 
@@ -44,41 +44,44 @@ const Carousel = ({ products, openModal, owners }) => {
             {/* IMAGE */}
             <div className="relative h-70 md:h-70 w-full">
 
-                <img
-                    src={current.image_product}
-                    alt="product"
-                    className="
-                        w-full h-full object-cover
-                        transition-transform duration-700
-                        group-hover:scale-110
-                    "
-                />
+                <div
+                    className="relative w-full h-full bg-cover bg-center"
+                    style={{
+                        backgroundImage: `url(${current?.image_product})`,
+                    }}
+                >
+                    <img
+                        src={current?.image_product}
+                        alt="product"
+                        className="
+                          w-full h-full object-contain
+                          relative  border-0
+                        "
+                    />
+                </div>
 
                 {/* OVERLAY GRADIENT */}
                 <div
                     className="
                         absolute inset-0
-                        bg-gradient-to-t from-gray/2 via-gray/20 to-transparent
+                        bg-gradient-to-t from-gray/10 via-gray/20 to-transparent
                         flex flex-col items-center justify-end
-                        p-6
-                        text-white
-                        transition-opacity duration-500 
-                    "
+                        p-6 text-white
+                        transition-opacity duration-500
+                      "
                 >
 
                     {/* DESCRIPTION */}
                     <p
                         className="
-                            text-sm md:text-base
-                            opacity-0 group-hover:opacity-100
-                            translate-y-5 group-hover:translate-y-0
-                            transition-all duration-500
-                            text-center
-                            px-2 py-1
-                            bg-black/50 text-white rounded-md
+                          text-sm md:text-white text-center
+                          px-2 py-1 rounded-md bg-black/50
+                          opacity-0 translate-y-2
+                          group-hover:opacity-100 group-hover:translate-y-0
+                          transition-all duration-500
                         "
                     >
-                        {current.description_product?.toLowerCase()}
+                        {(current?.description_product?.toLowerCase()).slice(0,50)}...
                     </p>
 
                     {/* BUTTON */}
@@ -88,17 +91,16 @@ const Carousel = ({ products, openModal, owners }) => {
                             dispatch(addUser(owners[current?.fournisseur]));
                         }}
                         className="
-                            mt-4 px-6 py-2 rounded-full text-sm
-                            bg-white/80 text-gray-800 backdrop-blur-sm
-                            hover:bg-white shadow-lg
-                            transition-all duration-300
-                            opacity-0 group-hover:opacity-100
-                            translate-y-5 group-hover:translate-y-0
+                          mt-4 px-6 py-2 rounded-full text-sm
+                          bg-white/80 text-gray-800 
+                          hover:bg-white shadow-lg transition-all duration-300
                         "
                     >
                         {t("views_product")}
                     </button>
+
                 </div>
+
 
             </div>
 
