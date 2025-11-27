@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import api from "../services/Axios";
 import LoadingCard from "../components/LoardingSpin";
-import { ButtonSimple } from "../components/Button";
 import RendrePrixProduitMonnaie from "../features/ConvertCurrency";
 import { setProductUpdate } from "../slices/cartSlice";
 import FormElementFileUpload from "../features/FormFile";

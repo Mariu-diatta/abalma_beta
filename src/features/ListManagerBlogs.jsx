@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import api from "../services/Axios";
 import { formatISODate } from "../utils";
 import LoadingCard from "../components/LoardingSpin";
-import { ButtonSimple } from "../components/Button";
 
 const MyBlogsList = () => {
     const { t } = useTranslation();
