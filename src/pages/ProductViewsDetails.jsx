@@ -184,7 +184,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                                 <img
                                     src={currentSelectedProductView?.image_product}
                                     alt="Product"
-                                    className="max-w-full max-h-full object-contain"
+                                    className="w-full h-full object-contain"
                                 />
                             </div>
 

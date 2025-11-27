@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { addUser } from "../slices/chatSlice";
 
 const Carousel = ({ products, openModal, owners }) => {
+
     const [currentIndex, setCurrentIndex] = useState(0);
     const { t } = useTranslation();
     const dispatch = useDispatch();
@@ -45,20 +46,29 @@ const Carousel = ({ products, openModal, owners }) => {
             <div className="relative h-70 md:h-70 w-full">
 
                 <div
-                    className="relative w-full h-full bg-cover bg-center"
-                    style={{
-                        backgroundImage: `url(${current?.image_product})`,
-                    }}
+                    className="relative w-full h-full overflow-hidden"
                 >
+                    {/* Image de fond floutée */}
+                    <div
+
+                        className="absolute inset-0 bg-cover bg-center blur-xl scale-110"
+
+                        style={{
+                            backgroundImage: `url(${current?.image_product})`,
+                        }}
+                    />
+
+                    {/* Overlay sombre pour lisibilité */}
+                    <div className="absolute inset-0 bg-black/20" />
+
+                    {/* Image principale */}
                     <img
                         src={current?.image_product}
                         alt="product"
-                        className="
-                          w-full h-full object-contain
-                          relative  border-0
-                        "
+                        className="relative w-full h-full object-contain "
                     />
                 </div>
+
 
                 {/* OVERLAY GRADIENT */}
                 <div
@@ -81,15 +91,18 @@ const Carousel = ({ products, openModal, owners }) => {
                           transition-all duration-500
                         "
                     >
-                        {(current?.description_product?.toLowerCase()).slice(0,50)}...
+                        {(current?.description_product?.toLowerCase())?.slice(0, 50)}...
+
                     </p>
 
                     {/* BUTTON */}
                     <button
+
                         onClick={() => {
                             openModal(current);
                             dispatch(addUser(owners[current?.fournisseur]));
                         }}
+
                         className="
                           mt-4 px-6 py-2 rounded-full text-sm
                           bg-white/80 text-gray-800 
@@ -97,6 +110,7 @@ const Carousel = ({ products, openModal, owners }) => {
                         "
                     >
                         {t("views_product")}
+
                     </button>
 
                 </div>
@@ -106,9 +120,11 @@ const Carousel = ({ products, openModal, owners }) => {
 
             {/* LEFT BUTTON */}
             <button
+
                 onClick={prevSlide}
+
                 className={`
-                    ${pictures.length <= 1 ? "hidden" : ""}
+                    ${pictures?.length <= 1 ? "hidden" : ""}
                     absolute left-2 top-1/2 -translate-y-1/2
                     bg-black/30 hover:bg-black/50
                     p-2 rounded-full transition
@@ -119,15 +135,18 @@ const Carousel = ({ products, openModal, owners }) => {
 
             {/* RIGHT BUTTON */}
             <button
+
                 onClick={nextSlide}
+
                 className={`
-                    ${pictures.length <= 1 ? "hidden" : ""}
+                    ${pictures?.length <= 1 ? "hidden" : ""}
                     absolute right-2 top-1/2 -translate-y-1/2
                     bg-black/30 hover:bg-black/50
                     p-2 rounded-full transition
                 `}
             >
                 <ChevronRight className="text-white w-5 h-5" />
+
             </button>
         </div>
     );

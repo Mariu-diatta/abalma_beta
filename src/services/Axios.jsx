@@ -59,7 +59,7 @@ api.interceptors.response.use(
             !originalRequest?.url?.includes('/refresh/')
         ) {
             originalRequest._retry = true;  
-            //await api.post("refresh/");
+            await api.post("refresh/");
             if ((error?.response?.data?.detail === "Informations d'authentification non fournies.") ) {
 
                 if (window.confirm("Votre session a expiré, veuillez vous reconnecter. / Your session has expired.Please log in again.")) {

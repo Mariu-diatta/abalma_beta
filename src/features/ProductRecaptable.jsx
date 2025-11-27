@@ -1,319 +1,222 @@
-// ProductsRecapTable.jsx
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import ViewProduct from '../components/ViewProduct';
 import { useTranslation } from 'react-i18next';
 import { convertDate } from '../utils';
 import { ButtonSimple } from '../components/Button';
+import { TitleCompGenLitle } from '../components/TitleComponentGen';
 
-const ProductsRecapTable = ({ products }) => {
+const ProductsRecapTable = ({ products = [] }) => {
 
     const { t } = useTranslation();
 
     const [currentPage, setCurrentPage] = useState(1);
-
     const [searchTerm, setSearchTerm] = useState('');
-
-    const [selectedStatus, setSelectedStatus] = useState("");
-
-    const [popoverOpen, setPopoverOpen] = useState(false);
-
+    const [selectedStatus, setSelectedStatus] = useState('');
     const [selectedSubTransaction, setSelectedSubTransaction] = useState(null);
+    const [selectedTransaction, setSelectedTransaction] = useState(null);
+    const [popoverOpen, setPopoverOpen] = useState(false);
+    const [product, setProductView] = useState(null);
 
     const itemsPerPage = 5;
 
-    const displayedStatus = ['en cours', 'prêtés', 'achetés', 'vendus']; //affichage des opérations sur les données
+    const statusLabels = useMemo(() => ({
+        ACHETER: 'achetés',
+        VENDRE: 'vendus',
+        PRETER: 'prêtés',
+        'EN COURS': 'en cours',
+    }), []);
 
-    const [product, setProductView]=useState(null)
-
-    const closePopover = () => setPopoverOpen(false);
-
-    //fonction de filtrages des données produits en fonctions des sous sections
-    const getFilteredProducts = (products, selectedSubTransaction) => {
-
-        if (!Array.isArray(products) || !selectedSubTransaction?.id) return [];
-
-        return products.flatMap(prod =>
-
-            Array.isArray(prod.items)
-
-                ? prod.items
-
-                .filter(sub => sub?.subTransaction?.id === selectedSubTransaction.id)
-
-                .flatMap(sub =>
-
-                    Array.isArray(sub.items)
-
-                    ? sub.items.map(i => i.product)
-
-                    : []
-                )
-                :
-                []
+    /** 🔍 Extraction simple de TOUS les produits */
+    const extractAllProducts = (products) => {
+        return products.flatMap(p =>
+            p.items?.flatMap(sub =>
+                sub.items?.map(i => i.product) || []
+            ) || []
         );
     };
 
+    /** 📌 Filtrage intelligent */
     const filteredProducts = useMemo(() => {
 
-        if (!Array.isArray(products)) return [];
+        const all = extractAllProducts(products);
 
-        // 🔁 Extraction plate des produits
-        const allItems = products.flatMap(prod =>
-
-            Array.isArray(prod.items)
-
-                ? prod.items.flatMap(sub =>
-
-                    Array.isArray(sub.items) ? sub.items.map(i => i.product) : []
-                )
-                : []
-        );
-
-        // ✅ Cas 1 : filtre par statut (prioritaire)
-        if (!!selectedStatus) {
-
-            return allItems.filter(p => {
-
-                const op = p?.operation_product;
-                if (selectedStatus === 'achetés') return op === 'ACHETER';
-                if (selectedStatus === 'vendus') return op === 'VENDRE';
-                if (selectedStatus === 'prêtés') return op === 'PRETER';
-                if (selectedStatus === 'en cours') return op === 'EN COURS';
-                setSelectedStatus('')
-                return true; // fallback si statut inconnu
-            });
-
-        } else {
-
-            // ✅ Cas 2 : filtre par sous-transaction si aucun statut actif
-            if (selectedSubTransaction) {
-
-                const filterProduct = getFilteredProducts(products, selectedSubTransaction)
-
-                return filterProduct;
-            }
+        // Filtrer par statut
+        if (selectedStatus) {
+            return all.filter(p =>
+                statusLabels[p.operation_product] === selectedStatus
+            );
         }
 
-        // ✅ Cas 3 : aucun filtre actif
-        return allItems;
+        // Filtrer par sous-transaction
+        if (selectedSubTransaction) {
+            return all.filter(p =>
+                p?.subTransactionId === selectedSubTransaction?.id
+            );
+        }
 
-    }, [products, selectedSubTransaction, selectedStatus]);
+        // Filtre de recherche
+        if (searchTerm.trim()) {
+            const term = searchTerm.toLowerCase();
+            return all.filter(p =>
+                p?.description_product?.toLowerCase().includes(term)
+            );
+        }
 
-    //produits total pour la mise en pages
-    const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+        return all;
 
-    //pagination des produits d'un page à un autre
+    }, [products, selectedStatus, selectedSubTransaction, searchTerm, statusLabels]);
+
+
+    /** 📄 Pagination */
+    const totalPages = Math.max(1, Math.ceil(filteredProducts.length / itemsPerPage));
     const paginatedProducts = useMemo(() => {
-
         const start = (currentPage - 1) * itemsPerPage;
-
         return filteredProducts.slice(start, start + itemsPerPage);
-
     }, [filteredProducts, currentPage]);
 
+    const closePopover = () => setPopoverOpen(false);
 
     return (
+        <div className="w-full shadow-sm p-2 style_bg">
 
-        <div
-
-            className="mt-1 w-full shadow-sm p-2 my-6"
-
-            style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
-        >
-            <nav
-                className="flex items-center gap-2 m-2 style_bg"
-
-                style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
-            >
-                <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    
-                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M5 18h14M5 18v3h14v-3M5 18l1-9h12l1 9M16 6v3m-4-3v3m-2-6h8v3h-8V3Zm-1 9h.01v.01H9V12Zm3 0h.01v.01H12V12Zm3 0h.01v.01H15V12Zm-6 3h.01v.01H9V15Zm3 0h.01v.01H12V15Zm3 0h.01v.01H15V15Z" />
-
+            {/* TITRE */}
+            <nav className="flex items-center gap-2 m-2">
+                <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M9 10V6a3 3 0 0 1 3-3v0a3 3 0 0 1 3 3v4m3-2 .917 11.923A1 1 0 0 1 17.92 21H6.08a1 1 0 0 1-.997-1.077L6 8h12Z" />
                 </svg>
-
-                <h2 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">{t('TableRecap.title')}</h2>
-
+                <TitleCompGenLitle title={t('TableRecap.title')} />
             </nav>
 
-            <div 
+            {/* FILTRES */}
+            <div className="m-2 flex flex-wrap gap-4 items-center pb-4">
 
-                className="m-2 flex flex-col sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4 style_bg"
-
-                style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
-            >
-
+                {/* Filtre par statut */}
                 <select
-
                     value={selectedStatus}
-
-                    onChange={
-
-                        (e) => setSelectedStatus(e.target.value)
-                    }
-
-                    className="w-full md:w-auto px-2 py-2  pr-4 border rounded-lg bg-gray-100 border-gray-300"
-
-                    style={
-
-                        { backgroundColor: "var(--color-bg)", color: "var(--color-text)" }
-                    }
-
+                    onChange={e => {
+                        setSelectedStatus(e.target.value);
+                        setSelectedSubTransaction(null);
+                    }}
+                    className="px-2 py-2 border rounded-full flex border-blue-200  focus:border-blue-500 focus:ring-1 focus:ring-blue-400  "
                 >
                     <option value="">{t('TableRecap.statusAll')}</option>
 
-                    {
-                        displayedStatus?.map(
-
-                            status => (
-
-                                <option key={status} value={status}>{status}</option>
-                            )
-                        )
-                    }
+                    {Object.values(statusLabels).map(s => (
+                        <option key={s} value={s}>{s}</option>
+                    ))}
 
                 </select>
 
-                {
-                    (selectedStatus === '') &&
-
+                {/* Transactions */}
+                {!selectedStatus && (
                     <TransactionsDropdown
-
                         transactionsData={products}
-
+                        onSelectTransaction={setSelectedTransaction}
                         onSubTransactionSelect={setSelectedSubTransaction}
                     />
-                }
+                )}
 
+                {/* Recherche */}
                 <input
-
                     type="text"
-
                     placeholder={t('TableRecap.searchPlaceholder')}
-
                     value={searchTerm}
-
                     onChange={e => setSearchTerm(e.target.value)}
-
-                    className="w-full md:w-auto  rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    className="rounded-full border px-3 py-2 border-blue-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-400"
                 />
 
             </div>
 
+            {/* TABLEAU */}
+            <main className="overflow-x-auto rounded-md">
 
-            <div
+                {(selectedTransaction || selectedSubTransaction) && (
 
-                className="overflow-x-auto rounded-md"
+                    <div className="mb-4 p-3 rounded-lg border bg-blue-50 text-blue-800 border-blue-200">
+                        {selectedTransaction && (
+                            <p className="font-semibold">
 
-                style={
-                    {
-                        backgroundColor: "var(--color-bg)",
-                        color: "var(--color-text)"
-                    }
-                }
-            >
+                                <p className="flex gap-2">
+                                    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M15 4h3a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3m0 3h6m-3 5h3m-6 0h.01M12 16h3m-6 0h.01M10 3v4h4V3h-4Z" />
+                                    </svg>
+                                    <p>Transaction :</p>
+                                </p>
 
-                <table
+                                <span className="font-normal ml-1">
+                                    {selectedTransaction.transaction.id} —
+                                    {selectedTransaction.transaction.status} —
+                                    {convertDate(selectedTransaction.transaction.created_at)}
+                                </span>
+                            </p>
+                        )}
 
-                    className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm text-left"
+                        {selectedSubTransaction && (
 
-                    style={
-                        {
-                            backgroundColor: "var(--color-bg)",
-                            color: "var(--color-text)"
-                        }
-                    }
-                >
+                            <p className="font-semibold mt-1">
 
-                    <thead
+                                <p className="flex gap-2">
+                                    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M16.153 19 21 12l-4.847-7H3l4.848 7L3 19h13.153Z" />
+                                    </svg>
 
-                        className="bg-gray-100 dark:bg-gray-700"
+                                    <p>Sous-transaction :</p>
+                                </p>
 
-                        style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
-                    >
+                                <span className="font-normal ml-1">
+                                    {selectedSubTransaction.id} — {selectedSubTransaction.status}
+                                </span>
+                            </p>
+                        )}
+                    </div>
+                )}
 
+                <table className="min-w-full text-sm">
+
+                    <thead className="bg-gray-100">
                         <tr>
-
-                            <th className="px-4 py-3">{t('TableRecap.tableHeaders.name')}</th>
-
-                            <th className="px-4 py-3">{t('TableRecap.tableHeaders.categories')}</th>
-
-                            <th className="px-4 py-3">{t('TableRecap.tableHeaders.status')}</th>
-
-                            <th className="px-4 py-3">{t('TableRecap.tableHeaders.price')}</th>
-
-                            <th className="px-4 py-3">{t('TableRecap.tableHeaders.operationDate')}</th>
-
-                            <th className="px-4 py-3">{t('TableRecap.tableHeaders.endDate')}</th>
-
-                            <th className="px-4 py-3">{t('TableRecap.tableHeaders.operation')}</th>
-
-                            <th className="px-4 py-3">{t('TableRecap.tableHeaders.view')}</th>
-
-                            <th className="px-4 py-3">{t('TableRecap.tableHeaders.actions')}</th>
-
+                            {[
+                                'name', 'categories', 'status', 'price',
+                                'operationDate', 'endDate', 'operation', 'view', 'actions'
+                            ].map(header => (
+                                <th key={header} className="px-4 py-3">
+                                    {t(`TableRecap.tableHeaders.${header}`)}
+                                </th>
+                            ))}
                         </tr>
-
                     </thead>
 
-                    <tbody
+                    <tbody className="bg-white divide-y">
 
-                        className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700"
-
-                        style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
-                    >
-
-                        {
-                            (paginatedProducts?.length === 0) ?
-                            (
-
-                                <tr>
-
-                                    <td colSpan="9" className="text-center p-4 text-gray-500 dark:text-gray-300">
-
-                                        {t('TableRecap.noProducts')}
-
-                                    </td>
-
-                                </tr>
-
-                            ) : (
-                                paginatedProducts?.map((item, cle ) => (
-
-                                <tr key={cle}>
-
+                        {paginatedProducts?.length === 0 ? (
+                            <tr>
+                                <td colSpan="9" className="text-center p-4 text-gray-500">
+                                    {t('TableRecap.noProducts')}
+                                </td>
+                            </tr>
+                        ) : (
+                                paginatedProducts?.map((item, index) => (
+                                <tr key={index} className="border-gray-200 hover:bg-gray-50">
                                     <td className="px-4 py-3">{item?.description_product?.slice(0, 6) || '-'}</td>
-
                                     <td className="px-4 py-3">{item?.categorie_product || '-'}</td>
-
                                     <td className="px-4 py-3 capitalize">{item?.statut || '-'}</td>
-
                                     <td className="px-4 py-3">{item?.price_product || '-'}</td>
-
                                     <td className="px-4 py-3">{item?.date_emprunt || 'N/A'}</td>
-
                                     <td className="px-4 py-3">{item?.date_fin_emprunt || '-'}</td>
-
                                     <td className="px-4 py-3">{item?.operation_product || '-'}</td>
 
                                     <td className="px-4 py-3">
 
                                         <button
-
-                                            onClick={
-
-                                                () => {
-
-                                                    setPopoverOpen(true)
-
-                                                    setProductView(item)
-                                                }
-                                            }
-
-                                            className="text-blue-600 hover:underline dark:text-blue-400 cursor-pointer"
+                                            onClick={() => {
+                                                setPopoverOpen(true);
+                                                setProductView(item);
+                                            }}
+                                            className="p-1 bg-gradient-to-br from-purple-400 hover:bg-gradient-to-br hover:from-purple-400 text-white rounded-lg hover:bg-blue-700 text-xs"
                                         >
-                                            <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                <path stroke="currentColor" stroke-width="1" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
-                                                <path stroke="currentColor" stroke-width="1" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                            <svg className="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" strokeWidth="1" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
+                                                <path stroke="currentColor" strokeWidth="1" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                                             </svg>
 
                                         </button>
@@ -321,71 +224,64 @@ const ProductsRecapTable = ({ products }) => {
                                     </td>
 
                                     <td className="px-4 py-3">
+                                            <button
+                                                type="submit"
+                                                className="cursor-pointer p-1 rounded-lg bg-gradient-to-br from-pink-500 to-orange-400"
+                                                title={t('delete')}
+                                            >
+                                                <svg className="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.4" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
+                                                </svg>
 
-                                        <ButtonSimple
-
-                                            onHandleClick={() => { }}
-
-                                            className="cursor-pointer px-3 rounded-md hover:bg-gray-100 bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-br hover:to-orange-500"
-
-                                            title={t("delete")}
-                                        />
-
+                                            </button>
                                     </td>
-
                                 </tr>
                             ))
                         )}
 
                     </tbody>
-
                 </table>
 
-                {
-                    popoverOpen && product && (
-                        <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50 overflow-y-auto pt-[70dvh] h-auto" onClick={closePopover}>
-                            <div className="flex flex-col gap-3 shadow-lg  rounded-lg bg-white max-w-2xl w-full">
-                                <div className="relative z-40 h-full">
-                                        <ViewProduct productSelected={product} />
-                                </div>
-                            </div>
+                {/* POPOVER VIEW */}
+                {popoverOpen && product && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50" onClick={closePopover}>
+                        <div className="bg-white p-4 rounded-lg max-w-2xl w-full shadow-lg">
+                            <ViewProduct productSelected={product} />
                         </div>
-                    )
-                }
+                    </div>
+                )}
 
+            </main>
 
-
-            </div>
-
-            <div
-
-                className="mt-4 flex justify-between items-center text-sm text-gray-600 dark:text-gray-300"
-
-                style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
-            >
+            {/* PAGINATION */}
+            <div className="mt-4 flex justify-between items-center">
 
                 <span>
-
                     {t('TableRecap.pagination.page')} {currentPage} {t('TableRecap.pagination.of')} {totalPages}
-
                 </span>
 
-                <div className="space-x-2 gap-5">
+                <div className="space-x-3">
 
-                    <button onClick={() => setCurrentPage(Math.max(1, currentPage - 1))} disabled={currentPage === 1}>
+                    <button
+                        onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                        disabled={currentPage === 1}
+                    >
                         <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="m15 19-7-7 7-7" />
+                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="m15 19-7-7 7-7" />
                         </svg>
+
                     </button>
 
-                    <button onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))} disabled={currentPage === totalPages}>
+                    <button
+                        onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                        disabled={currentPage === totalPages}
+                    >
                         <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="m9 5 7 7-7 7" />
+                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="m9 5 7 7-7 7" />
                         </svg>
-                    </button>
 
+                    </button>
                 </div>
-
             </div>
 
         </div>
@@ -394,212 +290,108 @@ const ProductsRecapTable = ({ products }) => {
 
 export default ProductsRecapTable;
 
+
+
 //sélection de la transaction et sous transaction
-function TransactionsDropdown({ transactionsData, onSubTransactionSelect }) {
-
+function TransactionsDropdown({ transactionsData = [], onSubTransactionSelect, onSelectTransaction }) {
     const { t } = useTranslation();
-
-    const [dropdownOpen1, setDropdownOpen1] = useState(false);
-
-    const [dropdownOpen2, setDropdownOpen2] = useState(false);
-
+    const [openMenu, setOpenMenu] = useState({ main: false, sub: false });
     const [selectedTransaction, setSelectedTransaction] = useState(null);
+    const containerRef = useRef(null);
 
-    const trigger1 = useRef(null);
-
-    const trigger2 = useRef(null);
-
-    const dropdown1 = useRef(null);
-
-    const dropdown2 = useRef(null);
-
-    // Close dropdowns on click outside
     useEffect(() => {
-
-        const handler = ({ target }) => {
-
-            if (!dropdown1?.current || !dropdown2?.current) return;
-
-            if (
-                dropdown1?.current?.contains(target) ||
-
-                trigger1?.current?.contains(target) ||
-
-                dropdown2?.current?.contains(target) ||
-
-                trigger2?.current?.contains(target)
-            )
-                return;
-
-            setDropdownOpen1(false);
-
-            setDropdownOpen2(false);
-        };
-
-        document.addEventListener('click', handler);
-
-        return () => document.removeEventListener('click', handler);
-
+        function handleClickOutside(e) {
+            if (!containerRef.current?.contains(e.target)) {
+                setOpenMenu({ main: false, sub: false });
+            }
+        }
+        document.addEventListener("click", handleClickOutside);
+        return () => document.removeEventListener("click", handleClickOutside);
     }, []);
 
+    const subTransactions = selectedTransaction?.items?.map(i => i.subTransaction) || [];
 
-    //selection de la transaction :: button
-    const handleTransactionSelect = (transactionItem) => {
-
-        setSelectedTransaction(transactionItem);
-
-        setDropdownOpen1(false);
-
-        setDropdownOpen2(true); // Automatically open second dropdown
+    const handleTransactionSelect = (tItem) => {
+        setSelectedTransaction(tItem);
+        onSelectTransaction?.(tItem);
+        setOpenMenu({ main: false, sub: true });
     };
 
-    //selection de la sous transaction :: button
-    const getSubTransactions = () => {
-
-        if (!selectedTransaction?.items) return [];
-
-        return selectedTransaction.items.map((entry) => entry.subTransaction);
-    };
-
-    if (transactionsData?.length===0) return
+    if (!transactionsData.length) return null;
 
     return (
+        <div ref={containerRef} className="flex gap-2">
 
-        <div className="flex flex-col md:flex-row gap-2 w-auto">
-
-            {/* Dropdown 1: Transactions */}
-            <div className="relative inline-block sm:w-full">
-
+            {/* MAIN DROPDOWN */}
+            <div className="relative">
                 <button
-
-                    ref={trigger1}
-
-                    onClick={() => setDropdownOpen1(!dropdownOpen1)}
-
-                    className={`w-full md:w-auto  border rounded-lg bg-gray-100 border-gray-300 inline-flex h-10 items-center justify-between gap-2 rounded-lg border border-stroke px-2 py-3 text-base  text-dark dark:border-dark-3 dark:bg-dark-2 dark:text-white ${transactionsData.length>0?"":"hidden"}`}
-
-                    style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
+                    onClick={() => setOpenMenu(m => ({ ...m, main: !m.main }))}
+                    className="border-blue-200 
+                        h-10 px-3 rounded-full
+                        bg-gray-100 flex 
+                        items-center justify-between 
+                        flex gap-2 items-center justify-center
+                        focus:border-blue-500 focus:ring-1 focus:ring-blue-400        
+                    "
                 >
-                    Transactions
-
-                    <span
-                        className={`duration-100 ${dropdownOpen1 ? "-scale-y-100" : ""}`}
-                    >
-                        <svg
-                            width="20"
-                            height="20"
-                            viewBox="0 0 20 20"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                d="M10 14.25C9.8125 14.25 9.65625 14.1875 9.5 14.0625L2.3125 7C2.03125 6.71875 2.03125 6.28125 2.3125 6C2.59375 5.71875 3.03125 5.71875 3.3125 6L10 12.5312L16.6875 5.9375C16.9688 5.65625 17.4062 5.65625 17.6875 5.9375C17.9688 6.21875 17.9688 6.65625 17.6875 6.9375L10.5 14C10.3437 14.1562 10.1875 14.25 10 14.25Z"
-                                fill="currentColor"
-                            />
-
-                        </svg>
-
-                    </span>
+                    <p>Transactions</p> 
+                    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="m19 9-7 7-7-7" />
+                    </svg>
 
                 </button>
 
-                {dropdownOpen1 && transactionsData?.length>0 && (
+                {openMenu?.main && (
 
-                    <div
+                    <div className="absolute mt-2 w-64 rounded-md bg-white shadow-lg">
 
-                        ref={dropdown1}
+                        {transactionsData?.map(tItem => (
 
-                        className="absolute mt-2 w-64 rounded-md bg-white ring-1 ring-black ring-opacity-5 z-[9999]"
-
-                        style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
-                    >
-                        <div className="py-1 z-[2000]">
-
-                            {transactionsData.map((transItem, _) => (
-
-                                <button
-
-                                    key={transItem?.transaction?.id}
-
-                                    onClick={() => handleTransactionSelect(transItem)}
-
-                                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                >
-                                    {transItem?.transaction?.id} - {transItem?.transaction?.status}-{convertDate(transItem?.transaction?.created_at)}
-
-                                </button>
-
-                            ))}
-
-                        </div>
+                            <button
+                                key={tItem?.transaction.id}
+                                className="block w-full px-4 py-2 text-sm hover:bg-gray-100"
+                                onClick={() => handleTransactionSelect(tItem)}
+                            >
+                                {tItem?.transaction.id} — {tItem?.transaction.status} — {convertDate(tItem?.transaction?.created_at)}
+                            </button>
+                        ))}
 
                     </div>
                 )}
-
             </div>
 
-            {/* Dropdown 2: SubTransactions */}
-            <div className="relative inline-block">
+            {/* SUB TRANSACTIONS */}
+            <div className="relative">
 
                 <button
-                    ref={trigger2}
-                    onClick={() => setDropdownOpen2(!dropdownOpen2)}
-                    className="sm:w-full border rounded-lg bg-gray-100 border-gray-300 inline-flex h-10 items-center justify-between gap-2 rounded-lg border border-stroke  px-2 py-3 text-base text-dark dark:border-dark-3 dark:bg-dark-2 dark:text-white"
+                    onClick={() => subTransactions.length && setOpenMenu(m => ({ ...m, sub: !m.sub }))}
+                    className="border-blue-200 
+                    h-10 px-3 rounded-full bg-gray-100 
+                    disabled:opacity-50 flex gap-2 items-center justify-center
+                    focus:border-blue-500 focus:ring-1 focus:ring-blue-400
+                    "
                     disabled={!selectedTransaction}
-                    style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
                 >
-                    <p className="whitespace-nowrap">{t('sub_transaction')} </p>
-
-                    <span
-                        className={`duration-100 ${dropdownOpen2 ? "-scale-y-100" : ""}`}
-                    >
-                        <svg
-                            width="20"
-                            height="20"
-                            viewBox="0 0 20 20"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                d="M10 14.25C9.8125 14.25 9.65625 14.1875 9.5 14.0625L2.3125 7C2.03125 6.71875 2.03125 6.28125 2.3125 6C2.59375 5.71875 3.03125 5.71875 3.3125 6L10 12.5312L16.6875 5.9375C16.9688 5.65625 17.4062 5.65625 17.6875 5.9375C17.9688 6.21875 17.9688 6.65625 17.6875 6.9375L10.5 14C10.3437 14.1562 10.1875 14.25 10 14.25Z"
-                                fill="currentColor"
-                            />
-
-                        </svg>
-
-                    </span>
+                    <p>{t('sub_transaction')}</p>
+                    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="m19 9-7 7-7-7" />
+                    </svg>
 
                 </button>
 
-                {dropdownOpen2 && selectedTransaction.length>0 && (
+                {
+                    openMenu?.sub && subTransactions.length > 0 && (
 
-                    <div
-
-                        ref={dropdown2}
-
-                        className="absolute  mt-2 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
-
-                        style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
-                    >
-                        <div className="py-1">
-
-                            {getSubTransactions().map((sub, i) => (
-
-                                <button
-
-                                    key={sub?.id || i}
-
-                                    className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-
-                                    onClick={() => onSubTransactionSelect(sub)} // notify parent
-                                >
-                                    {sub?.id} - {sub?.status || 'Sans nom'}
-
-                                </button>
-                            ))}
-
-                        </div>
-
+                    <div className="absolute mt-2 w-64 rounded-md bg-white shadow-lg">
+                        {subTransactions.map((sub, i) => (
+                            <button
+                                key={sub?.id || i}
+                                className="block w-full px-4 py-2 text-sm hover:bg-gray-100"
+                                onClick={() => onSubTransactionSelect(sub)}
+                            >
+                                {sub?.id} — {sub?.status}
+                            </button>
+                        ))}
                     </div>
                 )}
             </div>
@@ -607,3 +399,4 @@ function TransactionsDropdown({ transactionsData, onSubTransactionSelect }) {
         </div>
     );
 }
+

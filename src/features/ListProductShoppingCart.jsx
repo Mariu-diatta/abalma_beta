@@ -67,8 +67,8 @@ const ListProductShoppingCart = () => {
 
     return (
 
-        <div
-            className="style_bg mb-2 relative overflow-x-auto sm:rounded-lg p-2 mt-3 mb-5"
+        <main
+            className="style_bg relative overflow-x-auto sm:rounded-lg p-2 "
 
             style={{
 
@@ -102,23 +102,9 @@ const ListProductShoppingCart = () => {
                 }}
             >
 
-                <thead
-
-                    className="text-sm style_bg "
-
-                    style={
-
-                        {
-                            backgroundColor: "var(--color-bg)",
-
-                            color: "var(--color-text)"
-                        }
-                    }
-                >
-                    
+                <thead className="bg-gray-100">
+                
                     <tr> 
-                        {/*//uppercase*/}
-
                         <th scope="col" className="px-16 py-3"><span className="sr-only">{t('tableEntries.image')}</span></th>
 
                         <th scope="col" className="px-6 py-3">{t('tableEntries.product')}</th>
@@ -262,7 +248,7 @@ const ListProductShoppingCart = () => {
 
             <BuyButtonWithPaymentForm total_price={!isNaN(grandTotal) ? grandTotal.toFixed(2) : "0.00"} />
 
-        </div>
+        </main>
     );
 };
 

@@ -48,9 +48,7 @@ const Tabs = () => {
 
         dashboard: (
 
-            <TablesRecapActivities
-                productsTrasactionBought={productsTrasactionBought}
-            />
+            <TablesRecapActivities productsTrasactionBought={productsTrasactionBought}/>
         ),
 
         contacts: (
