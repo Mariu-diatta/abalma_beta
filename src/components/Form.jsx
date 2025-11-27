@@ -131,7 +131,23 @@ const RegisterForm = () => {
                 (!loading)?
                 <section>
   
-                    <TitleCompGen title={t('register')} />
+                    <p className="py-7">
+
+                        <TitleCompGen title={t('register')} />
+
+                        <p className="text-sm lg:text-md text-base text-body-color dark:text-dark-6 gap-3">
+
+                            <span>{t("alredyRegister")} </span>
+
+                            <Link
+                                to="/login"
+                                className="text-sm lg:text-md text-primary hover:underline"
+                                onClick={() => dispatch(setCurrentNav("login"))}
+                            >
+                                {t("login")}
+                            </Link>
+                        </p>
+                    </p>
 
                     <form 
                         onSubmit={handleSignUp} ref={componentRef}
@@ -185,24 +201,17 @@ const RegisterForm = () => {
                         />
 
                        <div className="mb-10">
-                           <ButtonSimple title={t("register")} />
+
+                            <ButtonSimple
+
+                                className="w-auto flex items-center m-auto cursor-pointer rounded-full border border-blue-100  px-5 py-2 text-base  text-white-900 transition hover:bg-gradient-to-br hover:from-purple-100 px-2 "
+
+                                title={t("register")}
+                            />
+
                        </div>
 
                     </form>
-
-                    <p className="text-sm lg:text-md text-base text-body-color dark:text-dark-6 gap-3">
-
-                        <span>{t("alredyRegister")} </span>
-
-                        <Link
-                            to="/login"
-                            className="text-sm lg:text-md text-primary hover:underline"
-                            onClick={() => dispatch(setCurrentNav("login"))}
-                        >
-                            {t("login")}
-                        </Link>
-
-                    </p>
 
                     {/* Decorations (optionnels) */}
                     <div className="absolute right-1 top-1" />

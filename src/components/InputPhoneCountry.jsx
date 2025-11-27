@@ -40,12 +40,12 @@ export default function PhoneInput({ form, handleChange, setForm }) {
     };
 
     return (
-        <div className="flex gap-1 items-center justify-center">
+        <div className=" flex gap-1 items-center justify-center">
 
             {/* Dropdown pays */}
             <select    
 
-                className="fex items-center justify-center rounded-t-lg pb-2.5 pt-5 mb-6 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300  dark:text-white dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                className="w-100 fex items-center justify-center rounded-t-lg pb-2.5 pt-5 mb-6 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300  dark:text-white dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 
                 value={selectedCountry.name}
 
@@ -69,9 +69,10 @@ export default function PhoneInput({ form, handleChange, setForm }) {
             </select>
 
             <div className="flex w-full">
+
                 <span
 
-                    className="px-1 fex items-center justify-center rounded-t-lg pb-2.5 pt-5 mb-6 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300  dark:text-white dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    className="hidden px-1 fex items-center justify-center rounded-t-lg pb-2.5 pt-5 mb-6 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300  dark:text-white dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 >
                     {selectedCountry.code}
 
@@ -82,9 +83,11 @@ export default function PhoneInput({ form, handleChange, setForm }) {
                     type="tel"
                     name="telephone"
                     placeholder={t("form.phone")}
+                    className="w-90 block rounded-t-lg px-1  lg:px-2.5 pb-2.5 pt-5 text-sm text-gray-700  border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-100 peer"
                     value={form.telephone}
                     onChange={handleChange_}
                 />
+
             </div>
 
         </div>

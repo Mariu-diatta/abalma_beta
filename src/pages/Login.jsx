@@ -141,8 +141,26 @@ const LogIn = () => {
                 (!loading) ?
                 <section>
 
+                        <div className="py-7">
 
-                        <TitleCompGen title={t("login")} />
+                            <TitleCompGen title={t("login")} />
+
+                            <p className="text-sm lg:text-md text-base text-blue-600 dark:text-blue-400 flex items-center justify-center gap-2">
+
+                                <span className="whitespace-nowrap pr-0.5">{t("notRegistered")}</span>
+
+                                <NavLink
+                                    to={`/${ENDPOINTS.REGISTER}`}
+                                    className="whitespace-nowrap text-blue-800 hover:underline text-sm lg:text-md dark:text-blue-300"
+                                    onClick={() => dispatch(setCurrentNav(ENDPOINTS.REGISTER))}
+                                >
+
+                                    {t("register")}
+
+                                </NavLink>
+
+                            </p>
+                        </div>
 
                         <form
                             className="translate-y-0 transition-all duration-1000 ease-in-out"
@@ -175,7 +193,12 @@ const LogIn = () => {
 
                             <div className="mb-10">
 
-                                <ButtonSimple title={t("login")} />
+                                <ButtonSimple
+
+                                    className="w-auto flex items-center m-auto cursor-pointer rounded-full border border-blue-100  px-5 py-2 text-base  text-white-900 transition hover:bg-gradient-to-br hover:from-purple-100 px-2 "
+
+                                    title={t("login")}
+                                />
 
                             </div>
 
@@ -191,21 +214,6 @@ const LogIn = () => {
 
                         </NavLink>
 
-                        <p className="text-sm lg:text-md text-base text-blue-600 dark:text-blue-400 flex items-center justify-center gap-2">
-
-                            <span className="whitespace-nowrap pr-0.5">{t("notRegistered")}</span>
-
-                            <NavLink
-                                to={`/${ENDPOINTS.REGISTER}`}
-                                className="whitespace-nowrap text-blue-700 hover:underline text-sm lg:text-md dark:text-blue-300"
-                                onClick={() => dispatch(setCurrentNav(ENDPOINTS.REGISTER))}
-                            >
-
-                            {t("register")}
-
-                        </NavLink>
-
-                    </p>
                 </section>
                 :
                 <LoadingCard />

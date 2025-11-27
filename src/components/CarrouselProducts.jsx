@@ -67,6 +67,7 @@ const Carousel = ({ products, openModal, owners }) => {
                         alt="product"
                         className="relative w-full h-full object-contain "
                     />
+
                 </div>
 
 
