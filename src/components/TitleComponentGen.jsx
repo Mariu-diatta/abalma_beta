@@ -33,7 +33,7 @@ const TitleCompGen = ({ title }) => {
             <h1
                 
                 ref={contentRef}
-                className={`${shouldScroll ? "animate-scroll" : ""} inline-block whitespace-nowrap text-4xl font-bold text-gray-500 dark:text-white`}
+                className={`${shouldScroll ? "animate-scroll" : ""} inline-block  text-4xl font-bold text-gray-500 dark:text-white`}
 
             >
 

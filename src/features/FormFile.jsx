@@ -61,9 +61,9 @@ const FormElementFileUpload = ({
     }, [previewUrl]);
 
     return (
-        <div className="max-w-md px-4 bg-white dark:bg-gray-800 shadow-sm rounded-lg">
+        <div className="max-w-md px-4 bg-white dark:bg-gray-800  rounded-lg ">
 
-            <div className="mb-4">
+            <div className="mb-4 ">
 
                 <label
                     htmlFor="file-upload"

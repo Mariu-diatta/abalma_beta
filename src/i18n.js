@@ -22,6 +22,8 @@ i18n
      en: {
 
         translation: {
+             price:"price",
+             next:"Next",
              jewelry: "Watches & Jewelry",
              description_prod: "Product description:",
              color_prod: "Product color",
@@ -193,7 +195,8 @@ i18n
              connect_with: "Connect With",
              param: 'Settings and Privacy',
              add_product: {
-                 "add_or_update_product": "Add / Edit a product",
+                 details:"Product details",
+                 add_or_update_product: "Add / Edit a product",
                  ChooseImage: 'Choose an image',
                  name_product: "Product name",
                  payement_methode:'Payment method',
@@ -658,6 +661,8 @@ i18n
      fr: {
 
          translation: {
+             price:"Prix",
+             next: "Continuer",
              jewelry: "Montres & Bijoux",
              description_prod:"Description du produit:",
              color_prod:"Couleur du produit",
@@ -831,8 +836,9 @@ i18n
               connect_with: "Se connecter avec",
              param: 'Paramètres et convidentialités',
 
-              add_product: {
-                  "add_or_update_product": "Ajouter / Modifier un produit",
+             add_product: {
+                 details:"Details du produits",
+                  add_or_update_product: "Ajouter / Modifier un produit",
                   ChooseImage: 'Choisissez une image',
                   "paiement_methode": "Méthode de paiement",
                   name_product:"Nom du produit",

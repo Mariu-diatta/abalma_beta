@@ -1,33 +1,33 @@
-
-import React, { useState } from 'react';
-import FormElementFileUpload from './FormFile';
-import { useDispatch, useSelector } from 'react-redux';
-import api from '../services/Axios';
-import AttentionAlertMesage, { showMessage } from '../components/AlertMessage';
-import { setCurrentNav } from '../slices/navigateSlice';
-import { addMessageNotif } from '../slices/chatSlice';
-import { useNavigate } from "react-router";
-import { useTranslation } from 'react-i18next';
-import LoadingCard from '../components/LoardingSpin';
-import { ButtonSimple } from '../components/Button';
-import TitleCompGen from '../components/TitleComponentGen';
-import { ENDPOINTS} from '../utils';
-import { useEffect } from 'react';
+import React, { useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+//import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
+import api from "../services/Axios";
+import AttentionAlertMesage, { showMessage } from "../components/AlertMessage";
+//import { setCurrentNav } from "../slices/navigateSlice";
+import { addMessageNotif } from "../slices/chatSlice";
+import LoadingCard from "../components/LoardingSpin";
+import { ButtonSimple } from "../components/Button";
+import TitleCompGen from "../components/TitleComponentGen";
+import FormElementFileUpload from "./FormFile";
+//import { ENDPOINTS } from "../utils";
+import InputBox from "../components/InputBoxFloat";
+import { LIST_CATEGORIES } from "../utils";
 
 
 const AddUploadProduct = () => {
+    const dispatch = useDispatch();
+    const { t } = useTranslation();
+    const bottomRef = useRef(null);
+
+    const user = useSelector((state) => state.auth.user);
+    const currentUserCompte = useSelector((state) => state.auth.compteUser);
 
     const [imageFile, setImageFile] = useState(null);
     const [isProductAdded, setIsProductAdded] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const { t } = useTranslation();
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const currentUserCompte = useSelector((state) => state.auth.compteUser);
-    const user = useSelector((state) => state.auth.user);
-    const [isEditing, setIsEditing] = useState(false);
-
-    const initData = {
+    const [currentSection, setCurrentSection] = useState(1);
+    const [dataProduct, setDataProduct] = useState({
         date_emprunt: "",
         price_product: "",
         currency_price: "",
@@ -44,692 +44,363 @@ const AddUploadProduct = () => {
         paymentMethod: "",
         adress: "",
         delivery: "",
-        taille_product: "MEDIUM"
-    }
-
-    const [dataProduct, setDataProduct] = useState(initData);
+        taille_product: "MEDIUM",
+        Currency_price: "",
+        type_choice: "DURABLE",
+        promotion: false,
+        shipping_price: 0,
+        is_available: true,
+        is_active: true,
+        is_verified: false,
+        commission_percentage: 10,
+    });
 
     const handleFileSelect = (file) => setImageFile(file);
-
     const onChangeClick = (e) => {
-
         const { name, value } = e.target;
-
-        setDataProduct(
-
-            (prev) => (
-                {
-                    ...prev,
-                    [name]: value,
-                }
-            )
-        );
+        setDataProduct((prev) => ({ ...prev, [name]: value }));
     };
 
     const isLoanOptionSelected = dataProduct.operation_product === "PRETER";
 
     const formatToISOString = (datetimeStr) => {
-
         if (!datetimeStr) return null;
-
         const date = new Date(datetimeStr);
-
         return isNaN(date.getTime()) ? null : date.toISOString();
     };
 
-    /** Fonction pour gérer les notifications */
-    const notify = (title, msg) => {
+    const notify = (title, msg) => showMessage(dispatch, { Type: title, Message: msg });
 
-        showMessage(dispatch, { Type: title, Message: msg });
+    const nextSection = () => {
+        setCurrentSection((prev) => prev + 1);
+        // scroll vers le début de la section
+        requestAnimationFrame(() => {
+            setTimeout(() => {
+                bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+            }, 50);
+        });
     };
 
     const submitForm = async (e) => {
-
         e.preventDefault();
 
         if (!currentUserCompte?.id) {
-
             notify("Erreur", "Pas de compte utilisateur associé.");
-
             return;
         }
 
         try {
-            // ✅ Validation des champs requis
-            const requiredFields = [
-                'categorie_product',
-                'operation_product',
-                'code_reference',
-                'description_product',
-            ];
-
+            const requiredFields = ["categorie_product", "operation_product", "code_reference", "description_product", "adress"];
             for (let field of requiredFields) {
-
                 if (!dataProduct[field]?.trim()) {
-
                     notify("Erreur", `Le champ "${field}" est requis.`);
-
                     return;
                 }
             }
 
-            // ✅ Validation image obligatoire
             if (!imageFile) {
                 notify("Erreur", "L'image du produit est requise.");
                 return;
             }
 
-            // ✅ Validation des dates de prêt
-            if (isLoanOptionSelected) {
-
-                if (!dataProduct.date_emprunt || !dataProduct.date_fin_emprunt) {
-
-                    notify("Erreur", "Les dates d'emprunt et de fin sont requises.");
-
-                    return;
-                }
+            if (isLoanOptionSelected && (!dataProduct.date_emprunt || !dataProduct.date_fin_emprunt)) {
+                notify("Erreur", "Les dates d'emprunt et de fin sont requises.");
+                return;
             }
 
-            setIsLoading(true)
+            setIsLoading(true);
 
-            // ✅ Préparation des données à envoyer
             const formData = new FormData();
-            formData.append("categorie_product", dataProduct.categorie_product);
-            formData.append("currency_price", dataProduct.Currency_price);
-            formData.append("quantity_product", dataProduct.quantity_product);
-            formData.append("price_product", dataProduct.price_product);
-            formData.append("color_product", dataProduct.color_product);
-            formData.append("operation_product", dataProduct.operation_product);
-            formData.append("code_reference", dataProduct.code_reference.trim());
-            formData.append("taille_product", dataProduct.taille_product);
-            formData.append("description_product", dataProduct.description_product.trim());
+            Object.entries(dataProduct).forEach(([key, value]) => {
+                if (value !== null) formData.append(key, value);
+            });
             formData.append("image_product", imageFile);
-            formData.append("paymentMethod", dataProduct.paymentMethod);
-            formData.append("adress", dataProduct.adress);
-            formData.append("delivery", dataProduct.delivery);
-            formData.append("name_product", dataProduct.name_product);
             formData.append("fournisseur", parseInt(currentUserCompte.user));
-
+            formData.append("type_choice", dataProduct.type_choice);
+            formData.append("shipping_price", dataProduct.shipping_price);
+            formData.append("promotion", dataProduct.promotion);
+            formData.append("is_available", dataProduct.is_available);
+            formData.append("is_active", dataProduct.is_active);
+            formData.append("is_verified", dataProduct.is_verified);
+            formData.append("commission_percentage", dataProduct.commission_percentage);
             if (isLoanOptionSelected) {
-
                 formData.append("date_emprunt", formatToISOString(dataProduct.date_emprunt));
-
                 formData.append("date_fin_emprunt", formatToISOString(dataProduct.date_fin_emprunt));
             }
 
-            // ✅ Envoi à l'API
-            await api.post("/produits/", formData, {
-                headers: { 'Content-Type': 'multipart/form-data' }
-            });
+            await api.post("/produits/", formData, { headers: { "Content-Type": "multipart/form-data" } });
 
             notify("Message", "Produit créé avec succès !");
-
             dispatch(addMessageNotif(`Produit ${dataProduct?.code_reference} créé le ${new Date().toLocaleString()}`));
-
-            setIsProductAdded(true)
+            setIsProductAdded(true);
 
         } catch (error) {
-
-            notify("Erreur", error?.message || error?.request?.response || "Erreur inconnue lors de la création du produit.");
-
-            if (error?.response?.data) {
-
-                const errors = error.response.data;
-
-                const messages = Object.entries(errors)
-
-                .map(([field, msg]) => `${field}: ${Array.isArray(msg) ? msg.join(', ') : msg}`)
-
-                .join('\n');
-
-                notify("Erreur", `Erreur lors de la création du produit :\n${messages}`);
-            }
+            //console.log("Erreur", error)
+            notify("Erreur", error?.response?.data?.code_reference || error?.Message ||"Erreur inconnue lors de la création du produit.");
 
         } finally {
-
             setIsLoading(false);
         }
     };
 
-    useEffect(
-
-        () => {
-
-            if (isEditing) return
-
-            setDataProduct(dataProduct)
-
-        }, [isEditing, dataProduct]
-    )
-
     return (
-
         <div
-
-            className="bg-white dark:bg-gray-900 rounded-md flex flex-col justify-center items-center  w-full pb-[20dvh]"
-
-            style={
-                {
-                    backgroundColor: "var(--color-bg)",
-                    color: "var(--color-text)"
-                }
-            }
+            className="bg-white dark:bg-gray-900 rounded-md flex flex-col justify-center items-center pb-[10dvh] overflow-x-hidden"
+            style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
         >
-            <span className={`font-extrabold text-gray-500 dark:text-gray-400 text-2xl ${isProductAdded && "hidden"}`}>
 
-                <TitleCompGen title={t('add_product.add_or_update_product')} />             
-
+            <span className={`${isProductAdded && "hidden"}`}>
+                <TitleCompGen title={t("add_product.add_or_update_product")} />
             </span>
 
-            <span className={`font-extrabold text-gray-500 dark:text-gray-400 text-2xl z-10 ${!isProductAdded && "hidden"}`}>
-
-                <TitleCompGen title={t("product_summary")} />              
-
+            <span className={`text-gray-500 dark:text-gray-400 text-2xl z-10 ${!isProductAdded && "hidden"}`}>
+                <TitleCompGen title={t("product_summary")} />
             </span>
 
-            {/* ✅ Message d’alerte toujours visible s’il existe */}
             <div className="mb-4">
-
                 <AttentionAlertMesage />
-
             </div>
 
-            {
-                isProductAdded ?
-                (
-                        <ProductSummary
-                            product={dataProduct}
-                            t={t}
-                            onEdit={() => {
-                                // Logique pour modifier le produit
-                                setIsEditing(true);
-                            }}
-                            onDelete={() => {
-                                // Réinitialiser les données du produit
-                                setDataProduct({
-                                    date_emprunt: "",
-                                    taille_product: "MEDIUM",
-                                    price_product: "",
-                                    currency_price: "",
-                                    color_product: "",
-                                    date_fin_emprunt: "",
-                                    categorie_product: "",
-                                    code_reference: "",
-                                    operation_product: "",
-                                    image_product: null,
-                                    description_product: "",
-                                    fournisseur: "",
-                                    quantity_product: 1,
-                                    name_product: "",
-                                    paymentMethod: "",
-                                    adress: "",
-                                    delivery: ""
-                                });
-                                setIsProductAdded(false);
-                            }}
-                            onAddNew={() => {
-                                setIsProductAdded(false); // Fermer le récapitulatif et ouvrir le formulaire
-                                setDataProduct(initData);
-                                // Reset formulaire
-                                handleFileSelect(null);
-                            }}
-                        />
-
-                )
-                :
-                (
-                    <div className="shadow-lg max-w-2xl px-2 py-1 lg:py-2" >
-
-                        <form
-
-                            onSubmit={submitForm}
-
-                            className={
-                                `${((user?.is_fournisseur && user?.is_verified)) ?
-                                    "w-full  md:w-auto"
-                                    :
-                                    "opacity-50 pointer-events-none cursor-not-allowed"
-                                }`
-                            }
-                        >
-                            {/* 🔽 Ici on garde tous tes champs de formulaire (inchangés) */}
-                            {/* ... ton grand bloc avec les inputs/select/textarea ... */}
-                                <div className="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-2 sm:mb-5">
-
-                                    <h2 className="text-lg font-extrabold text-gray-500 dark:text-white pt-4 pb-1 mb-1 sm:col-span-2">
-                                        {t('add_product.informations')}
-                                    </h2>
-
-                                    <div className="w-full">
-
-                                        <label htmlFor="name_product" className="block mb-2 text-sm font-medium ">{t('add_product.name_product')}</label>
-
-                                        <input
-                                            type="text"
-                                            id="name_product"
-                                            name="name_product"
-                                            value={dataProduct?.name_product}
-                                            onChange={onChangeClick}
-                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                            placeholder="Nom du produit"
-                                        />
-
-                                    </div>
-
-                                    <div className="w-full">
-
-                                        <div>
-
-                                            <label htmlFor="color_product" className="block mb-2 text-sm font-medium "> {t('add_product.product_color')}</label>
-
-                                            <input
-                                                type="text"
-                                                name="color_product"
-                                                id="color_product"
-                                                value={dataProduct.color_product}
-                                                onChange={onChangeClick}
-                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                                placeholder="Jaune"
-
-                                            />
-
-                                        </div>
-                                    </div>
-
-                                    <div className="w-full">
-
-                                        <label htmlFor="code_reference" className="block mb-2 text-sm font-medium ">
-
-                                            {t('add_product.code_reference')}
-
-                                            <span className="text-red-500">*</span>
-
-                                        </label>
-
-                                        <input
-                                            type="text"
-                                            name="code_reference"
-                                            id="code_reference"
-                                            value={dataProduct.code_reference}
-                                            onChange={onChangeClick}
-                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                            placeholder="Ex: ABC-123"
-                                            required
-                                        />
-
-                                    </div>
-
-                                    <div className="w-full">
-
-                                        <label htmlFor="categorie_product" className="block mb-2 text-sm font-medium ">
-
-                                            {t('add_product.product_category')}
-
-                                            <span className="text-red-500">*</span>
-
-                                        </label>
-
-                                        <select
-                                            id="categorie_product"
-                                            name="categorie_product"
-                                            value={dataProduct.categorie_product}
-                                            onChange={onChangeClick}
-                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                            required
-                                        >
-                                            <option value="">{t('add_product.select_category')}</option>
-                                            <option value="JOUET">{t('add_product.categories.JOUET')}</option>
-                                            <option value="HABITS">{t('add_product.categories.HABITS')}</option>
-                                            <option value="MATERIELS_INFORMATIQUES">{t('add_product.categories.MATERIELS_INFORMATIQUES')}</option>
-                                            <option value="CAHIERS">{t('add_product.categories.CAHIERS')}</option>
-                                            <option value="SACS">{t('add_product.categories.SACS')}</option>
-                                            <option value="LIVRES">{t('add_product.categories.LIVRES')} </option>
-                                            <option value="ELECTROMENAGER">{t('add_product.categories.ELECTROMENAGER')}</option>
-                                            <option value="TELEPHONIE">{t('add_product.categories.TELEPHONIE')}</option>
-                                            <option value="ACCESSOIRES">{t('add_product.categories.ACCESSOIRES')}</option>
-                                            <option value="SPORT">{t('add_product.categories.SPORT')}</option>
-                                            <option value="JEUX_VIDEO">{t('add_product.categories.JEUX_VIDEO')}</option>
-                                            <option value="MEUBLES">{t('add_product.categories.MEUBLES')}</option>
-                                            <option value="VEHICULES">{t('add_product.categories.VEHICULES')}</option>
-                                            <option value="FOURNITURES_SCOLAIRES">{t('add_product.categories.FOURNITURES_SCOLAIRES')}</option>
-                                            <option value="DIVERS">{t('add_product.categories.DIVERS')}</option>
-                                            <option value="HB">{t('add_product.categories.HB')}</option>
-                                        </select>
-
-                                    </div>
-
-                                    <div className="h-[0.5px] bg-gray-300 sm:col-span-2" />
-
-                                    <h2 className="text-lg font-extrabold text-gray-500 dark:text-white pt-4 pb-1 mb-1 sm:col-span-2">
-                                        {t('add_product.paimement_infos')}
-                                    </h2>
-
-                                    <div className="w-full">
-
-                                        <label htmlFor="Currency_price" className="block mb-2 text-sm font-medium ">{t('add_product.default_currency_label')}</label>
-
-                                        <select
-                                            id="Currency_price"
-                                            name="Currency_price"
-                                            value={dataProduct?.Currency_price}
-                                            onChange={onChangeClick}
-                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                        >
-                                            <option value="">{t('add_product.select_currency')}</option>
-                                            <option value="EURO">{t('add_product.euro')}</option>
-                                            <option value="DOLLAR">{t('add_product.dollar')}</option>
-                                            <option value="FRANC">{t('add_product.franc')}</option>
-
-                                        </select>
-                                    </div>
-
-                                    <div className="w-full">
-
-                                        <label htmlFor="operation_product" className="block mb-2 text-sm font-medium">
-
-                                            {t('add_product.operation_type')}
-
-                                            <span className="text-red-500">*</span>
-
-                                        </label>
-
-                                        <select
-                                            id="operation_product"
-                                            name="operation_product"
-                                            value={dataProduct.operation_product}
-                                            onChange={onChangeClick}
-                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                            required
-                                        >
-                                            <option value="">
-
-                                                {t('add_product.select_operation')}
-
-                                            </option>
-
-                                            <option value="PRETER">{t('add_product.PRETER')}</option>
-                                            <option value="VENDRE">{t('add_product.VENDRE')}</option>
-                                            <option value="ECHANGER">{t('add_product.ECHANGER')}</option>
-                                            <option value="LOCATION">{t('add_product.LOCATION')}</option>
-
-                                        </select>
-
-                                    </div>
-
-                                    {isLoanOptionSelected && (
-                                        <>
-                                            <div>
-
-                                                <label htmlFor="date_emprunt" className="block mb-2 text-sm font-medium ">
-
-                                                    {t('add_product.loan_start_date')}
-
-                                                </label>
-
-                                                <input
-                                                    type="datetime-local"
-                                                    id="date_emprunt"
-                                                    name="date_emprunt"
-                                                    value={dataProduct.date_emprunt}
-                                                    onChange={onChangeClick}
-                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                                />
-
-                                            </div>
-
-                                            <div>
-
-                                                <label htmlFor="date_fin_emprunt" className="block mb-2 text-sm font-medium ">
-
-                                                    {t('add_product.loan_end_date')}
-
-                                                </label>
-
-                                                <input
-                                                    type="datetime-local"
-                                                    id="date_fin_emprunt"
-                                                    name="date_fin_emprunt"
-                                                    value={dataProduct?.date_fin_emprunt}
-                                                    onChange={onChangeClick}
-                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                                />
-
-                                            </div>
-                                        </>
-                                    )}
-
-                                    <div className="w-full hidden">
-
-                                        <label htmlFor="fournisseur" className="block mb-2 text-sm font-medium ">{t('add_product.supplier')}</label>
-
-                                        <input
-                                            type="text"
-                                            id="fournisseur"
-                                            name="fournisseur"
-                                            value={dataProduct?.fournisseur}
-                                            onChange={onChangeClick}
-                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                            placeholder="Nom du fournisseur"
-                                        />
-                                    </div>
-
-                                    <div className="w-full">
-
-                                        <div>
-
-                                            <label htmlFor="price_product" className="block mb-2 text-sm font-medium ">
-
-                                                {t('add_product.product_price')}
-
-                                                <span className="text-red-500">*</span>
-
-                                            </label>
-
-                                            <input
-                                                type="text"
-                                                name="price_product"
-                                                id="price_product"
-                                                value={dataProduct?.price_product}
-                                                onChange={onChangeClick}
-                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                                placeholder="120$"
-                                                required
-                                            />
-
-                                        </div>
-
-                                    </div>
-
-                                    <div className="w-full">
-
-                                        <label htmlFor="paymentMethod" className="block mb-2 text-sm font-medium ">{t('paymentMethod')}</label>
-
-                                        <select
-                                            type="text"
-                                            id="paymentMethod"
-                                            name="paymentMethod"
-                                            value={dataProduct?.paymentMethod}
-                                            onChange={onChangeClick}
-                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                            placeholder="paymentMethod"
-                                        >
-                                            <option value="">{t('add_product.payement_methode')}</option>
-                                            <option value="CASH">{t('Cash')}</option>
-                                            <option value="CARD">{t('Card')}</option>
-                                        </select>
-
-                                    </div>
-
-                                    <div className="h-[0.5px] bg-gray-300 sm:col-span-2" />
-
-                                    <h2 className="text-lg font-extrabold text-gray-500 dark:text-white pt-4 pb-1 mb-1 sm:col-span-2">
-                                        {t('add_product.informations_livraison')}
-                                    </h2>
-
-                                    <div className="w-full">
-
-                                        <label htmlFor="delivery" className="block mb-2 text-sm font-medium ">{t('delivery')}</label>
-
-                                        <select
-                                            id="delivery"
-                                            name="delivery"
-                                            value={dataProduct?.delivery}
-                                            onChange={onChangeClick}
-                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                            required
-                                        >
-
-                                            <option value="FREE">{t('add_product.FREE')}</option>
-                                            <option value="DELPAID">{t('add_product.DELPAID')}</option>
-
-                                        </select>
-
-                                    </div>
-
-                                    {/* Taille produit */}
-                                    <div>
-
-                                        <label htmlFor="taille_product" className="block mb-2 text-sm font-medium ">
-                                            {t('add_product.product_size')}
-                                        </label>
-
-                                        <select
-                                            id="taille_product"
-                                            name="taille_product"
-                                            value={dataProduct?.taille_product}
-                                            onChange={onChangeClick}
-                                            className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:placeholder-gray-400"
-                                        >
-                                            <option value="">
-                                                {t('add_product.select_size')}
-                                            </option>
-
-                                            <option value="SMALL">{t('add_product.SMALL')}</option>
-                                            <option value="MEDIUM">{t('add_product.MEDIUM')}</option>
-                                            <option value="BIG">{t('add_product.BIG')}</option>
-
-                                        </select>
-
-                                    </div>
-
-                                    {/* Quantité */}
-                                    <div>
-                                        <label htmlFor="quantity_product" className="block mb-2 text-sm font-medium ">
-                                            {t('add_product.quantity')}
-                                        </label>
-
-                                        <input
-                                            type="number"
-                                            id="quantity_product"
-                                            name="quantity_product"
-                                            value={dataProduct?.quantity_product}
-                                            onChange={onChangeClick}
-                                            className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:placeholder-gray-400"
-                                            placeholder="Quantité"
-                                            min="1"
-                                        />
-                                    </div>
-
-                                    <div className="">
-
-                                        {/*<label htmlFor="image_product" className="block mb-2 text-sm font-medium ">*/}
-                                        {/*    {t('add_product.product_image')}*/}
-                                        {/*    <span className="text-red-500">*</span>*/}
-                                        {/*</label>*/}
-
-                                        <FormElementFileUpload
-
-                                            label={t("add_product.ChooseImage")}
-
-                                            getFile={handleFileSelect}
-                                        />
-
-                                    </div>
-
-                                    <div className="sm:col-span-2">
-
-                                        <label htmlFor="adress" className="block mb-2 text-sm font-medium ">{t('adress')}</label>
-
-                                        <input
-                                            type="text"
-                                            id="adress"
-                                            name="adress"
-                                            value={dataProduct?.adress}
-                                            onChange={onChangeClick}
-                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                            placeholder={t('adress')}
-                                        />
-
-                                    </div>
-
-                                    <div className="sm:col-span-2">
-
-                                        <label htmlFor="description_product" className="block mb-2 text-sm font-medium ">
-                                            {t('add_product.product_description')}
-                                            <span className="text-red-500">*</span>
-                                        </label>
-
-                                        <textarea
-                                            id="description_product"
-                                            name="description_product"
-                                            value={dataProduct?.description_product}
-                                            onChange={onChangeClick}
-                                            rows="6"
-                                            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg "
-                                            placeholder="Description du produit..."
-                                            required
-                                        />
-
-                                    </div>
-
-                                </div>
-
-                            <div className="flex items-center space-x-4 mt-6">
-
-                               { 
-                                    isLoading?
-                                    <LoadingCard/>
-                                    :
-                                    <>
-                                        {
-                                            <div className="flex gap-3 justify-center items-center m-auto my-2">
-
-                                                <ButtonSimple
-                                                    title={"Valider"}
-                                                />
-
-                                            </div>
-                                        }
-                                    </>
-                                }
-
-                            </div>
-
-                        </form>
-
-                        {
-                            !(user?.is_fournisseur && user?.is_verified) && (
-
-                                <ButtonSimple
-
-                                    onHandleClick={
-                                        () => {
-                                            dispatch(setCurrentNav(ENDPOINTS?.USER_PROFIL));
-                                            navigate(`/${ENDPOINTS?.USER_PROFIL}`);
-                                        }
-                                    }
-
-                                    title={t('add_product.switch_to_supplier')}
-
-                                    type="button"
+            {isProductAdded ? (
+                <ProductSummary
+                    product={dataProduct}
+                    t={t}
+                    onEdit={() => {
+                        setCurrentSection(1)
+                        setDataProduct({ ...dataProduct });
+                    }}
+                    onDelete={() => {
+                        setDataProduct({ ...dataProduct });
+                        setIsProductAdded(false);
+                    }}
+                    onAddNew={() => {
+                        setDataProduct({
+                            date_emprunt: "",
+                            price_product: "",
+                            currency_price: "",
+                            color_product: "",
+                            date_fin_emprunt: "",
+                            categorie_product: "",
+                            code_reference: "",
+                            operation_product: "",
+                            image_product: null,
+                            description_product: "",
+                            fournisseur: "",
+                            quantity_product: 1,
+                            name_product: "",
+                            paymentMethod: "",
+                            adress: "",
+                            delivery: "",
+                            taille_product: "MEDIUM",
+                            Currency_price: "",
+                            type_choice: "DURABLE",
+                            promotion: false,
+                            shipping_price: 0,
+                            is_available: true,
+                            is_active: true,
+                            is_verified: false,
+                            commission_percentage: 10,
+                        });
+                        setImageFile(null);
+                        setIsProductAdded(false);
+                        setCurrentSection(1);
+                    }}
+                />
+            ) : (
+                <div className="py-1 lg:py-2 w-full md:w-1/2 lg:w-1/2 px-4">
+
+                    <form
+                        onSubmit={submitForm}
+                        className={`${user?.is_fournisseur && user?.is_verified ? "w-full md:w-auto" : "opacity-50 pointer-events-none cursor-not-allowed"}`}
+                    >
+                        {/* Sections du formulaire */}
+                        {currentSection >= 1 && (
+                            <div>
+                                <h2 className="text-lg font-extrabold text-gray-500 dark:text-white pt-4 pb-1 mb-1 sm:col-span-2">
+                                    {t("add_product.informations")}
+                                </h2>
+                                <InputBox
+                                    type="text"
+                                    id="name_product"
+                                    name="name_product"
+                                    value={dataProduct?.name_product}
+                                    onChange={onChangeClick}
+                                    placeholder="Nom du produit"
+                                    required
                                 />
-                            )
-                        }
+                                <InputBox
+                                    type="text"
+                                    id="color_product"
+                                    name="color_product"
+                                    value={dataProduct?.color_product}
+                                    onChange={onChangeClick}
+                                    placeholder="Jaune"
+                                />
+                                <InputBox
+                                    type="text"
+                                    id="code_reference"
+                                    name="code_reference"
+                                    value={dataProduct?.code_reference}
+                                    onChange={onChangeClick}
+                                    placeholder="Ex: ABC-123"
+                                    required
+                                />
+                                <InputBox
+                                    type="text"
+                                    id="price_product"
+                                    name="price_product"
+                                    value={dataProduct?.price_product}
+                                    onChange={onChangeClick}
+                                    placeholder={t("price")}
+                                    required
+                                />
+                                <select
+                                    id="taille_product"
+                                    name="taille_product"
+                                    value={dataProduct?.taille_product}
+                                    onChange={onChangeClick}
+                                    className="bg-gray-50 border-0 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-0"
+                                >
+                                    <option value="">{t("add_product.select_size")}</option>
+                                    <option value="SMALL">{t("add_product.SMALL")}</option>
+                                    <option value="MEDIUM">{t("add_product.MEDIUM")}</option>
+                                    <option value="BIG">{t("add_product.BIG")}</option>
+                                    <option value="L">{t("L")}</option>
 
-                    </div>
-                )
-            }
+                                    <option value="XL">{t("XL")}</option>
 
+                                    <option value="M">{t("M")}</option>
+
+                                    <option value="SM">{t("SM")}</option>
+
+                                </select>
+                                    <button type="button" onClick={nextSection} className={` ${currentSection>=2?"hidden":""}  px-4 py-2 bg-blue-600 text-white rounded-lg mt-4`}>
+                                    {t("next")}
+                                </button>
+                            </div>
+                        )}
+
+                        {currentSection >= 2 && (
+                            <div>
+                                <h2 className="text-lg font-extrabold text-gray-500 dark:text-white pt-4 pb-1 mb-1 sm:col-span-2">
+                                    {t("add_product.details")}
+                                </h2>
+
+                                <select
+                                    id="categorie_product"
+                                    name="categorie_product"
+                                    value={dataProduct?.categorie_product}
+                                    onChange={onChangeClick}
+                                    className="my-4 bg-gray-50 border-0 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-0"
+                                    required
+                                >
+                                        <option value="">{t("add_product.select_category")}</option>
+                                        {
+                                            LIST_CATEGORIES?.map(
+
+                                                (value, idx) => <option key={idx} value={`${value}`}>{t(`add_product.categories.${value}`)}</option>
+
+                                            )
+                                        }
+                                </select>
+
+                                <FormElementFileUpload label={t("add_product.ChooseImage")} getFile={handleFileSelect} />
+
+                                <textarea
+                                    id="description_product"
+                                    name="description_product"
+                                    value={dataProduct?.description_product}
+                                    onChange={onChangeClick}
+                                    rows="6"
+                                    className="my-4 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg"
+                                    placeholder="Description du produit..."
+                                    required
+                                />
+                                    <button type="button" onClick={nextSection} className={` ${currentSection >= 3 ? "hidden" : ""}  px-4 py-2 bg-blue-600 text-white rounded-lg mt-4`}>
+                                    {t("next")}
+                                </button>
+                            </div>
+                        )}
+
+                        {currentSection >= 3 && (
+                            <div>
+                                <h2 className="text-lg font-extrabold text-gray-500 dark:text-white pt-4 pb-1 mb-1 sm:col-span-2">
+                                    {t("add_product.paimement_infos")}
+                                </h2>
+                                <select
+                                    id="Currency_price"
+                                    name="Currency_price"
+                                    value={dataProduct?.Currency_price}
+                                    onChange={onChangeClick}
+                                    className="my-4 bg-gray-50 border-0 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-0"
+                                >
+                                    <option value="">{t("add_product.select_currency")}</option>
+                                    <option value="EURO">{t("add_product.euro")}</option>
+                                    <option value="DOLLAR">{t("add_product.dollar")}</option>
+                                    <option value="FRANC">{t("add_product.franc")}</option>
+                                </select>
+                                <select
+                                    id="operation_product"
+                                    name="operation_product"
+                                    value={dataProduct.operation_product}
+                                    onChange={onChangeClick}
+                                        className="my-4 bg-gray-50 border-0 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-0"
+                                    required
+                                >
+                                    <option value="">{t("add_product.select_operation")}</option>
+                                    <option value="PRETER">{t("add_product.PRETER")}</option>
+                                    <option value="VENDRE">{t("add_product.VENDRE")}</option>
+                                </select>
+                                {isLoanOptionSelected && (
+                                    <>
+                                        <InputBox type="datetime-local" id="date_emprunt" name="date_emprunt" value={dataProduct.date_emprunt} onChange={onChangeClick} />
+                                        <InputBox type="datetime-local" id="date_fin_emprunt" name="date_fin_emprunt" value={dataProduct.date_fin_emprunt} onChange={onChangeClick} />
+                                    </>
+                                )}
+                                    <button type="button" onClick={nextSection} className={` ${currentSection >= 4 ? "hidden" : ""}  px-4 py-2 bg-blue-600 text-white rounded-lg mt-4`}>
+                                    {t("next")}
+                                </button>
+                            </div>
+                        )}
+
+                        {currentSection >= 4 && (
+                            <div>
+                                <h2 className="text-lg font-extrabold text-gray-500 dark:text-white pt-4 pb-1 mb-1 sm:col-span-2">
+                                    {t("add_product.informations_livraison")}
+                                </h2>
+                                <select
+                                    id="delivery"
+                                    name="delivery"
+                                    value={dataProduct?.delivery}
+                                    onChange={onChangeClick}
+                                    className="bg-gray-50 border-0 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-0"
+                                    required
+                                >
+                                    <option value="FREE">{t("add_product.FREE")}</option>
+                                    <option value="DELPAID">{t("add_product.DELPAID")}</option>
+                                </select>
+                                <InputBox
+                                    type="text"
+                                    id="adress"
+                                    name="adress"
+                                    value={dataProduct?.adress}
+                                    onChange={onChangeClick}
+                                    placeholder={t("adress")}
+                                    required
+                                />
+                                <InputBox type="number" name="shipping_price" value={dataProduct.shipping_price} onChange={onChangeClick} placeholder="Prix de livraison 0.0" />
+                                <InputBox placeholder={t("add_product.quantity")} type="number" id="quantity_product" name="quantity_product" value={dataProduct?.quantity_product} onChange={onChangeClick} min="1" />
+                                <div className="flex gap-3 justify-center items-center m-auto my-2">
+                                    {isLoading ? <LoadingCard /> : <ButtonSimple title={t("submit")} />}
+                                </div>
+                            </div>
+                        )}
+
+                        <div ref={bottomRef} />
+
+                    </form>
+                </div>
+            )}
         </div>
     );
 };
@@ -737,103 +408,76 @@ const AddUploadProduct = () => {
 export default AddUploadProduct;
 
 
+const ProductField = ({ label, value, isLong }) => (
+    <p className="flex justify-between">
+        <span className="font-medium">{label}:</span>
+        <span className={isLong ? "max-h-32 overflow-y-auto" : ""}>{value}</span>
+    </p>
+);
 
 const ProductSummary = ({ product, onEdit, onDelete, onAddNew, t }) => {
-
     if (!product) return null;
 
     return (
-
         <div
-            className="flex flex-col gap-4 
-                 shadow-lg p-4 rounded-lg bg-white w-100 m-auto"
-            style={
-                {
-                    backgroundColor: "var(--color-bg)",
-                    color: "var(--color-text)"
-                }
-            }
+            className="flex flex-col gap-4 shadow-lg p-6 rounded-lg w-full max-w-2xl m-auto bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
         >
+            {/* IMAGE DU PRODUIT */}
+            {product.image_product && (
+                <div className="flex justify-center mb-4">
+                    <img
+                        src={URL.createObjectURL(product.image_product)}
+                        alt={product.name_product}
+                        className="w-48 h-48 object-cover rounded-md shadow"
+                    />
+                </div>
+            )}
 
-            <div className="flex flex-col gap-3 text-gray-700 dark:text-gray-300 text-sm">
+            {/* INFORMATIONS DU PRODUIT */}
+            <div className="flex flex-col gap-2 text-sm">
+                <ProductField label={t("name")} value={product.name_product} />
+                <ProductField
+                    label={t("price")}
+                    value={`${product.price_product} ${product.Currency_price || product.currency_price}`}
+                />
+                <ProductField label={t("size")} value={product.taille_product} />
+                <ProductField label={t("color")} value={product.color_product} />
+                <ProductField label={t("quantity")} value={product.quantity_product} />
+                <ProductField label={t("description")} value={product.description_product} isLong />
 
-                <p className="flex justify-between">
-                    <span className="font-medium">{t("name")}:</span>
-                    <span>{product?.name_product}</span>
-                </p>
+                <ProductField
+                    label={t("delivery")}
+                    value={`${product.delivery || ""} ${product.adress || ""} ${product.shipping_price || ""}`}
+                />
+                <ProductField label={t("operation")} value={product.operation_product} />
 
-                <p className="flex justify-between">
-                    <span className="font-medium">{t("price")}:</span>
-                    <span>{product?.price_product} {product.currency_price}</span>
-                </p>
+                {product.type_choice && (
+                    <ProductField label={t("type_choice")} value={product.type_choice} />
+                )}
 
-                <p className="flex justify-between">
-                    <span className="font-medium">{t("size")}:</span>
-                    <span>{product?.taille_product}</span>
-                </p>
-
-                <p className="flex justify-between">
-                    <span className="font-medium">{t("color")}:</span>
-                    <span>{product?.color_product}</span>
-                </p>
-
-                <p className="flex justify-between">
-                    <span className="font-medium">{t("quantity")}:</span>
-                    <span>{product?.quantity_product}</span>
-                </p>
-
-                <p className="flex justify-between">
-                    <span className="font-medium">{t("description")}:</span>
-                    <span className="h-50  overflow-y-auto">{product.description_product}</span>
-                </p>
-
-                <p className="flex justify-between">
-                    <span className="font-medium">{t("delivery")}:</span>
-                    <span>{product.delivery}</span>
-                </p>
-                {/* Ajouter d’autres champs si nécessaire */}
+                <ProductField label={t("availability")} value={product.is_available ? t("yes") : t("no")} />
+                <ProductField label={t("promotion")} value={product.promotion ? t("yes") : t("no")} />
+                <ProductField label={t("active")} value={product.is_active ? t("yes") : t("no")} />
+                <ProductField label={t("verified")} value={product.is_verified ? t("yes") : t("no")} />
             </div>
 
-            {/* Actions */}
-            <div className="flex justify-end mt-4 gap-1">
-
+            {/* ACTIONS */}
+            <div className="flex justify-end mt-4 gap-2">
                 <button
                     onClick={onEdit}
-                    className="bg-yellow-100 hover:bg-yellow-200 text-white text-[12px] px-1 py-1 rounded-md transition-colors"
-                    style={
-                        {
-                            backgroundColor: "var(--color-bg)",
-                            color: "var(--color-text)"
-                        }
-                    }
+                    className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-md transition-colors"
                 >
                     {t("edit")}
-
                 </button>
-
                 <button
                     onClick={onDelete}
-                    className="bg-red-100 hover:bg-red-200 text-white text-[12px] px-1 py-1 rounded-md transition-colors"
-                    style={
-                        {
-                            backgroundColor: "var(--color-bg)",
-                            color: "var(--color-text)"
-                        }
-                    }
+                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md transition-colors"
                 >
                     {t("delete")}
-
                 </button>
-
                 <button
                     onClick={onAddNew}
-                    className="bg-green-100 hover:bg-green-200 text-white text-[12px] px-1 py-1 rounded-md transition-colors"
-                    style={
-                        {
-                            backgroundColor: "var(--color-bg)",
-                            color: "var(--color-text)"
-                        }
-                    }
+                    className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md transition-colors"
                 >
                     {t("add_new_product")}
                 </button>

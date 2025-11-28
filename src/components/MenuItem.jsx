@@ -35,6 +35,7 @@ import nouriture from "../../src/assets/nouriture.png"
 
 
 export const menuItems = (t) => [
+
     {
         name: t('All'),
         to: '/produits/',
@@ -216,37 +217,37 @@ export const menuItems = (t) => [
     {
         name: t('jewelry'),
         to: '/products/filter/?categorie_product=JEWELRY',
-        id: 'JEWELRY',
+        id: 'jewelry',
         svg: <img className="rounded-sm bg-gray-50 grayscale" src={jewelry} alt="" width="25" />,
     },
     {
         name: t('ListItemsFilterProduct.MATERIELS_INFORMATIQUES'),
         to: '/products/filter/?categorie_product=MATERIELS_INFORMATIQUES',
-        id: 'MATERIELS_INFORMATIQUES',
+        id: 'materiels-informatiques',
         svg: <img className="rounded-sm bg-gray-50 grayscale" src={materiel_info} alt="" width="25" />,
     },
     {
         name: t('ListItemsFilterProduct.CAHIERS'),
         to: '/products/filter/?categorie_product=CAHIERS',
-        id: 'CAHIERS',
+        id: 'cahiers',
         svg: <img className="rounded-sm bg-gray-50 grayscale" src={cahier} alt="" width="25" />,
     },
     {
         name: t('ListItemsFilterProduct.ACCESSOIRES'),
         to: '/products/filter/?categorie_product=ACCESSOIRES',
-        id: '  ACCESSOIRES',
+        id: 'accessoires',
         svg: <img className="rounded-sm bg-gray-50 grayscale" src={shoes} alt="" width="25" />,
     },
     {
         name: t('ListItemsFilterProduct.FOURNITURES_SCOLAIRES'),
         to: '/products/filter/?categorie_product=FOURNITURES_SCOLAIRES',
-        id: ' FOURNITURES_SCOLAIRES',
+        id: 'fournitures-scolaires',
         svg: <img className="rounded-sm bg-gray-50 grayscale" src={fourniture} alt="" width="25" />,
     },
     {
         name: t('ListItemsFilterProduct.ALIMENTATION'),
-        to: '/products/filter/?categorie_product= ALIMENTATION',
-        id: ' ALIMENTATION',
+        to: '/products/filter/?categorie_product=ALIMENTATION',
+        id: 'alimentation',
         svg: <img className="rounded-sm bg-gray-50 grayscale" src={nouriture} alt="" width="25" />,
     },
 ];
