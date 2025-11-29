@@ -20,9 +20,9 @@ const getLogoTitlOperation = (t, prod) => {
 
     return (
         [
-            { logo: express_delivery, title: t('delivery'), do: (prod?.delivery).toLowerCase()},
-            { logo: home_5657414, title: t('adress'), do: (prod?.adress).toLowerCase() },
-            { logo: pay_8331969, title: t('paymentMethod'), do: (prod?.paymentMethod).toLowerCase() }
+            { logo: express_delivery, title: t('delivery'), do: (prod?.delivery)?.toLowerCase()},
+            { logo: home_5657414, title: t('adress'), do: (prod?.adress)?.toLowerCase() },
+            { logo: pay_8331969, title: t('paymentMethod'), do: (prod?.paymentMethod)?.toLowerCase() }
 
         ]
     )
@@ -368,7 +368,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                                                             </strong>
 
                                                             <div className="mt-1 text-gray-900 dark:text-gray-300">
-                                                                {String(item.value).toLowerCase()}
+                                                                {String(item.value)?.toLowerCase()}
                                                             </div>
                                                         </div>
                                                     )
