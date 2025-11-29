@@ -42,39 +42,30 @@ export const fetchCsrfToken = async () => {
 // 🟨 2. SUPPRIMÉ : Interceptor `request` pour Authorization
 // ⛔️ Ne pas injecter de `Bearer token` depuis localStorage ou JS : les cookies le font automatiquement
 
-let isRefreshing = false;
-let failedQueue = [];
-
-const processQueue = (error, token = null) => {
-    failedQueue.forEach(prom => {
-        if (error) {
-            prom.reject(error);
-        } else {
-            prom.resolve(token);
-        }
-    });
-    failedQueue = [];
-};
-
 api.interceptors.response.use(
     response => response,
 
     async (error) => {
         const originalRequest = error.config;
 
-        // Si 401 (access token expiré)
+        // Ne pas tenter un refresh si c'est déjà l'appel /refresh/
+        if (originalRequest.url.includes("/refresh")) {
+            return Promise.reject(error);
+        }
+
+        // Si token expiré et que ce n'est pas déjà un retry
         if (error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
 
             try {
-                // Appel au endpoint /refresh/ pour générer un nouvel access token
+                // Rafraîchir le token
                 await api.post("/refresh/");
 
-                // Nouvelle tentative avec le token fraîchement créé
+                // Rejouer la requête originale avec le nouveau token
                 return api(originalRequest);
 
             } catch (refreshError) {
-                console.warn("Session expirée, redirection vers login");
+                console.warn("Session expirée → redirection vers login");
                 window.location.href = "/login";
                 return Promise.reject(refreshError);
             }
