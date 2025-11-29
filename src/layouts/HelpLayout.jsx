@@ -123,7 +123,7 @@ const HelpPage = () => {
 
                 <form
                     onSubmit={handleSubmit}
-                    className="translate-y-0 transition-all duration-1000 ease-in-out w-full p-4 max-w-md bg-white  rounded-lg shadow-lg mx-auto gap-5"
+                    className="translate-y-0 transition-all duration-1000 ease-in-out w-full p-4 max-w-md bg-white  rounded-lg shadow-sm mx-auto gap-5"
 
                     style={{
 
@@ -300,7 +300,9 @@ function TestmonyList() {
     useEffect(() => {
         api.get("content/testmony/")
             .then((res) => res.data)
-            .then((data) => setItems(data));
+            .then((data) => setItems(data)).catch(
+                (err)=>alert(err?.messages)
+            );
     }, []);
 
     // Ajouter un témoignage (POST)
@@ -330,7 +332,7 @@ function TestmonyList() {
     return (
 
         <main
-            className="relative max-w-lg mx-auto bg-white border border-gray-200 rounded-lg shadow-md text-center border-0 mt-10 w-full"
+            className="relative max-w-lg mx-auto bg-white border border-gray-200 shadow-md text-center border-0 mt-10 w-full rounded-br-none"
 
             style={{
 
@@ -347,7 +349,7 @@ function TestmonyList() {
             {/* Formulaire d'envoi */}
             <form onSubmit={handleSubmit}
 
-                className="gap-4 translate-y-0 transition-all duration-1000 ease-in-out w-full p-1 border-0 max-w-md bg-white  rounded-lg mx-auto"
+                className="gap-4 translate-y-0 transition-all duration-1000 ease-in-out w-full p-1 border-0 max-w-md bg-white  rounded-lg mx-auto "
 
                 style={{
 
@@ -360,7 +362,7 @@ function TestmonyList() {
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                     placeholder="Écris ton témoignage..."
-                    className="border-blue-800 p-3 rounded-xl w-full"
+                    className="border-blue-800 p-3 rounded-xl w-full "
                     rows="3"
                     required
                 />

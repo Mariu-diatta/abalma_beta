@@ -6,7 +6,8 @@ const FormElementFileUpload = ({
     label = "Uploader une image",
     onFileSelect,
     getFile,
-    maxSizeMB = 5 // Limite de taille par défaut
+    maxSizeMB = 5, // Limite de taille par défaut
+    getImage
 }) => {
     const [previewUrl, setPreviewUrl] = useState(null);
     const [fileName, setFileName] = useState(null);
@@ -40,6 +41,8 @@ const FormElementFileUpload = ({
         const url = URL.createObjectURL(file);
 
         setPreviewUrl(url);
+
+        getImage(url)
 
         setFileName(file.name);
 

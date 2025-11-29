@@ -26,6 +26,10 @@ export default function TestimonialCarousel({
                 resp => {
                     setTestimonials(resp.data)
                 }
+            ).catch(
+                err=> {
+                    alert(err?.message)
+                }
             )
         } catch (err) {
 

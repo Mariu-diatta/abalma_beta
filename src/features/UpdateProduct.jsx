@@ -26,8 +26,10 @@ const AddUploadProduct = () => {
     const [imageFile, setImageFile] = useState(null);
     const [isProductAdded, setIsProductAdded] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
+
     const [currentSection, setCurrentSection] = useState(1);
-    const [dataProduct, setDataProduct] = useState({
+    var initDataProduct = {
         date_emprunt: "",
         price_product: "",
         currency_price: "",
@@ -53,9 +55,13 @@ const AddUploadProduct = () => {
         is_active: true,
         is_verified: false,
         commission_percentage: 10,
-    });
+    }
+    const [dataProduct, setDataProduct] = useState(initDataProduct); 
+    const [imageLoaded, setImageLoaded] = useState(null); 
+
 
     const handleFileSelect = (file) => setImageFile(file);
+
     const onChangeClick = (e) => {
         const { name, value } = e.target;
         setDataProduct((prev) => ({ ...prev, [name]: value }));
@@ -80,6 +86,48 @@ const AddUploadProduct = () => {
             }, 50);
         });
     };
+
+    const saveDataForSubmitForm = (e) => {
+
+        e.preventDefault();
+
+        if (!currentUserCompte?.id) {
+            notify("Erreur", "Pas de compte utilisateur associé.");
+            return;
+        }
+
+        setIsLoading(true);
+
+        try {
+            const requiredFields = ["categorie_product", "operation_product", "code_reference", "description_product", "adress"];
+            for (let field of requiredFields) {
+                if (!dataProduct[field]?.trim()) {
+                    notify("Erreur", `Le champ "${field}" est requis.`);
+                    return;
+                }
+            }
+
+            if (!imageFile) {
+                notify("Erreur", "L'image du produit est requise.");
+                return;
+            }
+
+            if (isLoanOptionSelected && (!dataProduct.date_emprunt || !dataProduct.date_fin_emprunt)) {
+                notify("Erreur", "Les dates d'emprunt et de fin sont requises.");
+                return;
+            }
+
+            setIsProductAdded(true);
+
+        } catch (error) {
+            //console.log("Erreur", error)
+            notify("Erreur", "Erreur inconnue lors de la création du produit.");
+
+        } finally {
+            setIsLoading(false);
+        }
+
+    }
 
     const submitForm = async (e) => {
         e.preventDefault();
@@ -108,7 +156,7 @@ const AddUploadProduct = () => {
                 return;
             }
 
-            setIsLoading(true);
+            setIsLoadingSubmit(true);
 
             const formData = new FormData();
             Object.entries(dataProduct).forEach(([key, value]) => {
@@ -132,14 +180,18 @@ const AddUploadProduct = () => {
 
             notify("Message", "Produit créé avec succès !");
             dispatch(addMessageNotif(`Produit ${dataProduct?.code_reference} créé le ${new Date().toLocaleString()}`));
-            setIsProductAdded(true);
+            setDataProduct(initDataProduct);
+            setImageFile(null);
+            setCurrentSection(1);
+            setIsProductAdded(false);
 
         } catch (error) {
             //console.log("Erreur", error)
             notify("Erreur", error?.response?.data?.code_reference || error?.Message ||"Erreur inconnue lors de la création du produit.");
 
         } finally {
-            setIsLoading(false);
+            setIsLoadingSubmit(false);
+            setIsProductAdded(false);
         }
     };
 
@@ -163,54 +215,36 @@ const AddUploadProduct = () => {
 
             {isProductAdded ? (
                 <ProductSummary
+                    isLoadingSubmit={isLoadingSubmit}
                     product={dataProduct}
                     t={t}
                     onEdit={() => {
-                        setCurrentSection(1)
-                        setDataProduct({ ...dataProduct });
+                        setCurrentSection(5)
+                        setDataProduct({ ...dataProduct});
+                        setIsProductAdded(false);
+
                     }}
                     onDelete={() => {
-                        setDataProduct({ ...dataProduct });
+                        setDataProduct({ ...initDataProduct});
                         setIsProductAdded(false);
+                        setCurrentSection(1)
                     }}
-                    onAddNew={() => {
-                        setDataProduct({
-                            date_emprunt: "",
-                            price_product: "",
-                            currency_price: "",
-                            color_product: "",
-                            date_fin_emprunt: "",
-                            categorie_product: "",
-                            code_reference: "",
-                            operation_product: "",
-                            image_product: null,
-                            description_product: "",
-                            fournisseur: "",
-                            quantity_product: 1,
-                            name_product: "",
-                            paymentMethod: "",
-                            adress: "",
-                            delivery: "",
-                            taille_product: "MEDIUM",
-                            Currency_price: "",
-                            type_choice: "DURABLE",
-                            promotion: false,
-                            shipping_price: 0,
-                            is_available: true,
-                            is_active: true,
-                            is_verified: false,
-                            commission_percentage: 10,
-                        });
-                        setImageFile(null);
-                        setIsProductAdded(false);
-                        setCurrentSection(1);
+                    onAddNew={(e) => {
+                        submitForm(e);
                     }}
-                />
+                >
+                    <img
+                        src={imageLoaded}
+                        alt="pt"
+                        className="w-48 h-48 object-cover rounded-md shadow"
+                    />
+
+                </ProductSummary>
             ) : (
                 <div className="py-1 lg:py-2 w-full md:w-1/2 lg:w-1/2 px-4">
 
                     <form
-                        onSubmit={submitForm}
+                        onSubmit={saveDataForSubmitForm}
                         className={`${user?.is_fournisseur && user?.is_verified ? "w-full md:w-auto" : "opacity-50 pointer-events-none cursor-not-allowed"}`}
                     >
                         {/* Sections du formulaire */}
@@ -304,7 +338,11 @@ const AddUploadProduct = () => {
                                         }
                                 </select>
 
-                                <FormElementFileUpload label={t("add_product.ChooseImage")} getFile={handleFileSelect} />
+                                    <FormElementFileUpload
+                                        label={t("add_product.ChooseImage")}
+                                        getFile={handleFileSelect}
+                                        getImage={setImageLoaded}
+                                    />
 
                                 <textarea
                                     id="description_product"
@@ -359,15 +397,17 @@ const AddUploadProduct = () => {
                                 )}
                                     <button type="button" onClick={nextSection} className={` ${currentSection >= 4 ? "hidden" : ""}  px-4 py-2 bg-blue-600 text-white rounded-lg mt-4`}>
                                     {t("next")}
-                                </button>
+                                    </button>
                             </div>
                         )}
 
                         {currentSection >= 4 && (
                             <div>
+
                                 <h2 className="text-lg font-extrabold text-gray-500 dark:text-white pt-4 pb-1 mb-1 sm:col-span-2">
                                     {t("add_product.informations_livraison")}
                                 </h2>
+
                                 <select
                                     id="delivery"
                                     name="delivery"
@@ -379,6 +419,7 @@ const AddUploadProduct = () => {
                                     <option value="FREE">{t("add_product.FREE")}</option>
                                     <option value="DELPAID">{t("add_product.DELPAID")}</option>
                                 </select>
+
                                 <InputBox
                                     type="text"
                                     id="adress"
@@ -388,11 +429,15 @@ const AddUploadProduct = () => {
                                     placeholder={t("adress")}
                                     required
                                 />
+
                                 <InputBox type="number" name="shipping_price" value={dataProduct.shipping_price} onChange={onChangeClick} placeholder="Prix de livraison 0.0" />
-                                <InputBox placeholder={t("add_product.quantity")} type="number" id="quantity_product" name="quantity_product" value={dataProduct?.quantity_product} onChange={onChangeClick} min="1" />
+
+                                 <InputBox placeholder={t("add_product.quantity")} type="number" id="quantity_product" name="quantity_product" value={dataProduct?.quantity_product} onChange={onChangeClick} min="1" />
+                                
                                 <div className="flex gap-3 justify-center items-center m-auto my-2">
-                                    {isLoading ? <LoadingCard /> : <ButtonSimple title={t("submit")} />}
+                                    {isLoading ? <LoadingCard /> : <ButtonSimple title={t("save")} />}
                                 </div>
+
                             </div>
                         )}
 
@@ -409,36 +454,27 @@ export default AddUploadProduct;
 
 
 const ProductField = ({ label, value, isLong }) => (
-    <p className="flex justify-between">
-        <span className="font-medium">{label}:</span>
-        <span className={isLong ? "max-h-32 overflow-y-auto" : ""}>{value}</span>
-    </p>
+
+    <div className="grid grid-cols-[150px_1fr] gap-7 items-start bg-gray-50 p-2">
+        <span className="font-medium text-[16px] ">{label.slice(0, 1).toUpperCase()}{label.slice(1,)}</span>
+        <span className={isLong ? "max-h-32 overflow-y-auto justify-start " : " text-green"}>{value}</span>
+    </div>
 );
 
-const ProductSummary = ({ product, onEdit, onDelete, onAddNew, t }) => {
+const ProductSummary = ({ product, onEdit, onDelete, onAddNew, t, isLoadingSubmit, children }) => {
     if (!product) return null;
 
     return (
         <div
-            className="flex flex-col gap-4 shadow-lg p-6 rounded-lg w-full max-w-2xl m-auto bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+            className="flex flex-col gap-4  p-6 rounded-lg w-full max-w-2xl m-auto bg-blue-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
         >
-            {/* IMAGE DU PRODUIT */}
-            {product.image_product && (
-                <div className="flex justify-center mb-4">
-                    <img
-                        src={URL.createObjectURL(product.image_product)}
-                        alt={product.name_product}
-                        className="w-48 h-48 object-cover rounded-md shadow"
-                    />
-                </div>
-            )}
 
             {/* INFORMATIONS DU PRODUIT */}
             <div className="flex flex-col gap-2 text-sm">
                 <ProductField label={t("name")} value={product.name_product} />
                 <ProductField
                     label={t("price")}
-                    value={`${product.price_product} ${product.Currency_price || product.currency_price}`}
+                    value={`${product.price_product} ${product.Currency_price}`}
                 />
                 <ProductField label={t("size")} value={product.taille_product} />
                 <ProductField label={t("color")} value={product.color_product} />
@@ -447,8 +483,13 @@ const ProductSummary = ({ product, onEdit, onDelete, onAddNew, t }) => {
 
                 <ProductField
                     label={t("delivery")}
-                    value={`${product.delivery || ""} ${product.adress || ""} ${product.shipping_price || ""}`}
+                    value={`${product.delivery || ""} ${product.adress || ""}`}
                 />
+
+                <ProductField label={t("shipping_price")} value={`${product.shipping_price}`} />
+
+                <ProductField label={t("adress")} value={`${product.adress}`} />
+
                 <ProductField label={t("operation")} value={product.operation_product} />
 
                 {product.type_choice && (
@@ -459,28 +500,42 @@ const ProductSummary = ({ product, onEdit, onDelete, onAddNew, t }) => {
                 <ProductField label={t("promotion")} value={product.promotion ? t("yes") : t("no")} />
                 <ProductField label={t("active")} value={product.is_active ? t("yes") : t("no")} />
                 <ProductField label={t("verified")} value={product.is_verified ? t("yes") : t("no")} />
+
+                {
+                    children
+                }
+
             </div>
 
             {/* ACTIONS */}
-            <div className="flex justify-end mt-4 gap-2">
+            <div className="flex justify-start mt-4 gap-2">
+
                 <button
                     onClick={onEdit}
-                    className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-md transition-colors"
+                    className="bg-yellow-100 hover:bg-yellow-200 text-white px-3 py-1 rounded-full transition-colors"
                 >
                     {t("edit")}
                 </button>
+
                 <button
                     onClick={onDelete}
-                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md transition-colors"
+                    className="bg-red-100 hover:bg-red-200 text-white px-3 py-1 rounded-full transition-colors"
                 >
                     {t("delete")}
                 </button>
-                <button
-                    onClick={onAddNew}
-                    className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md transition-colors"
-                >
-                    {t("add_new_product")}
-                </button>
+
+                {
+                    isLoadingSubmit ?
+                        <LoadingCard /> 
+                        :
+                        <button
+                            onClick={onAddNew}
+                            className="bg-green-100 hover:bg-green-200 text-white px-3 py-1 rounded-full transition-colors"
+                        >
+                            {t("submit")}
+                        </button>
+                }
+
             </div>
         </div>
     );

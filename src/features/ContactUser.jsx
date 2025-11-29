@@ -105,7 +105,7 @@ const UsersContactsList = () => {
                 loading ?
                 <LoadingCard/>
                 :
-                    <div className="flex flex-col justify-between  h-[75dvh] ">
+                <div className="flex flex-col justify-between  h-[75dvh] ">
                     {/* Bar d'action */}
                     <div className="flex items-center justify-between flex-wrap md:flex-nowrap space-y-4 md:space-y-0 pb-4 dark:bg-gray-900 px-4 style-bg">
 
@@ -199,7 +199,7 @@ const UsersContactsList = () => {
 
                     </div>
 
-                    <div className="relative overflow-y-auto h-[80dvh] scrollbor_hidden">
+                    <div className="relative overflow-y-auto h-[80dvh] scrollbor_hidden pb-[20dvh]">
 
                         <table className="w-full text-sm text-left style-bg  px-3 ">
 

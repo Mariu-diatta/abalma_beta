@@ -22,6 +22,12 @@ i18n
      en: {
 
         translation: {
+             verified:"Verified",
+             availability:"Availability",
+             operation:"Operation",
+             delivery:"Delivery",
+             shipping_price: "shipping price",
+             type_choice: "Product type",
              price:"price",
              next:"Next",
              jewelry: "Watches & Jewelry",
@@ -661,6 +667,12 @@ i18n
      fr: {
 
          translation: {
+             verified:"Vérifié",
+             availability:"Disponible",
+             operation:"Opération",
+             delivery:"Livraison",
+             shipping_price: "Prix livraison",
+             type_choice:"Type de produit",
              price:"Prix",
              next: "Continuer",
              jewelry: "Montres & Bijoux",

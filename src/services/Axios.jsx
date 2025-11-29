@@ -42,57 +42,40 @@ export const fetchCsrfToken = async () => {
 // 🟨 2. SUPPRIMÉ : Interceptor `request` pour Authorization
 // ⛔️ Ne pas injecter de `Bearer token` depuis localStorage ou JS : les cookies le font automatiquement
 
-// 🟧 3. Gérer les erreurs 401 SANS localStorage ni refresh manuel
+let isRefreshing = false;
+let failedQueue = [];
+
+const processQueue = (error, token = null) => {
+    failedQueue.forEach(prom => {
+        if (error) {
+            prom.reject(error);
+        } else {
+            prom.resolve(token);
+        }
+    });
+    failedQueue = [];
+};
 
 api.interceptors.response.use(
-
-    (response) => response,
+    response => response,
 
     async (error) => {
-
         const originalRequest = error.config;
 
-        // ⚠️ Pas de boucle infinie ni tentative de refresh manuelle
-        if (
-            error.response?.status === 401 &&
-            !originalRequest?._retry &&
-            !originalRequest?.url?.includes('/refresh/')
-        ) {
-            originalRequest._retry = true;  
-           // await api.post("refresh/");
-            if ((error?.response?.data?.detail === "Informations d'authentification non fournies.") ) {
-
-                if (window.confirm("Votre session a expiré, veuillez vous reconnecter. / Your session has expired.Please log in again.")) {
-
-                    try {
-
-                        //await api.post("refresh/");
-
-                        return window.location.href = "/login";
-
-                    } catch (error) {
-
-                        //showMessage(dispatch, { Type: "Erreur", Message: error?.message || error?.request?.response });
-
-                    } finally {
-
-                        //setLoading(false)
-                    }
-                }
-            }
+        // Si 401 (access token expiré)
+        if (error.response?.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
 
             try {
+                // Appel au endpoint /refresh/ pour générer un nouvel access token
+                await api.post("/refresh/");
 
-                // On laisse le serveur décider si le refresh cookie est valide
-                const response = await api.post('/refresh/');
-
-                console.log("Les données lors du refresh: ", response?.data)
-
-                // ✅ Nouvelle tentative
+                // Nouvelle tentative avec le token fraîchement créé
                 return api(originalRequest);
 
             } catch (refreshError) {
-
+                console.warn("Session expirée, redirection vers login");
+                window.location.href = "/login";
                 return Promise.reject(refreshError);
             }
         }
@@ -100,5 +83,6 @@ api.interceptors.response.use(
         return Promise.reject(error);
     }
 );
+
 
 export default api;
