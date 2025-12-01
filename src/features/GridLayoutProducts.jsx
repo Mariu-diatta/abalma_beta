@@ -70,7 +70,7 @@ const GridLayoutProduct = () => {
                 let cleanCategory = removeAccents(translatedCategory)?.toLowerCase();
 
                 const url = isDefaultCategory(cleanCategory)
-                    ? "products/filter/"
+                    ? "produits/"
                     : `products/filter/?categorie_product=${cleanCategory?.toUpperCase()}`;
 
                 const { data: products } = await api.get(url);
@@ -134,7 +134,7 @@ const GridLayoutProduct = () => {
                 var cleanCategory = removeAccents(translatedCategory)?.toLowerCase();
 
                 const url = isDefaultCategory(cleanCategory)
-                    ? "products/filter/"
+                    ? "produits/"
                     : `products/filter/?categorie_product=${cleanCategory?.toUpperCase()}`;
 
                 const { data: products } = await api.get(url);
