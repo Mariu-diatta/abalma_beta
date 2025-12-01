@@ -301,7 +301,7 @@ function TestmonyList() {
         api.get("content/testmony/")
             .then((res) => res.data)
             .then((data) => setItems(data)).catch(
-                (err)=>alert(err?.messages)
+                (err)=>console.warn(err?.messages)
             );
     }, []);
 

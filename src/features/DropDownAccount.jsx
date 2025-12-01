@@ -82,31 +82,35 @@ export default function ButtonsNavigateThemecolorPayDropdownaccount() {
 
         if (window.confirm(t("logout"))) {
 
+            dispatch(clearCart());
+
+            dispatch(clearRooms());
+
+            dispatch(cleanAllMessageNotif());
+
+            dispatch(logout());
+
             try {
 
                 await api.get(`logout/`);
-
-                dispatch(clearCart());
-
-                dispatch(clearRooms());
-
-                dispatch(cleanAllMessageNotif());
-
-                dispatch(logout());
 
                 dispatch(setCurrentNav(ENDPOINTS?.LOGIN))
 
                 return navigate(`/${ENDPOINTS?.LOGIN}`, { replace: true });
 
-
-
             } catch (error) {
 
                 showMessage(dispatch, { Type: "Erreur", Message: error?.message || error?.request?.response });
+                
+                dispatch(setCurrentNav(ENDPOINTS?.LOGIN))
+
+                return navigate(`/${ENDPOINTS?.LOGIN}`, { replace: true });
 
             } finally {
 
                 setLoading(false)
+
+
             }
         } else {
 
@@ -119,7 +123,7 @@ export default function ButtonsNavigateThemecolorPayDropdownaccount() {
 
         <section
             
-            className={`bg-none flex items-center justify-center px-2  rounded-lg absolute top-0  fixed z-10`}
+            className={`bg-none flex items-center justify-center px-2  rounded-lg absolute top-0  fixed z-20`}
         >
 
             <AttentionAlertMessage/>

@@ -128,6 +128,8 @@ const GridLayoutProduct = () => {
 
         const fetchProductsAndOwners = async () => {
 
+            if (!isButtonOver) return 
+
             try {
                 const translatedCategory = translateCategory(isButtonOver.replace("_", " ").toLocaleUpperCase());
 
@@ -181,6 +183,8 @@ const GridLayoutProduct = () => {
     useEffect(
 
         () => {
+
+            if (!categorySelectedData?.query) return
 
             const getDataSearch = async () => {
 

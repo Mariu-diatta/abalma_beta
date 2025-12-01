@@ -28,7 +28,7 @@ export default function TestimonialCarousel({
                 }
             ).catch(
                 err=> {
-                    alert(err?.message)
+                    console.log(err?.message)
                 }
             )
         } catch (err) {

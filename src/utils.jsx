@@ -272,48 +272,31 @@ export const formaterPrix = (prix, monnaie, t, locale = 'fr-FR') => {
 
 // 👥 Authentification & création de compte
 export const loginClient = async (data, dispatch, setIsLoading, navigate) => {
-
     try {
-
         const response = await api.post('login/', data, {
-
             headers: {
-
                 'Content-Type': 'multipart/form-data',
             },
-
-            withcredentials: true
+            withCredentials: true // <-- CORRECT
         });
 
-
         if (response?.data) {
-
-            ///console.log("les données", response?.data)
-
             dispatch(login(response?.data?.user));
-
-            dispatch(updateCompteUser(response?.data?.compte))
-
-            dispatch(setCurrentNav("account-home"))
-
-            navigate("/account-home", { replace: true })
+            dispatch(updateCompteUser(response?.data?.compte));
+            dispatch(setCurrentNav("account-home"));
+            navigate("/account-home", { replace: true });
         }
 
     } catch (error) {
-
-        //console.log("Erreur lors du loign", error)
-
-        const errorMessage = error?.response?.data?.detail || error?.message || error?.request?.message || error
-
+        const errorMessage = error?.response?.data?.detail || error?.message || error?.request?.message || error;
         showMessage(dispatch, { Type: "Erreur", Message: errorMessage });
-
         throw error;
-
     } finally {
-
-        setIsLoading(false)
+        setIsLoading(false);
     }
 };
+
+
 export const CreateClient = async (data, setLoading, showMessage, dispatch, t) => {
     try {
         const response = await api.post('inscription/', data, {

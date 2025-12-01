@@ -180,16 +180,16 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                         <div className="grid grid-cols-1 sm:grid-cols-12 w-full h-full">
 
                             {/* IMAGE */}
-                            <div className="sm:col-span-6 lg:col-span-7 flex items-center justify-center h-full w-full relative">
+                            <div className="col-span-1 md:col-span-7 flex items-center justify-center h-full w-full">
                                 <img
                                     src={currentSelectedProductView?.image_product}
                                     alt="Product"
-                                    className="w-full h-full object-contain"
+                                    className="w-1/2 md:w-full h-full object-contain"
                                 />
                             </div>
 
                             {/* DETAILS */}
-                            <div className="sm:col-span-6 lg:col-span-5 flex-col justify-between px-1 overflow-y-auto md:pb-0 scrollbor_hidden">
+                            <div className="col-span-1 md:col-span-5 flex-col justify-between px-1 overflow-y-auto md:pb-0 scrollbor_hidden">
 
                                 {/*button close the component*/}
                                 <div className="flex fixed lg:absolute right-0 z-50 bg-gray top-1.5">

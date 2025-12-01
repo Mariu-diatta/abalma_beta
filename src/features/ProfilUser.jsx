@@ -803,7 +803,7 @@ const ProfileCard = () => {
                 <textarea
                     name="description"
                     rows="5"
-                    maxlength="20"
+                    maxLength="20"
                     value={formData?.description}
                     onChange={handleChange}
                     disabled={!isEditing}

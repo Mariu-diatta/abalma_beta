@@ -46,6 +46,8 @@ const MyProductList = () => {
             try {
                 const res = await api.get("owner/product");
                 setProducts(res?.data);
+            } catch (err) {
+                console.log(err)
             } finally {
                 setLoading(false);
             }
@@ -64,6 +66,8 @@ const MyProductList = () => {
         try {
             await api.delete(`produits/${id}/`);
             setProducts((prev) => prev.filter((p) => p.id !== id));
+        } catch (err) {
+            console.log(err)
         } finally {
             setLoadingDelete(false);
             setSelectedBtnProduct(null);
