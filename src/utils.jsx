@@ -185,7 +185,7 @@ export const CATEGORIES = {
     MEUBLES: { fr: "Meubles", en: "Furniture", idx: "meubles" },
     VEHICULES: { fr: "Véhicules", en: "Vehicles", idx: "vehicules" },
     FOURNITURES_SCOLAIRES: { fr: "Fournitures scolaires", en: "School Supplies", idx: "fournitures-scolaires" },
-    DIVERS: { fr: "Divers", en: "Miscellaneous", idx: "divers" },
+    DIVERS: { fr: "Divers", en: "Other / Misc", idx: "divers" },
     BIJOUX: { fr: "Bijoux", en: "Jewelry", idx: "bijoux" },
     COSMETIQUES: { fr: "Cosmétiques", en: "Cosmetics", idx: "cosmetiques" },
     ALIMENTATION: { fr: "Alimentation", en: "Food", idx: "alimentation" },

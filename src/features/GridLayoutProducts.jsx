@@ -128,8 +128,6 @@ const GridLayoutProduct = () => {
 
         const fetchProductsAndOwners = async () => {
 
-            if (!isButtonOver) return 
-
             try {
                 const translatedCategory = translateCategory(isButtonOver.replace("_", " ").toLocaleUpperCase());
 
@@ -289,7 +287,7 @@ const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) 
                                 Object.entries(
 
                                     filteredItems.reduce((acc, item) => {
-                                        const cat = item?.categorie_product || "Autres";
+                                        const cat = item?.categorie_product;
                                         if (!acc[cat]) acc[cat] = [];
                                         acc[cat].push(item);
                                         return acc;

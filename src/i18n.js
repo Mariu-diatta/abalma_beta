@@ -258,7 +258,7 @@ i18n
                      "SPORT": "Sport",
                      "TELEPHONIE": "Phones",
                      "VEHICULES": "Vehicles",
-                     "VOYAGE": "Travel & Leisure"
+                     "VOYAGE": "Travel & Leisure",
                  },
                  "operation_type": "Operation Type",
                  "select_operation": "-- Select operation --",
@@ -905,9 +905,8 @@ i18n
                       "SPORT": "Équipements de sport",
                       "TELEPHONIE": "Téléphonie",
                       "VEHICULES": "Véhicules",
-                      "VOYAGE": "Voyage & Loisirs"
-                  }
-,
+                      "VOYAGE": "Voyage & Loisirs",
+                  },
                   "operation_type": "Type d'opération",
                   "select_operation": "-- Choisir l'opération --",
                   "PRETER": "Prêter",
