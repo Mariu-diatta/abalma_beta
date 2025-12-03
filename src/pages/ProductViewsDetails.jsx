@@ -149,11 +149,11 @@ const ProductModal = ({ isOpen, onClose, products}) => {
         <>
 
             {
-                showLeft && !hiddenShowDirection && <button className="fixed z-50 absolute left-1 top-1/2 rounded-full px-3 cursor-pointer" onClick={() => scroll("left")}> <ChevronLeft className="w-6 h-6 text-gray-300 bg-white/30 rounded-full hover:bg-white/80" /></button>
+                showLeft && !hiddenShowDirection && <button className="fixed z-50 absolute left-1 top-1/2 rounded-full px-3 cursor-pointer" onClick={() => scroll("left")}> <ChevronLeft className="w-6 h-6 text-gray-300 bg-gray-200 rounded-full hover:bg-white/80" /></button>
             }
 
             <div
-                className="fixed inset-0 z-40"
+                className="fixed inset-0 z-40 "
                 role="dialog"
                 aria-modal="true"
                 ref={popovRef}
@@ -168,11 +168,11 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                 ></div>
 
                 {/* ====== CONTENT ====== */}
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-2 md:p-0 md:mx-15 md:py-4">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 m-0 md:mx-15 md:my-1 ">
 
                     <main
                         className="relative flex flex-col md:flex-row items-stretch justify-center
-                             w-screen h-full max-w-full  bg-[var(--color-bg)] text-[var(--color-text)]
+                             h-full w-screen  bg-[var(--color-bg)] text-[var(--color-text)]
                              rounded-sm shadow-xl overflow-hidden mx-auto transition 
                         "
                     >
@@ -180,16 +180,18 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                         <div className="grid grid-cols-1 sm:grid-cols-12 w-full h-full">
 
                             {/* IMAGE */}
-                            <div className="col-span-1 md:col-span-7 flex items-center justify-center h-full w-full">
+                            <div className="h-[50dvh] w-full bg-gray-900 col-span-1 md:col-span-6 flex items-center justify-center md:h-full  md:w-full relative">
+
                                 <img
                                     src={currentSelectedProductView?.image_product}
                                     alt="Product"
-                                    className="w-1/2 md:w-full h-full object-contain"
+                                    className="w-full h-auto md:object-contain flex justify-center item-center absolute"
                                 />
+
                             </div>
 
                             {/* DETAILS */}
-                            <div className="col-span-1 md:col-span-5 flex-col justify-between px-1 overflow-y-auto md:pb-0 scrollbor_hidden">
+                            <div className="col-span-1 md:col-span-6 flex-col items-center justify-between px-2 overflow-y-auto md:pb-0 scrollbor_hidden w-full h-full">
 
                                 {/*button close the component*/}
                                 <div className="flex fixed lg:absolute right-0 z-50 bg-gray top-1.5">
@@ -436,7 +438,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                         </div>
 
-                    </div>
+                            </div>
 
                     </main>
 
@@ -446,7 +448,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
 
             {
-                showRight && !hiddenShowDirection && <button className="fixed z-50 absolute right-1 top-1/2 rounded-full px-3 cursor-pointer" onClick={() => scroll("right")}> <ChevronRight className="w-6 h-6 text-gray-300 bg-white/30 hover:bg-white/80 rounded-full" /></button>
+                showRight && !hiddenShowDirection && <button className="fixed z-50 absolute right-1 top-1/2 rounded-full px-3 cursor-pointer" onClick={() => scroll("right")}> <ChevronRight className="w-6 h-6 text-gray-300 bg-gray-200 hover:bg-white/80 rounded-full" /></button>
             }
 
         </>

@@ -14,8 +14,6 @@ import DesktopNav from "../features/FooterDeskTopNav";
 
 const NavbarHeader = () => {
 
-
-
     const currentNav = useSelector(state => state.navigate.currentNav);
 
     const categorySelectedData = useSelector(state => state?.navigate?.categorySelectedOnSearch)
@@ -121,7 +119,7 @@ const NavbarHeader = () => {
 
                 id="header"
 
-                className="flex w-full items-center justify-between  h-[50px] px-1  bg-white"
+                className="flex w-full items-center justify-between  h-[50px] px-1  bg-white/80"
 
                 ref={ref}
 

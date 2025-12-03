@@ -8,20 +8,23 @@ const PaginationProduit = ({ products , itemsPerPage = 5 }) => {
     const totalPages = Math.ceil(products.length / itemsPerPage);
 
     const handleNext = () => {
+
         setCurrentPage((prev) => Math.min(prev + 1, totalPages));
     };
 
     const handlePrev = () => {
+
         setCurrentPage((prev) => Math.max(prev - 1, 1));
     };
 
     const startIndex = (currentPage - 1) * itemsPerPage;
+
     const currentItems = products.slice(startIndex, startIndex + itemsPerPage);
 
     return (
         <div className="flex flex-col items-center">
             {/* Liste des produits */}
-            <div className="flex gap-4 flex-wrap justify-center">
+            <div className="flex gap-4 justify-center overflow-x-auto scrollbor_hidden">
                 {currentItems.map((product,id) => (
                     <img
                         key={id}

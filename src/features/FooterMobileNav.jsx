@@ -16,17 +16,18 @@ const MobileNav = ({ open }) => {
 
     <nav
       id="navbarCollapse"
-        className={`sm:hidden absolute top-12 right-0 w-full max-w-[250px] z-50 rounded-lg lg:rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${
+        className={`sm:hidden absolute top-10 right-0 w-full max-w-[250px] z-50 rounded-lg  dark:divide-dark-3 dark:bg-dark-2 ${
         !open && "hidden"
       } lg:static lg:block lg:max-w-full lg:w-auto`}
     >
       <div
-        style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
-        className="text-sm absolute top-3 flex flex-col items-start justify-start gap-3 p-1 sm:hidden shadow-lg w-full py-5 bg-white"
+        className="text-sm absolute top-3 flex flex-col items-start justify-start gap-3 p-1 sm:hidden shadow-lg rounded-lg w-full py-5 bg-white/90"
       >
         <WhiteRoundedButton titleButton={t(ENDPOINTS.LOGIN)} to={ENDPOINTS.LOGIN} />
 
         <WhiteRoundedButton titleButton={t(ENDPOINTS.REGISTER)} to={ENDPOINTS.REGISTER} />
+
+        <PayBack />
 
         <ThemeToggle/>
 

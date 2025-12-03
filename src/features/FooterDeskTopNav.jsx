@@ -18,7 +18,7 @@ export const DesktopNav = () => {
     return (
 
         <div
-            className="hidden sm:flex items-center justify-center gap-3 w-auto mx-1 z-20 rounded-full bg-white lg:bg-transparent md:bg-transparent"
+            className="hidden sm:flex items-center justify-center gap-3 w-auto mx-1 z-20 rounded-full bg-white/80 lg:bg-transparent md:bg-transparent"
         >
             {
                 (currentNav === ENDPOINTS?.HOME) &&

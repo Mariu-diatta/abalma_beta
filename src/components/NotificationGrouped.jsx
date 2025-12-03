@@ -19,7 +19,7 @@ const GroupThemNotifPayLangageButtons = ({ notify, changeLanguage }) => {
 
         <div
             className = {`
-                bg-white py-1 md:py-0 lg:py-0 lg:rounded-lg lg:bg-transparent md:rounded-lg md:bg-transparent
+                bg-white/80  py-1 md:py-0 lg:py-0 lg:rounded-lg lg:bg-transparent md:rounded-lg md:bg-transparent
                 flex items-center justify-around gap-2 z-50
                 ${currentNav === ENDPOINTS?.MESSAGE_INBOX ? "hidden" : ""}
     

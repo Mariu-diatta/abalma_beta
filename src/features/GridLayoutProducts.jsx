@@ -212,7 +212,7 @@ const GridLayoutProduct = () => {
 
         <div
 
-            className="px-0 space-y-4 dark:bg-gray-900 dark:text-white py-0"
+            className="space-y-4 dark:bg-gray-900 dark:text-white py-0"
 
             style={{
 
@@ -280,7 +280,7 @@ const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) 
                 (filteredItems?.length > 0) ?
                     (
 
-                        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-1 z-0 mb-[100px] mx-0 md:mx-10 lg:mx-10 flex justify-center mt-0 pt-0">
+                        <div className="px-2 md:px-0 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-1 z-0 mb-[100px] mx-0 md:mx-10 lg:mx-10 flex justify-center mt-0 pt-0">
 
                             {/* --- Regroupement des produits par catégorie --- */}
                             {
