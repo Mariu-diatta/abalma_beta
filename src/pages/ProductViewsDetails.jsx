@@ -173,25 +173,25 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                     <main
                         className="relative flex flex-col md:flex-row items-stretch justify-center
                              h-full w-screen  bg-[var(--color-bg)] text-[var(--color-text)]
-                             rounded-sm shadow-xl overflow-hidden mx-auto transition 
+                             rounded-sm shadow-xl overflow-y-auto md:overflow-hidden mx-auto transition h-full 
                         "
                     >
                         {/* Contenu en grille : image + détails */}
                         <div className="grid grid-cols-1 sm:grid-cols-12 w-full h-full">
 
                             {/* IMAGE */}
-                            <div className="h-[50dvh] w-full bg-gray-900 col-span-1 md:col-span-6 flex items-center justify-center md:h-full  md:w-full relative">
+                            <div className="max-h-[40dvh] md:max-h-full w-full col-span-1 md:col-span-6 flex items-center justify-center md:h-full  md:w-full ">
 
                                 <img
                                     src={currentSelectedProductView?.image_product}
                                     alt="Product"
-                                    className="w-full h-auto md:object-contain flex justify-center item-center absolute"
+                                    className="w-full h-auto md:object-contain flex justify-center item-center relative"
                                 />
 
                             </div>
 
                             {/* DETAILS */}
-                            <div className="col-span-1 md:col-span-6 flex-col items-center justify-between px-2 overflow-y-auto md:pb-0 scrollbor_hidden w-full h-full">
+                            <div className="col-span-1 md:col-span-6 flex-col items-center justify-between px-2 overflow-y-auto md:pb-0 scrollbor_hidden w-full h-full pt-[10dvh] md:pt-0">
 
                                 {/*button close the component*/}
                                 <div className="flex fixed lg:absolute right-0 z-50 bg-gray top-1.5">
