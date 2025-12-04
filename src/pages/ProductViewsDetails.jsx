@@ -180,12 +180,12 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                         <div className="grid grid-cols-1 sm:grid-cols-12 w-full h-full">
 
                             {/* IMAGE */}
-                            <div className="max-h-[40dvh] md:max-h-full w-full col-span-1 md:col-span-6 flex items-center justify-center md:h-full  md:w-full ">
+                            <div className=" col-span-1 md:col-span-6 flex items-center justify-center max-h-[40dvh] w-full md:max-h-full  md:h-full  md:w-full">
 
                                 <img
                                     src={currentSelectedProductView?.image_product}
                                     alt="Product"
-                                    className="w-full h-auto md:object-contain flex justify-center item-center relative"
+                                    className="w-full h-full object-contain flex justify-center item-center relative"
                                 />
 
                             </div>
@@ -193,76 +193,38 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                             {/* DETAILS */}
                             <div className="col-span-1 md:col-span-6 flex-col items-center justify-between px-2 overflow-y-auto md:pb-0 scrollbor_hidden w-full h-full pt-[10dvh] md:pt-0">
 
-                                {/*button close the component*/}
-                                <div className="flex fixed lg:absolute right-0 z-50 bg-gray top-1.5">
+                                {/*buttons top: close, add product, view user profil the component*/}
+                                <div className="flex fixed lg:absolute right-0 z-50 bg-gray top-1.5 mb-3">
 
-                                    <div className="">
+                                    <div className="hidden md:block">
 
-                                        <button
-
-                                            type="button"
-
-                                            onClick={onClose}
-
-                                            className="cursor-pointer z-20 rounded-full flex items-center justify-center px-2  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        >
-
-                                            <span style={{ color: "#E5E7EB", fontSize: "20px" }}>✖</span>
-
-                                        </button>
+                                        <NavButtons
+                                            isCurrentUser={isCurrentUser}
+                                            handleAddToCart_={handleAddToCart_}
+                                            isProductAdd={isProductAdd}
+                                            setHiddenShowDirection={setHiddenShowDirection }
+                                        />
 
                                     </div>
+
+                                    <button
+
+                                        type="button"
+
+                                        onClick={onClose}
+
+                                        className="fixed top-1 right-1 cursor-pointer z-20 rounded-full flex items-center justify-center px-2  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    >
+
+                                        <span style={{ color: "#E5E7EB", fontSize: "20px" }}>✖</span>
+
+                                    </button>
+
 
                                 </div>
 
-                                <div className="my-10 flex flex-col  gap-6 pb-7">
-
-                                    <div className="absolute bottom-0 left-2 mt-5 lg:mt-auto  lg:left-auto lg:right-12 lg:top-0 lg:bottom-auto md:top-1 md:bottom-auto flex items-between gap-5 w-auto">
-
-                                        {
-                                            (!isProductAdd) &&
-                                            <button
-
-                                                onClick={(e) => handleAddToCart_(e)}
-
-                                                title="Ajouter au panier"
-
-                                                className="z-20 cursor-pointer flex items-center justify-center p-3 rounded-full  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
-
-                                                aria-label="Ajouter au panier"
-
-                                            >
-                                                <svg className="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
-                                                </svg>
-
-                                            </button>
-                                        }
-
-                                        <WalletModal
-
-                                            setHiddenShowDirection={setHiddenShowDirection}
-                                        />
-
-                                        {
-                                            isCurrentUser &&
-
-                                            <div
-                                                title="Profil Produit Popov"
-
-                                                className=" z-20 rounded-full "
-
-                                                tabIndex={0}
-
-                                                aria-label="Profil Produit Popov"
-
-                                            >
-                                                <ProfilPopPov />
-
-                                            </div>
-                                        }
-
-                                    </div>
+                                {/*main contain*/}
+                                <div className=" flex flex-col gap-6 pt-20 pb-30">
 
                                     <div className="flex flex-col ">
 
@@ -299,8 +261,11 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                                     <fieldset>
 
                                         {t("color_prod")}
+
                                         <legend className="text-sm font-medium ">
+
                                             {currentSelectedProductView?.color_prouct}
+
                                         </legend>
 
                                         <div className="mt-4 flex items-center gap-x-3">
@@ -345,12 +310,16 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                                     </fieldset>
 
                                     <div className="text-sm  my-2 h-[20dvh] overflow-y-auto scrollbor_hidden leading-relaxed whitespace-pre-line">
+
                                         <h1 className="text-xl">{t('description_prod')} </h1>
+
                                         <TextParagraphs text={currentSelectedProductView?.description_product?.toLowerCase()}/>
+
                                     </div>
 
                                     {/* SIZE / INFO GRID */}
                                     <fieldset>
+
                                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
                                             {[
                                                 { label: "Type", value: currentSelectedProductView?.type_choice },
@@ -363,7 +332,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                                                     item.value && (
                                                         <div
                                                             key={index}
-                                                            className="text-xs border p-2 rounded-md bg-gray-50 dark:bg-gray-800 dark:border-gray-700"
+                                                            className="text-xs border border-gray-100 p-2 rounded-md bg-gray-50 dark:bg-gray-800 dark:border-gray-700"
                                                         >
                                                             <strong className="font-semibold text-gray-700 dark:text-gray-200">
                                                                 {item.label}
@@ -376,13 +345,14 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                                                     )
                                             )}
                                         </div>
+
                                     </fieldset>
 
 
-                                    <div className="border-0 overflow-x-auto w-full  scrollbor_hidden flex gap-2 ">
+                                    <div className="border-0 overflow-x-auto w-full  scrollbor_hidden flex gap-2 bg-white/80">
 
                                         {/*information complémentaire*/}
-                                        <fieldset className="border-0 flex  gap-4 items-center text-sm text-gray-600 p-3 rounded-md  animate-scroll">
+                                        <fieldset className="border-0 flex  gap-4 items-center text-sm text-gray-600 p-3 rounded-md  animate-scroll ">
 
                                             {
                                                 getLogoTitlOperation(t, currentSelectedProductView).map((el, idx)=>
@@ -404,41 +374,58 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                                             }
 
                                         </fieldset>
+
                                     </div>
 
                                 </div>
 
-                                <fieldset className="absolute bottom-2 right-2 text-xs text-gray-500">
+                                {/*Buttons for phone resolution sm*/}
+                                <div className="bg-white/80 absolute bottom-0 text-xs text-gray-500 mb-1 flex items-center justify-between gap-4 px-2">
 
-                                    {(() => {
+                                    <div className="md:hidden">
 
-                                        const createdDate = new Date(currentSelectedProductView?.created);
+                                        <NavButtons
+                                            isCurrentUser={isCurrentUser}
+                                            handleAddToCart_={handleAddToCart_}
+                                            isProductAdd={isProductAdd}
+                                            setHiddenShowDirection={setHiddenShowDirection}
+                                        />
 
-                                        const now = new Date();
+                                    </div>
 
-                                        const isToday = createdDate.toDateString() === now.toDateString();
+                                    <fieldset>
 
-                                        const formattedTime = createdDate.toLocaleTimeString("fr-FR", {
+                                        {(() => {
 
-                                            hour: "2-digit",
+                                            const createdDate = new Date(currentSelectedProductView?.created);
 
-                                            minute: "2-digit",
-                                        });
+                                            const now = new Date();
 
-                                        const formattedDate = createdDate.toLocaleDateString("fr-FR");
+                                            const isToday = createdDate.toDateString() === now.toDateString();
 
-                                        return isToday
+                                            const formattedTime = createdDate.toLocaleTimeString("fr-FR", {
 
-                                            ? `${t("phrasaleDate")} ${formattedTime}`
+                                                hour: "2-digit",
 
-                                            : `${formattedDate} ${t('at')} ${formattedTime}`;
-                                    })()}
+                                                minute: "2-digit",
+                                            });
 
-                                </fieldset>
+                                            const formattedDate = createdDate.toLocaleDateString("fr-FR");
 
-                        </div>
+                                            return isToday
+
+                                                ? `${t("phrasaleDate")} ${formattedTime}`
+
+                                                : `${formattedDate} ${t('at')} ${formattedTime}`;
+                                        })()}
+
+                                    </fieldset>
+
+                                </div>
 
                             </div>
+
+                        </div>
 
                     </main>
 
@@ -456,3 +443,61 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 };
 
 export default ProductModal;
+
+
+const NavButtons = ({ isProductAdd, handleAddToCart_, isCurrentUser, setHiddenShowDirection}) => {
+
+    const { t } = useTranslation();
+
+    return (
+
+        <div className="flex justify-between items-center gap-4">
+
+                {
+                    (!isProductAdd) &&
+                    <button
+
+                        onClick={(e) => handleAddToCart_(e)}
+
+                        title={t("add_in_basket")}
+
+                        className="z-20 cursor-pointer flex flex-col items-center justify-center p-3 rounded-full  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+
+                        aria-label={t("add_in_basket")}
+
+                    >
+                        <svg className="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
+                        </svg>
+
+                        <p>{t("add_in_basket")}</p>
+
+                    </button>
+                }
+
+                <WalletModal
+
+                    setHiddenShowDirection={setHiddenShowDirection}
+                />
+
+                {
+                    isCurrentUser &&
+
+                    <div
+                        title="Profil Produit Popov"
+
+                        className=" z-20 rounded-full "
+
+                        tabIndex={0}
+
+                        aria-label="Profil Produit Popov"
+
+                    >
+                        <ProfilPopPov />
+
+                    </div>
+                }
+
+        </div>
+    )
+}

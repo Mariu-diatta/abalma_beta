@@ -14,7 +14,6 @@ const Footer = () => {
 
     const componentRef_ = useRef(null);
 
-  
     useEffect(() => {
 
         const observer = new IntersectionObserver(

@@ -8,9 +8,11 @@ import NumberFollowFollowed from '../components/FollowUserComp';
 const ProfilPopPov = () => {
 
     const [isVisible, setIsVisible] = useState(false);
+
     const [showAbove, setShowAbove] = useState(false);
 
     const popoverRef = useRef(null);
+
     const buttonRef = useRef(null);
 
     const currentOwnUser = useSelector((state) => state.chat.userSlected);
@@ -73,7 +75,7 @@ const ProfilPopPov = () => {
                 aria-haspopup="true"
                 aria-expanded={isVisible}
                 aria-controls="popover-user-profile"
-                className="cursor-pointer hover:bg-gray-200 focus:outline-none font-medium rounded-full text-sm p-3 text-center dark:bg-gray-700 dark:hover:bg-gray-600"
+                className="flex flex-col items-center cursor-pointer hover:bg-gray-200 focus:outline-none font-medium rounded-full text-sm p-3 text-center dark:bg-gray-700 dark:hover:bg-gray-600"
             >
                 <svg
                     className="w-5 h-5 text-blue-800 dark:text-white"
@@ -89,7 +91,7 @@ const ProfilPopPov = () => {
                     <path d="M5 7h14M5 12h14M5 17h10" />
                 </svg>
 
-                <span className="sr-only">Toggle user profile popover</span>
+                <p>Voir profil fournisseur</p>
 
             </button>
 

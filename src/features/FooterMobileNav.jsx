@@ -7,6 +7,7 @@ import NotificationsComponent from "../components/NotificationComponent";
 import PayBack from "../components/BacketButtonPay";
 import { useSelector } from "react-redux";
 import { ENDPOINTS } from "../utils";
+import LanguageDropdown from "./Langages";
 
 const MobileNav = ({ open }) => {
 
@@ -27,7 +28,15 @@ const MobileNav = ({ open }) => {
 
         <WhiteRoundedButton titleButton={t(ENDPOINTS.REGISTER)} to={ENDPOINTS.REGISTER} />
 
-        <PayBack />
+        <div className="flex justify-between items-center gap-1 text-sm hover:bg-gray-100">
+            <PayBack />
+            <span>{t("your_basket")}</span>
+        </div>
+
+        <div className="flex justify-between items-center gap-1 text-sm  hover:bg-gray-100">
+            <LanguageDropdown />
+            <span>{t("choose_language")}</span>
+        </div>
 
         <ThemeToggle/>
 
@@ -52,11 +61,11 @@ export const NavigateLoginButtons = () => {
             style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
             className=" md:hidden flex items-center justify-between gap-3 w-full bg-white absolute bottom-0 py-2 px-2"
         >
-            <ThemeToggle />
+            <ThemeToggle/>
 
-            <NotificationsComponent />
+            <NotificationsComponent/>
 
-            <PayBack />
+            <PayBack/>
 
         </div>
     );

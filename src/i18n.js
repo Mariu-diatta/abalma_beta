@@ -22,6 +22,9 @@ i18n
      en: {
 
         translation: {
+             your_basket: "Your basket",
+             add_in_basket: "Add in basket",
+             pay_for_product:"Checkout",
              verified:"Verified",
              availability:"Availability",
              operation:"Operation",
@@ -666,6 +669,9 @@ i18n
      fr: {
 
          translation: {
+             your_basket: "Votre panier",
+             add_in_basket: "Ajouter au panier",
+             pay_for_product: "Payer le produit",
              verified:"Vérifié",
              availability:"Disponible",
              operation:"Opération",
