@@ -116,7 +116,10 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
             setIsCurrentUser(isCurrent_User)
 
+            return setIsCurrentUser(false)
+
         }, [currentUser?.id, selectedUser?.id, currentUser?.email, selectedUser?.email]
+
     )
 
     // Sans paramètre, pour un appel manuel
@@ -449,19 +452,21 @@ const NavButtons = ({ isProductAdd, handleAddToCart_, isCurrentUser, setHiddenSh
 
     const { t } = useTranslation();
 
+    if (isCurrentUser) return
+
     return (
 
         <div className="flex justify-between items-center gap-4">
 
                 {
-                    (!isProductAdd) &&
+                    !isProductAdd &&
                     <button
 
                         onClick={(e) => handleAddToCart_(e)}
 
                         title={t("add_in_basket")}
 
-                        className="z-20 cursor-pointer flex flex-col items-center justify-center p-3 rounded-full  hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="z-20 cursor-pointer flex flex-col items-center justify-center p-3 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
 
                         aria-label={t("add_in_basket")}
 
@@ -480,23 +485,19 @@ const NavButtons = ({ isProductAdd, handleAddToCart_, isCurrentUser, setHiddenSh
                     setHiddenShowDirection={setHiddenShowDirection}
                 />
 
-                {
-                    isCurrentUser &&
+                <div
+                    title="Profil Produit Popov"
 
-                    <div
-                        title="Profil Produit Popov"
+                    className=" z-20 rounded-lg"
 
-                        className=" z-20 rounded-full "
+                    tabIndex={0}
 
-                        tabIndex={0}
+                    aria-label="Profil Produit Popov"
 
-                        aria-label="Profil Produit Popov"
+                >
+                    <ProfilPopPov />
 
-                    >
-                        <ProfilPopPov />
-
-                    </div>
-                }
+                </div>
 
         </div>
     )

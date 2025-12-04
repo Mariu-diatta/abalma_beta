@@ -3,9 +3,12 @@ import { useSelector } from 'react-redux';
 import OwnerAvatar from '../components/OwnerProfil';
 import FollowProfilUser from '../components/ViewsProfilUser';
 import NumberFollowFollowed from '../components/FollowUserComp';
+import { useTranslation } from 'react-i18next';
 
 
 const ProfilPopPov = () => {
+
+    const { t } = useTranslation();
 
     const [isVisible, setIsVisible] = useState(false);
 
@@ -75,7 +78,7 @@ const ProfilPopPov = () => {
                 aria-haspopup="true"
                 aria-expanded={isVisible}
                 aria-controls="popover-user-profile"
-                className="flex flex-col items-center cursor-pointer hover:bg-gray-200 focus:outline-none font-medium rounded-full text-sm p-3 text-center dark:bg-gray-700 dark:hover:bg-gray-600"
+                className="flex flex-col items-center cursor-pointer hover:bg-gray-200 focus:outline-none  rounded-lg text-sm p-3 text-center dark:bg-gray-700 dark:hover:bg-gray-600"
             >
                 <svg
                     className="w-5 h-5 text-blue-800 dark:text-white"
@@ -91,7 +94,7 @@ const ProfilPopPov = () => {
                     <path d="M5 7h14M5 12h14M5 17h10" />
                 </svg>
 
-                <p>Voir profil fournisseur</p>
+                <span>{t("your_profil")}</span>
 
             </button>
 
@@ -103,7 +106,7 @@ const ProfilPopPov = () => {
                     role="dialog"
                     aria-modal="true"
                     className={`bg-white absolute right-0 w-64 text-sm text-gray-700 bg-white border border-gray-200 rounded-lg shadow-lg dark:text-gray-300 dark:bg-gray-800 dark:border-gray-600 z-50
-                        ${showAbove ? 'bottom-full left-1/2 mb-2' : 'top-full mt-2'}
+                        ${showAbove ? 'bottom-full left-1/2 mb-2 right-4' : 'top-full mt-2'}
                     `}
                     style={{
                         backgroundColor: "var(--color-bg)",

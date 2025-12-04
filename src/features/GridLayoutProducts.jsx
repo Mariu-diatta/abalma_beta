@@ -212,7 +212,7 @@ const GridLayoutProduct = () => {
 
         <div
 
-            className="space-y-4 dark:bg-gray-900 dark:text-white py-0"
+            className="space-y-4 dark:bg-gray-900 dark:text-white py-0 bg-white/80"
 
             style={{
 

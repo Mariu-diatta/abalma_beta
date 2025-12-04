@@ -22,6 +22,7 @@ i18n
      en: {
 
         translation: {
+             your_profil: "See profil",
              your_basket: "Your basket",
              add_in_basket: "Add in basket",
              pay_for_product:"Checkout",
@@ -669,6 +670,7 @@ i18n
      fr: {
 
          translation: {
+             your_profil:"Voir profil",
              your_basket: "Votre panier",
              add_in_basket: "Ajouter au panier",
              pay_for_product: "Payer le produit",
