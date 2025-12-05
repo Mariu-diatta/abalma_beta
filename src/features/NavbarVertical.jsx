@@ -39,27 +39,30 @@ const VertcalNavbar = ({ children }) => {
     //// 🔎 Fetch Rooms
     useEffect(() => {
 
+        if (!currentUser) {
+            return navigate("/login", { replace: true })
+        }
+
         const fetchRooms = async () => {
-
             try {
-                const data= await api.get("/rooms/");
+                const response = await api.get("/allRoomes/");
+                const rooms = response?.data || [];
 
-                const userRooms = data?.filter(
-
-                    room => (room?.current_receiver === currentUser?.id && room?.messages.length > 0) || room?.current_owner === currentUser?.id
+                const userRooms = rooms.filter(room =>
+                ((room?.current_receiver === currentUser?.id && room?.messages?.length > 0) ||
+                    room?.current_owner === currentUser?.id)
                 );
 
-                (userRooms?.length>0) && userRooms.forEach(room => dispatch(addRoom(room)));
+                userRooms.forEach(room => dispatch(addRoom(room)));
 
             } catch (error) {
-
-                //console.error("Erreur lors de la récupération des rooms :", error);
+                console.error("Erreur lors de la récupération des rooms :", error.response?.data || error);
             }
         };
 
         fetchRooms();
 
-    }, [currentUser, dispatch]);
+    }, [currentUser, dispatch, navigate]);
 
     // 📦 Click en dehors de la sidebar
     useEffect(() => {
@@ -87,6 +90,7 @@ const VertcalNavbar = ({ children }) => {
         fetchRooms(currentUser, dispatch, addRoom);
 
     }, [dispatch, currentUser]);
+
 
     return (
 

@@ -277,6 +277,11 @@ export function PaymentAppPayPal({ amount, setLoadingPayPal }) {
             });
         } catch (err) {
             handlePaymentError(err);
+            // Notification personnalisée
+            showMessage(dispatch, {
+                Type: "Erreur",
+                Message: `Hupps! ${err?.response?.data?.detail || err?.message}, votre paiement a échoué!`,
+            });
         }
     };
 
