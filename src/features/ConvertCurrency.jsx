@@ -20,7 +20,7 @@ const RendrePrixProduitMonnaie = ({ item }) => {
                                 (item?.currency_price === "EURO") ?
                                 "€"
                                 :
-                                "FCFA"
+                                "XOF"
                             )
                             :
                             "$";
@@ -29,7 +29,7 @@ const RendrePrixProduitMonnaie = ({ item }) => {
 
             <span
                 className="whitespace-nowrap text-blue-700 dark:text-blue-400 font-semibold text-sm sm:text-base"
-                aria-label={(prixFormat === "$") ? `${t('monnaie.prix_label')}` : prixFormat}
+                aria-label={(prixFormat === "$") ? `XOF` : prixFormat}
             >
                 {
                     (item?.currency_price === "DOLLAR") ?

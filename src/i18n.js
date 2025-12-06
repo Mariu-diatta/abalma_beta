@@ -22,6 +22,10 @@ i18n
      en: {
 
         translation: {
+             transaction_fail: "Your transaction fail",
+             unsuccess_transaction: "An error occurred during the payment. Please try again.",
+             success_transaction: "Transaction completed successfully",
+             quantity_limit_error: "You cannot exceed the available quantity!",
              your_profil: "See profil",
              your_basket: "Your basket",
              add_in_basket: "Add in basket",
@@ -221,7 +225,7 @@ i18n
                  "select_currency": "-- Select currency --",
                  "euro": "Euro",
                  "dollar": "Dollar",
-                 "franc": "Franc",
+                 "franc": "XOF",
                  "product_price": "Product price",
                  "product_category": "Category",
                  "select_category": "-- Select a category --",
@@ -670,6 +674,10 @@ i18n
      fr: {
 
          translation: {
+             unsuccess_transaction: "Une erreur est survenue lors du paiement. Veuillez réessayer.",
+             transaction_fail: "votre paiement a échoué!",
+             success_transaction:"Transaction effectuée",
+             quantity_limit_error: "Vous ne pouvez pas dépasser la quantité disponible !",
              your_profil:"Voir profil",
              your_basket: "Votre panier",
              add_in_basket: "Ajouter au panier",
@@ -872,7 +880,7 @@ i18n
                   "select_currency": "-- Choisir la monnaie --",
                   "euro": "Euro",
                   "dollar": "Dollar",
-                  "franc": "Franc",
+                  "franc": "XOF",
                   "product_price": "Prix du produit",
                   "product_category": "Catégorie",
                   "select_category": "-- Choisir une catégorie --",

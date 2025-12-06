@@ -247,12 +247,12 @@ export function translateCategory(value) {
 }
 
 // 💰 Gestion des monnaies
-export const symbolesMonnaies = { EUR: '€', USD: '$', XOF: 'CFA', CHF: 'CHF' };
+export const symbolesMonnaies = { EUR: '€', USD: '$', XOF: 'XOF', CHF: 'CHF' };
 
 export const configurationMonnaies = {
     EUR: { symbole: '€', position: 'apres', code: 'EUR' },
     USD: { symbole: '$', position: 'avant', code: 'USD' },
-    XOF: { symbole: 'CFA', position: 'apres', code: 'XOF' },
+    XOF: { symbole: 'XOF', position: 'apres', code: 'XOF' },
     CHF: { symbole: 'CHF', position: 'apres', code: 'CHF' },
 };
 export const formaterPrix = (prix, monnaie, t, locale = 'fr-FR') => {
@@ -479,7 +479,15 @@ export const CONSTANTS = {
     DARK: 'dark',
     LIGHT: 'light',
     THEME: 'theme',
-    CHAT_MESSAGE: "chat_message"
+    CHAT_MESSAGE: "chat_message",
+    DECIMALS_DIGITS: 2,
+    ZERO_DECIMALS_DIGITS: 0.00,
+    XOF: "XOF",
+    EUR: "EUR",
+    USD: "USD",
+    FRANC: "FRANC",
+    FR:"fr"
+
 }
 
    
@@ -491,13 +499,27 @@ export function capitalizeFirstLetter(str) {
 }
 
 //Paiment mode 
-export const payNow = async ({email, amount}, setLoading) => {
+export const payNow = async (
+    { email, amount },
+    setLoading,
+    currentcyRate,
+    dispatch,
+    showMessage,
+    t,
+    setShowPaymentForm
+)=> {
+
+    const currency = currentcyRate
 
     try {
+
         setLoading(true)
+
         const dataStringify = {
             amount,
-            email
+            email,
+            currency 
+
         }
 
         const res = await api.post("/create-checkout-session/", dataStringify);
@@ -507,6 +529,8 @@ export const payNow = async ({email, amount}, setLoading) => {
     } catch (err) {
 
         console.log("Erreur de la donnée", err)
+        setShowPaymentForm(false)
+        showMessage(dispatch, { Type: "Erreur", Message: err?.response?.data?.error || t("Erreur sur la donnée") });
 
     } finally {
 
@@ -514,6 +538,33 @@ export const payNow = async ({email, amount}, setLoading) => {
     }
 
 };
+
+
+export const convertRates = async (setConvertValue, rateToConvert, referenceRate) => {
+
+
+    try {
+        fetch(
+            `https://v6.exchangerate-api.com/v6/6b5ab9ed25a662eeea6ea68d/latest/${referenceRate}`
+        ).then(
+            res => res.json()
+        ).then(
+            data => {
+                const res = data?.conversion_rates
+                setConvertValue(res[rateToConvert])
+            }
+        ).catch(
+            err => console.log("Erreur convert rate")
+        )
+    } catch (err) {
+
+        console.log("Erreur convert rate", err)
+
+    } finally {
+
+    }
+}
+
 
 
 

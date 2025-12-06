@@ -78,7 +78,7 @@ const WalletModal = ({ setHiddenShowDirection }) => {
 
                 onClick={toggleModal}
 
-                className="flex flex-col z-20 rounded-lg cursor-pointer text-gray-900  hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium text-sm p-3 inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700"
+                className="flex flex-col z-20 rounded-lg cursor-pointer text-gray-900  hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-100 text-sm p-3 inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700"
 
                 aria-haspopup="dialog"
 
@@ -89,7 +89,7 @@ const WalletModal = ({ setHiddenShowDirection }) => {
                 <svg className="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                     <path stroke="currentColor" strokeLinecap="round" strokeWidth="1" d="M8 7V6a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-1M3 18v-7a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Zm8-3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
                 </svg>
-                <p>{t("pay_for_product")}</p>
+                <p className="whitespace-nowrap">{t("pay_for_product")}</p>
 
             </button>
 

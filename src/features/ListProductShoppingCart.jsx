@@ -5,11 +5,20 @@ import { addToCart, removeFromCart, decreaseQuantity, getTotalPrice } from '../s
 import Logo from "../components/LogoApp";
 import { useTranslation } from 'react-i18next';
 import { TitleCompGenLitle } from "../components/TitleComponentGen";
+import { CONSTANTS, convertRates } from "../utils";
 
 
 const ListProductShoppingCart = () => {
 
     const { t } = useTranslation();
+
+    const { i18n } = useTranslation();
+
+    const lang = i18n.language || window.localStorage.i18nextLng || CONSTANTS?.FR;
+
+    const reference = lang === CONSTANTS?.FR ? CONSTANTS?.EUR : CONSTANTS?.USD
+
+    const [convertRate, setConvertRate]=useState(0.00)
 
     const dispatch = useDispatch();
 
@@ -37,7 +46,7 @@ const ListProductShoppingCart = () => {
 
         } else {
 
-            alert("Vous ne pouvez pas dépasser la quantité disponible !");
+            alert(t("quantity_limit_error"));
         }
     };
 
@@ -50,13 +59,23 @@ const ListProductShoppingCart = () => {
 
         const price = Number(product.price_product);
 
+        var convertValue = product?.currency_price
+        
+        if (product?.currency_price === CONSTANTS?.FRANC) {
+
+            convertValue = CONSTANTS?.XOF
+        }
+
+        convertRates(setConvertRate, convertValue, reference)
+
         const quantity = Number(product.quanttity_product_sold);
 
-        return (!isNaN(price) && !isNaN(quantity)) ? price * quantity : 0;
+        var convertRefRate = (convertRate > 1) ? (1 / convertRate) : convertRate
+
+        return (!isNaN(price) && !isNaN(quantity)) ? price * quantity * convertRefRate : 0;
     };
 
-    const grandTotal = data.items.reduce((acc, product) => acc + totalPrice(product), 0);
-
+    const grandTotal = data.items.reduce((acc, product) => acc+totalPrice(product), 0);
 
     useEffect(() => {
 
@@ -128,7 +147,7 @@ const ListProductShoppingCart = () => {
                     {
                         data?.items?.map(
                             (
-                                { id, description_product, categorie_product, image_product, price_product, quantity_product, quanttity_product_sold }) => (
+                                { id, description_product, categorie_product, image_product, price_product, quantity_product, quanttity_product_sold, currency_price }) => (
 
                                 <tr key={id}
 
@@ -190,13 +209,13 @@ const ListProductShoppingCart = () => {
 
                                     <td className="px-6 py-4">
 
-                                        ${!isNaN(Number(price_product)) ? Number(price_product).toFixed(2) : "0.00"}
+                                        {!isNaN(Number(price_product)) ? Number(price_product).toFixed(CONSTANTS?.DECIMALS_DIGITS) : CONSTANTS?.ZERO_DECIMALS_DIGITS} ({currency_price })
 
                                     </td>
 
                                     <td className="px-6 py-4 ">
 
-                                        ${(!isNaN(Number(price_product)) && !isNaN(Number(quanttity_product_sold)) ? (Number(price_product) * Number(quanttity_product_sold)).toFixed(2) : "0.00")}
+                                        {(!isNaN(Number(price_product)) && !isNaN(Number(quanttity_product_sold)) ? (Number(price_product) * Number(quanttity_product_sold)).toFixed(CONSTANTS?.DECIMALS_DIGITS) : CONSTANTS?.ZERO_DECIMALS_DIGITS)} ({currency_price})
 
                                     </td>
 
@@ -234,7 +253,7 @@ const ListProductShoppingCart = () => {
 
                         <td className="px-6 py-3 font-bold text-white-900 dark:text-white">
 
-                            ${!isNaN(grandTotal) ? grandTotal.toFixed(2) : "0.00"}
+                            {!isNaN(grandTotal) ? grandTotal.toFixed(CONSTANTS?.DECIMALS_DIGITS) : CONSTANTS?.ZERO_DECIMALS_DIGITS} ({reference})
 
                         </td>
 
@@ -246,7 +265,10 @@ const ListProductShoppingCart = () => {
 
             </table>
 
-            <BuyButtonWithPaymentForm total_price={!isNaN(grandTotal) ? grandTotal.toFixed(2) : "0.00"} />
+            <BuyButtonWithPaymentForm
+                total_price={!isNaN(grandTotal) ? grandTotal.toFixed(CONSTANTS?.DECIMALS_DIGITS) : CONSTANTS?.ZERO_DECIMALS_DIGITS}
+                reference={reference}
+            />
 
         </main>
     );
@@ -255,7 +277,7 @@ const ListProductShoppingCart = () => {
 export default ListProductShoppingCart;
 
 
-const BuyButtonWithPaymentForm = ({ total_price }) => {
+const BuyButtonWithPaymentForm = ({ total_price, reference }) => {
 
     const [showPaymentForm, setShowPaymentForm] = useState(false);
 
@@ -266,22 +288,22 @@ const BuyButtonWithPaymentForm = ({ total_price }) => {
         <div className="text-right p-4">
 
             {
-                (parseInt(total_price) !== 0) &&
+                (total_price>0) &&
 
-                <button onClick={() => setShowPaymentForm(true)} className="text-white bg-gradient-to-br from-purple-300 to-blue-300 hover:bg-gradient-to-br hover:from-purple-400focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center">
+                <button onClick={() => setShowPaymentForm(true)} className="cursor-pointer text-white bg-gradient-to-br from-purple-300 to-blue-300 hover:bg-gradient-to-br hover:from-purple-400focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center">
 
                     <svg className="w-3.5 h-3.5 me-2" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 21">
 
                          <path d="M15 12a1 1 0 0 0 .962-.726l2-7A1 1 0 0 0 17 3H3.77L3.175.745A1 1 0 0 0 2.208 0H1a1 1 0 0 0 0 2h.438l.6 2.255v.019l2 7 .746 2.986A3 3 0 1 0 9 17a2.966 2.966 0 0 0-.184-1h2.368c-.118.32-.18.659-.184 1a3 3 0 1 0 3-3H6.78l-.5-2H15Z" />
                     </svg>
                      
-                   {t('buy')} (${total_price})
+                     {t('buy')} {total_price} ({reference})
 
                 </button>
             }
 
             {
-                (showPaymentForm && parseInt(total_price) !== 0) && (
+                (showPaymentForm && total_price>0) && (
 
                 <div className="backdrop-blur-sm fixed inset-0 z-50 bg-gray-100 bg-transparent  bg-opacity-100 flex items-center justify-center style-bg" onClick={() => setShowPaymentForm(false)}>
 
@@ -291,11 +313,15 @@ const BuyButtonWithPaymentForm = ({ total_price }) => {
 
                             <Logo />
 
-                            <span className="text-lg font-semibold"> {t('total_pay')} ${total_price}</span>
+                                <span className="text-lg font-semibold"> {t('total_pay')} {total_price} ({reference})</span>
 
                         </div>
 
-                            <Payment totalPrice={total_price} />
+                            <Payment
+                                totalPrice={total_price}
+                                referenceRate={reference}
+                                setShowPaymentForm={setShowPaymentForm}
+                            />
 
                     </div>
 

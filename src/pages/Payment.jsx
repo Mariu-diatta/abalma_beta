@@ -8,19 +8,33 @@ import { addMessageNotif } from '../slices/chatSlice';
 import LoadingCard from '../components/LoardingSpin';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { useCallback } from 'react';
-import { payNow } from '../utils';
+import { CONSTANTS, payNow } from '../utils';
 import { useTranslation } from 'react-i18next';
 
 
-const Payment = ({ totalPrice}) => {
+const Payment = (
+    {
+        totalPrice,
+        referenceRate,
+        setShowPaymentForm
+    }
+) => {
 
     const { t } = useTranslation();
 
     const currentUser = useSelector(state => state.auth.user);
 
+    const dispatch = useDispatch()
+
     const [loading, setLoading] = useState(false);
 
     const [loadingPayPal, setLoadingPayPal] = useState(false);
+
+    const { i18n } = useTranslation();
+
+    const lang = i18n.language || window.localStorage.i18nextLng || CONSTANTS?.FR;
+
+    const reference = lang === CONSTANTS?.FR ? CONSTANTS?.EUR : CONSTANTS?.USD
 
     if (!currentUser && !currentUser?.is_connected) {
 
@@ -46,7 +60,19 @@ const Payment = ({ totalPrice}) => {
                 !loading?
                 <button
                     onClick={() => {
-                        payNow({ email: currentUser?.email, amount: parseFloat(totalPrice) }, setLoading)
+                            payNow({
+                                email: currentUser?.email,
+                                amount: parseFloat(totalPrice),
+
+                            },
+                                setLoading,
+                                reference,
+                                dispatch,
+                                showMessage,
+                                t,
+                                setShowPaymentForm
+
+                            )
                     }}
                     className="rounded-lg h-full text-md py-3 bg-blue-50 w-full my-2 cursor-pointer hover:bg-blue-100"
                 >
@@ -59,7 +85,12 @@ const Payment = ({ totalPrice}) => {
 
             {
                 !loadingPayPal?
-                <PaymentAppPayPal amount={totalPrice} setLoadingPayPal={setLoadingPayPal}/>
+                    <PaymentAppPayPal
+                        amount={totalPrice}
+                        setLoadingPayPal={setLoadingPayPal}
+                        refRate={referenceRate}
+                        setShowPaymentForm={setShowPaymentForm}
+                    />
                 :
                 <LoadingCard />
             }
@@ -72,8 +103,9 @@ const Payment = ({ totalPrice}) => {
 export default Payment;
 
 
-
 export const PaymentForm = () => {
+
+    const { t } = useTranslation();
 
     const [loading, setLoading] = useState(false)
 
@@ -118,9 +150,9 @@ export const PaymentForm = () => {
             )
 
             //console.log("Réponse backend :", products.data)
-            showMessage(dispatch, { Type: "Message", Message: "Transaction effectué" });
+            showMessage(dispatch, { Type: "Message", Message: t("success_transaction") });
 
-            dispatch(addMessageNotif("Transaction effectué"))
+            dispatch(addMessageNotif(t("success_transaction")))
 
             dispatch(clearCart())
 
@@ -185,9 +217,18 @@ export const PaymentForm = () => {
     );
 };
 
-export function PaymentAppPayPal({ amount, setLoadingPayPal }) {
+export function PaymentAppPayPal(
+    {
+        amount,
+        setLoadingPayPal,
+        refRate,
+        setShowPaymentForm
+    }
+) {
 
     //const [loading, setLoading] = useState(false)
+
+    const { t } = useTranslation();
 
     const data = useSelector(state => state.cart);
 
@@ -237,6 +278,8 @@ export function PaymentAppPayPal({ amount, setLoadingPayPal }) {
 
             } catch (err) {
 
+                setShowPaymentForm(false)
+
                 showMessage(dispatch, { Type: "Erreur", Message: err?.response?.data?.detail || err?.message });
 
 
@@ -245,27 +288,38 @@ export function PaymentAppPayPal({ amount, setLoadingPayPal }) {
                 setLoadingPayPal(false)
             }
 
-    }, [currentUser, dispatch, data, setLoadingPayPal]
+    }, [currentUser, dispatch, data, setLoadingPayPal, setShowPaymentForm]
     )
 
 
 
-    const createOrder = (actions) => {
-        return actions.order.create({
-            purchase_units: [
-                {
-                    amount: {
-                        value: Number(amount).toFixed(2), // montant à 2 décimales
+    const createOrder = async (actions) => {
+
+        try {
+            return await actions.order.create({
+
+                purchase_units: [
+                    {
+                        amount: {
+                            currency_code: refRate,
+                            value: Number(amount).toFixed(CONSTANTS?.DECIMALS_DIGITS), // montant à 2 décimales
+                        },
                     },
-                },
-            ],
-        });
+                ],
+            });
+
+        } catch (error) {
+
+            console.error("Erreur lors du payement paypal")
+            console.log("Erreur de payement paypal", error)
+            throw error
+        }
     };
 
     const onApprovePayment = async (actions) => {
+
         try {
             const details = await actions.order.capture();
-            console.log("Paiement réussi :", details);
 
             // Appel fonction post-transaction
             boughtProduct();
@@ -273,23 +327,23 @@ export function PaymentAppPayPal({ amount, setLoadingPayPal }) {
             // Notification personnalisée
             showMessage(dispatch, {
                 Type: "Message",
-                Message: `Merci ${details.payer.name.given_name}, votre paiement a été effectué !`,
+                Message: `Merci ${details.payer.name.given_name}, ${t("success_transaction")}!`,
             });
         } catch (err) {
             handlePaymentError(err);
             // Notification personnalisée
             showMessage(dispatch, {
                 Type: "Erreur",
-                Message: `Hupps! ${err?.response?.data?.detail || err?.message}, votre paiement a échoué!`,
+                Message: `Hupps! ${err?.response?.data?.detail || err?.message}, ${t('transaction_fail')}`,
             });
         }
     };
 
     const handlePaymentError = (err) => {
-        console.error("Erreur PayPal :", err);
+
         showMessage(dispatch, {
             Type: "Erreur",
-            Message: "Une erreur est survenue lors du paiement. Veuillez réessayer.",
+            Message: t("unsuccess_transaction"),
         });
     };
 
@@ -301,19 +355,35 @@ export function PaymentAppPayPal({ amount, setLoadingPayPal }) {
 
     return (
 
-        <PayPalScriptProvider options={{ "client-id": process.env.REACT_APP_PAYPAL_CLIENT_ID }}>
+        <PayPalScriptProvider
+
+            options={
+                {
+                    "client-id": process.env.REACT_APP_PAYPAL_CLIENT_ID,
+
+                    currency: refRate,
+                }
+            }
+        >
 
             <PayPalButtons
-                style={{
-                    layout: "vertical",
-                    color: "blue",
-                    shape: "rect",
-                    label: "paypal",
-                }}
+
+                style={
+                    {
+                        layout: "vertical",
+                        color: "blue",
+                        shape: "rect",
+                        label: "paypal",
+                    }
+                }
+
                 createOrder={(data, actions) => createOrder(actions)}
+
                 onApprove={(data, actions) => onApprovePayment(actions)}
+
                 onError={(err) => handlePaymentError(err)}
             />
+
         </PayPalScriptProvider>
     );
 }

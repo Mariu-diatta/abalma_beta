@@ -13,7 +13,7 @@ const TablesRecapActivities = ({productsTrasactionBought }) => {
 
     return (
 
-        <div className="absolute fixed w-[98dvw] md:w-[80dvw] sm:rounded-lg style-bg  scrollbor_hidden pb-6  overflow-hidden ">
+        <div className="absolute fixed w-[98dvw] md:w-[80dvw] sm:rounded-lg style-bg  scrollbor_hidden pb-6  overflow-y-auto h-full">
 
             <div className="mb-6 text-center style_bg">
 

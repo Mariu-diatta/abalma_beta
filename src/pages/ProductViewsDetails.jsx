@@ -252,7 +252,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                                             {t("code_ref")}: {currentSelectedProductView?.code_reference}
                                         </p>
 
-                                        <h2 className="text-2xl ">
+                                        <h2 className="text-2xl">
                                             <RendrePrixProduitMonnaie item={currentSelectedProductView} />
                                         </h2>
 
@@ -475,16 +475,18 @@ const NavButtons = ({ isProductAdd, handleAddToCart_, isCurrentUser, setHiddenSh
                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
                         </svg>
 
-                        <p>{t("add_in_basket")}</p>
+                        <p className="whitespace-nowrap">{t("add_in_basket")}</p>
 
                     </button>
                 }
 
+                {/*payment card*/}
                 <WalletModal
 
                     setHiddenShowDirection={setHiddenShowDirection}
                 />
 
+                {/*user profil*/}
                 <div
                     title="Profil Produit Popov"
 

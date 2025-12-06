@@ -94,7 +94,7 @@ const ProfilPopPov = () => {
                     <path d="M5 7h14M5 12h14M5 17h10" />
                 </svg>
 
-                <span>{t("your_profil")}</span>
+                <span className="whitespace-nowrap">{t("your_profil")}</span>
 
             </button>
 
@@ -105,8 +105,8 @@ const ProfilPopPov = () => {
                     id="popover-user-profile"
                     role="dialog"
                     aria-modal="true"
-                    className={`bg-white absolute right-0 w-64 text-sm text-gray-700 bg-white border border-gray-200 rounded-lg shadow-lg dark:text-gray-300 dark:bg-gray-800 dark:border-gray-600 z-50
-                        ${showAbove ? 'bottom-full left-1/2 mb-2 right-4' : 'top-full mt-2'}
+                    className={`bg-white absolute right-2 w-64 text-sm text-gray-700 border border-gray-200 rounded-lg shadow-lg dark:text-gray-300 dark:bg-gray-800 dark:border-gray-600 z-50
+                        ${showAbove ? 'flex justify-start bottom-full left-10 mb-[10dvh] right-6 me-50 w-auto mx-auto' : 'top-full mt-2'}
                     `}
                     style={{
                         backgroundColor: "var(--color-bg)",
