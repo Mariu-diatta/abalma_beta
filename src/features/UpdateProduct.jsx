@@ -59,6 +59,11 @@ const AddUploadProduct = () => {
     const [dataProduct, setDataProduct] = useState(initDataProduct); 
     const [imageLoaded, setImageLoaded] = useState(null); 
 
+    function getImage(image) {
+
+        setImageLoaded(image)
+    }
+
 
     const handleFileSelect = (file) => setImageFile(file);
 
@@ -341,7 +346,7 @@ const AddUploadProduct = () => {
                                     <FormElementFileUpload
                                         label={t("add_product.ChooseImage")}
                                         getFile={handleFileSelect}
-                                        getImage={setImageLoaded}
+                                        getImage={getImage}
                                     />
 
                                 <textarea

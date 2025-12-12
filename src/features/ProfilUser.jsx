@@ -34,14 +34,28 @@ const ProfileCard = () => {
 
     // Determine user profile based on navigation context
     const userProfile = useMemo(() => {
+        if (currentNav === 'user-profil' || currentNav === 'home') {
+            return currentUser;
+        }
 
-        if ((currentNav === 'user-profil') || (currentNav === 'home')) return currentUser;
+        if (currentNav === 'user-profil-contact') {
+            return selectedProductOwner;
+        }
 
-        else if (currentNav === 'user-profil-contact') return selectedProductOwner;
+        return null; // ✅ PAS de navigate ici
 
-        else return navigate('/account-home');
+    }, [currentNav, currentUser, selectedProductOwner]);
 
-    }, [currentNav, currentUser, selectedProductOwner, navigate]);
+    useEffect(() => {
+        if (
+            currentNav !== 'user-profil' &&
+            currentNav !== 'home' &&
+            currentNav !== 'user-profil-contact'
+        ) {
+            navigate('/account-home');
+        }
+    }, [currentNav, navigate]);
+
 
     const isCurrentUser = useMemo(
 

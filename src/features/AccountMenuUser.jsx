@@ -89,14 +89,14 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
                 onBlur={() => setDropdownOpen(false)}
 
-                className={`shadow-sm bg-transparent absolute right-0 top-full me-3 overflow-hidden rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${dropdownOpen ? "block z-100 bg-white " : "hidden"}`}
+                className={`shadow-sm bg-transparent absolute right-0 top-full me-3 overflow-hidden rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${dropdownOpen ? "block z-100 bg-white/80 " : "hidden"}`}
 
                 style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
             >
 
                 <div className="px-4 py-3">
 
-                    <p className="whitespace-nowrap text-sm font-semibold text-dark dark:text-white">{currentUser?.email}</p>
+                    <p className="bg-white/80 whitespace-nowrap text-sm font-semibold text-dark dark:text-white">{currentUser?.email}</p>
 
                 </div>
 
@@ -104,7 +104,7 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
                     <button
 
-                        className="shadow-md flex gap-1 w-full items-center justify-between px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
+                        className="bg-white/80 shadow-sm flex gap-1 w-full items-center justify-between px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
 
                         onClick={
 
@@ -145,7 +145,7 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
                         onClick={() => { navigate(`/${ENDPOINTS?.SETTINGS}`); dispatch(setCurrentNav(ENDPOINTS?.SETTINGS)) }}
 
-                        className="shadow-md d-flex gap-3 flex w-full items-center justify-between px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5">
+                        className="bg-white/80 shadow-sm d-flex gap-3 flex w-full items-center justify-between px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/80">
 
                         <div className="text-left flex gap-2 items-center">
 
@@ -172,19 +172,19 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
                     {
                         !loading ?
-                            <button onClick={getUserLogOut} className="shadow-lg flex w-full items-center justify-start gap-2 px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5">
+                        <button onClick={getUserLogOut} className="bg-white/80 shadow-sm flex w-full items-center justify-start gap-2 px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5">
 
-                                <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
 
-                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2" />
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2" />
 
-                                </svg>
+                            </svg>
 
-                                {t("logOut")}
+                            {t("logOut")}
 
-                            </button>
-                            :
-                            <LoadingCard/>
+                        </button>
+                        :
+                        <LoadingCard/>
                     }
 
                 </div>

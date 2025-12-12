@@ -22,9 +22,24 @@ i18n
      en: {
 
         translation: {
+             MySales:"My Sales",
+             STATUS: {
+                  "pending": "Pending",
+                  "recorded": "Recorded",
+                  "in_progress": "Payment in progress",
+                  "failed": "Payment failed",
+                  "canceled": "Canceled",
+                  "validated": "Payment validated",
+                  "confirmed": "Confirmed",
+                  "shipped": "Shipped",
+                  "delivered": "Delivered",
+                  "refunded": "Refunded",
+                  "paid":"paid"
+             },
+             recaptTransaction: {Date:"Date", status:"Statut", price:"Price"},
              transaction_fail: "Your transaction fail",
              unsuccess_transaction: "An error occurred during the payment. Please try again.",
-             success_transaction: "Transaction completed successfully",
+             success_transaction: "Transaction completed successfully ✅",
              quantity_limit_error: "You cannot exceed the available quantity!",
              your_profil: "See profil",
              your_basket: "Your basket",
@@ -401,7 +416,7 @@ i18n
             about: "About",
             profil: "profil",
             logOut: "Log out",
-            activity: "Your activities",
+            activity: "My activities",
             footCondition: "Accept terms",
             politique: "Confidentiality",
             connecTitle: " Log In !!",
@@ -507,10 +522,12 @@ i18n
              },
 
              TableRecap: {
-                 title: "My Transactions",
+                 title: "My Orders",
                  statusAll: "All",
                  searchPlaceholder: "Search...",
                  tableHeaders: {
+                     created: 'Created',
+                     update:'Update',
                      name: "Name",
                      categories: "Categories",
                      status: "Status",
@@ -674,9 +691,25 @@ i18n
      fr: {
 
          translation: {
+             MySales: "Mes ventes",
+             STATUS: {
+                 "pending": "En attente",
+                 "recorded": "Enregistrée",
+                 "in_progress": "Paiement en cours",
+                 "failed": "Paiement échoué",
+                 "canceled": "Annulée",
+                 "validated": "Paiement validé",
+                 "confirmed": "Confirmée",
+                 "shipped": "Expédiée",
+                 "delivered": "Livrée",
+                 "refunded": "Remboursée",
+                 "paid":"Payé"
+
+             },
+             recaptTransaction: { date: "Date", status:"Statut" , price:"Prix"},
              unsuccess_transaction: "Une erreur est survenue lors du paiement. Veuillez réessayer.",
-             transaction_fail: "votre paiement a échoué!",
-             success_transaction:"Transaction effectuée",
+             transaction_fail: "Votre paiement a échoué!",
+             success_transaction:"Transaction effectuée ✅!",
              quantity_limit_error: "Vous ne pouvez pas dépasser la quantité disponible !",
              your_profil:"Voir profil",
              your_basket: "Votre panier",
@@ -1054,7 +1087,7 @@ i18n
             about: "À propos",
             profil: "Votre profil",
             logOut: "Se déconnecter",
-            activity: "Vos activités",
+            activity: "Mes activités",
             footCondition: "J'ai lu et accepté",
             politique: "Politique de confidentialité",
             connecTitle: "Connectez-vous !!",
@@ -1136,10 +1169,12 @@ i18n
             },
 
             TableRecap: {
-                title: "Mes opérations",
+                title: "Mes achats",
                 statusAll: "Tous",
                 searchPlaceholder: "Rechercher...",
                 tableHeaders: {
+                    created: 'Création',
+                    update:"Mise à jour",
                     name: "Nom",
                     categories: "Catégories",
                     status: "Statut",
@@ -1307,7 +1342,7 @@ i18n
                   "redirectIn": "Redirection vers la page de connexion dans"
               }
         }
-      }
+     }
    }
 
   });

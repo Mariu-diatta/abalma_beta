@@ -42,7 +42,7 @@ const FormElementFileUpload = ({
 
         setPreviewUrl(url);
 
-        getImage(url)
+        getImage && getImage(url)
 
         setFileName(file.name);
 

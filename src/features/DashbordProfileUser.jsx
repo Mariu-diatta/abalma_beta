@@ -12,6 +12,8 @@ const Tabs = () => {
 
     const [productsTrasactionBought, setProductsTrasactionBought] = useState([])
 
+    const [productsTrasactionSell, setProductsTrasactionSell] = useState([])
+
     const tabs = [
 
         { id: 'dashboard', label: t('Dashboard.dashboard') },
@@ -47,14 +49,16 @@ const Tabs = () => {
     const tabContent = {
 
         dashboard: (
-
-            <TablesRecapActivities productsTrasactionBought={productsTrasactionBought}/>
+            <TablesRecapActivities
+                productsTrasactionBought={productsTrasactionBought}
+                setProductsTrasactionBought={setProductsTrasactionBought}
+                productsTrasactionSell={productsTrasactionSell}
+                setProductsTrasactionSell={setProductsTrasactionSell}
+            />
         ),
 
         contacts: (
-
             <UsersContactsList/>
-
         ),
     };
 

@@ -84,7 +84,6 @@ const VertcalNavbar = ({ children }) => {
 
     }, [isSidebarOpen]);
 
-
     useEffect(() => {
 
         fetchRooms(currentUser, dispatch, addRoom);
@@ -490,6 +489,7 @@ const VertcalNavbar = ({ children }) => {
                             </svg>
 
                         }
+
                         <button
                             type="button"
                             role="tab"

@@ -60,19 +60,19 @@ const Payment = (
                 !loading?
                 <button
                     onClick={() => {
-                            payNow({
-                                email: currentUser?.email,
-                                amount: parseFloat(totalPrice),
+                        payNow({
+                            email: currentUser?.email,
+                            amount: parseFloat(totalPrice),
 
-                            },
-                                setLoading,
-                                reference,
-                                dispatch,
-                                showMessage,
-                                t,
-                                setShowPaymentForm
+                        },
+                            setLoading,
+                            reference,
+                            dispatch,
+                            showMessage,
+                            t,
+                            setShowPaymentForm
 
-                            )
+                        )
                     }}
                     className="rounded-lg h-full text-md py-3 bg-blue-50 w-full my-2 cursor-pointer hover:bg-blue-100"
                 >
@@ -138,7 +138,7 @@ export const PaymentForm = () => {
         try {
 
             // Envoi en JSON  const products =
-            await api.post("transactions/products/",
+            await api.post("creat/transactions/products/",
 
                 payload,
 
@@ -258,8 +258,10 @@ export function PaymentAppPayPal(
 
                 setLoadingPayPal(true)
 
+                console.log("Data payload", payload)
+
                 // Envoi en JSON  const products =
-                await api.post("transactions/products/",
+                await api.post("creat/transactions/products/",
 
                     payload,
 

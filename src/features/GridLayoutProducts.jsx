@@ -134,8 +134,10 @@ const GridLayoutProduct = () => {
                 var cleanCategory = removeAccents(translatedCategory)?.toLowerCase();
 
                 const url = isDefaultCategory(cleanCategory)
-                    ? "produits/"
-                    : `products/filter/?categorie_product=${cleanCategory?.toUpperCase()}`;
+                    ?
+                    "produits/"
+                    :
+                    `products/filter/?categorie_product=${cleanCategory?.toUpperCase()}`;
 
                 const { data: products } = await api.get(url);
 
@@ -147,13 +149,13 @@ const GridLayoutProduct = () => {
 
                 const responses = await Promise.all(
 
-                    uniqueOwnerIds.map(id =>
+                    uniqueOwnerIds?.map(id =>
 
                         api.get(`clients/${id}/`)
 
-                            .then(res => ({ id, data: res.data }))
+                        .then(res => ({ id, data: res.data }))
 
-                            .catch(() => ({ id, data: null }))
+                        .catch(() => ({ id, data: null }))
                     )
                 );
 
@@ -211,6 +213,7 @@ const GridLayoutProduct = () => {
     return (
 
         <div className="space-y-4 dark:bg-gray-900 dark:text-white py-0 bg-white/80 pb-[35dvh]">
+
             {
                 (currentUser && currentUser?.is_connected) &&
                 <SearchBar />
@@ -230,14 +233,16 @@ const GridLayoutProduct = () => {
 
             />
 
-            <aside className={`${(filteredItems?.length===0)?"hidden" : "p-6"}`}>
+            <aside className={`${(filteredItems?.length === 0) ? "hidden" : "p-6"}`}>
+
                 <PaginationProduit products={filteredItems} />
+
             </aside>
 
             <main>
+
             {
                 (loading) ?
-
                 <LoadingCard />
                 :
                 <ListProductByCategory
@@ -248,6 +253,7 @@ const GridLayoutProduct = () => {
                 />
 
             }
+
             </main>
 
             <ModalViewProduct isOpen={!!modalData} onClose={closeModal} products={filteredItems}/>
@@ -268,72 +274,73 @@ const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) 
         <>
             {
                 (filteredItems?.length > 0) ?
-                    (
+                (
 
-                        <div className="px-2 md:px-0 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-1 z-0 mb-[100px] mx-0 md:mx-10 lg:mx-10 flex justify-center mt-0 pt-0">
+                    <div className="px-2 md:px-0 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-1 z-0 mb-[100px] mx-0 md:mx-10 lg:mx-10 flex justify-center mt-0 pt-0">
 
-                            {/* --- Regroupement des produits par catégorie --- */}
-                            {
-                                Object.entries(
+                        {/* --- Regroupement des produits par catégorie --- */}
+                        {
+                            Object.entries(
 
-                                    filteredItems.reduce((acc, item) => {
-                                        const cat = item?.categorie_product;
-                                        if (!acc[cat]) acc[cat] = [];
-                                        acc[cat].push(item);
-                                        return acc;
-                                    }, {})
-                                )
-                                    .map(([category, items]) => (
+                                filteredItems.reduce((acc, item) => {
+                                    const cat = item?.categorie_product;
+                                    if (!acc[cat]) acc[cat] = [];
+                                    acc[cat].push(item);
+                                    return acc;
+                                }, {})
+                            )
+                            .map(([category, items]) => (
 
-                                        <React.Fragment key={category}>
+                                <React.Fragment key={category}>
 
-                                            {/* Nom de la catégorie */}
-                                            <li className="text-center text-xs text-gray-500 py-0.5 col-span-full  rounded-full w-auto mx-auto shadow-sm my-0 px-5">
-                                                {t(`add_product.categories.${category}`)}
-                                            </li>
+                                    {/* Nom de la catégorie */}
+                                    <li className="text-center text-xs text-gray-500 py-0.5 col-span-full  rounded-full w-auto mx-auto shadow-sm my-0 px-5">
+                                        {t(`add_product.categories.${category}`)}
+                                    </li>
 
-                                            {/* Produits de la catégorie */}
-                                            {
-                                                items?.map((item) => {
+                                    {/* Produits de la catégorie */}
+                                    {
+                                        items?.map((item) => {
 
-                                                    const isInCart = cartItems?.some((product) => product?.id === item?.id);
+                                            const isInCart = cartItems?.some((product) => product?.id === item?.id);
 
-                                                    const owner = owners[item?.fournisseur];
+                                            const owner = owners[item?.fournisseur];
 
-                                                    return (
+                                            return (
 
-                                                        <ProductCard
-                                                            key={item?.id}
-                                                            id={item?.id}
-                                                            item={item}
-                                                            isInCart={isInCart}
-                                                            owner={owner}
-                                                            openModal={openModal}
-                                                            owners={owners}
-                                                            qut_sold={item?.quanttity_product_sold}
-                                                        />
-                                                    );
-                                                }
-                                                )
-                                            }
+                                                <ProductCard
+                                                    key={item?.id}
+                                                    id={item?.id}
+                                                    item={item}
+                                                    isInCart={isInCart}
+                                                    owner={owner}
+                                                    openModal={openModal}
+                                                    owners={owners}
+                                                    qut_sold={item?.quanttity_product_sold}
+                                                />
+                                            );
+                                        }
+                                        )
+                                    }
 
-                                        </React.Fragment>
-                                    ))
-                            }
+                                </React.Fragment>
+                            ))
+                        }
 
-                        </div>
-                    )
-                    :
-                    (
-                        <div className="flex items-center justify-center mx-auto max-w-md p-4 rounded-full border border-gray-200 mb-2">
+                    </div>
+                )
+                :
+                (
+                    <div className="flex items-center justify-center mx-auto max-w-md p-4 rounded-full border border-gray-200 mb-2">
 
-                            <span className="text-sm">
-                                {t('ListItemsFilterProduct.noProduct')}
-                            </span>
+                        <span className="text-sm">
+                            {t('ListItemsFilterProduct.noProduct')}
+                        </span>
 
-                        </div>
-                    )
+                    </div>
+                )
             }
+
         </>
     )
 }

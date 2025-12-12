@@ -468,7 +468,13 @@ export const ENDPOINTS = {
     USER_BLOGS: "user-blogs",
     DASHBOARD: "dashboard",
     BLOG: "blogs",
-    SUBSCRIPTION:"subscription"
+    SUBSCRIPTION: "subscription"
+}
+
+export const API_URL_BACKEND = {
+    STATUS_SUB_TRANSACTION: "update-subTransaction-status",
+    STATUS_TRANSACTION: 'update-transaction-status',
+    STATUS_TRANSACTION_PRODUCT:"update-productTransaction-status"
 }
 
 export const CONSTANTS = {
@@ -486,8 +492,9 @@ export const CONSTANTS = {
     EUR: "EUR",
     USD: "USD",
     FRANC: "FRANC",
-    FR:"fr"
-
+    FR: "fr",
+    UPDATE: 'update',
+    CONFIRMED:'confirmed'
 }
 
    
@@ -539,31 +546,149 @@ export const payNow = async (
 
 };
 
+function convertir(de, vers) {
+    const taux = {
+        EUR_USD: 1.10,
+        USD_EUR: 0.91,
+
+        EUR_XOF: 655,
+        XOF_EUR: 1 / 655,
+
+        USD_XOF: 600,
+        XOF_USD: 1 / 600
+    };
+
+    const key = `${de}_${vers}`;
+
+    if (taux[key] !== undefined) {
+
+        return  taux[key];
+    }
+
+    return null; // conversion impossible
+}
+
 
 export const convertRates = async (setConvertValue, rateToConvert, referenceRate) => {
-
 
     try {
         fetch(
             `https://v6.exchangerate-api.com/v6/6b5ab9ed25a662eeea6ea68d/latest/${referenceRate}`
+
         ).then(
             res => res.json()
+
         ).then(
+
             data => {
+
                 const res = data?.conversion_rates
+
                 setConvertValue(res[rateToConvert])
             }
+
         ).catch(
-            err => console.log("Erreur convert rate")
+
+            err => {
+                const value = convertir(referenceRate, rateToConvert)
+                setConvertValue(value)
+            }
         )
     } catch (err) {
 
-        console.log("Erreur convert rate", err)
+         convertir(referenceRate, rateToConvert)
 
     } finally {
 
     }
 }
+
+
+export const OPERATIONS_STATUS = {
+    ACHETER: 'achetés',
+    VENDRE: 'vendus',
+    PRETER: 'prêtés',
+    EN_COURS: 'en cours',
+    PENDING: 'En attente',
+    CONFIRMED: 'Confirmée',
+    SHIPPED: 'Expédiée',
+    DELIVERED: 'Livrée',
+}
+
+export const STATUS={
+    "pending": "En attente",
+    "recorded": "Enregistrée",
+    "in_progress": "Paiement en cours",
+    "failed": "Paiement échoué",
+    "canceled": "Annulée",
+    "validated": "Paiement validé",
+    "confirmed": "Confirmée",
+    "shipped": "Expédiée",
+    "delivered": "Livrée",
+    "refunded": "Remboursée",
+    "paid":"Payé"
+}
+
+export const NAMES_TABLES= [
+    'name', 'categories', 'status', 'price', 'created',
+    'operationDate', 'endDate', 'operation', 'view', 'actions','update'
+]
+
+export const STATUS_FLOW = {
+
+    pending: "recorded",
+    recorded: "in_progress",
+    in_progress: "validated",
+    validated: "paid",
+    paid: "confirmed",
+    confirmed: "shipped",
+    shipped: "delivered",
+};
+
+export const STATUS_FLOW_TRANSACTION = {
+    forward: "pending",
+    pending: "recorded",
+    recorded: "in_progress",
+    in_progress: "validated",
+    validated: "confirmed",
+    confirmed: "shipped",
+    shipped: "delivered",
+    delivered: "refunded",
+    canceled: null,
+    failed: null,
+};
+
+export const STATUS_FLOW_SUBTRANSACTION = {
+    forward: "in_progress",
+    pending: "in_progress",
+    in_progress: "confirmed",
+    confirmed: "shipped",
+    shipped: "delivered",
+    delivered:null,
+    canceled:null
+};
+
+export const STATUS_FLOW_ITEM = {
+    forward: "in_progress",
+    pending: "in_progress",
+    in_progress: "delivered",
+
+    // états terminaux
+    delivered: null,
+    canceled: null,
+    failed: null,
+};
+
+export const MODE={
+    BUY: "buy",
+    SELL:"sell"
+}
+
+export const canUpdateDelete = [
+    "pending",
+    "in_progress",
+    "forward"
+]
 
 
 

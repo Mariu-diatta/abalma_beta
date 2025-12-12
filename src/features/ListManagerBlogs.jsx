@@ -66,10 +66,12 @@ const MyBlogsList = () => {
     }, [filteredBlogs, currentPage]);
 
     return (
-        <div className="style_bg relative overflow-x-auto sm:rounded-md p-2 " style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}>
+        <div className="style_bg overflow-x-auto sm:rounded-md p-2 " style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}>
 
             <nav className="flex flex-row items-center gap-2 mb-2">
+
                 <h2 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">{t("blog.myBlogs")}</h2>
+
                 <input
                     type="text"
                     placeholder={t("Search")}
@@ -77,6 +79,7 @@ const MyBlogsList = () => {
                     onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }}
                     className="ml-auto border border-blue-100 focus:border-blue-500 focus:ring-1 focus:ring-blue-300 rounded-full p-2 text-sm"
                 />
+
             </nav>
 
             {loading ? (
@@ -95,21 +98,26 @@ const MyBlogsList = () => {
                         </thead>
 
                         <tbody>
-                            {paginatedBlogs.length === 0 ? (
+                            {paginatedBlogs?.length === 0 ? (
                                 <tr>
                                     <td colSpan="4" className="text-center p-4 text-gray-500">{t('blog.noBlogs')}</td>
                                 </tr>
                             ) : (
-                                paginatedBlogs.map((blog) => (
+                                paginatedBlogs?.map((blog) => (
+
                                     <tr key={blog?.id} className="dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+
                                         <td className="px-6 py-4">{blog?.title_blog}</td>
+
                                         <td className="px-6 py-4 overflow-x-auto overflow-y-auto">{blog?.blog_message?.slice(0, 30)}...</td>
+
                                         <td className="px-6 py-4">{formatISODate(blog?.created_at)}</td>
+
                                         <td className="px-6 py-4 gap-2">
                                             {!(loadingDelete && triggerdBtnId === blog?.id) ? (
                                                 <button
                                                     onClick={() => handleDelete(blog)}
-                                                    className="p-1 rounded-lg cursor-pointer hover:bg-gray-100 bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-br hover:to-orange-500"
+                                                    className="p-1 rounded-lg cursor-pointer hover:bg-gray-100 bg-gradient-to-br from-pink-100 to-orange-50 hover:bg-gradient-to-br hover:to-orange-500 hover:bg-pink-200"
                                                     title={t('delete')}
                                                 >
                                                         <svg className="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -121,6 +129,7 @@ const MyBlogsList = () => {
                                                 <LoadingCard />
                                             )}
                                         </td>
+
                                     </tr>
                                 ))
                             )}
@@ -128,15 +137,19 @@ const MyBlogsList = () => {
                     </table>
 
                     {/* Pagination */}
-                    <div className="mt-4 flex justify-between items-center text-sm text-gray-600 dark:text-gray-300">
+                    <div className="flex justify-between items-center text-sm text-gray-600 dark:text-gray-300 mt-1 pb-6 px-1">
                         
-                    <span>{t('TableRecap.pagination.page')} {currentPage} {t('TableRecap.pagination.of')} {totalPages}</span>
+                        <span>
+                            {/*{t('TableRecap.pagination.page')} {currentPage} {t('TableRecap.pagination.of')} {totalPages}*/}
+                            Page {currentPage} / {totalPages}
+                        </span>
                         
-                        <div className="space-x-2 gap-5">
+                        <div>
                             
                             <button
                                 onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                                 disabled={currentPage === 1}
+                                className="px-3 py-1 border-gray-100 rounded-full disabled:opacity-40"
                             >
                                 <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="m15 19-7-7 7-7" />
@@ -147,6 +160,7 @@ const MyBlogsList = () => {
                             <button
                                 onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                                 disabled={currentPage === totalPages}
+                                className="px-3 py-1 border-gray-100 rounded-full disabled:opacity-40"
                             >
                                 <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="m9 5 7 7-7 7" />
@@ -157,6 +171,7 @@ const MyBlogsList = () => {
                         </div>
 
                     </div>
+
                 </main>
             )}
         </div>

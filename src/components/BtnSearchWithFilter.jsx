@@ -80,12 +80,12 @@ const SearchBar = ({disabled = false }) => {
                 className={clsx(
                     "mt-0 rounded-full  bg-white/80",
                     "relative flex",
-                    searchTerm ? "w-full" : "w-full  md:w-1/2"
+                    searchTerm ? "w-full bg-white/80" : "w-full  md:w-1/2 bg-white/80"
                 )}
             >
                 <button
                     type="submit"
-                    className="bg-none px-2.5 text-sm z-10 text-sm text-gray-900 bg-gray-50 rounded-l-full border-0 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none focus:ring-0 "
+                    className="px-2.5 text-sm z-10 text-sm text-gray-900 bg-gray-50 rounded-l-full border-0 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none focus:ring-0 "
                     disabled={disabled}
                 >
                     <svg className="w-4 h-4" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -99,7 +99,7 @@ const SearchBar = ({disabled = false }) => {
                 <input
                     ref={searchBtnRef}
                     type="search"
-                    className={`bg-none block px-2.5 py-1.5 w-full z-10 text-sm text-gray-900 bg-gray-50 rounded-e-full border-0 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none focus:ring-0`}
+                    className={`bg-gray/80 block px-2.5 py-1.5 w-full z-10 text-sm text-gray-900 rounded-e-full border-2 border-gray-50 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none focus:ring-0`}
                     placeholder={`${t("Search")} ${selectedCategory ? selectedCategory?.replace(/_/g, " ").toLowerCase() : (t('All')).toLowerCase() } `}
                     value={searchTerm??""}
                     onChange={(e) => {
