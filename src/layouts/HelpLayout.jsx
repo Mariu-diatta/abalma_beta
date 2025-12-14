@@ -315,8 +315,8 @@ function TestmonyList() {
                 .then((newItem) => {
                     setItems([newItem, ...items]);
                     setContent("");
+                    showMessage(dispatch, { Type: "Success", Message: "✔️" });
                 });
-            showMessage(dispatch, { Type: "Erreur", Message: "✔️" });
 
         } catch (error) {
 
@@ -374,7 +374,8 @@ function TestmonyList() {
                         type="submit"
                         className="w-full text-white bg-gradient-to-br from-purple-50 to-blue-100 hover:from-purple-100 hover:to-blue-400 text-purple-600 rounded-lg text-sm px-5 py-2.5"
                     >
-                        Envoyer
+                        {t('send')}
+
                     </button>
                 }
             </form>

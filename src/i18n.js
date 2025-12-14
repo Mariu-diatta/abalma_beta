@@ -22,6 +22,7 @@ i18n
      en: {
 
         translation: {
+             send:"Send",
              MySales:"My Sales",
              STATUS: {
                   "pending": "Pending",
@@ -691,6 +692,7 @@ i18n
      fr: {
 
          translation: {
+             send: "Envoyer",
              MySales: "Mes ventes",
              STATUS: {
                  "pending": "En attente",

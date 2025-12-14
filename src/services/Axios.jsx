@@ -1,8 +1,8 @@
 
 import axios from "axios";
 import Cookies from "js-cookie";
-export const BASE_URL = 'https://backend-mpb0.onrender.com/';
-//export const BASE_URL = 'http://127.0.0.1:8000/';
+//export const BASE_URL = 'https://backend-mpb0.onrender.com/';
+export const BASE_URL = 'http://127.0.0.1:8000/';
 
 const api = axios.create({
     baseURL: BASE_URL,

@@ -85,6 +85,7 @@ export default function TestimonialCarousel({
     });
 
     if (length === 0) {
+
         return null;
     }
 
@@ -98,44 +99,59 @@ export default function TestimonialCarousel({
         >
             {/* Slides */}
             <div className="overflow-hidden translate-x-0 transition-all duration-1000 ease-in-out">
+
                 <div
                     className="flex transition-transform duration-500 ease-out"
                     style={{ transform: `translateX(-${index * 100}%)` }}
                     aria-live="polite"
                 >
-                    {testimonials?.map((t,index) => (
-                        <article
-                            key={index}
-                            className="w-full flex-shrink-0  rounded-xl "
-                            role="group"
-                            aria-roledescription="slide"
-                            aria-label={`${t?.prenom}`}
-                        >
-                            <div className="flex items-start gap-4 justify-center py-8 ">
-                                <div className="flex-shrink-0">
-                                    <img
-                                        src={t?.image || t?.photo_url}
-                                        alt={t?.prenom}
-                                        className="w-16 h-16 rounded-full object-cover"
-                                    />
-                                </div>
+                    {
+                        testimonials?.map(
+                                (t, index) => (
+                                <article
+                                    key={index}
+                                    className="w-full flex-shrink-0  rounded-xl "
+                                    role="group"
+                                    aria-roledescription="slide"
+                                    aria-label={`${t?.prenom}`}
+                                >
+                                    <div className="flex items-start gap-4 justify-center py-8 ">
 
-                                <div>
-                                    <p className="text-gray-700 text-base leading-relaxed mb-4">
-                                        {t?.content}
-                                    </p>
+                                        <div className="flex-shrink-0">
 
-                                    <div className=" flex text-sm">
-                                        <p className="font-medium text-gray-900">{t?.prenom}</p> 
-                                        {t?.is_fournisseur && <p className="text-gray-500">✔️</p>} 
+                                            <img
+                                                src={t?.image || t?.photo_url}
+                                                alt={t?.prenom}
+                                                className="w-16 h-16 rounded-full object-cover"
+                                            />
+
+                                        </div>
+
+                                        <div>
+
+                                            <p className="text-gray-700 text-base leading-relaxed mb-4">
+                                                {t?.content}
+                                            </p>
+
+                                            <div className=" flex text-sm">
+                                                <p className="font-medium text-gray-900">{t?.prenom}</p> 
+                                                {t?.is_fournisseur && <p className="text-gray-500">✔️</p>} 
+                                            </div>
+
+                                            <div className=" flex text-sm">
+                                                <p className="font-medium text-gray-900">{t?.profession}</p>
+                                            </div>
+
+                                        </div>
+
                                     </div>
-                                    <div className=" flex text-sm">
-                                        <p className="font-medium text-gray-900">{t?.profession}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
-                    ))}
+
+                                </article>
+                            )
+                        )
+
+                    }
+
                 </div>
             </div>
 
@@ -148,6 +164,7 @@ export default function TestimonialCarousel({
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-700" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M12.293 16.293a1 1 0 010-1.414L15.586 11H4a1 1 0 110-2h11.586l-3.293-3.293a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clipRule="evenodd" transform="rotate(180 10 10)" />
                 </svg>
+
             </button>
 
             <button
@@ -158,21 +175,26 @@ export default function TestimonialCarousel({
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-700" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M12.293 16.293a1 1 0 010-1.414L15.586 11H4a1 1 0 110-2h11.586l-3.293-3.293a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clipRule="evenodd" />
                 </svg>
+
             </button>
 
             {/* Dots / Pagination */}
             <div className="mt-1 flex justify-center gap-3">
-                {testimonials.map((_, i) => (
-                    <button
-                        key={i}
-                        onClick={() => { stopTimer(); goTo(i); }}
-                        className={`w-3 h-3 rounded-full transition-all ${i === index ? "scale-125 bg-indigo-600" : "bg-gray-300 hover:bg-gray-400"
-                            }`}
-                        aria-label={`Aller au témoignage ${i + 1}`}
-                        aria-current={i === index ? "true" : "false"}
-                    />
-                ))}
+                {
+                    testimonials.map((_, i) => (
+                            <button
+                                key={i}
+                                onClick={() => { stopTimer(); goTo(i); }}
+                                className={`w-3 h-3 rounded-full transition-all ${i === index ? "scale-125 bg-indigo-600" : "bg-gray-300 hover:bg-gray-400"
+                                    }`}
+                                aria-label={`Aller au témoignage ${i + 1}`}
+                                aria-current={i === index ? "true" : "false"}
+                            />
+                        )
+                    )
+                }
             </div>
+
         </div>
     );
 }
