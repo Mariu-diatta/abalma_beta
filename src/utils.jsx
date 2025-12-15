@@ -468,7 +468,8 @@ export const ENDPOINTS = {
     USER_BLOGS: "user-blogs",
     DASHBOARD: "dashboard",
     BLOG: "blogs",
-    SUBSCRIPTION: "subscription"
+    SUBSCRIPTION: "subscription",
+    ABOUT:"about"
 }
 
 export const API_URL_BACKEND = {
