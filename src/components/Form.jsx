@@ -131,11 +131,11 @@ const RegisterForm = () => {
                 (!loading)?
                 <section>
   
-                    <p className="py-7">
+                    <div className="py-7">
 
                         <TitleCompGen title={t('register')} />
 
-                        <p className="text-sm lg:text-md text-base text-body-color dark:text-dark-6 gap-3">
+                        <div className="text-sm lg:text-md text-base text-body-color dark:text-dark-6 gap-3">
 
                             <span>{t("alredyRegister")} </span>
 
@@ -146,8 +146,10 @@ const RegisterForm = () => {
                             >
                                 {t("login")}
                             </Link>
-                        </p>
-                    </p>
+
+                        </div>
+
+                    </div>
 
                     <form 
                         onSubmit={handleSignUp} ref={componentRef}
