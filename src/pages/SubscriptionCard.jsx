@@ -37,19 +37,25 @@ function SubscriptionCard({
                 }`
             }
         >
-            {/* Étiquette Recommandé */}
-            {highlight && (
-                <span className="absolute top-3 right-3 bg-indigo-200 text-white text-xs px-3 py-1 rounded-full">
-                    {t("redo_subscription")}
-                </span>
-            )}
+            <div>
 
-            {/* En-tête */}
-            <div className="text-center mb-5">
+                {/* Étiquette Recommandé */}
+                {
+                    highlight && (
+                    <span className="absolute top-3 right-3 bg-indigo-200 text-white text-xs px-3 py-1 rounded-full">
+                        {t("redo_subscription")}
+                    </span>
+                    )
+                }
 
-                <h3 className="text-xl font-bold text-gray-900">{title}</h3>
+                {/* En-tête */}
+                <div className="text-center mb-5">
 
-                <p className="text-sm text-gray-500 mt-1">{subtitle}</p>
+                    <h3 className="text-xl font-bold text-gray-900">{title}</h3>
+
+                    <p className="text-sm text-gray-500 mt-1">{subtitle}</p>
+
+                </div>
 
             </div>
 
@@ -76,21 +82,25 @@ function SubscriptionCard({
                 }
             </ul>
 
-            {/* Bouton */}
-            <button
-                onClick={onSubscribe}
-                className="w-full bg-indigo-50 hover:bg-indigo-100 text-white font-medium py-2.5 rounded-xl transition"
-            >
-                {t("my_subscription")}
+            <div>
 
-            </button>
+                {/* Bouton */}
+                <button
+                    onClick={onSubscribe}
+                    className="bottom-2 w-full bg-indigo-50 hover:bg-indigo-100 text-white font-medium py-2.5 rounded-xl transition"
+                >
+                    {t("my_subscription")}
+
+                </button>
 
 
-            <p className="text-center text-xs text-gray-400 mt-3">
+                <p className="text-center text-xs text-gray-400 mt-3">
 
-                {t("secure_subscription")}
+                    {t("secure_subscription")}
 
-            </p>
+                </p>
+
+            </div>
 
         </div>
     );

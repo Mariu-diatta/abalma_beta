@@ -65,6 +65,7 @@ export const ButtonNavigate = ({ tabs }) => {
                     mx-0
                  "
             >
+
             {
                 tabs?.map((tab) => (
 
@@ -104,10 +105,12 @@ export const ButtonNavigate = ({ tabs }) => {
                             }
 
 
-                        </li>
+                    </li>
+
                     )
                 )
             }
+
             </ul>
 
         </section>
