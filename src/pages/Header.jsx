@@ -127,9 +127,13 @@ const NavbarHeader = () => {
                 {/* Logo */}
                  <Logo />
 
-                <ButtonNavigate tabs={getTabsNavigationsItems(currentNav, t)} />
+                <div className="flex justify-end w-full items-center">
 
-                <SearchBar/>
+                    <ButtonNavigate tabs={getTabsNavigationsItems(currentNav, t)} />
+
+                    <SearchBar />
+
+                </div>
 
                 {
 

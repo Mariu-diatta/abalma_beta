@@ -1,4 +1,4 @@
-import { ButtonScrollTopDown } from "../components/ButtonScroll";
+//import { ButtonScrollTopDown } from "../components/ButtonScroll";
 import HomeLayout from "../layouts/HomeLayout";
 import HomeContain from "./HomeContain";
 
@@ -7,12 +7,12 @@ const Home = () => {
     return (
 
         <HomeLayout>
-
-            <ButtonScrollTopDown>
+            
+            {/*<ButtonScrollTopDown>*/}
 
                 <HomeContain/>
 
-            </ButtonScrollTopDown>
+            {/*</ButtonScrollTopDown>*/}
 
         </HomeLayout>
     )

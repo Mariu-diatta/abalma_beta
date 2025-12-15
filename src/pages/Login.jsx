@@ -16,7 +16,6 @@ import FormLayout from '../layouts/FormLayout';
 import { showMessage } from '../components/AlertMessage';
 import TitleCompGen from '../components/TitleComponentGen';
 import { addRoom } from '../slices/chatSlice';
-import ScrollTop from '../components/ButtonScroll';
 
 
 const LogIn = () => {
@@ -139,7 +138,7 @@ const LogIn = () => {
 
             {
                 (!loading) ?
-                <section>
+                    <section>
 
                         <div className="py-7">
 
@@ -167,8 +166,6 @@ const LogIn = () => {
                             onSubmit={(e) => { e.preventDefault(); handleSignIn(); }}
                             ref={componentRef}
                         >
-                            <ScrollTop />
-
                             <InputBox
                                 type="email"
                                 name="email"
@@ -220,9 +217,11 @@ const LogIn = () => {
             }
 
             <section>
+
                 <p className="mb-6 text-md text-bold text-gray-500 dark:text-dark-7 my-6">
                     {t('connect_with')}
                 </p>
+
             </section>
             
             <section>
