@@ -156,7 +156,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
             }
 
             <div
-                className="fixed inset-0 z-40 "
+                className="fixed inset-0 z-[100]"
                 role="dialog"
                 aria-modal="true"
                 ref={popovRef}

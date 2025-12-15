@@ -849,7 +849,7 @@ i18n
              paymentMethod: "Méthode de payement",
              adress: "Adresse",
              views_product:'Voir le produit',
-             about_us: "A propos",
+             about_us: "À propos",
              file_selected: "Fichier sélectionné",
              read_more:"Lire plus",
              add_new_product: "Ajout nouveau produit",

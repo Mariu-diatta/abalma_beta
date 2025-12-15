@@ -256,11 +256,16 @@ export const configurationMonnaies = {
     CHF: { symbole: 'CHF', position: 'apres', code: 'CHF' },
 };
 export const formaterPrix = (prix, monnaie, t, locale = 'fr-FR') => {
-    if (monnaie === "EURO") monnaie = "EUR";
+
+    if (monnaie === "EURO") monnaie = '€';
     else if (monnaie === "FRANC") monnaie = "XOF";
-    else monnaie = "USD";
-    if (!prix || !monnaie || !symbolesMonnaies[monnaie] || !configurationMonnaies[monnaie]) return t('monnaie.inconnue', 'Prix non disponible');
+    else monnaie = '$';
+
+    if (!prix || !monnaie || !symbolesMonnaies[monnaie] || !configurationMonnaies[monnaie])
+        return t('monnaie.inconnue', 'Prix non disponible');
+
     const config = configurationMonnaies[monnaie];
+
     try {
         const formatter = new Intl.NumberFormat(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         const price_format = formatter.format(prix);
@@ -468,8 +473,7 @@ export const ENDPOINTS = {
     USER_BLOGS: "user-blogs",
     DASHBOARD: "dashboard",
     BLOG: "blogs",
-    SUBSCRIPTION: "subscription",
-    ABOUT:"about"
+    SUBSCRIPTION: "subscription"
 }
 
 export const API_URL_BACKEND = {
