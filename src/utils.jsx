@@ -3,11 +3,35 @@ import api from "./services/Axios";
 import { login, updateCompteUser} from "./slices/authSlice";
 import { setCurrentNav, updateTheme } from "./slices/navigateSlice";
 import { store } from "./store/Store";
+import { Client } from "@gradio/client";
+
+export const getDataChat = async (data) => {
+
+  try {
+
+    const client = await Client.connect("MariusSitoye/abalma");
+
+      const result = await client.predict("/analyze", {
+
+          conversation: data
+
+    });
+
+    console.log("Data :::: ", result.data)
+
+    return result.data;
+
+  } catch (err) {
+
+      console.error("Erreur analyse chat :::", err);
+
+      return
+  }
+}
 
 
 // 🕒 Constantes globales
 export const maintenant = new Date();
-
 
 // 📸 Obtenir la photo d’un utilisateur
 export const getPhotoUser = (obj) => obj?.sender?.image || obj?.sender?.photo_url;
@@ -696,6 +720,32 @@ export const canUpdateDelete = [
     "forward"
 ]
 
+export const AGENT_AI = {
+    "total_followers": 0,
+    "total_followings": 0,
+    "last_login": "2025-12-22T01:52:31.604908Z",
+    "is_superuser": false,
+    "email": "ai@abalama.fr",
+    "prenom": "AI",
+    "nom": "my_help",
+    "image": null,
+    "image_cover": null,
+    "photo_url": null,
+    "doc_proof": null,
+    "telephone": "3399999999",
+    "profession": "New_user",
+    "description": "",
+    "adresse": "",
+    "is_connected": false,
+    "created": "2025-12-22T01:52:20.578381Z",
+    "is_active": true,
+    "is_staff": false,
+    "is_pro": false,
+    "is_fournisseur": false,
+    "is_verified": false,
+    "groups": [],
+    "user_permissions": []
+}
 
 
 

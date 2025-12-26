@@ -21,7 +21,10 @@ i18n
 
      en: {
 
-        translation: {
+         translation: {
+             summary: 'Summary',
+             advice: "Advice",
+             directive: "Directives",
              send:"Send",
              MySales:"My Sales",
              STATUS: {
@@ -692,6 +695,9 @@ i18n
      fr: {
 
          translation: {
+             summary: "Résumé",
+             advice: "Conseils",
+             directive: "Directives",
              send: "Envoyer",
              MySales: "Mes ventes",
              STATUS: {

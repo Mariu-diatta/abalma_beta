@@ -15,13 +15,17 @@ import {
     deleteRoomAsync,
     removeRoom,
 } from '../slices/chatSlice';
+
 import { clearCart } from '../slices/cartSlice';
+
 import { logout } from '../slices/authSlice';
+
 import { setCurrentNav } from '../slices/navigateSlice';
 
 const ChatLayout = () => {
 
     const { t } = useTranslation();
+
     const [showSidebar, setShowSidebar] = useState(false);
 
     const currentUser = useSelector((state) => state.auth.user);
@@ -248,14 +252,19 @@ const ChatLayout = () => {
         >
             {/* Sidebar */}
 
-            <section className=" md:col-span-4">
+            <section className="relative md:col-span-4 h-full">
 
                 <div
-                    className={
-                        `bg-white fixed top-0 left-0 h-full bg-gray-100 z-20 transform transition-transform duration-300 ease-in-out
+
+                    className={`
+                        bg-white fixed top-0 left-0 h-full
+                        bg-gray-100 z-20 transform transition-transform duration-300 ease-in-out
                         ${showSidebar ? 'translate-x-0' : '-translate-x-full'}
-                        md:static md:translate-x-0  md:block`
+                        md:static md:translate-x-0 md:block
+                        flex flex-col
+                      `
                     }
+
                     style={
                         {
                             backgroundColor: 'var(--color-bg)',
@@ -263,7 +272,7 @@ const ChatLayout = () => {
                         }
                     }
                 >
-                    <div className="p-1 gap-3 pt-6 mt-5 ">
+                    <div className="p-1 gap-3 pt-6 mt-5 flex-1 overflow-y-auto scrollbor_hidden">
 
                         <h2 className="font-bold text-gray-500 mb-6 h-3">Discussions</h2>
 
@@ -353,7 +362,8 @@ const ChatLayout = () => {
             </section>
 
              {/*Main Chat Area */}
-            <section className="col-span-12 md:col-span-8  p-0  scrollbor_hidden  ">
+            <section className="col-span-12 md:col-span-8  p-0  scrollbor_hidden">
+
                 <div
                     className="lg:me-2 lg:pe-2 lg:ps-1 flex overflow_hidden "
                     style={{
@@ -365,6 +375,7 @@ const ChatLayout = () => {
                     <ChatApp setShow={setShowSidebar} show={showSidebar} />
 
                 </div>
+
             </section>
             
         </main>
