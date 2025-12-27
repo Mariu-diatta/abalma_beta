@@ -27,7 +27,7 @@ function SubscriptionCard({
     return (
 
         <div
-            className={`relative flex flex-col justify-between rounded-3xl border shadow-sm p-6 w-full max-w-sm transition hover:shadow-md hover:-translate-y-1
+            className={`py-7 relative flex flex-col justify-between rounded-3xl border shadow-sm p-6 w-full max-w-sm transition hover:shadow-md hover:-translate-y-1
                 ${
                     highlight
                     ?
@@ -158,7 +158,7 @@ export default function SubscriptionsPage() {
 
     return (
 
-        <main className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-6 bg-none">
+        <main className="min-h-screen flex flex-col items-center justify-center bg-gray-50 bg-none  pt-[12dvh]">
 
             <button
 
@@ -183,7 +183,7 @@ export default function SubscriptionsPage() {
 
             </button >
 
-            <h1 className="text-2xl font-bold text-gray-800 mb-8 flex items-center gap-5 my-5">
+            <h1 className="text-2xl font-bold text-gray-800  flex items-center gap-5 my-4">
 
                 <p>{t("Subscriptionb2b")}</p>
 
