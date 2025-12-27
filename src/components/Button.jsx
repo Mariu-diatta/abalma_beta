@@ -7,35 +7,60 @@ import { useTranslation } from 'react-i18next';
 
 
 const WhiteRoundedButton = ({ titleButton, to }) => {
-
     const dispatch = useDispatch();
-
     const { t } = useTranslation();
 
+    const isRegister = titleButton === t(ENDPOINTS.REGISTER);
+
+    const baseClasses = `
+    whitespace-nowrap
+    inline-flex items-center justify-center
+    rounded-full
+    px-4 py-1
+    text-[14px]
+    font-medium
+    transition-all duration-200
+    border
+  `;
+
+    const defaultClasses = isRegister
+        ? `
+        bg-gradient-to-br from-purple-50 to-blue-100
+        hover:from-purple-100 hover:to-blue-200
+        border-gray-200
+      `
+        : `
+        bg-white
+        hover:bg-gradient-to-br hover:from-purple-50 hover:to-blue-100
+        border-t sm:border-b-0 lg:border-b lg:border-t-0
+        border-gray-100
+      `;
+
+    const activeClasses = `
+    bg-[#1B44C8]
+    border-[#1B44C8]
+    text-white
+    shadow-md
+  `;
+
     return (
-
         <NavLink
-
             to={`/${to}`}
-
-            className={
-
-                ({ isActive }) =>
-                    `whitespace-nowrap text-center dark:bg-dark  ${titleButton === t(ENDPOINTS.REGISTER) ? "border border-gray-[0.1px] bg-gradient-to-br from-purple-50 to-blue-100 hover:bg-gradient-to-br hover:from-purple-100 " :"border-t sm:border-b-0 lg:border-b lg:border-t-0 hover:bg-gradient-to-br from-purple-50 to-blue-100 hover:bg-gradient-to-br hover:from-purple-100 "} border-gray-100 rounded-full inline-flex items-center justify-center px-3 py-1 text-center text-[14px] transition-all duration-200
-                 ${isActive
-                        ? 'bg-[#1B44C8] border-[#1B44C8] text-white'
-                        : 'bg-primary border-primary text-grey hover:bg-blue-50'
-                    }`
+            className={({ isActive }) =>
+                `
+          ${baseClasses}
+          ${defaultClasses}
+          ${isActive ? activeClasses : "text-gray-700 dark:text-gray-200"}
+          dark:bg-dark
+        `
             }
-
-            onClick={() => dispatch(setCurrentNav(to)) }
+            onClick={() => dispatch(setCurrentNav(to))}
         >
-
             {titleButton}
-
         </NavLink>
     );
 };
+
 
 export default WhiteRoundedButton;
 
