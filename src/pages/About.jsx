@@ -38,6 +38,25 @@ const AboutContainer = () => {
     const leftSectionRef = useRef(null);
     const rightSectionRef = useRef(null);
 
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    entry.target.dataset.visible = "true";
+                }
+            },
+            { threshold: 0.3 }
+        );
+
+        if (rightSectionRef.current) {
+            observer.observe(rightSectionRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, []);
+
+
     /* --------------------------- ANIM ON SCROLL ---------------------------- */
     useEffect(() => {
         const options = { threshold: 0.2 };
@@ -70,12 +89,13 @@ const AboutContainer = () => {
 
     return (
         <main className="overflow-hidden pt-6 pb-3 lg:pt-6 lg:pb-4 dark:bg-dark bg-home animate-fade-in">
+
             <div className="container mx-auto">
 
                 {/* ================================================================
                    SECTION 1 : IMAGES + TEXTE DE PRÉSENTATION
                 ================================================================= */}
-                <section className="flex flex-wrap items-start justify-center -mx-4">
+                <section className="flex flex-wrap items-start justify-between">
 
                     {/* --------------------------- LEFT IMAGES --------------------------- */}
                     <div
@@ -117,7 +137,16 @@ const AboutContainer = () => {
                     {/* ----------------------- RIGHT CONTENT (TEXT) ---------------------- */}
                     <section
                         ref={rightSectionRef}
-                        className="w-full lg:w-1/2 xl:w-5/12 text-sm px-4 mt-6 shadow-sm rounded-lg opacity-0 translate-y-10 scale-95 transition-all duration-700 ease-in-out hover:shadow-xl hover:scale-105"
+                        className="
+                            w-full lg:w-1/2 xl:w-5/12 text-sm px-4 mt-6 rounded-lg
+                            opacity-0 translate-y-10 scale-95
+                            transition-all duration-700 ease-out
+                            will-change-transform
+                            data-[visible=true]:opacity-100
+                            data-[visible=true]:translate-y-0
+                            data-[visible=true]:scale-100
+                            hover:shadow-xl
+                        "
                     >
                         <div className="px-1 flex-col gap-5">
 
@@ -176,6 +205,7 @@ const AboutContainer = () => {
                 */}
 
             </div>
+
         </main>
     );
 };

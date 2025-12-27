@@ -162,7 +162,7 @@ export default function SubscriptionsPage() {
 
             <button
 
-                className={`${currentNav !== ENDPOINTS?.SUBSCRIPTION ? "hidden":""}`}
+                className={`${currentNav !== ENDPOINTS?.SUBSCRIPTION ? "hidden":"shadow-lg z-10"}`}
 
                 onClick={
 
