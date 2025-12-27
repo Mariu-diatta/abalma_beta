@@ -22,10 +22,17 @@ const HomeLayout = ({ children }) => {
 
     }, [currentUser, dispatch]);
 
-    if (currentUser) {
+    useEffect(
 
-        return <Navigate to={`/${ENDPOINTS.ACCOUNT_HOME}`} replace />;
-    }
+        () => {
+
+            if (currentUser) {
+
+                <Navigate to={`/${ENDPOINTS.ACCOUNT_HOME}`} replace />;
+            }
+
+        }, [currentUser]
+    )
 
     return (
 

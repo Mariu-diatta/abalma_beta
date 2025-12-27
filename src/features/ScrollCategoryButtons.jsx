@@ -7,7 +7,7 @@ import { useDispatch} from 'react-redux';
 import { LIST_CATEGORIES } from '../utils';
 import { updateCurrentButtonCategoryHover } from '../slices/navigateSlice';
 import HoverCategoryProductDisplay from './ProductSpecificPopovViews';
-import { menuItems } from '../components/MenuItem';
+import ListButtonsCategories from './ListButtonsCategories';
 
 const ScrollableCategoryButtons = ({
     setActiveCategory,
@@ -193,68 +193,3 @@ const ScrollableCategoryButtons = ({
 
 export default ScrollableCategoryButtons;
 
-
-const ListButtonsCategories = (
-    {
-        categories,
-        setProductSpecificHandler,
-        setActiveCategory,
-        setActivateButtonCategory,
-        activateButtonCategory
-    }) => {
-
-    const { t } = useTranslation();
-
-    return (
-
-            <section className="flex py-2 gap-5 bg-none">
-
-                {
-                    categories?.map((cat) => (
-
-                        <button
-
-                            key={cat}
-
-                            onMouseOver={
-                                () => setProductSpecificHandler(cat?.replace("_", ""))
-                            }
-
-                            style={
-                                {
-                                    backgroundColor: "var(--color-bg)",
-                                    color: "var(--color-text)"
-                                }
-                            }
-
-                            onClick={
-                                () => {
-                                    setActiveCategory(cat?.replace("_", " "));
-                                    setActivateButtonCategory(cat?.replace("_", " "))
-                                }
-                            }
-
-                            className={`
-                                    flex justify-center items-center gap-1 z-2 px-4 py-2 whitespace-nowrap  rounded-full text-sm transition bg-gradient-to-br from-gray-100  hover:bg-gradient-to-br hover:from-purple-100 border-gray-100
-                                    ${activateButtonCategory?.toLowerCase() === (cat?.replace("_", ""))?.toLowerCase()
-                                    ? "bg-blue-50 text-white bg-gradient-to-br from-purple-50 to-blue-100" //
-                                    : "text-blue-100 border border-blue-50 hover:bg-blue-100 hover:text-white scale-100 hover:scale-100 hover:shadow-lg"
-                                }`}
-                        >
-                        <p className="">
-                            {cat?.replace("_", " ")}
-                        </p>
-                        <>
-
-                            {
-                                 menuItems(t).find((item,_) => item?.name === cat?.replace("_", " ")
-                                )?.svg
-                            }
-                        </>
-                        </button>
-                    ))
-                }
-
-            </section>
-    )
-}

@@ -31,63 +31,6 @@ const LogIn = () => {
     const currentNav = useSelector(state => state.navigate.currentNav);
     const currentUser = useSelector(state => state.auth.user)
 
-    useEffect(() => {
-
-        const observer = new IntersectionObserver(
-
-            (entries) => {
-
-                entries.forEach((entry) => {
-
-                    if (entry.isIntersecting) {
-
-                        entry.target.classList.add("animate-in");
-
-                        entry.target.classList.remove("animate-out");
-
-                    } else {
-
-                        entry.target.classList.add("animate-out");
-
-                        entry.target.classList.remove("animate-in");
-                    }
-                });
-            },
-            { threshold: 0.05 } // Déclenche quand 10% du composant est visible
-        );
-
-        if (componentRef.current) {
-            observer.observe(componentRef.current);
-        }
-        // Nettoyage de l'observateur lors du démontage
-        return () => {
-
-        };
-
-    }, []);
-
-    useEffect(() => {
-
-        // Petite pause pour laisser le navigateur autofill
-        setTimeout(() => {
-
-            if (emailRef.current) {
-
-                const value = emailRef.current.value;
-
-                if (value) setEmail(value);
-            }
-
-        }, 500); // 500ms pour laisser le navigateur compléter
-
-    }, [])
-
-    useEffect(() => {
-
-        if (currentNav === ENDPOINTS.HOME) navigate("/", { replace: true })
-
-    }, [currentNav, navigate])
-
     const handleSignIn = async () => {
 
         if (!email || !pwd) {
@@ -125,6 +68,58 @@ const LogIn = () => {
         }
     };
 
+    useEffect(() => {
+
+        const observer = new IntersectionObserver(
+
+            (entries) => {
+
+                entries.forEach((entry) => {
+
+                    if (entry.isIntersecting) {
+
+                        entry.target.classList.add("animate-in");
+
+                        entry.target.classList.remove("animate-out");
+
+                    } else {
+
+                        entry.target.classList.add("animate-out");
+
+                        entry.target.classList.remove("animate-in");
+                    }
+                });
+            },
+            { threshold: 0.05 } // Déclenche quand 10% du composant est visible
+        );
+
+        if (componentRef.current) {
+            observer.observe(componentRef.current);
+        }
+
+    }, []);
+
+    useEffect(() => {
+
+        // Petite pause pour laisser le navigateur autofill
+        setTimeout(() => {
+
+            if (emailRef.current) {
+
+                const value = emailRef.current.value;
+
+                if (value) setEmail(value);
+            }
+
+        }, 500); // 500ms pour laisser le navigateur compléter
+
+    }, [])
+
+    useEffect(() => {
+
+        if (currentNav === ENDPOINTS.HOME) navigate("/", { replace: true })
+
+    }, [currentNav, navigate])
 
     useEffect(() => {
 

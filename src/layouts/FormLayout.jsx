@@ -10,7 +10,7 @@ const FormLayout = ({ children }) => {
 
         <HomeLayout>
 
-            <section className="bg-gray-1 py-20 dark:bg-dark lg:py-[120px] bg_home px-2">
+            <section className="bg-gray-1 py-5 dark:bg-dark lg:py-[120px] bg_home px-2">
 
                 <div className="container mx-auto">
 
@@ -22,7 +22,7 @@ const FormLayout = ({ children }) => {
                                 className="
                                   relative mx-auto max-w-[525px] overflow-hidden
                                   rounded-xl
-                                  bg-white px-3 py-4 text-center
+                                  bg-white px-3 py-2 text-center
                                   sm:px-12 md:px-[60px] lg:px-10
                                   dark:bg-dark-2
                                   shadow-xl shadow-black/10

@@ -118,10 +118,14 @@ const RegisterForm = () => {
         };
     }, []);
 
-    if (currentNav === "home") {
+    useEffect(() => {
 
-        return navigate("/", { replace: true })
-    }
+        if (currentNav === "home") {
+
+            return navigate("/", { replace: true })
+        }
+
+    }, [currentNav, navigate]);
 
     return (
 
