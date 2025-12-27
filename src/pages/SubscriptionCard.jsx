@@ -158,7 +158,7 @@ export default function SubscriptionsPage() {
 
     return (
 
-        <main className="min-h-screen flex flex-col items-center justify-center bg-gray-50 bg-none  pt-[12dvh]">
+        <main className="min-h-screen flex flex-col items-center justify-center bg-gray-50 bg-none  pt-[2dvh]">
 
             <button
 
@@ -189,7 +189,7 @@ export default function SubscriptionsPage() {
 
             </h1>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-none">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-none overflow-y-auto h-full scrollbor_hidden py-5">
 
                 <SubscriptionCard
                     title={t("discovery")}
