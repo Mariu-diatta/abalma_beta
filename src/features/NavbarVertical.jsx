@@ -93,7 +93,7 @@ const VertcalNavbar = ({ children }) => {
 
     return (
 
-        <main className="overflow-y-auto h-full pt-2  pb-[20dvh] mb-[20dvh]">
+        <main className="overflow-y-auto h-full pt-2  pb-[20dvh] mb-[0dvh]">
 
             {/* Toggle Button */}
             <button

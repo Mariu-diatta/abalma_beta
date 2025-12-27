@@ -8,12 +8,12 @@ const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) 
 
     return (
 
-        <main>
+        <>
             {
                 (filteredItems?.length > 0) ?
                     (
 
-                        <div className="px-2 md:px-0 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-1 z-0 mb-[10px] mx-0 md:mx-10 lg:mx-10 flex justify-center mt-0 pt-0">
+                        <div className="h-full px-2 md:px-0 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-1 z-0 mb-[10px] mx-0 md:mx-10 lg:mx-10 flex justify-center mt-0 pt-0">
 
                             {/* --- Regroupement des produits par catégorie --- */}
                             {
@@ -78,7 +78,7 @@ const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) 
                     )
             }
 
-        </main>
+        </>
     )
 }
 

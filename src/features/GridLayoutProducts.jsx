@@ -238,7 +238,7 @@ const GridLayoutProduct = () => {
 
             </aside>
 
-            <main>
+            <main className="h-full">
 
             {
                 (loading) ?
