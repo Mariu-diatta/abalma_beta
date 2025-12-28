@@ -22,6 +22,7 @@ i18n
      en: {
 
          translation: {
+             blogNone:"Aucun blog disponible.",
              summary: 'Summary',
              advice: "Advice",
              directive: "Directives",
@@ -695,6 +696,7 @@ i18n
      fr: {
 
          translation: {
+             blogNone: "Aucun blog disponible.",
              summary: "Résumé",
              advice: "Conseils",
              directive: "Directives",

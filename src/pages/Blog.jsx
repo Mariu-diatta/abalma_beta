@@ -39,7 +39,7 @@ const BlogList = ({ blogs }) => {
 
     return (
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 py-2 min-h-screen content-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-2 min-h-screen content-start">
 
             {
                 (!viewMore) ?
@@ -202,8 +202,8 @@ const BlogCard = ({blog, handleClicked}) => {
 
         <div
             className="relative w-auto p-2 flex flex-col justify-between rounded-lg 
-                 bg-gray-100 dark:bg-gray-800 dark:border dark:border-gray-700 
-                 hover:shadow-md transition-shadow duration-300 h-[20dvh] overflow-hidden"
+            bg-gray-100 dark:bg-gray-800 dark:border dark:border-gray-700 
+            hover:shadow-md transition-shadow duration-300 h-[20dvh] overflow-hidden"
         >
             {/* Header : Avatar + date */}
             <div className="flex justify-between items-center">
@@ -236,6 +236,7 @@ const BlogCard = ({blog, handleClicked}) => {
                 onClick={() => handleClicked(true,blog)}
             >
                 {t("blog.reaMore")}
+
                 <svg
                     className="ml-2 w-4 h-4"
                     fill="currentColor"
@@ -247,7 +248,9 @@ const BlogCard = ({blog, handleClicked}) => {
                         clipRule="evenodd"
                         d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
                     />
+
                 </svg>
+
             </button>
         </div>
     );
@@ -267,7 +270,7 @@ const BlogDetails = ({ blog, onClose }) => {
         >
             <div
                 className="bg-white dark:bg-gray-900 rounded-xl shadow-lg max-w-2xl w-full mx-4 p-6 
-                   overflow-y-auto max-h-[90vh] relative scrollbor_hidden"
+                overflow-y-auto max-h-[90vh] relative scrollbor_hidden"
                 onClick={(e) => e.stopPropagation()} // empêche la fermeture au clic interne
             >
                 {/* Bouton fermer */}
@@ -277,37 +280,47 @@ const BlogDetails = ({ blog, onClose }) => {
                     aria-label="Close"
                 >
                     ✕
+
                 </button>
 
                 {/* En-tête du blog */}
                 <div className="flex items-center justify-between mb-4">
 
                     <div className="flex items-center gap-3">
+
                         {blog?.user && <OwnerAvatar owner={blog.user} />}
+
                         <div>
+
                             <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
                                 {blog.title_blog}
                             </h2>
+
                             <p className="text-sm text-gray-500">
                                 {formatISODate(blog.created_at)}
                             </p>
                         </div>
+
                     </div>
 
                 </div>
 
                 {/* Image du blog si disponible */}
-                {blog.image_url && (
-                    <img
-                        src={blog.image_url}
-                        alt={blog.title_blog}
-                        className="w-full h-60 object-cover rounded-lg mb-4"
-                    />
-                )}
+                {
+                    blog.image_url && (
+                        <img
+                            src={blog.image_url}
+                            alt={blog.title_blog}
+                            className="w-full h-60 object-cover rounded-lg mb-4"
+                        />
+                    )
+                }
 
                 {/* Contenu principal */}
                 <div className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
+
                     {blog.blog_message}
+
                 </div>
 
                 {/* Pied de carte */}
@@ -320,6 +333,7 @@ const BlogDetails = ({ blog, onClose }) => {
                        dark:bg-primary-500 dark:hover:bg-primary-600"
                     >
                         {t("blog.close")}
+
                     </button>
 
                 </div>
