@@ -18,7 +18,7 @@ const WhiteRoundedButton = ({ titleButton, to }) => {
     rounded-full
     px-4 py-1
     text-[14px]
-    font-medium
+    font-normal
     transition-all duration-200
     border
   `;
@@ -44,19 +44,23 @@ const WhiteRoundedButton = ({ titleButton, to }) => {
   `;
 
     return (
+
         <NavLink
+
             to={`/${to}`}
-            className={({ isActive }) =>
-                `
-          ${baseClasses}
-          ${defaultClasses}
-          ${isActive ? activeClasses : "text-gray-700 dark:text-gray-200"}
-          dark:bg-dark
-        `
+
+            className={({ isActive }) =>`
+              ${baseClasses}
+              ${defaultClasses}
+              ${isActive ? activeClasses : "text-gray-700 dark:text-gray-200"}
+              dark:bg-dark
+            `
             }
+
             onClick={() => dispatch(setCurrentNav(to))}
         >
             {titleButton}
+
         </NavLink>
     );
 };

@@ -39,7 +39,7 @@ const ListButtonsCategories = (
 
                             className={`
                                 flex items-center gap-2 px-3 py-1 rounded-full text-sm font-normal whitespace-nowrap
-                                transition-all duration-200 border z-2 border-0 shadow-sm
+                                transition-all duration-200 border z-2 border-0 shadow-sm mx-1 md:mx-3
                                 ${activateButtonCategory?.toLowerCase() === cat.replace("_", "").toLowerCase()
                                 ? " bg-gradient-to-br from-purple-50 to-blue-100 text-white shadow-md ring-0 "
                                 : " bg-gray-100 text-blue-100 border border-blue-50 hover:bg-blue-100 hover:text-white hover:shadow-sm"

@@ -10,6 +10,8 @@ const FormLayout = ({ children }) => {
 
         <HomeLayout>
 
+            <ScrollTop />
+
             <section className="bg-gray-1 py-5 dark:bg-dark lg:py-[120px] bg_home px-2">
 
                 <div className="container mx-auto">
@@ -34,7 +36,6 @@ const FormLayout = ({ children }) => {
                                     color: "var(--color-text)",
                                 }}
                             >
-                                <ScrollTop/>
 
                                 {children}
 
