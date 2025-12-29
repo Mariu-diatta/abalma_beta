@@ -11,6 +11,7 @@ const PrintMessagesOnChat = ({ messages, messagesEndRef }) => {
 
     const selectedUser = useSelector((state) => state.chat.userSlected);
     const currentUser = useSelector((state) => state.auth.user);
+    const currentChat = useSelector((state) => state.chat.currentChat);
 
     const [dataDiscussions, setDataDiscussions] = useState(null);
     const [handleButtonDianios, setHandleButtonDianios] = useState(false);
@@ -109,7 +110,7 @@ const PrintMessagesOnChat = ({ messages, messagesEndRef }) => {
 
     return (
         <>
-            {!loadingAi ? (
+            {!loadingAi && (currentUser?.id === currentChat?.current_owner) ? (
                 <button
                     onClick={handleClick}
                     className="flex gap-1 items-center mt-auto sticky bottom-2 left-2 rounded-full p-3 m-2 bg-gray-50 hover:bg-blue-100 shadow-lg"
