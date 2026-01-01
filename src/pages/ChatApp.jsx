@@ -5,6 +5,7 @@ import ButtonToggleChatsPanel from '../components/ButtonHandleChatsPanel';
 import InputBoxChat from '../components/InputBoxChat';
 import BoxMessagesChats from '../features/MessageBoxChat';
 import { useTranslation } from 'react-i18next';
+import AnaliesChatsWithAi from './ChatWithAi';
 
 
 const ChatApp = ({ setShow , show}) => {
@@ -149,6 +150,10 @@ const ChatApp = ({ setShow , show}) => {
         <main
             className="flex flex-col w-screen rounded-2xl  overflow-hidden bg-none shadow-sm  z-8 w-full mb-0  "
         >
+
+            <div className="md:hidden">
+                <AnaliesChatsWithAi />
+             </div>
 
             <section className="flex justify-between items-align-center p-2 bg-none max-h-[10dvh] min-h-[10dvh]">
 

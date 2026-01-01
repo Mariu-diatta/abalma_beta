@@ -21,6 +21,8 @@ import { clearCart } from '../slices/cartSlice';
 import { logout } from '../slices/authSlice';
 
 import { setCurrentNav } from '../slices/navigateSlice';
+import AnaliesChatsWithAi from '../pages/ChatWithAi';
+import { addAiChat } from '../slices/aiChatSlice';
 
 const ChatLayout = () => {
 
@@ -285,81 +287,95 @@ const ChatLayout = () => {
                             )
                             :
                             (
-                            <ul className="mt-6 space-y-2 ">
+                                <ul className="mt-10 space-y-2 ">
 
-                                {
-                                    allChats?.map(
+                                    {
+                                        allChats?.map(
 
-                                        (room, index) => {
+                                            (room, index) => {
 
-                                            const currentReceiver = receivers[room?.current_receiver];
-                                            const currentSender = senders[room?.current_owner];
-                                            const whoCurrentUserChatWith =
-                                            currentReceiver?.email === currentUser?.email
-                                                ? currentSender
-                                                : currentReceiver;
+                                                const currentReceiver = receivers[room?.current_receiver];
+                                                const currentSender = senders[room?.current_owner];
+                                                const whoCurrentUserChatWith =
+                                                currentReceiver?.email === currentUser?.email
+                                                    ? currentSender
+                                                    : currentReceiver;
 
-                                            return (
+                                                return (
 
-                                                <li
-                                                    key={index}
-                                                    className={`w-full flex items-center justify-between px-2 py-1 rounded-lg text-sm font-medium transition-colors
-                                                    ${currentChat?.name === room?.name
-                                                        ? 'bg-gradient-to-br from-purple-0 to-blue-100 hover:bg-gradient-to-br hover:from-purple-50 text-white-800 shadow-sm'
-                                                        : 'hover:bg-gray-100 text-gray-800 shadow-sm'
-                                                    }`}
-                                                >
-                                                    <button
-                                                        onClick={() => {
-                                                            dispatch(addCurrentChat(room));
-                                                            dispatch(addUser(whoCurrentUserChatWith))
-                                                        }}
-                                                        className="flex gap-1 cursor-pointer flex-grow items-center "
+                                                    <li
+                                                        key={index}
+                                                        className={`w-full flex items-center justify-between px-2 py-1 rounded-lg text-sm font-medium transition-colors
+                                                        ${currentChat?.name === room?.name
+                                                            ? 'bg-gradient-to-br from-purple-0 to-blue-100 hover:bg-gradient-to-br hover:from-purple-50 text-white-800 shadow-sm'
+                                                            : 'hover:bg-gray-100 text-gray-800 shadow-sm'
+                                                        }`}
                                                     >
-                                                        <img
-                                                            src={
-                                                                whoCurrentUserChatWith?.image ||
-                                                                whoCurrentUserChatWith?.photo_url
-                                                            }
-                                                            alt={`${whoCurrentUserChatWith?.nom || 'Moi'
-                                                                } avatar`}
-                                                            className="h-[60px] w-[60px] rounded-full object-cover"
-                                                        />
+                                                        <button
 
-                                                        <div className="flex leading-tight gap-1 items-center">
-                                                            <span className="text-md font-medium text-gray-600">
-                                                                {whoCurrentUserChatWith?.prenom?.slice(0, 20) ||
-                                                                    'Prénom'}
-                                                            </span>
-                                                            <span className="text-xs text-gray">
-                                                                {whoCurrentUserChatWith?.nom?.toLowerCase()}
-                                                            </span>
-                                                        </div>
+                                                            onClick={() => {
+                                                                dispatch(addAiChat(null));
+                                                                dispatch(addCurrentChat(room));
+                                                                dispatch(addUser(whoCurrentUserChatWith));
+                                                            }}
 
-                                                    </button>
+                                                            className="flex gap-1 cursor-pointer flex-grow items-center "
+                                                        >
+                                                            <img
 
-                                                    <button
-                                                        onClick={() => handleDeleteRoom(room)}
-                                                        className="cursor-pointer ml-2 bg-none hover:bg-red-200 text-lg shadow-sm h-7 w-7 rounded-full"
-                                                        aria-label={`Supprimer ${room.name}`}
-                                                    >
-                                                        ✕
-                                                    </button>
+                                                                src={
+                                                                    whoCurrentUserChatWith?.image ||
+                                                                    whoCurrentUserChatWith?.photo_url
+                                                                }
 
-                                                </li>
-                                            );
-                                        }
-                                    )
-                                }
+                                                                alt={`${whoCurrentUserChatWith?.nom || 'Moi'
+                                                                    } avatar`}
+                                                                className="h-[60px] w-[60px] rounded-full object-cover"
+                                                            />
 
-                            </ul>
-                        )}
+                                                            <div className="flex leading-tight gap-1 items-center">
+
+                                                                <span className="text-md font-medium text-gray-600">
+                                                                    {whoCurrentUserChatWith?.prenom?.slice(0, 20) ||
+                                                                        'Prénom'}
+                                                                </span>
+
+                                                                <span className="text-xs text-gray">
+                                                                    {whoCurrentUserChatWith?.nom?.toLowerCase()}
+                                                                </span>
+
+                                                            </div>
+
+                                                        </button>
+
+                                                        <button
+                                                            onClick={() => handleDeleteRoom(room)}
+                                                            className="cursor-pointer ml-2 bg-none hover:bg-red-200 text-lg shadow-sm h-7 w-7 rounded-full"
+                                                            aria-label={`Supprimer ${room.name}`}
+                                                        >
+                                                            ✕
+                                                        </button>
+
+                                                    </li>
+                                                );
+                                            }
+                                        )
+                                    }
+
+                                </ul>
+                            )
+                    }
 
                     </div>
 
                 </div>
 
+                <div className="mb-5">
+                    <AnaliesChatsWithAi />
+                </div>
+
             </section>
+
 
              {/*Main Chat Area */}
             <section className="col-span-12 md:col-span-8  p-0  scrollbor_hidden">

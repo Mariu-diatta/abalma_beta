@@ -22,7 +22,13 @@ i18n
      en: {
 
          translation: {
-             blogNone:"Aucun blog disponible.",
+             loading:"Loading...",
+             ai_analies: "View AI analies",
+             blogNone: "Aucun blog disponible.",
+             no_resum_ai_en: "No analysis available",
+             title_ai_analyse: "AI Analysis Result",
+             view_ai_discuss: "View",
+             del_ai_discuss: "Delete",
              summary: 'Summary',
              advice: "Advice",
              directive: "Directives",
@@ -696,7 +702,13 @@ i18n
      fr: {
 
          translation: {
+             loading: "Chargement...",
+             ai_analies:"Voir les analyses IA",
+             view_ai_discuss: "Voir discussion",
+             del_ai_discuss: "Supprimer",
              blogNone: "Aucun blog disponible.",
+             no_resum_ai: "Aucune analyse disponible",
+             title_ai_analyse: "Résultat de l’analyse IA",
              summary: "Résumé",
              advice: "Conseils",
              directive: "Directives",
