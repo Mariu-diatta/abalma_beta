@@ -38,7 +38,6 @@ export default function TestimonialCarousel({
 
     }, []);
 
-
     // autoplay
     useEffect(() => {
         if (!autoplay || length <= 1) return;
@@ -101,16 +100,18 @@ export default function TestimonialCarousel({
             <div className="overflow-hidden translate-x-0 transition-all duration-1000 ease-in-out">
 
                 <div
-                    className="flex transition-transform duration-500 ease-out"
+                    className="flex transition-transform duration-500 ease-out "
                     style={{ transform: `translateX(-${index * 100}%)` }}
                     aria-live="polite"
                 >
                     {
                         testimonials?.map(
-                                (t, index) => (
+
+                            (t, index) => (
+
                                 <article
                                     key={index}
-                                    className="w-full flex-shrink-0  rounded-xl "
+                                    className="w-full flex-shrink-0  rounded-xl shadow-lg rounded-lg"
                                     role="group"
                                     aria-roledescription="slide"
                                     aria-label={`${t?.prenom}`}
@@ -134,8 +135,11 @@ export default function TestimonialCarousel({
                                             </p>
 
                                             <div className=" flex text-sm">
+
                                                 <p className="font-medium text-gray-900">{t?.prenom}</p> 
+
                                                 {t?.is_fournisseur && <p className="text-gray-500">✔️</p>} 
+
                                             </div>
 
                                             <div className=" flex text-sm">
@@ -180,8 +184,10 @@ export default function TestimonialCarousel({
 
             {/* Dots / Pagination */}
             <div className="mt-1 flex justify-center gap-3">
+
                 {
-                    testimonials.map((_, i) => (
+                    testimonials?.map((_, i) => (
+
                             <button
                                 key={i}
                                 onClick={() => { stopTimer(); goTo(i); }}
@@ -193,6 +199,7 @@ export default function TestimonialCarousel({
                         )
                     )
                 }
+
             </div>
 
         </div>

@@ -127,7 +127,11 @@ const SingleTestimonial = () => {
 
     return (
 
-        <main className="relative w-full md:w-1/2 m-auto pb-16 md:w-11/12 lg:w-10/12 xl:w-8/12  p-2 my-1">
+        <main className="relative w-full md:w-1/2 m-auto pb-16 md:w-11/12 lg:w-10/12 xl:w-8/12  p-2  mt-0">
+
+            <h1 className="text-2xl font-bold text-gray-800  flex items-center gap-5 my-4 justify-center">
+                Services
+            </h1>
 
             <div>
 

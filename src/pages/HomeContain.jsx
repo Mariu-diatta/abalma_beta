@@ -13,13 +13,14 @@ const HomeContain = () => {
     const { t } = useTranslation();
 
     return (
+
         <>
 
             {/* ====================== MAIN CONTENT ====================== */}
-            <main className="pt-[10dvh]">
+            <main className="pt-[10dvh] shadow-full">
 
                 {/* ========= HERO / Intro ========= */}
-                <section className="max-w-screen-md mx-auto text-center mb-10 relative w-full px-2 text-[10px] md:text-[15px]">
+                <section className="max-w-screen-md mx-auto text-center mb-10 relative w-full px-2 text-[10px] md:text-[15px] translate-y-0 transition-all duration-1000 ease-in-out">
 
                     <header>
 
@@ -41,33 +42,35 @@ const HomeContain = () => {
 
                 </section>
 
-
                 {/* ========= PRODUCTS ========= */}
-                <section aria-labelledby="products-title" className="mb-12">
+                <section aria-labelledby="products-title" className=" translate-y-0 transition-all duration-1000 ease-in-out bg-gradient-to-b from-white to-green-150">
                     <GridLayoutProduct />
                 </section>
 
                 {/* ========= SUBSCRIPTIONS ========= */}
-                <section aria-labelledby="subscription-plans" className="text-center">
+                <section aria-labelledby="subscription-plans" className="text-center translate-y-0 transition-all duration-1000 ease-in-out">
                     <SubscriptionsPage />
                 </section>
 
                 {/* ========= SERVICES ========= */}
-                <section aria-labelledby="services" className="bg-gray-50 px-6">
-                    <h2 id="services" className="text-2xl font-semibold mb-2 text-center">
-                         Services
-                    </h2>
-                    <ServicesPlatforms/>
+                <section aria-labelledby="services" className="bg-gray-50 px-6 translate-y-0 transition-all duration-1000 ease-in-out">
+
+                    <ServicesPlatforms />
+
                 </section>
 
                 {/* ========= TESTIMONIALS ========= */}
-                <section aria-labelledby="testimonials" className="bg-gray-50 px-6 py-[10dvh] translate-y-0 transition-all duration-1000 ease-in-out">
+                <section aria-labelledby="testimonials" className="bg-gray-50 px-6 py-[5dvh] translate-y-0 transition-all duration-1000 ease-in-out">
+
                     <TestimonialCarousel
                         autoplay={true}
                         autoplayInterval={6000}
                     />
+
                 </section>
+
             </main>
+
         </>
     );
 };

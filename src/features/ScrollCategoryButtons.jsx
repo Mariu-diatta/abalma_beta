@@ -84,7 +84,6 @@ const ScrollableCategoryButtons = ({
 
     }, [updateButtonsVisibility]);
 
-
     useEffect(() => {
 
         if (productSpecificHandler) {
@@ -95,7 +94,6 @@ const ScrollableCategoryButtons = ({
         }
 
     }, [productSpecificHandler, setActiveBtnOver, dispatch]);
-
 
     return (
 

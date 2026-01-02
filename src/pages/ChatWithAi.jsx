@@ -98,17 +98,20 @@ const AnaliesChatsWithAi = () => {
                             ✕
                         </button>
 
-                        <h2 className="text-xl font-semibold mb-4">
+                        <h2 className="text-md font-semibold mb-4">
                             {t("title_ai_analyse")}
                         </h2>
 
-                        <div className="max-h-[70vh] overflow-y-auto space-y-6">
+                        <div className="text-md max-h-[70vh] overflow-y-auto space-y-6">
 
-                            {aiData.length === 0 && (
-                                <p className="text-gray-500">{t("no_resum_ai")}</p>
-                            )}
+                            {
+                                (aiData.length === 0) && (
+                                    <p className="text-gray-500">{t("no_resum_ai")}</p>
+                                )
+                            }
 
-                            {aiData.map((item) => (
+                            {
+                                aiData.map((item) => (
 
                                 <div key={item.id} className="border rounded-lg p-4 space-y-3">
                                     <div className="flex justify-between items-center flex-wrap gap-2">
@@ -140,10 +143,13 @@ const AnaliesChatsWithAi = () => {
                                     <Section title={t("advice")} content={item.advise} />
                                     <Section title={t("directive")} content={item.directive} />
                                 </div>
-                            ))}
+                                ))
+                            }
+
                         </div>
 
                         {error && <p className="text-red-500 mt-4 text-sm">{error}</p>}
+
                     </div>
                 </div>
             )}
