@@ -60,6 +60,7 @@ const AnaliesChatsWithAi = () => {
        DELETE AI DISCUSSION
     ============================ */
     const handleDeleteAiChat = async (id) => {
+
         if (!id) return;
 
         setLoadingDeleteId(id);
@@ -67,15 +68,19 @@ const AnaliesChatsWithAi = () => {
         try {
             await api.delete(`ai-analyse-chat/${id}/`);
             setAiData((prev) => prev.filter((item) => item.id !== id));
+
         } catch (err) {
             console.error(err);
+
         } finally {
             setLoadingDeleteId(null);
         }
     };
 
     return (
+
         <div>
+
             {/* BUTTON OPEN */}
             <button
                 onClick={fetchAiAnalysisList}
@@ -102,48 +107,53 @@ const AnaliesChatsWithAi = () => {
                             {t("title_ai_analyse")}
                         </h2>
 
-                        <div className="text-md max-h-[70vh] overflow-y-auto space-y-6">
+                        <div className="text-md max-h-[70vh] overflow-y-auto space-y-6 scrollbor_hidden">
 
                             {
-                                (aiData.length === 0) && (
-                                    <p className="text-gray-500">{t("no_resum_ai")}</p>
-                                )
+                                (aiData.length === 0) && (<p className="text-gray-500">{t("no_resum_ai")}</p>)
                             }
 
                             {
-                                aiData.map((item) => (
+                                aiData?.map(
 
-                                <div key={item.id} className="border rounded-lg p-4 space-y-3">
-                                    <div className="flex justify-between items-center flex-wrap gap-2">
+                                    (item) => (
 
-                                        <p className="text-sm text-gray-400">
-                                            {new Date(item.created_at).toLocaleString()}
-                                        </p>
+                                        <div key={item.id} className="border-gray-50 rounded-lg p-4 space-y-3">
 
-                                        <div className="flex gap-2">
-                                            <button
-                                                onClick={() => handleViewAiChat(item.id)}
-                                                className="text-sm bg-gray-100 hover:bg-gray-200 p-2 rounded-lg"
-                                                disabled={loadingViewId}
-                                            >
-                                                {loadingViewId===item.id ? <LoadingCard /> : t("view_ai_discuss")}
-                                            </button>
+                                            <div className="flex justify-between items-center flex-wrap gap-2">
 
-                                            <button
-                                                onClick={() => handleDeleteAiChat(item.id)}
-                                                className="text-sm bg-red-100 hover:bg-red-200 p-2 rounded-lg"
-                                                disabled={loadingDeleteId}
-                                            >
-                                                {loadingDeleteId=== item.id ? <LoadingCard /> : t("del_ai_discuss")}
-                                            </button>
+                                                <p className="text-sm text-gray-400">
+                                                    {new Date(item.created_at).toLocaleString()}
+                                                </p>
+
+                                                <div className="flex gap-2">
+                                                    <button
+                                                        onClick={() => handleViewAiChat(item.id)}
+                                                        className="text-sm bg-gray-100 hover:bg-gray-200 p-2 rounded-lg"
+                                                        disabled={loadingViewId}
+                                                    >
+                                                        {loadingViewId===item.id ? <LoadingCard /> : t("view_ai_discuss")}
+                                                    </button>
+
+                                                    <button
+                                                        onClick={() => handleDeleteAiChat(item.id)}
+                                                        className="text-sm bg-red-100 hover:bg-red-200 p-2 rounded-lg"
+                                                        disabled={loadingDeleteId}
+                                                    >
+                                                        {loadingDeleteId=== item.id ? <LoadingCard /> : t("del_ai_discuss")}
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <Section title={t("summary")} content={item.resume}/>
+
+                                            <Section title={t("advice")} content={item.advise}/>
+
+                                            <Section title={t("directive")} content={item.directive}/>
+
                                         </div>
-                                    </div>
-
-                                    <Section title={t("summary")} content={item.resume} />
-                                    <Section title={t("advice")} content={item.advise} />
-                                    <Section title={t("directive")} content={item.directive} />
-                                </div>
-                                ))
+                                    )
+                                )
                             }
 
                         </div>
