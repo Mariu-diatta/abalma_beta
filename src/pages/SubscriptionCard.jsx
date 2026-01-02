@@ -158,7 +158,7 @@ export default function SubscriptionsPage() {
 
     return (
 
-        <main className="min-h-screen flex flex-col items-center justify-center bg-gray-50 bg-none  pt-[2dvh]">
+        <main className="min-h-screen flex flex-col items-center justify-center bg-gray-50 bg-none  pt-[2dvh] mx-2">
 
             <button
 
