@@ -59,14 +59,18 @@ const MyBlogsList = () => {
         setLoadingDelete(true);
 
         try {
+
             await api.delete(`/blogs/${blog?.id}/`);
+
             setBlogs((prev) => prev.filter((b) => b.id !== blog?.id));
 
         } catch (error) {
             console.error(error);
 
         } finally {
+
             setLoadingDelete(false);
+
             setTriggerdBtnId(null);
         }
     };
@@ -85,7 +89,9 @@ const MyBlogsList = () => {
     const totalPages = Math.ceil(filteredBlogs.length / itemsPerPage);
 
     const paginatedBlogs = useMemo(() => {
+
         const start = (currentPage - 1) * itemsPerPage;
+
         return filteredBlogs.slice(start, start + itemsPerPage);
 
     }, [filteredBlogs, currentPage]);

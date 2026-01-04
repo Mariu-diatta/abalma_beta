@@ -20,7 +20,7 @@ const BlogList = ({ blogs }) => {
 
     }
 
-    // Fonction pour générer les cartes de blog
+    // Fonction pour gÃ©nÃ©rer les cartes de blog
     const renderBlogs = useCallback(() => {
 
         if (!blogs || blogs.length === 0) return <p>{t("blogNone")}</p>;
