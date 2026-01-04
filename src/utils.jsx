@@ -29,13 +29,11 @@ export const getDataChat = async (data) => {
   }
 }
 
-
 // 🕒 Constantes globales
 export const maintenant = new Date();
 
 // 📸 Obtenir la photo d’un utilisateur
 export const getPhotoUser = (obj) => obj?.sender?.image || obj?.sender?.photo_url;
-
 
 // 💬 Messages d’aide (support)
 export const messages = (t) => [
@@ -65,12 +63,10 @@ export const messages = (t) => [
     },
 ];
 
-
 // 🌐 URL du backend WebSocket
 export const backendBase = process.env.NODE_ENV === 'production'
     ? 'wss://backend-mpb0.onrender.com'
     : 'ws://localhost:8000';
-
 
 // 🗓️ Fonctions de date et formatage
 export const convertDate = (dat) => {
@@ -102,7 +98,6 @@ export function formatDateRelative(dateString, lang = 'fr') {
     return locale.format(parsedDate);
 }
 
-
 // 🧮 Fonctions utilitaires
 export function removeAccents(str) {
     if (!str) return "Tous";
@@ -119,12 +114,10 @@ export const applyTheme = (newTheme, dispatch) => {
     if (meta) meta.setAttribute('content', newTheme === 'dark' ? '#000000' : '#ffffff');
 };
 
-
 // 🧠 Données du store
 const storeSates = store.getState();
 const currentLang = storeSates?.navigate?.lang;
 const isLang = (currentLang === "ang");
-
 
 // 📨 Requêtes & interactions backend
 export const fetchRooms = async (currentUser, dispatch, addRoom) => {
@@ -164,6 +157,7 @@ export const isAlreadyFollowed = async (clientId, setIsFollow, setIsLoading, cur
 export const recordFollowUser = async (clientId) => {
     try { await api.post(`/clients/${clientId}/follow/`, { withCredentials: true }); } catch { }
 };
+
 export const recordUnfollowUser = async (clientId) => {
     try { await api.post(`/clients/${clientId}/unfollow/`, { withCredentials: true }); } catch { }
 };
@@ -187,7 +181,6 @@ export const productViews = async (dataProduct, setProductNbViews) => {
         return 0; // échec
     }
 };
-
 
 // 🛒 Catégories et filtres produits
 // ============================
@@ -279,6 +272,7 @@ export const configurationMonnaies = {
     XOF: { symbole: 'XOF', position: 'apres', code: 'XOF' },
     CHF: { symbole: 'CHF', position: 'apres', code: 'CHF' },
 };
+
 export const formaterPrix = (prix, monnaie, t, locale = 'fr-FR') => {
 
     if (monnaie === "EURO") monnaie = '€';
@@ -325,7 +319,6 @@ export const loginClient = async (data, dispatch, setIsLoading, navigate) => {
     }
 };
 
-
 export const CreateClient = async (data, setLoading, showMessage, dispatch, t) => {
     try {
         const response = await api.post('inscription/', data, {
@@ -362,7 +355,6 @@ export const CreateClient = async (data, setLoading, showMessage, dispatch, t) =
 };
 
 export const isCurrentUser = (currentUser, SelectedUser) => currentUser.id === SelectedUser.id && currentUser?.email === SelectedUser?.email;
-
 
 // 🧭 Navigation
 export const getTabsNavigationsItems = (currentNav, t) => {
@@ -467,6 +459,7 @@ export const getTabsNavigationsItems = (currentNav, t) => {
         ]
     )
 };
+
 export const ItemsNav = ["home", "blogs", "account-home", "all-products"];
 
 //Formatage de date
@@ -526,8 +519,7 @@ export const CONSTANTS = {
     UPDATE: 'update',
     CONFIRMED:'confirmed'
 }
-
-   
+  
 //put fist letter in upCase
 export function capitalizeFirstLetter(str) {
     if (!str) return "";
@@ -575,7 +567,6 @@ export const payNow = async (
     }
 
 };
-
 function convertir(de, vers) {
     const taux = {
         EUR_USD: 1.10,
@@ -597,7 +588,6 @@ function convertir(de, vers) {
 
     return null; // conversion impossible
 }
-
 
 export const convertRates = async (setConvertValue, rateToConvert, referenceRate) => {
 
@@ -632,7 +622,6 @@ export const convertRates = async (setConvertValue, rateToConvert, referenceRate
 
     }
 }
-
 
 export const OPERATIONS_STATUS = {
     ACHETER: 'achetés',

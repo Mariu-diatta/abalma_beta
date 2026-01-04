@@ -199,7 +199,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                                 {/*buttons top: close, add product, view user profil the component*/}
                                 <div className="flex fixed lg:absolute right-0 z-50 bg-gray top-1.5 mb-3">
 
-                                    <div className="hidden md:block">
+                                    <div className="hidden md:block me-5">
 
                                         <NavButtons
                                             isCurrentUser={isCurrentUser}
@@ -466,7 +466,7 @@ const NavButtons = ({ isProductAdd, handleAddToCart_, isCurrentUser, setHiddenSh
 
                         title={t("add_in_basket")}
 
-                        className="z-20 cursor-pointer flex flex-col items-center justify-center p-3 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="z-20 cursor-pointer flex flex-col items-center justify-center p-2 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
 
                         aria-label={t("add_in_basket")}
 
@@ -475,7 +475,7 @@ const NavButtons = ({ isProductAdd, handleAddToCart_, isCurrentUser, setHiddenSh
                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
                         </svg>
 
-                        <p className="whitespace-nowrap">{t("add_in_basket")}</p>
+                        <p className="whitespace-nowrap text-sm">{t("add_in_basket")}</p>
 
                     </button>
                 }
