@@ -562,7 +562,7 @@ const ProfileCard = () => {
                                 e.preventDefault();
                                 handleSave();
                             }}
-                            className="mt-4 space-y-4 sm:w-1/2"
+                            className="mt-4 space-y-4 sm:w-1/2 shadow-lg p-3 rounded-lg"
                         >
                             <InputBox
                                 type="text"
