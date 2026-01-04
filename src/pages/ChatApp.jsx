@@ -201,6 +201,7 @@ const ChatApp = ({ setShow , show}) => {
 
             
             <section>
+
                 <BoxMessagesChats
                     messages={messages}
                     messagesEndRef={messagesEndRef}
@@ -216,6 +217,7 @@ const ChatApp = ({ setShow , show}) => {
                     sendMessage={sendMessage}
                     handleTyping={handleTyping}
                 />
+
             </section>
 
         </main>

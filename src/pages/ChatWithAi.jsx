@@ -6,14 +6,19 @@ import { addAiChat } from "../slices/aiChatSlice";
 import LoadingCard from "../components/LoardingSpin";
 
 const AnaliesChatsWithAi = () => {
+
     const { t } = useTranslation();
+
     const dispatch = useDispatch();
 
     const [aiData, setAiData] = useState([]);
+
     const [open, setOpen] = useState(false);
 
     const [loadingList, setLoadingList] = useState(false);
+
     const [loadingViewId, setLoadingViewId] = useState(null);
+
     const [loadingDeleteId, setLoadingDeleteId] = useState(null);
 
     const [error, setError] = useState(null);
@@ -84,85 +89,98 @@ const AnaliesChatsWithAi = () => {
             {/* BUTTON OPEN */}
             <button
                 onClick={fetchAiAnalysisList}
-                className="bg-gray-100 rounded-lg px-4 py-2 hover:bg-gray-200 fixed top-10 right-5 md:absolute mb-2"
+                className="bg-gray-50 rounded-lg px-4 py-2 hover:bg-gray-200 fixed top-10 right-5 md:absolute mb-2 shadow-lg translate-y-0 transition-all duration-1000 ease-in-out"
             >
-                {loadingList ? t("loading") : t("ai_analies")}
+                {
+                    loadingList ?
+                        t("loading")
+                        :
+                        t("ai_analies")
+                }
+
             </button>
 
             {/* POPOVER */}
-            {open && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 pt-3 ">
+            {
+                open && (
 
-                    <div className="bg-white w-full max-w-3xl rounded-xl shadow-lg p-6 relative mx-2 ">
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 pt-3 shadow-lg">
 
-                        {/* CLOSE */}
-                        <button
-                            onClick={() => setOpen(false)}
-                            className="absolute top-3 right-3 text-gray-400 hover:text-gray-600"
-                        >
-                            ✕
-                        </button>
+                        <div className="bg-white w-full max-w-3xl rounded-xl shadow-lg p-6 relative mx-2 ">
 
-                        <h2 className="text-md font-semibold mb-4">
-                            {t("title_ai_analyse")}
-                        </h2>
+                            {/* CLOSE */}
+                            <button
+                                onClick={() => setOpen(false)}
+                                className="absolute top-3 right-3 text-gray-400 hover:text-gray-600"
+                            >
+                                ✕
+                            </button>
 
-                        <div className="text-md max-h-[70vh] overflow-y-auto space-y-6 scrollbor_hidden">
+                            <h2 className="text-md font-semibold mb-4 shadow-sm p-2">
+                                {t("title_ai_analyse")}
+                            </h2>
 
-                            {
-                                (aiData.length === 0) && (<p className="text-gray-500">{t("no_resum_ai")}</p>)
-                            }
+                            <div className="text-md max-h-[70vh] overflow-y-auto space-y-6 scrollbor_hidden">
 
-                            {
-                                aiData?.map(
+                                {
+                                    (aiData.length === 0) && (<p className="text-gray-500">{t("no_resum_ai")}</p>)
+                                }
 
-                                    (item) => (
+                                {
+                                    aiData?.map(
 
-                                        <div key={item.id} className="border-gray-50 rounded-lg p-4 space-y-3">
+                                        (item) => (
 
-                                            <div className="flex justify-between items-center flex-wrap gap-2">
+                                            <div key={item.id} className="border-gray-50 rounded-lg p-4 space-y-3">
 
-                                                <p className="text-sm text-gray-400">
-                                                    {new Date(item.created_at).toLocaleString()}
-                                                </p>
+                                                <div className="flex justify-between items-center flex-wrap gap-2">
 
-                                                <div className="flex gap-2">
-                                                    <button
-                                                        onClick={() => handleViewAiChat(item.id)}
-                                                        className="text-sm bg-gray-100 hover:bg-gray-200 p-2 rounded-lg"
-                                                        disabled={loadingViewId}
-                                                    >
-                                                        {loadingViewId===item.id ? <LoadingCard /> : t("view_ai_discuss")}
-                                                    </button>
+                                                    <p className="text-sm text-gray-400">
+                                                        {new Date(item.created_at).toLocaleString()}
+                                                    </p>
 
-                                                    <button
-                                                        onClick={() => handleDeleteAiChat(item.id)}
-                                                        className="text-sm bg-red-100 hover:bg-red-200 p-2 rounded-lg"
-                                                        disabled={loadingDeleteId}
-                                                    >
-                                                        {loadingDeleteId=== item.id ? <LoadingCard /> : t("del_ai_discuss")}
-                                                    </button>
+                                                    <div className="flex gap-2">
+
+                                                        <button
+                                                            onClick={() => handleViewAiChat(item.id)}
+                                                            className="shadow-lg text-sm bg-gray-100 hover:bg-gray-200 p-2 rounded-lg"
+                                                            disabled={loadingViewId}
+                                                        >
+                                                            {loadingViewId===item.id ? <LoadingCard /> : t("view_ai_discuss")}
+                                                        </button>
+
+                                                        <button
+                                                            onClick={() => handleDeleteAiChat(item.id)}
+                                                            className="shadow-lg text-sm bg-red-100 hover:bg-red-200 p-2 rounded-lg"
+                                                            disabled={loadingDeleteId}
+                                                        >
+                                                            {loadingDeleteId=== item.id ? <LoadingCard /> : t("del_ai_discuss")}
+                                                        </button>
+
+                                                    </div>
                                                 </div>
+
+                                                <Section title={t("summary")} content={item.resume}/>
+
+                                                <Section title={t("advice")} content={item.advise}/>
+
+                                                <Section title={t("directive")} content={item.directive}/>
+
                                             </div>
-
-                                            <Section title={t("summary")} content={item.resume}/>
-
-                                            <Section title={t("advice")} content={item.advise}/>
-
-                                            <Section title={t("directive")} content={item.directive}/>
-
-                                        </div>
+                                        )
                                     )
-                                )
-                            }
+                                }
+
+                            </div>
+
+                            {error && <p className="text-red-500 mt-4 text-sm">{error}</p>}
 
                         </div>
 
-                        {error && <p className="text-red-500 mt-4 text-sm">{error}</p>}
-
                     </div>
-                </div>
-            )}
+                )
+            }
+
         </div>
     );
 };

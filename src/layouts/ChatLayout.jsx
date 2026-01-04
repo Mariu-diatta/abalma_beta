@@ -349,7 +349,9 @@ const ChatLayout = () => {
                                                         </button>
 
                                                         <button
-                                                            onClick={() => handleDeleteRoom(room)}
+                                                            onClick={
+                                                                () => handleDeleteRoom(room)
+                                                            }
                                                             className="cursor-pointer ml-2 bg-none hover:bg-red-200 text-lg shadow-sm h-7 w-7 rounded-full"
                                                             aria-label={`Supprimer ${room.name}`}
                                                         >

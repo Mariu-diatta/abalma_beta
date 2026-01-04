@@ -6,18 +6,27 @@ import LoadingCard from './LoardingSpin';
 import { useTranslation } from 'react-i18next';
 import api from '../services/Axios';
 
-const PrintMessagesOnChat = ({ messages, messagesEndRef }) => {
+const PrintMessagesOnChat = ({
+    messages,
+    messagesEndRef
+}) => {
+
     const { t } = useTranslation();
+
     const dispatch = useDispatch();
 
     const selectedUser = useSelector((state) => state.chat.userSlected);
+
     const currentUser = useSelector((state) => state.auth.user);
+
     const currentChat = useSelector((state) => state.chat.currentChat);
 
     const currentAnalyseAiSelected = useSelector((state) => state.aiChat.currentChat);
 
     const [dataDiscussions, setDataDiscussions] = useState(null);
+
     const [handleButtonDianios, setHandleButtonDianios] = useState(false);
+
     const [loadingAi, setLoadingAi] = useState(false);
 
     const buildConversationString = (messages, selectedUserId) => {
@@ -86,8 +95,10 @@ const PrintMessagesOnChat = ({ messages, messagesEndRef }) => {
     }, [dataDiscussions, currentChat]);
 
     if (handleButtonDianios) {
+
         return (
-            <div className="flex flex-col gap-4 h-[70dvh] overflow-y-auto z-0 scrollbor_hidden rounded-lg p-4 bg-gray-50 shadow-lg relative">
+
+            <div className="shadow-lg flex flex-col gap-4 h-[70dvh] overflow-y-auto z-0 scrollbor_hidden rounded-lg p-4 bg-gray-50 shadow-lg relative">
 
                 <button
                     onClick={() => setHandleButtonDianios(false)}
@@ -101,10 +112,12 @@ const PrintMessagesOnChat = ({ messages, messagesEndRef }) => {
                     >
                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M6 18L17.94 6M18 18L6.06 6" />
                     </svg>
+
                 </button>
 
                 {
                     dataDiscussions?.map(
+
                         (data, idx) => {
                                 const textResponseAi = getText(data)
                                     .replace(/\n\n/g, " ")
@@ -115,9 +128,12 @@ const PrintMessagesOnChat = ({ messages, messagesEndRef }) => {
                                 let title = idx === 0 ? t("summary") : idx === 1 ? t("advice") : t("directive");
 
                                 return (
-                                    <div key={data.id || idx} className="flex flex-col gap-2 break-words text-gray-800 text-sm leading-relaxed shadow-lg mt-3">
+
+                                    <div key={data.id || idx} className="shadow-lg  flex-col gap-2 break-words text-gray-800 text-sm leading-relaxed shadow-lg mt-3">
+
                                         {/* Titre de la section */}
-                                        <div className="flex items-center gap-2 shadow-sm border border-gray-300 bg-blue-100 text-blue-800 px-3 py-1 rounded-md font-semibold">
+                                        <div className="flex items-center gap-2 border border-gray-300 bg-blue-100 text-blue-800 px-3 py-1 rounded-md font-semibold">
+
                                             <svg
                                                 className="w-6 h-6 text-gray-800 dark:text-white"
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -126,13 +142,16 @@ const PrintMessagesOnChat = ({ messages, messagesEndRef }) => {
                                             >
                                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M15.2 6H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11.2a1 1 0 0 0 .747-.334l4.46-5a1 1 0 0 0 0-1.332l-4.46-5A1 1 0 0 0 15.2 6Z" />
                                             </svg>
+
                                             <p>{title}</p>
+
                                         </div>
 
                                         {/* Contenu */}
                                         <div className="px-2 py-1 bg-white rounded-md shadow-sm border border-gray-100 leading-relaxed">
                                             {textResponseAi}
                                         </div>
+
                                     </div>
                                 );
                             }
@@ -196,39 +215,55 @@ const PrintMessagesOnChat = ({ messages, messagesEndRef }) => {
                         const showDateLabel = currentDateLabel !== messages[idx - 1]?.date;
 
                         return (
+
                             <React.Fragment key={`${msg.date}-${idx}`}>
-                                {showDateLabel && (
-                                    <li className="text-center text-xs text-gray-500 py-2">
-                                        {currentDateLabel}
-                                    </li>
-                                )}
+
+                                {
+                                    showDateLabel && (
+                                        <li className="text-center text-xs text-gray-500 py-2">
+                                            {currentDateLabel}
+                                        </li>
+                                    )
+                                }
+
                                 <li className={`flex items-end gap-2 pb-3 ${alignment}`}>
-                                    {!isCurrentUser && (
-                                        <img
-                                            src={selectedUser?.image || selectedUser?.photo_url}
-                                            alt="avatar"
-                                            className="h-5 w-5 rounded-full object-cover shadow-lg"
-                                        />
-                                    )}
+
+                                    {
+                                        !isCurrentUser && (
+                                            <img
+                                                src={selectedUser?.image || selectedUser?.photo_url}
+                                                alt="avatar"
+                                                className="h-5 w-5 rounded-full object-cover shadow-lg"
+                                            />
+                                        )
+                                    }
 
                                     <div className="flex flex-col w-auto">
+
                                         <div className={`w-full px-2 py-2 text-sm rounded-2xl flex flex-col shadow-md ${bubbleColor}`}>
                                             <p>{msg?.text}</p>
                                         </div>
+
                                         <p className="text-[9px] text-gray-500 mt-1">
                                             {(msg?.date?.split(" ")[1]) || maintenant.toLocaleTimeString()}
                                         </p>
+
                                     </div>
 
-                                    {isCurrentUser && (
-                                        <img
-                                            src={currentUser?.image || currentUser?.photo_url}
-                                            alt="avatar"
-                                            className="h-5 w-5 rounded-full object-cover"
-                                        />
-                                    )}
+                                    {
+                                        isCurrentUser && (
+                                            <img
+                                                src={currentUser?.image || currentUser?.photo_url}
+                                                alt="avatar"
+                                                className="h-5 w-5 rounded-full object-cover"
+                                            />
+                                        )
+                                    }
+
                                 </li>
+
                                 <div ref={messagesEndRef} />
+
                             </React.Fragment>
                         );
                     })

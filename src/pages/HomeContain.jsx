@@ -43,9 +43,7 @@ const HomeContain = () => {
                 </section>
 
                 {/* ========= PRODUCTS ========= */}
-                <section aria-labelledby="products-title" className=" translate-y-0 transition-all duration-1000 ease-in-out bg-gradient-to-b from-white to-green-150">
-                    <GridLayoutProduct />
-                </section>
+                <GridLayoutProduct />
 
                 {/* ========= SUBSCRIPTIONS ========= */}
                 <section aria-labelledby="subscription-plans" className="text-center translate-y-0 transition-all duration-1000 ease-in-out">

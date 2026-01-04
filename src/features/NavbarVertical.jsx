@@ -121,7 +121,7 @@ const VertcalNavbar = ({ children }) => {
 
                 ref={sidebarRef}
 
-                className={`bg-none fixed top-0 left-0 z-[40] w-64 h-full transition-transform ${isSidebarOpen ? '' : '-translate-x-full'} sm:translate-x-0`}
+                className={`shadow-lg bg-none fixed top-0 left-0 z-[40] w-64 h-full transition-transform ${isSidebarOpen ? '' : '-translate-x-full'} sm:translate-x-0`}
 
                 aria-label="Sidebar"
             >
@@ -557,7 +557,7 @@ const VertcalNavbar = ({ children }) => {
 
             <section
 
-                className="p-0 m-0  sm:ml-64 h-full"
+                className="p-0 m-0  sm:ml-64 h-full "
 
                 style={{
                     backgroundColor: "var(--color-bg)",
