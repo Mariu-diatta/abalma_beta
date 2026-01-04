@@ -246,7 +246,7 @@ const AddUploadProduct = () => {
 
                 </ProductSummary>
             ) : (
-                <div className="py-1 lg:py-2 w-full md:w-1/2 lg:w-1/2 px-4">
+                <div className="py-1 lg:py-2 w-full md:w-1/2 lg:w-1/2 px-4 shadow-lg rounded-lg">
 
                     <form
                         onSubmit={saveDataForSubmitForm}
@@ -255,9 +255,11 @@ const AddUploadProduct = () => {
                         {/* Sections du formulaire */}
                         {currentSection >= 1 && (
                             <div>
+
                                 <h2 className="text-lg font-extrabold text-gray-500 dark:text-white pt-4 pb-1 mb-1 sm:col-span-2">
                                     {t("add_product.informations")}
                                 </h2>
+
                                 <InputBox
                                     type="text"
                                     id="name_product"
@@ -267,6 +269,7 @@ const AddUploadProduct = () => {
                                     placeholder="Nom du produit"
                                     required
                                 />
+
                                 <InputBox
                                     type="text"
                                     id="color_product"
