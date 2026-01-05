@@ -105,30 +105,41 @@ const AboutContainer = () => {
                         <div className="flex items-center -mx-3 sm:-mx-4">
 
                             {/* Left column images */}
-                            <div className="w-full px-3 sm:px-4 xl:w-1/2">
-                                {[
-                                    { img: image_1, text: t('about_image_text') },
-                                    { img: image_2, text: t('about_image_text2') }
-                                ].map((prod, idx) => (
-                                    <div key={idx} className="py-3 sm:py-4">
-                                        <HoverImage
-                                            src={prod.img}
-                                            alt={t(`image_${idx + 1}_alt`)}
-                                            text={prod.text}
-                                        />
-                                    </div>
-                                ))}
+                            <div className="w-full px-3 sm:px-4 xl:w-1/2 ">
+
+                                {
+                                    [
+                                        { img: image_1, text: t('about_image_text') },
+                                        { img: image_2, text: t('about_image_text2') }
+                                    ].map((prod, idx) => (
+
+                                        <div key={idx} className="py-3 sm:py-4">
+
+                                            <HoverImage
+                                                src={prod.img}
+                                                alt={t(`image_${idx + 1}_alt`)}
+                                                text={prod.text}
+                                            />
+
+                                        </div>
+                                    ))
+                                }
+
                             </div>
 
                             {/* Right main image */}
                             <div className="w-full px-3 sm:px-4 xl:w-1/2">
+
                                 <div className="relative z-10 my-4">
+
                                     <HoverImage
                                         src={image_3}
                                         alt={t('image_3_alt')}
                                         text={t('about_image_text1')}
                                     />
+
                                 </div>
+
                             </div>
 
                         </div>
