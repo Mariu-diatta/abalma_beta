@@ -1,4 +1,4 @@
-﻿import React from 'react'
+import React from 'react'
 import { formatISODate } from '../utils';
 import OwnerAvatar from '../components/OwnerProfil';
 import { useTranslation } from 'react-i18next';

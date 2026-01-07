@@ -156,7 +156,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
             }
 
             <div
-                className="fixed inset-0 z-[100] shadow-full"
+                className="fixed inset-0 z-[100] shadow-full "
                 role="dialog"
                 aria-modal="true"
                 ref={popovRef}
@@ -168,10 +168,11 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                     aria-hidden="true"
                     onClick={onClose}
                     ref={buttonRef}
-                ></div>
+                >
+                </div>
 
                 {/* ====== CONTENT ====== */}
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 m-0 md:mx-15 md:my-1 ">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 m-0 md:mx-15 md:my-1">
 
                     <main
                         className="relative flex flex-col md:flex-row items-stretch justify-center
