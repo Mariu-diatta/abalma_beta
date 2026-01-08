@@ -79,7 +79,7 @@ const TablesRecapActivities = ({
                             <button
                                 key={id}
                                 onClick={() => setHandleButton(id)}
-                                className={`whitespace-nowrap cursor-pointer rounded-full px-3 py-1 hover:bg-blue-50
+                                className={`shadow-lg whitespace-nowrap cursor-pointer rounded-full px-3 py-1 hover:bg-blue-50
                                 ${ (handleButton === id) ? "bg-blue-50" : "bg-gray-50"}`}
                             >
                                 {label}
