@@ -258,8 +258,6 @@ export function PaymentAppPayPal(
 
                 setLoadingPayPal(true)
 
-                console.log("Data payload", payload)
-
                 // Envoi en JSON  const products =
                 await api.post("creat/transactions/products/",
 
@@ -281,6 +279,8 @@ export function PaymentAppPayPal(
             } catch (err) {
 
                 setShowPaymentForm(false)
+
+                console.log("Erreur payment::::",err)
 
                 showMessage(dispatch, { Type: "Erreur", Message: err?.response?.data?.detail || err?.message });
 
@@ -327,17 +327,29 @@ export function PaymentAppPayPal(
             boughtProduct();
 
             // Notification personnalisée
-            showMessage(dispatch, {
-                Type: "Message",
-                Message: `Merci ${details.payer.name.given_name}, ${t("success_transaction")}!`,
-            });
+            showMessage(
+
+                dispatch,
+
+                {
+                    Type: "Message",
+                    Message: `Merci ${details.payer.name.given_name}, ${t("success_transaction")}!`,
+                }
+            );
+
         } catch (err) {
+
             handlePaymentError(err);
             // Notification personnalisée
-            showMessage(dispatch, {
-                Type: "Erreur",
-                Message: `Hupps! ${err?.response?.data?.detail || err?.message}, ${t('transaction_fail')}`,
-            });
+            showMessage(
+
+                dispatch,
+
+                {
+                    Type: "Erreur",
+                    Message: `Hupps! ${err?.response?.data?.detail || err?.message}, ${t('transaction_fail')}`,
+                }
+            );
         }
     };
 
