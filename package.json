@@ -9,8 +9,6 @@
     "@reduxjs/toolkit": "^2.8.2",
     "@tailwindcss/cli": "^4.1.6",
     "@testing-library/dom": "^10.4.0",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.9.0",
     "clsx": "^2.1.1",
@@ -58,7 +56,10 @@
   "devDependencies": {
     "@gradio/client": "^2.0.1",
     "@tailwindcss/postcss": "^4.1.7",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.1",
     "autoprefixer": "^10.4.21",
+    "jest": "^27.5.1",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.11"
   }

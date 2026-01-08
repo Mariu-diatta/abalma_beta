@@ -32,7 +32,6 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
     const [deletedSubTrans, setDeletedSubTrans] = useState(false);
     const [deletedTrans, setDeletedTrans] = useState(false);
 
-
     const itemsPerPage = 5;
 
     const statusLabels = useMemo(() => (OPERATIONS_STATUS), []);
@@ -138,7 +137,7 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
 
             console.log("Erreur de la mise à jour", e)
 
-            const errorMessage = e?.message || "Erreur de la mise à jour"
+            const errorMessage = e?.message || e?.response?.data?.detail || "Erreur de la mise à jour"
 
             func(false)
 
@@ -167,7 +166,7 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
 
                 resp => {
 
-                    setTransactionsData(resp?.data?.results)
+                    setTransactionsData(resp?.data?.results || resp?.data);
                 }
 
             ).catch(
@@ -545,13 +544,20 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
                 </table>
 
                 {/* POPOVER VIEW */}
-                {popoverOpen && product && (
-                    <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50" onClick={closePopover}>
-                        <div className="bg-white p-4 rounded-lg max-w-2xl w-full shadow-lg">
-                            <ViewProduct productSelected={product} />
+                {
+                    (popoverOpen && product) && (
+
+                        <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50" onClick={closePopover}>
+
+                            <div className="bg-white p-4 rounded-lg max-w-2xl w-full shadow-lg">
+
+                                <ViewProduct productSelected={product}/>
+
+                            </div>
+
                         </div>
-                    </div>
-                )}
+                    )
+                }
 
             </main>
 
@@ -598,8 +604,6 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
 
 export default ProductsRecapTable;
 
-
-
 const SubTransactionCard = ({
     title = "Sous-transaction",
     icon,
@@ -620,14 +624,17 @@ const SubTransactionCard = ({
     actionDisabled = false,
 }) => {
 
+    const [loadingDelate, setLoadingDelate]=useState(false)
+
     const handleDelete = async (url) => {
 
+        setLoadingDelate(true)
 
         try {
 
             await api.delete(`${url}/${pk}/`, {
                 params: {
-                    mode:"buy"
+                    mode: "sell"
                 }
             }
 
@@ -640,7 +647,7 @@ const SubTransactionCard = ({
                     alert("Secessuffuly delete")
 
                     setData(
-                        () => data.filter(el => el?.id!==pk)
+                        () => data.filter(el => el?.id !== pk)
                     )
                     setDeleted(true)
                 }
@@ -650,7 +657,7 @@ const SubTransactionCard = ({
                 err => {
                     console.log(err)
 
-                    alert("Error delete")
+                    alert(err?.response?.data?.detail || "Error delete")
 
                     setDeleted(false)
                 }
@@ -658,9 +665,10 @@ const SubTransactionCard = ({
 
         } catch (e) {
 
+        } finally {
+            setLoadingDelate(false)
         }
     }
-
 
     return (
 
@@ -668,6 +676,7 @@ const SubTransactionCard = ({
 
             {/* HEADER */}
             <div className="flex items-center justify-between gap-3">
+
                 <div className="flex items-center gap-2 text-blue-800 font-semibold">
                     {icon}
                     <span>{title}</span>
@@ -691,37 +700,58 @@ const SubTransactionCard = ({
 
             <div className="flex justify-between px-1">
 
-                {canUpdateDelete.includes(status) && (
-                    <button
-                        onClick={() => handleDelete(url)}
-                        className="px-4 py-2 text-sm font-medium r  ounded-lg
-                         bg-white 
-                         hover:bg-red-50 hover:border-green-400
-                         transition"
-                    >
-                        Delete
-                    </button>
-                )}
+                {
+                    canUpdateDelete?.includes(status) && (
+
+                        <>
+                            {
+                                !loadingDelate?
+                                <button
+                                    onClick={() => handleDelete(url)}
+                                    className="px-4 py-2 text-sm font-medium r  ounded-lg
+                                    bg-white 
+                                    hover:bg-red-50 hover:border-green-400
+                                    transition"
+                                >
+                                    Delete
+
+                                </button>
+                                :
+                                <LoadingCard />
+                            }
+                        </>
+                    )
+                }
 
                 {/* ACTION */}
-                {showAction && (
-                    <div className="flex justify-end">
-                        {!isLoading ? (
-                            <button
-                                onClick={onAction}
-                                disabled={actionDisabled}
-                                className="px-4 py-2 text-sm font-medium rounded-lg
-                             bg-white border border-gray-300
-                             hover:bg-green-50 hover:border-green-400
-                             transition disabled:opacity-40 disabled:cursor-not-allowed"
-                            >
-                                {actionLabel}
-                            </button>
-                        ) : (
-                            <LoadingCard />
-                        )}
-                    </div>
-                )}
+                {
+                    showAction && (
+
+                        <div className="flex justify-end">
+
+                            {
+                                !isLoading ? (
+                                <button
+                                    onClick={onAction}
+                                    disabled={actionDisabled}
+                                    className="px-4 py-2 text-sm font-medium rounded-lg
+                                    bg-white border border-gray-300
+                                    hover:bg-green-50 hover:border-green-400
+                                    transition disabled:opacity-40 disabled:cursor-not-allowed"
+                                >
+                                    {actionLabel}
+
+                                </button>
+                                )
+                                :
+                                (
+                                    <LoadingCard />
+                                )
+                            }
+
+                        </div>
+                    )
+                }
 
             </div>
 

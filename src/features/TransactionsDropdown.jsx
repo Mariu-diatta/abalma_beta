@@ -58,7 +58,9 @@ function TransactionsDropdown(
 
             {/*Sélection de la transaction*/}
             <button
+
                 onClick={() => setOpenMenu(m => ({ ...m, main: !m.main }))}
+
                 className="border-blue-200 
                     h-10 px-3 rounded-full
                     bg-gray-100 flex 
@@ -84,8 +86,11 @@ function TransactionsDropdown(
                             transactionsData?.map(tItem => (
 
                                     <button
+
                                         key={tItem?.id}
+
                                         className="block w-full px-4 py-2 text-sm hover:bg-gray-100 bg-white"
+
                                         onClick={() => handleTransactionSelect(tItem)}
                                     >
                                         {tItem?.code} - {tItem?.status} - {convertDate(tItem?.created_at)}
@@ -102,10 +107,10 @@ function TransactionsDropdown(
 
             {/*Sélection de la sous transaction*/}
             <button
-                onClick={() => subTransactionsData.length && setOpenMenu(m => ({ ...m, sub: !m.sub }))}
+                onClick={() => subTransactionsData?.length && setOpenMenu(m => ({ ...m, sub: !m.sub }))}
                 className={`border-blue-200 h-10 px-3 rounded-full bg-gray-100 
                 disabled:opacity-50 flex gap-2 items-center justify-center
-                focus:border-blue-500 focus:ring-1 focus:ring-blue-400 ${ subTransactionsData.length<=1?"hidden":""}
+                focus:border-blue-500 focus:ring-1 focus:ring-blue-400 ${ subTransactionsData?.length > 0?"hidden":""}
                 `}
                 disabled={!selectedTransaction}
             >

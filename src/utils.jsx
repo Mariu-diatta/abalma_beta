@@ -704,8 +704,6 @@ export const MODE={
 }
 
 export const canUpdateDelete = [
-    "pending",
-    "in_progress",
     "forward"
 ]
 

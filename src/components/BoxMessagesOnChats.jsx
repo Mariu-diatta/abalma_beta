@@ -30,6 +30,7 @@ const PrintMessagesOnChat = ({
     const [loadingAi, setLoadingAi] = useState(false);
 
     const buildConversationString = (messages, selectedUserId) => {
+
         return messages
             .map((msg) => {
                 const role = msg.sender_id.id === selectedUserId ? "client" : "vendeur";
