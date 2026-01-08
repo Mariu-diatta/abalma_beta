@@ -422,10 +422,10 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
             }
 
             {/* TABLEAU */}
-            <main className="style_bg overflow-x-auto sm:rounded-lg p-2 z-0">
+            <main className="style_bg overflow-x-auto sm:rounded-lg p-2 z-0 ">
 
                 <table
-                    className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-sm p-2"
+                    className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-lg p-2"
                 >
 
                     <thead className="bg-gray-100">
@@ -672,7 +672,7 @@ const SubTransactionCard = ({
 
     return (
 
-        <div className="bg-gradient-to-br from-blue-50 to-white border border-blue-100 p-4 rounded-xl shadow-sm w-fit">
+        <div className="bg-gradient-to-br from-blue-50 to-white border border-blue-100 p-4 rounded-xl shadow-lg w-fit">
 
             {/* HEADER */}
             <div className="flex items-center justify-between gap-3">
