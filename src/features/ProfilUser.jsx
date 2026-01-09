@@ -605,7 +605,7 @@ const ProfileCard = () => {
                                 name="description"
                                 value={formData?.description}
                                 onChange={handleChange}
-                                className="w-full h-24 rounded-lg border border-gray-300 p-2 resize-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full h-24 rounded-lg border border-gray-300 p-2 resize-none focus:ring-2 focus:ring-blue-500 "
                                 placeholder={t('ProfilText.descriptionPlaceholder')}
                             />
 
@@ -821,7 +821,7 @@ const ProfileCard = () => {
                     value={formData?.description}
                     onChange={handleChange}
                     disabled={!isEditing}
-                    className="w-full mt-2 rounded-lg border border-gray-200 p-2 text-sm focus:ring-2 focus:ring-blue-500 prose scrollbor_hidden"
+                    className="w-full mt-2 rounded-lg border border-gray-200 p-2 text-sm focus:ring-2 focus:ring-blue-500 prose scrollbor_hidden leading-relaxed whitespace-pre-lin"
                     placeholder={t('ProfilText.descriptionPlaceholder')}
                 />
 

@@ -36,16 +36,16 @@ const BlogDetails = ({ blog, onClose }) => {
 
                     <div className="flex items-center gap-3">
 
-                        {blog?.user && <OwnerAvatar owner={blog.user} />}
+                        {blog?.user && <OwnerAvatar owner={blog?.user} />}
 
                         <div>
 
                             <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
-                                {blog.title_blog}
+                                {blog?.title_blog}
                             </h2>
 
                             <p className="text-sm text-gray-500">
-                                {formatISODate(blog.created_at)}
+                                {formatISODate(blog?.created_at)}
                             </p>
                         </div>
 
@@ -55,7 +55,7 @@ const BlogDetails = ({ blog, onClose }) => {
 
                 {/* Image du blog si disponible */}
                 {
-                    blog.image_url && (
+                    blog?.image_url && (
                         <img
                             src={blog.image_url}
                             alt={blog.title_blog}
@@ -67,7 +67,7 @@ const BlogDetails = ({ blog, onClose }) => {
                 {/* Contenu principal */}
                 <div className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
 
-                    {blog.blog_message}
+                    {blog?.blog_message}
 
                 </div>
 
