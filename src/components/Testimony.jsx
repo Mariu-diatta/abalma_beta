@@ -83,11 +83,6 @@ export default function TestimonialCarousel({
         return () => window.removeEventListener("keydown", onKey);
     });
 
-    if (length === 0) {
-
-        return null;
-    }
-
     return (
 
         <div
