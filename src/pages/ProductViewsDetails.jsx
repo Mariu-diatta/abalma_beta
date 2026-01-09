@@ -108,19 +108,15 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
     }, [currentSelectedProductView, isOpen]);
 
-    useEffect(
+    useEffect(() => {
+        // Vérifie si l'utilisateur actuel correspond à l'utilisateur sélectionné ou au fournisseur du produit
+        const isCurrent = currentUser && (
+            (selectedUser && currentUser.id === selectedUser.id) ||
+            (currentSelectedProductView && currentUser.id === currentSelectedProductView.fournisseur)
+        );
 
-        () => {
-
-            var isCurrent_User = () => !(currentUser?.id === selectedUser?.id && currentUser?.email === selectedUser?.email)
-
-            setIsCurrentUser(isCurrent_User)
-
-            return setIsCurrentUser(false)
-
-        }, [currentUser?.id, selectedUser?.id, currentUser?.email, selectedUser?.email]
-
-    )
+        setIsCurrentUser(!!isCurrent); // Convertit en booléen
+    }, [currentUser, selectedUser, currentSelectedProductView]);
 
     // Sans paramètre, pour un appel manuel
     const handleAddToCart_ = () => {
@@ -453,14 +449,12 @@ const NavButtons = ({ isProductAdd, handleAddToCart_, isCurrentUser, setHiddenSh
 
     const { t } = useTranslation();
 
-    if (isCurrentUser) return
-
     return (
 
         <div className="flex justify-between items-center gap-4">
 
                 {
-                    !isProductAdd &&
+                !isProductAdd && !isCurrentUser &&
                     <button
 
                         onClick={(e) => handleAddToCart_(e)}
@@ -482,10 +476,13 @@ const NavButtons = ({ isProductAdd, handleAddToCart_, isCurrentUser, setHiddenSh
                 }
 
                 {/*payment card*/}
-                <WalletModal
+                {
+                    !isCurrentUser &&
+                    <WalletModal
 
-                    setHiddenShowDirection={setHiddenShowDirection}
-                />
+                        setHiddenShowDirection={setHiddenShowDirection}
+                    />
+                }
 
                 {/*user profil*/}
                 <div
