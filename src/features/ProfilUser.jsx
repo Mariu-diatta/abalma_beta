@@ -371,7 +371,7 @@ const ProfileCard = () => {
 
             {/* Cover Image */}
             <div
-                className="relative h-48 sm:h-64 md:h-80 bg-cover bg-center bg-gray-200 "
+                className="relative h-48 sm:h-64 md:h-70 bg-cover bg-center bg-gray-200 "
                 style={{
                     backgroundImage: `url(${previewUrlBackground || 'https://images.unsplash.com/photo-1612832020897-593fae15346e'
                         })`,
