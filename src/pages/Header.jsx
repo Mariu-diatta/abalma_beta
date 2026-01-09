@@ -127,7 +127,7 @@ const NavbarHeader = () => {
                 {/* Logo */}
                  <Logo />
 
-                <div className={`flex ${currentNav === ENDPOINTS.ABOUT ? "justify-center " :"justify-end"} w-full items-center`}>
+                <div className={`flex ${currentNav !== ENDPOINTS.FORGETPSWD ? (currentNav === ENDPOINTS.ABOUT ? "justify-center " :"justify-end"):"hidden"} w-full items-center`}>
 
                     <ButtonNavigate tabs={getTabsNavigationsItems(currentNav, t)} />
 

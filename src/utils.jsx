@@ -477,6 +477,7 @@ export function formatISODate(isoDateStr) {
 
 //Endpoints
 export const ENDPOINTS = {
+    FORGETPSWD:"forgetPassword",
     REGISTER: "register",
     LOGIN: "login",
     MESSAGE_INBOX: "message-inbox",
