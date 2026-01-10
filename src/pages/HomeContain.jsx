@@ -34,7 +34,7 @@ const HomeContain = () => {
 
                         <h1 className="text-3xl font-semibold mb-3">{t('homePan.title')}</h1>
 
-                        <p className="text-gray-600">
+                        <p className="text-gray-600 text-md">
                             {t('homePan.content')}
                         </p>
 

@@ -211,7 +211,7 @@ const GridLayoutProduct = () => {
   
     return (
 
-        <div className="space-y-4 dark:bg-gray-900 dark:text-white py-0 bg-white/80 pb-[35dvh]">
+        <div className="space-y-4  pb-[35dvh]">
 
             {
                 (currentUser && currentUser?.is_connected) &&
