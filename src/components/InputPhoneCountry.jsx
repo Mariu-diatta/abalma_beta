@@ -3,94 +3,66 @@ import InputBox from "./InputBoxFloat";
 import { useTranslation } from 'react-i18next';
 
 export default function PhoneInput({ form, handleChange, setForm }) {
-
     const { t } = useTranslation();
 
     const countries = [
-        { name: "Pays", code: "", className: '', disabled:true},
-        { name: "France", code: "33", className: '', disabled: false },
-        { name: "Sénégal", code: "221", className: '', disabled: false },
-        { name: "Gambie", code: "220", className: '', disabled: false },
-        { name: "USA", code: "1", className: '', disabled: false },
-        { name: "Nigéria", code: "234", className: '', disabled: false },
+        { name: "Pays", code: "", disabled: true },
+        { name: "France", code: "33", disabled: false },
+        { name: "Sénégal", code: "221", disabled: false },
+        { name: "Gambie", code: "220", disabled: false },
+        { name: "USA", code: "1", disabled: false },
+        { name: "Nigéria", code: "234", disabled: false },
     ];
 
-    const [selectedCountry, setSelectedCountry] = useState(countries[0]); // Sénégal par défaut
+    const [selectedCountry, setSelectedCountry] = useState(countries[0]); // par défaut
 
     const handleCountryChange = (country) => {
-
         setSelectedCountry(country);
-
-        setForm((prev) => ({ ...prev, telephone: country.code })); // réinitialise avec indicatif
+        setForm((prev) => ({ ...prev, telephone: country.code }));
     };
 
     const handleChange_ = (e) => {
-
         let value = e.target.value;
-
-        // Empêcher la suppression de l’indicatif
         if (!value.startsWith(selectedCountry.code)) {
-
             value = selectedCountry.code;
         }
-
         setForm((prev) => ({ ...prev, telephone: value }));
-
-        handleChange(e)
+        handleChange(e);
     };
 
     return (
-        <div className=" flex gap-1 items-center justify-center">
+        <div className="w-auto flex flex-wrap items-center justify-center gap-2 px-2">
 
             {/* Dropdown pays */}
-            <select    
-
-                className="w-auto fex items-center justify-center rounded-t-lg pb-1.5 pt-5 mb-6 text-md border-0 border-b-2 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-
+            <select
+                className="text-md border-b-2 pb-2 border-gray-300 dark:border-gray-600 rounded-l-lg px-2 focus:outline-none focus:ring-0 focus:border-blue-600"
                 value={selectedCountry.name}
-
                 onChange={(e) =>
-
-                    handleCountryChange(
-
-                        countries.find((c) => c.name === e.target.value)
-                    )
+                    handleCountryChange(countries.find((c) => c.name === e.target.value))
                 }
             >
-                {countries?.map((c) => (
-
-                    <option key={c.name} value={c.name} className={c.className} disabled={c?.disabled}>
-
+                {countries.map((c) => (
+                    <option key={c.name} value={c.name} disabled={c.disabled} >
                         {c.name}
-
                     </option>
                 ))}
-
             </select>
 
-            <div className="flex w-full">
+            {/* Code pays */}
+            {/*<span className="h-12 sm:h-14 px-3 flex items-center justify-center text-md border-b-2 border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700">*/}
+            {/*    {selectedCountry.code}*/}
+            {/*</span>*/}
 
-                <span
-
-                    className="hidden px-1 fex items-center justify-center rounded-t-lg pb-2.5 pt-5 mb-6 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300  dark:text-white dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                >
-                    {selectedCountry.code}
-
-                </span>
-
-                {/* InputBox avec indicatif inclus */}
-                <InputBox
-                    type="tel"
-                    name="telephone"
-                    placeholder={t("form.phone")}
-                    className="w-90 block rounded-t-lg px-1  lg:px-2.5 pb-2.5 pt-5 text-sm text-gray-700  border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-100 peer"
-                    value={form.telephone}
-                    onChange={handleChange_}
-                />
-
-            </div>
+            {/* Input numéro */}
+            <InputBox
+                type="tel"
+                name="telephone"
+                placeholder={t("form.phone")}
+                value={form.telephone}
+                onChange={handleChange_}
+            />
 
         </div>
-    );
 
+    );
 }

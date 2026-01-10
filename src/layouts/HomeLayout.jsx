@@ -36,13 +36,13 @@ const HomeLayout = ({ children }) => {
 
     return (
 
-        <main className=" d-flex flex-column items-start justify-between style-bg mx-0 mb-[30px]" >
+        <main className=" d-flex flex-column items-start justify-between style-bg mx-0 mb-[30dvh]" >
 
             <NavbarHeader />
 
             <ScrollTop />
 
-            <section className="mt-[5dvh]">
+            <section className="mt-[5dvh] pb-[20dvh]"> 
 
                 {/*<ButtonScrollTopDown>*/}
 

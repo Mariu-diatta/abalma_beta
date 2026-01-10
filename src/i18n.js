@@ -386,7 +386,7 @@ i18n
              "section_9_content": "This policy may be updated. You will be notified in the event of significant changes.",
 
 
-            title_policy: "Terms and conditions!",
+            title_policy: "Choose Abalma!",
             subtitle: "Give your customers a truly exceptional service experience.",
             paragraph: "You are a small business operating in the retail sector, but your presence on social media remains limited or gets lost in an overwhelming flow of information, preventing you from being visible. Ablama changes the game.\n\nWe help you strengthen your online presence, clarify your brand image, and make your activities more accessible and visible in a sometimes saturated digital environment. With a more targeted approach perfectly adapted to your needs, you can finally stand out.\n\nWith our platform, you can:\n- Easily manage your products and data,\n- Grow your sales with confidence,\n- Stay connected to your customers, partners, and team members.",            button: "Get Started",
             quick_links: "Quick Links",
@@ -749,7 +749,7 @@ i18n
              description_prod:"Description du produit:",
              color_prod:"Couleur du produit",
              code_ref: "Code référence",
-             title_policy:"Termes et conditions!",
+             title_policy:"Choisir Abalma!",
              Business: "Entreprise",
              discovery: "Découvert",
              Subscriptionb2b:"S'abonner pour B2B",
