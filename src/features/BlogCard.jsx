@@ -13,7 +13,7 @@ const BlogCard = ({blog, handleClicked}) => {
 
         <div
             className="relative w-auto p-2 flex flex-col justify-between rounded-lg shadow-lg
-            dark:border dark:border-gray-700
+            dark:border dark:border-gray-50
             hover:shadow-md transition-shadow duration-300 h-[20dvh] overflow-hidden"
         >
             {/* Header : Avatar + date */}

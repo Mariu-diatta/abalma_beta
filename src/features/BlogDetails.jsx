@@ -13,11 +13,11 @@ const BlogDetails = ({ blog, onClose }) => {
     return (
 
         <main
-            className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50"
+            className="fixed inset-0  backdrop-blur-sm flex justify-center items-center z-50"
             onClick={() => onClose(false, null)}
         >
             <div
-                className="bg-white dark:bg-gray-900 rounded-xl shadow-lg max-w-2xl w-full mx-4 p-6 
+                className=" rounded-xl shadow-lg max-w-2xl w-full mx-4 p-6 
                 overflow-y-auto max-h-[90vh] relative scrollbor_hidden"
                 onClick={(e) => e.stopPropagation()} // empêche la fermeture au clic interne
             >
@@ -44,7 +44,7 @@ const BlogDetails = ({ blog, onClose }) => {
                                 {blog?.title_blog}
                             </h2>
 
-                            <p className="text-sm text-gray-500">
+                            <p className="text-md text-gray-500">
                                 {formatISODate(blog?.created_at)}
                             </p>
                         </div>
@@ -65,7 +65,7 @@ const BlogDetails = ({ blog, onClose }) => {
                 }
 
                 {/* Contenu principal */}
-                <div className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
+                <div className=" leading-relaxed whitespace-pre-line">
 
                     {blog?.blog_message}
 
@@ -76,8 +76,8 @@ const BlogDetails = ({ blog, onClose }) => {
 
                     <button
                         onClick={() => onClose(false, null)}
-                        className="inline-flex items-center px-4 py-2 text-sm font-medium 
-                       text-white bg-primary-600 rounded-lg hover:bg-primary-700 
+                        className="inline-flex items-center px-4 py-2 text-md font-medium 
+                          bg-primary-600 rounded-lg hover:bg-primary-700 
                        dark:bg-primary-500 dark:hover:bg-primary-600"
                     >
                         {t("blog.close")}
