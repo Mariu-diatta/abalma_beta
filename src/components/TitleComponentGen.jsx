@@ -23,9 +23,7 @@ const TitleCompGen = ({ title }) => {
             <h1
                 className="
                   inline-block whitespace-nowrap
-                  text-4xl font-bold
-                  text-gray-500 dark:text-white
-                  will-change-transform
+                  text-4xl
                 "
             >
                 {title}
