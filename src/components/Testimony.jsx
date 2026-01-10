@@ -87,7 +87,7 @@ export default function TestimonialCarousel({
 
         <div
             ref={containerRef}
-            className="relative w-full max-w-3xl mx-auto"
+            className="relative w-full max-w-3xl mx-auto mb-[10dvh]"
             onMouseEnter={stopTimer}
             onMouseLeave={() => autoplay && startTimer()}
         >
@@ -111,7 +111,7 @@ export default function TestimonialCarousel({
                                     aria-roledescription="slide"
                                     aria-label={`${t?.prenom}`}
                                 >
-                                    <div className="flex items-start gap-4 justify-center py-8 ">
+                                    <div className="flex items-center gap-4 justify-center py-8 ">
 
                                         <div className="flex-shrink-0">
 

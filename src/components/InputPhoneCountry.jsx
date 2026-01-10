@@ -45,7 +45,7 @@ export default function PhoneInput({ form, handleChange, setForm }) {
             {/* Dropdown pays */}
             <select    
 
-                className="w-100 fex items-center justify-center rounded-t-lg pb-2.5 pt-5 mb-6 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300  dark:text-white dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                className="w-auto fex items-center justify-center rounded-t-lg pb-1.5 pt-5 mb-6 text-md border-0 border-b-2 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 
                 value={selectedCountry.name}
 
