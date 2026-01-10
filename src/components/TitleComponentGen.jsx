@@ -6,42 +6,35 @@ const TitleCompGen = ({ title }) => {
     const containerRef = useRef(null);
     const contentRef = useRef(null);
 
-    useEffect(
+    useEffect(() => {
+        if (!contentRef.current || !containerRef.current) return;
 
-        () => {
+        const contentWidth = contentRef.current.scrollWidth;
+        const containerWidth = containerRef.current.offsetWidth;
 
-            const container = containerRef.current;
-
-            const content = contentRef.current;
-
-            if (container && content) {
-
-                const isOverflowing = content.scrollWidth > container.clientWidth
-
-                setShouldScroll(isOverflowing);
-            }
-
-    }, []);
+        setShouldScroll(contentWidth > containerWidth);
+    }, [title]);
 
     return (
 
         <div
-
-            className="relative overflow-hidden w-full px-4 pt-4 pb-4" ref={containerRef}
+            ref={containerRef}
+            className="relative overflow-hidden w-full px-4 py-4 min-h-[3rem]"
         >
-
             <h1
-                
                 ref={contentRef}
-                className={`${shouldScroll ? "animate-scroll" : ""} inline-block  text-4xl font-bold text-gray-500 dark:text-white`}
-
+                 className={`
+                  ${shouldScroll ? "motion-safe:animate-scroll" : ""}
+                  inline-block whitespace-nowrap
+                  text-4xl font-bold
+                  text-gray-500 dark:text-white
+                  will-change-transform
+                `}
             >
-
                 {title}
-
             </h1>
-
         </div>
+
 
     )
 }
