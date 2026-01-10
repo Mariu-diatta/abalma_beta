@@ -18,18 +18,15 @@ const TitleCompGen = ({ title }) => {
     return (
 
         <div
-            ref={containerRef}
             className="relative overflow-hidden w-full px-4 py-4 min-h-[3rem]"
         >
             <h1
-                ref={contentRef}
-                 className={`
-                  ${shouldScroll ? "motion-safe:animate-scroll" : ""}
+                className="
                   inline-block whitespace-nowrap
                   text-4xl font-bold
                   text-gray-500 dark:text-white
                   will-change-transform
-                `}
+                "
             >
                 {title}
             </h1>
