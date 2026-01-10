@@ -146,14 +146,14 @@ const NavbarHeader = () => {
                             onClick={() => setOpen(!open)}
                             id="navbarToggler"
                             className={`
-                            bg-none
-                            ${open && "navbarTogglerActive"} 
-                            sm:hidden 
-                            z-[71] px-3 py-3  rounded-lg 
-                            text-black
-                            dark:bg-dark-3 dark:text-white dark:bg-white
-                            items-center
-                            focus:outline-none
+                                bg-none
+                                ${open && "navbarTogglerActive"} 
+                                sm:hidden 
+                                z-[71] px-3 py-3  rounded-lg 
+                                text-black
+                                dark:bg-dark-3 dark:text-white 
+                                items-center
+                                focus:outline-none
                             `}
 
                         >
