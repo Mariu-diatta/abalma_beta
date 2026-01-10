@@ -78,9 +78,9 @@ const SearchBar = ({disabled = false }) => {
             <form
                 onSubmit={handleSubmit}
                 className={clsx(
-                    "mt-0 rounded-full  bg-white/80",
+                    "mt-0 rounded-full  bg-white/20",
                     "relative flex",
-                    searchTerm ? "w-full bg-white/80" : "w-full  md:w-1/2 bg-white/80"
+                    searchTerm ? "w-full bg-white/20" : "w-full  md:w-1/2 bg-white/80"
                 )}
             >
                 <button
@@ -99,7 +99,7 @@ const SearchBar = ({disabled = false }) => {
                 <input
                     ref={searchBtnRef}
                     type="search"
-                    className={`bg-gray/80 block px-2.5 py-1.5 w-full z-10 text-sm text-gray-900 rounded-e-full border-2 border-gray-50 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none focus:ring-0`}
+                    className={`bg-white/50 block px-2.5 py-1.5 w-full z-10 text-sm text-gray-900 rounded-e-full border-2 border-gray-50 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none focus:ring-0`}
                     placeholder={`${t("Search")} ${selectedCategory ? selectedCategory?.replace(/_/g, " ").toLowerCase() : (t('All')).toLowerCase() } `}
                     value={searchTerm??""}
                     onChange={(e) => {
