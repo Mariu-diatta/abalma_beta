@@ -31,9 +31,9 @@ const InputBox = ({
                 ref={ref}
                 className="
                   block w-full px-2.5 pt-5 pb-2.5
-                  text-black dark:text-white
+                  text-black
                   bg-transparent
-                  border-b border-gray-300
+                  border-b 
                   focus:outline-none focus:ring-0
                   peer
                 "
