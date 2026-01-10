@@ -163,14 +163,14 @@ const AboutContainer = () => {
 
                             <TitleCompGen title={t('title_policy')} />
 
-                            <h2 className="mb-5 text-sm sm:text-xl font-medium text-gray-500 dark:text-white">
+                            <h2 className="mb-5 text-md sm:text-xl font-medium text-gray-500 dark:text-white">
                                 {t('subtitle')}
                             </h2>
 
                             <p
                                 className="
                                     mb-5 text-sm md:text-base text-body-color dark:text-dark-6 
-                                    px-1 leading-relaxed whitespace-pre-line max-w-3xl
+                                    px-1 leading-relaxed whitespace-pre-line max-w-3xl overflow-x-auto scrollbor_hidden
                                 "
                             >
                                 {t('paragraph')}
