@@ -332,7 +332,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                                                     item.value && (
                                                         <div
                                                             key={index}
-                                                            className="text-md border p-2 rounded-md"
+                                                            className="text-md  p-2 rounded-md"
                                                         >
                                                             <strong className="font-semibold text-gray-700 dark:text-gray-200">
                                                                 {item.label}
@@ -461,7 +461,7 @@ const NavButtons = ({ isProductAdd, handleAddToCart_, isCurrentUser, setHiddenSh
 
                         title={t("add_in_basket")}
 
-                        className="z-20 cursor-pointer flex flex-col items-center justify-center p-2 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="z-20 cursor-pointer flex flex-col items-center justify-center p-2 rounded-lg hover:bg-gray-200  dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
 
                         aria-label={t("add_in_basket")}
 

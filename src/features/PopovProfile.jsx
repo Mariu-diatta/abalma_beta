@@ -78,7 +78,7 @@ const ProfilPopPov = () => {
                 aria-haspopup="true"
                 aria-expanded={isVisible}
                 aria-controls="popover-user-profile"
-                className="flex flex-col items-center cursor-pointer hover:bg-gray-200 focus:outline-none  rounded-lg text-sm p-3 text-center dark:bg-gray-700 dark:hover:bg-gray-600"
+                className="flex flex-col items-center cursor-pointer hover:bg-gray-200 focus:outline-none  rounded-lg text-sm p-3 text-center"
             >
                 <svg
                     className="w-5 h-5 text-blue-800 dark:text-white"
@@ -105,13 +105,9 @@ const ProfilPopPov = () => {
                     id="popover-user-profile"
                     role="dialog"
                     aria-modal="true"
-                    className={`absolute right-2 w-64 text-md text-gray-700 border rounded-lg shadow-lg dark:text-gray-300 dark:border-gray-600 z-50
+                    className={`absolute right-2 w-64 text-md border rounded-lg shadow-lg dark:text-gray-300  z-50
                         ${showAbove ? 'flex justify-start bottom-full left-10 mb-[10dvh] right-6 me-50 w-auto mx-auto' : 'top-full mt-2'}
                     `}
-                    style={{
-                        backgroundColor: "var(--color-bg)",
-                        color: "var(--color-text)"
-                    }}
                 >
                     <div className="p-4">
 
