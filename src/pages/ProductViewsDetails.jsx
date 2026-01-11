@@ -334,7 +334,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                                                             key={index}
                                                             className="text-md  p-2 rounded-md"
                                                         >
-                                                            <strong className="font-semibold text-gray-700 dark:text-gray-200">
+                                                            <strong className="font-semibold">
                                                                 {item.label}
                                                             </strong>
 
@@ -349,7 +349,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                                     </fieldset>
 
 
-                                    <div className="border-0 overflow-x-auto w-full  scrollbor_hidden flex gap-2 bg-white/80">
+                                    <div className="border-0 overflow-x-auto w-full  scrollbor_hidden flex gap-2">
 
                                         {/*information complémentaire*/}
                                         <fieldset className="border-0 flex  gap-4 items-center text-sm text-gray-600 p-3 rounded-md  animate-scroll ">
@@ -359,7 +359,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                                                     <span className="border-0 flex items-center gap-1 justify-center  whitespace-nowrap" key={idx}>
 
-                                                        <span className="border-0 flex items-center gap-2 justify-center font-medium px-3 text-gray-700">
+                                                        <span className="border-0 flex items-center gap-2 justify-center font-medium px-3">
 
                                                             <img className="rounded-sm border-0 " src={el?.logo} alt="" width="20" height="20"/>
 
