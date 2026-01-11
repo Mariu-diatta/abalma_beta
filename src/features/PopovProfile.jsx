@@ -105,7 +105,7 @@ const ProfilPopPov = () => {
                     id="popover-user-profile"
                     role="dialog"
                     aria-modal="true"
-                    className={`bg-white absolute right-2 w-64 text-sm text-gray-700 border border-gray-200 rounded-lg shadow-lg dark:text-gray-300 dark:bg-gray-800 dark:border-gray-600 z-50
+                    className={`absolute right-2 w-64 text-md text-gray-700 border rounded-lg shadow-lg dark:text-gray-300 dark:border-gray-600 z-50
                         ${showAbove ? 'flex justify-start bottom-full left-10 mb-[10dvh] right-6 me-50 w-auto mx-auto' : 'top-full mt-2'}
                     `}
                     style={{

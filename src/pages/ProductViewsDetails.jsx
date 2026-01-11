@@ -332,7 +332,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                                                     item.value && (
                                                         <div
                                                             key={index}
-                                                            className="text-xs border border-gray-100 p-2 rounded-md bg-gray-50 dark:bg-gray-800 dark:border-gray-700"
+                                                            className="text-md border p-2 rounded-md"
                                                         >
                                                             <strong className="font-semibold text-gray-700 dark:text-gray-200">
                                                                 {item.label}
