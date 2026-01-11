@@ -42,7 +42,7 @@ const HomeLayout = ({ children }) => {
 
             <ScrollTop />
 
-            <section className="mt-[5dvh] pb-[20dvh]"> 
+            <section className="mt-[5dvh]"> 
 
                 {/*<ButtonScrollTopDown>*/}
 
