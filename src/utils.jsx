@@ -188,6 +188,7 @@ export const productViews = async (dataProduct, setProductNbViews) => {
 // ============================
 
 export const CATEGORIES = {
+    DIVERS: { fr: "Divers", en: "Other / Misc", idx: "divers" },
     JOUETS: { fr: "Jouets", en: "Toys", idx: "jouets" },
     HABITS: { fr: "Habits", en: "Clothes", idx: "habits" },
     MATERIELS_INFORMATIQUES: { fr: "Matériels informatiques", en: "Computer Equipment", idx: "materiels-informatiques" },
@@ -202,7 +203,6 @@ export const CATEGORIES = {
     MEUBLES: { fr: "Meubles", en: "Furniture", idx: "meubles" },
     VEHICULES: { fr: "Véhicules", en: "Vehicles", idx: "vehicules" },
     FOURNITURES_SCOLAIRES: { fr: "Fournitures scolaires", en: "School Supplies", idx: "fournitures-scolaires" },
-    DIVERS: { fr: "Divers", en: "Other / Misc", idx: "divers" },
     BIJOUX: { fr: "Bijoux", en: "Jewelry", idx: "bijoux" },
     COSMETIQUES: { fr: "Cosmétiques", en: "Cosmetics", idx: "cosmetiques" },
     ALIMENTATION: { fr: "Alimentation", en: "Food", idx: "alimentation" },
@@ -518,7 +518,7 @@ export const CONSTANTS = {
     FRANC: "FRANC",
     FR: "fr",
     UPDATE: 'update',
-    CONFIRMED:'confirmed'
+    CONFIRMED:'confirmed',
 }
   
 //put fist letter in upCase
