@@ -86,11 +86,12 @@ const ProfilPopPov = () => {
                     role="dialog"
                     aria-modal="true"
                     className={`
-                    absolute z-50 w-64 max-h-[70vh] overflow-y-auto
-                    text-md border rounded-lg shadow-lg dark:text-gray-300
-                    ${showAbove ? 'bottom-full mb-2' : 'top-full mt-2'}
-                    right-0
-                  `}
+                        z-50 w-64 max-h-[70vh] overflow-y-auto
+                        text-md border rounded-lg shadow-lg dark:text-gray-300
+                        ${showAbove
+                        ? 'absolute bottom-full mb-2 right-0'       // affichage au-dessus : normal
+                        : 'fixed bottom-4 left-1/2 -translate-x-1/2'} // affichage en bas : centré
+                      `}
                 >
                     <div className="p-4 space-y-3">
 
