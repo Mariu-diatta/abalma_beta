@@ -445,60 +445,63 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 export default ProductModal;
 
 
-const NavButtons = ({ isProductAdd, handleAddToCart_, isCurrentUser, setHiddenShowDirection}) => {
 
+const NavButtons = ({
+    isProductAdd,
+    handleAddToCart_,
+    isCurrentUser,
+    setHiddenShowDirection,
+}) => {
     const { t } = useTranslation();
 
     return (
 
-        <div className="flex justify-between items-center gap-4">
+        <div className="flex items-center justify-between gap-4">
 
-                {
-                !isProductAdd && !isCurrentUser &&
-                    <button
-
-                        onClick={(e) => handleAddToCart_(e)}
-
-                        title={t("add_in_basket")}
-
-                        className="z-20 cursor-pointer flex flex-col items-center justify-center p-2 rounded-lg hover:bg-gray-200  dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
-
-                        aria-label={t("add_in_basket")}
-
-                    >
-                        <svg className="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
-                        </svg>
-
-                        <p className="whitespace-nowrap text-sm">{t("add_in_basket")}</p>
-
-                    </button>
-                }
-
-                {/*payment card*/}
-                {
-                    !isCurrentUser &&
-                    <WalletModal
-
-                        setHiddenShowDirection={setHiddenShowDirection}
-                    />
-                }
-
-                {/*user profil*/}
-                <div
-                    title="Profil Produit Popov"
-
-                    className=" z-20 rounded-lg"
-
-                    tabIndex={0}
-
-                    aria-label="Profil Produit Popov"
-
+            {/* Add to cart */}
+            {!isProductAdd && !isCurrentUser && (
+                <button
+                    onClick={handleAddToCart_}
+                    title={t("add_in_basket")}
+                    aria-label={t("add_in_basket")}
+                    className="z-20 flex flex-col items-center gap-1 p-2 rounded-lg
+                     hover:bg-gray-200 dark:hover:bg-gray-600
+                     text-gray-800 dark:text-gray-200
+                     focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
-                    <ProfilPopPov />
+                    <svg
+                        className="w-5 h-5"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth="1"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4
+                             2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4
+                             2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"
+                        />
+                    </svg>
 
-                </div>
+                    <span className="text-sm whitespace-nowrap">
+                        {t("add_in_basket")}
+                    </span>
+
+                </button>
+            )}
+
+            {/* Wallet */}
+            {!isCurrentUser && (
+                <WalletModal setHiddenShowDirection={setHiddenShowDirection} />
+            )}
+
+            {/* Profil popover */}
+            <ProfilPopPov />
 
         </div>
-    )
-}
+    );
+};
+
