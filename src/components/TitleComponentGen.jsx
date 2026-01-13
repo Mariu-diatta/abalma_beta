@@ -2,19 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 
 const TitleCompGen = ({ title }) => {
 
-    const [shouldScroll, setShouldScroll] = useState(false);
-    const containerRef = useRef(null);
-    const contentRef = useRef(null);
-
-    useEffect(() => {
-        if (!contentRef.current || !containerRef.current) return;
-
-        const contentWidth = contentRef.current.scrollWidth;
-        const containerWidth = containerRef.current.offsetWidth;
-
-        setShouldScroll(contentWidth > containerWidth);
-    }, [title]);
-
     return (
 
         <div
@@ -63,7 +50,7 @@ export const TitleCompGenLitle = ({ title }) => {
 
         <div className="relative overflow-hidden w-full px-4 pt-4 pb-4"  ref={containerRef}>
 
-            <h1 ref={contentRef} className={` ${shouldScroll ? "animate-scroll" : ""} inline-block whitespace-nowrap text-md font-extrabold text-gray-500 dark:text-white`}>
+            <h1 ref={contentRef} className={` ${shouldScroll ? "animate-scroll" : ""}  text-md font-extrabold text-gray-500 dark:text-white`}>
 
                 {title}
 
