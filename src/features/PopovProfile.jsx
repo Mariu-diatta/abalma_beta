@@ -5,34 +5,23 @@ import FollowProfilUser from '../components/ViewsProfilUser';
 import NumberFollowFollowed from '../components/FollowUserComp';
 import { useTranslation } from 'react-i18next';
 
-
 const ProfilPopPov = () => {
-
     const { t } = useTranslation();
+    const currentOwnUser = useSelector(state => state.chat.userSlected);
 
     const [isVisible, setIsVisible] = useState(false);
-
     const [showAbove, setShowAbove] = useState(false);
 
     const popoverRef = useRef(null);
-
     const buttonRef = useRef(null);
 
-    const currentOwnUser = useSelector((state) => state.chat.userSlected);
-
     const togglePopover = () => {
+        setIsVisible(prev => !prev);
 
-        setIsVisible((prev) => !prev);
-
-        // Vérifie si le bouton est proche du bas de l’écran
         if (buttonRef.current) {
-
             const rect = buttonRef.current.getBoundingClientRect();
-
             const windowHeight = window.innerHeight;
-
             const spaceBelow = windowHeight - rect.bottom;
-
             const spaceAbove = rect.top;
 
             // Affiche au-dessus si pas assez d'espace en bas
@@ -40,10 +29,9 @@ const ProfilPopPov = () => {
         }
     };
 
+    // Fermer popover quand on clique en dehors
     useEffect(() => {
-
         const handleClickOutside = (event) => {
-
             if (
                 popoverRef.current &&
                 !popoverRef.current.contains(event.target) &&
@@ -54,23 +42,20 @@ const ProfilPopPov = () => {
             }
         };
 
-        if (isVisible) {
-            document.addEventListener('mousedown', handleClickOutside);
-
-        } else {
-            document.removeEventListener('mousedown', handleClickOutside);
-        }
-
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-
+        if (isVisible) document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [isVisible]);
 
+    // Fermer popover avec ESC
+    useEffect(() => {
+        const handleEsc = (e) => e.key === 'Escape' && setIsVisible(false);
+        document.addEventListener('keydown', handleEsc);
+        return () => document.removeEventListener('keydown', handleEsc);
+    }, []);
+
     return (
-
-        <div className="z-30 relative inline-block justify-center">
-
+        <div className="relative inline-block z-30">
+            {/* Bouton toggle */}
             <button
                 ref={buttonRef}
                 onClick={togglePopover}
@@ -78,65 +63,58 @@ const ProfilPopPov = () => {
                 aria-haspopup="true"
                 aria-expanded={isVisible}
                 aria-controls="popover-user-profile"
-                className="flex flex-col items-center cursor-pointer hover:bg-gray-200 focus:outline-none  rounded-lg text-sm p-3 text-center"
+                className="flex flex-col items-center cursor-pointer p-3 text-center text-sm rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:hover:bg-gray-600"
             >
                 <svg
                     className="w-5 h-5 text-blue-800 dark:text-white"
-                    aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
                     strokeWidth="1"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
                 >
                     <path d="M5 7h14M5 12h14M5 17h10" />
                 </svg>
-
                 <span className="whitespace-nowrap">{t("your_profil")}</span>
-
             </button>
 
+            {/* Popover */}
             {isVisible && (
-
                 <div
                     ref={popoverRef}
                     id="popover-user-profile"
                     role="dialog"
                     aria-modal="true"
-                    className={`absolute right-2 w-64 text-md border rounded-lg shadow-lg dark:text-gray-300  z-50
-                        ${showAbove ? 'flex justify-start bottom-full left-10 mb-[10dvh] right-6 me-50 w-auto mx-auto' : 'top-full mt-2'}
-                    `}
+                    className={`
+                    absolute z-50 w-64 max-h-[70vh] overflow-y-auto
+                    text-md border rounded-lg shadow-lg dark:text-gray-300
+                    ${showAbove ? 'bottom-full mb-2' : 'top-full mt-2'}
+                    right-0
+                  `}
                 >
-                    <div className="p-4">
+                    <div className="p-4 space-y-3">
 
-                        <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center justify-between">
 
-                            <h3 className="flex gap-2 items-center">
+                            <div className="flex items-center gap-2">
 
                                 <OwnerAvatar owner={currentOwnUser} />
 
                                 <small>{currentOwnUser?.nom} {currentOwnUser?.prenom}</small>
 
-                            </h3>
+                            </div>
 
-                            <FollowProfilUser clientId={currentOwnUser?.id}/>
+                            <FollowProfilUser clientId={currentOwnUser?.id} />
 
                         </div>
 
-                        <p className="mb-2 text-sm">@{currentOwnUser?.nom}</p>
+                        <p className="text-sm text-gray-500">@{currentOwnUser?.nom}</p>
 
-                        <p className="mb-4 text-sm">
-
-                            {currentOwnUser?.description.slice(0, 50)}...
-
-                        </p>
+                        <p className="text-sm">{currentOwnUser?.description?.slice(0, 80)}…</p>
 
                         <NumberFollowFollowed profil={currentOwnUser} />
 
                     </div>
-
                 </div>
             )}
         </div>
