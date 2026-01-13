@@ -88,7 +88,7 @@ const ProfilPopPov = () => {
                     className={`
                     absolute z-50 w-64 max-h-[70vh] overflow-y-auto
                     text-md border rounded-lg shadow-lg dark:text-gray-300
-                    ${showAbove ? 'bottom-full mb-2 left-1/2 -translate-x-1/2' : 'top-full mt-2 right-2'}
+                    ${showAbove ? 'bottom-full mb-2 left-0 -translate-x-1/2' : 'top-full mt-2 right-2'}
                   `}
                 >
                     <div className="p-4 space-y-3">
