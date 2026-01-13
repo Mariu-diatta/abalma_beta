@@ -109,7 +109,7 @@ const ProfilPopPov = () => {
 
                         <p className="text-sm text-gray-500">@{currentOwnUser?.nom}</p>
 
-                        <p className="text-sm">{currentOwnUser?.description?.slice(0, 80)}…</p>
+                        <p className="text-sm">{currentOwnUser?.description?.slice(0, 80)}â€¦</p>
 
                         <NumberFollowFollowed profil={currentOwnUser} />
 
