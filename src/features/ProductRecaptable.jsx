@@ -45,7 +45,7 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
         setLoadingDelete(true)
 
         try {
-            await api.delete(`products/${item?.id}/`).then(
+            await api.delete(`produits/${item?.id}/`).then(
 
                 resp => {
                     console.log("Response user :::", resp)
