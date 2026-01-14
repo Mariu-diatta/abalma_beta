@@ -38,12 +38,14 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
 
     const statusLabels = useMemo(() => (OPERATIONS_STATUS), []);
 
-    const deleteProduct = async (pk) => {
+    const deleteProduct = async (item) => {
+
+        setCurrentProductDeleted(item?.id)
 
         setLoadingDelete(true)
 
         try {
-            await api.delete(`products/${pk}/`).then(
+            await api.delete(`products/${item?.id}/`).then(
 
                 resp => {
                     console.log("Response user :::", resp)
@@ -526,14 +528,13 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
 
                                         <td className="px-4 py-3">
                                             {
-                                                (!loadingDelet && currentProductDeleted === item?.id) ?
+                                                (!(loadingDelet && currentProductDeleted === item?.id)) ?
                                                 <button
                                                     className="p-1 rounded-lg cursor-pointer hover:bg-gray-100 bg-gradient-to-br from-pink-100 to-orange-50 hover:bg-gradient-to-br hover:to-orange-500 hover:bg-pink-200"
                                                     title={t('delete')}
                                                         onClick={
                                                             () => {
-                                                                setCurrentProductDeleted(item?.id)
-                                                                deleteProduct(item?.id)
+                                                                deleteProduct(item)
                                                              }
                                                         }
                                                 >
