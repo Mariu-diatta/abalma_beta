@@ -61,7 +61,7 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
 
         } catch (err) {
 
-            console.log("Erreur:::", err)
+            alert(err?.response?.data?.detail)
 
         } finally {
 
