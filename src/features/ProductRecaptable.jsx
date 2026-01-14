@@ -54,7 +54,9 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
             ).catch(
 
                 err => {
-                    console.log("Erreur log :::", err)
+                    //console.log("Erreur log :::", err)
+                    alert(err?.response?.data?.detail)
+
                 }
 
             )
