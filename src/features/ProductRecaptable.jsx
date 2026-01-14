@@ -17,6 +17,7 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedStatus, setSelectedStatus] = useState('');
+    const [loadingDelet, setLoadingDelete] = useState(false);
 
     const [popoverOpen, setPopoverOpen] = useState(false);
     const [product, setProductView] = useState(null);
@@ -31,10 +32,40 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
     const [subTransactionsData, setSubTransactionsData] = useState([]);
     const [deletedSubTrans, setDeletedSubTrans] = useState(false);
     const [deletedTrans, setDeletedTrans] = useState(false);
+    const [currentProductDeleted, setCurrentProductDeleted] = useState(null);
 
     const itemsPerPage = 5;
 
     const statusLabels = useMemo(() => (OPERATIONS_STATUS), []);
+
+    const deleteProduct = async (pk) => {
+
+        setLoadingDelete(true)
+
+        try {
+            await api.delete(`products/${pk}/`).then(
+
+                resp => {
+                    console.log("Response user :::", resp)
+                }
+
+            ).catch(
+
+                err => {
+                    console.log("Erreur log :::", err)
+                }
+
+            )
+
+        } catch (err) {
+
+            console.log("Erreur:::", err)
+
+        } finally {
+
+            setLoadingDelete(false)
+        }
+    }
 
     /** 🔍 Extraction simple de TOUS les produits */
     const extractAllProducts = (products) => {
@@ -240,6 +271,7 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
         }, [selectedSubTransaction, setProductsTrasaction]
     )
 
+
     return (
 
         <div className="style_bg overflow-x-auto sm:rounded-lg p-2 ">
@@ -432,7 +464,7 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
 
                         <tr>
                             {
-                                NAMES_TABLES.map(header => (
+                                NAMES_TABLES?.map(header => (
 
                                         <th key={header}
                                             className={`px-4 py-3 ${(mode === MODE.BUY && header === CONSTANTS.UPDATE)?"hidden":""}`}
@@ -491,19 +523,30 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
                                             </button>
 
                                         </td>
+
                                         <td className="px-4 py-3">
+                                            {
+                                                (!loadingDelet && currentProductDeleted === item?.id) ?
+                                                <button
+                                                    className="p-1 rounded-lg cursor-pointer hover:bg-gray-100 bg-gradient-to-br from-pink-100 to-orange-50 hover:bg-gradient-to-br hover:to-orange-500 hover:bg-pink-200"
+                                                    title={t('delete')}
+                                                        onClick={
+                                                            () => {
+                                                                setCurrentProductDeleted(item?.id)
+                                                                deleteProduct(item?.id)
+                                                             }
+                                                        }
+                                                >
+                                                    <svg className="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.4" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
+                                                    </svg>
 
-                                            <button
-                                                className="p-1 rounded-lg cursor-pointer hover:bg-gray-100 bg-gradient-to-br from-pink-100 to-orange-50 hover:bg-gradient-to-br hover:to-orange-500 hover:bg-pink-200"
-                                                title={t('delete')}
-                                            >
-                                                <svg className="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.4" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
-                                                </svg>
-
-                                            </button>
-
+                                                </button>
+                                                :
+                                                <LoadingCard />
+                                            }
                                         </td>
+
                                         {
                                             (mode !== MODE.BUY && STATUS_FLOW_ITEM[item?.status] !== CONSTANTS.CONFIRMED) &&
                                             <td className="px-4 py-3">

@@ -74,7 +74,7 @@ const TablesRecapActivities = ({
             <div className="flex gap-4 py-3 w-full overflow-x-auto overflow-y-hidden">
 
                 {
-                    buttons.map(({ id, label }) => (
+                    buttons?.map(({ id, label }) => (
 
                             <button
                                 key={id}

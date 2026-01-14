@@ -49,6 +49,7 @@ const Tabs = () => {
     const tabContent = {
 
         dashboard: (
+
             <TablesRecapActivities
                 productsTrasactionBought={productsTrasactionBought}
                 setProductsTrasactionBought={setProductsTrasactionBought}
