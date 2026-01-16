@@ -530,7 +530,7 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
 
                                         <td className="px-4 py-3">
                                             {
-                                                (!(loadingDelet && currentProductDeleted === item?.id)) ?
+                                                (!(loadingDelet && currentProductDeleted === item?.id && mode !== MODE.BUY)) ?
                                                 <button
                                                     className="p-1 rounded-lg cursor-pointer hover:bg-gray-100 bg-gradient-to-br from-pink-100 to-orange-50 hover:bg-gradient-to-br hover:to-orange-500 hover:bg-pink-200"
                                                     title={t('delete')}
