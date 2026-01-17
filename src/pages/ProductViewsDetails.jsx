@@ -329,7 +329,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                                                 { label: "Catégorie", value: currentSelectedProductView?.categorie_product },
                                             ].map(
                                                 (item, index) =>
-                                                    item.value && (
+                                                    item?.value && (
                                                         <div
                                                             key={index}
                                                             className="text-md  p-2 rounded-md"
@@ -444,14 +444,13 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
 export default ProductModal;
 
-
-
 const NavButtons = ({
     isProductAdd,
     handleAddToCart_,
     isCurrentUser,
     setHiddenShowDirection,
 }) => {
+
     const { t } = useTranslation();
 
     return (

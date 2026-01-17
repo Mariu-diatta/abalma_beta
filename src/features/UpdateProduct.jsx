@@ -469,10 +469,20 @@ const ProductField = ({ label, value, isLong }) => (
     </div>
 );
 
-const ProductSummary = ({ product, onEdit, onDelete, onAddNew, t, isLoadingSubmit, children }) => {
+const ProductSummary = ({
+    product,
+    onEdit,
+    onDelete,
+    onAddNew,
+    t,
+    isLoadingSubmit,
+    children
+}) => {
+
     if (!product) return null;
 
     return (
+
         <div
             className="flex flex-col gap-4  p-6 rounded-lg w-full max-w-2xl m-auto bg-blue-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
         >
@@ -530,21 +540,24 @@ const ProductSummary = ({ product, onEdit, onDelete, onAddNew, t, isLoadingSubmi
                     className="bg-red-100 hover:bg-red-200 text-white px-3 py-1 rounded-full transition-colors"
                 >
                     {t("delete")}
+
                 </button>
 
                 {
                     isLoadingSubmit ?
-                        <LoadingCard /> 
-                        :
-                        <button
-                            onClick={onAddNew}
-                            className="bg-green-100 hover:bg-green-200 text-white px-3 py-1 rounded-full transition-colors"
-                        >
-                            {t("submit")}
-                        </button>
+                    <LoadingCard /> 
+                    :
+                    <button
+                        onClick={onAddNew}
+                        className="bg-green-100 hover:bg-green-200 text-white px-3 py-1 rounded-full transition-colors"
+                    >
+                        {t("submit")}
+
+                    </button>
                 }
 
             </div>
+
         </div>
     );
 };

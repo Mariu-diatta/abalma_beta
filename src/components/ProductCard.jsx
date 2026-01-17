@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import OwnerAvatar from "./OwnerProfil";
 import ScrollingContent from "./ScrollContain";
 import { useTranslation } from 'react-i18next';
 import { addMessageNotif, addUser } from "../slices/chatSlice";
 import { addToCart } from "../slices/cartSlice";
-import {useSelector } from "react-redux";
 // Import lazy du composant
 const PrintNumberStars = React.lazy(() => import("./SystemStar"));
 
@@ -21,36 +20,7 @@ const ProductCard = ({
 
 }) => {
 
-    const currentSelectedProductView = useSelector(state => state.cart.selectedProductView)
-
-    const selectedUser = useSelector(state => state.chat.userSlected)
-
     const dispatch = useDispatch();
-
-    const [isCurrentUser, setIsCurrentUser] = useState(false);
-
-    const currentUser = useSelector(state => state.auth.user)
-
-    const styling = `
-      cursor-not-allowed
-      opacity-50
-      bg-gray-300 dark:bg-gray-100
-      text-gray-800 dark:text-gray-200
-      p-0 rounded-lg
-      flex items-center justify-center
-      focus:outline-none focus:ring-0 
-      transition-colors duration-200
-    `;
-
-    useEffect(() => {
-        // Vérifie si l'utilisateur actuel correspond à l'utilisateur sélectionné ou au fournisseur du produit
-        const isCurrent = currentUser && (
-            (selectedUser && currentUser.id === selectedUser.id) ||
-            (currentSelectedProductView && currentUser.id === currentSelectedProductView.fournisseur)
-        );
-
-        setIsCurrentUser(!!isCurrent); // Convertit en booléen
-    }, [currentUser, selectedUser, currentSelectedProductView]);
 
     const { t } = useTranslation();
 
@@ -161,7 +131,7 @@ const ProductCard = ({
 
                             aria-disabled="true"
 
-                            className={`${!isCurrentUser ? styling:"cursor-pointer p-1 rounded-full hover:bg-green-100 transition"}`}
+                            className="cursor-pointer p-1 rounded-full hover:bg-green-100 transition"
                         >
                             <svg
                                 className="w-8 h-6 text-gray-800 dark:text-white border-1 rounded-lg"

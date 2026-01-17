@@ -42,7 +42,6 @@ const GridProductDefault = ({ categorie_item }) => {
     const [isLoading, setIsLoading] = useState(true);
     const categorySelectedData = useSelector(state => state?.navigate?.categorySelectedOnSearch)
 
-
     // Open modal with product
     const openModal = (product) => {
         setModalData(product);
@@ -160,11 +159,11 @@ const GridProductDefault = ({ categorie_item }) => {
                                     <div key={colIdx} className="grid gap-1">
 
                                         {
-                                            products.map(
+                                            products?.map(
 
                                                 product => {
 
-                                                    const isInCart = cartItems.some(p => p.id === product.id);
+                                                    const isInCart = cartItems?.some(p => p.id === product.id);
 
                                                     const owner = owners[product.fournisseur];
 
