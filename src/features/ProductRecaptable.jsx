@@ -471,7 +471,7 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
                                 NAMES_TABLES?.map(header => (
 
                                         <th key={header}
-                                            className={`px-4 py-3 ${(mode === MODE.BUY && header === CONSTANTS.UPDATE)?"hidden":""}`}
+                                        className={`px-4 py-3 ${(mode === MODE.BUY && (header === CONSTANTS.UPDATE || header === CONSTANTS.ACTION))?"hidden":""}`}
                                         >
                                           { t(`TableRecap.tableHeaders.${header}`)} 
 
@@ -528,9 +528,9 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
 
                                         </td>
 
-                                        <td className="px-4 py-3">
+                                        <td className={`px-4 py-3 ${mode === MODE.BUY?"hidden":""}`}>
                                             {
-                                                (!(loadingDelet && currentProductDeleted === item?.id && mode !== MODE.BUY)) ?
+                                                !(loadingDelet && currentProductDeleted === item?.id) ?
                                                 <button
                                                     className="p-1 rounded-lg cursor-pointer hover:bg-gray-100 bg-gradient-to-br from-pink-100 to-orange-50 hover:bg-gradient-to-br hover:to-orange-500 hover:bg-pink-200"
                                                     title={t('delete')}
@@ -551,8 +551,8 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
                                         </td>
 
                                         {
-                                            (mode !== MODE.BUY && STATUS_FLOW_ITEM[item?.status] !== CONSTANTS.CONFIRMED) &&
-                                            <td className="px-4 py-3">
+                                            (MODE.BUY && mode !== MODE.BUY && STATUS_FLOW_ITEM[item?.status] !== CONSTANTS.CONFIRMED) &&
+                                            <td className={`px-4 py-3 ${mode === MODE.BUY ? "hidden" : ""}`}>
 
                                                 {
                                                     !inLoadUpdateProductTransStatus?
@@ -678,11 +678,17 @@ const SubTransactionCard = ({
 
         try {
 
-            await api.delete(`${url}/${pk}/`, {
-                params: {
-                    mode: "sell"
+            await api.delete(
+
+                `${url}/${pk}/`,
+
+                {
+
+                    params: {
+
+                        mode: "sell"
+                    }
                 }
-            }
 
             ).then(
 

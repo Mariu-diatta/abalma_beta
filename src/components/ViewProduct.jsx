@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 const ViewProduct = ({ productSelected }) => {
 
-    useEffect(() => {
-        console.log("Product views", productSelected)
-    }, [productSelected])
+    //useEffect(() => {
+    //    console.log("Product views", productSelected)
+    //}, [productSelected])
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-white rounded-lg shadow-lg">
@@ -19,7 +19,7 @@ const ViewProduct = ({ productSelected }) => {
             </div>
 
             {/* Infos du produit */}
-            <div className="flex flex-wrap justify-center gap-4 mb-6 text-center">
+            <div className="flex flex-wrap justify-center gap-4 mb-6 text-center hidden">
                 <p className="px-4 py-2">{productSelected?.description_product || '-'}</p>
                 <p className="px-4 py-2">{productSelected?.categorie_product || '-'}</p>
                 <p className="px-4 py-2 capitalize">{productSelected?.statut || '-'}</p>
@@ -30,7 +30,7 @@ const ViewProduct = ({ productSelected }) => {
             </div>
 
             {/* Galerie d'images */}
-            <div className="grid grid-cols-5 gap-4">
+            <div className="grid grid-cols-5 gap-4 hidden">
                 {[1, 2, 3, 4, 5].map(i => (
                     <div key={i}>
                         <img

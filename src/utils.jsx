@@ -518,7 +518,8 @@ export const CONSTANTS = {
     FRANC: "FRANC",
     FR: "fr",
     UPDATE: 'update',
-    CONFIRMED:'confirmed',
+    CONFIRMED: 'confirmed',
+    ACTION:'actions'
 }
   
 //put fist letter in upCase
