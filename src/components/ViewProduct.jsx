@@ -7,7 +7,8 @@ const ViewProduct = ({ productSelected }) => {
     //}, [productSelected])
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-white rounded-lg shadow-lg">
+
+        <div className="fixed m-7 inset-0 flex flex-col items-center justify-center bg-white rounded-lg shadow-lg z-50">
 
             {/* Image principale */}
             <div className="mb-6">

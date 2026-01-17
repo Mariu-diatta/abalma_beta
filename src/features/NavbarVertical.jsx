@@ -121,7 +121,7 @@ const VertcalNavbar = ({ children }) => {
 
                 ref={sidebarRef}
 
-                className={`shadow-lg fixed top-0 left-0 z-[40] w-64 h-full transition-transform ${isSidebarOpen ? '' : '-translate-x-full'} sm:translate-x-0`}
+                className={`shadow-lg fixed top-0 left-0  w-64 h-full transition-transform ${isSidebarOpen ? '' : '-translate-x-full'} sm:translate-x-0`}
 
                 aria-label="Sidebar"
             >
