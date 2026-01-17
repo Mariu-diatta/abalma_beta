@@ -8,10 +8,13 @@ const ViewProduct = ({ productSelected }) => {
 
     return (
 
-        <div className="fixed m-7 inset-0 flex flex-col items-center justify-center bg-white rounded-lg shadow-lg z-50">
+        <div
+            className="fixed  flex flex-col z-50 items-center justify-center bg-white rounded-lg shadow-lg "
+            style={{zInddex:9999} }
+        >
 
             {/* Image principale */}
-            <div className="mb-6">
+            <div className="relative mb-6">
                 <img
                     className="rounded-lg max-w-full h-auto"
                     src={productSelected?.image_product}
@@ -42,6 +45,7 @@ const ViewProduct = ({ productSelected }) => {
                     </div>
                 ))}
             </div>
+
         </div>
     )
 }

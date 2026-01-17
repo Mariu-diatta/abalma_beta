@@ -123,7 +123,7 @@ export default function ButtonsNavigateThemecolorPayDropdownaccount() {
 
         <section
             
-            className={`bg-none flex items-center justify-center px-2  rounded-lg absolute top-0  fixed z-20`}
+            className={`bg-none flex items-center justify-center px-2  rounded-lg absolute top-0  fixed `}
         >
 
             <AttentionAlertMessage/>

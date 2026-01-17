@@ -19,7 +19,7 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
 
     return (
-        <div className='z-[1999] flex items-center justify-center'>
+        <div className='flex items-center justify-center'>
 
             {/* Avatar + dropdown */ }
             <button

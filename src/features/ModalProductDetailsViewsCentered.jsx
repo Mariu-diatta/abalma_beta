@@ -137,14 +137,33 @@ function CenteredModal({ product, children}) {
 
             </button>
 
+
+
             {
                 isOpen && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50 overflow-y-auto h-full pt-6">
 
+
+
                         <div className="flex flex-col gap-3 shadow-lg p-6 rounded-lg bg-white max-w-2xl w-full">
 
-                            <h2 className="text-lg font-sm text-gray-800">{t('modifyProduct.title_modify_product')}</h2>
 
+                            <div className="flex justify-between items-center">
+
+                                <h2 className="text-lg font-sm text-gray-800">{t('modifyProduct.title_modify_product')}</h2>
+
+                                <button
+                                    type="button"
+                                    onClick={handleClose}
+                                    className=" items-center  rounded-full hover:bg-gray-99"
+                                    title={t('modifyProduct.cancel_modify_product')}
+                                >
+                                    <svg className="w-6 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M6 18 17.94 6M18 18 6.06 6" />
+                                    </svg>
+                                </button>
+
+                             </div>
 
                             <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-3">
 
@@ -228,17 +247,6 @@ function CenteredModal({ product, children}) {
                                 </>
 
                                 <div className="relative col-span-2 flex justify-center mt-2">
-
-                                    <button
-                                        type="button"
-                                        onClick={handleClose}
-                                        className=" items-center border rounded-full hover:bg-gray-100 bg-gradient-to-br from-pink-500 to-orange-400"
-                                        title={t('modifyProduct.cancel_modify_product')}
-                                    >
-                                        <svg className="w-6 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M6 18 17.94 6M18 18 6.06 6" />
-                                        </svg>
-                                    </button>
 
                                     {
                                         loading && (selectedBtnUpdate === dataProduct?.id) ?
