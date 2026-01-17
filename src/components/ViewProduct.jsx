@@ -14,7 +14,7 @@ const ViewProduct = ({ productSelected }) => {
         >
 
             {/* Image principale */}
-            <div className="relative mb-6">
+            <div className="relative">
                 <img
                     className="rounded-lg max-w-full h-auto"
                     src={productSelected?.image_product}
