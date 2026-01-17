@@ -19,7 +19,8 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
 
     return (
-        <div className='flex items-center justify-center'>
+
+        <div className='flex items-center justify-center z-0'>
 
             {/* Avatar + dropdown */ }
             <button
@@ -89,7 +90,7 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
                 onBlur={() => setDropdownOpen(false)}
 
-                className={`shadow-sm bg-transparent absolute right-0 top-full me-3 overflow-hidden rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${dropdownOpen ? "block z-100 bg-white/80 " : "hidden"}`}
+                className={`shadow-lg bg-transparent absolute right-0 top-full me-3 overflow-hidden rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${dropdownOpen ? "block z-100 bg-white/80 " : "hidden"}`}
 
                 style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
             >
