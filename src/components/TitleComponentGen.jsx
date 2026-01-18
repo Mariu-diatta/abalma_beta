@@ -9,12 +9,13 @@ const TitleCompGen = ({ title }) => {
         >
             <h1
                 className="
-                  inline-block whitespace-nowrap
-                  text-4xl
+                  text-md font-extrabold text-gray-500
                 "
             >
                 {title}
+
             </h1>
+
         </div>
 
 
