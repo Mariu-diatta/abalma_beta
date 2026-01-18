@@ -118,7 +118,7 @@ export default function TestimonialCarousel({
                                             <img
                                                 src={t?.image || t?.photo_url}
                                                 alt={t?.prenom}
-                                                className="w-16 h-16 rounded-full object-cover"
+                                                className="w-16 h-16 rounded-full"
                                             />
 
                                         </div>

@@ -9,7 +9,7 @@ const TitleCompGen = ({ title }) => {
         >
             <h1
                 className="
-                  text-md font-extrabold text-gray-500
+                  text-2xl font-extrabold text-gray-500
                 "
             >
                 {title}
@@ -51,7 +51,7 @@ export const TitleCompGenLitle = ({ title }) => {
 
         <div className="relative overflow-hidden w-full px-4 pt-4 pb-4"  ref={containerRef}>
 
-            <h1 ref={contentRef} className={` ${shouldScroll ? "animate-scroll" : ""}  text-md font-extrabold text-gray-500 dark:text-white`}>
+            <h1 ref={contentRef} className={` ${shouldScroll ? "animate-scroll" : ""}  text-md font-extrabold text-gray-500`}>
 
                 {title}
 
