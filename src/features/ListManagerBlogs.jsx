@@ -135,7 +135,7 @@ const MyBlogsList = () => {
 
                             <tbody>
                                 {paginatedBlogs?.length === 0 ? (
-                                    <tr>
+                                    <tr className="">
                                        <td colSpan="4" className="text-center p-4 text-gray-500">{t('blogNone')}</td>
                                     </tr>
                                 ) : (

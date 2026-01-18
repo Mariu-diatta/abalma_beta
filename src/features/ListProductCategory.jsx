@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import ProductCard from '../components/ProductCard';
+import NoContentComp from '../components/NoContentComp';
 
 const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) => {
 
@@ -67,15 +68,13 @@ const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) 
                         </div>
                     )
                     :
-                    (
-                        <div className="flex items-center justify-center mx-auto max-w-md p-4 rounded-full border border-gray-200 mb-2">
 
-                            <span className="text-sm">
-                                {t('ListItemsFilterProduct.noProduct')}
-                            </span>
+                    <NoContentComp
 
-                        </div>
-                    )
+                        content={t('ListItemsFilterProduct.noProduct')}
+
+                    />
+
             }
 
         </>

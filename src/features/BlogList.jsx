@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import BlogCard from './BlogCard';
 import BlogDetails from './BlogDetails';
+import NoContentComp from '../components/NoContentComp';
 
 const BlogList = ({ blogs }) => {
 
@@ -23,7 +24,16 @@ const BlogList = ({ blogs }) => {
     // Fonction pour générer les cartes de blog
     const renderBlogs = useCallback(() => {
 
-        if (!blogs || blogs.length === 0) return <p>{t("blogNone")}</p>;
+        if (!blogs || blogs.length === 0)
+
+            return (
+
+                <NoContentComp
+
+                        content={t("blogNone")}
+
+                />
+            );
 
         else return blogs.map((post, index) => <BlogCard key={index} blog={post} handleClicked={handleClicked} />);
 
@@ -35,9 +45,13 @@ const BlogList = ({ blogs }) => {
 
             {
                 (!viewMore) ?
-                    <>{renderBlogs()}</>
-                    :
-                    <BlogDetails blog={selectedBlog} onClose={handleClicked} />
+                <main>
+                    {
+                        renderBlogs()
+                    }
+                </main>
+                :
+                <BlogDetails blog={selectedBlog} onClose={handleClicked} />
             }
 
         </div>
