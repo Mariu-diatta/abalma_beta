@@ -1,0 +1,248 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+    0% {
+        transform: scale(1) rotate(0deg);
+    }
+
+    30% {
+        transform: scale(1.2) rotate(0deg); /* zoom avant */
+    }
+
+    100% {
+        transform: scale(1) rotate(360deg); /* rotation complète */
+    }
+}
+
+.App-logo {
+    width: 100%;
+    height: 100%;
+    animation: App-logo-spin 2s linear 1 forwards;
+}
+
+.scrollbor_hidden{
+    scrollbar-width:none !important;
+}
+
+.scrollbor_hidden:hover {
+    scrollbar-width: thin !important;
+}
+
+.scrollbor_hidden_ {
+    scrollbar-width: none !important;
+}
+
+/*body.light {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+}
+
+body.dark {
+    --bg-color: #000000;
+    --text-color: #ffffff!important;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+*/
+/* styles.css */
+
+body.light {
+    --color-bg: #ffffff;
+    --color-text: #000000;
+    --color-primary: #6200ee;
+    --color-code: #444444; /* Gris foncé pour le code en mode clair */
+}
+
+body.dark {
+    --color-bg: #2a2a2a;
+    --color-text: #e0e0e0; /* Gris clair pour le texte principal en dark */
+    --color-primary: #bb86fc;
+    --color-code: #ffffff !important; /* Blanc pour le code en mode dark */
+}
+
+body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+a, span, ul, nav, div, button, svg, style_bg {
+    color: var(--color-text);
+}
+
+body .style_bg {
+    background-color: var(--color-bg);
+    color: var(--color-code);
+}
+
+/** {
+  outline: 1px solid red;
+}*/
+
+@keyframes drain {
+    from {
+        transform: scaleY(1);
+    }
+
+    to {
+        transform: scaleY(0);
+    }
+}
+
+.animate-drain {
+    animation: drain 5s linear forwards;
+    transform-origin: bottom;
+}
+
+
+@keyframes trains {
+    from {
+        transform: scaleY(0);
+        transform: scaleX(0);
+    }
+
+    to {
+        transform: scaleY(1);
+    }
+}
+
+.animate-trains {
+    animation: trains 1s linear forwards;
+    transform-origin: bottom;
+}
+
+
+.bg_home {
+    backdrop-filter: blur(5px); /* Applique un flou de 5px */
+    -webkit-backdrop-filter: blur(5px); /* Pour compatibilité avec Safari */
+    background-size: 20%; /* Taille réduite (ajustez si nécessaire) */
+    background-position: left bottom; /* Positionne l'image en bas à gauche */
+    background-repeat: no-repeat; /* Évite la répétition */
+    position: relative; /* Nécessaire pour le pseudo-élément */
+    border-radius: 15px; /* Coins arrondis (ajustez la valeur si besoin) */
+    overflow: hidden; /* Assure que l'image respecte les coins arrondis */
+    margin: 1px; /* Marges de 20px de tous les côtés (ajustez selon besoin) */
+    padding-top:60px !important;
+}
+
+
+.bg_home::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.01); /* Couche semi-transparente (noir à 10% d'opacité) */
+    z-index: 1; /* Sous le contenu */
+    border-radius: 15px; /* Coins arrondis pour le pseudo-élément */
+}
+
+.bg_home > * {
+    position: relative;
+    z-index: 1; /* Contenu au-dessus de l'effet */
+}
+
+.nav-link-custom {
+    font-size: 0.75rem; /* 12px */
+    line-height: 1;
+}
+
+/*animation du footer/
+
+    /* Animation d'entrée (monter doucement) */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animation de sortie (descendre doucement) */
+@keyframes slideOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
+
+/* Classe pour l'animation d'entrée */
+.animate-in {
+    animation: slideIn 1s ease-out forwards;
+}
+
+/* Classe pour l'animation de sortie */
+.animate-out {
+    animation: slideOut 1s ease-in forwards;
+}
+
+    /* Réinitialiser les classes après animation */
+.animate-in.animate-out,
+.animate-out.animate-in {
+    animation: none;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.animate-scroll {
+    animation: scroll 15s linear infinite;
+}
+
+
+.animate-scroll:hover {
+    animation-play-state: paused;
+}
+
+html, body, #root {
+    height: 100%;
+}
+
