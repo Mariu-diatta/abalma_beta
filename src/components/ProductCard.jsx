@@ -1,10 +1,11 @@
-import React from "react";
 import { useDispatch } from "react-redux";
 import OwnerAvatar from "./OwnerProfil";
 import ScrollingContent from "./ScrollContain";
 import { useTranslation } from 'react-i18next';
 import { addMessageNotif, addUser } from "../slices/chatSlice";
 import { addToCart } from "../slices/cartSlice";
+import React from "react";
+
 // Import lazy du composant
 const PrintNumberStars = React.lazy(() => import("./SystemStar"));
 
@@ -38,7 +39,8 @@ const ProductCard = ({
             className={`var(--color-text) var(--color-bg) rounded-lg shadow-xs transition transform hover:-translate-y-1 hover:shadow-lg ${isInCart ? "opacity-50 pointer-events-none bg-gray-100" : "bg-white"
                 }`}
         >
-   {/* Image & Modal Trigger */}
+
+            {/* Image & Modal Trigger */}
             <div>
 
                 <div
@@ -63,7 +65,7 @@ const ProductCard = ({
                         alt={item?.name_product}
                         loading="lazy"
                         className="
-                          w-full
+                          max-w-50
                           h-full
                           object-cover
                           object-center
@@ -90,7 +92,7 @@ const ProductCard = ({
                 {/* Avatar & Quantité */}
                 <div className="flex justify-between items-center mb-1">
 
-                    <OwnerAvatar owner={owner}/>
+                    <OwnerAvatar owner={owner} />
 
                     {
                         (item?.quantity_product !== "0") &&
@@ -105,8 +107,10 @@ const ProductCard = ({
 
                 </div>
 
+
                 {/* Étoiles & Reviews */}
                 <PrintNumberStars productNbViews={item?.total_views} t={t} />
+
 
                 {/* Description */}
                 <p className="text-xs text-start truncate mb-1 md:text-sm whitespace-nowrap overflow-y-auto w-full scrollbor_hidden ">
@@ -118,17 +122,13 @@ const ProductCard = ({
                 {/* Prix & Boutons */}
                 <div className="flex justify-between items-center">
 
-                    <ScrollingContent item={item} t={t} qut_sold={item?.quantity_product_sold}/>
+                    <ScrollingContent item={item} t={t} qut_sold={item?.quantity_product_sold} />
 
-                    <div
-                        className="flex gap-2"
-                    >
+                    <div className="flex gap-2">
 
                         <button
 
                             title="Ajouter au panier"
-
-                            disabled={true}
 
                             onClick={
                                 () => {
@@ -147,8 +147,6 @@ const ProductCard = ({
                                         )
                                     );
                                 }}
-
-                            aria-disabled="true"
 
                             className="cursor-pointer p-1 rounded-full hover:bg-green-100 transition"
                         >
@@ -181,4 +179,3 @@ const ProductCard = ({
 };
 
 export default ProductCard;
-
