@@ -1,13 +1,13 @@
+import React from "react";
 import { useDispatch } from "react-redux";
 import OwnerAvatar from "./OwnerProfil";
 import ScrollingContent from "./ScrollContain";
 import { useTranslation } from 'react-i18next';
 import { addMessageNotif, addUser } from "../slices/chatSlice";
 import { addToCart } from "../slices/cartSlice";
-import React from "react";
-
 // Import lazy du composant
 const PrintNumberStars = React.lazy(() => import("./SystemStar"));
+
 
 const ProductCard = ({
     item,
@@ -41,27 +41,46 @@ const ProductCard = ({
             {/* Image & Modal Trigger */}
             <div>
 
-                <img
-                    key={id}
+                <div
+
                     onClick={() => {
                         openModal(item);
                         dispatch(addUser(owners[item?.fournisseur]));
                     }}
-                    src={item?.image_product}
-                    alt={item?.name_product}
-                    className="w-full h-auto itmes-center justify-center m-auto object-center object-cover rounded-lg mb-2 transition duration-300 ease-in-out hover:brightness-75 hover:grayscale"
-                    onError={(e) => {
+
+                    className="
+                        relative
+                        w-full
+                        aspect-[4/5]
+                        overflow-hidden
+                        rounded-lg
+                        cursor-pointer
+                        bg-gray-100
+                    "
+                >
+                    <img
+                        src={item?.image_product}
+                        alt={item?.name_product}
+                        loading="lazy"
+                        className="
+                          w-full
+                          h-full
+                          object-cover
+                          object-center
+                          transition
+                          duration-300
+                          ease-in-out
+                          hover:scale-105
+                          hover:brightness-90
+                        "
+                     onError={(e) => {
                         if (e.target.src !== window.location.origin + "/default-product.jpg") {
                             e.target.src = "/default-product.jpg";
                         }
                     }}
+                    />
 
-                    style={{
-                        transform: `scale(${1})`,
-                        transformOrigin: 'center',
-                        transition: 'transform 0.3s ease',
-                    }}
-                />
+                </div>
 
             </div>
 
@@ -71,7 +90,7 @@ const ProductCard = ({
                 {/* Avatar & Quantité */}
                 <div className="flex justify-between items-center mb-1">
 
-                    <OwnerAvatar owner={owner} />
+                    <OwnerAvatar owner={owner}/>
 
                     {
                         (item?.quantity_product !== "0") &&
@@ -86,10 +105,8 @@ const ProductCard = ({
 
                 </div>
 
-
                 {/* Étoiles & Reviews */}
                 <PrintNumberStars productNbViews={item?.total_views} t={t} />
-
 
                 {/* Description */}
                 <p className="text-xs text-start truncate mb-1 md:text-sm whitespace-nowrap overflow-y-auto w-full scrollbor_hidden ">
@@ -101,13 +118,17 @@ const ProductCard = ({
                 {/* Prix & Boutons */}
                 <div className="flex justify-between items-center">
 
-                    <ScrollingContent item={item} t={t} qut_sold={item?.quantity_product_sold} />
+                    <ScrollingContent item={item} t={t} qut_sold={item?.quantity_product_sold}/>
 
-                    <div className="flex gap-2">
+                    <div
+                        className="flex gap-2"
+                    >
 
                         <button
 
                             title="Ajouter au panier"
+
+                            disabled={true}
 
                             onClick={
                                 () => {
@@ -126,6 +147,8 @@ const ProductCard = ({
                                         )
                                     );
                                 }}
+
+                            aria-disabled="true"
 
                             className="cursor-pointer p-1 rounded-full hover:bg-green-100 transition"
                         >
@@ -158,3 +181,4 @@ const ProductCard = ({
 };
 
 export default ProductCard;
+

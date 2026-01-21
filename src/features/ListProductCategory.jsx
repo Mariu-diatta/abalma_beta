@@ -32,77 +32,74 @@ const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) 
 
         <section className="w-full flex justify-center">
 
-            {/* Conteneur centré */}
-            <div className="w-full max-w-7xl px-2 md:px-4">
+            {/* Grille centrée */}
+            <div
+                className="
+                    grid
+                    grid-cols-2
+                    sm:grid-cols-2
+                    md:grid-cols-4
+                    gap-3
+                    justify-items-center
+                    mx-auto
+                "
+            >
+                {/* Conteneur centré */}
+                <div className="w-full max-w-7xl px-2 md:px-4">
 
-                {
-                    groupedItems.map(([category, items]) => (
+                    {
+                        groupedItems.map(([category, items]) => (
 
-                        <React.Fragment key={category}>
+                            <React.Fragment key={category}>
 
-                            {/* Grille centrée */}
-                            <div
+                                    {/* Titre de catégorie centré */}
+                                    <div className="col-span-full flex justify-center my-2">
 
-                                className="
-                                    grid
-                                    grid-cols-2
-                                    sm:grid-cols-2
-                                    md:grid-cols-4
-                                    gap-3
-                                    justify-items-center
-                                    mx-auto
-                                "
-                            >
+                                        <span className="text-xs text-gray-500 px-5 py-1 rounded-full shadow-sm">
 
-                                {/* Titre de catégorie centré */}
-                                <div className="col-span-full flex justify-center my-2">
+                                            {t(`add_product.categories.${category}`)}
 
-                                    <span className="text-xs text-gray-500 px-5 py-1 rounded-full shadow-sm">
+                                        </span>
 
-                                        {t(`add_product.categories.${category}`)}
+                                    </div>
 
-                                    </span>
+                                    {/* Produits */}
+                                    {
+                                        items.map(
 
-                                </div>
+                                            (item) => {
 
-                                {/* Produits */}
-                                {
-                                    items.map(
+                                                const isInCart = cartItems?.some(
+                                                    (product) => product?.id === item?.id
+                                                );
 
-                                        (item) => {
+                                                const owner = owners[item?.fournisseur];
 
-                                            const isInCart = cartItems?.some(
-                                                (product) => product?.id === item?.id
-                                            );
+                                                return (
+                                                    <ProductCard
+                                                        key={item?.id}
+                                                        id={item?.id}
+                                                        item={item}
+                                                        isInCart={isInCart}
+                                                        owner={owner}
+                                                        openModal={openModal}
+                                                        owners={owners}
+                                                        qut_sold={item?.quanttity_product_sold}
+                                                    />
+                                                );
+                                            }
 
-                                            const owner = owners[item?.fournisseur];
+                                        )
+                                    }
 
-                                            return (
-                                                <ProductCard
-                                                    key={item?.id}
-                                                    id={item?.id}
-                                                    item={item}
-                                                    isInCart={isInCart}
-                                                    owner={owner}
-                                                    openModal={openModal}
-                                                    owners={owners}
-                                                    qut_sold={item?.quanttity_product_sold}
-                                                />
-                                            );
-                                        }
+                            </React.Fragment>
 
-                                    )
-                                }
+                        ))
+                    }
 
-                            </div>
-
-                        </React.Fragment>
-
-                    ))
-                }
+                </div>
 
             </div>
-
 
         </section>
     );
