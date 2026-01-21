@@ -210,7 +210,6 @@ export default function SubscriptionsPage() {
                         "Support prioritaire",
                         "Visibilité accrue",
                         "Accès à des fournisseurs exclusifs",
-                        "Intégration facile avec Shopify/WooCommerce",
                         "Mises à jour automatiques des stocks",
                         "Suivi des commandes en temps réel",
                         "Gestion simplifiée des retours",

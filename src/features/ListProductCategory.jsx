@@ -4,88 +4,83 @@ import ProductCard from '../components/ProductCard';
 import NoContentComp from '../components/NoContentComp';
 
 const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) => {
-
     const { t } = useTranslation();
 
-    if (!filteredItems || filteredItems?.length === 0) {
-
+    if (!filteredItems || filteredItems.length === 0) {
         return <NoContentComp content={t('ListItemsFilterProduct.noProduct')} />;
     }
 
+    const groupedItems = filteredItems.reduce((acc, item) => {
+        const cat = item?.categorie_product;
+        if (!acc[cat]) acc[cat] = [];
+        acc[cat].push(item);
+        return acc;
+    }, {});
+
     return (
 
-        <>
+        <div className="space-y-6">
+
             {
-                (filteredItems?.length > 0) ?
-                    (
+                Object.entries(groupedItems).map(([category, items]) => {
 
-                        <div className="h-full px-2 md:px-0 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-1 z-0 mb-[10px] mx-0 md:mx-10 lg:mx-10 flex justify-center mt-0 pt-0">
+                const cols = Math.min(items?.length, 5);
 
-                            {/* --- Regroupement des produits par catégorie --- */}
+                return (
+
+                    <div key={category} className="flex flex-col items-center gap-3">
+
+                        {/* Nom catégorie */}
+                        <div className="text-center text-xs text-gray-500 rounded-full px-5 py-0.5 shadow-sm">
+                            {t(`add_product.categories.${category}`)}
+                        </div>
+
+                        {/* Produits */}
+                        <div
+                            className={`
+                                grid
+                                gap-2
+                                w-fit
+                                grid-cols-2
+                                md:grid-cols-${cols}
+                                mx-1
+                            `}
+                        >
                             {
-                                Object.entries(
+                                items?.map((item) => {
 
-                                    filteredItems.reduce((acc, item) => {
-                                        const cat = item?.categorie_product;
-                                        if (!acc[cat]) acc[cat] = [];
-                                        acc[cat].push(item);
-                                        return acc;
-                                    }, {})
+                                        const isInCart = cartItems?.some(
+                                            (product) => product?.id === item?.id
+                                        );
+
+                                        const owner = owners[item?.fournisseur];
+
+                                        return (
+
+                                            <ProductCard
+                                                key={item.id}
+                                                id={item.id}
+                                                item={item}
+                                                isInCart={isInCart}
+                                                owner={owner}
+                                                openModal={openModal}
+                                                owners={owners}
+                                                qut_sold={item?.quanttity_product_sold}
+                                            />
+                                        );
+                                    }
                                 )
-                                    .map(([category, items]) => (
-
-                                        <React.Fragment key={category}>
-
-                                            {/* Nom de la catégorie */}
-                                            <li className="text-center text-xs text-gray-500 py-0.5 col-span-full  rounded-full w-auto mx-auto shadow-sm my-0 px-5">
-                                                {t(`add_product.categories.${category}`)}
-                                            </li>
-
-                                            {/* Produits de la catégorie */}
-                                            {
-                                                items?.map((item) => {
-
-                                                    const isInCart = cartItems?.some((product) => product?.id === item?.id);
-
-                                                    const owner = owners[item?.fournisseur];
-
-                                                    return (
-
-                                                        <ProductCard
-                                                            key={item?.id}
-                                                            id={item?.id}
-                                                            item={item}
-                                                            isInCart={isInCart}
-                                                            owner={owner}
-                                                            openModal={openModal}
-                                                            owners={owners}
-                                                            qut_sold={item?.quanttity_product_sold}
-                                                        />
-                                                    );
-                                                }
-                                                )
-                                            }
-
-                                        </React.Fragment>
-                                    ))
                             }
 
                         </div>
-                    )
-                    :
-                    (
-                        <div className="flex items-center justify-center mx-auto max-w-md p-4 rounded-full border border-gray-200 mb-2">
 
-                            <span className="text-sm">
-                                {t('ListItemsFilterProduct.noProduct')}
-                            </span>
-
-                        </div>
-                    )
+                    </div>
+                );
+                })
             }
 
-        </>
-    )
-}
+        </div>
+    );
+};
 
 export default ListProductByCategory;
