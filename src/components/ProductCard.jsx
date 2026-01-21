@@ -42,60 +42,33 @@ const ProductCard = ({
 
             {/* Image & Modal Trigger */}
             <div>
-
-                <div
-
+                <img
+                    src={item?.image_product}
+                    alt={item?.name_product}
+                    loading="lazy"
+                    className="
+                        w-full
+                        h-full
+                        object-cover
+                        object-center
+                        transition
+                        duration-300
+                        ease-in-out
+                        hover:scale-105
+                        cursor-pointer
+                        aspect-[4/5]
+                        hover:brightness-90
+                    "
                     onClick={() => {
                         openModal(item);
                         dispatch(addUser(owners[item?.fournisseur]));
                     }}
-
-                    className="
-                        relative
-                        w-full
-                        overflow-hidden
-                        rounded-lg
-                        cursor-pointer
-                        bg-gray-100
-
-                        aspect-[3/4]
-                        sm:aspect-[4/5]
-                        lg:aspect-square
-
-                        min-h-[280px]
-                        sm:min-h-[340px]
-                        lg:min-h-[380px]
-                    "
-                >
-                    <img
-                        src={item?.image_product}
-                        alt={`Acheter ${item?.name_product} en ligne`}
-                        loading="lazy"
-                        decoding="async"
-                        width="500"
-                        height="625"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                        className="
-                          w-full
-                          h-full
-                          object-cover
-                          object-center
-                          transition-transform
-                          duration-300
-                          ease-in-out
-                          hover:scale-105
-                          hover:brightness-90
-                        "
-                        onError={(e) => {
-                            if (e.currentTarget.src !== "/default-product.jpg") {
-                                e.currentTarget.src = "/default-product.jpg";
-                            }
-                        }}
-                    />
-
-                </div>
-
-
+                    onError={(e) => {
+                        if (e.target.src !== window.location.origin + "/default-product.jpg") {
+                            e.target.src = "/default-product.jpg";
+                        }
+                    }}
+                />
             </div>
 
             {/* Infos Produit */}
