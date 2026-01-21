@@ -27,20 +27,10 @@ const ProductCard = ({
     return (
 
         <div
-          className={`
-            w-auto
-            md:w-[300px]
-            h-auto
-            flex
-            flex-col
-            rounded-lg
-            shadow-sm
-            transition
-            hover:-translate-y-1
-            hover:shadow-lg
-            bg-white
-            ${isInCart ? "opacity-50 pointer-events-none" : ""}
-          `}
+
+            className={`
+            rounded-lg  md:max-w-[250px] shadow-xs transition transform hover:-translate-y-1 hover:shadow-lg ${isInCart ? "opacity-50 pointer-events-none bg-gray-100" : "bg-white"
+                }`}
         >
             {/* Image & Modal Trigger */}
             <div>
@@ -131,8 +121,6 @@ const ProductCard = ({
                         <button
 
                             title="Ajouter au panier"
-
-                            disabled={true}
 
                             onClick={
                                 () => {
