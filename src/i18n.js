@@ -68,7 +68,7 @@ i18n
              description_prod: "Product description:",
              color_prod: "Product color",
              code_ref:"Reference code",
-             Subscriptionb2b:"S'ubscript for B2B",
+             Subscriptionb2b:"Subscript for B2B",
              redo_subscription: "Recommended",
              Business:"Business",
              discovery:"Discovery",
