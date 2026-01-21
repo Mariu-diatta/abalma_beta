@@ -29,7 +29,7 @@ const ProductCard = ({
         <div
 
             className={`
-            rounded-lg  md:max-w-[250px] shadow-xs transition transform hover:-translate-y-1 hover:shadow-lg ${isInCart ? "opacity-50 pointer-events-none bg-gray-100" : "bg-white"
+            rounded-lg  w-auto md:max-w-[250px] shadow-xs transition transform hover:-translate-y-1 hover:shadow-lg ${isInCart ? "opacity-50 pointer-events-none bg-gray-100" : "bg-white"
                 }`}
         >
             {/* Image & Modal Trigger */}
