@@ -43,7 +43,7 @@ const PaginationProduit = ({ products , itemsPerPage = 5 }) => {
             </div>
 
             {/* Pagination */}
-            <div className="flex gap-2 mt-4">
+            <div className="flex gap-1 mt-4">
 
                 <button
                     onClick={handlePrev}
