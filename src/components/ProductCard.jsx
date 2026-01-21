@@ -41,13 +41,15 @@ const ProductCard = ({
         >
 
             {/* Image & Modal Trigger */}
-            <div className="w-48 sm:w-56 md:w-64 mx-auto"> {/* largeur fixe et centrée */}
+            <div>
 
                 <div
+
                     onClick={() => {
                         openModal(item);
                         dispatch(addUser(owners[item?.fournisseur]));
                     }}
+
                     className="
                         relative
                         w-full
@@ -63,16 +65,17 @@ const ProductCard = ({
                         alt={item?.name_product}
                         loading="lazy"
                         className="
-                            w-full
-                            h-full
-                            object-cover
-                            object-center
-                            transition
-                            duration-300
-                            ease-in-out
-                            hover:scale-105
-                            hover:brightness-90
-                            cursor-pointer
+                          w-full
+                          h-full
+                          object-cover
+                          object-center
+                          transition
+                          duration-300
+                          ease-in-out
+                          hover:scale-105
+                        cursor-pointer
+
+                          hover:brightness-90
                         "
                         onClick={() => {
                             openModal(item);
