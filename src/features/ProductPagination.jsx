@@ -26,7 +26,7 @@ const PaginationProduit = ({ products , itemsPerPage = 5 }) => {
         <div className="flex flex-col items-center">
 
             {/* Liste des produits */}
-            <div className="flex gap-4 justify-center overflow-x-auto scrollbor_hidden">
+            <div className="flex gap-2 justify-center overflow-x-auto scrollbor_hidden">
 
                 {
                     currentItems?.map((product, id) => (
