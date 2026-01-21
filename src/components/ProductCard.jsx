@@ -39,37 +39,47 @@ const ProductCard = ({
             className={`var(--color-text) var(--color-bg) rounded-lg shadow-xs transition transform hover:-translate-y-1 hover:shadow-lg ${isInCart ? "opacity-50 pointer-events-none bg-gray-100" : "bg-white"
                 }`}
         >
-
             {/* Image & Modal Trigger */}
-            <div>
-                <img
-                    src={item?.image_product}
-                    alt={item?.name_product}
-                    loading="lazy"
-                    className="
-                        w-full
-                        h-full
-                        object-cover
-                        object-center
-                        transition
-                        duration-300
-                        ease-in-out
-                        hover:scale-105
-                        cursor-pointer
-                        aspect-[4/5]
-                        hover:brightness-90
-                    "
-                    onClick={() => {
-                        openModal(item);
-                        dispatch(addUser(owners[item?.fournisseur]));
-                    }}
-                    onError={(e) => {
-                        if (e.target.src !== window.location.origin + "/default-product.jpg") {
-                            e.target.src = "/default-product.jpg";
-                        }
-                    }}
-                />
-            </div>
+            <img
+                src={item?.image_product}
+                alt={`Acheter ${item?.name_product} en ligne`}
+                loading="lazy"
+                decoding="async"
+                width="500"
+                height="625"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                className="
+                    block
+                    w-full
+
+                    aspect-[3/4]
+                    sm:aspect-[4/5]
+                    lg:aspect-square
+
+                    object-cover
+                    object-center
+
+                    bg-gray-100
+                    rounded-lg
+
+                    transition-transform
+                    duration-300
+                    ease-in-out
+
+                    hover:scale-105
+                    hover:brightness-90
+                    cursor-pointer
+                "
+                onClick={() => {
+                    openModal(item);
+                    dispatch(addUser(owners[item?.fournisseur]));
+                }}
+                onError={(e) => {
+                    if (e.currentTarget.src !== "/default-product.jpg") {
+                        e.currentTarget.src = "/default-product.jpg";
+                    }
+                }}
+            />
 
             {/* Infos Produit */}
             <div className="p-1">
