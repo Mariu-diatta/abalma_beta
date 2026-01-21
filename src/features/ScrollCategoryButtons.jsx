@@ -180,11 +180,6 @@ const ScrollableCategoryButtons = ({
 
             </section>
 
-            {/* Exemple d’aside pour contenu secondaire (facultatif) */}
-            <aside>
-                {/* Ici tu peux mettre : filtres, recommandations, pubs, etc. */}
-            </aside>
-
         </>
     );
 };
