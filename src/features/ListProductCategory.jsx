@@ -7,102 +7,85 @@ const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) 
 
     const { t } = useTranslation();
 
-    if (!filteredItems || filteredItems.length === 0) {
+    if (!filteredItems || filteredItems?.length === 0) {
 
         return <NoContentComp content={t('ListItemsFilterProduct.noProduct')} />;
     }
 
-    // Regroupement par catégorie
-    const groupedItems = Object.entries(
-
-        filteredItems.reduce((acc, item) => {
-
-            const cat = item?.categorie_product;
-
-            if (!acc[cat]) acc[cat] = [];
-
-            acc[cat].push(item);
-
-            return acc;
-
-        }, {})
-    );
-
     return (
 
-        <section className="w-full flex justify-center">
+        <>
+            {
+                (filteredItems?.length > 0) ?
+                    (
 
-            {/* Grille centrée */}
-            <div
-                className="
-                    grid
-                    grid-cols-2
-                    sm:grid-cols-2
-                    md:grid-cols-4
-                    gap-3
-                    justify-items-center
-                    mx-auto
-                "
-            >
-                {/* Conteneur centré */}
-                <div className="w-full max-w-7xl px-2 md:px-4">
+                        <div className="h-full px-2 md:px-0 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-1 z-0 mb-[10px] mx-0 md:mx-10 lg:mx-10 flex justify-center mt-0 pt-0">
 
-                    {
-                        groupedItems.map(([category, items]) => (
+                            {/* --- Regroupement des produits par catégorie --- */}
+                            {
+                                Object.entries(
 
-                            <React.Fragment key={category}>
+                                    filteredItems.reduce((acc, item) => {
+                                        const cat = item?.categorie_product;
+                                        if (!acc[cat]) acc[cat] = [];
+                                        acc[cat].push(item);
+                                        return acc;
+                                    }, {})
+                                )
+                                    .map(([category, items]) => (
 
-                                    {/* Titre de catégorie centré */}
-                                    <div className="col-span-full flex justify-center my-2">
+                                        <React.Fragment key={category}>
 
-                                        <span className="text-xs text-gray-500 px-5 py-1 rounded-full shadow-sm">
+                                            {/* Nom de la catégorie */}
+                                            <li className="text-center text-xs text-gray-500 py-0.5 col-span-full  rounded-full w-auto mx-auto shadow-sm my-0 px-5">
+                                                {t(`add_product.categories.${category}`)}
+                                            </li>
 
-                                            {t(`add_product.categories.${category}`)}
+                                            {/* Produits de la catégorie */}
+                                            {
+                                                items?.map((item) => {
 
-                                        </span>
+                                                    const isInCart = cartItems?.some((product) => product?.id === item?.id);
 
-                                    </div>
+                                                    const owner = owners[item?.fournisseur];
 
-                                    {/* Produits */}
-                                    {
-                                        items.map(
+                                                    return (
 
-                                            (item) => {
-
-                                                const isInCart = cartItems?.some(
-                                                    (product) => product?.id === item?.id
-                                                );
-
-                                                const owner = owners[item?.fournisseur];
-
-                                                return (
-                                                    <ProductCard
-                                                        key={item?.id}
-                                                        id={item?.id}
-                                                        item={item}
-                                                        isInCart={isInCart}
-                                                        owner={owner}
-                                                        openModal={openModal}
-                                                        owners={owners}
-                                                        qut_sold={item?.quanttity_product_sold}
-                                                    />
-                                                );
+                                                        <ProductCard
+                                                            key={item?.id}
+                                                            id={item?.id}
+                                                            item={item}
+                                                            isInCart={isInCart}
+                                                            owner={owner}
+                                                            openModal={openModal}
+                                                            owners={owners}
+                                                            qut_sold={item?.quanttity_product_sold}
+                                                        />
+                                                    );
+                                                }
+                                                )
                                             }
 
-                                        )
-                                    }
+                                        </React.Fragment>
+                                    ))
+                            }
 
-                            </React.Fragment>
+                        </div>
+                    )
+                    :
+                    (
+                        <div className="flex items-center justify-center mx-auto max-w-md p-4 rounded-full border border-gray-200 mb-2">
 
-                        ))
-                    }
+                            <span className="text-sm">
+                                {t('ListItemsFilterProduct.noProduct')}
+                            </span>
 
-                </div>
+                        </div>
+                    )
+            }
 
-            </div>
-
-        </section>
-    );
-};
+        </>
+    )
+}
 
 export default ListProductByCategory;
