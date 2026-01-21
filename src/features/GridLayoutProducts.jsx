@@ -232,7 +232,7 @@ const GridLayoutProduct = () => {
 
             />
 
-            <aside className={`${(filteredItems?.length === 0) ? "hidden" : "p-6"}`}>
+            <aside className={`${(filteredItems?.length === 0) ? "hidden" : "p-1"}`}>
 
                 <PaginationProduit products={filteredItems} />
 
