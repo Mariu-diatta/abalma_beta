@@ -89,7 +89,10 @@ export default function TestimonialCarousel({
             ref={containerRef}
             className="relative w-full max-w-3xl mx-auto mb-[10dvh]"
             onMouseEnter={stopTimer}
-            onMouseLeave={() => autoplay && startTimer()}
+            onMouseLeave={
+
+                () => autoplay && startTimer()
+            }
         >
             {/* Slides */}
             <div className="overflow-hidden translate-x-0 transition-all duration-1000 ease-in-out shadow-lg">
@@ -156,7 +159,12 @@ export default function TestimonialCarousel({
 
             {/* Prev / Next buttons */}
             <button
-                onClick={() => { stopTimer(); goPrev(); }}
+                onClick={
+                    () => {
+                        stopTimer();
+                        goPrev();
+                    }
+                }
                 aria-label="Précédent"
                 className="absolute left-0 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-2 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
             >
@@ -167,7 +175,12 @@ export default function TestimonialCarousel({
             </button>
 
             <button
-                onClick={() => { stopTimer(); goNext(); }}
+                onClick={
+                    () => {
+                        stopTimer();
+                        goNext();
+                    }
+                }
                 aria-label="Suivant"
                 className="absolute right-0 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-2 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
             >
@@ -185,7 +198,12 @@ export default function TestimonialCarousel({
 
                             <button
                                 key={i}
-                                onClick={() => { stopTimer(); goTo(i); }}
+                                onClick={
+                                    () => {
+                                        stopTimer();
+                                        goTo(i);
+                                    }
+                                }
                                 className={`w-3 h-3 rounded-full transition-all ${i === index ? "scale-125 bg-indigo-600" : "bg-gray-300 hover:bg-gray-400"
                                     }`}
                                 aria-label={`Aller au témoignage ${i + 1}`}

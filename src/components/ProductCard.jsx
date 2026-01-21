@@ -9,7 +9,6 @@ import React from "react";
 // Import lazy du composant
 const PrintNumberStars = React.lazy(() => import("./SystemStar"));
 
-
 const ProductCard = ({
     item,
     qut_sold,
@@ -39,56 +38,30 @@ const ProductCard = ({
             className={`var(--color-text) var(--color-bg) rounded-lg shadow-xs transition transform hover:-translate-y-1 hover:shadow-lg ${isInCart ? "opacity-50 pointer-events-none bg-gray-100" : "bg-white"
                 }`}
         >
-
             {/* Image & Modal Trigger */}
             <div>
 
-                <div
-
+                <img
+                    key={id}
                     onClick={() => {
                         openModal(item);
                         dispatch(addUser(owners[item?.fournisseur]));
                     }}
+                    src={item?.image_product}
+                    alt={item?.name_product}
+                    className="w-full h-auto itmes-center justify-center m-auto object-center object-cover rounded-lg mb-2 transition duration-300 ease-in-out hover:brightness-75 hover:grayscale"
+                    onError={(e) => {
+                        if (e.target.src !== window.location.origin + "/default-product.jpg") {
+                            e.target.src = "/default-product.jpg";
+                        }
+                    }}
 
-                    className="
-                        relative
-                        w-full
-                        aspect-[4/5]
-                        overflow-hidden
-                        rounded-lg
-                        cursor-pointer
-                        bg-gray-100
-                    "
-                >
-                    <img
-                        src={item?.image_product}
-                        alt={item?.name_product}
-                        loading="lazy"
-                        className="
-                          w-full
-                          h-full
-                          object-cover
-                          object-center
-                          transition
-                          duration-300
-                          ease-in-out
-                          hover:scale-105
-                        cursor-pointer
-
-                          hover:brightness-90
-                        "
-                        onClick={() => {
-                            openModal(item);
-                            dispatch(addUser(owners[item?.fournisseur]));
-                        }}
-                        onError={(e) => {
-                            if (e.target.src !== window.location.origin + "/default-product.jpg") {
-                                e.target.src = "/default-product.jpg";
-                            }
-                        }}
-                    />
-
-                </div>
+                    style={{
+                        transform: `scale(${1})`,
+                        transformOrigin: 'center',
+                        transition: 'transform 0.3s ease',
+                    }}
+                />
 
             </div>
 
