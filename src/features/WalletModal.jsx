@@ -100,7 +100,7 @@ const WalletModal = ({ setHiddenShowDirection }) => {
                     id="wallet-modal"
                     role="dialog"
                     aria-modal="true"
-                    className="backdrop-blur-sm fixed inset-0 z-200 shadow-lg w-full flex items-center justify-center bg-gray bg-opacity-50 overflow-y-auto pt-[50px]"
+                    className="backdrop-blur-sm fixed inset-0 z-200 shadow-lg w-full flex items-center justify-center bg-white-100 overflow-y-auto pt-[50px]"
                     onClick={toggleModal}
 
                 >
