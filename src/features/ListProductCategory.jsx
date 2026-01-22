@@ -24,7 +24,7 @@ const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) 
             {
                 Object.entries(groupedItems).map(([category, items]) => {
                     const cols = Math.min(items.length, 5);
-                    const cols_sm= Math.min(items.length, 3);
+                    const cols_sm= Math.min(items.length, 2);
 
                     return (
 

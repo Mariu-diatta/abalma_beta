@@ -836,7 +836,7 @@ i18n
              Meubles: "Meubles",
              Materiel_medical: "Matériel médical",
              logout: "Voulez-vous vraiment vous déconnecter???",
-             connect_first: "Vous devrez vous connecter avant !!!",
+             connect_first: "Vous devrez vous connecter d'abord !!!",
              cookie_banner: {
                  text1: "Ce site utilise des cookies pour améliorer votre expérience",
                  text2: "En savoir plus",
