@@ -180,11 +180,21 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                         <div className="grid grid-cols-1 sm:grid-cols-12 w-full h-full">
 
                             {/* IMAGE */}
-                            <div className=" col-span-1 md:col-span-6 flex items-center justify-center max-h-[40dvh] w-full md:max-h-full  md:h-full  md:w-full">
+                            <div
+
+                                className=" col-span-1 md:col-span-6 flex items-center justify-center max-h-[40dvh] w-full md:max-h-full  md:h-full  md:w-full"
+
+                                style={{
+                                    backgroundImage: `url(${currentSelectedProductView?.image_product})`,
+                                }}
+                            >
 
                                 <img
+
                                     src={currentSelectedProductView?.image_product}
+
                                     alt="Product"
+
                                     className="w-full h-full object-contain flex justify-center item-center relative"
                                 />
 
@@ -380,15 +390,15 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                                 </div>
 
                                 {/*Buttons for phone resolution sm*/}
-                                <div className="flex  gap-4 bg-white/80 absolute bottom-0 text-xs text-gray-500 mb-1 w-full flex justify-around fixed">
+                                <div className="flex gap-4 bg-white/80 absolute bottom-0 text-xs text-gray-500 w-full flex justify-around fixed md:absolute">
 
-                                    <div className="flex flex-col justify-center items-center">
+                                    <div className="flex flex-col justify-center items-center  md:right-5 md:relative md:bottom-2">
 
-                                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <svg class="w-6 h-6 text-gray-800 dark:text-white md:hidden" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 8v4l3 3M3.22302 14C4.13247 18.008 7.71683 21 12 21c4.9706 0 9-4.0294 9-9 0-4.97056-4.0294-9-9-9-3.72916 0-6.92858 2.26806-8.29409 5.5M7 9H3V5" />
                                         </svg>
 
-                                        <fieldset>
+                                        <fieldset className="bg-none">
 
                                             {(() => {
 
@@ -429,7 +439,6 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                                     </div>
 
-
                                 </div>
 
                             </div>
@@ -464,7 +473,7 @@ const NavButtons = ({
 
     return (
 
-        <div className="flex items-center justify-between gap-4 w-full">
+        <div className="flex items-center justify-between gap-4 w-full py-1">
 
             {/* Add to cart */}
             {!isProductAdd && !isCurrentUser && (

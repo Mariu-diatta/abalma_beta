@@ -7,31 +7,43 @@ import { addUser } from "../slices/chatSlice";
 const Carousel = ({ products, openModal, owners }) => {
 
     const [currentIndex, setCurrentIndex] = useState(0);
+
     const { t } = useTranslation();
+
     const dispatch = useDispatch();
 
     const filteredProducts = useMemo(() => {
+
         if (!Array.isArray(products)) return [];
+
         return products.filter((p) => p?.quantity_product > 0);
+
     }, [products]);
 
     const pictures = filteredProducts;
 
     const prevSlide = () => {
+
         setCurrentIndex((prev) =>
+
             prev === 0 ? pictures.length - 1 : prev - 1
         );
     };
 
     const nextSlide = () => {
+
         setCurrentIndex((prev) =>
+
             prev === pictures.length - 1 ? 0 : prev + 1
         );
     };
 
     useEffect(() => {
+
         if (!pictures.length) return;
+
         const interval = setInterval(nextSlide, 2500);
+
         return () => clearInterval(interval);
     });
 
@@ -40,6 +52,7 @@ const Carousel = ({ products, openModal, owners }) => {
     const current = pictures[currentIndex];
 
     return (
+
         <div className="relative w-full rounded-lg overflow-hidden group">
 
             {/* IMAGE */}

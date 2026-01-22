@@ -6,7 +6,9 @@ import NumberFollowFollowed from '../components/FollowUserComp';
 import { useTranslation } from 'react-i18next';
 
 const ProfilPopPov = () => {
+
     const { t } = useTranslation();
+
     const currentOwnUser = useSelector(state => state.chat.userSlected);
 
     const [isVisible, setIsVisible] = useState(false);
@@ -87,8 +89,8 @@ const ProfilPopPov = () => {
                     aria-modal="true"
                     className={`
                     absolute z-50 w-64 max-h-[70vh] overflow-y-auto
-                    text-md border rounded-lg shadow-lg dark:text-gray-300
-                    ${showAbove ? 'bottom-full mb-2 left-0 -translate-x-1/2' : 'top-full mt-2 right-2'}
+                    text-md border rounded-lg shadow-lg
+                    ${showAbove ? 'bottom-full mb-2 left-0 -translate-x-50 z-100' : 'top-full mt-2 right-2'}
                   `}
                 >
                     <div className="p-4 space-y-3">
