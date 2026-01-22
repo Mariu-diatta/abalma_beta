@@ -1,4 +1,3 @@
-// TestimonialCarousel.jsx
 import React, { useEffect, useRef, useState } from "react";
 import api from "../services/Axios";
 
@@ -15,27 +14,15 @@ export default function TestimonialCarousel({
     const [index, setIndex] = useState(0);
     const timerRef = useRef(null);
     const containerRef = useRef(null);
-    const [testimonials, setTestimonials] = useState([])
+    const [testimonials, setTestimonials] = useState([]);
     const length = testimonials.length;
 
-    // autoplay
+    // fetch testimonials
     useEffect(() => {
-
-        try {
-            api.get("/content/testmony/").then(
-                resp => {
-                    setTestimonials(resp.data)
-                }
-            ).catch(
-                err=> {
-                    console.log(err?.message)
-                }
-            )
-        } catch (err) {
-
-        } finally {
-        }
-
+        api
+            .get("/content/testmony/")
+            .then((resp) => setTestimonials(resp.data))
+            .catch((err) => console.log(err?.message));
     }, []);
 
     // autoplay
@@ -48,9 +35,7 @@ export default function TestimonialCarousel({
 
     function startTimer() {
         stopTimer();
-        timerRef.current = setTimeout(() => {
-            goNext();
-        }, autoplayInterval);
+        timerRef.current = setTimeout(goNext, autoplayInterval);
     }
 
     function stopTimer() {
@@ -72,7 +57,7 @@ export default function TestimonialCarousel({
         setIndex(i % length);
     }
 
-    // keyboard nav
+    // keyboard navigation
     useEffect(() => {
         function onKey(e) {
             if (e.key === "ArrowLeft") goPrev();
@@ -87,68 +72,67 @@ export default function TestimonialCarousel({
 
         <div
             ref={containerRef}
-            className="relative w-full max-w-3xl mx-auto mb-[10dvh]"
+            className="relative mx-auto mb-[10dvh] mx-auto
+                w-[45dvh] h-[45dvh] mb:w-[60dvh] mb:h-[60dvh]
+                rounded-full
+                bg-gradient-to-br from-purple-50 to-blue-100
+                flex items-center justify-center
+            "
             onMouseEnter={stopTimer}
-            onMouseLeave={
-
-                () => autoplay && startTimer()
-            }
+            onMouseLeave={() => autoplay && startTimer()}
         >
             {/* Slides */}
-            <div className="overflow-hidden translate-x-0 transition-all duration-1000 ease-in-out shadow-lg">
+            <div className="w-full h-full overflow-hidden rounded-full flex items-center justify-center">
 
                 <div
-                    className="flex transition-transform duration-500 ease-out "
+                    className="flex transition-transform duration-500 ease-out h-full"
                     style={{ transform: `translateX(-${index * 100}%)` }}
                     aria-live="polite"
                 >
                     {
-                        testimonials?.map(
+                        testimonials?.map((t, i) => (
 
-                            (t, index) => (
+                           <article
+                                key={i}
+                                className="w-full h-full flex-shrink-0
+                                           flex items-center justify-center
+                                           text-center"
+                                role="group"
+                                aria-roledescription="slide"
+                                aria-label={t?.prenom}
+                            >
+                                <div className="flex flex-col items-center justify-center gap-4  ">
 
-                                <article
-                                    key={index}
-                                    className="w-full flex-shrink-0  rounded-xl shadow-lg rounded-lg"
-                                    role="group"
-                                    aria-roledescription="slide"
-                                    aria-label={`${t?.prenom}`}
-                                >
-                                    <div className="flex items-center gap-4 justify-center py-8 ">
+                                    <img
+                                        src={t?.image || t?.photo_url}
+                                        alt={t?.prenom}
+                                        className="w-16 h-16 rounded-full object-cover"
+                                    />
 
-                                        <div className="flex-shrink-0">
+                                    <p className="text-gray-700 text-sm px-10">
+                                        {t?.content}
+                                    </p>
 
-                                            <img
-                                                src={t?.image || t?.photo_url}
-                                                alt={t?.prenom}
-                                                className="w-16 h-16 rounded-full"
-                                            />
+                                    <div className="flex items-center gap-2 text-sm">
 
-                                        </div>
+                                        <p className="font-medium text-gray-900">
+                                            {t?.prenom}
+                                        </p>
 
-                                        <div>
-
-                                            <p className="text-gray-700 text-base leading-relaxed mb-4">
-                                                {t?.content}
-                                            </p>
-
-                                            <div className=" flex text-sm">
-
-                                                <p className="font-medium text-gray-900">{t?.prenom}</p> 
-
-                                                {t?.is_fournisseur && <p className="text-gray-500">✔️</p>} 
-
-                                            </div>
-
-                                            <div className=" flex text-sm">
-                                                <p className="font-medium text-gray-900">{t?.profession}</p>
-                                            </div>
-
-                                        </div>
+                                        {t?.is_fournisseur && (
+                                            <span className="text-gray-500">✔️</span>
+                                        )}
 
                                     </div>
 
-                                </article>
+                                    <p className="text-sm text-gray-600">
+                                        {t?.profession}
+                                    </p>
+
+                                </div>
+
+                            </article>
+
                             )
                         )
 
@@ -157,64 +141,38 @@ export default function TestimonialCarousel({
                 </div>
             </div>
 
-            {/* Prev / Next buttons */}
-            <button
-                onClick={
-                    () => {
+            {/* Controls (hidden but kept) */}
+            <div className="hidden">
+                <button
+                    onClick={() => {
                         stopTimer();
                         goPrev();
-                    }
-                }
-                aria-label="Précédent"
-                className="absolute left-0 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-2 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-700" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M12.293 16.293a1 1 0 010-1.414L15.586 11H4a1 1 0 110-2h11.586l-3.293-3.293a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clipRule="evenodd" transform="rotate(180 10 10)" />
-                </svg>
-
-            </button>
-
-            <button
-                onClick={
-                    () => {
+                    }}
+                    aria-label="Précédent"
+                />
+                <button
+                    onClick={() => {
                         stopTimer();
                         goNext();
-                    }
-                }
-                aria-label="Suivant"
-                className="absolute right-0 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-2 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-700" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M12.293 16.293a1 1 0 010-1.414L15.586 11H4a1 1 0 110-2h11.586l-3.293-3.293a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                </svg>
-
-            </button>
-
-            {/* Dots / Pagination */}
-            <div className="mt-1 flex justify-center gap-3 hidden">
-
-                {
-                    testimonials?.map((_, i) => (
-
-                            <button
-                                key={i}
-                                onClick={
-                                    () => {
-                                        stopTimer();
-                                        goTo(i);
-                                    }
-                                }
-                                className={`w-3 h-3 rounded-full transition-all ${i === index ? "scale-125 bg-indigo-600" : "bg-gray-300 hover:bg-gray-400"
-                                    }`}
-                                aria-label={`Aller au témoignage ${i + 1}`}
-                                aria-current={i === index ? "true" : "false"}
-                            />
-                        )
-                    )
-                }
-
+                    }}
+                    aria-label="Suivant"
+                />
             </div>
 
+            {/* Pagination dots (hidden but kept) */}
+            <div className="hidden">
+                {testimonials.map((_, i) => (
+                    <button
+                        key={i}
+                        onClick={() => {
+                            stopTimer();
+                            goTo(i);
+                        }}
+                        aria-label={`Aller au témoignage ${i + 1}`}
+                        aria-current={i === index}
+                    />
+                ))}
+            </div>
         </div>
     );
 }

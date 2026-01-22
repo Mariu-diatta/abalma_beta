@@ -17,7 +17,7 @@ const HomeContain = () => {
         <>
 
             {/* ====================== MAIN CONTENT ====================== */}
-            <main className="pt-[10dvh] shadow-full">
+            <main className="pt-[10dvh] shadow-full bg-gradient-to-br from-purple-10 to-blue-50">
 
                 {/* ========= HERO / Intro ========= */}
                 <section className="max-w-screen-md mx-auto text-center mb-10 relative w-full px-2 text-[10px] md:text-[15px] translate-y-0 transition-all duration-1000 ease-in-out">
@@ -60,12 +60,25 @@ const HomeContain = () => {
                 {/* ========= TESTIMONIALS ========= */}
                 <section aria-labelledby="testimonials" className="bg-gray-50 px-1 py-[2dvh] translate-y-0 transition-all duration-1000 ease-in-out">
 
+
                     <TestimonialCarousel
                         autoplay={true}
                         autoplayInterval={6000}
                     />
 
+                    <div
+                        className="absolute mx-auto mb-[10dvh] mx-auto
+                            w-[45dvh] h-[45dvh] mb: w-[60dvh] mb: h-[60dvh]
+                            rounded-full
+                            bg-gradient-to-br from-purple-50 to-blue-100
+                            flex items-center justify-center
+                        "
+                    >
+                    </div>
+
                 </section>
+
+
 
             </main>
 

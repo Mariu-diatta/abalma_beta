@@ -105,6 +105,8 @@ const Footer = () => {
 
             style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
         >
+
+
             <div className="flex flex-col gap-6 items-center lg:flex-row w-full max-w-7xl mx-auto px-4 text-center lg:text-left translate-y-1 transition-all duration-1000 ease-in-out bg-none" ref={componentRef_}>
 
                 {/* Logo et description */}

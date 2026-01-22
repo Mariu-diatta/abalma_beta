@@ -126,7 +126,7 @@ const SingleActivity = () => {
 
     return (
 
-        <main className="relative w-full md:w-1/2 m-auto pb-16 md:w-11/12 lg:w-10/12 xl:w-8/12  p-2  mt-0">
+        <main className="relative w-full md:w-1/2 m-auto pb-16 md:w-11/12 lg:w-10/12 xl:w-8/12  p-2  mt-0 bg-gradient-to-br from-purple-50 to-blue-100 shadow-lg rounded-lg ">
 
             <h1 className="text-2xl font-bold text-gray-800  flex items-center  my-2 justify-center">
                 Services
@@ -134,7 +134,7 @@ const SingleActivity = () => {
 
             <div>
 
-                <section className="w-full items-center md:flex  p-2 border-0 shadow-lg rounded-lg text-white  bg-blue-100" >
+                <section className="w-full items-center md:flex  p-2 border-0 text-white" >
 
                     <div className="hidden relative mb-12 w-full max-w-[310px] md:mb-0 md:m-12 md:max-w-[250px] lg:mr-14 lg:max-w-[280px] 2xl:mr-16">
 
