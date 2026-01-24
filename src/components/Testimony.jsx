@@ -72,13 +72,14 @@ export default function TestimonialCarousel({
 
         <div
             ref={containerRef}
-            className="relative mx-auto mb-[10dvh] mx-auto
+            className={`relative mx-auto mb-[10dvh] mx-auto
                 w-[45dvh] h-[45dvh] mb:w-[60dvh] mb:h-[60dvh]
                 rounded-full
                 bg-gradient-to-br from-purple-50 to-blue-100
                 flex items-center justify-center
                 hover:rounded-md hover:shadow-lg
-            "
+                ${testimonials?.lenght===0?"hidden":""}
+            `}
             onMouseEnter={stopTimer}
             onMouseLeave={() => autoplay && startTimer()}
         >
@@ -103,7 +104,6 @@ export default function TestimonialCarousel({
                                 aria-label={t?.prenom}
                             >
                                 <div className="flex flex-col items-center justify-center gap-4  ">
-                                    {console.log(t) }
 
                                     <img
                                         src={t?.image}
