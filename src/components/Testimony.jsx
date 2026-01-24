@@ -77,12 +77,13 @@ export default function TestimonialCarousel({
                 rounded-full
                 bg-gradient-to-br from-purple-50 to-blue-100
                 flex items-center justify-center
+                hover:rounded-md hover:shadow-lg
             "
             onMouseEnter={stopTimer}
             onMouseLeave={() => autoplay && startTimer()}
         >
             {/* Slides */}
-            <div className="w-full h-full overflow-hidden rounded-full flex items-center justify-center">
+            <div className="w-full h-full overflow-hidden rounded-full  flex items-center justify-center">
 
                 <div
                     className="flex transition-transform duration-500 ease-out h-full"
