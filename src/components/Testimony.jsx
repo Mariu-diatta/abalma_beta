@@ -103,9 +103,10 @@ export default function TestimonialCarousel({
                                 aria-label={t?.prenom}
                             >
                                 <div className="flex flex-col items-center justify-center gap-4  ">
+                                    {console.log(t) }
 
                                     <img
-                                        src={t?.image || t?.photo_url}
+                                        src={t?.image}
                                         alt={t?.prenom}
                                         className="w-16 h-16 rounded-full object-cover"
                                     />
