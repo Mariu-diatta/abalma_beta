@@ -55,7 +55,7 @@ const PaginationProduit = ({ products = [], itemsPerPage = 5 }) => {
                                   flex-shrink-0
                                   rounded-full
                                   object-cover
-                                  border
+                                  border-0
                                   shadow-md
                                 "
                             />

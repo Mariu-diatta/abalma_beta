@@ -78,8 +78,7 @@ export default function TestimonialCarousel({
                 w-[45dvh] h-[45dvh] mb:w-[60dvh] mb:h-[60dvh]
                 rounded-full
                 bg-gradient-to-br from-purple-50 to-blue-100
-                flex items-center justify-center
-                hover:rounded-md hover:shadow-lg
+                flex items-center justify-center hover:shadow-lg
                 ${testimonials?.lenght===0?"hidden":""}
             `}
             onMouseEnter={stopTimer}
@@ -123,9 +122,11 @@ export default function TestimonialCarousel({
                                             {t?.prenom}
                                         </p>
 
-                                        {t?.is_fournisseur && (
-                                            <span className="text-gray-500">✔️</span>
-                                        )}
+                                        {
+                                            t?.is_fournisseur && (
+                                                <span className="text-gray-500">✔️</span>
+                                            )
+                                        }
 
                                     </div>
 
@@ -165,17 +166,25 @@ export default function TestimonialCarousel({
 
             {/* Pagination dots (hidden but kept) */}
             <div className="hidden">
-                {testimonials.map((_, i) => (
-                    <button
-                        key={i}
-                        onClick={() => {
-                            stopTimer();
-                            goTo(i);
-                        }}
-                        aria-label={`Aller au témoignage ${i + 1}`}
-                        aria-current={i === index}
-                    />
-                ))}
+
+                {
+                    testimonials.map(
+
+                        (_, i) => (
+
+                            <button
+                                key={i}
+                                onClick={() => {
+                                    stopTimer();
+                                    goTo(i);
+                                }}
+                                aria-label={`Aller au témoignage ${i + 1}`}
+                                aria-current={i === index}
+                            />
+                        )
+                    )
+                }
+
             </div>
         </div>
     );

@@ -187,7 +187,7 @@ const HelpPage = () => {
                             placeholder="Décrivez votre problème..."
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
-                            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg  focus:ring-blue-0"
+                            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg  focus:ring-blue-0 focus:ring-0"
                         />
                     </div>
 
@@ -362,7 +362,7 @@ function TestmonyList() {
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                     placeholder="Écris ton témoignage..."
-                    className="border-blue-800 p-3 rounded-xl w-full "
+                    className="border-blue-800 p-3 rounded-xl w-full focus:ring-0"
                     rows="3"
                     required
                 />
