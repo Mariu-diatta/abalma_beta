@@ -1,40 +1,63 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from "react";
 
-
-const PaginationProduit = ({ products , itemsPerPage = 5 }) => {
-
+const PaginationProduit = ({ products = [], itemsPerPage = 5 }) => {
     const [currentPage, setCurrentPage] = useState(1);
+    const scrollRef = useRef(null);
 
     const totalPages = Math.ceil(products.length / itemsPerPage);
 
-    const handleNext = () => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const currentItems = products.slice(startIndex, startIndex + itemsPerPage);
 
+    const handleNext = () => {
         setCurrentPage((prev) => Math.min(prev + 1, totalPages));
     };
 
     const handlePrev = () => {
-
         setCurrentPage((prev) => Math.max(prev - 1, 1));
     };
 
-    const startIndex = (currentPage - 1) * itemsPerPage;
-
-    const currentItems = products.slice(startIndex, startIndex + itemsPerPage);
+    // 🔁 Reset scroll quand on change de page
+    useEffect(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollTo({
+                left: 0,
+                behavior: "smooth",
+            });
+        }
+    }, [currentPage]);
 
     return (
+        <div className="flex flex-col items-center w-full justify-center">
 
-        <div className="flex flex-col items-center w-screen">
-
-            {/* Liste des produits */}
-            <div className="flex gap-2 justify-center overflow-x-auto scrollbor_hidden px-[20px] w-full">
-
+            {/* Liste scrollable */}
+            <div
+                ref={scrollRef}
+                className="
+                  flex gap-3
+                  overflow-x-auto
+                  md:justify-center
+                  flex-nowrap
+                  w-full
+                  py-2
+                  px-2
+                  scrollbar_hidden
+                "
+            >
                 {
-                    currentItems?.map((product, id) => (
+                    currentItems?.map((product) => (
                             <img
-                                key={id}
-                                src={product?.image_product}
-                                alt={`Product ${product?.id}`}
-                                className="min-w-24 min-h-24 max-h-24 max-w-24 rounded-full object-cover border border-gray-200 shadow-sm"
+                                key={product.id}
+                                src={product.image_product}
+                                alt={`Product ${product.id}`}
+                                className="
+                                  w-24 h-24
+                                  flex-shrink-0
+                                  rounded-full
+                                  object-cover
+                                  border
+                                  shadow-md
+                                "
                             />
                         )
                     )
@@ -43,32 +66,26 @@ const PaginationProduit = ({ products , itemsPerPage = 5 }) => {
             </div>
 
             {/* Pagination */}
-            <div className="flex gap-1 mt-4">
+            <div className="flex items-center gap-2 mt-4">
 
                 <button
                     onClick={handlePrev}
                     disabled={currentPage === 1}
-                    className="cursor-pointer px-3 py-1  disabled:opacity-50"
+                    className="disabled:opacity-40"
                 >
-                    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="m15 19-7-7 7-7" />
-                    </svg>
-
+                    ◀
                 </button>
 
-                <span className="px-3 py-1">
+                <span className="text-sm font-medium">
                     {currentPage} / {totalPages}
                 </span>
 
                 <button
                     onClick={handleNext}
                     disabled={currentPage === totalPages}
-                    className="px-3 py-1  disabled:opacity-50"
+                    className="disabled:opacity-40"
                 >
-                    <svg className="cursor-pointer w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="m9 5 7 7-7 7" />
-                    </svg>
-
+                    ▶
                 </button>
 
             </div>

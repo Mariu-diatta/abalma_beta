@@ -68,6 +68,8 @@ export default function TestimonialCarousel({
         return () => window.removeEventListener("keydown", onKey);
     });
 
+    if (!testimonials || testimonials.length === 0) return
+
     return (
 
         <div
@@ -106,7 +108,7 @@ export default function TestimonialCarousel({
                                 <div className="flex flex-col items-center justify-center gap-4  ">
 
                                     <img
-                                        src={t?.image}
+                                        src={t?.image || t?.photo_url}
                                         alt={t?.prenom}
                                         className="w-16 h-16 rounded-full object-cover"
                                     />
