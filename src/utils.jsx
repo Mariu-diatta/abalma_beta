@@ -63,11 +63,6 @@ export const messages = (t) => [
     },
 ];
 
-// 🌐 URL du backend WebSocket
-export const backendBase = process.env.NODE_ENV === 'production'
-    ? 'wss://backend-mpb0.onrender.com'
-    : 'ws://localhost:8000';
-
 // 🗓️ Fonctions de date et formatage
 export const convertDate = (dat) => {
     const date = new Date(dat);

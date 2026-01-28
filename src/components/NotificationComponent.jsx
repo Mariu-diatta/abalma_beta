@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { backendBase } from "../utils";
 import { addMessageNotif, removeRoom } from "../slices/chatSlice";
+import { backendBase } from "../services/Axios";
 
 const NotificationsComponent = () => {
 

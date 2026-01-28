@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { backendBase} from '../utils';
 import ButtonToggleChatsPanel from '../components/ButtonHandleChatsPanel';
 import InputBoxChat from '../components/InputBoxChat';
 import BoxMessagesChats from '../features/MessageBoxChat';
 import { useTranslation } from 'react-i18next';
 import AnaliesChatsWithAi from './ChatWithAi';
+import { backendBase } from '../services/Axios';
 
 
 const ChatApp = ({ setShow , show}) => {
