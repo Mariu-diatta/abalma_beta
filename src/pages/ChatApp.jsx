@@ -24,10 +24,10 @@ const ChatApp = ({ setShow, show }) => {
 
     // ===== WebSocket connection =====
     useEffect(() => {
-        if (!currentUser) return;
+        if (!currentUser?.token) return;
 
         const protocol = window.location.protocol === "https:" ? "wss" : "ws";
-        const socketUrl = `${protocol}://${backendBase}/ws/private/${currentUser.id}/?token=${currentUser.token}`;
+        const socketUrl = `${protocol}:/${backendBase}/ws/private/${currentUser.id}/?token=${currentUser?.token}`;
 
         const connectSocket = () => {
             if (ws.current) ws.current.close();
