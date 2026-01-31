@@ -24,10 +24,10 @@ const ChatApp = ({ setShow, show }) => {
 
     // ===== WebSocket connection =====
     useEffect(() => {
-        if (!currentUser?.token) return;
+        if (!currentUser) return;
 
         const protocol = window.location.protocol === "https:" ? "wss" : "ws";
-        const socketUrl = `${protocol}:/${backendBase}/ws/private/${currentUser.id}/?token=${currentUser?.token}`;
+        const socketUrl = `${protocol}:/${backendBase}/ws/private/${currentUser.id}/`;
 
         const connectSocket = () => {
             if (ws.current) ws.current.close();
@@ -129,7 +129,8 @@ const ChatApp = ({ setShow, show }) => {
             </div>
 
             <section className="flex justify-between items-align-center p-2 bg-none max-h-[10dvh] min-h-[10dvh]">
-                {selectedUser && (
+                
+            {selectedUser && (
                     <div className="flex items-center gap-3 text-gray-700 mb-3">
                         <img
                             src={selectedUser?.image || selectedUser?.photo_url || "/default-avatar.png"}
@@ -147,8 +148,11 @@ const ChatApp = ({ setShow, show }) => {
                         )}
                     </div>
                 )}
+
                 <div className="w-0" />
+
                 <ButtonToggleChatsPanel showSidebar={show} setShowSidebar={setShow} />
+
             </section>
 
             <section>
