@@ -39,7 +39,7 @@ const PersistLogIn = () => {
 
                 if (getRefreshToken?.data?.access_token) {
 
-                    dispatch(setCurrentNav("account-home"));
+                    dispatch(setCurrentNav(currentNav));
 
                     //navigate("/account-home", { replace: true });
 
