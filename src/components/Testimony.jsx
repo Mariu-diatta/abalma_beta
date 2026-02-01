@@ -78,46 +78,59 @@ export default function TestimonialCarousel({
             onBlur={startAutoplay}
             tabIndex={0}
         >
-            <div className="w-full h-full overflow-hidden rounded-full flex items-center justify-center">
+            <div className="w-full h-full overflow-hidden rounded-md flex items-center justify-center">
+
                 <div
                     className="flex h-full transition-transform duration-700 ease-out"
                     style={{ transform: `translateX(-${index * 100}%)` }}
                     aria-live="polite"
                 >
-                    {testimonials.map((t, i) => (
-                        <article
-                            key={t.id || i}
-                            className="w-full h-full flex-shrink-0 flex items-center justify-center text-center px-6"
-                            aria-roledescription="slide"
-                            aria-label={t?.prenom}
-                        >
-                            <div className="flex flex-col items-center gap-4">
-                                <img
-                                    src={t?.image || t?.photo_url || "/avatar.png"}
-                                    alt={t?.prenom || "Utilisateur"}
-                                    className="w-16 h-16 rounded-full object-cover"
-                                    loading="lazy"
-                                />
+                    {
+                        testimonials?.map(
 
-                                <p className="text-gray-700 text-sm max-w-sm">
-                                    “{t?.content}”
-                                </p>
+                            (t, i) => (
 
-                                <div className="flex items-center gap-2 text-sm font-medium">
-                                    <span>{t?.prenom}</span>
-                                    {t?.is_fournisseur && (
-                                        <span className="text-green-600">✔</span>
-                                    )}
-                                </div>
+                                <article
+                                    key={t.id || i}
+                                    className="w-full h-full flex-shrink-0 flex items-center justify-center px-6"
+                                >
+                                    <div className="flex items-center gap-4 max-w-md">
 
-                                <p className="text-xs text-gray-600">
-                                    {t?.profession}
-                                </p>
-                            </div>
-                        </article>
-                    ))}
+                                        <img
+                                            src={t?.image || t?.photo_url || "/avatar.png"}
+                                            alt={t?.prenom}
+                                            className="w-14 h-14 rounded-full object-cover flex-shrink-0"
+                                        />
+
+                                        <div className="text-left">
+                                            <p className="text-gray-700 text-sm leading-relaxed">
+                                                “{t?.content}”
+                                            </p>
+
+                                            <div className="flex items-center gap-2 text-sm font-medium mt-2">
+                                                <span>{t?.prenom}</span>
+                                                {t?.is_fournisseur && (
+                                                    <span className="text-green-600">✔</span>
+                                                )}
+                                            </div>
+
+                                            <p className="text-xs text-gray-500">
+                                                {t?.profession}
+                                            </p>
+                                        </div>
+
+                                    </div>
+
+                                </article>
+
+                            )
+                        )
+                    }
+
                 </div>
+
             </div>
+
         </section>
     );
 }
