@@ -160,18 +160,20 @@ const UsersContactsList = () => {
                         {/* Recherche + Bouton supprimer */}
                         <div className="flex items-center gap-4">
 
-                            {selectedUsers.length >= 2 && (
+                            {
+                                (selectedUsers?.length >= 2) && (
 
-                                <button
+                                    <button
 
-                                    onClick={handleDeleteSelected}
+                                        onClick={handleDeleteSelected}
 
-                                    className="text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 rounded-lg px-4 py-2 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-800"
-                                >
-                                    {t('ParamText.alertDelete')}
+                                        className="text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 rounded-lg px-4 py-2 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-800"
+                                    >
+                                        {t('ParamText.alertDelete')}
 
-                                </button>
-                            )}
+                                    </button>
+                                )
+                            }
 
                             <div className="relative">
 
@@ -251,11 +253,19 @@ const UsersContactsList = () => {
 
                                                     <td className="px-auto py-1 flex items-center space-x-1 whitespace-nowrap p-2">
 
-                                                        <OwnerAvatar owner={user} />
+                                                        {/*<OwnerAvatar owner={user} />*/}
                                                    
-                                                        <div className="space-x-0">
-                                                            <div className="text-base font-semibold text-gray-900 dark:text-white">{user?.prenom}</div>
-                                                            <div className="font-sm text-xs text-gray-500">{user?.nom}</div>
+                                                        {/*<div className="space-x-0">*/}
+                                                        {/*    <div className="text-base font-semibold text-gray-900 dark:text-white">{user?.prenom}</div>*/}
+                                                        {/*    <div className="font-sm text-xs text-gray-500">{user?.nom}</div>*/}
+                                                        {/*</div>*/}
+
+                                                        <div class="flex items-center gap-2.5">
+                                                            <OwnerAvatar owner={user} />
+                                                            <div className="font-medium text-heading">
+                                                                <div>{user?.prenom} {user?.nom}</div>
+                                                                {/*<div className="text-sm font-normal text-body">Joined in August 2014</div>*/}
+                                                            </div>
                                                         </div>
 
                                                     </td>
