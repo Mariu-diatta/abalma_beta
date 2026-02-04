@@ -332,8 +332,6 @@ export const CreateClient = async (data, setLoading, showMessage, dispatch, t) =
 
     } catch (error) {
 
-        console.error("Erreur de création de client :", error);
-
         const errorMessage =
             error?.response?.data?.non_field_errors?.[0] ||
             error?.response?.data?.[0] ||
@@ -343,8 +341,13 @@ export const CreateClient = async (data, setLoading, showMessage, dispatch, t) =
             "Une erreur inconnue est survenue. Veuillez réessayer.";
 
         showMessage(dispatch, { Type: "Erreur", Message: errorMessage });
+
+        dispatch(setCurrentNav(ENDPOINTS.REGISTER))
+
         return null;
+
     } finally {
+
         setLoading(false);
     }
 };

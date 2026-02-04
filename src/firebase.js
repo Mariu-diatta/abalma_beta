@@ -23,6 +23,7 @@ import { useDispatch } from "react-redux";
 import { showMessage } from "./components/AlertMessage";
 import { useState } from "react";
 import LoadingCard from "./components/LoardingSpin";
+import { ENDPOINTS } from "./utils";
 
 
 // Exemple d'utilisation (dans une fonction déclenchée par un bouton "Envoyer")
@@ -111,6 +112,8 @@ export function LoginWithGoogle() {
         } catch (err) {
 
             const erroMessage =err?.response?.data?.error || err?.message || err?.response?.data?.detail || err?.response?.data?.detail?.error
+
+            dispatch(setCurrentNav(ENDPOINTS.LOGIN))
 
             showMessage(
 

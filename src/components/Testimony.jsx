@@ -66,9 +66,9 @@ export default function TestimonialCarousel({
             ref={containerRef}
             aria-label="Témoignages utilisateurs"
             className="relative mx-auto mb-[10dvh]
-                 w-[45dvh] h-[45dvh]
+                 w-[45dvh]  h-auto py-3
                  mb:w-[60dvh] mb:h-[60dvh]
-                 rounded-full
+                 rounded-md
                  bg-gradient-to-br from-purple-50 to-blue-100
                  flex items-center justify-center
                  transition-shadow hover:shadow-xl"

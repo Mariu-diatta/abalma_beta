@@ -58,7 +58,9 @@ const LogIn = () => {
 
         } catch (e) {
 
-            const errorMessage = e?.response?.data?.detail || e?.response?.data?.error
+            const errorMessage = e?.response?.data?.detail || e?.response?.data?.error;
+
+            dispatch(setCurrentNav(ENDPOINTS.LOGIN))
 
             showMessage(dispatch, { Type: "Erreur", Message: errorMessage || "Error not found: user not login" });
 
@@ -133,7 +135,7 @@ const LogIn = () => {
 
             {
                 (!loading) ?
-                    <section>
+                <section>
 
                         <div className="py-7">
 
@@ -148,7 +150,6 @@ const LogIn = () => {
                                     className="whitespace-nowrap text-blue-800 hover:underline text-sm lg:text-md dark:text-blue-300"
                                     onClick={() => dispatch(setCurrentNav(ENDPOINTS.REGISTER))}
                                 >
-
                                     {t("register")}
 
                                 </NavLink>
@@ -201,7 +202,6 @@ const LogIn = () => {
                             className="whitespace-nowrap mb-2 inline-block  text-sm lg:text-md text-blue-600 hover:text-primary hover:underline dark:text-blue-600"
                             onClick={() => dispatch(setCurrentNav("forgetPassword"))}
                         >
-
                             {t("forgetPwd")}
 
                         </NavLink>

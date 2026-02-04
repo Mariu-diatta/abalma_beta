@@ -26,6 +26,12 @@ const NavbarHeader = () => {
 
     const ref = useRef(null);
 
+    const shouldShowNav = (currentNav === ENDPOINTS.LOGIN || currentNav === ENDPOINTS.REGISTER);
+
+    const isHidden = currentNav === ENDPOINTS.FORGETPSWD;
+
+    const isCentered = currentNav === ENDPOINTS.ABOUT;
+
     useEffect(
 
         () => {
@@ -125,52 +131,53 @@ const NavbarHeader = () => {
 
             >
                 {/* Logo */}
-                 <Logo />
-
-                <div className={`flex ${currentNav !== ENDPOINTS.FORGETPSWD ? (currentNav === ENDPOINTS.ABOUT ? "justify-center " :"justify-end"):"hidden"} w-full items-center`}>
-
-                    <ButtonNavigate tabs={getTabsNavigationsItems(currentNav, t)} />
-
-                    <SearchBar />
-
-                </div>
+                <Logo />
 
                 {
+                    (isHidden) ?
+                    null
+                    :
+                    <div
+                        className={`flex w-full items-center ${isCentered ? "justify-center" : "justify-end"}`}
+                    >
+                        <ButtonNavigate tabs={getTabsNavigationsItems(currentNav, t)} />
 
-                    (!(currentNav === ENDPOINTS.LOGIN) && !(currentNav === ENDPOINTS.REGISTER)) &&
+                        <SearchBar />
 
-                    <span>
+                    </div>
+                }
 
-                        {/* Toggle Button for Mobile */}
-                        <button
-                            onClick={() => setOpen(!open)}
-                            id="navbarToggler"
-                            className={`
-                                bg-none
-                                ${open && "navbarTogglerActive"} 
-                                sm:hidden 
-                                z-[71] px-3 py-3  rounded-lg 
-                                text-black
-                                dark:bg-dark-3 dark:text-white 
-                                items-center
-                                focus:outline-none
-                            `}
+                {
+                    (shouldShowNav) ?
+                    null
+                    :
+                    (
+                        <span>
+                            {/* Toggle Button for Mobile */}
+                            <button
+                                onClick={() => setOpen(prev => !prev)}
+                                id="navbarToggler"
+                                className={`
+                                    sm:hidden z-[71] px-3 py-3 rounded-lg
+                                    text-black dark:bg-dark-3 dark:text-white
+                                    focus:outline-none
+                                    ${open ? "navbarTogglerActive" : ""}
+                               `}
+                                aria-label="Toggle navigation"
+                                aria-expanded={open}
+                            >
+                                <span className="block w-6 h-0.5 bg-gray-700 dark:bg-gray-400 my-[6px]" />
+                                <span className="block w-4 h-0.5 bg-gray-600 dark:bg-gray-300 my-[6px]" />
+                                <span className="block w-2 h-0.5 bg-gray-500 dark:bg-gray-200 my-[6px]" />
+                            </button>
 
-                        >
-                            <span className="block w-6 h-0.5 text-gray-100 dark:text-white bg-gray-700 dark:bg-gray-400 my-[6px]" ></span>
-                            <span className="block w-4 h-0.5 text-gray-100 dark:text-white bg-gray-600 dark:bg-gray-300 my-[6px]"></span>
-                            <span className="block w-2 h-0.5 text-gray-100 dark:text-white bg-gray-500 dark:bg-gray-200 my-[6px]"></span>
+                            {/* Navigation */}
+                            <MobileNav open={open} />
 
-                        </button>
+                            <DesktopNav />
 
-                        {/* Navigation */}
-                        <MobileNav open={open} />
-
-                        {/* Boutons et Dropdown (Desktop) */}
-                        <DesktopNav/>
-
-                    </span>
-
+                        </span>
+                    )
                 }
 
             </header>

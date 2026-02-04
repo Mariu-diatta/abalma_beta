@@ -29,6 +29,10 @@ const VertcalNavbar = ({ children }) => {
 
     const currentUser = useSelector(state => state.auth.user)
 
+    const currentPageBlogs = (currentNav === ENDPOINTS?.USER_BLOGS)
+
+    const currentPageSubScription = (currentNav === ENDPOINTS?.SUBSCRIPTION)
+
     const sidebarRef = useRef();
 
     const greyStyleColor = (id) => {
@@ -340,7 +344,7 @@ const VertcalNavbar = ({ children }) => {
                                 <div className="flex gap-2">
 
                                     {
-                                        (currentNav === ENDPOINTS?.USER_BLOGS) ?
+                                        currentPageBlogs ?
 
                                         <svg className="shadow-lg rounded-full w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                             <path fillRule="evenodd" d="M14 4.182A4.136 4.136 0 0 1 16.9 3c1.087 0 2.13.425 2.899 1.182A4.01 4.01 0 0 1 21 7.037c0 1.068-.43 2.092-1.194 2.849L18.5 11.214l-5.8-5.71 1.287-1.31.012-.012Zm-2.717 2.763L6.186 12.13l2.175 2.141 5.063-5.218-2.141-2.108Zm-6.25 6.886-1.98 5.849a.992.992 0 0 0 .245 1.026 1.03 1.03 0 0 0 1.043.242L10.282 19l-5.25-5.168Zm6.954 4.01 5.096-5.186-2.218-2.183-5.063 5.218 2.185 2.15Z" clipRule="evenodd" />
@@ -478,7 +482,7 @@ const VertcalNavbar = ({ children }) => {
                     <div className=" flex items-center p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
 
                         {
-                            !(currentNav === ENDPOINTS?.SUBSCRIPTION) ?
+                            !currentPageSubScription?
                             <svg className="shadow-lg  w-6 h-6text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M6 14h2m3 0h4m2 2h2m0 0h2m-2 0v2m0-2v-2m-5 4H4c-.55228 0-1-.4477-1-1V7c0-.55228.44772-1 1-1h16c.5523 0 1 .44772 1 1v4M3 10h18" />
                             </svg>
@@ -493,7 +497,7 @@ const VertcalNavbar = ({ children }) => {
                         <button
                             type="button"
                             role="tab"
-                            aria-selected={currentNav === ENDPOINTS?.SUBSCRIPTION}
+                            aria-selected={currentPageSubScription}
                             aria-controls={`${9}-tab`}
                             id={`${9}-tab-button`}
                             onClick={
@@ -503,7 +507,7 @@ const VertcalNavbar = ({ children }) => {
                                 }
                             }
                             className={`cursor-pointer ml-3 inline-block px-1 py-3 border-b-2 rounded-t-md transition-colors duration-300 
-                                        ${currentNav === ENDPOINTS?.SUBSCRIPTION
+                                        ${currentPageSubScription
                                     ? 'border-b-gray-600 text-purple-600 dark:border-b-purple-500 dark:text-purple-500'
                                     : 'border-b-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
                                 } focus:outline-none`}
