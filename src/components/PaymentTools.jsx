@@ -5,7 +5,9 @@ const PaymentCard = ({ children }) => {
 
     const currentUser = useSelector(state => state.auth.user);
 
-    if (!currentUser || !currentUser?.is_connected) {
+    const noCurrentUserOrNotConnected = !currentUser || !currentUser?.is_connected
+
+    if (noCurrentUserOrNotConnected) {
 
         alert("Vous devrez vous connecter/ You used to login")
 

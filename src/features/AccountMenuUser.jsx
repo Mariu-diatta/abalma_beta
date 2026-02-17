@@ -17,6 +17,11 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
     const { t } = useTranslation();
 
+    const userImage = (currentUser?.image || currentUser?.photo_url)
+
+    const userConnected = currentUser?.is_connected
+
+    const userEmail = currentUser?.email
 
     return (
 
@@ -29,19 +34,19 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
                 className="hover:bg-gray-50 dark:hover:bg-gray-800 relative inline-flex items-center justify-center gap-0 rounded-lg dark:bg-dark-2 px-1 dark:text-white"
             >
                 {
-                    (currentUser?.image || currentUser?.photo_url) ? (
+                    userImage ? (
 
                         <div className="relative flex items-center justify-center rounded-full">
 
                             <img
-                                src={currentUser?.image || currentUser?.photo_url}
+                                src={userImage}
                                 alt="avatar"
-                                title={currentUser?.email}
+                                title={userEmail}
                                 className="h-6.5 w-6.5 rounded-full object-cover cursor-pointer bg-gray-200"
                             />
 
                             {
-                                currentUser?.is_connected && (
+                                userConnected && (
                                     <span className="absolute right-0 top-0 h-2 w-2 rounded-full bg-[#219653] border border-white dark:border-dark"></span>
                                 )
                             }
@@ -50,7 +55,7 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
 
                     ) : (
-                        <div className="relative w-[30px] rounded-full " title={currentUser?.email}>
+                        <div className="relative w-[30px] rounded-full " title={userEmail}>
 
                             <svg className="w-6 h-8 text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
 
@@ -60,7 +65,7 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
                             </svg>
 
                             {
-                                currentUser?.is_connected &&
+                                userConnected &&
                                 (
 
                                     <span className="absolute -right-0.5 -top-0.5 block h-[14px] w-[14px] rounded-full border-[2.3px] border-white bg-[#219653] dark:border-dark"></span>

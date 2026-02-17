@@ -6,6 +6,10 @@ import BoxMessagesChats from '../features/MessageBoxChat';
 import { useTranslation } from 'react-i18next';
 import AnaliesChatsWithAi from './ChatWithAi';
 import { backendBase } from '../services/Axios';
+import { ENDPOINTS, IMPORTANTS_URLS } from '../utils';
+import { setCurrentNav } from '../slices/navigateSlice';
+import { useDispatch, } from 'react-redux';
+
 
 const ChatApp = ({ setShow, show }) => {
     const { t } = useTranslation();
@@ -21,60 +25,61 @@ const ChatApp = ({ setShow, show }) => {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState("");
     const [typing, setTyping] = useState(false);
+    const dispatch = useDispatch();
 
-    // ===== WebSocket connection =====
+
     useEffect(() => {
+
         if (!currentUser) return;
+        if (ws.current) return; // 🔒 empêche les reconnexions
 
         const protocol = window.location.protocol === "https:" ? "wss" : "ws";
-        const socketUrl = `${protocol}:/${backendBase}/ws/private/${currentUser.id}/`;
+        const socketUrl = `${protocol}://${backendBase}/ws/private/${currentUser.id}/`;
 
-        const connectSocket = () => {
-            if (ws.current) ws.current.close();
+        ws.current = new WebSocket(socketUrl);
 
-            ws.current = new WebSocket(socketUrl);
-
-            ws.current.onopen = () => {
-                console.log("✅ WS connecté pour :", currentChat?.name);
-            };
-
-            ws.current.onmessage = (e) => {
-                try {
-                    const data = JSON.parse(e.data);
-
-                    if (data.action === "new_message") {
-                        setMessages((prev) => [...prev, data.message]);
-                    }
-
-                    if (data.action === "typing") {
-                        setTyping(true);
-                        clearTimeout(typingTimeoutRef.current);
-                        typingTimeoutRef.current = setTimeout(() => setTyping(false), 1800);
-                    }
-                } catch (err) {
-                    console.error("❌ WS parse error:", err);
-                }
-            };
-
-            ws.current.onclose = () => {
-                console.log("🔌 WS fermé :", currentChat?.name);
-                // Reconnect automatique après 1s
-                setTimeout(connectSocket, 1000);
-            };
-
-            ws.current.onerror = (err) => {
-                console.error("❌ WS error :", err);
-                ws.current.close();
-            };
+        ws.current.onopen = () => {
+            console.log("✅ WS connecté (user) :", currentUser.id);
         };
 
-        connectSocket();
+        ws.current.onmessage = (e) => {
+
+            try {
+                const data = JSON.parse(e.data);
+
+                if (data.action === "new_message") {
+                    setMessages((prev) => [...prev, data.message]);
+                }
+
+                if (data.action === "typing") {
+                    setTyping(true);
+                    clearTimeout(typingTimeoutRef.current);
+                    typingTimeoutRef.current = setTimeout(() => setTyping(false), 1800);
+                }
+
+            } catch (err) {
+                console.error("❌ WS parse error:", err);
+            }
+        };
+
+        ws.current.onerror = (err) => {
+            console.error("❌ WS error :", err);
+            // ❌ ne pas fermer ici
+        };
+
+        ws.current.onclose = (e) => {
+            console.log("🔌 WS fermé :", e.code, e.reason);
+            ws.current = null;
+        };
 
         return () => {
             ws.current?.close();
+            ws.current = null;
             clearTimeout(typingTimeoutRef.current);
         };
-    }, [currentUser, currentUser?.token, currentChat?.name]); // reconnect seulement si user change
+
+    }, [currentUser]); // 👈 UNE SEULE dépendance
+
 
     // ===== Load previous messages =====
     useEffect(() => {
@@ -95,6 +100,16 @@ const ChatApp = ({ setShow, show }) => {
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
+
+    useEffect(
+        () => {
+            const currentUrl = window.location.href;
+            if (currentUrl === IMPORTANTS_URLS?.MESSAGE_APP || currentUrl === IMPORTANTS_URLS?.MESSAGE_APPS) {
+                dispatch(setCurrentNav(ENDPOINTS.MESSAGE_INBOX))
+            }
+
+        }, [dispatch]
+    )
 
     // ===== Send Message =====
     const sendMessage = useCallback(() => {
@@ -124,6 +139,7 @@ const ChatApp = ({ setShow, show }) => {
 
     return (
         <main className="flex flex-col w-screen rounded-2xl overflow-hidden bg-none shadow-sm z-8 w-full mb-0">
+
             <div className="md:hidden">
                 <AnaliesChatsWithAi />
             </div>
@@ -132,20 +148,26 @@ const ChatApp = ({ setShow, show }) => {
                 
             {selectedUser && (
                     <div className="flex items-center gap-3 text-gray-700 mb-3">
+
                         <img
                             src={selectedUser?.image || selectedUser?.photo_url || "/default-avatar.png"}
                             alt={`${selectedUser?.nom || "Utilisateur"} avatar`}
                             className="h-[40px] w-[40px] rounded-full object-cover"
                         />
+
                         <div>
                             <p className="text-md font-semibold text-blue-600">{selectedUser?.prenom || "Prénom"}</p>
                             <p className="text-xs text-gray-500">{selectedUser?.nom?.toLowerCase() || "Nom"}</p>
                         </div>
-                        {typing && (
-                            <div className="text-xs text-gray-500 pl-3 pb-1 animate-pulse">
-                                {t('typing')}
-                            </div>
-                        )}
+
+                        {
+                            typing && (
+                                <div className="text-xs text-gray-500 pl-3 pb-1 animate-pulse">
+                                    {t('typing')}
+                                </div>
+                            )
+                        }
+
                     </div>
                 )}
 
@@ -156,7 +178,9 @@ const ChatApp = ({ setShow, show }) => {
             </section>
 
             <section>
+
                 <BoxMessagesChats messages={messages} messagesEndRef={messagesEndRef} typing={typing} />
+
                 <InputBoxChat
                     allRoomsChats={allRoomsChats}
                     input={input}
@@ -165,7 +189,9 @@ const ChatApp = ({ setShow, show }) => {
                     sendMessage={sendMessage}
                     handleTyping={handleTyping}
                 />
+
             </section>
+
         </main>
     );
 };

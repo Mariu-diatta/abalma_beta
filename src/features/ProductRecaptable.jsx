@@ -2,13 +2,12 @@ import React, { useMemo, useState } from 'react';
 import ViewProduct from '../components/ViewProduct';
 import { useTranslation } from 'react-i18next';
 import {
-    API_URL_BACKEND, CONSTANTS, MODE, NAMES_TABLES, OPERATIONS_STATUS, STATUS_FLOW_ITEM,STATUS_FLOW_SUBTRANSACTION, STATUS_FLOW_TRANSACTION, convertDate } from '../utils';
+    API_URL_BACKEND, CONSTANTS, MODE, NAMES_TABLES, OPERATIONS_STATUS, STATUS_FLOW_ITEM,STATUS_FLOW_SUBTRANSACTION, STATUS_FLOW_TRANSACTION, convertDate, updateStatusTransaction } from '../utils';
 import { TitleCompGenLitle } from '../components/TitleComponentGen';
 import TransactionsDropdown from './TransactionsDropdown';
 import { useEffect } from 'react';
 import api from '../services/Axios';
 import { useDispatch, } from 'react-redux';
-import { showMessage } from '../components/AlertMessage';
 import LoadingCard from '../components/LoardingSpin';
 import SubTransactionCard from './SubTransactionCard';
 
@@ -148,43 +147,6 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
 
     const closePopover = () => setPopoverOpen(false);
 
-    const updateStatusTransaction = (url, data, func) => {
-
-        try {
-
-            func(true)
-
-            const response = api.post(`${url}/`, data).then(
-
-                resp => console.log(resp)
-
-            ).catch(
-
-                err => console.log(err)
-            )
-
-            console.log(response?.message)
-
-            const messSuccess = response?.message?.message || "Message success"
-
-            showMessage(dispatch, { Type: "Success", Message: messSuccess || "Error not found: user not login" });
-
-        } catch (e) {
-
-            console.log("Erreur de la mise à jour", e)
-
-            const errorMessage = e?.message || e?.response?.data?.detail || "Erreur de la mise à jour"
-
-            func(false)
-
-            showMessage(dispatch, { Type: "Erreur", Message: errorMessage || "Error not found: user not login" });
-
-        } finally {
-
-            func(false)
-        }
-    }
-
     useEffect(() => {setSelectedSubTransaction(null)}, [selectedTransaction] )
 
     useEffect(
@@ -276,10 +238,9 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
         }, [selectedSubTransaction, setProductsTrasaction]
     )
 
-
     return (
 
-        <div className="style_bg overflow-x-auto sm:rounded-lg p-2 ">
+        <div className="style_bg overflow-x-auto sm:rounded-lg p-1 ">
 
             {/* TITRE */}
             <nav className="flex items-center gap-2 m-2">
@@ -351,7 +312,7 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
             {
                 (selectedTransaction || selectedSubTransaction) && (
 
-                    <div className="flex flex-col md:flex-row md:justify-center md:w-auto md:mx-auto gap-7  mb-4 p-3 rounded-lg">
+                    <div className="flex flex-col md:flex-row md:justify-center md:w-auto md:mx-auto gap-7  mb-4 p-1 rounded-lg">
 
                         {
                             (selectedTransaction && !deletedTrans) && (
@@ -396,7 +357,8 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
                                                 new_status:
                                                     STATUS_FLOW_TRANSACTION[selectedTransaction?.status],
                                             },
-                                            setInloadUpdateTransStatus
+                                            setInloadUpdateTransStatus,
+                                            dispatch
                                         )
                                     }
                                 />
@@ -459,7 +421,7 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
             }
 
             {/* TABLEAU */}
-            <main className="style_bg overflow-x-auto sm:rounded-lg p-2 z-0 ">
+            <main className="style_bg overflow-x-auto sm:rounded-lg p-1 z-0 ">
 
                 <table
                     className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-lg p-2"

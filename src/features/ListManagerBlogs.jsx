@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import api from "../services/Axios";
 import { formatISODate } from "../utils";
 import LoadingCard from "../components/LoardingSpin";
+import { TitleCompGenLitle } from "../components/TitleComponentGen";
 
 const MyBlogsList = () => {
 
@@ -98,17 +99,20 @@ const MyBlogsList = () => {
 
     return (
 
-        <div className="style_bg overflow-x-auto sm:rounded-md p-2 " style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}>
+        <div className="style_bg overflow-x-auto sm:rounded-md p-1" style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}>
 
             <nav className="flex flex-row items-center gap-2 mb-2">
 
-                <h2 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">{t("blog.myBlogs")}</h2>
+                <TitleCompGenLitle title={t("blog.myBlogs")}/>
 
                 <input
                     type="text"
                     placeholder={t("Search")}
                     value={searchTerm}
-                    onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }}
+                    onChange={(e) => {
+                        setSearchTerm(e.target.value);
+                        setCurrentPage(1);
+                    }}
                     className="ml-auto border border-blue-100 focus:border-blue-500 focus:ring-1 focus:ring-blue-300 rounded-full p-2 text-sm"
                 />
 
@@ -122,7 +126,7 @@ const MyBlogsList = () => {
                 (
                     <main>
 
-                        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 shadow-lg p-2">
+                        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 shadow-lg p-1">
 
                                 <thead className="bg-gray-100">
                                 <tr>

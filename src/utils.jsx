@@ -5,6 +5,43 @@ import { setCurrentNav, updateTheme } from "./slices/navigateSlice";
 import { store } from "./store/Store";
 import { Client } from "@gradio/client";
 
+export const updateStatusTransaction = (url, data, func, dispatch) => {
+
+    try {
+
+        func(true)
+
+        const response = api.post(`${url}/`, data).then(
+
+            resp => console.log(resp)
+
+        ).catch(
+
+            err => console.log(err)
+        )
+
+        console.log(response?.message)
+
+        const messSuccess = response?.message?.message || "Message success"
+
+        showMessage(dispatch, { Type: "Success", Message: messSuccess || "Error not found: user not login" });
+
+    } catch (e) {
+
+        console.log("Erreur de la mise à jour", e)
+
+        const errorMessage = e?.message || e?.response?.data?.detail || "Erreur de la mise à jour"
+
+        func(false)
+
+        showMessage(dispatch, { Type: "Erreur", Message: errorMessage || "Error not found: user not login" });
+
+    } finally {
+
+        func(false)
+    }
+}
+
 export const getDataChat = async (data) => {
 
   try {
@@ -290,6 +327,7 @@ export const formaterPrix = (prix, monnaie, t, locale = 'fr-FR') => {
 
 // 👥 Authentification & création de compte
 export const loginClient = async (data, dispatch, setIsLoading, navigate) => {
+
     try {
         const response = await api.post('login/', data, {
             headers: {
@@ -308,7 +346,9 @@ export const loginClient = async (data, dispatch, setIsLoading, navigate) => {
     } catch (error) {
         const errorMessage = error?.response?.data?.detail || error?.message || error?.request?.message || error;
         showMessage(dispatch, { Type: "Erreur", Message: errorMessage });
+        dispatch(setCurrentNav(ENDPOINTS.LOGIN))
         throw error;
+
     } finally {
         setIsLoading(false);
     }
@@ -553,6 +593,10 @@ export const payNow = async (
 
         const res = await api.post("/create-checkout-session/", dataStringify);
 
+        showMessage(dispatch, { Type: "Success", Message: res?.data || "sucess " || t("Requete bonne sur la donnée") });
+
+        console.log("Success réponse stripe transaction", res?.data)
+
         window.location.href = res?.data?.url;
 
     } catch (err) {
@@ -687,6 +731,85 @@ export const STATUS_FLOW_SUBTRANSACTION = {
     canceled:null
 };
 
+export const STATUS_FLOW_STYLE = {
+    pending: {
+        label: "Pending",
+        color: "#f59e0b", // amber
+        next: "recorded",
+    },
+
+    recorded: {
+        label: "Recorded",
+        color: "#6366f1", // indigo
+        next: "in_progress",
+    },
+
+    in_progress: {
+        label: "In progress",
+        color: "#3b82f6", // blue
+        next: "validated",
+    },
+
+    validated: {
+        label: "Validated",
+        color: "#22c55e", // green
+        next: "confirmed",
+    },
+
+    confirmed: {
+        label: "Confirmed",
+        color: "#16a34a", // dark green
+        next: "shipped",
+    },
+
+    shipped: {
+        label: "Shipped",
+        color: "#0ea5e9", // sky blue
+        next: "delivered",
+    },
+
+    delivered: {
+        label: "Delivered",
+        color: "#10b981", // emerald
+        next: "refunded",
+    },
+
+    refunded: {
+        label: "Refunded",
+        color: "#a855f7", // purple
+        next: null,
+    },
+
+    failed: {
+        label: "Failed",
+        color: "#ef4444", // red
+        next: null,
+    },
+
+    canceled: {
+        label: "Canceled",
+        color: "#6b7280", // gray
+        next: null,
+    },
+};
+
+export const STATUS_FLOW_ITEM_COMPLET = {
+    pending: "recorded",
+    recorded: "in_progress",
+    in_progress: "validated",
+    validated: "confirmed",
+    confirmed: "shipped",
+    shipped: "delivered",
+
+    // états terminaux
+    delivered: "refunded",
+    refunded: null,
+    failed: null,
+    canceled: null,
+};
+
+
+
 export const STATUS_FLOW_ITEM = {
     forward: "in_progress",
     pending: "in_progress",
@@ -734,13 +857,40 @@ export const AGENT_AI = {
     "user_permissions": []
 }
 
+export const totalPrice = (product, setConvertRate, reference, convertRate) => {
+
+    const price = Number(product.price_product);
+
+    var convertValue = product?.currency_price
+
+    const convertRateSupOne = (convertRate > 1)
+
+    const oneDividedConvertRate = (1 / convertRate)
+
+    if (product?.currency_price === CONSTANTS?.FRANC) {
+
+        convertValue = CONSTANTS?.XOF
+    }
+
+    convertRates(setConvertRate, convertValue, reference)
+
+    const quantity = Number(product.quanttity_product_sold);
+
+    var convertRefRate = convertRateSupOne ? oneDividedConvertRate : convertRate
+
+    var pricePlusQuantityPlusConvert = price * quantity * convertRefRate
+
+    return (!isNaN(price) && !isNaN(quantity)) ? pricePlusQuantityPlusConvert : 0;
+};
 
 
-
-
-
-
-
-
+export const IMPORTANTS_URLS = {
+    LOGINS: "https://www.abalma.fr/login/",
+    LOGIN:"http://localhost:3000/login",
+    REGISTER: "http://localhost:3000/register",
+    REGISTERS: "https://www.abalma.fr/register/",
+    MESSAGE_APP: "https://www.abalma.fr/message-inbox",
+    MESSAGE_APPS: "https://www.abalma.fr/message-inbox/"
+}
 
 

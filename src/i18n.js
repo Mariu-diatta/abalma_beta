@@ -22,7 +22,10 @@ i18n
      en: {
 
          translation: {
-             loading:"Loading...",
+             connectFirst: "You will need to log in first.",
+             quantityNber:"Quantity",
+             loading: "Loading...",
+             transactionByCash: "Cash transaction",
              ai_analies: "View AI analies",
              blogNone: "Aucun blog disponible.",
              no_resum_ai_en: "No analysis available",
@@ -33,7 +36,8 @@ i18n
              advice: "Advice",
              directive: "Directives",
              send:"Send",
-             MySales:"My Sales",
+             MySales: "My Sales",
+             paymentMode:"Cash payment",
              STATUS: {
                   "pending": "Pending",
                   "recorded": "Recorded",
@@ -702,6 +706,8 @@ i18n
      fr: {
 
          translation: {
+             connectFirst: "Vous devrez vous connecter avant",
+             quantityNber: "Quantité",
              loading: "Chargement...",
              ai_analies:"Voir les analyses IA",
              view_ai_discuss: "Voir discussion",
@@ -712,6 +718,8 @@ i18n
              summary: "Résumé",
              advice: "Conseils",
              directive: "Directives",
+             paymentMode: "Paiement cash",
+             transactionByCash:"Transaction par  cash",
              send: "Envoyer",
              MySales: "Mes ventes",
              STATUS: {

@@ -8,14 +8,13 @@ import { LoginWithGoogle } from '../firebase';
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import LoadingCard from '../components/LoardingSpin';
-import { ENDPOINTS, fetchRooms, loginClient } from '../utils';
+import { ENDPOINTS,  IMPORTANTS_URLS,  loginClient } from '../utils';
 import { ButtonSimple } from '../components/Button';
 import { useNavigate } from 'react-router-dom'; // 
-import { useSelector } from 'react-redux';
+//import { useSelector } from 'react-redux';
 import FormLayout from '../layouts/FormLayout';
 import { showMessage } from '../components/AlertMessage';
 import TitleCompGen from '../components/TitleComponentGen';
-import { addRoom } from '../slices/chatSlice';
 
 
 const LogIn = () => {
@@ -28,8 +27,7 @@ const LogIn = () => {
     const { t } = useTranslation();
     const componentRef = useRef(null);
     const navigate = useNavigate();
-    const currentNav = useSelector(state => state.navigate.currentNav);
-    const currentUser = useSelector(state => state.auth.user)
+    //const currentNav = useSelector(state => state.navigate.currentNav);
 
     const handleSignIn = async () => {
 
@@ -59,10 +57,8 @@ const LogIn = () => {
         } catch (e) {
 
             const errorMessage = e?.response?.data?.detail || e?.response?.data?.error;
-
-            dispatch(setCurrentNav(ENDPOINTS.LOGIN))
-
             showMessage(dispatch, { Type: "Erreur", Message: errorMessage || "Error not found: user not login" });
+            dispatch(setCurrentNav(ENDPOINTS.LOGIN))
 
         } finally {
 
@@ -117,17 +113,24 @@ const LogIn = () => {
 
     }, [])
 
-    useEffect(() => {
+    //useEffect(() => {
 
-        if (currentNav === ENDPOINTS.HOME) navigate("/", { replace: true })
+    //    if (currentNav === ENDPOINTS.HOME) {
 
-    }, [currentNav, navigate])
+    //        return navigate("/home", { replace: true })
+    //    }
 
-    useEffect(() => {
+    //}, [currentNav, navigate]);
 
-        fetchRooms(currentUser, dispatch, addRoom);
+    useEffect(
+        () => {
+            const currentUrl = window.location.href;
+            if (currentUrl === IMPORTANTS_URLS?.LOGIN || currentUrl === IMPORTANTS_URLS?.LOGINS) {
+                dispatch(setCurrentNav(ENDPOINTS.LOGIN))
+            }
 
-    }, [dispatch, currentUser]);
+        },[dispatch]
+    )
 
     return (
 

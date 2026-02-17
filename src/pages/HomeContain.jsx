@@ -47,7 +47,9 @@ const HomeContain = () => {
 
                 {/* ========= SUBSCRIPTIONS ========= */}
                 <section aria-labelledby="subscription-plans" className="text-center translate-y-0 transition-all duration-1000 ease-in-out">
+
                     <SubscriptionsPage />
+
                 </section>
 
                 {/* ========= SERVICES ========= */}
@@ -59,7 +61,6 @@ const HomeContain = () => {
 
                 {/* ========= TESTIMONIALS ========= */}
                 <section aria-labelledby="testimonials" className="bg-gray-50 px-1 py-[2dvh] translate-y-0 transition-all duration-1000 ease-in-out">
-
 
                     <TestimonialCarousel
                         autoplay={true}
@@ -77,7 +78,6 @@ const HomeContain = () => {
                     </div>
 
                 </section>
-
 
 
             </main>

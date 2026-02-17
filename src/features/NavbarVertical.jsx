@@ -88,6 +88,7 @@ const VertcalNavbar = ({ children }) => {
 
     }, [isSidebarOpen]);
 
+    //get all room
     useEffect(() => {
 
         fetchRooms(currentUser, dispatch, addRoom);

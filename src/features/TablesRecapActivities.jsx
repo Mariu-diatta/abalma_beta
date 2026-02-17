@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import ListProductShoppingCart from '../features/ListProductShoppingCart';
 import ProductsRecapTable from '../features/ProductRecaptable';
 import MyProductList from '../features/MyProductsList';
@@ -6,6 +6,7 @@ import MyBlogsList from '../features/ListManagerBlogs';
 import TitleCompGen from '../components/TitleComponentGen';
 import { useTranslation } from 'react-i18next';
 import { MODE } from '../utils';
+import CashTransaction from './CashTransactions';
 
 const TablesRecapActivities = ({ 
     productsTrasactionBought, 
@@ -16,43 +17,46 @@ const TablesRecapActivities = ({
 
     const { t } = useTranslation();
 
-    const ref1 = useRef(null);
-    const ref2 = useRef(null);
-    const ref3 = useRef(null);
-    const ref4 = useRef(null);
-    const ref5 = useRef(null);
+    const [activeTab, setActiveTab] = useState('listProductShoppingCart');
 
+    const tabs = [
+        { id: 'listProductShoppingCart', label: t('tableEntries.selectedProducts') },
+        { id: 'productsRecapBought', label: t('TableRecap.title') },
+        { id: 'productsRecapSell', label: t("MySales") },
+        { id: 'cashTransaction', label: t("transactionByCash") },
+        { id: 'myProductList', label: t("myProducts") },
+        { id: 'myBlogsList', label: t("blog.myBlogs") },
+    ]
 
-    const [handleButton, setHandleButton] = useState(null);
+    const tabContent = {
 
-    const buttons = [
-        { id: "Button1", label: t("tableEntries.selectedProducts") },
-        { id: "Button3", label: t("myProducts") },
-        { id: "Button2", label: t("TableRecap.title") },
-        { id: "Button5", label: t("MySales") },
-        { id: "Button4", label: t("blog.myBlogs") },
-    ];
+        listProductShoppingCart: <ListProductShoppingCart />,
 
-    useEffect(() => {
+        productsRecapBought: (
+            <ProductsRecapTable
+                products={productsTrasactionBought}
+                setProductsTrasaction={setProductsTrasactionBought}
+                title={t('TableRecap.title')}
+                mode={MODE.BUY}
+            />
+        ),
 
-        if (!handleButton) return;
+        productsRecapSell: (
+            <ProductsRecapTable
+                products={productsTrasactionSell}
+                setProductsTrasaction={setProductsTrasactionSell}
+                title={t("MySales")}
+                mode={MODE.SELL}
+            />
+        ),
 
-        const refsMap = {
-            Button1: ref1,
-            Button2: ref2,
-            Button3: ref3,
-            Button4: ref4,
-            Button5: ref5,
-        };
+        cashTransaction: <CashTransaction />,
 
-        const targetRef = refsMap[handleButton];
+        myProductList: <MyProductList />,
 
-        targetRef?.current?.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start',
-        });
+        myBlogsList: <MyBlogsList />,
+    };
 
-    }, [handleButton]);
 
     return (
         <div className="fixed absolute w-[98dvw] md:w-[80dvw] sm:rounded-lg style-bg scrollbor_hidden pb-6 overflow-y-auto h-full">
@@ -74,15 +78,21 @@ const TablesRecapActivities = ({
             <div className="flex gap-4 py-3 w-full overflow-x-auto overflow-y-hidden">
 
                 {
-                    buttons?.map(({ id, label }) => (
+                    tabs?.map(tab => (
 
                             <button
-                                key={id}
-                                onClick={() => setHandleButton(id)}
-                                className={`shadow-lg whitespace-nowrap cursor-pointer rounded-full px-3 py-1 hover:bg-blue-50
-                                ${ (handleButton === id) ? "bg-blue-50" : "bg-gray-50"}`}
+                                type="button"
+                                key={tab?.id}
+                                role="tab"
+                                aria-selected={activeTab === tab.id}
+                                aria-controls={`${tab.id}-tab`}
+                                id={`${tab.id}-tab-button`}
+                                onClick={() => setActiveTab(tab.id)}
+                                className={`border border-gray-50 whitespace-nowrap cursor-pointer rounded-full px-3 py-1 hover:bg-blue-50
+                                ${activeTab === tab.id ? "bg-blue-50" : "bg-gray-50"}`}
                             >
-                                {label}
+
+                                {tab?.label}
 
                             </button>
                         )
@@ -94,30 +104,15 @@ const TablesRecapActivities = ({
             {/* Content */}
             <div className="relative overflow-y-auto min-h-[70dvh] w-auto scrollbor_hidden mb-[30dvh] pb-[30dvh] gap-7">
 
-                <div ref={ref1} />
-                <ListProductShoppingCart />
+                <section
+                    id={`${activeTab}-tab`}
+                    role="tabpanel"
+                    aria-labelledby={`${activeTab}-tab-button`}
+                    className="style_bg dark:bg-gray-800 rounded-lg h-screan overflow-x-auto z-0"
+                >
+                    {tabContent[activeTab]}
 
-                <div ref={ref2} />
-                <ProductsRecapTable
-                    products={productsTrasactionBought}
-                    setProductsTrasaction={setProductsTrasactionBought}
-                    title={t('TableRecap.title')}
-                    mode={MODE.BUY}
-                />
-
-                <div ref={ref5} />
-                <ProductsRecapTable
-                    products={productsTrasactionSell}
-                    setProductsTrasaction={setProductsTrasactionSell}
-                    title={t("MySales")}
-                    mode={MODE.SELL}
-                />
-
-                <div ref={ref3} />
-                <MyProductList />
-
-                <div ref={ref4} />
-                <MyBlogsList />
+                </section>
 
             </div>
 

@@ -35,6 +35,8 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
     const currentSelectedProductView = useSelector(state => state.cart.selectedProductView)
 
+    const imageSelectedProduct = currentSelectedProductView?.image_product
+
     const [hiddenShowDirection, setHiddenShowDirection] = useState(false);
 
     const currentUser = useSelector(state => state.auth.user)
@@ -67,6 +69,14 @@ const ProductModal = ({ isOpen, onClose, products}) => {
     const [showLeft, setShowLeft] = useState(true);
 
     const [showRight, setShowRight] = useState(true);
+
+    const openSelectedProduct = !isOpen || !currentSelectedProductView 
+
+    const showDirectionLeft = showLeft && !hiddenShowDirection 
+
+    const shodDirectionRight = showRight && !hiddenShowDirection
+
+    const withScreen = (window.innerWidth < 700)
 
     useEffect(() => {
 
@@ -141,14 +151,14 @@ const ProductModal = ({ isOpen, onClose, products}) => {
         );
     };
 
-    if (!isOpen || !currentSelectedProductView ) return null;
+    if (openSelectedProduct) return null;
 
     return (
 
         <>
 
             {
-                showLeft && !hiddenShowDirection && <button className="fixed z-50 absolute left-1 top-1/2 rounded-full px-3 cursor-pointer" onClick={() => scroll("left")}> <ChevronLeft className="w-6 h-6 text-gray-300 bg-gray-200 rounded-full hover:bg-white/80" /></button>
+                showDirectionLeft && <button className="fixed z-50 absolute left-1 top-1/2 rounded-full px-3 cursor-pointer" onClick={() => scroll("left")}> <ChevronLeft className="w-6 h-6 text-gray-300 bg-gray-200 rounded-full hover:bg-white/80" /></button>
             }
 
             <div
@@ -185,13 +195,15 @@ const ProductModal = ({ isOpen, onClose, products}) => {
                                 className=" col-span-1 md:col-span-6 flex items-center justify-center max-h-[40dvh] w-full md:max-h-full  md:h-full  md:w-full"
 
                                 style={{
-                                    backgroundImage: `url(${currentSelectedProductView?.image_product})`,
+                                    backgroundImage: withScreen
+                                        ? `url(${imageSelectedProduct})`
+                                        : 'none',
                                 }}
                             >
 
                                 <img
 
-                                    src={currentSelectedProductView?.image_product}
+                                    src={imageSelectedProduct}
 
                                     alt="Product"
 
@@ -256,7 +268,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
 
                                         <p className="text-xl ">
-                                            {t("code_ref")}: {currentSelectedProductView?.code_reference}
+                                            {t("code_ref")} #{currentSelectedProductView?.code_reference}
                                         </p>
 
                                         <h2 className="text-2xl">
@@ -280,7 +292,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
                                         <div className="mt-4 flex items-center gap-x-3">
 
-                                            {[currentSelectedProductView?.image_product].map((color) => (
+                                            {[imageSelectedProduct].map((color) => (
 
                                                 <div
 
@@ -453,7 +465,7 @@ const ProductModal = ({ isOpen, onClose, products}) => {
 
 
             {
-                showRight && !hiddenShowDirection && <button className="fixed z-50 absolute right-1 top-1/2 rounded-full px-3 cursor-pointer" onClick={() => scroll("right")}> <ChevronRight className="w-6 h-6 text-gray-300 bg-gray-200 hover:bg-white/80 rounded-full" /></button>
+                shodDirectionRight && <button className="fixed z-50 absolute right-1 top-1/2 rounded-full px-3 cursor-pointer" onClick={() => scroll("right")}> <ChevronRight className="w-6 h-6 text-gray-300 bg-gray-200 hover:bg-white/80 rounded-full" /></button>
             }
 
         </>
@@ -471,12 +483,14 @@ const NavButtons = ({
 
     const { t } = useTranslation();
 
+    const addProductVerified = !isProductAdd && !isCurrentUser
+
     return (
 
         <div className="flex items-center justify-between gap-4 w-full py-1">
 
             {/* Add to cart */}
-            {!isProductAdd && !isCurrentUser && (
+            {addProductVerified && (
                 <button
                     onClick={handleAddToCart_}
                     title={t("add_in_basket")}

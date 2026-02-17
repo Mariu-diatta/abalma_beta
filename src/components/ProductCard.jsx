@@ -22,6 +22,8 @@ const ProductCard = ({
 
     const dispatch = useDispatch();
 
+    const quantityProduct = (item?.quantity_product !== "0")
+
     const { t } = useTranslation();
 
     return (
@@ -67,11 +69,11 @@ const ProductCard = ({
                           hover:scale-105
                           hover:brightness-90
                         "
-                     onError={(e) => {
-                        if (e.target.src !== window.location.origin + "/default-product.jpg") {
-                            e.target.src = "/default-product.jpg";
-                        }
-                    }}
+                         onError={(e) => {
+                            if (e.target.src !== window.location.origin + "/default-product.jpg") {
+                                e.target.src = "/default-product.jpg";
+                            }
+                        }}
                     />
 
                 </div>
@@ -87,7 +89,7 @@ const ProductCard = ({
                     <OwnerAvatar owner={owner}/>
 
                     {
-                        (item?.quantity_product !== "0") &&
+                        quantityProduct &&
                         (
                             <span className="text-xs text-gray-600">
 

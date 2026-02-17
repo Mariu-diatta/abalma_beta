@@ -31,10 +31,10 @@ const cartSlice = createSlice({
 
             if (existingItem) {
 
-                existingItem.quanttity_product_sold += 1;
+                existingItem.quantity_sold += 1;
 
             } else {
-                targetArray.push({ ...action.payload, quanttity_product_sold: 1 });
+                targetArray.push({ ...action.payload, quantity_sold: 1 });
             }
 
             // Met à jour les compteurs
@@ -65,9 +65,9 @@ const cartSlice = createSlice({
 
             if (existingItem) {
 
-                if (existingItem.quanttity_product_sold > 1) {
+                if (existingItem.quantity_sold > 1) {
 
-                    existingItem.quanttity_product_sold -= 1;
+                    existingItem.quantity_sold -= 1;
 
                 } else {
 
@@ -115,7 +115,7 @@ const cartSlice = createSlice({
 
 // 🔢 Helpers pour recalculer les quantités
 const updateItemCounts = (state) => {
-    const sum = (arr) => arr.reduce((total, item) => total + item.quanttity_product_sold, 0);
+    const sum = (arr) => arr.reduce((total, item) => total + item.quantity_sold, 0);
     state.nbItem = sum(state.items) + sum(state.cardCreated);
     state.nbItemCustom = sum(state.cardCreated);
 };

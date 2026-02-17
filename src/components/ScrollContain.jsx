@@ -6,6 +6,8 @@ export default function ScrollingContent({ item, qut_sold, t }) {
     const contentRef = useRef(null);
     const [shouldScroll, setShouldScroll] = useState(false);
 
+    const quantSoldNotZero = (qut_sold === 0)
+
     useEffect(() => {
         const container = containerRef.current;
         const content = contentRef.current;
@@ -30,7 +32,7 @@ export default function ScrollingContent({ item, qut_sold, t }) {
 
                     <RendrePrixProduitMonnaie item={item} />
 
-                    <div className={` ${qut_sold && qut_sold===0 && "hidden"} flex items-center gap-1 hidden md:flex text-blue-50 dark:text-black rounded-lg px-2 py-1 text-xs font-medium`}>
+                    <div className={` ${quantSoldNotZero?"hidden":""} flex items-center gap-1 hidden md:flex text-blue-50 dark:text-black rounded-lg px-2 py-1 text-xs font-medium`}>
 
                         <span className="whitespace-nowrap">{t("quantity_sold")}</span>
 

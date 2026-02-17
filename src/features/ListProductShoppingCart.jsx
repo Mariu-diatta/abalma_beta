@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { addToCart, removeFromCart, decreaseQuantity, getTotalPrice } from '../slices/cartSlice';
+import { addToCart, removeFromCart, decreaseQuantity, getTotalPrice, clearCart } from '../slices/cartSlice';
 import { useTranslation } from 'react-i18next';
 import { TitleCompGenLitle } from "../components/TitleComponentGen";
-import { CONSTANTS, convertRates } from "../utils";
+import { CONSTANTS, totalPrice } from "../utils";
 import BuyButtonWithPaymentForm from "./ButtonPaymentShopping";
+import api from "../services/Axios";
+import { showMessage } from "../components/AlertMessage";
 
 
 const ListProductShoppingCart = () => {
@@ -17,15 +19,17 @@ const ListProductShoppingCart = () => {
 
     const reference = lang === CONSTANTS?.FR ? CONSTANTS?.EUR : CONSTANTS?.USD
 
-    const [convertRate, setConvertRate]=useState(0.00)
+    const [convertRate, setConvertRate] = useState(0.00)
 
     const dispatch = useDispatch();
 
     const data = useSelector(state => state.cart);
 
+    const itemsData = data?.items
+
     const max_value = (prod) => {
 
-        const selectedQty = parseInt(prod.quanttity_product_sold, 10);
+        const selectedQty = parseInt(prod.quantity_sold, 10);
 
         const availableQty = parseInt(prod.quantity_product, 10);
 
@@ -35,7 +39,7 @@ const ListProductShoppingCart = () => {
 
     const handleIncreaseQuantity = (prod) => {
 
-        const selectedQty = parseInt(prod.quanttity_product_sold, 10);
+        const selectedQty = parseInt(prod.quantity_sold, 10);
 
         const availableQty = parseInt(prod.quantity_product, 10);
 
@@ -54,27 +58,70 @@ const ListProductShoppingCart = () => {
         dispatch(decreaseQuantity({ id: prod.id }));
     };
 
-    const totalPrice = (product) => {
+    const grandTotal = data.items.reduce((acc, product) => acc + totalPrice(product, setConvertRate, reference, convertRate), 0);
 
-        const price = Number(product.price_product);
+    const totalPriceBuy = !isNaN(grandTotal) ? grandTotal.toFixed(CONSTANTS?.DECIMALS_DIGITS) : CONSTANTS?.ZERO_DECIMALS_DIGITS
 
-        var convertValue = product?.currency_price
-        
-        if (product?.currency_price === CONSTANTS?.FRANC) {
+    const currentUser = useSelector(state => state.auth.user);
 
-            convertValue = CONSTANTS?.XOF
+
+    const boughtProduct = useCallback(async () => {
+
+        //e.preventDefault()
+
+        //setLoading(true)
+
+        // Construire directement le tableau, sans setState
+        const productIds = data.items.map((item) => ({ "key": item?.id, "quantity": item?.quantity_sold }))
+
+        // Construire l’objet à envoyer
+        const payload = {
+            product_ids: productIds,
+            quantity: data.nbItem,
+            price: data.totalPrice,
+            transaction_type: "Achat",
+            client: currentUser.id,
+            payment_mode:"cash"
         }
 
-        convertRates(setConvertRate, convertValue, reference)
+        try {
 
-        const quantity = Number(product.quanttity_product_sold);
+            //setLoadingPayPal(true)
 
-        var convertRefRate = (convertRate > 1) ? (1 / convertRate) : convertRate
+            // Envoi en JSON  const products =
+            await api.post("creat/transactions/products/",
 
-        return (!isNaN(price) && !isNaN(quantity)) ? price * quantity * convertRefRate : 0;
-    };
+                payload,
 
-    const grandTotal = data.items.reduce((acc, product) => acc+totalPrice(product), 0);
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+            )
+
+            showMessage(dispatch, { Type: "Message", Message: "Transaction effectué" });
+
+            //dispatch(addMessageNotif("Transaction effectué"))
+
+            dispatch(clearCart())
+
+        } catch (err) {
+
+            //setShowPaymentForm(false)
+
+            console.log("Erreur payment::::", err)
+
+            showMessage(dispatch, { Type: "Erreur", Message: err?.response?.data?.detail || err?.message });
+
+
+        } finally {
+
+        //    setLoadingPayPal(false)
+        }
+
+    }, [currentUser, dispatch, data]
+    )
 
     useEffect(() => {
 
@@ -86,7 +133,7 @@ const ListProductShoppingCart = () => {
     return (
 
         <main
-            className="style_bg relative overflow-x-auto sm:rounded-lg p-2 "
+            className="style_bg relative overflow-x-auto sm:rounded-lg p-1 "
 
             style={{
 
@@ -110,7 +157,7 @@ const ListProductShoppingCart = () => {
 
             <table
 
-                className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-lg p-2"
+                className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-lg p-1"
 
                 style={{
 
@@ -144,9 +191,9 @@ const ListProductShoppingCart = () => {
                 <tbody>
 
                     {
-                        data?.items?.map(
+                        itemsData?.map(
                             (
-                                { id, description_product, categorie_product, image_product, price_product, quantity_product, quanttity_product_sold, currency_price }) => (
+                                { id, description_product, categorie_product, image_product, price_product, quantity_product, quantity_sold, currency_price }) => (
 
                                 <tr key={id}
 
@@ -192,11 +239,11 @@ const ListProductShoppingCart = () => {
 
                                             </button>
 
-                                            <input type="number" value={quanttity_product_sold} readOnly className={`${max_value({ quantity_product, quanttity_product_sold }) ? "" : "bg-gradient-to-br from-pink-300 to-orange-300"}  w-14 text-sm rounded-lg block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:text-white `} />
+                                            <input type="number" value={quantity_sold} readOnly className={`${max_value({ quantity_product, quantity_sold }) ? "" : "bg-gradient-to-br from-pink-300 to-orange-300"}  w-14 text-sm rounded-lg block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:text-white `} />
 
                                             <button
 
-                                                onClick={() => handleIncreaseQuantity({ id, quantity_product, quanttity_product_sold })} className="cursor-pointer inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500  border border-gray-300 rounded-full dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600">
+                                                onClick={() => handleIncreaseQuantity({ id, quantity_product, quantity_sold })} className="cursor-pointer inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500  border border-gray-300 rounded-full dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600">
 
                                                 <svg className="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18"><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 1v16M1 9h16" /></svg>
 
@@ -214,7 +261,9 @@ const ListProductShoppingCart = () => {
 
                                     <td className="px-6 py-4 ">
 
-                                        {(!isNaN(Number(price_product)) && !isNaN(Number(quanttity_product_sold)) ? (Number(price_product) * Number(quanttity_product_sold)).toFixed(CONSTANTS?.DECIMALS_DIGITS) : CONSTANTS?.ZERO_DECIMALS_DIGITS)} ({currency_price})
+                                        {
+                                            (!isNaN(Number(price_product)) && !isNaN(Number(quantity_sold)) ? (Number(price_product) * Number(quantity_sold)).toFixed(CONSTANTS?.DECIMALS_DIGITS) : CONSTANTS?.ZERO_DECIMALS_DIGITS)
+                                        } ({currency_price})
 
                                     </td>
 
@@ -262,11 +311,34 @@ const ListProductShoppingCart = () => {
                 </tfoot>
 
             </table>
+  
+            <div className=" flex justify-center gap-3 ">
 
-            <BuyButtonWithPaymentForm
-                total_price={!isNaN(grandTotal) ? grandTotal.toFixed(CONSTANTS?.DECIMALS_DIGITS) : CONSTANTS?.ZERO_DECIMALS_DIGITS}
-                reference={reference}
-            />
+                <BuyButtonWithPaymentForm
+                    total_price={totalPriceBuy}
+                    reference={reference}
+                />
+
+                {
+                    (totalPriceBuy>0) &&
+
+                    <div className="text-right p-6">
+
+                        <button onClick={boughtProduct} className="whitespace-nowrap-pointer text-white bg-gradient-to-br from-purple-300 to-blue-300 hover:bg-gradient-to-br hover:from-purple-400focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center">
+
+                            <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <path fill-rule="evenodd" d="M7 6a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-2v-4a3 3 0 0 0-3-3H7V6Z" clip-rule="evenodd" />
+                                <path fill-rule="evenodd" d="M2 11a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7Zm7.5 1a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z" clip-rule="evenodd" />
+                                <path d="M10.5 14.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z" />
+                            </svg>
+
+                            <span class="whitespace-nowrap">{t('paymentMode')} {totalPriceBuy} ({reference})</span>
+
+                        </button>
+
+                    </div>
+                }
+            </div>
 
         </main>
     );

@@ -9,6 +9,8 @@ const BoxMessagesChats = ({ messages, messagesEndRef }) => {
 
     const { t } = useTranslation();
 
+    const lengthMessages = (messages?.length === 0)
+
     return (
 
         <div className="relative flex-1 space-y-0 pr-2 max-h-[100dvh] min-h-[100dvh] shadow-lg">
@@ -18,22 +20,22 @@ const BoxMessagesChats = ({ messages, messagesEndRef }) => {
             {/* 💬 Liste des messages */}
 
             {
-                (messages?.length === 0) ?
-                    (
-                        <ProfilPictureView
-                            currentUser={selectedUser}
-                            message={t("no_message")}
-                        />
-                    )
-                    :
-                    (
-                        <PrintMessagesOnChat
-                            messages={messages}
-                            selectedUser={selectedUser}
-                            messagesEndRef={messagesEndRef}
-                        />
+                lengthMessages ?
+                (
+                    <ProfilPictureView
+                        currentUser={selectedUser}
+                        message={t("no_message")}
+                    />
+                )
+                :
+                (
+                    <PrintMessagesOnChat
+                        messages={messages}
+                        selectedUser={selectedUser}
+                        messagesEndRef={messagesEndRef}
+                    />
 
-                    )
+                )
 
             }
 

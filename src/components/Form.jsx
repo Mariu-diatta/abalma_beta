@@ -3,14 +3,14 @@ import { useNavigate, Link } from 'react-router-dom';
 import InputBox from './InputBoxFloat';
 import { useTranslation } from 'react-i18next';
 import LoadingCard from './LoardingSpin';
-import { useDispatch, useSelector} from 'react-redux';
+import { useDispatch} from 'react-redux';
 import  { showMessage } from './AlertMessage';
 import PhoneInput from './InputPhoneCountry';
 import { setCurrentNav } from '../slices/navigateSlice';
 import { ButtonSimple } from './Button';
 import FormLayout from '../layouts/FormLayout';
 import TitleCompGen from './TitleComponentGen';
-import { CreateClient } from '../utils';
+import { CreateClient, ENDPOINTS, IMPORTANTS_URLS } from '../utils';
 
 
 const RegisterForm = () => {
@@ -22,8 +22,6 @@ const RegisterForm = () => {
     const [loading, setLoading] = useState(false)
 
     const navigate = useNavigate();
-
-    const currentNav = useSelector(state => state.navigate.currentNav);
 
     const componentRef = useRef(null);
 
@@ -118,14 +116,17 @@ const RegisterForm = () => {
         };
     }, []);
 
-    useEffect(() => {
 
-        if (currentNav === "home") {
+    useEffect(
+        () => {
+            const currentUrl = window.location.href;
+            if (currentUrl === IMPORTANTS_URLS?.REGISTER || currentUrl === IMPORTANTS_URLS?.REGISTERS) {
+                dispatch(setCurrentNav(ENDPOINTS.REGISTER))
+            }
 
-            return navigate("/", { replace: true })
-        }
+        }, [dispatch]
+    )
 
-    }, [currentNav, navigate]);
 
     return (
 

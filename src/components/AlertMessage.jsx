@@ -13,7 +13,7 @@ const AttentionAlertMessage = () => {
 
     const [show, setShow] = useState(false);
 
-    // Après 5 secondes, on cache l'alerte
+    // AprÃ¨s 5 secondes, on cache l'alerte
     useEffect(() => {
 
         if (messageAlert) setShow(true)
@@ -46,7 +46,7 @@ const AttentionAlertMessage = () => {
                         max-w-xl w-auto bg-transparent shadow-lg backdrop-blur-md flex w-full ${!show?"hidden":""}`}
         >
 
-            {/* Barre animée à gauche */}
+            {/* Barre animÃ©e Ã  gauche */}
             <div className="absolute top-0 left-0 h-full w-[6px] overflow-hidden rounded-l-lg">
 
                 <div
@@ -64,7 +64,7 @@ const AttentionAlertMessage = () => {
             {/* Contenu alerte */}
             <main className="ml-3 flex items-start gap-3">
 
-                {/* Icône */}
+                {/* IcÃ´ne */}
                 <div className="h-[34px] w-[34px] mt-1">{/* SVG ici */}</div>
 
                 <div>

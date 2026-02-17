@@ -29,8 +29,7 @@ function SubscriptionCard({
         <div
             className={`py-7 relative flex flex-col justify-between rounded-3xl border shadow-sm p-6 w-full max-w-sm transition hover:shadow-md hover:-translate-y-1
                 ${
-                    highlight
-                    ?
+                    highlight?
                     "bg-gradient-to-br from-indigo-50 to-white border-indigo-200"
                     :
                     "bg-white/2 border-gray-200"
@@ -87,7 +86,7 @@ function SubscriptionCard({
                 {/* Bouton */}
                 <button
                     onClick={onSubscribe}
-                    className="bottom-2 w-full bg-indigo-50 hover:bg-indigo-100 text-white font-medium py-2.5 rounded-xl transition"
+                    className="bg-gradient-to-r from-green-100 to-blue-600 bottom-2 w-full bg-indigo-50 hover:bg-indigo-100 text-white font-medium py-2.5 rounded-xl transition cursor-pointer"
                 >
                     {t("my_subscription")}
 
@@ -122,7 +121,7 @@ export default function SubscriptionsPage() {
 
         if (!currentUser) {
 
-            alert("Vous devrez vous connecter avant ")
+            alert(t("connectFirst"))
 
             return
 
@@ -162,7 +161,7 @@ export default function SubscriptionsPage() {
 
             <button
 
-                className={`${currentNav !== ENDPOINTS?.SUBSCRIPTION ? "hidden":"shadow-lg z-10"}`}
+                className={`${currentNav !== ENDPOINTS?.SUBSCRIPTION ? "hidden":"shadow-lg z-10 "}`}
 
                 onClick={
 
@@ -181,7 +180,7 @@ export default function SubscriptionsPage() {
 
                 </svg>
 
-            </button >
+            </button>
 
             <h1 className="text-2xl font-bold text-gray-800  flex items-center gap-5 my-4">
 
