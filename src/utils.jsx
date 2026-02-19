@@ -634,37 +634,8 @@ function convertir(de, vers) {
 }
 
 export const convertRates = async (setConvertValue, rateToConvert, referenceRate) => {
-
-    try {
-        fetch(
-            `https://v6.exchangerate-api.com/v6/6b5ab9ed25a662eeea6ea68d/latest/${referenceRate}`
-
-        ).then(
-            res => res.json()
-
-        ).then(
-
-            data => {
-
-                const res = data?.conversion_rates
-
-                setConvertValue(res[rateToConvert])
-            }
-
-        ).catch(
-
-            err => {
-                const value = convertir(referenceRate, rateToConvert)
-                setConvertValue(value)
-            }
-        )
-    } catch (err) {
-
-         convertir(referenceRate, rateToConvert)
-
-    } finally {
-
-    }
+      const value = convertir(referenceRate, rateToConvert)
+      setConvertValue(value)
 }
 
 export const OPERATIONS_STATUS = {
