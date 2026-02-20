@@ -38,19 +38,39 @@ const ListProductShoppingCart = () => {
         dispatch(decreaseQuantity(prod));
     };
 
-    // Calcul du total avec useMemo
-    const grandTotal = useMemo(() => {
-        return itemsData.reduce((acc, product) => acc + totalPrice(product, reference), 0);
-    }, [itemsData, reference]);
-
-    const totalPriceBuy = !isNaN(grandTotal)
-        ? grandTotal.toFixed(CONSTANTS?.DECIMALS_DIGITS)
-        : CONSTANTS?.ZERO_DECIMALS_DIGITS;
 
     // Met à jour le total dans Redux
+    const totalPrice = (product) => {
+
+        const price = Number(product.price_product);
+
+        var convertValue = product?.currency_price
+        
+        if (product?.currency_price === CONSTANTS?.FRANC) {
+
+            convertValue = CONSTANTS?.XOF
+        }
+
+        convertRates(setConvertRate, convertValue, reference)
+
+        const quantity = Number(product.quanttity_product_sold);
+
+        var convertRefRate = (convertRate > 1) ? (1 / convertRate) : convertRate
+
+        return (!isNaN(price) && !isNaN(quantity)) ? price * quantity * convertRefRate : 0;
+    };
+
+    const grandTotal = data.items.reduce((acc, product) => acc+totalPrice(product), 0);
+
+    const totalPriceBuy = !isNaN(grandTotal)
+    ? grandTotal.toFixed(CONSTANTS?.DECIMALS_DIGITS)
+    : CONSTANTS?.ZERO_DECIMALS_DIGITS;
+
     useEffect(() => {
-        dispatch(getTotalPrice(grandTotal));
-    }, [grandTotal, dispatch]);
+
+        dispatch(getTotalPrice(grandTotal))
+
+    }, [grandTotal, dispatch])
 
     // Fonction d'achat
     const boughtProduct = useCallback(async () => {
