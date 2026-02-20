@@ -828,31 +828,18 @@ export const AGENT_AI = {
     "user_permissions": []
 }
 
-export const totalPrice = (product, setConvertRate, reference, convertRate) => {
+export const totalPrice = (product, referenceCurrency) => {
+  const price = Number(product.price_product);
+  const quantity = Number(product.quanttity_product_sold);
 
-    const price = Number(product.price_product);
+  if (isNaN(price) || isNaN(quantity)) return 0;
 
-    var convertValue = product?.currency_price
+  // Déterminer le taux de conversion
+  const rate = convertir(product.currency_price, referenceCurrency) || 1;
 
-    const convertRateSupOne = (convertRate > 1)
-
-    const oneDividedConvertRate = (1 / convertRate)
-
-    if (product?.currency_price === CONSTANTS?.FRANC) {
-
-        convertValue = CONSTANTS?.XOF
-    }
-
-    convertRates(setConvertRate, convertValue, reference)
-
-    const quantity = Number(product.quanttity_product_sold);
-
-    var convertRefRate = convertRateSupOne ? oneDividedConvertRate : convertRate
-
-    var pricePlusQuantityPlusConvert = price * quantity * convertRefRate
-
-    return (!isNaN(price) && !isNaN(quantity)) ? pricePlusQuantityPlusConvert : 0;
+  return price * quantity * rate;
 };
+
 
 
 export const IMPORTANTS_URLS = {

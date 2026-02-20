@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addMessageNotif } from "../slices/chatSlice";
-import WalletModal from "../features/WalletModal";
 import ProfilPopPov from "../features/PopovProfile";
 import { addToCart,updateSelectedProduct } from "../slices/cartSlice";
 import { useTranslation } from 'react-i18next';
@@ -522,11 +521,6 @@ const NavButtons = ({
                     </span>
 
                 </button>
-            )}
-
-            {/* Wallet */}
-            {!isCurrentUser && (
-                <WalletModal setHiddenShowDirection={setHiddenShowDirection} />
             )}
 
             {/* Profil popover */}
