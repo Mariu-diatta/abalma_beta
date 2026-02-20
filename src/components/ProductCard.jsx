@@ -53,6 +53,8 @@ const ProductCard = ({
                         cursor-pointer
                         bg-gray-100
                     "
+                    style={{  backgroundImage:`url(${item?.image_product})`}}
+
                 >
                     <img
                         src={item?.image_product}
@@ -61,13 +63,13 @@ const ProductCard = ({
                         className="
                           w-full
                           h-full
-                          object-cover
-                          object-center
+                          object-contain
                           transition
                           duration-300
                           ease-in-out
                           hover:scale-105
                           hover:brightness-90
+                          p-2
                         "
                          onError={(e) => {
                             if (e.target.src !== window.location.origin + "/default-product.jpg") {

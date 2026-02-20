@@ -28,14 +28,14 @@ const ListProductShoppingCart = () => {
 
     const handleIncreaseQuantity = (prod) => {
         if (canIncreaseQty(prod)) {
-            dispatch(addToCart({ id: prod.id }));
+            dispatch(addToCart(prod));
         } else {
             alert(t("quantity_limit_error"));
         }
     };
 
     const handleDecreaseQuantity = (prod) => {
-        dispatch(decreaseQuantity({ id: prod.id }));
+        dispatch(decreaseQuantity(prod));
     };
 
     // Calcul du total avec useMemo
@@ -125,7 +125,7 @@ const ListProductShoppingCart = () => {
                                 <td className="px-6 py-4">{price.toFixed(CONSTANTS?.DECIMALS_DIGITS)} ({prod.currency_price})</td>
                                 <td className="px-6 py-4">{total} ({prod.currency_price})</td>
                                 <td className="px-6 py-4">
-                                    <button onClick={() => dispatch(removeFromCart({ id: prod.id }))} className="font-medium hover:underline cursor-pointer">Supprimer</button>
+                                    <button onClick={() => dispatch(removeFromCart(prod))} className="font-medium hover:underline cursor-pointer">Supprimer</button>
                                 </td>
                             </tr>
                         );
