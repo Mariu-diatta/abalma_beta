@@ -39,46 +39,63 @@ const ProductCard = ({
 
                 <div
 
-                    onClick={() => {
-                        openModal(item);
-                        dispatch(addUser(owners[item?.fournisseur]));
-                    }}
-
-                    className="
-                        relative
-                        w-full
-                        aspect-[4/5]
-                        overflow-hidden
-                        rounded-lg
-                        cursor-pointer
-                        bg-gray-100
-                    "
-                    style={{  backgroundImage:`url(${item?.image_product})`}}
-
+                  onClick={() => {
+                    openModal(item);
+                    dispatch(addUser(owners[item?.fournisseur]));
+                  }}
+                  className="
+                    relative
+                    w-full
+                    aspect-[4/5]
+                    overflow-hidden
+                    rounded-lg
+                    cursor-pointer
+                    bg-gray-100
+                    shadow-md
+                    hover:shadow-xl
+                    transition-shadow
+                    duration-300
+                  "
                 >
-                    <img
-                        src={item?.image_product}
-                        alt={item?.name_product}
-                        loading="lazy"
-                        className="
-                          w-full
-                          h-full
-                          object-contain
-                          transition
-                          duration-300
-                          ease-in-out
-                          hover:scale-105
-                          hover:brightness-90
-                          p-2
-                        "
-                         onError={(e) => {
-                            if (e.target.src !== window.location.origin + "/default-product.jpg") {
-                                e.target.src = "/default-product.jpg";
-                            }
-                        }}
-                    />
+                  {/* Image de fond floutée pour effet de profondeur */}
+                  <div
+                    className="
+                      absolute inset-0 
+                      bg-cover bg-center 
+                      blur-sm 
+                      scale-110
+                      opacity-60
+                      transition-transform
+                      duration-500
+                    "
+                    style={{ backgroundImage: `url(${item?.image_product})` }}
+                  />
 
+                  {/* Image principale du produit */}
+                  <img
+                    src={item?.image_product}
+                    alt={item?.name_product || "Produit"}
+                    loading="lazy"
+                    className="
+                      relative
+                      w-full
+                      h-full
+                      object-contain
+                      transition-transform
+                      duration-300
+                      ease-in-out
+                      hover:scale-105
+                      hover:brightness-90
+                    "
+                    onError={(e) => {
+                      // fallback si image manquante
+                      if (!e.target.src.includes("default-product.jpg")) {
+                        e.target.src = "/default-product.jpg";
+                      }
+                    }}
+                  />
                 </div>
+
 
             </div>
 

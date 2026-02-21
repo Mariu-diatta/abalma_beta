@@ -21,11 +21,11 @@ export function PaymentWithCard(
 
     const { t } = useTranslation();
 
-    const data = useSelector(state => state.cart);
 
     const dispatch = useDispatch()
 
-    const dataItems = data?.items
+    const dataItems = useSelector(state => state.cart.items);
+
 
     const currentUser = useSelector(state => state.auth.user);
 

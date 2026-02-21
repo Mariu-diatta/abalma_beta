@@ -201,10 +201,7 @@ const AddUploadProduct = () => {
     };
 
     return (
-        <div
-            className="bg-white dark:bg-gray-900 rounded-md flex flex-col justify-center items-center pb-[10dvh] overflow-x-hidden"
-            style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
-        >
+        <div className="rounded-md flex flex-col justify-center items-center pb-[10dvh] overflow-x-hidden">
 
             <span className={`${isProductAdded && "hidden"}`}>
                 <TitleCompGen title={t("add_product.add_or_update_product")} />
@@ -301,7 +298,7 @@ const AddUploadProduct = () => {
                                     name="taille_product"
                                     value={dataProduct?.taille_product}
                                     onChange={onChangeClick}
-                                    className="bg-gray-50 border-0 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-0"
+                                    className="border-0 border-gray-300 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-0"
                                 >
                                     <option value="">{t("add_product.select_size")}</option>
                                     <option value="SMALL">{t("add_product.SMALL")}</option>
@@ -333,7 +330,7 @@ const AddUploadProduct = () => {
                                     name="categorie_product"
                                     value={dataProduct?.categorie_product}
                                     onChange={onChangeClick}
-                                    className="my-4 bg-gray-50 border-0 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-0"
+                                    className="my-4 border-0 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-0"
                                     required
                                 >
                                         <option value="">{t("add_product.select_category")}</option>
@@ -378,7 +375,7 @@ const AddUploadProduct = () => {
                                     name="Currency_price"
                                     value={dataProduct?.Currency_price}
                                     onChange={onChangeClick}
-                                    className="my-4 bg-gray-50 border-0 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-0"
+                                    className="my-4 border-0 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-0"
                                 >
                                     <option value="">{t("add_product.select_currency")}</option>
                                     <option value="EURO">{t("add_product.euro")}</option>
@@ -421,7 +418,7 @@ const AddUploadProduct = () => {
                                     name="delivery"
                                     value={dataProduct?.delivery}
                                     onChange={onChangeClick}
-                                    className="bg-gray-50 border-0 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-0"
+                                    className="border-0 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-0"
                                     required
                                 >
                                     <option value="FREE">{t("add_product.FREE")}</option>

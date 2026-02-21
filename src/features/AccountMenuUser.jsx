@@ -31,7 +31,7 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
             <button
                 ref={trigger}
                 onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="hover:bg-gray-50 dark:hover:bg-gray-800 relative inline-flex items-center justify-center gap-0 rounded-lg dark:bg-dark-2 px-1 dark:text-white"
+                className="hover:bg-gray-50 relative inline-flex items-center justify-center gap-0 rounded-lg  px-1 dark:text-white"
             >
                 {
                     userImage ? (
@@ -97,7 +97,6 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
                 className={`shadow-lg bg-transparent absolute right-0 top-full me-3 overflow-hidden rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${dropdownOpen ? "block z-100 bg-white/80 " : "hidden"}`}
 
-                style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
             >
 
                 <div className="px-4 py-3">
@@ -110,7 +109,7 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
                     <button
 
-                        className="bg-white/80 shadow-sm flex gap-1 w-full items-center justify-between px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5"
+                        className="bg-white/80 shadow-sm flex gap-1 w-full items-center justify-between px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white "
 
                         onClick={
 

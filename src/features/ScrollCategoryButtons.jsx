@@ -121,13 +121,6 @@ const ScrollableCategoryButtons = ({
 
                             className="absolute left-0 top-1/2 -translate-y-1/2 z-5 p-2 shadow rounded-full bg-none hidden md:flex"
 
-                            style={{
-
-                                backgroundColor: "var(--color-bg)",
-
-                                color: "var(--color-text)"
-                            }}
-
                             onClick={() => scroll("left")}
                         >
                             <ChevronLeft className="w-5 h-5 text-gray-600" />
@@ -165,12 +158,6 @@ const ScrollableCategoryButtons = ({
                         <button
                             className="absolute right-0 top-1/2 -translate-y-1/2 z-5 p-3 shadow rounded-full hidden md:flex"
                             onClick={() => scroll("right")}
-                            style={{
-
-                                backgroundColor: "var(--color-bg)",
-
-                                color: "var(--color-text)"
-                            }}
                         >
                             <ChevronRight className="w-5 h-5 text-gray-600" />
 

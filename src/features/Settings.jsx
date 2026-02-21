@@ -204,7 +204,7 @@ const SettingsForm = () => {
 
         <div className="flex flex-col justify-center items-center mx-auto w-full p-2 pb-[20dvh]">
 
-            <span className="font-extrabold text-gray-500 dark:text-gray-400 text-2xl ">
+            <span className="font-extrabold text-gray-500 dark:text-white text-2xl ">
 
                 <TitleCompGen title={t("settingsText.accountSettings")} />
 
@@ -214,18 +214,18 @@ const SettingsForm = () => {
                 className="w-full md:w-1/2 md:mx-auto flex flex-col lg:flex-row justify-center items-center gap-8  py-3  "
             >
 
-                <div className="w-auto p-2 xl:w-full  self-center  max-h-full overflow-y-auto bg-gray-50 dark:bg-gray-80  scrollbor_hidden rounded-lg space-y-6 ">
+                <div className="w-auto p-2 xl:w-full  self-center  max-h-full overflow-y-auto bg-gray-50  scrollbor_hidden rounded-lg space-y-6 ">
 
                     {/* Compte form */}
-                    <form onSubmit={updatePassword} className="w-auto p-2 dark:bg-gray-800 shadow-md rounded-lg space-y-3  py-3">
+                    <form onSubmit={updatePassword} className="w-auto p-2  shadow-md rounded-lg space-y-3  py-3">
 
                         <div className="flex items-center gap-4">
                             {currentUserData?.image ? (
                                 <img src={currentUserData.image} alt="Profil" className="w-16 h-16 rounded-full object-cover" />
                             ) : (
-                                <div className="w-16 h-16 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center text-gray-500">?</div>
+                                <div className="w-16 h-16 bg-gray-300  rounded-full flex items-center justify-center text-gray-500">?</div>
                             )}
-                            <input type="file" accept="image/*" onChange={handleImageUpload} className="text-sm text-gray-700 dark:text-gray-300" />
+                            <input type="file" accept="image/*" onChange={handleImageUpload} className="text-sm text-gray-7 dark:text-gray-300" />
                         </div>
 
                         <FloatingInput id="name" name="name" label={currentUserData?.nom || t('settingsText.nameLabel')} value={form.name} onChange={handleChange} disabled />
@@ -237,7 +237,7 @@ const SettingsForm = () => {
                     </form>
 
                     {/* Préférences */}
-                    <form onSubmit={(e)=>handleSubmit(e)} className="w-auto p-2 dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6">
+                    <form onSubmit={(e)=>handleSubmit(e)} className="w-auto p-2  shadow-md rounded-lg p-6 space-y-6">
 
                         <ThemeSelector value={form.theme} onChange={handleUpdateThem} t={t} />
 
@@ -248,7 +248,7 @@ const SettingsForm = () => {
                     </form>
 
                     {/* Paiement */}
-                    <form onSubmit={handleSubmitCard} className="w-full p-2 dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-6">
+                    <form onSubmit={handleSubmitCard} className="w-full p-2 shadow-md rounded-lg p-6 space-y-6">
 
                         <h3 className="ms-2 font-extrabold text-gray-500 dark:text-gray-400">{t("settingsText.paymentMethod")}</h3>
 
@@ -279,9 +279,11 @@ const SettingsForm = () => {
                 </div>
 
             </div>
+
             <div className=" text-center lg:mb-2  mt-8 pt-2">
                 <SubscriptionsPage />
             </div>
+
        </div>
     );
 };

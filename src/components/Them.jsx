@@ -10,7 +10,7 @@ const ThemeSelector = ({ value, onChange, t }) => (
             name="theme"
             value={value}
             onChange={onChange}
-            className="style-bg border-0 bg-gray-50 border-0 border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 p-2.5"
+            className="style-bg border-0 bg-gray-50 border-0 border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 dark:text-white dark:border-gray-600 p-2.5"
         >
             <option value="light">{t('settingsText.themeLight')}</option>
 

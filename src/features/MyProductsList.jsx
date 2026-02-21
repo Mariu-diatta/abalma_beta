@@ -94,10 +94,9 @@ const MyProductList = () => {
     const prevPage = () => page > 1 && setPage(page - 1);
 
     return (
-        <div
-            className="style_bg overflow-x-auto sm:rounded-md p-1 shadow-sm "
-            style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
-        >
+
+        <div className="overflow-x-auto sm:rounded-md p-1 shadow-sm dark:text-white text-gray-100">
+
             {/* 🔍 BARRE DE RECHERCHE */}
             <div className="mb-4 flex justify-between items-center">
 
@@ -119,8 +118,9 @@ const MyProductList = () => {
                         setSearch(e.target.value);
                         setPage(1);
                     }}
-                    className="px-3 py-2 rounded-full border dark:bg-gray-700 dark:border-gray-600 border-blue-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-400 "
+                    className="px-3 py-2 rounded-full border   focus:border-blue-500 ring-0 focus:ring-blue-0 focus:outline-none"
                 />
+
             </div>
 
             {loading ? (
@@ -128,7 +128,7 @@ const MyProductList = () => {
             ) : (
                 <>
                     <table
-                            className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-lg p-1"
+                       className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-lg p-1"
                     >
 
                         <thead className="bg-gray-100">
@@ -153,7 +153,7 @@ const MyProductList = () => {
                                 (paginatedProducts?.length === 0) ? (
 
                                     <tr className="">
-                                         <td colSpan="4" className="text-center p-4 text-gray-500">{t('TableRecap.noProducts')}</td>
+                                         <td colSpan="4" className="text-center p-4 ">{t('TableRecap.noProducts')}</td>
                                     </tr>
                                 )
                                 :

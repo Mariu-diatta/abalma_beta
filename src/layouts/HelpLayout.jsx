@@ -64,15 +64,7 @@ const HelpPage = () => {
         return (
 
             <div
-                className="relative max-w-lg mx-auto p-6 bg-white border border-gray-200 rounded-lg shadow-sm text-center "
-
-                style={{
-
-                    backgroundColor: "var(--color-bg)",
-
-                    color: "var(--color-text)"
-                }}
-
+                className="relative max-w-lg mx-auto p-6 bg-white border border-gray-200 rounded-lg shadow-md text-center "
             >
 
                 <button className="absolute font-bold right-2 top-2" onClick={() => sendData()}>⨉</button> 
@@ -91,67 +83,29 @@ const HelpPage = () => {
 
     return (
 
-        <div
-            className="d-flex flex-column items-start justify-between style-bg mx-1 mb-5 m-auto mb-6 pb-[20dvh]"
+        <div className="d-flex flex-column items-start justify-between mx-1 mb-5 m-auto mb-6 pb-[20dvh]">
 
-            style={{
-
-                backgroundColor: "var(--color-bg)",
-
-                color: "var(--color-text)"
-            }}
-
-        >
-
-            <div
-
-                className="text-start py-2 px-8 max-w-md dark:bg-gray-800 dark:text-white flex flex-wrap gap-1 mb-6"
-
-                style={{
-
-                    backgroundColor: "var(--color-bg)",
-
-                    color: "var(--color-text)"
-                }}
-            >
+            <div className="text-start py-2 px-8 max-w-md dark:bg-gray-800 dark:text-white flex flex-wrap gap-1 mb-6">
 
                 <TitleCompGen title="Support & Aide" />
 
             </div>
 
-            <div className="dark:bg-gray-800 dark:text-white flex flex-wrap gap-1">
+            <div className=" dark:text-white flex flex-wrap gap-1">
 
                 <form
                     onSubmit={handleSubmit}
                     className="translate-y-0 transition-all duration-1000 ease-in-out w-full p-4 max-w-md bg-white  rounded-lg shadow-sm mx-auto gap-5"
-
-                    style={{
-
-                        backgroundColor: "var(--color-bg)",
-
-                        color: "var(--color-text)"
-                    }}
                 >
                     {/* Sélecteur */}
                     <div
                         className="mb-4"
-                        style={{
-
-                            backgroundColor: "var(--color-bg)",
-
-                            color: "var(--color-text)"
-                        }}
                     >
                         <label
                             className="block mb-2 text-sm font-medium text-gray-900"
-                            style={{
-
-                                backgroundColor: "var(--color-bg)",
-
-                                color: "var(--color-text)"
-                            }}
                         >
                             {t('helpPage.problemType.index')}
+
                         </label>
 
                         <select
@@ -172,14 +126,9 @@ const HelpPage = () => {
 
                         <label
                             className="block mb-2 text-sm font-medium text-gray-900"
-                            style={{
-
-                                backgroundColor: "var(--color-bg)",
-
-                                color: "var(--color-text)"
-                            }}
                         >
                             {t('helpPage.problemType.description')}
+
                         </label>
 
                         <textarea
@@ -188,7 +137,8 @@ const HelpPage = () => {
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                             className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg  focus:ring-blue-0 focus:ring-0"
-                        />
+                        />*
+
                     </div>
 
                     {/* Bouton */}
@@ -198,7 +148,8 @@ const HelpPage = () => {
                             type="submit"
                             className="w-full text-white bg-gradient-to-br from-purple-50 to-blue-100 hover:from-purple-100 hover:to-blue-400 text-purple-600 rounded-lg text-sm px-5 py-2.5"
                         >
-                            {t('helpPage.problemType.send')}
+                                {t('helpPage.problemType.send')}
+
                         </button>
                         :
                         <LoadingCard/>
@@ -227,31 +178,12 @@ export const MessagesListWithPopover = () => {
     const { t } = useTranslation();
 
     return (
-        <div
-            className="mx-auto max-w-md"
 
-            style={{
-
-                backgroundColor: "var(--color-bg)",
-
-                color: "var(--color-text)"
-            }}
-
-        >
+        <div className="mx-auto max-w-md">
 
             <TitleCompGenLitle title={t('helpPage.currentMessages.index')} />
 
-            <ul
-
-                className="space-y-3 shadow-sm rounded-lg bg-white border border-gray-200 border-0 p-2"
-
-                style={{
-
-                    backgroundColor: "var(--color-bg)",
-
-                    color: "var(--color-text)"
-                }}
-            >
+            <ul className="space-y-3 shadow-sm rounded-lg  border border-gray-200 border-0 p-2" >
 
                 {
                     messages(t)?.map(
@@ -263,12 +195,6 @@ export const MessagesListWithPopover = () => {
                                 <button
                                     className="text-left w-full p-2 hover:bg-gray-100 rounded-md bg-gray-50 shadow-sm cursor-pointer "
                                     onClick={() => setActiveIndex(activeIndex === index ? null : index)}
-                                    style={{
-
-                                        backgroundColor: "var(--color-bg)",
-
-                                        color: "var(--color-text)"
-                                    }}
                                 >
                                     {item.text}
                                 </button>
@@ -332,15 +258,7 @@ function TestmonyList() {
     return (
 
         <main
-            className="relative max-w-lg mx-auto bg-white border border-gray-200 shadow-md text-center border-0 mt-10 w-full rounded-br-none"
-
-            style={{
-
-                backgroundColor: "var(--color-bg)",
-
-                color: "var(--color-text)"
-            }}
-
+            className="relative max-w-lg mx-auto  border border-gray-200 shadow-md text-center border-0 mt-10 w-full rounded-br-none"
         >
 
             <TitleCompGenLitle title={t('Comment')} />
@@ -350,13 +268,6 @@ function TestmonyList() {
             <form onSubmit={handleSubmit}
 
                 className="gap-4 translate-y-0 transition-all duration-1000 ease-in-out w-full p-1 border-0 max-w-md bg-white  rounded-lg mx-auto "
-
-                style={{
-
-                    backgroundColor: "var(--color-bg)",
-
-                    color: "var(--color-text)"
-                }}
             >
                 <textarea
                     value={content}
@@ -372,7 +283,7 @@ function TestmonyList() {
                     :
                     <button
                         type="submit"
-                        className="w-full text-white bg-gradient-to-br from-purple-50 to-blue-100 hover:from-purple-100 hover:to-blue-400 text-purple-600 rounded-lg text-sm px-5 py-2.5"
+                        className="w-full bg-gradient-to-br from-purple-50 to-blue-100 hover:from-purple-100 hover:to-blue-400 text-purple-600 rounded-lg text-sm px-5 py-2.5"
                     >
                         {t('send')}
 

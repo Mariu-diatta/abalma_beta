@@ -240,7 +240,7 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
 
     return (
 
-        <div className="style_bg overflow-x-auto sm:rounded-lg p-1 ">
+        <div className="overflow-x-auto sm:rounded-lg p-1 dark:text-white text-gray-100">
 
             {/* TITRE */}
             <nav className="flex items-center gap-2 m-2">
@@ -421,10 +421,10 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
             }
 
             {/* TABLEAU */}
-            <main className="style_bg overflow-x-auto sm:rounded-lg p-1 z-0 ">
+            <main className=" overflow-x-auto sm:rounded-lg p-1 z-0 ">
 
                 <table
-                    className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-lg p-2"
+                    className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-lg p-1"
                 >
 
                     <thead className="bg-gray-100">
@@ -452,7 +452,7 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
                             (paginatedProducts?.length === 0) ?
                             (
                                 <tr>
-                                    <td colSpan="9" className="text-center p-4 text-gray-500">
+                                    <td colSpan="9" className="text-center p-4">
                                         {t('TableRecap.noProducts')}
                                     </td>
                                 </tr>
@@ -463,7 +463,7 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
 
                                     <tr
                                         key={index}
-                                        className=" dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
+                                        className=" dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
                                     >
                                         <td className="px-4 py-3">{item?.description_product?.slice(0, 6) || '-'}</td>
                                         <td className="px-4 py-3">{item?.categorie_product || '-'}</td>
@@ -480,7 +480,7 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
                                                     setPopoverOpen(true);
                                                     setProductView(item);
                                                 }}
-                                                className="p-1 bg-gradient-to-br from-purple-100 hover:bg-gradient-to-br hover:from-purple-400 text-white rounded-lg hover:bg-blue-700 text-xs"
+                                                className="p-1 bg-gradient-to-br from-purple-100 hover:bg-gradient-to-br hover:from-purple-400 rounded-lg hover:bg-blue-700 text-xs"
                                             >
                                                 <svg className="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                                     <path stroke="currentColor" strokeWidth="1" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />

@@ -1,4 +1,4 @@
-﻿import React, { useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from 'react-i18next';
 import { API_URL_BACKEND, STATUS_FLOW_STYLE, STATUS_FLOW_SUBTRANSACTION, STATUS_FLOW_TRANSACTION, updateStatusTransaction } from "../utils";
 import { useDispatch, } from 'react-redux';

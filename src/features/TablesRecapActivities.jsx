@@ -59,14 +59,14 @@ const TablesRecapActivities = ({
 
 
     return (
-        <div className="fixed absolute w-[98dvw] md:w-[80dvw] sm:rounded-lg style-bg scrollbor_hidden pb-6 overflow-y-auto h-full">
+        <div className="fixed absolute w-[98dvw] md:w-[80dvw] sm:rounded-lg scrollbor_hidden pb-6 overflow-y-auto h-full dark:text-white text-gray-100">
 
             {/* Title */}
             <div className="mb-6 text-center style_bg">
 
                 <TitleCompGen title={t('Dashboard.welcomeTitle')} />
 
-                <p className="mt-2 text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto style_bg">
+                <p className="mt-2 text-lg  max-w-3xl mx-auto">
 
                     {t('Dashboard.welcomeText')}
 
@@ -88,7 +88,7 @@ const TablesRecapActivities = ({
                                 aria-controls={`${tab.id}-tab`}
                                 id={`${tab.id}-tab-button`}
                                 onClick={() => setActiveTab(tab.id)}
-                                className={`border border-gray-50 whitespace-nowrap cursor-pointer rounded-full px-3 py-1 hover:bg-blue-50
+                                className={`dark:text-white text-gray-600 border border-gray-50 whitespace-nowrap cursor-pointer rounded-full px-3 py-1 hover:bg-blue-50
                                 ${activeTab === tab.id ? "bg-blue-50" : "bg-gray-50"}`}
                             >
 
@@ -102,13 +102,13 @@ const TablesRecapActivities = ({
             </div>
 
             {/* Content */}
-            <div className="relative overflow-y-auto min-h-[70dvh] w-auto scrollbor_hidden mb-[30dvh] pb-[30dvh] gap-7">
+            <div className="relative overflow-y-auto min-h-[70dvh] w-auto scrollbor_hidden mb-[30dvh] pb-[30dvh] gap-7 ">
 
                 <section
                     id={`${activeTab}-tab`}
                     role="tabpanel"
                     aria-labelledby={`${activeTab}-tab-button`}
-                    className="style_bg dark:bg-gray-800 rounded-lg h-screan overflow-x-auto z-0"
+                    className=" rounded-lg h-screan overflow-x-auto z-0"
                 >
                     {tabContent[activeTab]}
 

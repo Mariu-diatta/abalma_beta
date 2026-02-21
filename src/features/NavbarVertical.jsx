@@ -98,7 +98,7 @@ const VertcalNavbar = ({ children }) => {
 
     return (
 
-        <main className="overflow-y-auto h-full pt-2  pb-[20dvh] mb-[0dvh]">
+        <main className="overflow-y-auto h-full pt-2  pb-[20dvh] mb-[0dvh] dark:text-white text-gray-100">
 
             {/* Toggle Button */}
             <button
@@ -107,7 +107,7 @@ const VertcalNavbar = ({ children }) => {
 
                 type="button"
 
-                className=" z-8 fixed top-0 left-2 inline-flex items-center ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-gray-100 dark:text-gray-100 dark:hover:bg-gray-100 dark:focus:ring-gray-50"
+                className=" z-8 fixed top-0 left-2 inline-flex items-center ms-3 text-sm  rounded-lg sm:hidden hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-gray-100 dark:focus:ring-gray-50"
             >
 
                 <span className="sr-only">...</span>
@@ -122,33 +122,22 @@ const VertcalNavbar = ({ children }) => {
 
             {/* Sidebar */}
             <section
+
                 id="separator-sidebar"
 
                 ref={sidebarRef}
 
-                className={`shadow-lg fixed top-0 left-0 z-40 md:z-0 w-64 h-full transition-transform ${isSidebarOpen ? '' : '-translate-x-full'} sm:translate-x-0`}
+                className={`bg-white dark:bg-white shadow-lg fixed top-0 left-0 z-40 md:z-0 w-64 h-full transition-transform ${isSidebarOpen ? '' : '-translate-x-full'} sm:translate-x-0`}
 
                 aria-label="Sidebar"
             >
-                <div
-
-                    className="scrollbor_hidden h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800"
-
-                    style={
-
-                        {
-                            backgroundColor: "var(--color-bg)",
-
-                            color: "var(--color-text)"
-                        }
-                    }
-                >
+                <div className="bg-white scrollbor_hidden h-full px-3 py-4 overflow-y-auto">
 
                     <ul className="space-y-2 ">
 
                         <li>
 
-                            <span className="flex items-center p-text-gray-900 rounded-lg dark:text-white  group mb-5">
+                            <span className="flex items-center p-text-gray-900 rounded-lg   group mb-5">
 
                                 <Logo />
 
@@ -159,7 +148,7 @@ const VertcalNavbar = ({ children }) => {
                         <li>
                             <button
 
-                                className={`w-full flex items-center justify-between text-left gap-x-3 p-2 w-full text-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-100 group cursor-pointer rounded-full ${(currentNav === "account-home") && "bg-gray-50 "}`}
+                                className={`w-full flex items-center justify-between text-left gap-x-3 p-2 w-full text-gray-700 dark:text-white hover:bg-gray-50  group cursor-pointer rounded-full ${(currentNav === "account-home") && "bg-gray-50 "}`}
 
                                 onClick={
 
@@ -198,7 +187,7 @@ const VertcalNavbar = ({ children }) => {
                                         <div className="relative h-[30px] w-[30px] rounded-full shrink-0" title={currentUser?.email}>
 
                                             <svg
-                                                className="w-[26px] h-[26px] text-gray-800 dark:text-white"
+                                                className="w-[26px] h-[26px]"
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 fill="none"
                                                 viewBox="0 0 24 24"
@@ -231,7 +220,7 @@ const VertcalNavbar = ({ children }) => {
 
                                             <span
 
-                                                className="shadow-lg inline-flex items-center justify-center px-2 text-xs text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300"
+                                                className="shadow-lg inline-flex items-center justify-center px-2 text-xs bg-gray-100 rounded-full dark:bg-gray-700 "
 
                                                 style={{
                                                     backgroundColor: "var(--color-bg)",
@@ -252,7 +241,7 @@ const VertcalNavbar = ({ children }) => {
 
                             <button
 
-                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-full ${(currentNav === ENDPOINTS?.MESSAGE_INBOX) && "bg-gray-50"}`}
+                                className={`w-full flex items-center justify-start text-left p-2 hover:bg-gray-100 group cursor-pointer rounded-full ${(currentNav === ENDPOINTS?.MESSAGE_INBOX) && "bg-gray-50"}`}
 
                                 onClick={
 
@@ -267,7 +256,7 @@ const VertcalNavbar = ({ children }) => {
                                 {
                                     (currentNav === ENDPOINTS?.MESSAGE_INBOX) ?
 
-                                    <svg className="shadow-lg rounded-full  w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                    <svg className="shadow-lg rounded-full  w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                         <path fillRule="evenodd" d="M4 3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h1v2a1 1 0 0 0 1.707.707L9.414 13H15a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4Z" clipRule="evenodd" />
                                         <path fillRule="evenodd" d="M8.023 17.215c.033-.03.066-.062.098-.094L10.243 15H15a3 3 0 0 0 3-3V8h2a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-1v2a1 1 0 0 1-1.707.707L14.586 18H9a1 1 0 0 1-.977-.785Z" clipRule="evenodd" />
                                     </svg>
@@ -302,7 +291,7 @@ const VertcalNavbar = ({ children }) => {
 
                             <button
 
-                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer rounded-full  ${(currentNav === "add-product") && "bg-gray-50"}`}
+                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100  group cursor-pointer rounded-full  ${(currentNav === "add-product") && "bg-gray-50"}`}
 
                                 onClick={
 
@@ -340,7 +329,7 @@ const VertcalNavbar = ({ children }) => {
 
                                 onClick={() => { navigate(`/${ENDPOINTS?.USER_BLOGS}`); dispatch(setCurrentNav(ENDPOINTS?.USER_BLOGS)) }}
 
-                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 group cursor-pointer rounded-full  ${(currentNav === "user-blogs") && "bg-gray-50"}`}                            >
+                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 group cursor-pointer rounded-full  ${(currentNav === "user-blogs") && "bg-gray-50"}`}                            >
 
                                 <div className="flex gap-2">
 
@@ -378,7 +367,7 @@ const VertcalNavbar = ({ children }) => {
                                     }
                                 }
 
-                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 group cursor-pointer rounded-full  ${(currentNav === "dashboard") && "bg-gray-50"}`}>
+                                className={`w-full flex items-center justify-start text-left p-2 text-gray-900 dark:text-white hover:bg-gray-100 group cursor-pointer rounded-full  ${(currentNav === "dashboard") && "bg-gray-50"}`}>
 
                                 <div className="flex gap-2 ">
 
@@ -405,14 +394,7 @@ const VertcalNavbar = ({ children }) => {
 
                     <ButtonUpdateAccountUserToPro/>
 
-                    <ul
-                        className="scrollbor_hidden h-full lg:h-[300px] py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800  mt-1 space-y-1  border-t border-gray-200 dark:border-gray-700"
-
-                        style={{
-                            backgroundColor: "var(--color-bg)",
-                            color: "var(--color-text)"
-                        }}
-                    >
+                    <ul className="scrollbor_hidden h-full lg:h-[300px] py-4 overflow-y-auto mt-1 space-y-1  border-t dark:border-gray-700" >
 
                         {
                             menuItems(t).map(({ name, to, svg, id }, index) => (
@@ -421,13 +403,7 @@ const VertcalNavbar = ({ children }) => {
 
                                 <div
 
-                                    className={`flex items-center px-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${greyStyleColor(id) ? "bg-grey-0" : ""}`}
-
-
-                                    style={{
-
-                                        color: "var(--color-text)"
-                                    }}
+                                    className={`flex items-center px-2 text-gray-900 dark:text-white hover:bg-gray-100  group ${greyStyleColor(id) ? "bg-grey-0" : ""}`}
                                 >
 
                                     {
@@ -480,7 +456,7 @@ const VertcalNavbar = ({ children }) => {
 
                     </ul>
 
-                    <div className=" flex items-center p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <div className=" flex items-center p-2 text-gray-900 dark:text-white hover:bg-gray-100  group">
 
                         {
                             !currentPageSubScription?
@@ -507,7 +483,7 @@ const VertcalNavbar = ({ children }) => {
                                     dispatch(setCurrentNav(ENDPOINTS?.SUBSCRIPTION))
                                 }
                             }
-                            className={`cursor-pointer ml-3 inline-block px-1 py-3 border-b-2 rounded-t-md transition-colors duration-300 
+                            className={`cursor-pointer ml-3 inline-block px-1 py-2 border-b-2 rounded-t-md transition-colors duration-300 
                                         ${currentPageSubScription
                                     ? 'border-b-gray-600 text-purple-600 dark:border-b-purple-500 dark:text-purple-500'
                                     : 'border-b-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
@@ -519,7 +495,7 @@ const VertcalNavbar = ({ children }) => {
 
                     </div>
 
-                    <div className=" flex items-center p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <div className=" flex items-center p-2 text-gray-900 dark:text-white hover:bg-gray-100 group">
 
                         {
                             !(currentNav === ENDPOINTS?.HELP) ?
@@ -544,7 +520,7 @@ const VertcalNavbar = ({ children }) => {
                                     dispatch(setCurrentNav(ENDPOINTS?.HELP))
                                 }
                             }
-                            className={`cursor-pointer ml-3 inline-block px-1 py-3 border-b-2 rounded-t-md transition-colors duration-300 
+                            className={`cursor-pointer ml-3 inline-block px-1 py-2 border-b-2 rounded-t-md transition-colors duration-300 
                                     ${currentNav === ENDPOINTS?.HELP
                                     ? 'border-b-gray-600 text-purple-600 dark:border-b-purple-500 dark:text-purple-500'
                                     : 'border-b-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
@@ -560,24 +536,9 @@ const VertcalNavbar = ({ children }) => {
 
             </section>
 
-            <section
+            <section className="p-0 m-0  sm:ml-64 h-full " >
 
-                className="p-0 m-0  sm:ml-64 h-full "
-
-                style={{
-                    backgroundColor: "var(--color-bg)",
-                    color: "var(--color-text)"
-                }}
-            >
-
-                <div
-                    className="p-0 m-0 border-0  border-white rounded-lg dark:border-gray-700"
-
-                    style={{
-                        backgroundColor: "var(--color-bg)",
-                        color: "var(--color-text)"
-                    }}
-                >
+                <div className="p-0 m-0 border-0  border-white rounded-lg dark:border-gray-700">
 
                     <section className="flex items-center justify-end h-auto mb-0 pb-0 rounded-sm md:mb-6 md:pb-1 sticky-top top-5">
 
@@ -593,17 +554,7 @@ const VertcalNavbar = ({ children }) => {
 
                         aria-labelledby={`${currentNav}-tab-button`}
 
-                        className="h-full dark:bg-gray-800 rounded-lg w-auto sm:mb-[30px] sm:pb-[50px] sm:z-[1000] mt-0 mb-2 sm:pt-1"
-
-                        style={
-
-                            {
-                                backgroundColor: "var(--color-bg)",
-
-                                color: "var(--color-text)"
-                            }
-                        }
-
+                        className="h-full rounded-lg w-auto sm:mb-[30px] sm:pb-[50px] sm:z-[1000] mt-0 mb-2 sm:pt-1"
                     > 
                         <ScrollTop/>
 

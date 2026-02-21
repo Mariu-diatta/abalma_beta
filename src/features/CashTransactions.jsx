@@ -35,7 +35,7 @@ const CashTransaction = () => {
 
     return (
 
-        <div className="py-4 w-full mx-0 px-1 md:px-5">
+        <div className="py-4 w-full mx-0 px-1 md:px-5 dark:text-white text-gray-100">
 
             <nav className="flex items-center gap-2 m-2">
 
@@ -47,7 +47,7 @@ const CashTransaction = () => {
 
             </nav>
 
-            <main>
+            <main className="gap-2">
                 {
                     transactionsCashOwner?.map(
 

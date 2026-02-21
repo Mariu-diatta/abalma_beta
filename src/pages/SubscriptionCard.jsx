@@ -7,6 +7,7 @@ import { ENDPOINTS } from '../utils';
 import { useDispatch } from 'react-redux';
 import { setCurrentNav } from '../slices/navigateSlice';
 import { useTranslation } from 'react-i18next';
+import TitleCompGen from '../components/TitleComponentGen';
 
 function SubscriptionCard({
     title = "Abalma Pro",
@@ -182,11 +183,7 @@ export default function SubscriptionsPage() {
 
             </button>
 
-            <h1 className="text-2xl font-bold text-gray-800  flex items-center gap-5 my-4">
-
-                <p>{t("Subscriptionb2b")}</p>
-
-            </h1>
+            <TitleCompGen title={t("Subscriptionb2b")} />
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-none overflow-y-auto h-full scrollbor_hidden py-5">
 

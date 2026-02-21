@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useCallback, useEffect} from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart, removeFromCart, decreaseQuantity, getTotalPrice, clearCart } from '../slices/cartSlice';
 import { useTranslation } from 'react-i18next';
 import { TitleCompGenLitle } from "../components/TitleComponentGen";
-import { CONSTANTS, totalPrice } from "../utils";
+import { CONSTANTS, convertir} from "../utils";
 import BuyButtonWithPaymentForm from "./ButtonPaymentShopping";
 import api from "../services/Axios";
 import { showMessage } from "../components/AlertMessage";
@@ -51,13 +51,11 @@ const ListProductShoppingCart = () => {
             convertValue = CONSTANTS?.XOF
         }
 
-        convertRates(setConvertRate, convertValue, reference)
+        const currentRate=convertir(convertValue, reference) || 1;
 
-        const quantity = Number(product.quanttity_product_sold);
+        const quantity = Number(product.quantity_sold);
 
-        var convertRefRate = (convertRate > 1) ? (1 / convertRate) : convertRate
-
-        return (!isNaN(price) && !isNaN(quantity)) ? price * quantity * convertRefRate : 0;
+        return (!isNaN(price) && !isNaN(quantity)) ? price * quantity * currentRate : 0;
     };
 
     const grandTotal = data.items.reduce((acc, product) => acc+totalPrice(product), 0);
@@ -99,7 +97,9 @@ const ListProductShoppingCart = () => {
     }, [currentUser, dispatch, data, itemsData]);
 
     return (
-        <main className="style_bg relative overflow-x-auto sm:rounded-lg p-1" style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}>
+
+        <main className="relative overflow-x-auto sm:rounded-lg p-1">
+
             <nav className="flex flex-row items-center gap-2">
                 <svg className="w-[25px] h-[25px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8" d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
@@ -107,7 +107,8 @@ const ListProductShoppingCart = () => {
                 <TitleCompGenLitle title={t('tableEntries.selectedProducts')} />
             </nav>
 
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-lg p-1" style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}>
+            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-lg p-1">
+                
                 <thead className="bg-gray-100">
                     <tr>
                         <th className="px-16 py-3"><span className="sr-only">{t('tableEntries.image')}</span></th>
@@ -145,7 +146,23 @@ const ListProductShoppingCart = () => {
                                 <td className="px-6 py-4">{price.toFixed(CONSTANTS?.DECIMALS_DIGITS)} ({prod.currency_price})</td>
                                 <td className="px-6 py-4">{total} ({prod.currency_price})</td>
                                 <td className="px-6 py-4">
-                                    <button onClick={() => dispatch(removeFromCart(prod))} className="font-medium hover:underline cursor-pointer">Supprimer</button>
+                                    <button onClick={() => dispatch(removeFromCart(prod))} className="font-medium hover:underline cursor-pointer">
+                                        <svg
+                                            className="w-[25px] h-[20px] text-gray-800"
+                                            aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                stroke="currentColor"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth="0.8"
+                                                d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
+                                            />
+                                        </svg>
+                                    </button>
                                 </td>
                             </tr>
                         );
@@ -161,7 +178,7 @@ const ListProductShoppingCart = () => {
                 </tfoot>
             </table>
 
-            <div className="flex justify-center gap-3 mt-4">
+            <div className="flex justify-center gap-3 mt-4 mx-5">
                 <BuyButtonWithPaymentForm total_price={totalPriceBuy} reference={reference} />
 
                 {/* 🔥 Bouton acheté conservé exactement comme demandé */}

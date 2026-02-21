@@ -32,11 +32,6 @@ const ListButtonsCategories = (
                                 setActivateButtonCategory(label);
                             }}
 
-                            style={{
-                                backgroundColor: "var(--color-bg)",
-                                color: "var(--color-text)",
-                            }}
-
                             className={`
                                 flex items-center gap-2 px-3 py-1 rounded-lg text-sm font-normal whitespace-nowrap
                                 transition-all duration-200 border z-2 border-0 shadow-sm mx-1 md:mx-3

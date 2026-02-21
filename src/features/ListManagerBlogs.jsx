@@ -99,7 +99,7 @@ const MyBlogsList = () => {
 
     return (
 
-        <div className="style_bg overflow-x-auto sm:rounded-md p-1" style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}>
+        <div className="overflow-x-auto sm:rounded-md p-1">
 
             <nav className="flex flex-row items-center gap-2 mb-2">
 
@@ -126,9 +126,9 @@ const MyBlogsList = () => {
                 (
                     <main>
 
-                        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 shadow-lg p-1">
+                        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-lg p-1">
 
-                                <thead className="bg-gray-100">
+                            <thead className="bg-gray-100">
                                 <tr>
                                     <th className="px-6 py-3">{t('blog.blogName')}</th>
                                     <th className="px-6 py-3">{t("blog.blogContent")}</th>
@@ -140,7 +140,7 @@ const MyBlogsList = () => {
                             <tbody>
                                 {paginatedBlogs?.length === 0 ? (
                                     <tr className="">
-                                       <td colSpan="4" className="text-center p-4 text-gray-500">{t('blogNone')}</td>
+                                       <td colSpan="4" className="text-center p-4 ">{t('blogNone')}</td>
                                     </tr>
                                 ) : (
                                     paginatedBlogs?.map((blog) => (
@@ -178,7 +178,7 @@ const MyBlogsList = () => {
                         </table>
 
                         {/* Pagination */}
-                        <div className="flex justify-between items-center text-sm text-gray-600 dark:text-gray-300 mt-1 pb-6 px-1">
+                        <div className="flex justify-between items-center text-sm dark:text-white text-gray-100 mt-1 pb-6 px-1">
                         
                             <span>
                                 {/*{t('TableRecap.pagination.page')} {currentPage} {t('TableRecap.pagination.of')} {totalPages}*/}

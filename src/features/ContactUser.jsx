@@ -97,7 +97,7 @@ const UsersContactsList = () => {
 
     return (
 
-        <div className="absolute fixed w-[98dvw] md:w-[80dvw] m-auto sm:rounded-lg style-bg pb-6 mb-6  mt-5 pb-[30dvh] overflow-y-auto h-full scrollbor_hidden">
+        <div className="dark:text-white text-gray-800   absolute fixed w-[98dvw] md:w-[80dvw] m-auto sm:rounded-lg pb-6 mb-6  mt-5 pb-[30dvh] overflow-y-auto h-full scrollbor_hidden">
 
             <TitleCompGen title={t('ParamText.title')} />
 
@@ -105,18 +105,18 @@ const UsersContactsList = () => {
                 loading ?
                 <LoadingCard/>
                 :
-                <div className="flex flex-col justify-between  h-[75dvh] ">
+                <div className="flex flex-col justify-between  h-[75dvh]">
                     {/* Bar d'action */}
-                    <div className="flex items-center justify-between flex-wrap md:flex-nowrap space-y-4 md:space-y-0 pb-4 dark:bg-gray-900 px-4 style-bg">
+                    <div className="flex items-center justify-between flex-wrap md:flex-nowrap space-y-4 md:space-y-0 pb-4 px-4 ">
 
                         {/* Dropdown de filtre */}
-                        <div className="relative style-bg">
+                        <div className="relative ">
 
                             <button
 
                                 onClick={toggleDropdown}
 
-                                className="inline-flex items-center text-gray-500  hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+                                className="inline-flex items-center hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
                             >
                                 {statusFilter === "Tous" ? "Filtrer par statut" : statusFilter}
 
@@ -130,7 +130,7 @@ const UsersContactsList = () => {
 
                             {isDropdownOpen && (
 
-                                <div className="absolute mt-2 z-10 divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600 bg-white dark:bg-dark-300">
+                                <div className="absolute mt-2 z-10 divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:divide-gray-600 bg-white dark:bg-dark-300">
 
                                     <ul className="py-1 text-sm text-gray-700 dark:text-gray-200">
 
@@ -167,7 +167,7 @@ const UsersContactsList = () => {
 
                                         onClick={handleDeleteSelected}
 
-                                        className="text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 rounded-lg px-4 py-2 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-800"
+                                        className="text-sm font-medium bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 rounded-lg px-4 py-2 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-800"
                                     >
                                         {t('ParamText.alertDelete')}
 
@@ -181,7 +181,7 @@ const UsersContactsList = () => {
                                     type="text"
                                     value={searchTerm}
                                     onChange={handleSearchChange}
-                                    className="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                                    className="block p-2 ps-10 text-sm border border-gray-300 rounded-lg w-80 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                                     placeholder={t('ParamText.searchPlaceholder')}
                                 />
 
@@ -203,11 +203,11 @@ const UsersContactsList = () => {
 
                     <div className="relative overflow-y-auto h-[80dvh] scrollbor_hidden pb-[20dvh]">
 
-                        <table className="w-full text-sm text-left style-bg  px-3 ">
+                        <table className="w-full text-sm text-left px-3 ">
 
-                            <thead className="text-md style_bg">
+                            <thead className="text-md ">
 
-                                <tr className="style_bg text-sm">
+                                <tr className="text-sm">
 
                                     <th className="p-4 hidden">
 
@@ -238,7 +238,7 @@ const UsersContactsList = () => {
                                         (user?.id !== currentuser?.id)
                                             && 
                                             (
-                                                <tr key={i} className="dark:bg-gray-100 hover:bg-gray-100 dark:hover:bg-gray-40 shadow-xs hover:shadow-sm p-3 py-2 rounded-lg hover:rounded-lg hover:text-blue-300">
+                                                <tr key={i} className="hover:bg-gray-100 dark:hover:bg-gray-40 shadow-xs hover:shadow-sm p-3 py-2 rounded-lg hover:rounded-lg hover:text-blue-300">
 
                                                     <td className="p-4 hidden">
 

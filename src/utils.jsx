@@ -611,7 +611,8 @@ export const payNow = async (
     }
 
 };
-function convertir(de, vers) {
+
+export function convertir(de, vers) {
     const taux = {
         EUR_USD: 1.10,
         USD_EUR: 0.91,
