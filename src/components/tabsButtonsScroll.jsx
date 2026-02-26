@@ -50,7 +50,7 @@ function TabsButtons({ tabs, activeTab, setActiveTab }) {
                 id={`${tab.id}-tab-button`}
                 onClick={() => setActiveTab(tab.id)}
                 className={`text-md dark:text-white text-gray-600 border border-gray-100 whitespace-nowrap cursor-pointer rounded-full px-3 py-1 hover:bg-blue-50
-                ${activeTab === tab.id ? "" : ""}`}
+                ${activeTab === tab.id ? "bg-gray-100" : ""}`}
               >
                 {tab?.label}
               </button>
