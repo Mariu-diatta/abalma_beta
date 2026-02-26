@@ -430,7 +430,7 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
                                 NAMES_TABLES?.map(header => (
 
                                         <th key={header}
-                                        className={`px-4 py-3 ${(mode === MODE.BUY && (header === CONSTANTS.UPDATE || header === CONSTANTS.ACTION))?"hidden":""}`}
+                                        className={`px-4 py-3 whitespace-nowrap cursor-pointer  ${(mode === MODE.BUY && (header === CONSTANTS.UPDATE || header === CONSTANTS.ACTION))?"hidden":""}`}
                                         >
                                           { t(`TableRecap.tableHeaders.${header}`)} 
 
@@ -458,18 +458,18 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
                                 paginatedProducts?.map((item, index) => (
 
                                     <tr
-                                        key={index}
+                                        key={index} 
                                         className=" dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
                                     >
-                                        <td className="px-4 py-3">{item?.description_product?.slice(0, 6) || '-'}</td>
-                                        <td className="px-4 py-3">{item?.categorie_product || '-'}</td>
-                                        <td className="px-4 py-3 capitalize">{item?.status || '-'}</td>
-                                        <td className="px-4 py-3">{item?.price_product || '-'}</td>
-                                        <td className="px-4 py-3">{item?.created_at ? convertDate(item?.created_at) : convertDate(item?.created) || '-'}</td>
-                                        <td className="px-4 py-3">{convertDate(item?.created) || 'N/A'}</td>
-                                        <td className="px-4 py-3">{item?.date_fin_emprunt || '-'}</td>
-                                        <td className="px-4 py-3">{item?.operation_product || '-'}</td>
-                                        <td className="px-4 py-3">
+                                        <td className="px-4 py-3 ">{item?.description_product?.slice(0, 6) || '-'}</td>
+                                        <td className="px-4 py-3 ">{item?.categorie_product || '-'}</td>
+                                        <td className="px-4 py-3 cursor-pointer ">{item?.status || '-'}</td>
+                                        <td className="px-4 py-3 ">{item?.price_product || '-'}</td>
+                                        <td className="px-4 py-3 ">{item?.created_at ? convertDate(item?.created_at) : convertDate(item?.created) || '-'}</td>
+                                        <td className="px-4 py-3 ">{convertDate(item?.created) || 'N/A'}</td>
+                                        <td className="px-4 py-3 ">{item?.date_fin_emprunt || '-'}</td>
+                                        <td className="px-4 py-3 ">{item?.operation_product || '-'}</td>
+                                        <td className="px-4 py-3 ">
 
                                             <button
                                                 onClick={() => {

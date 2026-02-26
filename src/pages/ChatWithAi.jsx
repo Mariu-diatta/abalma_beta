@@ -87,18 +87,23 @@ const AnaliesChatsWithAi = () => {
         <div>
 
             {/* BUTTON OPEN */}
-            <button
-                onClick={fetchAiAnalysisList}
-                className="bg-gray-50 rounded-lg px-4 py-2 hover:bg-gray-200 fixed top-10 right-5 md:absolute mb-2 shadow-lg translate-y-0 transition-all duration-1000 ease-in-out"
-            >
-                {
-                    loadingList ?
-                        t("loading")
-                        :
-                        t("ai_analies")
-                }
 
-            </button>
+            {
+                loadingList ?
+                <button
+                    onClick={fetchAiAnalysisList}
+                    className="bg-gray-50 rounded-lg px-4 py-1 hover:bg-gray-200 fixed top-10 right-5 md:absolute mb-2  translate-y-0 transition-all duration-1000 ease-in-out"
+                >
+                    {t("loading")}
+                </button>
+                :
+                <button
+                    onClick={fetchAiAnalysisList}
+                    className="bg-gray-50 rounded-lg px-4 py-2 hover:bg-gray-200 fixed top-10 right-5 md:absolute mb-2 translate-y-0 transition-all duration-1000 ease-in-out"
+                >
+                    {t("ai_analies")}
+                </button>
+            }
 
             {/* POPOVER */}
             {

@@ -23,6 +23,7 @@ import { logout } from '../slices/authSlice';
 import { setCurrentNav } from '../slices/navigateSlice';
 import AnaliesChatsWithAi from '../pages/ChatWithAi';
 import { addAiChat } from '../slices/aiChatSlice';
+import TitleCompGen from '../components/TitleComponentGen';
 
 const ChatLayout = () => {
 
@@ -247,10 +248,6 @@ const ChatLayout = () => {
 
         <main
             className="grid grid-cols-12  flex justify-center items-start mx-auto gap-2 pb-1 bg-grey-100  mb-2 fixed  md:mt-0"
-            style={{
-                backgroundColor: 'var(--color-bg)',
-                color: 'var(--color-text)',
-            }}
         >
             {/* Sidebar */}
 
@@ -266,24 +263,17 @@ const ChatLayout = () => {
                         flex flex-col
                       `
                     }
-
-                    style={
-                        {
-                            backgroundColor: 'var(--color-bg)',
-                            color: 'var(--color-text)',
-                        }
-                    }
                 >
-                    <div className="p-1 gap-3 pt-6 mt-5 flex-1 overflow-y-auto scrollbor_hidden">
+                    <div className="p-1 gap-3 pt-6 mt-5 flex-1 overflow-y-auto scrollbor_hidden justyfy-between">
 
-                        <h2 className="font-bold text-gray-500 mb-6 h-3">Discussions</h2>
+                        <TitleCompGen title={"Discussions"} />
 
                         {
                             (allChats?.length === 0) ?
                             (
-                                <p className="text-center text-md font-bold">
+                                <div className="text-center text-md py-6 border border-gray-50 rounded-full">
                                     {t('message.nomessage')}
-                                </p>
+                                </div>
                             )
                             :
                             (

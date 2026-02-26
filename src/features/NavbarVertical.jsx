@@ -33,6 +33,12 @@ const VertcalNavbar = ({ children }) => {
 
     const currentPageSubScription = (currentNav === ENDPOINTS?.SUBSCRIPTION)
 
+    const currentUserImage = currentUser?.image || currentUser?.photo_url
+
+    const isCurrenNavHelp = currentNav === ENDPOINTS?.HELP
+
+    const isUserPro= currentUser?.is_pro
+
     const sidebarRef = useRef();
 
     const greyStyleColor = (id) => {
@@ -162,12 +168,12 @@ const VertcalNavbar = ({ children }) => {
                             >
                                 <>
                                     {
-                                        (currentUser?.image || currentUser?.photo_url) ? (
+                                        currentUserImage ? (
 
                                         <div className="relative h-[30px] w-[30px] rounded-full shrink-0">
 
                                             <img
-                                                src={currentUser.image || currentUser?.photo_url}
+                                                src={currentUserImage}
                                                 alt="avatar"
                                                 title={currentUser.email}
                                                 className="h-full w-full rounded-full object-cover object-center"
@@ -216,7 +222,7 @@ const VertcalNavbar = ({ children }) => {
                                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1">
 
                                     {
-                                        currentUser?.is_pro && (
+                                        isUserPro && (
 
                                             <span  className="shadow-lg inline-flex items-center justify-center px-2 text-xs rounded-full dark:bg-gray-700 " >
                                                 Pro
@@ -490,7 +496,7 @@ const VertcalNavbar = ({ children }) => {
                     <div className=" flex items-center p-2 text-gray-900 dark:text-white hover:bg-gray-100 group">
 
                         {
-                            !(currentNav === ENDPOINTS?.HELP) ?
+                            !(isCurrenNavHelp) ?
                             <svg className=" shadow-lg  w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M14 17h6m-3 3v-6M4.857 4h4.286c.473 0 .857.384.857.857v4.286a.857.857 0 0 1-.857.857H4.857A.857.857 0 0 1 4 9.143V4.857C4 4.384 4.384 4 4.857 4Zm10 0h4.286c.473 0 .857.384.857.857v4.286a.857.857 0 0 1-.857.857h-4.286A.857.857 0 0 1 14 9.143V4.857c0-.473.384-.857.857-.857Zm-10 10h4.286c.473 0 .857.384.857.857v4.286a.857.857 0 0 1-.857.857H4.857A.857.857 0 0 1 4 19.143v-4.286c0-.473.384-.857.857-.857Z" />
                             </svg>

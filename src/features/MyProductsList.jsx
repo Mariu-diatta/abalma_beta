@@ -132,12 +132,12 @@ const MyProductList = () => {
                                 <th className="px-16 py-3">
                                     <span className="sr-only">{t("tableEntries.image")}</span>
                                 </th>
-                                <th className="px-6 py-3">{t("tableEntries.product")}</th>
-                                <th className="px-6 py-3">{t("tableEntries.category")}</th>
-                                <th className="px-6 py-3">{t("tableEntries.quantity")}</th>
-                                <th className="px-6 py-3">{t("tableEntries.price")}</th>
-                                <th className="px-6 py-3"></th>
-                                <th className="px-6 py-3"></th>
+                                <th className="px-6 py-3 whitespace-nowrap cursor-pointer ">{t("tableEntries.product")}</th>
+                                <th className="px-6 py-3 whitespace-nowrap cursor-pointer ">{t("tableEntries.category")}</th>
+                                <th className="px-6 py-3 whitespace-nowrap cursor-pointer ">{t("tableEntries.quantity")}</th>
+                                <th className="px-6 py-3 whitespace-nowrap cursor-pointer ">{t("tableEntries.price")}</th>
+                                <th className="px-6 py-3 whitespace-nowrap cursor-pointer "></th>
+                                <th className="px-6 py-3 whitespace-nowrap cursor-pointer "></th>
                             </tr>
 
                         </thead>

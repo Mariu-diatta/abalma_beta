@@ -145,7 +145,7 @@ const PrintMessagesOnChat = ({
                                 <div key={data.id || idx} className="shadow-lg  flex-col gap-2 break-words text-gray-800 text-sm leading-relaxed shadow-lg mt-3">
 
                                     {/* Titre de la section */}
-                                    <div className="flex items-center gap-2 border border-gray-300 bg-blue-100 text-blue-800 px-3 py-1 rounded-md font-semibold">
+                                    <div className="flex items-center gap-2 border border-gray-300 bg-blue-100 text-blue-80 px-3 py-1 rounded-md font-semibold">
 
                                         <svg
                                             className="w-6 h-6 text-gray-800 dark:text-white"

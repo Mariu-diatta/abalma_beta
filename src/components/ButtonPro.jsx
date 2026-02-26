@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { setCurrentNav } from '../slices/navigateSlice';
+import { ENDPOINTS } from '../utils';
 
 
 const UpgradeToProButton = () => {
@@ -21,10 +22,10 @@ const UpgradeToProButton = () => {
     return (
 
         <>
-            <ul className="pt-4 mt-4 space-y-2  border-t border-gray-200 dark:border-gray-700 cursor-pointer">
+            <ul className="py-2 mt-4 space-y-2  border-t  cursor-pointer">
 
                 <li>
-                    <span className="flex items-center p-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group rounded-lg">
+                    <span className="flex items-center p-2 text-gray-900 dark:text-white hover:bg-gray-100 rounded-full group">
 
                         <svg className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 17 20">
 
@@ -37,12 +38,13 @@ const UpgradeToProButton = () => {
                             onClick={
                                 () => {
                                     alert(t("NO_SERVICE_PRO"));
-                                    dispatch(setCurrentNav("user_profil"))
-                                    navigate("/user_profil/")
+                                    dispatch(setCurrentNav(ENDPOINTS?.ACCOUNT_HOME))
+                                    navigate(`/${ENDPOINTS?.ACCOUNT_HOME}`);
                                 }
                             }
                         >
                             {t('AccountPage.upgrade')}
+
                         </button>
 
                     </span>
