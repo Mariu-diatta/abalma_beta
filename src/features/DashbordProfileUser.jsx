@@ -15,14 +15,43 @@ const Tabs = () => {
 
     const [productsTrasactionSell, setProductsTrasactionSell] = useState([])
 
-    const touchStartX = useRef(null);
-
-    const touchEndX = useRef(null);
 
     const minSwipeDistance = 50; // seuil minimum
 
+    const isScrollableX = (element) => {
+        while (element && element !== document.body) {
+            const hasHorizontalScroll =
+                element.scrollWidth > element.clientWidth;
+
+            const style = window.getComputedStyle(element);
+            const overflowX = style.overflowX;
+
+            if (
+                hasHorizontalScroll &&
+                (overflowX === "auto" || overflowX === "scroll")
+            ) {
+                return true;
+            }
+
+            element = element.parentElement;
+        }
+        return false;
+    };
+
+    const touchStartX = useRef(null);
+    const touchEndX = useRef(null);
+    const shouldIgnoreSwipe = useRef(false);
+
     const onTouchStart = (e) => {
-        touchEndX.current = null;
+        const target = e.target;
+
+        // Vérifie si l'utilisateur est dans un élément scrollable horizontal
+        if (isScrollableX(target)) {
+            shouldIgnoreSwipe.current = true;
+            return;
+        }
+
+        shouldIgnoreSwipe.current = false;
         touchStartX.current = e.targetTouches[0].clientX;
     };
 
