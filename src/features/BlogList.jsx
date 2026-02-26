@@ -28,14 +28,10 @@ const BlogList = ({ blogs }) => {
 
             return (
 
-                <NoContentComp
-
-                        content={t("blogNone")}
-
-                />
+                <div className="flex text-center m-auto "> <NoContentComp content={t("blogNone")} /></div>
             );
 
-        else return blogs.map((post, index) => <BlogCard key={index} blog={post} handleClicked={handleClicked} />);
+        else return blogs?.map((post, index) => <BlogCard key={index} blog={post} handleClicked={handleClicked} />);
 
     }, [blogs, t]);
 

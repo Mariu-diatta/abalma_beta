@@ -269,12 +269,7 @@ const VertcalNavbar = ({ children }) => {
 
                                 <span
 
-                                    className="shadow-lg rounded-full  inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm  text-blue-900 bg-blue-50 rounded-full dark:bg-blue-900 dark:text-blue-300"
-
-                                    style={{
-                                        backgroundColor: "var(--color-bg)",
-                                        color: "var(--color-text)"
-                                    }}
+                                    className="bg-white shadow-lg rounded-full  inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm  text-blue-900  rounded-full  dark:text-blue-900"
                                 >
 
                                     {allRooms?.length}
@@ -392,7 +387,7 @@ const VertcalNavbar = ({ children }) => {
 
                     <ButtonUpdateAccountUserToPro/>
 
-                    <ul className="scrollbor_hidden h-full lg:h-[300px] py-4 overflow-y-auto mt-1 space-y-1  border-t dark:border-gray-700" >
+                    <ul className="scrollbor_hidden h-full lg:h-[300px] py-4 overflow-y-auto mt-1 space-y-1  border-t border-t-gray-200" >
 
                         {
                             menuItems(t).map(({ name, to, svg, id }, index) => (
@@ -454,7 +449,7 @@ const VertcalNavbar = ({ children }) => {
 
                     </ul>
 
-                    <div className=" flex items-center p-2 text-gray-900 dark:text-white hover:bg-gray-100  group mt-2">
+                    <div className=" flex items-center p-2 text-gray-900 dark:text-white hover:bg-gray-100  group mt-2 ">
 
                         {
                             !currentPageSubScription?

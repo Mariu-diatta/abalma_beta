@@ -118,6 +118,8 @@ export default function SubscriptionsPage() {
 
     const currentNav = useSelector(state => state.navigate.currentNav);
 
+    const isCurrentNavSubscribtion = currentNav !== ENDPOINTS?.SUBSCRIPTION 
+
     const handleSubscribe = (amount = "price_1SSjTKCEAhT0NnGVt0SzuhBu") => {
 
         if (!currentUser) {
@@ -162,7 +164,7 @@ export default function SubscriptionsPage() {
 
             <button
 
-                className={`${currentNav !== ENDPOINTS?.SUBSCRIPTION ? "hidden":"shadow-lg z-10 "}`}
+                className={`${isCurrentNavSubscribtion ? "hidden":"shadow-lg z-10 "}`}
 
                 onClick={
 
@@ -183,7 +185,9 @@ export default function SubscriptionsPage() {
 
             </button>
 
-            <TitleCompGen title={t("Subscriptionb2b")} />
+            <div className="m-auto text-center">
+                <TitleCompGen title={t("Subscriptionb2b")} />
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-none overflow-y-auto h-full scrollbor_hidden py-5">
 

@@ -141,7 +141,7 @@ const MyBlogsList = () => {
                             <tbody>
                                 {paginatedBlogs?.length === 0 ? (
                                     <tr className="">
-                                       <td colSpan="4" className="text-center p-4 ">{t('blogNone')}</td>
+                                       <td colSpan="4" className="text-center p-4 mx-auto">{t('blogNone')}</td>
                                     </tr>
                                 ) : (
                                     paginatedBlogs?.map((blog) => (

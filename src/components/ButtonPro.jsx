@@ -22,7 +22,7 @@ const UpgradeToProButton = () => {
     return (
 
         <>
-            <ul className="py-2 mt-4 space-y-2  border-t  cursor-pointer">
+            <ul className="py-2 mt-4 space-y-2  border-t border-t-gray-200  cursor-pointer">
 
                 <li>
                     <span className="flex items-center p-2 text-gray-900 dark:text-white hover:bg-gray-100 rounded-full group">
@@ -38,8 +38,8 @@ const UpgradeToProButton = () => {
                             onClick={
                                 () => {
                                     alert(t("NO_SERVICE_PRO"));
-                                    dispatch(setCurrentNav(ENDPOINTS?.ACCOUNT_HOME))
-                                    navigate(`/${ENDPOINTS?.ACCOUNT_HOME}`);
+                                    dispatch(setCurrentNav(ENDPOINTS?.USER_PROFIL))
+                                    navigate(`/${ENDPOINTS?.USER_PROFIL}`);
                                 }
                             }
                         >
