@@ -23,6 +23,9 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
     const userEmail = currentUser?.email
 
+    const currentNav = useSelector(state => state.navigate.currentNav);
+
+
     return (
 
         <div className='flex items-center justify-center z-0'>
@@ -95,7 +98,7 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
                 onBlur={() => setDropdownOpen(false)}
 
-                className={`shadow-lg bg-transparent absolute right-0 top-full me-3 overflow-hidden rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${dropdownOpen ? "block z-100 bg-white/80 " : "hidden"}`}
+                className={`bg-gradient-to-r from-blue-50 to-gray-300 h-100 border border-gray-100 shadow-lg absolute right-0 top-full me-3 overflow-hidden rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${dropdownOpen ? "block z-100 bg-white/80 " : "hidden"}`}
 
             >
 
@@ -105,79 +108,61 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
                 </div>
 
-                <div>
+                {
+                    [
+                        { endPoint: ENDPOINTS?.USER_PROFIL, title: t("profil") },
 
-                    <button
+                        { endPoint: ENDPOINTS?.SETTINGS, title: t("param") },
 
-                        className="bg-white/80 shadow-sm flex gap-1 w-full items-center justify-between px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white "
+                    ]?.map(
 
-                        onClick={
+                        elem => <div>
 
-                            () => {
+                            <button
 
-                                navigate(`/${ENDPOINTS?.USER_PROFIL}`);
+                                className={`shadow-sm flex gap-1 w-full items-center justify-between px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white ${currentNav === elem.endPoint && "bg-gray-50"}`}
 
-                                dispatch(setCurrentNav(ENDPOINTS?.USER_PROFIL))
-                            }
-                        }
-                    >
+                                onClick={
 
-                        <div className="flex gap-2 items-center">
+                                    () => {
 
-                            <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        navigate(`/${elem.endPoint}`);
 
-                                <path stroke="currentColor" strokeWidth="1" d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                        dispatch(setCurrentNav(elem.endPoint))
+                                    }
+                                }
+                            >
 
-                            </svg>
+                                <div className="flex gap-2 items-center">
 
-                            <div className="whitespace-nowrap">{t("profil")}</div>
+                                    <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
 
-                        </div>
+                                        <path stroke="currentColor" strokeWidth="1" d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
 
-                        <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    </svg>
 
-                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m9 5 7 7-7 7" />
+                                    <div className="whitespace-nowrap">{elem.title}</div>
 
-                        </svg>
+                                </div>
 
-                    </button>
+                                <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
 
-                </div>
+                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m9 5 7 7-7 7" />
 
-                <div>
+                                </svg>
 
-                    <button
-
-                        onClick={() => { navigate(`/${ENDPOINTS?.SETTINGS}`); dispatch(setCurrentNav(ENDPOINTS?.SETTINGS)) }}
-
-                        className="bg-white/80 shadow-sm d-flex gap-3 flex w-full items-center justify-between px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/80">
-
-                        <div className="text-left flex gap-2 items-center">
-
-                            <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M21 13v-2a1 1 0 0 0-1-1h-.757l-.707-1.707.535-.536a1 1 0 0 0 0-1.414l-1.414-1.414a1 1 0 0 0-1.414 0l-.536.535L14 4.757V4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v.757l-1.707.707-.536-.535a1 1 0 0 0-1.414 0L4.929 6.343a1 1 0 0 0 0 1.414l.536.536L4.757 10H4a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h.757l.707 1.707-.535.536a1 1 0 0 0 0 1.414l1.414 1.414a1 1 0 0 0 1.414 0l.536-.535 1.707.707V20a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-.757l1.707-.708.536.536a1 1 0 0 0 1.414 0l1.414-1.414a1 1 0 0 0 0-1.414l-.535-.536.707-1.707H20a1 1 0 0 0 1-1Z" />
-                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                            </svg>
-
-                            <div className="whitespace-nowrap">{t("param")} </div>
+                            </button>
 
                         </div>
-
-                        <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-
-                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m9 5 7 7-7 7" />
-
-                        </svg>
-
-                    </button>
-
-                </div>
+                    )
+           
+                }
 
                 <div>
 
                     {
                         !loading ?
-                        <button onClick={getUserLogOut} className="bg-white/80 shadow-sm flex w-full items-center justify-start gap-2 px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white dark:hover:bg-white/5">
+                        <button onClick={getUserLogOut} className="shadow-sm flex w-full items-center justify-start gap-2 px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white">
 
                             <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
 

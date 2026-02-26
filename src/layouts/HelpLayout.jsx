@@ -15,6 +15,7 @@ const HelpPage = () => {
     const [submitted, setSubmitted] = useState(false);
     const [loading, setLoading] = useState(false);
     const currentUser = useSelector(state => state.auth.user)
+    const currznUserType = !problemType || !description.trim() || !currentUser
 
     const sendData = () => {
 
@@ -29,7 +30,7 @@ const HelpPage = () => {
     const handleSubmit =async (e) => {
         e.preventDefault();
 
-        if (!problemType || !description.trim()|| !currentUser) {
+        if (currznUserType) {
             alert(t("alertSuccesMessageFormHelp.text3"));
             return;
         }
@@ -53,7 +54,9 @@ const HelpPage = () => {
         } catch (e) {
 
             console.log("Erreur de données", e)
+
         } finally {
+
             setLoading(false)
         }
 
@@ -95,18 +98,13 @@ const HelpPage = () => {
 
                 <form
                     onSubmit={handleSubmit}
-                    className="translate-y-0 transition-all duration-1000 ease-in-out w-full p-4 max-w-md bg-white  rounded-lg shadow-sm mx-auto gap-5"
+                    className="translate-y-0 transition-all duration-1000 ease-in-out w-full px-4 max-w-md bg-white  rounded-lg shadow-sm mx-auto gap-5"
                 >
                     {/* Sélecteur */}
                     <div
                         className="mb-4"
                     >
-                        <label
-                            className="block mb-2 text-sm font-medium text-gray-900"
-                        >
-                            {t('helpPage.problemType.index')}
-
-                        </label>
+                        <TitleCompGenLitle title={t('helpPage.problemType.index')} />
 
                         <select
                             value={problemType}
