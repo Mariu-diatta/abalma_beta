@@ -23,7 +23,9 @@ const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) 
 
             {
                 Object.entries(groupedItems).map(([category, items]) => {
+
                     const cols = Math.min(items.length, 5);
+
                     const cols_sm= Math.min(items.length, 2);
 
                     return (
@@ -47,26 +49,30 @@ const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) 
                                     mx-1
                                  `}
                             >
-                                {items.map((item) => {
-                                    const isInCart = cartItems?.some(
-                                        (product) => product?.id === item?.id
-                                    );
-                                    const owner = owners[item?.fournisseur];
+                                {
+                                    items?.map((item) => {
 
-                                    return (
+                                        const isInCart = cartItems?.some(
+                                            (product) => product?.id === item?.id
+                                        );
 
-                                        <ProductCard
-                                            key={item.id}
-                                            id={item.id}
-                                            item={item}
-                                            isInCart={isInCart}
-                                            owner={owner}
-                                            openModal={openModal}
-                                            owners={owners}
-                                            qut_sold={item?.quanttity_product_sold}
-                                        />
-                                    );
-                                })}
+                                        const owner = owners[item?.fournisseur];
+
+                                        return (
+
+                                            <ProductCard
+                                                key={item.id}
+                                                id={item.id}
+                                                item={item}
+                                                isInCart={isInCart}
+                                                owner={owner}
+                                                openModal={openModal}
+                                                owners={owners}
+                                                qut_sold={item?.quanttity_product_sold}
+                                            />
+                                        );
+                                    })
+                                }
 
                             </div>
 

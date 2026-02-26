@@ -1,8 +1,9 @@
-import React, { useEffect, useState} from 'react';
+﻿import React, { useEffect, useState, useRef } from 'react';
 import api from '../services/Axios';
 import { useTranslation } from 'react-i18next';
 import UsersContactsList from './ContactUser';
 import TablesRecapActivities from './TablesRecapActivities';
+
 
 const Tabs = () => {
 
@@ -13,6 +14,39 @@ const Tabs = () => {
     const [productsTrasactionBought, setProductsTrasactionBought] = useState([])
 
     const [productsTrasactionSell, setProductsTrasactionSell] = useState([])
+
+    const touchStartX = useRef(null);
+
+    const touchEndX = useRef(null);
+
+    const minSwipeDistance = 50; // seuil minimum
+
+    const onTouchStart = (e) => {
+        touchEndX.current = null;
+        touchStartX.current = e.targetTouches[0].clientX;
+    };
+
+    const onTouchMove = (e) => {
+        touchEndX.current = e.targetTouches[0].clientX;
+    };
+
+    const onTouchEnd = () => {
+        if (!touchStartX.current || !touchEndX.current) return;
+
+        const distance = touchStartX.current - touchEndX.current;
+
+        if (Math.abs(distance) < minSwipeDistance) return;
+
+        const currentIndex = tabs.findIndex(tab => tab.id === activeTab);
+
+        if (distance > 0 && currentIndex < tabs.length - 1) {
+            // Swipe vers la gauche → tab suivante
+            setActiveTab(tabs[currentIndex + 1].id);
+        } else if (distance < 0 && currentIndex > 0) {
+            // Swipe vers la droite → tab précédente
+            setActiveTab(tabs[currentIndex - 1].id);
+        }
+    };
 
     const tabs = [
 
@@ -107,7 +141,10 @@ const Tabs = () => {
                 id={`${activeTab}-tab`}
                 role="tabpanel"
                 aria-labelledby={`${activeTab}-tab-button`}
-                className="rounded-lg  h-screan overflow-x-auto z-0"
+                className="rounded-lg h-screan overflow-x-auto z-0"
+                onTouchStart={onTouchStart}
+                onTouchMove={onTouchMove}
+                onTouchEnd={onTouchEnd}
             >
                 {tabContent[activeTab]}
 

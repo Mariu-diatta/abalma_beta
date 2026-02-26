@@ -40,7 +40,7 @@ export const menuItems = (t) => [
         name: t('All'),
         to: '/produits/',
         id: "all-products",
-        svg: <img className="rounded-lg bg-gray-50 grayscale shadow-lg bg-none" src={all_product} alt="" width="30" height="30" />,
+        svg: <img className="rounded-lg bg-gray-50 grayscale shadow-lg bg-none " src={all_product} alt="" width="30" height="30" />,
     },
 
     // --- Catégories principales ---

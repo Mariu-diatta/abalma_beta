@@ -85,7 +85,7 @@ const HelpPage = () => {
 
         <div className="d-flex flex-column items-start justify-between mx-1 mb-5 m-auto mb-6 pb-[20dvh]">
 
-            <div className="text-start py-2 px-8 max-w-md dark:bg-gray-800 dark:text-white flex flex-wrap gap-1 mb-6">
+            <div className="text-start py-2 px-8 max-w-md dark:text-white flex flex-wrap gap-1 mb-6">
 
                 <TitleCompGen title="Support & Aide" />
 

@@ -95,6 +95,10 @@ const UsersContactsList = () => {
         // logique de suppression à intégrer ici
     };
 
+    const listContactsUsers = filteredUsers?.length > 0
+
+    const listUserSelected=selectedUsers?.length >= 2
+
     return (
 
         <div className="dark:text-white text-gray-800   absolute fixed w-[98dvw] md:w-[80dvw] m-auto sm:rounded-lg pb-6 mb-6  mt-5 pb-[30dvh] overflow-y-auto h-full scrollbor_hidden">
@@ -116,7 +120,7 @@ const UsersContactsList = () => {
 
                                 onClick={toggleDropdown}
 
-                                className="inline-flex items-center hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+                                className="inline-flex items-center hover:bg-gray-50 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5"
                             >
                                 {statusFilter === "Tous" ? "Filtrer par statut" : statusFilter}
 
@@ -130,9 +134,9 @@ const UsersContactsList = () => {
 
                             {isDropdownOpen && (
 
-                                <div className="absolute mt-2 z-10 divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:divide-gray-600 bg-white dark:bg-dark-300">
+                                <div className="absolute mt-2 z-10 divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:divide-gray-600 bg-white">
 
-                                    <ul className="py-1 text-sm text-gray-700 dark:text-gray-200">
+                                    <ul className="py-1 text-sm text-gray-700">
 
                                         {["Tous", "Online"].map((status) => (
 
@@ -142,7 +146,7 @@ const UsersContactsList = () => {
 
                                                     onClick={() => handleStatusFilter(status)}
 
-                                                    className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                                    className="block w-full text-left px-4 py-2 hover:bg-gray-50"
                                                 >
                                                     {status === "Tous" ? t('ParamText.filterAll') : status}
 
@@ -155,13 +159,14 @@ const UsersContactsList = () => {
 
                                 </div>
                             )}
+                        
                         </div>
 
                         {/* Recherche + Bouton supprimer */}
                         <div className="flex items-center gap-4">
 
                             {
-                                (selectedUsers?.length >= 2) && (
+                                listUserSelected && (
 
                                     <button
 
@@ -203,11 +208,11 @@ const UsersContactsList = () => {
 
                     <div className="relative overflow-y-auto h-[80dvh] scrollbor_hidden pb-[20dvh]">
 
-                        <table className="w-full text-sm text-left px-3 ">
+                        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-lg p-1">
 
-                            <thead className="text-md ">
+                            <thead className="bg-gray-100">
 
-                                <tr className="text-sm">
+                                <tr>
 
                                     <th className="p-4 hidden">
 
@@ -233,57 +238,68 @@ const UsersContactsList = () => {
                             <tbody className=" ">
 
                                 {
-                                    filteredUsers?.map((user, i) => (
+                                    listContactsUsers ?
+                                    <div>
+                                        {
+                                            filteredUsers?.map((user, i) => (
 
-                                        (user?.id !== currentuser?.id)
-                                            && 
-                                            (
-                                                <tr key={i} className="hover:bg-gray-100 dark:hover:bg-gray-40 shadow-xs hover:shadow-sm p-3 py-2 rounded-lg hover:rounded-lg hover:text-blue-300">
+                                                (user?.id !== currentuser?.id)
+                                                    && 
+                                                    (
+                                                        <tr key={i} className="hover:bg-gray-100 dark:hover:bg-gray-40 shadow-xs hover:shadow-sm p-3 py-2 rounded-lg hover:rounded-lg hover:text-blue-300">
 
-                                                    <td className="p-4 hidden">
+                                                            <td className="p-4 hidden">
 
-                                                        <input
-                                                            type="checkbox"
-                                                            checked={selectedUsers.includes(user.email)}
-                                                            onChange={() => toggleSelectOne(user.email)}
-                                                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm dark:bg-gray-700 dark:border-gray-600"
-                                                        />
+                                                                <input
+                                                                    type="checkbox"
+                                                                    checked={selectedUsers.includes(user.email)}
+                                                                    onChange={() => toggleSelectOne(user.email)}
+                                                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm dark:bg-gray-700 dark:border-gray-600"
+                                                                />
 
-                                                    </td>
+                                                            </td>
 
-                                                    <td className="px-auto py-1 flex items-center space-x-1 whitespace-nowrap p-2">
+                                                            <td className="px-auto py-1 flex items-center space-x-1 whitespace-nowrap p-2">
 
-                                                        {/*<OwnerAvatar owner={user} />*/}
+                                                                {/*<OwnerAvatar owner={user} />*/}
                                                    
-                                                        {/*<div className="space-x-0">*/}
-                                                        {/*    <div className="text-base font-semibold text-gray-900 dark:text-white">{user?.prenom}</div>*/}
-                                                        {/*    <div className="font-sm text-xs text-gray-500">{user?.nom}</div>*/}
-                                                        {/*</div>*/}
+                                                                {/*<div className="space-x-0">*/}
+                                                                {/*    <div className="text-base font-semibold text-gray-900 dark:text-white">{user?.prenom}</div>*/}
+                                                                {/*    <div className="font-sm text-xs text-gray-500">{user?.nom}</div>*/}
+                                                                {/*</div>*/}
 
-                                                        <div class="flex items-center gap-2.5">
-                                                            <OwnerAvatar owner={user} />
-                                                            <div className="font-medium text-heading">
-                                                                <div>{user?.prenom} {user?.nom}</div>
-                                                                {/*<div className="text-sm font-normal text-body">Joined in August 2014</div>*/}
-                                                            </div>
-                                                        </div>
+                                                                <div class="flex items-center gap-2.5">
+                                                                    <OwnerAvatar owner={user} />
+                                                                    <div className="font-medium text-heading">
+                                                                        <div>{user?.prenom} {user?.nom}</div>
+                                                                        {/*<div className="text-sm font-normal text-body">Joined in August 2014</div>*/}
+                                                                    </div>
+                                                                </div>
 
-                                                    </td>
+                                                            </td>
 
-                                                    <td className="px-auto py-1">{user?.description?.slice(0,30)}...</td>
+                                                            <td className="px-auto py-1">{user?.description?.slice(0,30)}...</td>
 
-                                                    <td className="px-auto py-1 hidden">
+                                                            <td className="px-auto py-1 hidden">
                                                     
-                                                        <svg className="w-5 h-5 text-gray-800 dark:text-red-100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
-                                                        </svg>
+                                                                <svg className="w-5 h-5 text-gray-800 dark:text-red-100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
+                                                                </svg>
 
-                                                    </td>
+                                                            </td>
 
-                                                </tr>
+                                                        </tr>
+                                                    )
+                                                )
                                             )
-                                        )
-                                    )
+                                        }
+                                    </div>
+                                    :
+                                    <tr>
+                                        <td colSpan="9" className="text-center p-4">
+                                            {t('no_contacts')}
+                                        </td>
+                                    </tr>
                                 }
 
                             </tbody>

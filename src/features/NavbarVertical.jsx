@@ -148,7 +148,7 @@ const VertcalNavbar = ({ children }) => {
                         <li>
                             <button
 
-                                className={`w-full flex items-center justify-between text-left gap-x-3 p-2 w-full text-gray-700 dark:text-white hover:bg-gray-50  group cursor-pointer rounded-full ${(currentNav === "account-home") && "bg-gray-50 "}`}
+                                className={`w-full flex items-center justify-between text-left gap-x-3 p-2 w-full  dark:text-white hover:bg-gray-50  group cursor-pointer rounded-full ${(currentNav === "account-home") && "bg-gray-50 hover:bg-gray-50"}`}
 
                                 onClick={
 
@@ -218,15 +218,7 @@ const VertcalNavbar = ({ children }) => {
                                     {
                                         currentUser?.is_pro && (
 
-                                            <span
-
-                                                className="shadow-lg inline-flex items-center justify-center px-2 text-xs bg-gray-100 rounded-full dark:bg-gray-700 "
-
-                                                style={{
-                                                    backgroundColor: "var(--color-bg)",
-                                                    color: "var(--color-text)"
-                                                }}
-                                            >
+                                            <span  className="shadow-lg inline-flex items-center justify-center px-2 text-xs rounded-full dark:bg-gray-700 " >
                                                 Pro
                                             </span>
                                         )
@@ -403,7 +395,7 @@ const VertcalNavbar = ({ children }) => {
 
                                 <div
 
-                                    className={`flex items-center px-2 text-gray-900 dark:text-white hover:bg-gray-100  group ${greyStyleColor(id) ? "bg-grey-0" : ""}`}
+                                        className={`flex items-center px-2 text-gray-900 dark:text-white hover:bg-gray-100  group rounded-full ${greyStyleColor(id) ? "bg-grey-0" : ""}`}
                                 >
 
                                     {
@@ -456,7 +448,7 @@ const VertcalNavbar = ({ children }) => {
 
                     </ul>
 
-                    <div className=" flex items-center p-2 text-gray-900 dark:text-white hover:bg-gray-100  group">
+                    <div className=" flex items-center p-2 text-gray-900 dark:text-white hover:bg-gray-100  group mt-2">
 
                         {
                             !currentPageSubScription?

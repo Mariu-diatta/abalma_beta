@@ -97,88 +97,96 @@ const ListProductShoppingCart = () => {
     }, [currentUser, dispatch, data, itemsData]);
 
     return (
+        <div className="overflow-x-auto sm:rounded-lg p-1 dark:text-white text-gray-100">
 
-        <main className="relative overflow-x-auto sm:rounded-lg p-1">
+            {/* TITRE */}
+            <nav className="flex items-center gap-2 m-2">
 
-            <nav className="flex flex-row items-center gap-2">
-                <svg className="w-[25px] h-[25px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8" d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
-                </svg>
                 <TitleCompGenLitle title={t('tableEntries.selectedProducts')} />
+
             </nav>
 
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-lg p-1">
+            <main>
+
+                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-lg p-1">
                 
-                <thead className="bg-gray-100">
-                    <tr>
-                        <th className="px-16 py-3"><span className="sr-only">{t('tableEntries.image')}</span></th>
-                        <th className="px-6 py-3">{t('tableEntries.product')}</th>
-                        <th className="px-6 py-3">{t('tableEntries.category')}</th>
-                        <th className="px-6 py-3">{t('tableEntries.quantity')}</th>
-                        <th className="px-6 py-3">{t('tableEntries.price')}</th>
-                        <th className="px-6 py-3">{t('tableEntries.total')}</th>
-                        <th className="px-6 py-3">{t('tableEntries.action')}</th>
-                    </tr>
-                </thead>
+                    <thead className="bg-gray-100">
 
-                <tbody>
-                    {itemsData.map(prod => {
-                        const qty = prod.quantity_sold || 0;
-                        const price = Number(prod.price_product) || 0;
-                        const total = (price * qty).toFixed(CONSTANTS?.DECIMALS_DIGITS);
+                        <tr>
+                            <th className="px-16 py-3"><span className="sr-only">{t('tableEntries.image')}</span></th>
+                            <th className="px-6 py-3">{t('tableEntries.product')}</th>
+                            <th className="px-6 py-3">{t('tableEntries.category')}</th>
+                            <th className="px-6 py-3">{t('tableEntries.quantity')}</th>
+                            <th className="px-6 py-3">{t('tableEntries.price')}</th>
+                            <th className="px-6 py-3">{t('tableEntries.total')}</th>
+                            <th className="px-6 py-3">{t('tableEntries.action')}</th>
+                        </tr>
 
-                        return (
-                            <tr key={prod.id} className="dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                <td className="p-1">
-                                    <div className="w-10 h-10 md:w-32 md:h-32 overflow-hidden rounded-lg border border-gray-200 dark:border-gray-600">
-                                        <img src={prod.image_product} alt={prod.description_product || "Image du produit"} className="object-contain w-full h-full" loading="lazy" />
-                                    </div>
-                                </td>
-                                <td className="px-6 py-4">{prod.description_product?.slice(0, 6)}</td>
-                                <td className="px-6 py-4">{prod.categorie_product}</td>
-                                <td className="px-6 py-4">
-                                    <div className="flex items-center">
-                                        <button onClick={() => handleDecreaseQuantity(prod)} className="cursor-pointer inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 border border-gray-300 rounded-full dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600">-</button>
-                                        <input type="number" value={qty} readOnly className={`${canIncreaseQty(prod) ? "" : "bg-gradient-to-br from-pink-300 to-orange-300"} w-14 text-sm rounded-lg block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:text-white`} />
-                                        <button onClick={() => handleIncreaseQuantity(prod)} className="cursor-pointer inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium border border-gray-300 rounded-full dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600">+</button>
-                                    </div>
-                                </td>
-                                <td className="px-6 py-4">{price.toFixed(CONSTANTS?.DECIMALS_DIGITS)} ({prod.currency_price})</td>
-                                <td className="px-6 py-4">{total} ({prod.currency_price})</td>
-                                <td className="px-6 py-4">
-                                    <button onClick={() => dispatch(removeFromCart(prod))} className="font-medium hover:underline cursor-pointer">
-                                        <svg
-                                            className="w-[25px] h-[20px] text-gray-800"
-                                            aria-hidden="true"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                stroke="currentColor"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth="0.8"
-                                                d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
-                                            />
-                                        </svg>
-                                    </button>
-                                </td>
-                            </tr>
-                        );
-                    })}
-                </tbody>
+                    </thead>
 
-                <tfoot>
-                    <tr className="style-bg">
-                        <td colSpan="4" className="text-right px-6 py-3 font-bold">Total:</td>
-                        <td className="px-6 py-3 text-white-900 dark:text-white">{totalPriceBuy} ({reference})</td>
-                        <td></td>
-                    </tr>
-                </tfoot>
-            </table>
+                    <tbody>
+                        {
+                            itemsData?.map(prod => {
+                            const qty = prod.quantity_sold || 0;
+                            const price = Number(prod.price_product) || 0;
+                            const total = (price * qty).toFixed(CONSTANTS?.DECIMALS_DIGITS);
+
+                            return (
+                                <tr key={prod.id} className="dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <td className="p-1">
+                                        <div className="w-10 h-10 md:w-32 md:h-32 overflow-hidden rounded-lg border border-gray-200 dark:border-gray-600">
+                                            <img src={prod.image_product} alt={prod.description_product || "Image du produit"} className="object-contain w-full h-full" loading="lazy" />
+                                        </div>
+                                    </td>
+                                    <td className="px-6 py-4">{prod.description_product?.slice(0, 6)}</td>
+                                    <td className="px-6 py-4">{prod.categorie_product}</td>
+                                    <td className="px-6 py-4">
+                                        <div className="flex items-center">
+                                            <button onClick={() => handleDecreaseQuantity(prod)} className="cursor-pointer inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 border border-gray-300 rounded-full dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600">-</button>
+                                            <input type="number" value={qty} readOnly className={`${canIncreaseQty(prod) ? "" : "bg-gradient-to-br from-pink-300 to-orange-300"} w-14 text-sm rounded-lg block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:text-white`} />
+                                            <button onClick={() => handleIncreaseQuantity(prod)} className="cursor-pointer inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium border border-gray-300 rounded-full dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600">+</button>
+                                        </div>
+                                    </td>
+                                    <td className="px-6 py-4">{price.toFixed(CONSTANTS?.DECIMALS_DIGITS)} ({prod.currency_price})</td>
+                                    <td className="px-6 py-4">{total} ({prod.currency_price})</td>
+                                    <td className="px-6 py-4">
+                                        <button onClick={() => dispatch(removeFromCart(prod))} className="font-medium hover:underline cursor-pointer">
+                                            <svg
+                                                className="w-[25px] h-[20px] text-gray-800"
+                                                aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path
+                                                    stroke="currentColor"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth="0.8"
+                                                    d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
+                                                />
+                                            </svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                            );
+                            })
+                        }
+                    </tbody>
+
+                    <tfoot>
+                        <tr className="style-bg">
+                            <td colSpan="4" className="text-right px-6 py-3 font-bold">Total:</td>
+                            <td className="px-6 py-3 text-white-900 dark:text-white">{totalPriceBuy} ({reference})</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+            </main>
 
             <div className="flex justify-center gap-3 mt-4 mx-5">
+
                 <BuyButtonWithPaymentForm total_price={totalPriceBuy} reference={reference} />
 
                 {/* 🔥 Bouton acheté conservé exactement comme demandé */}
@@ -195,7 +203,7 @@ const ListProductShoppingCart = () => {
                     </div>
                 }
             </div>
-        </main>
+        </div>
     );
 };
 

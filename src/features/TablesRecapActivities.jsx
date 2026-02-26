@@ -7,6 +7,7 @@ import TitleCompGen from '../components/TitleComponentGen';
 import { useTranslation } from 'react-i18next';
 import { MODE } from '../utils';
 import CashTransaction from './CashTransactions';
+import TabsButtons from '../components/tabsButtonsScroll';
 
 const TablesRecapActivities = ({ 
     productsTrasactionBought, 
@@ -30,9 +31,10 @@ const TablesRecapActivities = ({
 
     const tabContent = {
 
-        listProductShoppingCart: <ListProductShoppingCart />,
+        listProductShoppingCart: <ListProductShoppingCart/>,
 
         productsRecapBought: (
+
             <ProductsRecapTable
                 products={productsTrasactionBought}
                 setProductsTrasaction={setProductsTrasactionBought}
@@ -42,6 +44,7 @@ const TablesRecapActivities = ({
         ),
 
         productsRecapSell: (
+
             <ProductsRecapTable
                 products={productsTrasactionSell}
                 setProductsTrasaction={setProductsTrasactionSell}
@@ -59,6 +62,7 @@ const TablesRecapActivities = ({
 
 
     return (
+
         <div className="fixed absolute w-[98dvw] md:w-[80dvw] sm:rounded-lg scrollbor_hidden pb-6 overflow-y-auto h-full dark:text-white text-gray-100">
 
             {/* Title */}
@@ -77,27 +81,14 @@ const TablesRecapActivities = ({
             {/* Buttons */}
             <div className="flex gap-4 py-3 w-full overflow-x-auto overflow-y-hidden">
 
-                {
-                    tabs?.map(tab => (
+                <TabsButtons
 
-                            <button
-                                type="button"
-                                key={tab?.id}
-                                role="tab"
-                                aria-selected={activeTab === tab.id}
-                                aria-controls={`${tab.id}-tab`}
-                                id={`${tab.id}-tab-button`}
-                                onClick={() => setActiveTab(tab.id)}
-                                className={`dark:text-white text-gray-600 border border-gray-50 whitespace-nowrap cursor-pointer rounded-full px-3 py-1 hover:bg-blue-50
-                                ${activeTab === tab.id ? "bg-blue-50" : "bg-gray-50"}`}
-                            >
+                    tabs={tabs}
 
-                                {tab?.label}
+                    activeTab={activeTab}
 
-                            </button>
-                        )
-                    )
-                }
+                    setActiveTab={setActiveTab}
+                />
 
             </div>
 

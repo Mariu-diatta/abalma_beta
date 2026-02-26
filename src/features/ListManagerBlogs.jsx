@@ -99,9 +99,10 @@ const MyBlogsList = () => {
 
     return (
 
-        <div className="overflow-x-auto sm:rounded-md p-1">
+        <div className="overflow-x-auto sm:rounded-lg p-1 dark:text-white text-gray-100">
 
-            <nav className="flex flex-row items-center gap-2 mb-2">
+            {/* TITRE */}
+            <nav className="flex items-center gap-2 m-2">
 
                 <TitleCompGenLitle title={t("blog.myBlogs")}/>
 
@@ -113,7 +114,7 @@ const MyBlogsList = () => {
                         setSearchTerm(e.target.value);
                         setCurrentPage(1);
                     }}
-                    className="ml-auto border border-blue-100 focus:border-blue-500 focus:ring-1 focus:ring-blue-300 rounded-full p-2 text-sm"
+                    className="focus:outline-none focus:ring-0 rounded-full border px-3 py-2 border-blue-50 focus:border-blue-50 focus:ring-1 focus:ring-blue-100"
                 />
 
             </nav>

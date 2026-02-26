@@ -107,6 +107,10 @@ const GridProductDefault = ({ categorie_item }) => {
 
     }, [dispatch]);
 
+    const productDataColsLenght = (productData?.length > 0 && cols?.length > 0)
+
+    const isCurrentUserConnected = (currentUser && currentUser?.is_connected)
+
     // Fetch on category change
     useEffect(() => {
 
@@ -124,12 +128,13 @@ const GridProductDefault = ({ categorie_item }) => {
 
     }, [fetchProductsAndOwners, categorySelectedData]);
 
+
     return (
 
         <div className="py-1 justify-center">
 
             {
-                (currentUser && currentUser?.is_connected) &&
+                isCurrentUserConnected &&
 
                 <div className={`${cols?.length <= 4 ? "hidden" : ""} md:w-1/2 flex m-auto justify-center  my-1`}>
 
@@ -146,7 +151,7 @@ const GridProductDefault = ({ categorie_item }) => {
                         <LoadingCard />
                     )
                     :
-                    (productData?.length > 0 && cols?.length > 0) ?
+                    productDataColsLenght ?
                     (
 
                         <div className="grid grid-cols-2 md:grid-cols-5 gap-1 mt-2 w-[100dvw] md:w-auto mx-auto overflow-x-hidden">
@@ -167,6 +172,8 @@ const GridProductDefault = ({ categorie_item }) => {
 
                                                     const owner = owners[product.fournisseur];
 
+                                                    const prodQutySupZero = product?.quantity_product !== "0"
+
                                                     return (
 
                                                         <div
@@ -175,10 +182,6 @@ const GridProductDefault = ({ categorie_item }) => {
                                                                     ? "opacity-50 pointer-events-none bg-gray-100"
                                                                     : "bg-white"
                                                                 }`}
-                                                            style={{
-                                                                backgroundColor: "var(--color-bg)",
-                                                                color: "var(--color-text)"
-                                                            }}
                                                         >
                                                             <div
                                                                 className="relative w-full block rounded-lg overflow-hidden"
@@ -202,7 +205,7 @@ const GridProductDefault = ({ categorie_item }) => {
 
                                                                     <OwnerAvatar owner={owner} />
 
-                                                                    {product?.quantity_product !== "0" && (
+                                                                    {prodQutySupZero && (
                                                                         <span className="text-xs text-gray-600">
                                                                             {t("quantity")} {product?.quantity_product}
                                                                         </span>

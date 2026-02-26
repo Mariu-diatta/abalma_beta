@@ -101,7 +101,7 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
                 <div className="px-4 py-3">
 
-                    <p className="bg-white/80 whitespace-nowrap text-sm font-semibold text-dark dark:text-white">{currentUser?.email}</p>
+                    <p className="whitespace-nowrap font-semibold">{currentUser?.email}</p>
 
                 </div>
 

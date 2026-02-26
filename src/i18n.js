@@ -22,6 +22,8 @@ i18n
      en: {
 
          translation: {
+             no_contacts: "No contacts",
+             no_cash_trans: "No cash transactions",
              connectFirst: "You will need to log in first.",
              quantityNber:"Quantity",
              loading: "Loading...",
@@ -706,6 +708,8 @@ i18n
      fr: {
 
          translation: {
+             no_contacts: "Pas de contacts",
+             no_cash_trans: "Pas de transactions en espèces",
              connectFirst: "Vous devrez vous connecter avant",
              quantityNber: "Quantité",
              loading: "Chargement...",

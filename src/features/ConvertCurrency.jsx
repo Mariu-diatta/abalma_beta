@@ -28,7 +28,7 @@ const RendrePrixProduitMonnaie = ({ item }) => {
         return (
 
             <span
-                className="whitespace-nowrap text-blue-700 dark:text-blue-400 font-semibold text-sm sm:text-base"
+                className="whitespace-nowrap text-blue-700  text-sm sm:text-base"
                 aria-label={(prixFormat === "$") ? `XOF` : prixFormat}
             >
                 {

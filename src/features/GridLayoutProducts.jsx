@@ -40,6 +40,10 @@ const GridLayoutProduct = () => {
 
     const currentUser = useSelector(state => state.auth.user);
 
+    const filteredItemsLenght = (filteredItems?.length === 0)
+
+    const isCurrentUserConnected = (currentUser && currentUser?.is_connected)
+
     useEffect(
 
         () => {
@@ -214,7 +218,7 @@ const GridLayoutProduct = () => {
         <div className="space-y-4  pb-[10dvh]">
 
             {
-                (currentUser && currentUser?.is_connected) &&
+                isCurrentUserConnected &&
                 <SearchBar />
             }
 
@@ -232,7 +236,7 @@ const GridLayoutProduct = () => {
 
             />
 
-            <aside className={`${(filteredItems?.length === 0) ? "hidden" : "p-0"}`}>
+            <aside className={`${filteredItemsLenght ? "hidden" : "p-0"}`}>
 
                 <PaginationProduit products={filteredItems} />
 
