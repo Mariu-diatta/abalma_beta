@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addMessageNotif, removeRoom } from "../slices/chatSlice";
-import { backendBase } from "../services/Axios";
+import { BASE_URL} from "../services/Axios";
 
 const NotificationsComponent = () => {
 
@@ -18,7 +18,7 @@ const NotificationsComponent = () => {
 
         if (!currentUser?.id) return;
 
-        const socketUrl = `${backendBase}/chat/notifications/${currentUser.id}/`;
+        const socketUrl = `${BASE_URL}/chat/notifications/${currentUser.id}/`;
 
         // Ferme toute ancienne connexion avant d’en créer une nouvelle
         if (ws.current) ws.current.close();

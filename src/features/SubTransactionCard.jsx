@@ -3,7 +3,7 @@ import LoadingCard from '../components/LoardingSpin';
 import { canUpdateDelete } from '../utils';
 import api from '../services/Axios';
 
-const SubTransactionCard = ({
+const TransactionAndSubTransactionCard = ({
     title = "Sous-transaction",
     icon,
     status,
@@ -16,11 +16,11 @@ const SubTransactionCard = ({
     setData,
     setDeleted,
     priceLabel,
-    showAction = false,
-    isLoading = false,
+    showAction,
+    isLoading,
     actionLabel,
-    onAction,
-    actionDisabled = false,
+    onClick,
+    actionDisabled,
 }) => {
 
     const [loadingDelate, setLoadingDelate] = useState(false)
@@ -46,8 +46,6 @@ const SubTransactionCard = ({
             ).then(
 
                 resp => {
-
-                    console.log(resp)
 
                     alert("Secessuffuly delete")
 
@@ -132,17 +130,17 @@ const SubTransactionCard = ({
                 {
                     showAction && (
 
-                        <div className="flex justify-end">
+                        <div className={`flex justify-end ${!actionLabel?"hidden":""}`}>
 
                             {
-                                !isLoading ? (
+                                !isLoading? (
                                     <button
-                                        onClick={onAction}
+                                        onClick={onClick}
                                         disabled={actionDisabled}
                                         className="px-4 py-2 text-sm font-medium rounded-lg
-                                    bg-white border border-gray-300
-                                    hover:bg-green-50 hover:border-green-400
-                                    transition disabled:opacity-40 disabled:cursor-not-allowed"
+                                        bg-white border border-gray-300
+                                        hover:bg-green-50 hover:border-green-400
+                                        transition"
                                     >
                                         {actionLabel}
 
@@ -164,4 +162,4 @@ const SubTransactionCard = ({
     );
 };
 
-export default SubTransactionCard;
+export default TransactionAndSubTransactionCard;

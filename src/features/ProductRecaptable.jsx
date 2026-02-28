@@ -2,14 +2,14 @@ import React, { useMemo, useState } from 'react';
 import ViewProduct from '../components/ViewProduct';
 import { useTranslation } from 'react-i18next';
 import {
-    API_URL_BACKEND, CONSTANTS, MODE, NAMES_TABLES, OPERATIONS_STATUS, STATUS_FLOW_ITEM,STATUS_FLOW_SUBTRANSACTION, STATUS_FLOW_TRANSACTION, convertDate, updateStatusTransaction } from '../utils';
+    API_URL_BACKEND, CONSTANTS, MODE, NAMES_TABLES, OPERATIONS_STATUS, STATUS_FLOW_SUBTRANSACTION, STATUS_FLOW_TRANSACTION, convertDate, updateStatusTransaction } from '../utils';
 import { TitleCompGenLitle } from '../components/TitleComponentGen';
 import TransactionsDropdown from './TransactionsDropdown';
 import { useEffect } from 'react';
 import api from '../services/Axios';
 import { useDispatch, } from 'react-redux';
 import LoadingCard from '../components/LoardingSpin';
-import SubTransactionCard from './SubTransactionCard';
+import TransactionAndSubTransactionCard from './SubTransactionCard';
 
 const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode }) => {
 
@@ -21,7 +21,6 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
 
     const [popoverOpen, setPopoverOpen] = useState(false);
     const [product, setProductView] = useState(null);
-    const [inLoadUpdateProductTransStatus, setInLoadUpdateProductTransStatus] = useState(false);
     const [inLoadUpdateTransStatus, setInloadUpdateTransStatus] = useState(false);
     const [inloadUpdateSubTransStatus, setInloadUpdateSubTransStatus] = useState(false);
     const dispatch = useDispatch();
@@ -313,7 +312,7 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
                         {
                             (selectedTransaction && !deletedTrans) && (
 
-                                <SubTransactionCard
+                                <TransactionAndSubTransactionCard
                                     title="Transaction"
                                     icon={
                                         <svg
@@ -331,32 +330,48 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
                                             />
                                         </svg>
                                     }
+                                    status={selectedTransaction?.status}
                                     url="transactions/products"
                                     pk={selectedTransaction?.id}
                                     data={transactionsData}
                                     setData={setTransactionsData}
                                     setDeleted={setDeletedTrans}
-                                    status={selectedTransaction?.status}
                                     createdAt={convertDate(selectedTransaction?.created_at)}
                                     code={selectedTransaction?.code}
                                     price={selectedTransaction?.price}
                                     priceLabel={t("recaptTransaction.price")}
                                     showAction={mode !== MODE.BUY}
                                     isLoading={inLoadUpdateTransStatus}
-                                    actionDisabled={currentPage === 1}
+                                    actionDisabled={false}
                                     actionLabel={STATUS_FLOW_TRANSACTION[selectedTransaction?.status]}
-                                    onAction={() =>
-                                        updateStatusTransaction(
-                                            API_URL_BACKEND?.STATUS_TRANSACTION,
-                                            {
-                                                transaction_id: selectedTransaction?.id,
-                                                new_status:
-                                                    STATUS_FLOW_TRANSACTION[selectedTransaction?.status],
-                                            },
-                                            setInloadUpdateTransStatus,
-                                            dispatch
-                                        )
-                                    }
+
+                                    onClick={async () => {
+                                        try {
+                                            const resp = await updateStatusTransaction(
+                                                API_URL_BACKEND?.STATUS_TRANSACTION,
+                                                {
+                                                    transaction_id: selectedTransaction?.id,
+                                                    new_status:
+                                                        STATUS_FLOW_TRANSACTION[selectedTransaction?.status],
+                                                },
+                                                setInloadUpdateTransStatus,
+                                                dispatch
+                                            )
+
+                                            // 🔥 Mettre à jour le state local
+                                            setTransactionsData(prev =>
+                                                prev.map(el =>
+                                                    el.id === selectedTransaction?.id
+                                                        ? { ...el, status: resp?.new_status }
+                                                        : el
+                                                )
+
+                                            )
+
+                                        } catch (err) {
+                                            console.log(err)
+                                        }
+                                    }}
                                 />
                             )
                         }
@@ -364,7 +379,7 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
                         {
                             selectedSubTransactionNotDeleted && (
 
-                                <SubTransactionCard
+                                <TransactionAndSubTransactionCard
                                     title="Sous-transaction"
                                     icon={
                                         <svg
@@ -395,18 +410,35 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
                                     showAction={mode !== MODE.BUY}  
                                     isLoading={inloadUpdateSubTransStatus}
                                     actionLabel={STATUS_FLOW_SUBTRANSACTION[selectedSubTransaction?.status]}
-                                    actionDisabled={currentPage === 1}
-                                    onAction={() =>
-                                        updateStatusTransaction(
-                                            API_URL_BACKEND?.STATUS_SUB_TRANSACTION,
-                                            {
-                                                sub_transaction_id: selectedSubTransaction?.id,
-                                                new_status:
-                                                    STATUS_FLOW_TRANSACTION[selectedSubTransaction?.status],
-                                            },
-                                            setInloadUpdateSubTransStatus
-                                        )
-                                    }
+                                    actionDisabled={false}
+                                    onClick={async () => {
+                                        try {
+                                            const resp = await updateStatusTransaction(
+                                                API_URL_BACKEND?.STATUS_SUB_TRANSACTION,
+                                                {
+                                                    sub_transaction_id: selectedSubTransaction?.id,
+                                                    new_status:
+                                                        STATUS_FLOW_SUBTRANSACTION[selectedSubTransaction?.status],
+                                                },
+                                                setInloadUpdateSubTransStatus,
+                                                dispatch
+                                            )
+
+                                            // 🔥 Mettre à jour le state local
+                                            setSubTransactionsData(prev =>
+                                                prev.map(el =>
+                                                    el.id === selectedSubTransaction?.id
+                                                        ? { ...el, status: resp?.new_status }
+                                                        : el
+                                                )
+                                            )
+
+                                            console.log("Transaction new state:::", subTransactionsData)
+
+                                        } catch (err) {
+                                            console.log(err)
+                                        }
+                                    }}
                                 />
 
                             )
@@ -417,7 +449,7 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
             }
 
             {/* TABLEAU */}
-            <main className=" overflow-x-auto sm:rounded-lg p-1 z-0 ">
+            <main className=" overflow-x-auto sm:rounded-lg p-1 z-0 scrollbor_hidden">
 
                 <table
                     className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-lg p-1"
@@ -459,16 +491,19 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
 
                                     <tr
                                         key={index} 
-                                        className=" dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
+                                        className=" dark:border-gray-700 border-gray-200 hover:bg-gray-50"
                                     >
                                         <td className="px-4 py-3 ">{item?.description_product?.slice(0, 6) || '-'}</td>
                                         <td className="px-4 py-3 ">{item?.categorie_product || '-'}</td>
-                                        <td className="px-4 py-3 cursor-pointer ">{item?.status || '-'}</td>
-                                        <td className="px-4 py-3 ">{item?.price_product || '-'}</td>
+                                        <td className="px-4 py-3 ">{item?.is_active?"True":"False" || '-'}</td>
+                                        <td className="px-4 py-3 whitespace-nowrap">{item?.price_product} {(item?.currency_price) || '-'}</td>
                                         <td className="px-4 py-3 ">{item?.created_at ? convertDate(item?.created_at) : convertDate(item?.created) || '-'}</td>
+                                        <td className="px-4 py-3 ">{item?.is_available?"True":"False" || '-'}</td>
+                                        <td className="px-4 py-3 ">{item?.operation_product || '-'}</td>
                                         <td className="px-4 py-3 ">{convertDate(item?.created) || 'N/A'}</td>
                                         <td className="px-4 py-3 ">{item?.date_fin_emprunt || '-'}</td>
-                                        <td className="px-4 py-3 ">{item?.operation_product || '-'}</td>
+                                        <td className="px-4 py-3 ">{item?.date_fin_stock || '-'}</td>
+
                                         <td className="px-4 py-3 ">
 
                                             <button
@@ -509,36 +544,37 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
                                             }
                                         </td>
 
-                                        {
-                                            (MODE.BUY && mode !== MODE.BUY && STATUS_FLOW_ITEM[item?.status] !== CONSTANTS.CONFIRMED) &&
-                                            <td className={`px-4 py-3 ${mode === MODE.BUY ? "hidden" : ""}`}>
+                                        {/*{*/}
+                                        {/*    (MODE.BUY && mode !== MODE.BUY && STATUS_FLOW_ITEM[item?.status] !== CONSTANTS.CONFIRMED) &&*/}
+                                        {/*    <td className={`px-4 py-3 ${mode === MODE.BUY ? "hidden" : ""}`}>*/}
 
-                                                {
-                                                    !inLoadUpdateProductTransStatus?
-                                                    <button
-                                                        onClick={() => updateStatusTransaction(
-                                                            API_URL_BACKEND?.STATUS_TRANSACTION_PRODUCT,
-                                                            {
-                                                                item_id: item?.item_id,
-                                                                new_status: STATUS_FLOW_ITEM[item?.status]
-                                                            },
-                                                            setInLoadUpdateProductTransStatus
+                                        {/*        {*/}
+                                        {/*            !inLoadUpdateProductTransStatus?*/}
+                                        {/*            <button*/}
+                                        {/*                onClick={() => updateStatusTransaction(*/}
+                                        {/*                    API_URL_BACKEND?.STATUS_TRANSACTION_PRODUCT,*/}
+                                        {/*                    {*/}
+                                        {/*                        item_id: item?.item_id,*/}
+                                        {/*                        new_status: STATUS_FLOW_ITEM[item?.status]*/}
+                                        {/*                    },*/}
+                                        {/*                    setInLoadUpdateProductTransStatus,*/}
+                                        {/*                    dispatch*/}
 
-                                                        )}
-                                                        disabled={selectedSubTransaction ? false : true}
-                                                        className="disabled:opacity-40 disabled:bg-gray-50 hover:bg-blue-300 px-2 cursor-pointer p-1 rounded-lg bg-gradient-to-br from-blue-100 to-orange-50"
-                                                        title={t('update')}
-                                                    >
-                                                        {STATUS_FLOW_ITEM[item?.status]}
+                                        {/*                )}*/}
+                                        {/*                disabled={selectedSubTransaction ? false : true}*/}
+                                        {/*                className="disabled:opacity-40 disabled:bg-gray-50 hover:bg-blue-300 px-2 cursor-pointer p-1 rounded-lg bg-gradient-to-br from-blue-100 to-orange-50"*/}
+                                        {/*                title={t('update')}*/}
+                                        {/*            >*/}
+                                        {/*                {STATUS_FLOW_ITEM[item?.status]}*/}
+  
+                                        {/*            </button> */}
+                                        {/*            :*/}
+                                        {/*            <LoadingCard/>*/}
 
-                                                    </button> 
-                                                    :
-                                                    <LoadingCard/>
+                                        {/*        }*/}
 
-                                                }
-
-                                            </td>
-                                        }
+                                        {/*    </td>*/}
+                                        {/*}*/}
                                     </tr>
                                 )
                             )

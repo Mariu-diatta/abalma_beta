@@ -14,8 +14,6 @@ const ListProductShoppingCart = () => {
 
     const data = useSelector(state => state.cart);
     const itemsData = data?.items;
-    const currentUser = useSelector(state => state.auth.user);
-
     const lang = i18n.language || window.localStorage.i18nextLng || CONSTANTS?.FR;
     const reference = lang === CONSTANTS?.FR ? CONSTANTS?.EUR : CONSTANTS?.USD;
 
@@ -72,29 +70,23 @@ const ListProductShoppingCart = () => {
 
     // Fonction d'achat
     const boughtProduct = useCallback(async () => {
-        const productIds = itemsData.map(item => ({
-            key: item.id,
-            quantity: item.quantity_sold || 0
-        }));
 
         const payload = {
-            product_ids: productIds,
-            quantity: data.nbItem,
-            price: data.totalPrice,
-            transaction_type: "Achat",
-            client: currentUser.id,
-            payment_mode: "cash"
+            "items": itemsData,
+            "currency": reference,
         };
 
         try {
-            await api.post("creat/transactions/products/", payload, { headers: { 'Content-Type': 'application/json' } });
+            await api.post("payments/cash/", payload, { headers: { 'Content-Type': 'application/json' } });
             showMessage(dispatch, { Type: "Message", Message: "Transaction effectué" });
             dispatch(clearCart());
+
         } catch (err) {
             console.error("Erreur payment:", err);
             showMessage(dispatch, { Type: "Erreur", Message: err?.response?.data?.detail || err?.message });
         }
-    }, [currentUser, dispatch, data, itemsData]);
+
+    }, [reference,itemsData, dispatch]);
 
     return (
         <div className="overflow-x-auto sm:rounded-lg p-1 dark:text-white text-gray-100">
@@ -127,28 +119,29 @@ const ListProductShoppingCart = () => {
                     <tbody>
                         {
                             itemsData?.map(prod => {
-                            const qty = prod.quantity_sold || 0;
-                            const price = Number(prod.price_product) || 0;
+
+                            const qty = prod?.quantity_sold || 0;
+                            const price = Number(prod?.price_product) || 0;
                             const total = (price * qty).toFixed(CONSTANTS?.DECIMALS_DIGITS);
 
                             return (
-                                <tr key={prod.id} className="dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <tr key={prod?.id} className="border-gray-200 hover:bg-gray-50">
                                     <td className="p-1">
-                                        <div className="w-10 h-10 md:w-32 md:h-32 overflow-hidden rounded-lg border border-gray-200 dark:border-gray-600">
-                                            <img src={prod.image_product} alt={prod.description_product || "Image du produit"} className="object-contain w-full h-full" loading="lazy" />
+                                        <div className="w-10 h-10 md:w-32 md:h-32 overflow-hidden rounded-lg border border-gray-200 ">
+                                            <img src={prod.image_product} alt={prod?.description_product || "Image du produit"} className="object-contain w-full h-full" loading="lazy" />
                                         </div>
                                     </td>
-                                    <td className="px-6 py-4">{prod.description_product?.slice(0, 6)}</td>
-                                    <td className="px-6 py-4">{prod.categorie_product}</td>
+                                    <td className="px-6 py-4">{prod?.description_product?.slice(0, 6)}</td>
+                                    <td className="px-6 py-4">{prod?.categorie_product}</td>
                                     <td className="px-6 py-4">
                                         <div className="flex items-center">
-                                            <button onClick={() => handleDecreaseQuantity(prod)} className="cursor-pointer inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 border border-gray-300 rounded-full dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600">-</button>
-                                            <input type="number" value={qty} readOnly className={`${canIncreaseQty(prod) ? "" : "bg-gradient-to-br from-pink-300 to-orange-300"} w-14 text-sm rounded-lg block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:text-white`} />
-                                            <button onClick={() => handleIncreaseQuantity(prod)} className="cursor-pointer inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium border border-gray-300 rounded-full dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600">+</button>
+                                            <button onClick={() => handleDecreaseQuantity(prod)} className="cursor-pointer inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 border border-gray-300 rounded-full dark:text-gray-400 dark:border-gray-600">-</button>
+                                            <input type="number" value={qty} readOnly className={`${canIncreaseQty(prod) ? "" : "bg-gradient-to-br from-pink-300 to-orange-300"} w-14 text-bold rounded-lg block px-2.5 py-1 bg-gray-100 `} />
+                                            <button onClick={() => handleIncreaseQuantity(prod)} className="cursor-pointer inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium border border-gray-300 rounded-full dark:text-gray-400 dark:border-gray-600">+</button>
                                         </div>
                                     </td>
-                                    <td className="px-6 py-4">{price.toFixed(CONSTANTS?.DECIMALS_DIGITS)} ({prod.currency_price})</td>
-                                    <td className="px-6 py-4">{total} ({prod.currency_price})</td>
+                                    <td className="px-6 py-4">{price.toFixed(CONSTANTS?.DECIMALS_DIGITS)} ({prod?.currency_price})</td>
+                                    <td className="px-6 py-4">{total} ({prod?.currency_price})</td>
                                     <td className="px-6 py-4">
                                         <button onClick={() => dispatch(removeFromCart(prod))} className="font-medium hover:underline cursor-pointer">
                                             <svg
@@ -190,7 +183,8 @@ const ListProductShoppingCart = () => {
                 <BuyButtonWithPaymentForm total_price={totalPriceBuy} reference={reference} />
 
                 {/* 🔥 Bouton acheté conservé exactement comme demandé */}
-                {totalPriceBuy > 0 &&
+                {
+                    totalPriceBuy > 0 &&
                     <div className="text-right p-6">
                         <button onClick={boughtProduct} className="whitespace-nowrap-pointer text-white bg-gradient-to-br from-purple-300 to-blue-300 hover:bg-gradient-to-br hover:from-purple-400focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center">
                             <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -202,7 +196,9 @@ const ListProductShoppingCart = () => {
                         </button>
                     </div>
                 }
+
             </div>
+
         </div>
     );
 };

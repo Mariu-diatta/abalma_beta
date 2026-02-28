@@ -481,7 +481,7 @@ const ProductSummary = ({
     return (
 
         <div
-            className="flex flex-col gap-4  p-6 rounded-lg w-full max-w-2xl m-auto bg-blue-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+            className="flex flex-col gap-4  p-6 rounded-lg w-full max-w-2xl m-auto from-red-100 to-blue-300  text-gray-900 dark:text-gray-100"
         >
 
             {/* INFORMATIONS DU PRODUIT */}
@@ -529,14 +529,14 @@ const ProductSummary = ({
 
                 <button
                     onClick={onEdit}
-                    className="bg-gradient-to-l from-red-50 to-gray-200 text-white px-3 py-1 rounded-full transition-colors"
+                    className="bg-gradient-to-l from-green-100 to-gray-200 hover:bg-green-100  text-white px-3 py-1 rounded-full transition-colors"
                 >
                     {t("edit")}
                 </button>
 
                 <button
                     onClick={onDelete}
-                    className="bg-gradient-to-l from-red-50 to-gray-200 text-white px-3 py-1 rounded-full transition-colors"
+                    className="bg-gradient-to-l from-red-100 to-gray-200 hover:bg-red-100 text-white px-3 py-1 rounded-full transition-colors"
                 >
                     {t("delete")}
 
@@ -548,7 +548,7 @@ const ProductSummary = ({
                     :
                     <button
                         onClick={onAddNew}
-                            className="bg-gradient-to-l from-red-50 to-gray-200 text-white px-3 py-1 rounded-full transition-colors"
+                            className="bg-gradient-to-l from-gray-100 to-blue-200 hover:bg-blue-100  text-white px-3 py-1 rounded-full transition-colors"
                     >
                         {t("submit")}
 

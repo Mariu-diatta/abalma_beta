@@ -5,39 +5,32 @@ import { setCurrentNav, updateTheme } from "./slices/navigateSlice";
 import { store } from "./store/Store";
 import { Client } from "@gradio/client";
 
-export const updateStatusTransaction = (url, data, func, dispatch) => {
+export const updateStatusTransaction = async (url, data, func, dispatch) => {
 
     try {
 
         func(true)
 
-        const response = api.post(`${url}/`, data).then(
+        const response = await api.post(`${url}/`, data)
 
-            resp => console.log(resp)
+        showMessage(dispatch, {
+            Type: "Success",
+            Message: response?.data?.message || "Success"
+        })
 
-        ).catch(
-
-            err => console.log(err)
-        )
-
-        console.log(response?.message)
-
-        const messSuccess = response?.message?.message || "Message success"
-
-        showMessage(dispatch, { Type: "Success", Message: messSuccess || "Error not found: user not login" });
+        return response.data   // ✅ IMPORTANT
 
     } catch (e) {
+        showMessage(dispatch, {
+            Type: "Erreur",
+            Message:
+                e?.response?.data?.detail ||
+                e?.message ||
+                "Erreur de la mise à jour"
+        })
 
-        console.log("Erreur de la mise à jour", e)
-
-        const errorMessage = e?.message || e?.response?.data?.detail || "Erreur de la mise à jour"
-
-        func(false)
-
-        showMessage(dispatch, { Type: "Erreur", Message: errorMessage || "Error not found: user not login" });
-
+        throw e
     } finally {
-
         func(false)
     }
 }
@@ -366,6 +359,8 @@ export const CreateClient = async (data, setLoading, showMessage, dispatch, t) =
             withCredentials: false
         });
 
+        console.log("Les data::::", response)
+
         showMessage(dispatch, { Type: 'Message', Message: t('creatAccountSucces') });
 
         return response;
@@ -665,8 +660,8 @@ export const STATUS={
 }
 
 export const NAMES_TABLES= [
-    'name', 'categories', 'status', 'price', 'created',
-    'operationDate', 'endDate', 'operation', 'view', 'actions','update'
+    'name', 'categories', 'actif', 'price', 'created','available', 'operation',
+    'operationDate', 'endDate',  'Date_fin_stock', 'view', 'actions'
 ]
 
 export const STATUS_FLOW = {
@@ -680,28 +675,28 @@ export const STATUS_FLOW = {
     shipped: "delivered",
 };
 
-export const STATUS_FLOW_TRANSACTION = {
-    forward: "pending",
-    pending: "recorded",
-    recorded: "in_progress",
-    in_progress: "validated",
-    validated: "confirmed",
-    confirmed: "shipped",
-    shipped: "delivered",
-    delivered: "refunded",
-    canceled: null,
-    failed: null,
-};
+    export const STATUS_FLOW_TRANSACTION = {
+        forward: "pending",
+        pending: "recorded",
+        recorded: "in_progress",
+        in_progress: "validated",
+        validated: "confirmed",
+        confirmed: "shipped",
+        shipped: "delivered",
+        delivered: "refunded",
+        canceled: null,
+        failed: null,
+    };
 
-export const STATUS_FLOW_SUBTRANSACTION = {
-    forward: "in_progress",
-    pending: "in_progress",
-    in_progress: "confirmed",
-    confirmed: "shipped",
-    shipped: "delivered",
-    delivered:null,
-    canceled:null
-};
+    export const STATUS_FLOW_SUBTRANSACTION = {
+        forward: "in_progress",
+        pending: "in_progress",
+        in_progress: "confirmed",
+        confirmed: "shipped",
+        shipped: "delivered",
+        delivered:null,
+        canceled:null
+    };
 
 export const STATUS_FLOW_STYLE = {
     pending: {

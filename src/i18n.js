@@ -543,6 +543,7 @@ i18n
                  statusAll: "All",
                  searchPlaceholder: "Search...",
                  tableHeaders: {
+                     Date_fin_stock: "Out of stock date",
                      created: 'Created',
                      update:'Update',
                      name: "Name",
@@ -550,10 +551,12 @@ i18n
                      status: "Status",
                      price: "Price",
                      operationDate: "Operation date",
-                     endDate: "End date",
+                     endDate: "End operation date",
                      operation: "Operation",
                      actions: "Actions",
                      view: "View",
+                     available: "Available",
+                     actif: "Actif"
                  },
                  noProducts: "No products to display.",
                  pagination: {
@@ -1207,17 +1210,20 @@ i18n
                 statusAll: "Tous",
                 searchPlaceholder: "Rechercher...",
                 tableHeaders: {
+                    Date_fin_stock: "Date de fin de stock",
                     created: 'Création',
                     update:"Mise à jour",
                     name: "Nom",
                     categories: "Catégories",
                     status: "Statut",
                     price: "Prix",
-                    operationDate: "Date d'operation",
-                    endDate: "Date de fin",
+                    operationDate: "Date d'opération",
+                    endDate: "Date de fin d'opération",
                     operation: "Opération",
                     actions: "Actions",
                     view: "Consulter",
+                    available: "Disponible",
+                    actif:"Actif"
                 },
                 noProducts: "Aucun produit à afficher.",
                 pagination: {

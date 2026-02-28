@@ -89,13 +89,6 @@ export const PaymentForm = () => {
             onSubmit={handleSubmit}
 
             className=" lg:py-[1px] max-w-5xl mx-auto pt-0 mt-1 rounded-lg"
-
-            style={{
-
-                backgroundColor: "var(--color-bg)",
-
-                color: "var(--color-text)"
-            }}
         >
 
             <AttentionAlertMesage />

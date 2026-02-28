@@ -1,7 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-import { useCallback } from 'react';
-//import { CONSTANTS } from '../utils';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import api from '../services/Axios';
@@ -31,100 +29,57 @@ export function PaymentWithCard(
 
     const currentUserNotConnected = !currentUser && !currentUser?.is_connected
 
-    const [datatPayLoad, setDataPayLoad] = useState({})
-
-    const boughtProduct = useCallback(async (payload) => {
-
-            try {
-
-                setLoadingPayPal(true)
-
-                // Envoi en JSON  const products =
-                await api.post("creat/transactions/products/",
-
-                    payload,
-
-                    {
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    }
-                )
-
-                showMessage(dispatch, { Type: "Message", Message: t("success_transaction") });
-
-                //dispatch(addMessageNotif("Transaction effectué"))
-
-                dispatch(clearCart())
-
-            } catch (err) {
-
-                setShowPaymentForm(false)
-
-                showMessage(dispatch, { Type: "Erreur", Message: err?.response?.data?.detail || err?.message });
-
-
-            } finally {
-
-                setLoadingPayPal(false)
-            }
-
-        }, [setShowPaymentForm, setLoadingPayPal, dispatch,t]
-    )
 
     const createOrder = async () => {
 
-        const response = await api.post("create-paypal-order/",
+        try {
+            const response = await api.post(
 
-            { items: dataItems, currency: refRate },
-         
-            {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
-        );
-        const data = await response.json();
+                "create-paypal-order/",
 
-        setDataPayLoad(data?.productsData)
+                { items: dataItems, currency: refRate }
+            );
 
-        return data; // ID que PayPal Buttons utilise
-    }
+            const data = response.data;
 
+            // ⚠️ IMPORTANT : retourner uniquement l'ID
+            return data.paypal_order_id;
 
-    const onApprovePayment = async (actions) => {
-            
+        } catch (error) {
+
+            handlePaymentError(error);
+
+            throw error;
+        }
+    };
+
+    const onApprovePayment = async (data) => {
         try {
 
-            const details = await actions.order.capture();
+            setLoadingPayPal(true);
 
-            // Appel fonction post-transaction
-            boughtProduct(datatPayLoad);
-
-            // Notification personnalisée
-            showMessage(
-
-                dispatch,
-
+            await api.post(
+                "capture-paypal-order/",
                 {
-                    Type: "Message",
-                    Message: `Merci ${details.payer.name.given_name}, ${t("success_transaction")}!`,
+                    order_id: data.orderID,
+                    items: dataItems,
+                    currency: refRate
                 }
             );
+
+            showMessage(dispatch, {
+                Type: "Message",
+                Message: t("success_transaction")
+            });
+
+            dispatch(clearCart());
+            setShowPaymentForm(false);
 
         } catch (err) {
-
             handlePaymentError(err);
-            // Notification personnalisée
-            showMessage(
 
-                dispatch,
-
-                {
-                    Type: "Erreur",
-                    Message: `Hupps! ${err?.response?.data?.detail || err?.message}, ${t('transaction_fail')}`,
-                }
-            );
+        } finally {
+            setLoadingPayPal(false);
         }
     };
 
@@ -152,21 +107,18 @@ export function PaymentWithCard(
         >
 
             <PayPalButtons
+                style={{
+                    layout: "vertical",
+                    color: "blue",
+                    shape: "rect",
+                    label: "paypal",
+                }}
 
-                style={
-                    {
-                        layout: "vertical",
-                        color: "blue",
-                        shape: "rect",
-                        label: "paypal",
-                    }
-                }
+                createOrder={createOrder}
 
-                createOrder={(data, actions) => createOrder(actions)}
+                onApprove={onApprovePayment}
 
-                onApprove={(data, actions) => onApprovePayment(actions)}
-
-                onError={(err) => handlePaymentError(err)}
+                onError={handlePaymentError}
             />
 
         </PayPalScriptProvider>
