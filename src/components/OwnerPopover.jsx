@@ -173,10 +173,6 @@ const OwnerPopover = ({ owner, onClose }) => {
             style={
                 {
 
-                    backgroundColor: "var(--color-bg)",
-
-                    color: "var(--color-text)",
-
                     width: calculatedWidth
                 }
             }
@@ -185,7 +181,7 @@ const OwnerPopover = ({ owner, onClose }) => {
 
                 <img
 
-                    src={owner?.image}
+                    src={owner?.image || owner?.photo_url}
 
                     alt={owner?.nom || 'Fournisseur'}
 
@@ -218,7 +214,7 @@ const OwnerPopover = ({ owner, onClose }) => {
                         onClose();
                     }}
 
-                    className=" rounded-md text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800 cursor-pointer"
+                    className=" rounded-md text-gray-700 hover:bg-gray-50 dark:text-white cursor-pointer"
 
                     title="Voir le profil"
                 >
@@ -250,7 +246,7 @@ const OwnerPopover = ({ owner, onClose }) => {
                             }
                         }
 
-                        className="p-1.5 rounded-md text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800 cursor-pointer"
+                        className="p-1.5 rounded-md text-gray-700 hover:bg-gray-50 dark:text-white cursor-pointer"
 
                         title="Écrire un message"
                     >
