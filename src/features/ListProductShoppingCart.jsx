@@ -36,7 +36,6 @@ const ListProductShoppingCart = () => {
         dispatch(decreaseQuantity(prod));
     };
 
-
     // Met à jour le total dans Redux
     const totalPrice = (product) => {
 
@@ -89,6 +88,7 @@ const ListProductShoppingCart = () => {
     }, [reference,itemsData, dispatch]);
 
     return (
+
         <div className="overflow-x-auto sm:rounded-lg p-1 dark:text-white text-gray-100">
 
             {/* TITRE */}

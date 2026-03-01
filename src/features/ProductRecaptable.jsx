@@ -267,7 +267,7 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
                         setSelectedTransaction(null)
                     }}
 
-                    className="px-2 py-2 border rounded-full flex border-blue-50  focus:border-blue-50 focus:ring-1 focus:ring-blue-100  "
+                    className="focus:outline-none px-2 py-2 border rounded-full flex border-blue-50  focus:border-blue-50 focus:ring-1 focus:ring-blue-100  "
                 >
                     <option value="">{t('TableRecap.statusAll')}</option>
 

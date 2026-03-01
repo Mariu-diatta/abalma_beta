@@ -360,13 +360,7 @@ const ProfileCard = () => {
     return (
 
         <div
-            className="bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white mt-0 p-0"
-
-            style={{
-                backgroundColor: "var(--color-bg)",
-                color: "var(--color-text)"
-            }}
-
+            className="text-gray-900 dark:text-white mt-0 p-0"
         >
 
             {/* Cover Image */}
@@ -429,7 +423,7 @@ const ProfileCard = () => {
 
             {/* Profile Section */}
             <div
-                className="relative px-4  md:px-5 lg:px-5 pb-6 bg-white dark:bg-gray-900"
+                className="relative px-4  md:px-5 lg:px-5 pb-6 bg-white"
 
                 style={{
                     backgroundColor: "var(--color-bg)",
@@ -528,7 +522,7 @@ const ProfileCard = () => {
 
                                             <button
                                                 onClick={() => setIsProFormVisible(true)}
-                                                className="flex items-center gap-2 text-sm border border-blue-400 rounded-full py-2 px-4 hover:bg-blue-100 dark:hover:bg-blue-900"
+                                                className="flex items-center gap-2 text-sm border border-blue-400 rounded-full py-2 px-4 hover:bg-blue-100"
                                             >
                                                 <svg
                                                     className="w-5 h-5"
@@ -649,12 +643,8 @@ const ProfileCard = () => {
                                     (
                                         <button
                                             onClick={() => setIsEditing(true)}
-                                            className="h-8 w-1/2 border border-gray-300 cursor-pointer flex items-center justify-center gap-0 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-sm px-0 sm:px-2  hover:bg-gray-200 dark:hover:bg-gray-600 focus:ring-0 focus:ring-blue-500 focus:outline-none transition-colors duration-200  md:w-auto"
+                                            className="h-8 w-1/2 border border-gray-300 cursor-pointer flex items-center justify-center gap-0 rounded-full bg-gray-100 text-gray-800 dark:text-gray-100 text-sm px-0 sm:px-2  hover:bg-gray-200 focus:ring-0 focus:ring-blue-500 focus:outline-none transition-colors duration-200  md:w-auto"
                                             aria-label={t('ProfilText.modifierProfil')}
-                                            style={{
-                                                backgroundColor: "var(--color-bg)",
-                                                color: "var(--color-text)"
-                                            }}
                                         >
                                             <svg
                                                 className="w-4 h-4 sm:w-5 sm:h-5"
@@ -687,7 +677,7 @@ const ProfileCard = () => {
                                             creatNewRoom();
                                             navigate('/message-inbox');
                                         }}
-                                        className="h-8 w-1/2 md:w-auto border border-gray-300 cursor-pointer flex items-center justify-center gap-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-sm px-1 sm:px-2  hover:bg-gray-200 dark:hover:bg-gray-600 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors duration-200 w-2/3 md:w-auto"
+                                        className="h-8 w-1/2 md:w-auto border border-gray-300 cursor-pointer flex items-center justify-center gap-2 rounded-full bg-gray-100 text-gray-800 dark:text-gray-100 text-sm px-1 sm:px-2  hover:bg-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors duration-200 w-2/3 md:w-auto"
                                     >
                                         <span className="whitespace-nowrap px-2">{!messageVisible ? 'Message' : 'X'}</span>
 
