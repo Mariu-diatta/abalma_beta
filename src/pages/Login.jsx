@@ -11,7 +11,7 @@ import LoadingCard from '../components/LoardingSpin';
 import { ENDPOINTS,  IMPORTANTS_URLS,  loginClient } from '../utils';
 import { ButtonSimple } from '../components/Button';
 import { useNavigate } from 'react-router-dom'; // 
-//import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import FormLayout from '../layouts/FormLayout';
 import { showMessage } from '../components/AlertMessage';
 import TitleCompGen from '../components/TitleComponentGen';
@@ -27,7 +27,7 @@ const LogIn = () => {
     const { t } = useTranslation();
     const componentRef = useRef(null);
     const navigate = useNavigate();
-    //const currentNav = useSelector(state => state.navigate.currentNav);
+    const currentNav = useSelector(state => state.navigate.currentNav);
 
     const handleSignIn = async () => {
 
@@ -57,7 +57,9 @@ const LogIn = () => {
         } catch (e) {
 
             const errorMessage = e?.response?.data?.detail || e?.response?.data?.error;
+
             showMessage(dispatch, { Type: "Erreur", Message: errorMessage || "Error not found: user not login" });
+
             dispatch(setCurrentNav(ENDPOINTS.LOGIN))
 
         } finally {
@@ -92,6 +94,7 @@ const LogIn = () => {
         );
 
         if (componentRef.current) {
+
             observer.observe(componentRef.current);
         }
 
@@ -113,14 +116,14 @@ const LogIn = () => {
 
     }, [])
 
-    //useEffect(() => {
+    useEffect(() => {
 
-    //    if (currentNav === ENDPOINTS.HOME) {
+        if (currentNav === ENDPOINTS.HOME) {
 
-    //        return navigate("/home", { replace: true })
-    //    }
+            return navigate("/home", { replace: true })
+        }
 
-    //}, [currentNav, navigate]);
+    }, [currentNav, navigate]);
 
     useEffect(
         () => {

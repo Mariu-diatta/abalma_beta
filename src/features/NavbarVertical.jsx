@@ -224,7 +224,7 @@ const VertcalNavbar = ({ children }) => {
                                     {
                                         isUserPro && (
 
-                                            <span  className="shadow-lg inline-flex items-center justify-center px-2 text-xs rounded-full dark:bg-gray-700 " >
+                                            <span  className="shadow-lg inline-flex items-center justify-center px-2 text-xs rounded-full" >
                                                 Pro
                                             </span>
                                         )
