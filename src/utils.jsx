@@ -212,43 +212,43 @@ export const productViews = async (dataProduct, setProductNbViews) => {
 // 🔹 Base des catégories
 // ============================
 
+// CATEGORIES
 export const CATEGORIES = {
     DIVERS: { fr: "Divers", en: "Other / Misc", idx: "divers" },
-    JOUETS: { fr: "Jouets", en: "Toys", idx: "jouets" },
-    HABITS: { fr: "Habits", en: "Clothes", idx: "habits" },
-    MATERIELS_INFORMATIQUES: { fr: "Matériels informatiques", en: "Computer Equipment", idx: "materiels-informatiques" },
-    CAHIERS: { fr: "Cahiers", en: "Notebooks", idx: "cahiers" },
-    SACS: { fr: "Sacs", en: "Bags", idx: "sacs" },
-    LIVRES: { fr: "Livres", en: "Books", idx: "livres" },
-    ELECTROMENAGER: { fr: "Électroménager", en: "Home Appliances", idx: "electromenager" },
-    TELEPHONIE: { fr: "Téléphonie", en: "Telephony", idx: "telephonie" },
-    ACCESSOIRES: { fr: "Accessoires", en: "Accessories", idx: "accessoires" },
+    JOUETS: { fr: "Jouets", en: "Toys", idx: "toy_car" },
+    HABITS: { fr: "Habits", en: "Clothes", idx: "clothers" },
+    MATERIELS_INFORMATIQUES: { fr: "Matériels informatiques", en: "Computer Equipment", idx: "materiel_info" },
+    CAHIERS: { fr: "Cahiers", en: "Notebooks", idx: "notbooks" },
+    SACS: { fr: "Sacs", en: "Bags", idx: "bags" },
+    LIVRES: { fr: "Livres", en: "Books", idx: "books" },
+    ELECTROMENAGER: { fr: "Électroménager", en: "Home Appliances", idx: "home_appliance" },
+    TELEPHONIE: { fr: "Téléphonie", en: "Telephony", idx: "phone" },
     SPORT: { fr: "Sport", en: "Sports Equipment", idx: "sport" },
-    JEUX_VIDEO: { fr: "Jeux vidéo", en: "Video Games", idx: "jeux-video" },
+    JEUX_VIDEO: { fr: "Jeux vidéo", en: "Video Games", idx: "gaming" },
     MEUBLES: { fr: "Meubles", en: "Furniture", idx: "meubles" },
-    VEHICULES: { fr: "Véhicules", en: "Vehicles", idx: "vehicules" },
-    FOURNITURES_SCOLAIRES: { fr: "Fournitures scolaires", en: "School Supplies", idx: "fournitures-scolaires" },
-    BIJOUX: { fr: "Bijoux", en: "Jewelry", idx: "bijoux" },
-    COSMETIQUES: { fr: "Cosmétiques", en: "Cosmetics", idx: "cosmetiques" },
+    VEHICULES: { fr: "Véhicules", en: "Vehicles", idx: "car" },
+    FOURNITURES_SCOLAIRES: { fr: "Fournitures scolaires", en: "School Supplies", idx: "fourniture" },
+    BIJOUX: { fr: "Bijoux", en: "Jewelry", idx: "jewelry" },
+    COSMETIQUES: { fr: "Cosmétiques", en: "Cosmetics", idx: "cosmetics" },
     ALIMENTATION: { fr: "Alimentation", en: "Food", idx: "alimentation" },
-    MUSIQUE: { fr: "Musique", en: "Music", idx: "musique" },
-    SANTE_BEAUTE: { fr: "Santé & Beauté", en: "Health & Beauty", idx: "sante-beaute" },
-    MAISON_DECORATION: { fr: "Maison & Décoration", en: "Home & Decoration", idx: "maison-decoration" },
-    BEBES: { fr: "Bébés & Puériculture", en: "Baby & Toddler", idx: "bebes" },
-    JARDINAGE: { fr: "Jardinage", en: "Gardening", idx: "jardinage" },
-    BRICOLAGE: { fr: "Bricolage", en: "DIY & Tools", idx: "bricolage" },
-    ANIMAUX: { fr: "Animaux", en: "Pet Supplies", idx: "animaux" },
-    CHAUSSURES: { fr: "Chaussures", en: "Shoes", idx: "chaussures" },
+    MUSIQUE: { fr: "Musique", en: "Music", idx: "music" },
+    SANTE_BEAUTE: { fr: "Santé & Beauté", en: "Health & Beauty", idx: "health_beauty" },
+    MAISON_DECORATION: { fr: "Maison & Décoration", en: "Home & Decoration", idx: "home_deco" },
+    BEBES: { fr: "Bébés & Puériculture", en: "Baby & Toddler", idx: "baby" },
+    JARDINAGE: { fr: "Jardinage", en: "Gardening", idx: "gardening" },
+    BRICOLAGE: { fr: "Bricolage", en: "DIY & Tools", idx: "tools" },
+    ANIMAUX: { fr: "Animaux", en: "Pet Supplies", idx: "pets" },
+    CHAUSSURES: { fr: "Chaussures", en: "Shoes", idx: "shoes" },
     ELECTRONIQUE: { fr: "Électronique", en: "Electronics", idx: "electronique" },
-    FILMS_SERIES: { fr: "Films & Séries", en: "Movies & Series", idx: "films-series" },
+    FILMS_SERIES: { fr: "Films & Séries", en: "Movies & Series", idx: "movies" },
     SERVICES: { fr: "Services", en: "Services", idx: "services" },
     ART: { fr: "Art & Artisanat", en: "Art & Craft", idx: "art" },
     JEWELRY: { fr: "Montres & Bijoux", en: "Watches & Jewelry", idx: "jewelry" },
-    VOYAGE: { fr: "Voyage & Loisirs", en: "Travel & Leisure", idx: "voyage" },
+    VOYAGE: { fr: "Voyage & Loisirs", en: "Travel & Leisure", idx: "travel" },
     MEDICAL: { fr: "Matériel médical", en: "Medical Equipment", idx: "medical" },
-    HIGH_TECH: { fr: "High-Tech", en: "Gadgets & Innovation", idx: "high-tech" },
+    HIGH_TECH: { fr: "High-Tech", en: "Gadgets & Innovation", idx: "hightech" },
     AUTOMOTO: { fr: "Auto-moto", en: "Automotive", idx: "automoto" },
-    Tous: { fr: "Tous", en: "All" }
+    Tous: { fr: "Tous", en: "All", idx: "all_products" }
 };
 
 // ============================
@@ -256,7 +256,7 @@ export const CATEGORIES = {
 // ============================
 
 // ✅ Liste simple (pour les selects)
-export const LIST_CATEGORIES = [...Object.keys(CATEGORIES)];
+export const LIST_CATEGORIES_KEYS = [...Object.keys(CATEGORIES)];
 
 // ✅ Liste utilisée pour les filtres produits
 export const ListItemsFilterProduct = {
@@ -270,6 +270,18 @@ export const LIST_CATEGORY = Object.entries(CATEGORIES).map(([key, { idx }]) => 
     filter: isLang ? key.toUpperCase() : key
 }));
 
+export const categoriesConfig = Object.entries(CATEGORIES).map(
+    ([key, value]) => ({
+        key,                    // "JOUETS"
+        name: key,              // on garde la clé stable
+        idx: value.idx,         // "jouets"
+        to:
+            key === "Tous"
+                ? "/produits/"
+                : `/products/filter/?categorie_product=${key}`,
+        id: value.idx || key.toLowerCase()
+    })
+);
 // ============================
 // 🔹 Fonction de traduction inverse
 // ============================
@@ -848,3 +860,9 @@ export const IMPORTANTS_URLS = {
 }
 
 
+
+
+export const STYLE = {
+
+    STYLE_BTN_CATEGORIES: "rounded-lg bg-gray-50  shadow-lg bg-none h-12 w-10 "
+}

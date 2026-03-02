@@ -12,7 +12,7 @@ import TitleCompGen from "../components/TitleComponentGen";
 import FormElementFileUpload from "./FormFile";
 //import { ENDPOINTS } from "../utils";
 import InputBox from "../components/InputBoxFloat";
-import { LIST_CATEGORIES } from "../utils";
+import { LIST_CATEGORIES_KEYS } from "../utils";
 
 
 const AddUploadProduct = () => {
@@ -335,7 +335,7 @@ const AddUploadProduct = () => {
                                 >
                                         <option value="">{t("add_product.select_category")}</option>
                                         {
-                                            LIST_CATEGORIES?.map(
+                                            LIST_CATEGORIES_KEYS?.map(
 
                                                 (value, idx) => <option key={idx} value={`${value}`}>{t(`add_product.categories.${value}`)}</option>
 

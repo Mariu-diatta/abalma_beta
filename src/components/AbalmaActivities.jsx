@@ -126,7 +126,7 @@ const SingleActivity = () => {
 
     return (
 
-        <main className="relative w-full md:w-1/2 m-auto pb-16 md:w-11/12 lg:w-10/12 xl:w-8/12  p-2  mt-0 bg-gradient-to-br from-red-100 to-blue-200 shadow-lg rounded-lg ">
+        <main className="relative w-full md:w-1/2 m-auto pb-16 md:w-11/12 lg:w-10/12 xl:w-8/12  p-3  mt-0 bg-gradient-to-br from-red-50 to-blue-200 shadow-lg rounded-lg ">
 
             <h1 className="text-2xl font-bold text-gray-800  flex items-center  my-2 justify-center">
                 Services
@@ -156,7 +156,7 @@ const SingleActivity = () => {
                             {details}
                         </p>
 
-                        <h4 className="mb-2 text-md font-semibold leading-[27px] text-dark dark:text-white">
+                        <h4 className="mb-2 text-md font-semibold leading-[27px] text-dark ">
                             {name}
                         </h4>
 

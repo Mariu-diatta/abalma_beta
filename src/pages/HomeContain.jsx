@@ -71,7 +71,7 @@ const HomeContain = () => {
                         className="absolute mx-auto mb-[10dvh] mx-auto mt-5
                             w-[46dvh] h-[46dvh] mb:w-[60dvh] mb:h-[60dvh]
                             rounded-br-full
-                            bg-gradient-to-br from-purple-0 to-blue-100
+                            bg-gradient-to-br from-red-50 to-blue-200
                             flex items-center justify-center
                         "
                     >

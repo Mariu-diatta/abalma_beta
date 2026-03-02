@@ -280,7 +280,7 @@ const Footer = () => {
                 ref={componentRef}
                 className="w-full opacity-0 translate-y-5 transition-all duration-1000 ease-in-out bg-none"
             >
-                <div className="flex flex-col lg:flex-row justify-center  gap-10 p-0">
+                <div className="flex flex-col lg:flex-row justify-center  gap-3 p-0">
 
                     <LinkGroup header={t('about_us')}>
                         <NavLink link="/#" label={t('about_abalma')} className="text-sm" />
@@ -325,7 +325,7 @@ const LinkGroup = ({ children, header }) => {
 
             <div className="mb-10 w-full">
 
-                <h4 className="mb-6 text-sm font-semibold text-dark dark:text-white">
+                <h4 className="mb-6 text-sm font-semibold text-dark ">
                     {header}
                 </h4>
 

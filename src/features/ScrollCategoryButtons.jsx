@@ -4,7 +4,7 @@ import { useRef, } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from 'react-i18next';
 import { useDispatch} from 'react-redux';
-import { LIST_CATEGORIES } from '../utils';
+import { LIST_CATEGORIES_KEYS } from '../utils';
 import { updateCurrentButtonCategoryHover } from '../slices/navigateSlice';
 import HoverCategoryProductDisplay from './ProductSpecificPopovViews';
 import ListButtonsCategories from './ListButtonsCategories';
@@ -23,7 +23,7 @@ const ScrollableCategoryButtons = ({
 
     const categories = useMemo(
 
-        () => LIST_CATEGORIES?.map((cat) => t(`ListItemsFilterProduct.${cat}`)),
+        () => LIST_CATEGORIES_KEYS?.map((cat) => t(`ListItemsFilterProduct.${cat}`)),
 
         [t]
     );

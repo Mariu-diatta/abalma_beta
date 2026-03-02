@@ -44,9 +44,7 @@ const ListButtonsCategories = (
                             <span className="flex flex-col gap-2 items-center gap-1 bg-none">
 
                                 <span className="h-3">{cat.replace("_", " ")}</span>
-
-                                {menuItems(t).find(item => item?.name === cat.replace("_", " "))?.svg}
-
+                                {menuItems(t).find(item => item.name === cat)?.photo}
                             </span>
 
                         </button>
