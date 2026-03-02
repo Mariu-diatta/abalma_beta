@@ -390,7 +390,7 @@ const VertcalNavbar = ({ children }) => {
                     <ul className="scrollbor_hidden h-full lg:h-[300px] py-4 overflow-y-auto mt-1 space-y-1  border-t border-t-gray-200" >
 
                         {
-                            menuItems(t).map(({ name, to, svg, id }, index) => (
+                            menuItems(t).map(({ name, to, photo, id }, index) => (
 
                             <li key={index}>
 
@@ -400,9 +400,9 @@ const VertcalNavbar = ({ children }) => {
                                 >
 
                                     {
-                                        svg?
+                                        photo?
                                         <div className=" p-1 rounded-full shadow-sm  border border-gray-200">
-                                            {svg}
+                                            {photo}
                                         </div>
                                         :
                                         <div className=" p-1 rounded-full shadow-sm  border border-gray-200 h-8 w-8">
