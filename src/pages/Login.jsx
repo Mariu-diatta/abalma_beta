@@ -120,7 +120,7 @@ const LogIn = () => {
 
         if (currentNav === ENDPOINTS.HOME) {
 
-            return navigate("/home", { replace: true })
+            return navigate("/", { replace: true })
         }
 
     }, [currentNav, navigate]);
