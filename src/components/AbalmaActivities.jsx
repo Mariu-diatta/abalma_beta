@@ -572,7 +572,7 @@ const SingleActivity = () => {
 
     return (
 
-        <main className="border-0 shadow-md border relative w-full md:w-1/2 m-auto pb-16 md:w-11/12 lg:w-10/12 xl:w-8/12  p-2  mt-0 bg-gradient-to-br from-red-50 to-blue-100 rounded-lg ">
+        <main className="border-0  relative w-full md:w-1/2 m-auto pb-16 md:w-11/12 lg:w-10/12 xl:w-8/12  p-2  mt-0 bg-gradient-to-br from-red-50 to-blue-100 rounded-lg ">
 
             <h1 className="text-2xl font-bold text-gray-800  flex items-center  my-2 justify-center">
                 Services
