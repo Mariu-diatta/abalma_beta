@@ -4,7 +4,7 @@ const NoContentComp = ({ content }) => {
 
     return (
 
-        <div className="text-center p-4 mx-auto border border-gray-100 rounded-full w-1/2 mt-5">
+        <div className="whitespace-nowrap text-center p-4 mx-auto border border-gray-100 text-gray rounded-full w-1/2 mt-5">
 
             {content}
 

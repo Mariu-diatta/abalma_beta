@@ -172,7 +172,7 @@ export const ModalFormCreatBlog = () => {
                             <button
                                 onClick={handleClose}
                                 aria-label={t("blog.close_modal") || "Fermer la fenêtre"}
-                                className="absolute right-6 text-gray-400 hover:text-gray-900 dark:hover:text-white "
+                                className="absolute right-6 text-gray-400 hover:text-gray-900 "
                             >
                                 <svg
                                     className="w-4 h-4"

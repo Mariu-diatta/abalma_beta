@@ -53,11 +53,12 @@ const HomeContain = () => {
                 </section>
 
                 {/* ========= SERVICES ========= */}
-                <section aria-labelledby="services" className="bg-gray-50 px-1 translate-y-0 transition-all duration-1000 ease-in-out">
+                <section aria-labelledby="services" className="bg-gradient-to-br from-red-50 to-blue-100 bg-gray-50 px-1 translate-y-0 transition-all duration-1000 ease-in-out">
 
                     <ServicesPlatforms />
-
+           
                 </section>
+
 
                 {/* ========= TESTIMONIALS ========= */}
                 <section aria-labelledby="testimonials" className="bg-gray-50 px-1 py-[2dvh] translate-y-0 transition-all duration-1000 ease-in-out">

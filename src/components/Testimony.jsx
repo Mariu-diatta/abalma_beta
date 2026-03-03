@@ -77,50 +77,71 @@ export default function TestimonialCarousel({
             ref={containerRef}
             aria-label="Témoignages utilisateurs"
             className="
-        relative mx-auto mb-[10dvh]
-        w-[45dvh] h-auto py-3
-        mb:w-[60dvh] mb:h-[60dvh]
-        rounded-md flex items-center justify-center
-        transition-shadow hover:shadow-xl
-      "
+                relative mx-auto mb-[10dvh]
+                w-[45dvh] h-auto py-3
+                mb:w-[60dvh] mb:h-[60dvh]
+                rounded-md flex items-center justify-center
+                transition-shadow hover:shadow-xl
+            "
             onMouseEnter={stopAutoplay}
             onMouseLeave={startAutoplay}
             onFocus={stopAutoplay}
             onBlur={startAutoplay}
             tabIndex={0}
         >
-            <div className="w-full h-full overflow-hidden rounded-md flex items-center justify-center">
+            <div className="w-full h-full overflow-hidden rounded-md flex items-center justify-center ">
+
                 <div
                     className="flex h-full transition-transform duration-700 ease-out"
                     style={{ transform: `translateX(-${index * 100}%)` }}
                     aria-live="polite"
                 >
-                    {testimonials.map((t, i) => (
-                        <article
-                            key={t.id || i}
-                            className="w-full h-full flex-shrink-0 flex items-center justify-center px-2 py-2"
-                        >
-                            <div className="flex items-center gap-4 max-w-md">
-                                <img
-                                    src={t?.image || t?.photo_url || "/avatar.png"}
-                                    alt={t?.prenom || "Avatar"}
-                                    className="w-14 h-14 rounded-full object-cover flex-shrink-0"
-                                />
-                                <div className="text-left">
-                                    <p className="text-gray-700 text-sm leading-relaxed">
-                                        {t?.content}
-                                    </p>
-                                    <div className="flex items-center gap-2 text-sm font-medium mt-2">
-                                        <span>{t?.prenom}</span>
-                                        {t?.is_fournisseur && (
-                                            <span className="text-green-600">✔</span>
-                                        )}
+                    {
+                        testimonials.map(
+
+                            (t, i) => (
+
+                                <article
+                                    key={t.id || i}
+                                    className="w-full h-full flex-shrink-0 flex items-center justify-center px-2 py-2 border border-gray-300"
+                                >
+                                    <div className="flex items-center gap-4 w-auto overflow-x-auto">
+
+                                        <img
+                                            src={t?.image || t?.photo_url || "/avatar.png"}
+                                            alt={t?.prenom || "Avatar"}
+                                            className="w-14 h-14 rounded-full object-cover flex-shrink-0 shadow-md"
+                                        />
+
+                                        <div className="text-left">
+
+                                            <p className="text-gray-700 text-sm leading-relaxed">
+                                                {t?.content}
+                                            </p>
+
+                                            <div className="flex items-center gap-2 text-sm font-medium mt-2">
+
+                                                <span>{t?.prenom}</span>
+
+                                                {
+                                                    t?.is_fournisseur && (
+                                                        <span className="text-green-600">✔</span>
+                                                    )
+                                                }
+
+                                            </div>
+
+                                            <p className="text-xs text-gray-500">{t?.profession}</p>
+
+                                        </div>
+
                                     </div>
-                                    <p className="text-xs text-gray-500">{t?.profession}</p>
-                                </div>
-                            </div>
-                        </article>
-                    ))}
+
+                                </article>
+                            )
+                        )
+                    }
+
                 </div>
             </div>
         </section>
