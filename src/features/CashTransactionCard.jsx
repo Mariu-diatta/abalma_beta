@@ -57,7 +57,7 @@ const styles = {
 };
 
 
-export default function CashTransactionCard({ transaction, moneyCash = "€" }) {
+export default function CashTransactionCard({ transaction, setSearchTransactionByCode, moneyCash = "€" }) {
 
     const { t } = useTranslation();
 
@@ -105,21 +105,55 @@ export default function CashTransactionCard({ transaction, moneyCash = "€" }) 
                     !inloadUpdateTransStatus?
                     <button
                         className="bg-blue/20 hover:bg-blue-100"
-                        onClick={()=>updateStatusTransaction(
-                            API_URL_BACKEND?.STATUS_SUB_TRANSACTION,
+
+                        onClick={
+
+                            async () => {
+
+                                try {
+
+                                    const resp = await updateStatusTransaction(
+
+                                        API_URL_BACKEND?.STATUS_SUB_TRANSACTION,
+
+                                        {
+                                            sub_transaction_id: transaction?.id,
+
+                                            new_status: STATUS_FLOW_SUBTRANSACTION[transaction?.status],
+                                        },
+
+                                        setInloadUpdateTransStatus,
+
+                                        dispatch
+                                    )
+
+                                    setSearchTransactionByCode(prev =>
+
+                                        prev.map(el =>
+
+                                            el.id === transaction?.id
+
+                                                ? { ...el, status: resp?.new_status }
+
+                                                : el
+                                        )
+                                    )
+
+                                } catch (err) {
+
+                                    console.log(err)
+                                }
+                            }
+                        }
+
+                        disabled={!STATUS_FLOW_SUBTRANSACTION[transaction?.status]}
+
+                        style={
                             {
-                                transaction_id: transaction?.id,
-                                new_status:
-                                    STATUS_FLOW_SUBTRANSACTION[transaction?.status],
-                            },
-                            setInloadUpdateTransStatus,
-                            dispatch
-                        )}
-                            disabled={!STATUS_FLOW_SUBTRANSACTION[transaction?.status]}
-                        style={{
-                            ...styles.button,
-                            opacity: STATUS_FLOW_STYLE[STATUS_FLOW_SUBTRANSACTION[transaction?.status]]?.next ? 1 : 0.6,
-                        }}
+                                ...styles.button,
+                                opacity: STATUS_FLOW_STYLE[STATUS_FLOW_SUBTRANSACTION[transaction?.status]]?.next ? 1 : 0.6,
+                            }
+                        }
                     >
                         {
                             transaction?.status

@@ -91,6 +91,7 @@ const CashTransaction = () => {
 
                                     return <CashTransactionCard
                                                 transaction={item}
+                                                setSearchTransactionByCode={setSearchTransactionByCode}
                                             />
 
                                 }

@@ -864,5 +864,5 @@ export const IMPORTANTS_URLS = {
 
 export const STYLE = {
 
-    STYLE_BTN_CATEGORIES: "rounded-lg bg-gray-50  shadow-lg bg-none h-12 w-10 "
+    STYLE_BTN_CATEGORIES: "rounded-lg bg-gray-50 bg-none h-12 w-10 border-0"
 }

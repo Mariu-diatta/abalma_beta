@@ -203,7 +203,7 @@ i18n
              about_image_text1: 'Get your products delivered on time',
              about_image_text2: 'Plan your business effectively',
              modifyProduct: {
-                 confirmDeleteProduct: "Do you really want to update this product?",
+                 confirmDeleteProduct: "Do you really want to delete this product?",
                  modify_product: "Modify",
                  cancel_modify_product: "Cancel modification",
                  title_modify_product: "Product modification"

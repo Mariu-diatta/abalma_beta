@@ -137,7 +137,7 @@ const VertcalNavbar = ({ children }) => {
 
                 aria-label="Sidebar"
             >
-                <div className="bg-gradient-to-l from-red-50 to-gray-200 scrollbor_hidden h-full px-3 py-4 overflow-y-auto">
+                <div className="bg-gradient-to-l from-white-50 to-white/80 scrollbor_hidden h-full px-3 py-6 overflow-y-auto">
 
                     <ul className="space-y-2 ">
 

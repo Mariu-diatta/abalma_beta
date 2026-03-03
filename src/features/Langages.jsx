@@ -113,7 +113,7 @@ function LanguageDropdown() {
                 isOpen && (
 
                     <div
-                        className={` absolute right-0 w-28 rounded-md z-[30] ring-black ring-opacity-5 ${openDirection === "top" ? "origin-bottom-right mb-2 bottom-full" : "origin-top-right mt-2 top-full"}`}
+                        className={`bg-white absolute right-0 w-28 rounded-md z-[30] ring-black ring-opacity-5 ${openDirection === "top" ? "origin-bottom-right mb-2 bottom-full" : "origin-top-right mt-2 top-full"}`}
                     >
                         <div className="py-1">
 
