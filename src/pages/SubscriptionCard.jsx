@@ -55,16 +55,20 @@ function SubscriptionCard({
 
                     <p className="text-sm text-gray-500 mt-1">{subtitle}</p>
 
+                    {/* Prix */}
+                    <div className="text-center mb-6">
+
+                        <div className="m-auto text-center">
+                            <TitleCompGen title={price} />
+                        </div>
+
+                    </div>
+
                 </div>
 
             </div>
 
-            {/* Prix */}
-            <div className="text-center mb-6">
 
-                <span className="text-3xl font-extrabold text-indigo-700">{price}</span>
-
-            </div>
 
             {/* Liste des avantages */}
             <ul className={`flex flex-col gap-3 text-gray-700 mb-6 ${(features?.length<0) && "hidden"}`}>

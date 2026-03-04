@@ -97,13 +97,13 @@ export default function TestimonialCarousel({
                     aria-live="polite"
                 >
                     {
-                        testimonials.map(
+                        testimonials?.map(
 
                             (t, i) => (
 
                                 <article
                                     key={t.id || i}
-                                    className="w-full h-full flex-shrink-0 flex items-center justify-center px-2 py-2 border border-gray-300"
+                                    className="w-full h-full flex-shrink-0 flex items-center justify-center px-2 py-2"
                                 >
                                     <div className="flex items-center gap-4 w-auto overflow-x-auto">
 

@@ -1,5 +1,8 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
+import TitleCompGen from "./TitleComponentGen";
+import ServicesSection from "../features/ServiceSections";
+import TestimonialCarousel from "./Testimony";
 
 
 const ServicesPlatforms = () => {
@@ -572,83 +575,104 @@ const SingleActivity = () => {
 
     return (
 
-        <main className="border-0  relative w-full md:w-1/2 m-auto pb-16 md:w-11/12 lg:w-10/12 xl:w-8/12  p-2  mt-0 bg-gradient-to-br from-red-50 to-blue-100 rounded-lg ">
+        <main className="border-0  relative w-full  m-auto pb-1 mt-0 pt-0  mt-0 bg-gradient-to-br from-red-50 to-blue-100 rounded-full ">
 
-            <h1 className="text-2xl font-bold text-gray-800  flex items-center  my-2 justify-center">
-                Services
-            </h1>
+            <div className="relative md:w-3/4 m-auto pt-0 mt-0">
 
-            <div>
+                <div className="m-auto text-center mt-0">
+                    <TitleCompGen title={t('Activités')} />
+                </div>
 
-                <section className="w-full items-center md:flex  p-2 border-0 text-white" >
+                <div>
 
-                    <div className="w-full p-1">
+                    <section className="w-full items-center md:flex  p-2 border-0 text-white" >
 
-                        <p className="mb-2 text-base font-normal italic leading-[1.81] text-body-color dark:text-dark-6  text-[14px] ">
-                            {details}
-                        </p>
+                        <div className="w-full p-1">
 
-                        <h4 className="mb-2 text-md font-semibold leading-[27px] text-dark ">
-                            {name}
-                        </h4>
+                            <p className="mb-2 text-base font-normal italic leading-[1.81] text-body-color dark:text-dark-6  text-[14px] ">
+                                {details}
+                            </p>
 
-                        <p className="text-base text-body-color dark:text-dark-6">
-                            {position}
-                        </p>
+                            <h4 className="mb-2 text-md font-semibold leading-[27px] text-dark ">
+                                {name}
+                            </h4>
 
-                    </div>
+                            <p className="text-base text-body-color dark:text-dark-6">
+                                {position}
+                            </p>
 
-                    {logo}
+                        </div>
 
-                </section>
+                        {logo}
 
-                {/*Button navigations*/}
-                <section className="absolute left-0 right-0 z-10 flex items-center justify-center gap-5 sm:bottom-0 mt-2">
+                    </section>
 
-                    <div className="prev-arrow cursor-pointer" onClick={handlePrev}>
+                    {/*Button navigations*/}
+                    <section className="absolute left-0 right-0 z-10 flex items-center justify-center gap-5 sm:bottom-0 mt-2">
 
-                        <button className="flex h-[50px] w-[50px] items-center justify-center rounded-full border-0 text-gray transition-all shadow-lg hover:border-transparent hover:drop-shadow-testimonial dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:hover:drop-shadow-none">
-                            <svg
-                                width="20"
-                                height="21"
-                                viewBox="0 0 20 21"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="fill-current"
-                            >
-                                <path
-                                    d="M17.5 9.5H4.15625L9.46875 4.09375C9.75 3.8125 9.75 3.375 9.46875 3.09375C9.1875 2.8125 8.75 2.8125 8.46875 3.09375L2 9.65625C1.71875 9.9375 1.71875 10.375 2 10.6562L8.46875 17.2188C8.59375 17.3438 8.78125 17.4375 8.96875 17.4375C9.15625 17.4375 9.3125 17.375 9.46875 17.25C9.75 16.9687 9.75 16.5313 9.46875 16.25L4.1875 10.9062H17.5C17.875 10.9062 18.1875 10.5937 18.1875 10.2187C18.1875 9.8125 17.875 9.5 17.5 9.5Z"
-                                    fill=""
-                                />
-                            </svg>
-                        </button>
+                        <div className="prev-arrow cursor-pointer" onClick={handlePrev}>
 
-                    </div>
+                            <button className="flex h-[50px] w-[50px] items-center justify-center rounded-full border-0 text-gray transition-all shadow-lg hover:border-transparent hover:drop-shadow-testimonial dark:border-dark-3 dark:bg-dark-2 dark:text-white">
+                                <svg
+                                    width="20"
+                                    height="21"
+                                    viewBox="0 0 20 21"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="fill-current"
+                                >
+                                    <path
+                                        d="M17.5 9.5H4.15625L9.46875 4.09375C9.75 3.8125 9.75 3.375 9.46875 3.09375C9.1875 2.8125 8.75 2.8125 8.46875 3.09375L2 9.65625C1.71875 9.9375 1.71875 10.375 2 10.6562L8.46875 17.2188C8.59375 17.3438 8.78125 17.4375 8.96875 17.4375C9.15625 17.4375 9.3125 17.375 9.46875 17.25C9.75 16.9687 9.75 16.5313 9.46875 16.25L4.1875 10.9062H17.5C17.875 10.9062 18.1875 10.5937 18.1875 10.2187C18.1875 9.8125 17.875 9.5 17.5 9.5Z"
+                                        fill=""
+                                    />
+                                </svg>
+                            </button>
 
-                    <div className="next-arrow cursor-pointer" onClick={handleNext}>
+                        </div>
 
-                        <button className="flex h-[50px] w-[50px] items-center justify-center rounded-full border-0 shadow-lg  text-dark transition-all hover:border-transparent hover:drop-shadow-testimonial dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:hover:drop-shadow-none">
+                        <div className="next-arrow cursor-pointer" onClick={handleNext}>
 
-                            <svg
-                                width="20"
-                                height="21"
-                                viewBox="0 0 20 21"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="fill-current"
-                            >
-                                <path
-                                    d="M18 9.6875L11.5312 3.125C11.25 2.84375 10.8125 2.84375 10.5312 3.125C10.25 3.40625 10.25 3.84375 10.5312 4.125L15.7812 9.46875H2.5C2.125 9.46875 1.8125 9.78125 1.8125 10.1562C1.8125 10.5312 2.125 10.875 2.5 10.875H15.8437L10.5312 16.2813C10.25 16.5625 10.25 17 10.5312 17.2813C10.6562 17.4063 10.8437 17.4688 11.0312 17.4688C11.2187 17.4688 11.4062 17.4062 11.5312 17.25L18 10.6875C18.2812 10.4062 18.2812 9.96875 18 9.6875Z"
-                                    fill=""
-                                />
-                            </svg>
+                            <button className="flex h-[50px] w-[50px] items-center justify-center rounded-full border-0 shadow-lg  text-dark transition-all hover:border-transparent hover:drop-shadow-testimonial dark:border-dark-3 dark:bg-dark-2 dark:text-white">
 
-                        </button>
+                                <svg
+                                    width="20"
+                                    height="21"
+                                    viewBox="0 0 20 21"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="fill-current"
+                                >
+                                    <path
+                                        d="M18 9.6875L11.5312 3.125C11.25 2.84375 10.8125 2.84375 10.5312 3.125C10.25 3.40625 10.25 3.84375 10.5312 4.125L15.7812 9.46875H2.5C2.125 9.46875 1.8125 9.78125 1.8125 10.1562C1.8125 10.5312 2.125 10.875 2.5 10.875H15.8437L10.5312 16.2813C10.25 16.5625 10.25 17 10.5312 17.2813C10.6562 17.4063 10.8437 17.4688 11.0312 17.4688C11.2187 17.4688 11.4062 17.4062 11.5312 17.25L18 10.6875C18.2812 10.4062 18.2812 9.96875 18 9.6875Z"
+                                        fill=""
+                                    />
+                                </svg>
 
-                    </div>
+                            </button>
 
-                </section>
+                        </div>
 
+                    </section>
+
+                </div>
+            </div>
+
+
+            <ServicesSection />
+
+            <TestimonialCarousel
+                autoplay={true}
+                autoplayInterval={6000}
+            />
+
+            <div
+                className="absolute mx-auto mb-[10dvh] mx-auto mt-5
+                            w-[46dvh] h-[46dvh] mb:w-[60dvh] mb:h-[60dvh]
+                            rounded-br-full
+                            bg-gradient-to-br from-red-50 to-blue-200
+                            flex items-center justify-center
+                        "
+            >
             </div>
 
         </main>

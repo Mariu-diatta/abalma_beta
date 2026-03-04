@@ -3,6 +3,7 @@ import Logo from "../components/LogoApp";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import LanguageDropdown from "../features/Langages";
+import TitleCompGen from "../components/TitleComponentGen";
 
 const Footer = () => {
 
@@ -100,10 +101,7 @@ const Footer = () => {
     return (
 
         <footer
-
-            className="w-full bg-[var(--color-bg)] text-[var(--color-text)] text-sm flex flex-col items-center justify-center mt-0"
-
-            style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}
+            className="w-full text-sm flex flex-col items-center justify-center mt-0"
         >
 
 
@@ -112,9 +110,7 @@ const Footer = () => {
                 {/* Logo et description */}
                 <div className="mb-10 lg:w-1/2">
 
-                    <a href="/home" className="block w-full py-2">
-                        <Logo />
-                    </a>
+                    <TitleCompGen    title={t('ABALMA')} />
 
                     <p className="flex items-start justify-start mb-2 text-sm text-body-color dark:text-dark-6">
                         {t("app_description")}
@@ -305,10 +301,10 @@ const Footer = () => {
             </div>
 
             {/* Bas de page */}
-            <div className="w-full  text-center text-sm dark:text-gray-400 px-4 pt-2 mb-5 border-t border-gray-400 dark:border-dark-3 mb-8 pb-8 lg:mb-0 bg-none">
+            <div className="w-full  text-center text-sm  px-4 pt-2 mb-5 border-t border-gray-400 mb-8 pb-8 lg:mb-0 bg-none">
 
-                <p className="text-sm dark:text-gray-400 mb-1 bg-none">
-                    &copy; 2026 <strong>Abalma</strong> {t("footer_toutDroit")}
+                <p className="text-sm mb-1 bg-none">
+                    &copy; 2026 <strong className="text-blue-800">Abalma</strong> {t("footer_toutDroit")}
                 </p>
 
             </div>

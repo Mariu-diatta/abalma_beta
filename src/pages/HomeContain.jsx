@@ -6,6 +6,7 @@ import ServicesPlatforms from '../components/AbalmaActivities';
 import SubscriptionsPage from './SubscriptionCard';
 import TestimonialCarousel from '../components/Testimony';
 import bg_image from '../assets/bg_image_.jpg'
+import TitleCompGen from '../components/TitleComponentGen';
 //import ScrollTop from '../components/ButtonScroll';
 
 const HomeContain = () => {
@@ -32,12 +33,14 @@ const HomeContain = () => {
                             }}
                         />
 
-                        <h1 className="text-3xl font-semibold mb-3">{t('homePan.title')}</h1>
+                        <div className="m-auto text-center">
+                            <TitleCompGen title={t('homePan.title')} />
+                        </div>
 
                         <p className="text-gray-600 text-md">
                             {t('homePan.content')}
                         </p>
-
+  
                     </header>
 
                 </section>
@@ -57,27 +60,6 @@ const HomeContain = () => {
 
                     <ServicesPlatforms />
            
-                </section>
-
-
-                {/* ========= TESTIMONIALS ========= */}
-                <section aria-labelledby="testimonials" className="bg-gray-50 px-1 py-[2dvh] translate-y-0 transition-all duration-1000 ease-in-out">
-
-                    <TestimonialCarousel
-                        autoplay={true}
-                        autoplayInterval={6000}
-                    />
-
-                    <div
-                        className="absolute mx-auto mb-[10dvh] mx-auto mt-5
-                            w-[46dvh] h-[46dvh] mb:w-[60dvh] mb:h-[60dvh]
-                            rounded-br-full
-                            bg-gradient-to-br from-red-50 to-blue-200
-                            flex items-center justify-center
-                        "
-                    >
-                    </div>
-
                 </section>
 
 

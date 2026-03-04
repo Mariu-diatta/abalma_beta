@@ -35,13 +35,13 @@ import SubscriptionsPage from "../pages/SubscriptionCard";
 // Routes Configuration
 const routes = [
     {
-        errorElement: <ErrorPage />,
+        errorElement: <ErrorPage/>,
 
         children: [
 
-            { index: true, element: <Home /> },
+            { index: true, element: <Home/> },
 
-            { index: "home", element: <Home /> },
+            { index: "home", element: <Home/> },
 
             { path: "register", element: <Register /> },
 
@@ -49,11 +49,11 @@ const routes = [
 
             { path: "politique-confidentialite", element: <PrivacyPolicy /> },
 
-            { path: "blogs", element: <BlogPageHome /> }, 
+            { path: "blogs", element: <BlogPageHome/> }, 
 
-            { path: "forgetPassword", element: <LayoutPwdForget /> },
+            { path: "forgetPassword", element: <LayoutPwdForget/> },
 
-            { path: "forgetPassword/reset/:uidb64/:token", element: < LayoutPwdForget /> },
+            { path: "forgetPassword/reset/:uidb64/:token", element: <LayoutPwdForget/> },
 
             { path: "logIn", element: <LogIn /> },
 

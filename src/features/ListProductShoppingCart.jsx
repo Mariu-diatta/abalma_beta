@@ -209,6 +209,7 @@ const ListProductShoppingCart = () => {
                 {
                     TotalPriceSupZero &&
                     <div className="text-right p-6">
+
                         <button onClick={boughtProduct} className="whitespace-nowrap-pointer text-white bg-gradient-to-br from-purple-300 to-blue-300 hover:bg-gradient-to-br hover:from-purple-400focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center">
                             <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                 <path fillRule="evenodd" d="M7 6a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-2v-4a3 3 0 0 0-3-3H7V6Z" clipRule="evenodd" />
@@ -217,6 +218,7 @@ const ListProductShoppingCart = () => {
                             </svg>
                             <span className="whitespace-nowrap">{t('paymentMode')} {totalPriceBuy} ({reference})</span>
                         </button>
+
                     </div>
                 }
 
