@@ -52,7 +52,7 @@ export default function TestimonialCarousel({
     if (!length) return null;
 
     return (
-        <section className="relative w-full max-w-3xl mx-auto py-16 px-4  to-blue-50">
+        <section className="relative w-full max-w-3xl mx-auto py-16 px-4">
 
             {/* Card */}
             <div
@@ -143,7 +143,7 @@ export default function TestimonialCarousel({
                                         onClick={() => setIndex(i)}
                                         className={`h-2 rounded-full transition-all duration-300 ${i === index
                                                 ? "w-6 bg-green-700"
-                                                : "w-2 bg-black-800"
+                                                : "w-2 bg-white-800"
                                             }`}
                                     />
                                 )
