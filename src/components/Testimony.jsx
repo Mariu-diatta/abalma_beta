@@ -52,11 +52,11 @@ export default function TestimonialCarousel({
     if (!length) return null;
 
     return (
-        <section className="relative w-full max-w-3xl mx-auto py-16 px-4 bg-gradient-to-br from-purple-10 to-blue-50">
+        <section className="relative w-full max-w-3xl mx-auto py-16 px-4  to-blue-50">
 
             {/* Card */}
             <div
-                className="relative bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl p-8 transition-all duration-500"
+                className="relative backdrop-blur-lg rounded-2xl shadow-xl p-8 transition-all duration-500 bg-gradient-to-br from-purple-10"
                 onMouseEnter={stopAutoplay}
                 onMouseLeave={startAutoplay}
             >
