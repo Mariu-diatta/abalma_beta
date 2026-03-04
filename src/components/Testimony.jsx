@@ -56,7 +56,7 @@ export default function TestimonialCarousel({
 
             {/* Card */}
             <div
-                className="relative backdrop-blur-lg rounded-2xl shadow-xl p-8 transition-all duration-500 bg-gradient-to-br from-purple-10"
+                className="relative backdrop-blur-lg rounded-2xl shadow-xl p-8 transition-all duration-500"
                 onMouseEnter={stopAutoplay}
                 onMouseLeave={startAutoplay}
             >
@@ -133,7 +133,7 @@ export default function TestimonialCarousel({
             {/* Dots indicator */}
             {
                 (length > 1) && (
-                       <div className="flex justify-center gap-2 mt-6">
+                       <div className="flex justify-center gap-2 mt-8">
 
                         {
                             testimonials?.map((_, i) => (
@@ -142,8 +142,8 @@ export default function TestimonialCarousel({
                                         key={i}
                                         onClick={() => setIndex(i)}
                                         className={`h-2 rounded-full transition-all duration-300 ${i === index
-                                                ? "w-6 bg-green-800"
-                                                : "w-2 bg-gray-800"
+                                                ? "w-6 bg-green-700"
+                                                : "w-2 bg-black-800"
                                             }`}
                                     />
                                 )

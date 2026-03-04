@@ -775,9 +775,9 @@ const ServicesSection = () => {
                     {
                         services?.map((service, index) => (
 
-                                <div key={index}>
+                                <div key={index} className="text-center items-center">
 
-                                    <div className="flex justify-center items-center mb-4 w-12 h-12 rounded-full bg-blue-100  text-2xl">
+                                    <div className="flex justify-center items-center mb-4 w-12 h-12 rounded-full bg-blue-100 m-auto text-2xl">
                                         {service.icon}
                                     </div>
 
