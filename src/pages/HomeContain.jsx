@@ -1,10 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-
 import GridLayoutProduct from '../features/GridLayoutProducts';
 import ServicesPlatforms from '../components/AbalmaActivities';
 import SubscriptionsPage from './SubscriptionCard';
-import TestimonialCarousel from '../components/Testimony';
 import bg_image from '../assets/bg_image_.jpg'
 import TitleCompGen from '../components/TitleComponentGen';
 //import ScrollTop from '../components/ButtonScroll';
