@@ -761,7 +761,7 @@ const ServicesSection = () => {
 
     return (
 
-        <section className="bg-none">
+        <section className="bg-none transition-all duration-500">
 
             <div className="py-2 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
 

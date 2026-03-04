@@ -577,7 +577,7 @@ const SingleActivity = () => {
 
         <main className="border-0  relative w-full  m-auto pb-1 mt-0 pt-0  mt-0 bg-gradient-to-br from-red-50 to-blue-100 rounded-full ">
 
-            <div className="relative md:w-3/4 m-auto pt-0 mt-0">
+            <div className="relative md:w-3/4 m-auto pt-0 mt-0 shadow-md rounded-lg p-2">
 
                 <div className="m-auto text-center mt-0">
                     <TitleCompGen title={t('Activités')} />

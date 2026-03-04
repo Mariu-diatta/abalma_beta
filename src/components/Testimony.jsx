@@ -52,7 +52,7 @@ export default function TestimonialCarousel({
     if (!length) return null;
 
     return (
-        <section className="relative w-full max-w-3xl mx-auto py-16 px-4">
+        <section className="relative w-full max-w-3xl mx-auto py-16 px-4 bg-gradient-to-br from-purple-10 to-blue-50">
 
             {/* Card */}
             <div
