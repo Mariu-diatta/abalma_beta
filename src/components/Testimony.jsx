@@ -65,7 +65,8 @@ export default function TestimonialCarousel({
                         className="flex transition-transform duration-700 ease-in-out"
                         style={{ transform: `translateX(-${index * 100}%)` }}
                     >
-                        {testimonials.map((t, i) => (
+                        {
+                            testimonials.map((t, i) => (
                             <div
                                 key={t.id || i}
                                 className="w-full flex-shrink-0 flex flex-col items-center text-center px-4"
@@ -83,8 +84,10 @@ export default function TestimonialCarousel({
                                     ))}
                                 </div>
 
-                                <p className="text-gray-700 text-lg italic mb-4 max-w-xl">
-                                    “{t?.content}”
+                                <p className="text-gray-700 text-lg italic mb-2 max-w-xl">
+
+                                    {t?.content}
+
                                 </p>
 
                                 <h4 className="font-semibold text-gray-900">
@@ -98,8 +101,11 @@ export default function TestimonialCarousel({
                                     {t?.profession}
                                 </p>
                             </div>
-                        ))}
+                            ))
+                        }
+
                     </div>
+
                 </div>
 
                 {/* Navigation buttons */}
@@ -123,20 +129,30 @@ export default function TestimonialCarousel({
             </div>
 
             {/* Dots indicator */}
-            {length > 1 && (
-                <div className="flex justify-center gap-2 mt-6">
-                    {testimonials.map((_, i) => (
-                        <button
-                            key={i}
-                            onClick={() => setIndex(i)}
-                            className={`h-2 rounded-full transition-all duration-300 ${i === index
-                                    ? "w-6 bg-black"
-                                    : "w-2 bg-gray-400"
-                                }`}
-                        />
-                    ))}
-                </div>
-            )}
+            {
+                (length > 1) && (
+
+                    <div className="flex justify-center gap-2 mt-6">
+
+                        {
+                            testimonials?.map((_, i) => (
+
+                                    <button
+                                        key={i}
+                                        onClick={() => setIndex(i)}
+                                        className={`h-2 rounded-full transition-all duration-300 ${i === index
+                                                ? "w-6 bg-black"
+                                                : "w-2 bg-blue-100"
+                                            }`}
+                                    />
+                                )
+                            )
+                        }
+
+                    </div>
+                )
+            }
+
         </section>
     );
 }
