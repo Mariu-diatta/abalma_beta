@@ -772,19 +772,27 @@ const ServicesSection = () => {
 
                 {/* Grid */}
                 <div className="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
-                    {services?.map((service, index) => (
-                        <div key={index}>
-                            <div className="flex justify-center items-center mb-4 w-12 h-12 rounded-full bg-blue-100  text-2xl">
-                                {service.icon}
-                            </div>
-                            <h3 className="mb-2 text-xl font-bold ">
-                                {service.title}
-                            </h3>
-                            <p className="text-gray-500 ">
-                                {service.description}
-                            </p>
-                        </div>
-                    ))}
+                    {
+                        services?.map((service, index) => (
+
+                                <div key={index}>
+
+                                    <div className="flex justify-center items-center mb-4 w-12 h-12 rounded-full bg-blue-100  text-2xl">
+                                        {service.icon}
+                                    </div>
+
+                                    <h3 className="mb-2 text-xl font-bold ">
+                                        {service.title}
+                                    </h3>
+
+                                    <p className="text-gray-500 ">
+                                        {service.description}
+                                    </p>
+
+                                </div>
+                            )
+                        )
+                    }
                 </div>
 
             </div>
