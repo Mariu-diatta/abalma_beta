@@ -115,14 +115,14 @@ export default function TestimonialCarousel({
                     <>
                         <button
                             onClick={goPrev}
-                            className="absolute left-4 top-1/2 -translate-y-1/2 bg-gradient-to-br from-red-50 to-blue-100 shadow-md rounded-full p-2 hover:scale-110 transition"
+                            className="absolute left-4 top-1/2 -translate-y-1/2 bg-gradient-to-br from-red-50 to-blue-100 rounded-full p-2 hover:scale-110 transition"
                         >
                             ‹
                         </button>
 
                         <button
                             onClick={goNext}
-                            className="absolute right-4 top-1/2 -translate-y-1/2 bg-gradient-to-br from-red-50 to-blue-100 shadow-md rounded-full p-2 hover:scale-110 transition"
+                            className="absolute right-4 top-1/2 -translate-y-1/2 bg-gradient-to-br from-red-50 to-blue-100 rounded-full p-2 hover:scale-110 transition"
                         >
                             ›
                         </button>
@@ -143,7 +143,7 @@ export default function TestimonialCarousel({
                                         onClick={() => setIndex(i)}
                                         className={`h-2 rounded-full transition-all duration-300 ${i === index
                                                 ? "w-6 bg-green-800"
-                                                : "w-2 bg-black-800"
+                                                : "w-2 bg-gray-800"
                                             }`}
                                     />
                                 )
