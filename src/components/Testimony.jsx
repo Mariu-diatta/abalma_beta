@@ -131,8 +131,7 @@ export default function TestimonialCarousel({
             {/* Dots indicator */}
             {
                 (length > 1) && (
-
-                    <div className="flex justify-center gap-2 mt-6">
+                       <div className="flex justify-center gap-2 mt-6">
 
                         {
                             testimonials?.map((_, i) => (
@@ -141,7 +140,7 @@ export default function TestimonialCarousel({
                                         key={i}
                                         onClick={() => setIndex(i)}
                                         className={`h-2 rounded-full transition-all duration-300 ${i === index
-                                                ? "w-6 bg-black"
+                                                ? "w-6 bg-green"
                                                 : "w-2 bg-blue-100"
                                             }`}
                                     />
