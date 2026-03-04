@@ -583,7 +583,7 @@ const SingleActivity = () => {
                     <TitleCompGen title={t('Activités')} />
                 </div>
 
-                <div>
+                <div className="pb-30 md:pb-0">
 
                     <section className="w-full items-center md:flex  p-2 border-0 text-white" >
 
