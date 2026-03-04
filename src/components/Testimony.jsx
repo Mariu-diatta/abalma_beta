@@ -61,46 +61,48 @@ export default function TestimonialCarousel({
                 onMouseLeave={startAutoplay}
             >
                 <div className="overflow-hidden">
+
                     <div
                         className="flex transition-transform duration-700 ease-in-out"
                         style={{ transform: `translateX(-${index * 100}%)` }}
                     >
                         {
-                            testimonials.map((t, i) => (
-                            <div
-                                key={t.id || i}
-                                className="w-full flex-shrink-0 flex flex-col items-center text-center px-4"
-                            >
-                                <img
-                                    src={t?.image || t?.photo_url || "/avatar.png"}
-                                    alt={t?.prenom || "Avatar"}
-                                    className="w-20 h-20 rounded-full object-cover shadow-md mb-4"
-                                />
+                            testimonials?.map((t, i) => (
+                                <div
+                                    key={t.id || i}
+                                    className="w-full flex-shrink-0 flex flex-col items-center text-center px-4"
+                                >
+                                    <img
+                                        src={t?.image || t?.photo_url || "/avatar.png"}
+                                        alt={t?.prenom || "Avatar"}
+                                        className="w-20 h-20 rounded-full object-cover shadow-md mb-4"
+                                    />
 
-                                {/* Stars */}
-                                <div className="flex mb-3 text-yellow-400">
-                                    {"★★★★★".split("").map((_, idx) => (
-                                        <span key={idx}>★</span>
-                                    ))}
+                                    {/* Stars */}
+                                    <div className="flex mb-3 text-yellow-400">
+                                        {"★★★★★".split("").map((_, idx) => (
+                                            <span key={idx}>★</span>
+                                        ))}
+                                    </div>
+
+                                    <p className="text-gray-700 text-lg italic mb-2 max-w-xl">
+
+                                        {t?.content}
+
+                                    </p>
+
+                                    <h4 className="font-semibold text-gray-900">
+                                        {t?.prenom}
+                                        {t?.is_fournisseur && (
+                                            <span className="text-green-500 ml-2">✔</span>
+                                        )}
+                                    </h4>
+
+                                    <p className="text-sm text-gray-500">
+                                        {t?.profession}
+                                    </p>
+
                                 </div>
-
-                                <p className="text-gray-700 text-lg italic mb-2 max-w-xl">
-
-                                    {t?.content}
-
-                                </p>
-
-                                <h4 className="font-semibold text-gray-900">
-                                    {t?.prenom}
-                                    {t?.is_fournisseur && (
-                                        <span className="text-green-500 ml-2">✔</span>
-                                    )}
-                                </h4>
-
-                                <p className="text-sm text-gray-500">
-                                    {t?.profession}
-                                </p>
-                            </div>
                             ))
                         }
 
@@ -141,7 +143,7 @@ export default function TestimonialCarousel({
                                         onClick={() => setIndex(i)}
                                         className={`h-2 rounded-full transition-all duration-300 ${i === index
                                                 ? "w-6 bg-green-800"
-                                                : "w-2 bg-blue-100"
+                                                : "w-2 bg-blue-800"
                                             }`}
                                     />
                                 )
