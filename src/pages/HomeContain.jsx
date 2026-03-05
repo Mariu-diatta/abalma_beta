@@ -46,6 +46,7 @@ const HomeContain = () => {
                 {/* ========= PRODUCTS ========= */}
                 <GridLayoutProduct />
 
+
                 {/* ========= SUBSCRIPTIONS ========= */}
                 <section aria-labelledby="subscription-plans" className="text-center translate-y-0 transition-all duration-1000 ease-in-out">
 

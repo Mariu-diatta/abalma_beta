@@ -9,7 +9,7 @@ const ServicesSection = () => {
 
     return (
 
-        <section className="bg-none transition-all duration-500">
+        <section className="bg-none translate-y-5 transition-all duration-1000 ease-in-out">
 
             <div className="py-2 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
 

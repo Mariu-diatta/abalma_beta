@@ -9,6 +9,7 @@ import SearchBar from "../components/BtnSearchWithFilter";
 import api from "../services/Axios";
 import MobileNav from "../features/FooterMobileNav";
 import DesktopNav from "../features/FooterDeskTopNav";
+import CompDesign from "../components/BoxDesignCoponent";
 
 
 
@@ -130,6 +131,7 @@ const NavbarHeader = () => {
                 ref={ref}
 
             >
+
                 {/* Logo */}
                 <Logo />
 

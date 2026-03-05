@@ -297,8 +297,8 @@ const ChatLayout = () => {
                                                         key={index}
                                                         className={`w-full flex items-center justify-between px-2 py-1 rounded-lg text-sm font-medium transition-colors
                                                         ${currentChat?.name === room?.name
-                                                            ? 'bg-gradient-to-br from-purple-0 to-blue-100 hover:bg-gradient-to-br hover:from-purple-50 text-white-800 shadow-sm'
-                                                            : 'hover:bg-gray-100 text-gray-800 shadow-sm'
+                                                            ? 'bg-blue-50 text-white-800'
+                                                            : 'hover:bg-gray-50'
                                                         }`}
                                                     >
                                                         <button

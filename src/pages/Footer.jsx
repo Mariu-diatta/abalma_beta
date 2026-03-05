@@ -4,6 +4,8 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import LanguageDropdown from "../features/Langages";
 import TitleCompGen from "../components/TitleComponentGen";
+import { ENDPOINTS } from "../utils";
+import { useSelector } from "react-redux";
 
 const Footer = () => {
 
@@ -14,6 +16,8 @@ const Footer = () => {
     const componentRef = useRef(null);
 
     const componentRef_ = useRef(null);
+
+    const currentNav = useSelector(state => state.navigate.currentNav);
 
     useEffect(() => {
 
@@ -97,6 +101,8 @@ const Footer = () => {
         };
 
     }, []);
+
+    if (currentNav === ENDPOINTS.REGISTER || currentNav === ENDPOINTS.LOGIN) return
 
     return (
 

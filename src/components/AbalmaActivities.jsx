@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import TitleCompGen from "./TitleComponentGen";
 import ServicesSection from "../features/ServiceSections";
 import TestimonialCarousel from "./Testimony";
+import CompDesign from "./BoxDesignCoponent";
 
 
 const ServicesPlatforms = () => {
@@ -575,7 +576,7 @@ const SingleActivity = () => {
 
     return (
 
-        <main className="border-0  relative w-full  m-auto pb-1 mt-0 pt-0  mt-0 bg-gradient-to-br from-red-50 to-blue-100 rounded-full ">
+        <main className="border-0  relative w-full  m-auto pb-1 mt-0 pt-0  mt-0 bg-gradient-to-br from-red-50 to-blue-100 rounded-full translate-y-6 transition-all duration-1000 ease-in-out">
 
             <div className="relative md:w-3/4 m-auto pt-0 mt-0 shadow-md rounded-lg p-2">
 
@@ -655,8 +656,9 @@ const SingleActivity = () => {
                     </section>
 
                 </div>
-            </div>
 
+
+            </div>
 
             <ServicesSection />
 
@@ -665,15 +667,7 @@ const SingleActivity = () => {
                 autoplayInterval={6000}
             />
 
-            <div
-                className="absolute mx-auto mb-[10dvh] mx-auto mt-5
-                            w-[46dvh] h-[46dvh] mb:w-[60dvh] mb:h-[60dvh]
-                            rounded-br-full
-                            bg-gradient-to-br from-red-50 to-blue-200
-                            flex items-center justify-center
-                        "
-            >
-            </div>
+            <CompDesign/>
 
         </main>
     );

@@ -142,8 +142,8 @@ export default function TestimonialCarousel({
                                         key={i}
                                         onClick={() => setIndex(i)}
                                         className={`h-2 rounded-full transition-all duration-300 ${i === index
-                                                ? "w-6 bg-green-500"
-                                                : "w-2 bg-white-500"
+                                                ? "w-6 bg-green-300"
+                                                : "w-2 bg-grey-500"
                                             }`}
                                     />
                                 )
