@@ -9,7 +9,7 @@ const TitleCompGen = ({ title }) => {
         >
             <h1
                 className="
-                  text-2xl font-extrabold text-gray-500
+                  text-2xl font-extrabold text-gray-500 
                 "
             >
                 {title}

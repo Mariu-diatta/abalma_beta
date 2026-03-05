@@ -145,11 +145,12 @@ const RegisterForm = () => {
                             <span>{t("alredyRegister")} </span>
 
                             <Link
-                                to="/login"
+                                to={`/${ENDPOINTS.LOGIN}`}
                                 className="text-sm lg:text-md text-primary hover:underline"
-                                onClick={() => dispatch(setCurrentNav("login"))}
+                                onClick={() => dispatch(setCurrentNav(ENDPOINTS.LOGIN))}
                             >
                                 {t("login")}
+
                             </Link>
 
                         </div>

@@ -143,11 +143,11 @@ const LogIn = () => {
                 (!loading) ?
                 <section>
 
-                        <div className="py-7">
+                        <div className="py-O">
 
                             <TitleCompGen title={t("login")} />
 
-                            <p className="text-sm lg:text-md text-base text-blue-600 dark:text-blue-400 flex items-center justify-center gap-2">
+                            <p className="text-sm lg:text-md text-base text-blue-600 dark:text-blue-400 flex items-center justify-center gap-2 mb-5">
 
                                 <span className="whitespace-nowrap pr-0.5">{t("notRegistered")}</span>
 
@@ -161,6 +161,7 @@ const LogIn = () => {
                                 </NavLink>
 
                             </p>
+
                         </div>
 
                         <form
@@ -217,29 +218,25 @@ const LogIn = () => {
                 <LoadingCard />
             }
 
-            <section>
 
-                <p className="mb-6 text-md text-bold text-gray-500 dark:text-dark-7 my-6">
-                    {t('connect_with')}
-                </p>
+            <p className="mb-6 text-md text-bold text-gray-500 dark:text-dark-7 my-6">
+                {t('connect_with')}
+            </p>
 
-            </section>
             
             <section>
 
-                <ul className="flex flex-wrap justify-between items-center sm:justify-center lg:flex-nowrap -mx-2 mb-12 w-full">
+                <div className="flex flex-wrap justify-between items-center sm:justify-center lg:flex-nowrap -mx-2 mb-12 w-full">
 
-                    <li className="w-full">
 
-                        <GoogleOAuthProvider clientId="154955455828-340tuohbjc1c4imb29uqi4hr9l5dm0sv.apps.googleusercontent.com">
+                    <GoogleOAuthProvider clientId="154955455828-340tuohbjc1c4imb29uqi4hr9l5dm0sv.apps.googleusercontent.com">
 
-                            <LoginWithGoogle />
+                        <LoginWithGoogle />
 
-                        </GoogleOAuthProvider>
+                    </GoogleOAuthProvider>
 
-                    </li>
 
-                </ul>
+                </div>
 
             </section >
 
