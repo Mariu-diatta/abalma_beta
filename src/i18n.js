@@ -22,6 +22,34 @@ i18n
      en: {
 
          translation: {
+
+             services_text_content: {
+                 livraison: {
+                     title: "Fast Delivery",
+                     description: "Receive your orders within 24 to 48 hours anywhere in the country.",
+                 },
+                 paiment: {
+                     title: "Secure Payment",
+                     description: "100% secure transactions with SSL encryption."
+                 },
+                 delivero: {
+                     title: "Order Tracking",
+                     description: "Track your package in real time from your customer account."
+                 },
+                 support: {
+                     title: "24/7 Support",
+                     description: "Our team is available anytime to help you."
+                 },
+                 feadback: {
+                     title: "Easy Returns",
+                     description: "Simple and free returns within 14 days."
+                 },
+                 promoCode: {
+                     title: "Promo Code",
+                     description: "Enjoy exclusive discounts with our promotional codes."
+                 }
+             },
+           
              no_contacts: "No contacts",
              no_cash_trans: "No cash transactions",
              connectFirst: "You will need to log in first.",
@@ -711,6 +739,32 @@ i18n
      fr: {
 
          translation: {
+             services_text_content: {
+                 livraison: {
+                     title: "Livraison rapide",
+                     description: "Recevez vos commandes en 24h à 48h partout dans le pays.",
+                 },
+                 paiment: {
+                     title: "Paiement sécurisé",
+                     description: "Transactions 100% sécurisées avec cryptage SSL."
+                 },
+                 delivero: {
+                     title: "Suivi de commande",
+                     description: "Suivez votre colis en temps réel depuis votre espace client."
+                 },
+                 support: {
+                     title: "Support 24/7",
+                     description: "Notre équipe est disponible à tout moment pour vous aider."
+                 },
+                 feadback: {
+                     title: "Retours faciles",
+                     description: "Retour simple et gratuit sous 14 jours."
+                 },
+                 promoCode: {
+                     title: "Code promo",
+                     description: "Profitez de réductions exclusives avec nos codes promotionnels."
+                 }
+             },
              no_contacts: "Pas de contacts",
              no_cash_trans: "Pas de transactions en espèces",
              connectFirst: "Vous devrez vous connecter avant",
