@@ -10,6 +10,7 @@ import { setCurrentNav } from '../slices/navigateSlice';
 import { ButtonSimple } from './Button';
 import FormLayout from '../layouts/FormLayout';
 import TitleCompGen from './TitleComponentGen';
+import { useSelector } from 'react-redux';
 import { CreateClient, ENDPOINTS, IMPORTANTS_URLS } from '../utils';
 
 
@@ -24,6 +25,9 @@ const RegisterForm = () => {
     const navigate = useNavigate();
 
     const componentRef = useRef(null);
+
+    const currentNav = useSelector(state => state.navigate.currentNav);
+
 
     const [form, setForm] = useState({
         "password": "",
@@ -116,6 +120,14 @@ const RegisterForm = () => {
         };
     }, []);
 
+    useEffect(() => {
+
+        if (currentNav === ENDPOINTS.HOME) {
+
+            return navigate("/", { replace: true })
+        }
+
+    }, [currentNav, navigate]);
 
     useEffect(
         () => {

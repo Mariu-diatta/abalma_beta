@@ -79,9 +79,15 @@ export default function TestimonialCarousel({
                                     />
 
                                     {/* Stars */}
-                                    <div className="flex mb-3 text-yellow-400">
-                                        {"★★★★★".split("").map((_, idx) => (
-                                            <span key={idx}>★</span>
+                                    <div className="flex mb-3">
+                                        {[...Array(5)].map((_, idx) => (
+                                            <span
+                                                key={idx}
+                                                className={(idx < t?.number_stars?? 0 )? "text-yellow-400" : "text-gray-300"}
+                                            >
+                                                ★
+
+                                            </span>
                                         ))}
                                     </div>
 

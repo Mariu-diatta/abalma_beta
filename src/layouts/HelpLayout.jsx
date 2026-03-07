@@ -218,7 +218,8 @@ function TestmonyList() {
     const [loading, setLoading] = useState(false);
     const [items, setItems] = useState([]);
     const [content, setContent] = useState("");
-    const dispatch =useDispatch()
+    const dispatch = useDispatch()
+    const [rating, setRating] = useState(0);
 
     // Charger les témoignages (GET)
     useEffect(() => {
@@ -234,11 +235,12 @@ function TestmonyList() {
         e.preventDefault();
         setLoading(true)
         try {
-            api.post("/content/testmony/", { content })
+            api.post("/content/testmony/", { content, rating })
                 .then((res) => res.data)
                 .then((newItem) => {
                     setItems([newItem, ...items]);
                     setContent("");
+                    setRating(0);
                     showMessage(dispatch, { Type: "Success", Message: "✔️" });
                 });
 
@@ -274,6 +276,21 @@ function TestmonyList() {
                     rows="3"
                     required
                 />
+
+                {/* Stars rating */}
+                <div className="flex justify-center mb-3">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                        <span
+                            key={star}
+                            onClick={() => setRating(star)}
+                            className={`cursor-pointer text-2xl ${star <= rating ? "text-yellow-400" : "text-gray-300"
+                                }`}
+                        >
+                            ★
+                        </span>
+                    ))}
+                </div>
+
                 {
                     loading ?
                     <LoadingCard/>
