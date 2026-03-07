@@ -283,7 +283,7 @@ function TestmonyList() {
                         <span
                             key={star}
                             onClick={() => setRating(star)}
-                            className={`cursor-pointer text-2xl ${star <= rating ? "text-yellow-400" : "text-gray-300"
+                            className={`cursor-pointer text-2xl ${star <= rating ? "bg-yellow-400" : "bg    -gray-300"
                                 }`}
                         >
                             ★

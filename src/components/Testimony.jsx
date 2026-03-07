@@ -77,13 +77,13 @@ export default function TestimonialCarousel({
                                         alt={t?.prenom || "Avatar"}
                                         className="w-20 h-20 rounded-full object-cover shadow-md mb-4"
                                     />
-
+                                    {t?.number_stars}
                                     {/* Stars */}
                                     <div className="flex mb-3">
                                         {[...Array(5)].map((_, idx) => (
                                             <span
                                                 key={idx}
-                                                className={(idx < t?.number_stars?? 0 )? "text-yellow-400" : "text-gray-300"}
+                                                className={(idx < t?.number_stars)? "bg-yellow-400" : "bg-gray-300"}
                                             >
                                                 ★
 
@@ -147,9 +147,9 @@ export default function TestimonialCarousel({
                                     <button
                                         key={i}
                                         onClick={() => setIndex(i)}
-                                        className={`h-2 rounded-full transition-all duration-300 ${i === index
-                                                ? "w-6 bg-green-300"
-                                                : "w-2 bg-grey-500"
+                                        className={`h-2 rounded-full transition-all duration-300 w-3  ${i === index
+                                                ? "w-6 bg-blue-300"
+                                                : "w-3 bg-gray-300"
                                             }`}
                                     />
                                 )
