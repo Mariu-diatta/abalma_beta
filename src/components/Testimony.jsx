@@ -77,17 +77,15 @@ export default function TestimonialCarousel({
                                         alt={t?.prenom || "Avatar"}
                                         className="w-20 h-20 rounded-full object-cover shadow-md mb-4"
                                     />
-                                    {t?.number_stars}
+
                                     {/* Stars */}
                                     <div className="flex mb-3">
                                         {[...Array(5)].map((_, idx) => (
-                                            <span
-                                                key={idx}
-                                                className={(idx < t?.number_stars)? "bg-yellow-400" : "bg-gray-300"}
-                                            >
-                                                ★
+                                 
+                                            <svg key={idx} className={(idx < parseInt(t?.number_stars ?? 0)) ? "w-5 h-5 text-yellow-800" : "text-gray-300"}  aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" strokeWidth="1" d="M11.083 5.104c.35-.8 1.485-.8 1.834 0l1.752 4.022a1 1 0 0 0 .84.597l4.463.342c.9.069 1.255 1.2.556 1.771l-3.33 2.723a1 1 0 0 0-.337 1.016l1.03 4.119c.214.858-.71 1.552-1.474 1.106l-3.913-2.281a1 1 0 0 0-1.008 0L7.583 20.8c-.764.446-1.688-.248-1.474-1.106l1.03-4.119A1 1 0 0 0 6.8 14.56l-3.33-2.723c-.698-.571-.342-1.702.557-1.771l4.462-.342a1 1 0 0 0 .84-.597l1.753-4.022Z" />
+                                            </svg>
 
-                                            </span>
                                         ))}
                                     </div>
 
