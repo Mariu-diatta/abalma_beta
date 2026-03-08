@@ -1,21 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { lazy, useEffect, useRef, useState } from "react";
 import { useDispatch,} from 'react-redux';
-import InputBox from '../components/InputBoxFloat';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import { setCurrentNav } from '../slices/navigateSlice';
 import { LoginWithGoogle } from '../firebase';
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import LoadingCard from '../components/LoardingSpin';
 import { ENDPOINTS,  IMPORTANTS_URLS,  loginClient } from '../utils';
-import { ButtonSimple } from '../components/Button';
 import { useNavigate } from 'react-router-dom'; // 
 import { useSelector } from 'react-redux';
-import FormLayout from '../layouts/FormLayout';
 import { showMessage } from '../components/AlertMessage';
-import TitleCompGen from '../components/TitleComponentGen';
 
+// Lazy load
+const InputBox = lazy(() => import("../components/InputBoxFloat"));
+const LoadingCard = lazy(() => import("../components/LoardingSpin"));
+const ButtonSimple = lazy(() => import("../components/Button"));
+const FormLayout = lazy(() => import("../layouts/FormLayout"));
+const TitleCompGen = lazy(() => import("../components/TitleComponentGen"));
 
 const LogIn = () => {
 

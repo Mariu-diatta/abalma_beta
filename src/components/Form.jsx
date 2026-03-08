@@ -1,17 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, lazy} from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import InputBox from './InputBoxFloat';
 import { useTranslation } from 'react-i18next';
-import LoadingCard from './LoardingSpin';
-import { useDispatch} from 'react-redux';
-import  { showMessage } from './AlertMessage';
-import PhoneInput from './InputPhoneCountry';
+import { useDispatch, useSelector } from 'react-redux';
+import { showMessage } from './AlertMessage';
 import { setCurrentNav } from '../slices/navigateSlice';
-import { ButtonSimple } from './Button';
-import FormLayout from '../layouts/FormLayout';
-import TitleCompGen from './TitleComponentGen';
-import { useSelector } from 'react-redux';
 import { CreateClient, ENDPOINTS, IMPORTANTS_URLS } from '../utils';
+
+// Lazy load heavier components
+const InputBox = lazy(() => import('./InputBoxFloat'));
+const LoadingCard = lazy(() => import('./LoardingSpin'));
+const PhoneInput = lazy(() => import('./InputPhoneCountry'));
+const FormLayout = lazy(() => import('../layouts/FormLayout'));
+const TitleCompGen = lazy(() => import('./TitleComponentGen'));
+const ButtonSimple = lazy(() => import('./Button'));
 
 
 const RegisterForm = () => {
