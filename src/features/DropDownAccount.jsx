@@ -78,43 +78,33 @@ export default function ButtonsNavigateThemecolorPayDropdownaccount() {
 
     const getUserLogOut = async () => {
 
-        setLoading(true)
+        setLoading(true);
 
-        if (window.confirm(t("logout"))) {
+        if (!window.confirm(t("logout"))) {
+            setLoading(false);
+            return;
+        }
 
-            dispatch(clearCart());
+        // 1️⃣ Mettre à jour le store immédiatement
+        dispatch(clearCart());
+        dispatch(clearRooms());
+        dispatch(cleanAllMessageNotif());
+        dispatch(logout());
+        dispatch(setCurrentNav(ENDPOINTS?.LOGIN));
 
-            dispatch(clearRooms());
+        // 2️⃣ Naviguer directement
+        navigate(`/${ENDPOINTS?.LOGIN}`, { replace: true });
 
-            dispatch(cleanAllMessageNotif());
-
-            dispatch(logout());
-
-            try {
-
-                await api.get(`logout/`);
-
-                dispatch(setCurrentNav(ENDPOINTS?.LOGIN))
-
-                return navigate(`/${ENDPOINTS?.LOGIN}`, { replace: true });
-
-            } catch (error) {
-
-                showMessage(dispatch, { Type: "Erreur", Message: error?.message || error?.request?.response });
-                
-                dispatch(setCurrentNav(ENDPOINTS?.LOGIN))
-
-                return navigate(`/${ENDPOINTS?.LOGIN}`, { replace: true });
-
-            } finally {
-
-                setLoading(false)
-
-
-            }
-        } else {
-
-            setLoading(false)
+        // 3️⃣ Essayer la requête API en arrière-plan
+        try {
+            await api.get(`logout/`);
+        } catch (error) {
+            showMessage(dispatch, {
+                Type: "Erreur",
+                Message: error?.message || error?.request?.response,
+            });
+        } finally {
+            setLoading(false);
         }
     };
 

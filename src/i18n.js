@@ -22,6 +22,8 @@ i18n
      en: {
 
          translation: {
+               
+             verifyAccount: "Please verify your account to continue",
 
              services_text_content: {
                  livraison: {
@@ -739,6 +741,7 @@ i18n
      fr: {
 
          translation: {
+             verifyAccount: "Merci de vérifier votre compte pour continuer", 
              services_text_content: {
                  livraison: {
                      title: "Livraison rapide",

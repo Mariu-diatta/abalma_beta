@@ -1,18 +1,18 @@
 import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-//import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import api from "../services/Axios";
 import AttentionAlertMesage, { showMessage } from "../components/AlertMessage";
-//import { setCurrentNav } from "../slices/navigateSlice";
 import { addMessageNotif } from "../slices/chatSlice";
 import LoadingCard from "../components/LoardingSpin";
 import { ButtonSimple } from "../components/Button";
 import TitleCompGen from "../components/TitleComponentGen";
 import FormElementFileUpload from "./FormFile";
-//import { ENDPOINTS } from "../utils";
 import InputBox from "../components/InputBoxFloat";
-import { LIST_CATEGORIES_KEYS } from "../utils";
+import { ENDPOINTS, LIST_CATEGORIES_KEYS } from "../utils";
+import { NavLink } from 'react-router-dom';
+import { setCurrentNav } from "../slices/navigateSlice";
+
 
 
 const AddUploadProduct = () => {
@@ -57,13 +57,14 @@ const AddUploadProduct = () => {
         commission_percentage: 10,
     }
     const [dataProduct, setDataProduct] = useState(initDataProduct); 
+
     const [imageLoaded, setImageLoaded] = useState(null); 
 
+    const isUserVerified =user?.is_fournisseur && user?.is_verified
     function getImage(image) {
 
         setImageLoaded(image)
     }
-
 
     const handleFileSelect = (file) => setImageFile(file);
 
@@ -205,6 +206,18 @@ const AddUploadProduct = () => {
 
             <span className={`${isProductAdded && "hidden"}`}>
                 <TitleCompGen title={t("add_product.add_or_update_product")} />
+                {
+                    !isUserVerified && (
+                        <NavLink
+                            to={`/${ENDPOINTS.USER_PROFIL}`}
+                            className="whitespace-nowrap text-blue-800 hover:underline text-sm lg:text-md m-auto w-full"
+                            onClick={() => dispatch(setCurrentNav(ENDPOINTS.USER_PROFIL))}
+                        >
+                            {t("verifyAccount")}
+
+                        </NavLink>
+                    )
+                }
             </span>
 
             <span className={`text-gray-500 dark:text-gray-400 text-2xl z-10 ${!isProductAdded && "hidden"}`}>
@@ -247,7 +260,7 @@ const AddUploadProduct = () => {
 
                     <form
                         onSubmit={saveDataForSubmitForm}
-                        className={`${user?.is_fournisseur && user?.is_verified ? "w-full md:w-auto" : "opacity-50 pointer-events-none cursor-not-allowed"}`}
+                        className={`${isUserVerified ? "w-full md:w-auto" : "opacity-50 pointer-events-none cursor-not-allowed"}`}
                     >
                         {/* Sections du formulaire */}
                         {currentSection >= 1 && (

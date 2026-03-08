@@ -480,83 +480,98 @@ const ProfileCard = () => {
                 <div className="pt-10 md:pt-2 lg:pt-2 sm:pl-40" >
 
                     {!isEditing ? (
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        <>
+                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 
-                            <div className="flex flex-col items-start">
+                                <div className="flex flex-col items-start">
 
-                                <div className="flex items-center gap-1">
+                                    <div className="flex items-center gap-1">
 
-                                    <h1 className="text-xl sm:text-2xl font-semibold">{formData?.prenom}</h1>
+                                        <h1 className="text-xl sm:text-2xl font-semibold">{formData?.prenom}</h1>
 
-                                    {userProfile?.is_pro && (
-                                        <svg
-                                            className="w-5 h-5 text-blue-900 dark:text-white"
-                                            aria-hidden="true"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                stroke="currentColor"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth="2"
-                                                d="m8.032 12 1.984 1.984 4.96-4.96m4.55 5.272.893-.893a1.984 1.984 0 0 0 0-2.806l-.893-.893a1.984 1.984 0 0 1-.581-1.403V7.04a1.984 1.984 0 0 0-1.984-1.984h-1.262a1.983 1.983 0 0 1-1.403-.581l-.893-.893a1.984 1.984 0 0 0-2.806 0l-.893.893a1.984 1.984 0 0 1-1.403.581H7.04A1.984 1.984 0 0 0 5.055 7.04v1.262c0 .527-.209 1.031-.581 1.403l-.893.893a1.984 1.984 0 0 0 0 2.806l.893.893c.372.372.581.876.581 1.403v1.262a1.984 1.984 0 0 0 1.984 1.984h1.262c.527 0 1.031.209 1.403.581l.893.893a1.984 1.984 0 0 0 2.806 0l.893-.893a1.985 1.985 0 0 1 1.403-.581h1.262a1.984 1.984 0 0 0 1.984-1.984V15.7c0-.527.209-1.031.581-1.403Z"
-                                            />
-                                        </svg>
-                                    )}
+                                        {userProfile?.is_pro && (
+                                            <svg
+                                                className="w-5 h-5 text-blue-900 dark:text-white"
+                                                aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path
+                                                    stroke="currentColor"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth="2"
+                                                    d="m8.032 12 1.984 1.984 4.96-4.96m4.55 5.272.893-.893a1.984 1.984 0 0 0 0-2.806l-.893-.893a1.984 1.984 0 0 1-.581-1.403V7.04a1.984 1.984 0 0 0-1.984-1.984h-1.262a1.983 1.983 0 0 1-1.403-.581l-.893-.893a1.984 1.984 0 0 0-2.806 0l-.893.893a1.984 1.984 0 0 1-1.403.581H7.04A1.984 1.984 0 0 0 5.055 7.04v1.262c0 .527-.209 1.031-.581 1.403l-.893.893a1.984 1.984 0 0 0 0 2.806l.893.893c.372.372.581.876.581 1.403v1.262a1.984 1.984 0 0 0 1.984 1.984h1.262c.527 0 1.031.209 1.403.581l.893.893a1.984 1.984 0 0 0 2.806 0l.893-.893a1.985 1.985 0 0 1 1.403-.581h1.262a1.984 1.984 0 0 0 1.984-1.984V15.7c0-.527.209-1.031.581-1.403Z"
+                                                />
+                                            </svg>
+                                        )}
+
+                                    </div>
+
+                                    <p className="text-xs text-gray-500">{formData?.nom}</p>
 
                                 </div>
 
-                                <p className="text-xs text-gray-500">{formData?.nom}</p>
-
-                            </div>
-
-                            <div className="flex flex-col sm:flex-col md:flex-row sm:items-center sm:justify-between gap-4 mb-2">
+                                <div className="flex flex-col sm:flex-col md:flex-row sm:items-center sm:justify-between gap-4 mb-2">
      
-                                <NumberFollowFollowed profil={isCurrentUser ? currentUser : currentOwnUser} />
+                                    <NumberFollowFollowed profil={isCurrentUser ? currentUser : currentOwnUser} />
                                 
-                                <>
-                                    {
-                                        (!currentUser?.is_pro && !isProFormVisible && isCurrentUser) && (
+                                    <>
+                                        {
+                                            (!currentUser?.is_pro && !isProFormVisible && isCurrentUser) && (
 
-                                            <button
-                                                onClick={() => setIsProFormVisible(true)}
-                                                className="flex items-center gap-2 text-sm border border-blue-400 rounded-full py-2 px-4 hover:bg-blue-100"
-                                            >
-                                                <svg
-                                                    className="w-5 h-5"
-                                                    aria-hidden="true"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
+                                                <button
+                                                    onClick={() => setIsProFormVisible(true)}
+                                                    className="flex items-center gap-2 text-sm border border-blue-400 rounded-full py-2 px-4 hover:bg-blue-100"
                                                 >
-                                                    <path
-                                                        stroke="currentColor"
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        strokeWidth="2"
-                                                        d="m8.032 12 1.984 1.984 4.96-4.96m4.55 5.272.893-.893a1.984 1.984 0 0 0 0-2.806l-.893-.893a1.984 1.984 0 0 1-.581-1.403V7.04a1.984 1.984 0 0 0-1.984-1.984h-1.262a1.983 1.983 0 0 1-1.403-.581l-.893-.893a1.984 1.984 0 0 0-2.806 0l-.893.893a1.984 1.984 0 0 1-1.403.581H7.04A1.984 1.984 0 0 0 5.055 7.04v1.262c0 .527-.209 1.031-.581 1.403l-.893.893a1.984 1.984 0 0 0 0 2.806l.893.893c.372.372.581.876.581 1.403v1.262a1.984 1.984 0 0 0 1.984 1.984h1.262c.527 0 1.031.209 1.403.581l.893.893a1.984 1.984 0 0 0 2.806 0l.893-.893a1.985 1.985 0 0 1 1.403-.581h1.262a1.984 1.984 0 0 0 1.984-1.984V15.7c0-.527.209-1.031.581-1.403Z"
-                                                    />
-                                                </svg>
+                                                    <svg
+                                                        className="w-5 h-5"
+                                                        aria-hidden="true"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                    >
+                                                        <path
+                                                            stroke="currentColor"
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth="2"
+                                                            d="m8.032 12 1.984 1.984 4.96-4.96m4.55 5.272.893-.893a1.984 1.984 0 0 0 0-2.806l-.893-.893a1.984 1.984 0 0 1-.581-1.403V7.04a1.984 1.984 0 0 0-1.984-1.984h-1.262a1.983 1.983 0 0 1-1.403-.581l-.893-.893a1.984 1.984 0 0 0-2.806 0l-.893.893a1.984 1.984 0 0 1-1.403.581H7.04A1.984 1.984 0 0 0 5.055 7.04v1.262c0 .527-.209 1.031-.581 1.403l-.893.893a1.984 1.984 0 0 0 0 2.806l.893.893c.372.372.581.876.581 1.403v1.262a1.984 1.984 0 0 0 1.984 1.984h1.262c.527 0 1.031.209 1.403.581l.893.893a1.984 1.984 0 0 0 2.806 0l.893-.893a1.985 1.985 0 0 1 1.403-.581h1.262a1.984 1.984 0 0 0 1.984-1.984V15.7c0-.527.209-1.031.581-1.403Z"
+                                                        />
+                                                    </svg>
 
-                                                {t('ProfilText.passerPro')}
+                                                    {t('ProfilText.passerPro')}
 
-                                            </button>
-                                        )
-                                    }
-                                </>
+                                                </button>
+                                            )
+                                        }
+                                    </>
+
+                                </div>
 
                             </div>
-
-                        </div>
-                    ) : (
+                        
+                            <textarea
+                                name="description"
+                                rows="5"
+                                maxLength="20"
+                                value={formData?.description}
+                                onChange={handleChange}
+                                disabled={!isEditing}
+                                className="w-full mt-2 rounded-lg border border-gray-50 p-2 text-sm focus:ring-2 focus:ring-blue-500 prose scrollbor_hidden leading-relaxed whitespace-pre-lin"
+                                placeholder={t('ProfilText.descriptionPlaceholder')}
+                            />
+                        </>
+                        )
+                        :
+                        (
                         <form
                             onSubmit={(e) => {
                                 e.preventDefault();
                                 handleSave();
                             }}
-                            className="mt-4 space-y-4 sm:w-1/2 shadow-lg p-3 rounded-lg"
+                            className="mt-4 space-y-4 sm:w-1/2 shadow-lg p-3 rounded-lg bg-gray-50 "
                         >
                             <InputBox
                                 type="text"
@@ -599,7 +614,7 @@ const ProfileCard = () => {
                                 name="description"
                                 value={formData?.description}
                                 onChange={handleChange}
-                                className="w-full h-24 rounded-lg border border-gray-300 p-2 resize-none focus:ring-2 focus:ring-blue-500 "
+                                className="w-full h-24 rounded-lg border border-gray-100 p-2 resize-none focus:ring-2 focus:ring-blue-500 "
                                 placeholder={t('ProfilText.descriptionPlaceholder')}
                             />
 
@@ -609,7 +624,7 @@ const ProfileCard = () => {
                                     loadinUpdate ? (
                                         <button
                                             type="submit"
-                                            className="rounded-full bg-green-300 text-white px-4 py-2 hover:bg-green-400"
+                                            className="cursor-pointer rounded-full bg-gradient-to-l from-gray-50 to-green-200 text-white px-4 py-2 hover:bg-green-200"
                                         >
                                             {t('ProfilText.boutons.enregistrer')}
                                         </button>
@@ -620,7 +635,7 @@ const ProfileCard = () => {
 
                                 <button
                                     type="button"
-                                    className="rounded-full bg-gray-300 text-gray-700 px-4 py-2 hover:bg-gray-400"
+                                        className="cursor-pointer rounded-full bg-gradient-to-l from-red-50 to-gray-200 text-white px-4 py-2 hover:bg-red-200"
                                     onClick={() => setIsEditing(false)}
                                 >
                                     {t('ProfilText.boutons.annuler')}
@@ -630,9 +645,8 @@ const ProfileCard = () => {
                             </div>
 
                         </form>
-                    )}
-
-
+                        )
+                    }
 
                     <div className="flex flex-col sm:flex-row gap-2 mt-6">
 
@@ -734,86 +748,80 @@ const ProfileCard = () => {
                         )}
                     </div>
 
-                    {(isProFormVisible && isCurrentUser) && (
+                    {
+                        (isProFormVisible && isCurrentUser) ?
+                        (
+                            <form
 
-                        <form
+                                onSubmit={handleUpgradeToPro}
 
-                            onSubmit={handleUpgradeToPro}
+                                className="verflow-x-auto mt-6 w-auto flex flex-col items-center gap-4 p-1 rounded-lg shadow-lg"
+                            >
+                                <label className="text-sm">{t('hintProofDoc')}</label>
 
-                            className="verflow-x-auto mt-6 w-auto flex flex-col items-center gap-4 p-1 rounded-lg shadow-lg"
-                        >
-                            <label className="text-sm">{t('hintProofDoc')}</label>
+                                <div className="flex items-center gap-2">
 
-                            <div className="flex items-center gap-2">
+                                    <svg
+                                        className="w-6 h-6 text-gray-800 dark:text-white"
+                                        aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke="currentColor"
+                                            strokeLinejoin="round"
+                                            strokeWidth="1"
+                                            d="M10 3v4a1 1 0 0 1-1 1H5m14-4v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7.914a1 1 0 0 1 .293-.707l3.914-3.914A1 1 0 0 1 9.914 3H18a1 1 0 0 1 1 1Z"
+                                        />
 
-                                <svg
-                                    className="w-6 h-6 text-gray-800 dark:text-white"
-                                    aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        stroke="currentColor"
-                                        strokeLinejoin="round"
-                                        strokeWidth="1"
-                                        d="M10 3v4a1 1 0 0 1-1 1H5m14-4v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7.914a1 1 0 0 1 .293-.707l3.914-3.914A1 1 0 0 1 9.914 3H18a1 1 0 0 1 1 1Z"
+                                    </svg>
+
+                                    <input
+                                        type="file"
+                                        onChange={handleFileChange}
+                                        accept=".pdf,.jpg,.png,.jpeg"
+                                        required
+                                        className="border border-gray-300 rounded-full p-2 text-sm cursor-pointer w-full"
                                     />
 
-                                </svg>
+                                </div>
 
-                                <input
-                                    type="file"
-                                    onChange={handleFileChange}
-                                    accept=".pdf,.jpg,.png,.jpeg"
-                                    required
-                                    className="border border-gray-300 rounded-full p-2 text-sm cursor-pointer w-full"
-                                />
+                                <div className="flex gap-2">
 
-                            </div>
+                                    {
+                                        (!sedingProofDoc)?
+                                        <button
+                                            type="submit"
+                                            className="rounded-full bg-green-300 text-white px-4 py-2 hover:bg-green-400 text-sm"
+                                        >
+                                            {t('ProfilText.envoyerJustificatif')}
 
-                            <div className="flex gap-2">
+                                        </button>
+                                        :
+                                        <LoadingCard/>
+                                    }
 
-                                {
-                                    (!sedingProofDoc)?
                                     <button
-                                        type="submit"
-                                        className="rounded-full bg-green-300 text-white px-4 py-2 hover:bg-green-400 text-sm"
+                                        type="button"
+                                        onClick={() => setIsProFormVisible(false)}
+                                        className="h-8 w-1/2 md:w-auto rounded-full bg-red-300 text-white px-4 py-2 hover:bg-red-400 text-sm"
                                     >
-                                        {t('ProfilText.envoyerJustificatif')}
+                                        {t('ProfilText.annuler')}
 
                                     </button>
-                                    :
-                                    <LoadingCard/>
-                                }
 
-                                <button
-                                    type="button"
-                                    onClick={() => setIsProFormVisible(false)}
-                                    className="h-8 w-1/2 md:w-auto rounded-full bg-red-300 text-white px-4 py-2 hover:bg-red-400 text-sm"
-                                >
-                                    {t('ProfilText.annuler')}
+                                </div>
 
-                                </button>
+                            </form>
 
-                            </div>
-
-                        </form>
-                    )}
+                        )
+                            :
+                        null
+                }
 
                 </div>
 
-
-                <textarea
-                    name="description"
-                    rows="5"
-                    maxLength="20"
-                    value={formData?.description}
-                    onChange={handleChange}
-                    disabled={!isEditing}
-                    className="w-full mt-2 rounded-lg border border-gray-200 p-2 text-sm focus:ring-2 focus:ring-blue-500 prose scrollbor_hidden leading-relaxed whitespace-pre-lin"
-                    placeholder={t('ProfilText.descriptionPlaceholder')}
-                />
 
             </div>
 
