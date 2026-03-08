@@ -11,10 +11,12 @@ import { useTranslation } from 'react-i18next';
 import LoadingCard from '../components/LoardingSpin';
 import FollowProfilUser from '../components/ViewsProfilUser';
 import NumberFollowFollowed from '../components/FollowUserComp';
-import InputBox from '../components/InputBoxFloat';
 import { ModalFormCreatBlog } from './BlogCreatBlogs';
 import GetValidateUserFournisseur from './FournisseurValidation';
 import { ENDPOINTS } from '../utils';
+import ProbuttonComp from '../components/ProButtonComp';
+import FormEditProfil from '../components/FormEditProfil';
+import UpdateUserToPro from '../components/UpdateUserToPro';
 
 const ProfileCard = () => {
 
@@ -25,7 +27,6 @@ const ProfileCard = () => {
     // Redux state
     const currentUser = useSelector((state) => state.auth.user);
     const currentOwnUser = useSelector((state) => state.chat.userSlected);
-    //const profileData = useSelector((state) => state.auth.user);
     const currentNav = useSelector((state) => state.navigate.currentNav);
     const selectedProductOwner = useSelector((state) => state.chat.userSlected);
     const allChats = useSelector((state) => state.chat.currentChats);
@@ -56,7 +57,6 @@ const ProfileCard = () => {
         }
     }, [currentNav, navigate]);
 
-
     const isCurrentUser = useMemo(
 
         () => {
@@ -73,14 +73,18 @@ const ProfileCard = () => {
     const [isProFormVisible, setIsProFormVisible] = useState(false);
     const [messageVisible, setMessageVisible] = useState(false);
     const [previewUrl, setPreviewUrl] = useState(userProfile?.image || null);
-    const [previewUrlBackground, setPreviewUrlBackground] = useState(
-        userProfile?.image_cover || null
-    );
+    const [previewUrlBackground, setPreviewUrlBackground] = useState(userProfile?.image_cover || null);
     const [updateImage, setUpdateImage] = useState(null);
     const [updateImageCover, setUpdateImageCover] = useState(null);
     const [fileProof, setFileProof] = useState(null);
     const [loadingGetCode, setLoadingGetCode] = useState(true);
     const [loadinUpdate, setLoadinUpdate] = useState(true);
+    const isCurrentUserFournisseurAndVerified = (currentUser?.is_fournisseur && !currentUser?.is_verified)
+    var isCurrentUserAndVisibleFormPro = (isProFormVisible && isCurrentUser)
+    var isCurrentUserEdditPhoto = (isEditingPhotoBg && isCurrentUser)
+    const isFournisseurVerified = (!userProfile?.is_fournisseur || !userProfile?.is_verified) && isCurrentUser
+    var isCurrentUserSelectedOtheUser = (!isCurrentUser && selectedProductOwner)
+    var isUserProAndFormVisible = (!currentUser?.is_pro && !isProFormVisible && isCurrentUser)
 
     // Sync form data with user profile
     useEffect(() => {
@@ -359,91 +363,43 @@ const ProfileCard = () => {
 
     return (
 
-        <div
-            className="text-gray-900 dark:text-white mt-0 p-0"
-        >
+        <div className="text-gray-900 dark:text-white mt-0 p-0">
 
             {/* Cover Image */}
             <div
+
                 className="relative h-48 sm:h-64 md:h-70 bg-cover bg-center bg-gray-200 "
+
                 style={{
                     backgroundImage: `url(${previewUrlBackground || 'https://images.unsplash.com/photo-1612832020897-593fae15346e'
                         })`,
                 }}
             >
-                {isEditingPhotoBg && isCurrentUser && (
+                {
+                    isCurrentUserEdditPhoto && (
 
-                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                        <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
 
-                        <input
-                            type="file"
-                            accept="image/*"
-                            onChange={(e) => handleImageUpload(e, true)}
-                            className="bg-white rounded-full p-2 shadow-md text-sm cursor-pointer"
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) => handleImageUpload(e, true)}
+                                className="bg-white rounded-full p-2 shadow-md text-sm cursor-pointer"
+                                aria-label={t('ProfilText.modifierCouverture')}
+                            />
+
+                        </div>
+
+                    )
+                }
+
+                {
+                    isCurrentUser && (
+
+                        <button
+                            onClick={() => setIsEditingPhotoBg(!isEditingPhotoBg)}
+                            className="absolute top-4 right-4 p-2 bg-white rounded-full shadow hover:bg-gray-100"
                             aria-label={t('ProfilText.modifierCouverture')}
-                        />
-
-                    </div>
-                )}
-
-                {isCurrentUser && (
-
-                    <button
-                        onClick={() => setIsEditingPhotoBg(!isEditingPhotoBg)}
-                        className="absolute top-4 right-4 p-2 bg-white rounded-full shadow hover:bg-gray-100"
-                        aria-label={t('ProfilText.modifierCouverture')}
-                    >
-                        <svg
-                            className="w-6 h-6"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke="currentColor"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M4 18V8a1 1 0 0 1 1-1h1.5l1.707-1.707A1 1 0 0 1 8.914 5h6.172a1 1 0 0 1 .707.293L17.5 7H19a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"
-                            />
-
-                            <path
-                                stroke="currentColor"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                            />
-
-                        </svg>
-
-                    </button>
-                )}
-
-            </div>
-
-            {/* Profile Section */}
-            <div
-                className="relative px-4  md:px-5 lg:px-5 pb-6 bg-white"
-
-                style={{
-                    backgroundColor: "var(--color-bg)",
-                    color: "var(--color-text)"
-                }}
-            >
-
-                {/* Profile Picture */}
-                <div className="absolute -top-12 sm:-top-16 left-1/2 sm:left-6 transform -translate-x-1/2 sm:translate-x-0">
-
-                    <img
-                        src={previewUrl}
-                        alt="Profil utilisateur"
-                        className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-white shadow-lg object-cover"
-                    />
-
-                    {isCurrentUser && (
-                        <label
-                            className="absolute bottom-0 right-0 bg-white rounded-full p-1 shadow cursor-pointer hover:bg-gray-100"
-                            aria-label="Modifier photo de profil"
                         >
                             <svg
                                 className="w-6 h-6"
@@ -458,28 +414,80 @@ const ProfileCard = () => {
                                     strokeWidth="2"
                                     d="M4 18V8a1 1 0 0 1 1-1h1.5l1.707-1.707A1 1 0 0 1 8.914 5h6.172a1 1 0 0 1 .707.293L17.5 7H19a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"
                                 />
+
                                 <path
                                     stroke="currentColor"
                                     strokeLinejoin="round"
                                     strokeWidth="2"
                                     d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
                                 />
+
                             </svg>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                onChange={(e) => handleImageUpload(e)}
-                                className="hidden"
-                            />
-                        </label>
-                    )}
+
+                        </button>
+                    )
+                }
+
+            </div>
+
+            {/* Profile Section */}
+            <div className="relative px-4  md:px-5 lg:px-5 pb-6 bg-white">
+
+                {/* Profile Picture */}
+                <div className="absolute -top-12 sm:-top-16 left-1/2 sm:left-6 transform -translate-x-1/2 sm:translate-x-0">
+
+                    <img
+                        src={previewUrl}
+                        alt="Profil utilisateur"
+                        className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-white shadow-lg object-cover"
+                    />
+
+                    {
+                        isCurrentUser && (
+
+                            <label
+                                className="absolute bottom-0 right-0 bg-white rounded-full p-1 shadow cursor-pointer hover:bg-gray-100"
+                                aria-label="Modifier photo de profil"
+                            >
+                                <svg
+                                    className="w-6 h-6"
+                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke="currentColor"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        d="M4 18V8a1 1 0 0 1 1-1h1.5l1.707-1.707A1 1 0 0 1 8.914 5h6.172a1 1 0 0 1 .707.293L17.5 7H19a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"
+                                    />
+                                    <path
+                                        stroke="currentColor"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                                    />
+                                </svg>
+
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e) => handleImageUpload(e)}
+                                    className="hidden"
+                                />
+
+                            </label>
+                        )
+                    }
 
                 </div>
 
                 {/* User Info */}
                 <div className="pt-10 md:pt-2 lg:pt-2 sm:pl-40" >
 
-                    {!isEditing ? (
+                    {
+                        !isEditing ? (
                         <>
                             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 
@@ -517,36 +525,7 @@ const ProfileCard = () => {
      
                                     <NumberFollowFollowed profil={isCurrentUser ? currentUser : currentOwnUser} />
                                 
-                                    <>
-                                        {
-                                            (!currentUser?.is_pro && !isProFormVisible && isCurrentUser) && (
-
-                                                <button
-                                                    onClick={() => setIsProFormVisible(true)}
-                                                    className="flex items-center gap-2 text-sm border border-blue-400 rounded-full py-2 px-4 hover:bg-blue-100"
-                                                >
-                                                    <svg
-                                                        className="w-5 h-5"
-                                                        aria-hidden="true"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        fill="none"
-                                                        viewBox="0 0 24 24"
-                                                    >
-                                                        <path
-                                                            stroke="currentColor"
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            strokeWidth="2"
-                                                            d="m8.032 12 1.984 1.984 4.96-4.96m4.55 5.272.893-.893a1.984 1.984 0 0 0 0-2.806l-.893-.893a1.984 1.984 0 0 1-.581-1.403V7.04a1.984 1.984 0 0 0-1.984-1.984h-1.262a1.983 1.983 0 0 1-1.403-.581l-.893-.893a1.984 1.984 0 0 0-2.806 0l-.893.893a1.984 1.984 0 0 1-1.403.581H7.04A1.984 1.984 0 0 0 5.055 7.04v1.262c0 .527-.209 1.031-.581 1.403l-.893.893a1.984 1.984 0 0 0 0 2.806l.893.893c.372.372.581.876.581 1.403v1.262a1.984 1.984 0 0 0 1.984 1.984h1.262c.527 0 1.031.209 1.403.581l.893.893a1.984 1.984 0 0 0 2.806 0l.893-.893a1.985 1.985 0 0 1 1.403-.581h1.262a1.984 1.984 0 0 0 1.984-1.984V15.7c0-.527.209-1.031.581-1.403Z"
-                                                        />
-                                                    </svg>
-
-                                                    {t('ProfilText.passerPro')}
-
-                                                </button>
-                                            )
-                                        }
-                                    </>
+                                    <ProbuttonComp isUserProAndFormVisible={isUserProAndFormVisible} setIsProFormVisible={setIsProFormVisible} t={t} />
 
                                 </div>
 
@@ -562,95 +541,25 @@ const ProfileCard = () => {
                                 className="w-full mt-2 rounded-lg border border-gray-50 p-2 text-sm focus:ring-2 focus:ring-blue-500 prose scrollbor_hidden leading-relaxed whitespace-pre-lin"
                                 placeholder={t('ProfilText.descriptionPlaceholder')}
                             />
+
                         </>
                         )
                         :
                         (
-                        <form
-                            onSubmit={(e) => {
-                                e.preventDefault();
-                                handleSave();
-                            }}
-                            className="mt-4 space-y-4 sm:w-1/2 shadow-lg p-3 rounded-lg bg-gray-50 "
-                        >
-                            <InputBox
-                                type="text"
-                                name="nom"
-                                placeholder={t('ProfilText.nomPlaceholder')}
-                                value={formData?.nom}
-                                onChange={handleChange}
+                            <FormEditProfil
+                                handleSave={handleSave}
+                                handleChange={handleChange}
+                                formData={formData}
+                                loadinUpdate={loadinUpdate}
+                                setIsEditing={setIsEditing}
                             />
-                            <InputBox
-                                type="text"
-                                name="prenom"
-                                placeholder={t('ProfilText.prenomPlaceholder')}
-                                value={formData?.prenom}
-                                onChange={handleChange}
-                            />
-                            <InputBox
-                                type="email"
-                                name="email"
-                                placeholder={t('ProfilText.emailPlaceholder')}
-                                value={formData?.email}
-                                onChange={handleChange}
-                            />
-                            <InputBox
-                                type="text"
-                                name="adresse"
-                                placeholder={t('ProfilText.adressePlaceholder')}
-                                value={formData?.adresse}
-                                onChange={handleChange}
-                            />
-
-                            <InputBox
-                                type="text"
-                                name="telephone"
-                                placeholder={t('ProfilText.telephonePlaceholder')}
-                                value={formData?.telephone}
-                                onChange={handleChange}
-                            />
-
-                            <textarea
-                                name="description"
-                                value={formData?.description}
-                                onChange={handleChange}
-                                className="w-full h-24 rounded-lg border border-gray-100 p-2 resize-none focus:ring-2 focus:ring-blue-500 "
-                                placeholder={t('ProfilText.descriptionPlaceholder')}
-                            />
-
-                            <div className="flex gap-4">
-
-                                {
-                                    loadinUpdate ? (
-                                        <button
-                                            type="submit"
-                                            className="cursor-pointer rounded-full bg-gradient-to-l from-gray-50 to-green-200 text-white px-4 py-2 hover:bg-green-200"
-                                        >
-                                            {t('ProfilText.boutons.enregistrer')}
-                                        </button>
-                                    ) : (
-                                        <LoadingCard />
-                                    )
-                                }
-
-                                <button
-                                    type="button"
-                                        className="cursor-pointer rounded-full bg-gradient-to-l from-red-50 to-gray-200 text-white px-4 py-2 hover:bg-red-200"
-                                    onClick={() => setIsEditing(false)}
-                                >
-                                    {t('ProfilText.boutons.annuler')}
-
-                                </button>
-
-                            </div>
-
-                        </form>
                         )
                     }
 
                     <div className="flex flex-col sm:flex-row gap-2 mt-6">
 
-                        {(!isEditing ) && (
+                        {
+                            (!isEditing) && (
                             <>
                                 {
                                     isCurrentUser &&
@@ -683,7 +592,7 @@ const ProfileCard = () => {
                                 }
 
                                 {
-                                    (!isCurrentUser && selectedProductOwner) && (
+                                    isCurrentUserSelectedOtheUser && (
 
                                     <button
                                         onClick={() => {
@@ -700,44 +609,47 @@ const ProfileCard = () => {
                                     )
                                 }
 
-                                <>
-                                    {!isCurrentUser && <FollowProfilUser clientId={currentOwnUser?.id} />}
-                                </>
+                                <>{!isCurrentUser && <FollowProfilUser clientId={currentOwnUser?.id} />}</>
 
                                 {
                                     loadingGetCode ? (
 
                                         <>
-                                            {(!userProfile?.is_fournisseur || !userProfile?.is_verified) && isCurrentUser && (
+                                            {
+                                                isFournisseurVerified && (
 
-                                                <button
-                                                    onClick={(e) => updateAccountToFournisseur(e)}
-                                                    className="h-8 w-1/2 md:w-auto flex items-center gap-1 rounded-full bg-indigo-300 text-white text-sm px-3 py-1 hover:bg-indigo-400 w-2/3 md:w-auto"
-                                                    title="Devenir un fournisseur"
-                                                >
-                                                    <svg
-                                                        className="w-5 h-5"
-                                                        aria-hidden="true"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        fill="none"
-                                                        viewBox="0 0 24 24"
+                                                    <button
+                                                        onClick={(e) => updateAccountToFournisseur(e)}
+                                                        className="h-8 w-1/2 md:w-auto flex items-center gap-1 rounded-full bg-indigo-300 text-white text-sm px-3 py-1 hover:bg-indigo-400 w-2/3 md:w-auto"
+                                                        title="Devenir un fournisseur"
                                                     >
-                                                        <path
-                                                            stroke="currentColor"
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            strokeWidth="0.9"
-                                                            d="m7.171 12.906-2.153 6.411 2.672-.89 1.568 2.34 1.825-5.183m5.73-2.678 2.154 6.411-2.673-.89-1.568 2.34-1.825-5.183M9.165 4.3c.58.068 1.153-.17 1.515-.628a1.681 1.681 0 0 1 2.64 0 1.68 1.68 0 0 0 1.515.628 1.681 1.681 0 0 1 1.866 1.866c-.068.58.17 1.154.628 1.516a1.681 1.681 0 0 1 0 2.639 1.682 1.682 0 0 0-.628 1.515 1.681 1.681 0 0 1-1.866 1.866 1.681 1.681 0 0 0-1.516.628 1.681 1.681 0 0 1-2.639 0 1.681 1.681 0 0 0-1.515-.628 1.681 1.681 0 0 1-1.867-1.866 1.681 1.681 0 0 0-.627-1.515 1.681 1.681 0 0 1 0-2.64c.458-.361.696-.935.627-1.515A1.681 1.681 0 0 1 9.165 4.3ZM14 9a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"
-                                                        />
-                                                    </svg>
+                                                        <svg
+                                                            className="w-5 h-5"
+                                                            aria-hidden="true"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                        >
+                                                            <path
+                                                                stroke="currentColor"
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                strokeWidth="0.9"
+                                                                d="m7.171 12.906-2.153 6.411 2.672-.89 1.568 2.34 1.825-5.183m5.73-2.678 2.154 6.411-2.673-.89-1.568 2.34-1.825-5.183M9.165 4.3c.58.068 1.153-.17 1.515-.628a1.681 1.681 0 0 1 2.64 0 1.68 1.68 0 0 0 1.515.628 1.681 1.681 0 0 1 1.866 1.866c-.068.58.17 1.154.628 1.516a1.681 1.681 0 0 1 0 2.639 1.682 1.682 0 0 0-.628 1.515 1.681 1.681 0 0 1-1.866 1.866 1.681 1.681 0 0 0-1.516.628 1.681 1.681 0 0 1-2.639 0 1.681 1.681 0 0 0-1.515-.628 1.681 1.681 0 0 1-1.867-1.866 1.681 1.681 0 0 0-.627-1.515 1.681 1.681 0 0 1 0-2.64c.458-.361.696-.935.627-1.515A1.681 1.681 0 0 1 9.165 4.3ZM14 9a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"
+                                                            />
+                                                        </svg>
 
-                                                    <span className="whitespace-nowrap px-2">{t('ProfilText.devenirFournisseur')}</span>
+                                                        <span className="whitespace-nowrap px-2">{t('ProfilText.devenirFournisseur')}</span>
 
-                                                </button>
-                                            )}
+                                                    </button>
+                                                )
+                                            }
+
                                         </>
 
-                                    ) : (
+                                    )
+                                    : 
+                                    (
 
                                         <LoadingCard />
                                     )
@@ -745,96 +657,34 @@ const ProfileCard = () => {
 
                                 {isCurrentUser && <ModalFormCreatBlog/>}
                             </>
-                        )}
+
+                            )
+                        }
+
                     </div>
 
                     {
-                        (isProFormVisible && isCurrentUser) ?
+                        isCurrentUserAndVisibleFormPro &&
                         (
-                            <form
-
-                                onSubmit={handleUpgradeToPro}
-
-                                className="verflow-x-auto mt-6 w-auto flex flex-col items-center gap-4 p-1 rounded-lg shadow-lg"
-                            >
-                                <label className="text-sm">{t('hintProofDoc')}</label>
-
-                                <div className="flex items-center gap-2">
-
-                                    <svg
-                                        className="w-6 h-6 text-gray-800 dark:text-white"
-                                        aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            stroke="currentColor"
-                                            strokeLinejoin="round"
-                                            strokeWidth="1"
-                                            d="M10 3v4a1 1 0 0 1-1 1H5m14-4v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7.914a1 1 0 0 1 .293-.707l3.914-3.914A1 1 0 0 1 9.914 3H18a1 1 0 0 1 1 1Z"
-                                        />
-
-                                    </svg>
-
-                                    <input
-                                        type="file"
-                                        onChange={handleFileChange}
-                                        accept=".pdf,.jpg,.png,.jpeg"
-                                        required
-                                        className="border border-gray-300 rounded-full p-2 text-sm cursor-pointer w-full"
-                                    />
-
-                                </div>
-
-                                <div className="flex gap-2">
-
-                                    {
-                                        (!sedingProofDoc)?
-                                        <button
-                                            type="submit"
-                                            className="rounded-full bg-green-300 text-white px-4 py-2 hover:bg-green-400 text-sm"
-                                        >
-                                            {t('ProfilText.envoyerJustificatif')}
-
-                                        </button>
-                                        :
-                                        <LoadingCard/>
-                                    }
-
-                                    <button
-                                        type="button"
-                                        onClick={() => setIsProFormVisible(false)}
-                                        className="h-8 w-1/2 md:w-auto rounded-full bg-red-300 text-white px-4 py-2 hover:bg-red-400 text-sm"
-                                    >
-                                        {t('ProfilText.annuler')}
-
-                                    </button>
-
-                                </div>
-
-                            </form>
+                            <UpdateUserToPro
+                                handleUpgradeToPro={handleUpgradeToPro}
+                                handleFileChange={handleFileChange}
+                                sedingProofDoc={sedingProofDoc}
+                                setIsProFormVisible={setIsProFormVisible} 
+                            />
 
                         )
-                            :
-                        null
-                }
+
+                    }
 
                 </div>
-
 
             </div>
 
             <AttentionAlertMesage/>
 
-            {
-                (currentUser?.is_fournisseur && !currentUser?.is_verified) &&
+            {isCurrentUserFournisseurAndVerified && (<GetValidateUserFournisseur isCurrentUser={isCurrentUser} />)}
 
-                (
-
-                    <GetValidateUserFournisseur isCurrentUser={isCurrentUser} />
-                )
-            }
         </div>
     );
 };

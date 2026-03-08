@@ -232,7 +232,7 @@ const SettingsForm = () => {
                         <FloatingInput id="email" name="email" label={t('settingsText.emailLabel')} type="email" value={currentUserData?.email || form.email} onChange={handleChange} disabled />
                         <FloatingInput id="password" name="password" label={t('settingsText.passwordLabel')} type="password" value={form.password} onChange={handleChange} />
 
-                        <button type="submit" className="w-full py-2 px-4 mt-4 text-sm text-white bg-blue-100 hover:bg-blue-400 rounded-md">{t('settingsText.changePassword')}</button>
+                        <button type="submit" className="bg-gradient-to-br from-purple-50 to-blue-100 w-full py-2 px-4 mt-4 text-sm text-white hover:bg-gradient-to-br hover:from-purple-200 rounded-md">{t('settingsText.changePassword')}</button>
 
                     </form>
 
@@ -243,7 +243,7 @@ const SettingsForm = () => {
 
                         <NotificationToggle checked={form.notifications} onChange={handleChange} t={t} />
 
-                        <button type="submit" className="w-full py-2 px-4 mt-4 text-sm text-white bg-blue-100 hover:bg-blue-400 rounded-md">{t('settingsText.save')}</button>
+                        <button type="submit" className="bg-gradient-to-br from-purple-50 w-full py-2 px-4 mt-4 text-sm text-white bg-blue-100 hover:bg-gradient-to-br hover:from-purple-200 rounded-md">{t('settingsText.save')}</button>
 
                     </form>
 
@@ -270,7 +270,7 @@ const SettingsForm = () => {
 
                         <FloatingInput type="text" id="country" name="country" label={t('settingsText.countryLabel')} value={form.country} onChange={handleChange} />
 
-                        <button type="submit" className="w-full py-2 px-4 mt-4 text-sm text-white bg-blue-100 hover:bg-blue-400 rounded-md">{t('settingsText.saveCard')}</button>
+                        <button type="submit" className="bg-gradient-to-br from-purple-50 to-blue-100 w-full py-2 px-4 mt-4 text-sm text-white hover:bg-gradient-to-br hover:from-purple-200 rounded-md">{t('settingsText.saveCard')}</button>
 
                     </form>
 
