@@ -1,21 +1,26 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Outlet } from 'react-router-dom';
 import { ButtonNavigate } from "../components/Button";
+import { useDispatch, } from 'react-redux';
 import Logo from "../components/LogoApp";
 import {  useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
-import { ENDPOINTS, getTabsNavigationsItems } from "../utils";
+import { ENDPOINTS, IMPORTANTS_URLS, getTabsNavigationsItems } from "../utils";
 import SearchBar from "../components/BtnSearchWithFilter";
 import api from "../services/Axios";
 import MobileNav from "../features/FooterMobileNav";
 import DesktopNav from "../features/FooterDeskTopNav";
-import CompDesign from "../components/BoxDesignCoponent";
+import { useNavigate} from 'react-router-dom';
+import { setCurrentNav } from "../slices/navigateSlice";
 
 
 
 const NavbarHeader = () => {
 
+    const dispatch = useDispatch();
+
     const currentNav = useSelector(state => state.navigate.currentNav);
+
 
     const categorySelectedData = useSelector(state => state?.navigate?.categorySelectedOnSearch)
 
@@ -32,6 +37,9 @@ const NavbarHeader = () => {
     const isHidden = currentNav === ENDPOINTS.FORGETPSWD;
 
     const isCentered = currentNav === ENDPOINTS.ABOUT;
+
+    const navigate = useNavigate();
+
 
     useEffect(
 
@@ -117,6 +125,24 @@ const NavbarHeader = () => {
         }
 
     )
+
+    useEffect(() => {
+
+        const currentUrl = window.location.href;
+
+        if (currentNav === ENDPOINTS.HOME) {
+
+            return navigate("/", { replace: true })
+
+        } else if (currentUrl === IMPORTANTS_URLS?.REGISTER || currentUrl === IMPORTANTS_URLS?.REGISTERS) {
+
+            dispatch(setCurrentNav(ENDPOINTS.REGISTER))
+
+        } else if (currentUrl === IMPORTANTS_URLS?.LOGIN || currentUrl === IMPORTANTS_URLS?.LOGINS) {
+            dispatch(setCurrentNav(ENDPOINTS.LOGIN))
+        }
+
+    }, [currentNav, navigate, dispatch]);
 
     return (
 

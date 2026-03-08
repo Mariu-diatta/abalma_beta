@@ -220,6 +220,7 @@ function TestmonyList() {
     const [content, setContent] = useState("");
     const dispatch = useDispatch()
     const [rating, setRating] = useState(0);
+    const [hover, setHover] = useState(0);
 
     // Charger les témoignages (GET)
     useEffect(() => {
@@ -235,7 +236,7 @@ function TestmonyList() {
         e.preventDefault();
         setLoading(true)
         try {
-            api.post("/content/testmony/", { content, rating })
+            api.post("/content/testmony/", { content, number_stars: rating })
                 .then((res) => res.data)
                 .then((newItem) => {
                     setItems([newItem, ...items]);
@@ -283,8 +284,15 @@ function TestmonyList() {
                         <svg
                             key={star}
                             onClick={() => setRating(star)}
-                            className={star <= rating ? "w-5 h-5 text-yellow-800" : "text-gray-300"} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" strokeWidth="1" d="M11.083 5.104c.35-.8 1.485-.8 1.834 0l1.752 4.022a1 1 0 0 0 .84.597l4.463.342c.9.069 1.255 1.2.556 1.771l-3.33 2.723a1 1 0 0 0-.337 1.016l1.03 4.119c.214.858-.71 1.552-1.474 1.106l-3.913-2.281a1 1 0 0 0-1.008 0L7.583 20.8c-.764.446-1.688-.248-1.474-1.106l1.03-4.119A1 1 0 0 0 6.8 14.56l-3.33-2.723c-.698-.571-.342-1.702.557-1.771l4.462-.342a1 1 0 0 0 .84-.597l1.753-4.022Z" />
+                            onMouseEnter={() => setHover(star)}
+                            onMouseLeave={() => setHover(0)}
+                            className={star <= (hover || rating) ? "w-6 h-6 text-yellow-800 cursor-pointer" : " w-6 h-6 text-blue-800 cursor-pointer"}
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24" height="24"
+                            fill={star <= rating ? "yellow" : "gray"}
+                            viewBox="0 0 24 24">
+                            <path stroke="currentColor" strokeWidth="0" d="M11.083 5.104c.35-.8 1.485-.8 1.834 0l1.752 4.022a1 1 0 0 0 .84.597l4.463.342c.9.069 1.255 1.2.556 1.771l-3.33 2.723a1 1 0 0 0-.337 1.016l1.03 4.119c.214.858-.71 1.552-1.474 1.106l-3.913-2.281a1 1 0 0 0-1.008 0L7.583 20.8c-.764.446-1.688-.248-1.474-1.106l1.03-4.119A1 1 0 0 0 6.8 14.56l-3.33-2.723c-.698-.571-.342-1.702.557-1.771l4.462-.342a1 1 0 0 0 .84-.597l1.753-4.022Z" />
                         </svg>
                     ))}
                 </div>
