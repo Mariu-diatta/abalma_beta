@@ -202,10 +202,13 @@ const AddUploadProduct = () => {
     };
 
     return (
+
         <div className="rounded-md flex flex-col justify-center items-center pb-[10dvh] overflow-x-hidden">
 
             <span className={`${isProductAdded && "hidden"}`}>
+
                 <TitleCompGen title={t("add_product.add_or_update_product")} />
+
                 {
                     !isUserVerified && (
                         <NavLink
@@ -218,6 +221,7 @@ const AddUploadProduct = () => {
                         </NavLink>
                     )
                 }
+
             </span>
 
             <span className={`text-gray-500 dark:text-gray-400 text-2xl z-10 ${!isProductAdded && "hidden"}`}>
@@ -294,11 +298,12 @@ const AddUploadProduct = () => {
                                     name="code_reference"
                                     value={dataProduct?.code_reference}
                                     onChange={onChangeClick}
-                                    placeholder="Ex: ABC-123"
+                                    placeholder="Reference ex: ABC-123"
                                     required
                                 />
                                 <InputBox
-                                    type="text"
+                                    type="Number"
+                                    min="0"
                                     id="price_product"
                                     name="price_product"
                                     value={dataProduct?.price_product}
@@ -326,9 +331,11 @@ const AddUploadProduct = () => {
                                     <option value="SM">{t("SM")}</option>
 
                                 </select>
-                                    <button type="button" onClick={nextSection} className={` ${currentSection >= 2 ? "hidden" : ""}  px-4 py-2 bg-gradient-to-l from-red-50 to-gray-200 text-white rounded-lg mt-4`}>
+
+                                <button type="button" onClick={nextSection} className={` ${currentSection >= 2 ? "hidden" : ""}  px-4 py-2 bg-gradient-to-l from-red-50 to-gray-200 text-white rounded-lg mt-4`}>
                                     {t("next")}
                                 </button>
+
                             </div>
                         )}
 
@@ -346,21 +353,22 @@ const AddUploadProduct = () => {
                                     className="my-4 border-0 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-0"
                                     required
                                 >
-                                        <option value="">{t("add_product.select_category")}</option>
-                                        {
-                                            LIST_CATEGORIES_KEYS?.map(
+                                    <option value="">{t("add_product.select_category")}</option>
+                                    {
+                                        LIST_CATEGORIES_KEYS?.map(
 
-                                                (value, idx) => <option key={idx} value={`${value}`}>{t(`add_product.categories.${value}`)}</option>
+                                            (value, idx) => <option key={idx} value={`${value}`}>{t(`add_product.categories.${value}`)}</option>
 
-                                            )
-                                        }
+                                        )
+                                    }
+
                                 </select>
 
-                                    <FormElementFileUpload
-                                        label={t("add_product.ChooseImage")}
-                                        getFile={handleFileSelect}
-                                        getImage={getImage}
-                                    />
+                                <FormElementFileUpload
+                                    label={t("add_product.ChooseImage")}
+                                    getFile={handleFileSelect}
+                                    getImage={getImage}
+                                />
 
                                 <textarea
                                     id="description_product"
@@ -372,17 +380,21 @@ const AddUploadProduct = () => {
                                     placeholder="Description du produit..."
                                     required
                                 />
-                                    <button type="button" onClick={nextSection} className={` ${currentSection >= 3 ? "hidden" : ""}  px-4 py-2 bg-gradient-to-l from-red-50 to-gray-200 text-white rounded-lg mt-4`}>
+
+                                <button type="button" onClick={nextSection} className={` ${currentSection >= 3 ? "hidden" : ""}  px-4 py-2 bg-gradient-to-l from-red-50 to-gray-200 text-white rounded-lg mt-4`}>
                                     {t("next")}
                                 </button>
+
                             </div>
                         )}
 
                         {currentSection >= 3 && (
                             <div>
+
                                 <h2 className="text-lg font-extrabold text-gray-500 dark:text-white pt-4 pb-1 mb-1 sm:col-span-2">
                                     {t("add_product.paimement_infos")}
                                 </h2>
+
                                 <select
                                     id="Currency_price"
                                     name="Currency_price"
@@ -395,6 +407,7 @@ const AddUploadProduct = () => {
                                     <option value="DOLLAR">{t("add_product.dollar")}</option>
                                     <option value="FRANC">{t("add_product.franc")}</option>
                                 </select>
+
                                 <select
                                     id="operation_product"
                                     name="operation_product"
@@ -407,15 +420,18 @@ const AddUploadProduct = () => {
                                     <option value="PRETER">{t("add_product.PRETER")}</option>
                                     <option value="VENDRE">{t("add_product.VENDRE")}</option>
                                 </select>
+
                                 {isLoanOptionSelected && (
                                     <>
                                         <InputBox type="datetime-local" id="date_emprunt" name="date_emprunt" value={dataProduct.date_emprunt} onChange={onChangeClick} />
                                         <InputBox type="datetime-local" id="date_fin_emprunt" name="date_fin_emprunt" value={dataProduct.date_fin_emprunt} onChange={onChangeClick} />
                                     </>
                                 )}
-                                    <button type="button" onClick={nextSection} className={` ${currentSection >= 4 ? "hidden" : ""} px-4 py-2 bg-gradient-to-l from-red-50 to-gray-200 text-white rounded-lg mt-4`}>
+
+                                <button type="button" onClick={nextSection} className={` ${currentSection >= 4 ? "hidden" : ""} px-4 py-2 bg-gradient-to-l from-red-50 to-gray-200 text-white rounded-lg mt-4`}>
                                     {t("next")}
-                                    </button>
+                                </button>
+
                             </div>
                         )}
 
@@ -448,9 +464,23 @@ const AddUploadProduct = () => {
                                     required
                                 />
 
-                                <InputBox type="number" name="shipping_price" value={dataProduct.shipping_price} onChange={onChangeClick} placeholder="Prix de livraison 0.0" />
+                                <InputBox
+                                    type="number"
+                                    name="shipping_price"
+                                    min="0"
+                                    value={dataProduct.shipping_price} 
+                                    onChange={onChangeClick} placeholder="Prix de livraison 0.0"
+                                />
 
-                                <InputBox placeholder={t("add_product.quantity")} type="number" id="quantity_product" name="quantity_product" value={dataProduct?.quantity_product} onChange={onChangeClick} min="1" />
+                                <InputBox
+                                    placeholder={t("add_product.quantity")}
+                                    type="number"
+                                    id="quantity_product"
+                                    name="quantity_product"
+                                    value={dataProduct?.quantity_product}
+                                    onChange={onChangeClick}
+                                    min="1"
+                                />
                                 
                                 <div className="flex gap-3 justify-center items-center m-auto my-2">
                                     {isLoading ? <LoadingCard /> : <ButtonSimple title={t("save")} />}
