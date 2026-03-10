@@ -29,6 +29,7 @@ const AddUploadProduct = () => {
     const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
 
     const [currentSection, setCurrentSection] = useState(1);
+
     var initDataProduct = {
         date_emprunt: "",
         price_product: "",
@@ -49,6 +50,10 @@ const AddUploadProduct = () => {
         taille_product: "MEDIUM",
         Currency_price: "",
         type_choice: "DURABLE",
+        link_facebook: "",
+        link_instagram: "",
+        link_tiktok: "",
+        link_twitter:"",
         promotion: false,
         shipping_price: 0,
         is_available: true,
@@ -56,6 +61,7 @@ const AddUploadProduct = () => {
         is_verified: false,
         commission_percentage: 10,
     }
+
     const [dataProduct, setDataProduct] = useState(initDataProduct); 
 
     const [imageLoaded, setImageLoaded] = useState(null); 
@@ -93,49 +99,50 @@ const AddUploadProduct = () => {
         });
     };
 
-    const saveDataForSubmitForm = (e) => {
+    const validateProduct = (data, imageFile) => {
+        const requiredFields = ["categorie_product", "operation_product", "code_reference", "description_product", "adress"];
 
-        e.preventDefault();
-
-        if (!currentUserCompte?.id) {
-            notify("Erreur", "Pas de compte utilisateur associé.");
-            return;
+        for (let field of requiredFields) {
+            if (!data[field]?.trim()) {
+                return `Le champ "${field}" est requis.`;
+            }
         }
 
-        setIsLoading(true);
+        if (!imageFile) return "L'image du produit est requise.";
 
-        try {
-            const requiredFields = ["categorie_product", "operation_product", "code_reference", "description_product", "adress"];
-            for (let field of requiredFields) {
-                if (!dataProduct[field]?.trim()) {
-                    notify("Erreur", `Le champ "${field}" est requis.`);
-                    return;
+        if (data.operation_product === "PRETER" && (!data.date_emprunt || !data.date_fin_emprunt)) {
+            return "Les dates d'emprunt et de fin sont requises.";
+        }
+
+        // Vérification des URLs
+        const urlFields = ["link_facebook", "link_instagramme", "link_tiktok", "link_twitter"];
+        for (let field of urlFields) {
+            if (data[field]) {
+                try {
+                    new URL(data[field]); // Lance une erreur si ce n'est pas une URL valide
+                } catch {
+                    return `Le lien pour ${field.replace("link_", "")} n'est pas une URL valide.`;
                 }
             }
-
-            if (!imageFile) {
-                notify("Erreur", "L'image du produit est requise.");
-                return;
-            }
-
-            if (isLoanOptionSelected && (!dataProduct.date_emprunt || !dataProduct.date_fin_emprunt)) {
-                notify("Erreur", "Les dates d'emprunt et de fin sont requises.");
-                return;
-            }
-
-            setIsProductAdded(true);
-
-        } catch (error) {
-            //console.log("Erreur", error)
-            notify("Erreur", "Erreur inconnue lors de la création du produit.");
-
-        } finally {
-            setIsLoading(false);
         }
 
-    }
+        return null; // Tout est ok
+    };
+
+    const saveDataForSubmitForm = (e) => {
+        e.preventDefault();
+
+        const errorMsg = validateProduct(dataProduct, imageFile);
+        if (errorMsg) {
+            notify("Erreur", errorMsg);
+            return;
+        }
+
+        setIsProductAdded(true);
+    };
 
     const submitForm = async (e) => {
+
         e.preventDefault();
 
         if (!currentUserCompte?.id) {
@@ -144,7 +151,11 @@ const AddUploadProduct = () => {
         }
 
         try {
+
+            setIsLoading(true)
+
             const requiredFields = ["categorie_product", "operation_product", "code_reference", "description_product", "adress"];
+
             for (let field of requiredFields) {
                 if (!dataProduct[field]?.trim()) {
                     notify("Erreur", `Le champ "${field}" est requis.`);
@@ -164,10 +175,20 @@ const AddUploadProduct = () => {
 
             setIsLoadingSubmit(true);
 
-            const formData = new FormData();
-            Object.entries(dataProduct).forEach(([key, value]) => {
-                if (value !== null) formData.append(key, value);
+            const social_links = {};
+            ["link_facebook", "link_instagramme", "link_tiktok", "link_twitter"].forEach(key => {
+                if (dataProduct[key]) social_links[key.replace("link_", "")] = dataProduct[key];
             });
+
+            const formData = new FormData();
+            // Ajouter tous les champs du produit
+            Object.entries(dataProduct).forEach(([key, value]) => {
+                if (!["link_facebook", "link_instagramme", "link_tiktok", "link_twitter"].includes(key)) {
+                    formData.append(key, value);
+                }
+            });
+            formData.append("social_links", JSON.stringify(social_links));
+            formData.append("image_product", imageFile);
             formData.append("image_product", imageFile);
             formData.append("fournisseur", parseInt(currentUserCompte.user));
             formData.append("type_choice", dataProduct.type_choice);
@@ -176,7 +197,7 @@ const AddUploadProduct = () => {
             formData.append("is_available", dataProduct.is_available);
             formData.append("is_active", dataProduct.is_active);
             formData.append("is_verified", dataProduct.is_verified);
-            formData.append("commission_percentage", dataProduct.commission_percentage);
+
             if (isLoanOptionSelected) {
                 formData.append("date_emprunt", formatToISOString(dataProduct.date_emprunt));
                 formData.append("date_fin_emprunt", formatToISOString(dataProduct.date_fin_emprunt));
@@ -198,6 +219,7 @@ const AddUploadProduct = () => {
         } finally {
             setIsLoadingSubmit(false);
             setIsProductAdded(false);
+            setIsLoading(false)
         }
     };
 
@@ -224,7 +246,7 @@ const AddUploadProduct = () => {
 
             </span>
 
-            <span className={`text-gray-500 dark:text-gray-400 text-2xl z-10 ${!isProductAdded && "hidden"}`}>
+            <span className={`text-gray-500  text-2xl z-10 ${!isProductAdded && "hidden"}`}>
                 <TitleCompGen title={t("product_summary")} />
             </span>
 
@@ -270,7 +292,7 @@ const AddUploadProduct = () => {
                         {currentSection >= 1 && (
                             <div>
 
-                                <h2 className="text-lg font-extrabold text-gray-500 dark:text-white pt-4 pb-1 mb-1 sm:col-span-2">
+                                <h2 className="text-lg font-extrabold text-gray-500 pt-4 pb-1 mb-1 sm:col-span-2">
                                     {t("add_product.informations")}
                                 </h2>
 
@@ -341,7 +363,7 @@ const AddUploadProduct = () => {
 
                         {currentSection >= 2 && (
                             <div>
-                                <h2 className="text-lg font-extrabold text-gray-500 dark:text-white pt-4 pb-1 mb-1 sm:col-span-2">
+                                <h2 className="text-lg font-extrabold text-gray-500  pt-4 pb-1 mb-1 sm:col-span-2">
                                     {t("add_product.details")}
                                 </h2>
 
@@ -391,7 +413,7 @@ const AddUploadProduct = () => {
                         {currentSection >= 3 && (
                             <div>
 
-                                <h2 className="text-lg font-extrabold text-gray-500 dark:text-white pt-4 pb-1 mb-1 sm:col-span-2">
+                                <h2 className="text-lg font-extrabold text-gray-500  pt-4 pb-1 mb-1 sm:col-span-2">
                                     {t("add_product.paimement_infos")}
                                 </h2>
 
@@ -438,7 +460,7 @@ const AddUploadProduct = () => {
                         {currentSection >= 4 && (
                             <div>
 
-                                <h2 className="text-lg font-extrabold text-gray-500 dark:text-white pt-4 pb-1 mb-1 sm:col-span-2">
+                                <h2 className="text-lg font-extrabold text-gray-500  pt-4 pb-1 mb-1 sm:col-span-2">
                                     {t("add_product.informations_livraison")}
                                 </h2>
 
@@ -481,7 +503,78 @@ const AddUploadProduct = () => {
                                     onChange={onChangeClick}
                                     min="1"
                                 />
-                                
+
+                                <h2 className="text-lg font-extrabold text-gray-500 pt-4 pb-1 mb-1 sm:col-span-2">
+                                    {t("Links")}
+                                </h2>
+
+                                <div className="flex w-full justify-center">
+                                    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M13.795 10.533 20.68 2h-3.073l-5.255 6.517L7.69 2H1l7.806 10.91L1.47 22h3.074l5.705-7.07L15.31 22H22l-8.205-11.467Zm-2.38 2.95L9.97 11.464 4.36 3.627h2.31l4.528 6.317 1.443 2.02 6.018 8.409h-2.31l-4.934-6.89Z" />
+                                    </svg>
+
+                                    <InputBox
+                                        placeholder={t("Twitter")}
+                                        type="url"
+                                        id="link_twitter"
+                                        name="link_twitter"
+                                        value={dataProduct?.link_twitter}
+                                        onChange={onChangeClick}
+                                    />
+                                </div>
+
+                                <div className="flex w-full justify-center">
+
+                                    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M13.135 6H15V3h-1.865a4.147 4.147 0 0 0-4.142 4.142V9H7v3h2v9.938h3V12h2.021l.592-3H12V6.591A.6.6 0 0 1 12.592 6h.543Z" clip-rule="evenodd" />
+                                    </svg>
+
+                                    <InputBox
+                                        placeholder={t("Facebook")}
+                                        type="url"
+                                        id="link_facebook"
+                                        name="link_facebook"
+                                        value={dataProduct?.link_facebook}
+                                        onChange={onChangeClick}
+                                    />
+
+                                </div>
+
+                                <div className="flex w-full justify-center">
+
+                                    <svg className="w-6 h-6 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path fill="currentColor" fill-rule="evenodd" d="M3 8a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V8Zm5-3a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V8a3 3 0 0 0-3-3H8Zm7.597 2.214a1 1 0 0 1 1-1h.01a1 1 0 1 1 0 2h-.01a1 1 0 0 1-1-1ZM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm-5 3a5 5 0 1 1 10 0 5 5 0 0 1-10 0Z" clip-rule="evenodd" />
+                                    </svg>
+
+                                    <InputBox
+                                        placeholder={t("Instagram")}
+                                        type="url"
+                                        id="link_instagramme"
+                                        name="link_instagramme"
+                                        value={dataProduct?.link_instagramme}
+                                        onChange={onChangeClick}
+                                    />
+
+                                </div>
+
+                                <div className="flex w-full justify-center">
+
+                                    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M9.5 13C7.567 13 6 14.567 6 16.5S7.567 20 9.5 20s3.5-1.567 3.5-3.5S11.433 13 9.5 13Z" />
+                                        <path fill-rule="evenodd" d="M11 5c0-.55228.4477-1 1-1 1.5438 0 3.3242.75435 4.5149 2.16836 1.2348 1.46632 1.7886 3.5834.9338 6.14784-.1747.524-.741.8071-1.2649.6325-.524-.1747-.8071-.741-.6325-1.2649.6452-1.93556.199-3.31848-.5662-4.22716C14.4407 6.8102 13.7107 6.37433 13 6.15825V16.5c0 .5523-.4477 1-1 1s-1-.4477-1-1V5Z" clip-rule="evenodd" />
+                                    </svg>
+
+                                    <InputBox
+                                        placeholder={t('TicToc')}
+                                        type="url"
+                                        id="'link_tictoc'"
+                                        name="'link_tictoc'"
+                                        value={dataProduct?.link_tictoc}
+                                        onChange={onChangeClick}
+                                    />
+
+                                </div>
+
                                 <div className="flex gap-3 justify-center items-center m-auto my-2">
                                     {isLoading ? <LoadingCard /> : <ButtonSimple title={t("save")} />}
                                 </div>

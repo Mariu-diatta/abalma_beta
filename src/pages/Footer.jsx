@@ -102,7 +102,7 @@ const Footer = () => {
 
     }, []);
 
-    if (currentNav === ENDPOINTS.REGISTER || currentNav === ENDPOINTS.LOGIN) return
+    if (currentNav === ENDPOINTS.REGISTER || currentNav === ENDPOINTS.LOGIN || currentNav === ENDPOINTS.FORGETPSWD) return
 
     return (
 

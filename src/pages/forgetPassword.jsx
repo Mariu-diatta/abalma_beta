@@ -9,6 +9,7 @@ import { ButtonSimple } from "../components/Button";
 import FormLayout from "../layouts/FormLayout";
 import TitleCompGen from "../components/TitleComponentGen";
 import { ENDPOINTS } from "../utils";
+import LoadingCard from "../components/LoardingSpin";
 
 const LayoutPwdForget = () => {
 
@@ -19,10 +20,11 @@ const LayoutPwdForget = () => {
     const [newPassword, setNewPassword] = useState("");
     const [countdown, setCountdown] = useState(100);
     const dispatch = useDispatch();
+    const [loadingStep1, setLoadingStep1] = useState(false);
+    const [loadingStep2, setLoadingStep2] = useState(false);
 
     // Étape 1 : Demande de lien de réinitialisation
     const handleRequestCode = async () => {
-
 
         if (!email) {
 
@@ -32,6 +34,7 @@ const LayoutPwdForget = () => {
         }
 
         try {
+            setLoadingStep1(true)
 
             await api.post("/forget_password/request/", { email });
 
@@ -44,6 +47,8 @@ const LayoutPwdForget = () => {
 
             showMessage(dispatch, {Type:"Erreur", Message:t('form.resetRequestError')}+err?.response || err?.request?.response || err)
 
+        }finally{
+            setLoadingStep1(false)
         }
     };
 
@@ -67,6 +72,8 @@ const LayoutPwdForget = () => {
 
         try {
 
+            setLoadingStep2(true)
+
             await api.post(`/forget_password/reset/${uidb64}/${token}/`, {
 
                 password: newPassword
@@ -78,8 +85,10 @@ const LayoutPwdForget = () => {
 
         } catch (err) {
 
-            showMessage(dispatch, { Type: "Erreur", Messgae:err?.response || t("form.resetError") })
+            showMessage(dispatch, { Type: "Erreur", Messgae: err?.response || t("form.resetError") })
 
+        } finally {
+            setLoadingStep2(false)
         }
     };
 
@@ -162,6 +171,8 @@ const LayoutPwdForget = () => {
                                 handleRequestCode();
                             }
                         }
+
+                        className="py-2"
                     >
                         <InputBox
                             type="email"
@@ -172,10 +183,14 @@ const LayoutPwdForget = () => {
                             required
                         />
 
+                        {  !loadingStep1?
+                            <ButtonSimple
+                                title={t("forgetPswd.getCode")}
+                            />
+                            :
+                            <LoadingCard/>
 
-                        <ButtonSimple
-                            title={t("forgetPswd.getCode")}
-                        />
+                        }
 
                     </form>
                 )}
@@ -200,9 +215,14 @@ const LayoutPwdForget = () => {
                                     required
                                 />
 
-                                <ButtonSimple
-                                    title={t("forgetPswd.reset")}
-                                />
+                                {
+                                    !loadingStep2?
+                                    <ButtonSimple
+                                        title={t("forgetPswd.reset")}
+                                    />
+                                    :
+                                    <LoadingCard/>
+                                }
 
                             </form>
                         )
