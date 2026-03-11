@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { showMessage } from './AlertMessage';
 import { setCurrentNav } from '../slices/navigateSlice';
 import { CreateClient, ENDPOINTS, IMPORTANTS_URLS } from '../utils';
+import { ButtonSimple } from './Button';
 
 // Lazy load heavier components
 const InputBox = lazy(() => import('./InputBoxFloat'));
@@ -12,7 +13,6 @@ const LoadingCard = lazy(() => import('./LoardingSpin'));
 const PhoneInput = lazy(() => import('./InputPhoneCountry'));
 const FormLayout = lazy(() => import('../layouts/FormLayout'));
 const TitleCompGen = lazy(() => import('./TitleComponentGen'));
-const ButtonSimple = lazy(() => import('./Button'));
 
 
 const RegisterForm = () => {
@@ -147,7 +147,7 @@ const RegisterForm = () => {
 
             {
                 (!loading)?
-                <section>
+                <section className="mb-15">
   
                     <div className="py-7">
 
@@ -221,16 +221,13 @@ const RegisterForm = () => {
 
                         />
 
-                       <div className="mb-10">
 
-                            <ButtonSimple
+                        <ButtonSimple
 
-                                className="w-auto flex items-center m-auto cursor-pointer rounded-full border border-blue-100  px-5 py-2 text-base  text-white-900 transition hover:bg-gradient-to-br hover:from-purple-100 px-2 "
+                            className="bg-gradient-to-l from-red-100 to-gray-300 w-auto flex items-center m-auto cursor-pointer rounded-full border border-blue-100  px-5 py-2 text-base  text-white-900 transition hover:bg-gradient-to-br hover:from-purple-100 px-2 "
 
-                                title={t("register")}
-                            />
-
-                       </div>
+                            title={t("register")}
+                        />
 
                     </form>
 

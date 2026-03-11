@@ -56,8 +56,8 @@ const PaginationProduit = ({ products = [], itemsPerPage = 5 }) => {
                 {
                     currentItems?.map((product) => (
                             <img
-                                key={product.id}
-                                src={product.image_product}
+                                key={product?.id}
+                                src={product?.image_product}
                                 alt={`Product ${product.id}`}
                                 className="
                                   w-24 h-24
