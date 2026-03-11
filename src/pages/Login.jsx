@@ -10,11 +10,11 @@ import { ENDPOINTS,  IMPORTANTS_URLS,  loginClient } from '../utils';
 import { useNavigate } from 'react-router-dom'; // 
 import { useSelector } from 'react-redux';
 import { showMessage } from '../components/AlertMessage';
+import { ButtonSimple } from "../components/Button";
 
 // Lazy load
 const InputBox = lazy(() => import("../components/InputBoxFloat"));
 const LoadingCard = lazy(() => import("../components/LoardingSpin"));
-const ButtonSimple = lazy(() => import("../components/Button"));
 const FormLayout = lazy(() => import("../layouts/FormLayout"));
 const TitleCompGen = lazy(() => import("../components/TitleComponentGen"));
 
@@ -142,77 +142,72 @@ const LogIn = () => {
             
             {
                 (!loading) ?
-                <section>
+                <section className="mb-15">
 
-                        <div className="py-O">
+                    <div className="py-O">
 
-                            <TitleCompGen title={t("login")} />
+                        <TitleCompGen title={t("login")} />
 
-                            <p className="text-sm lg:text-md text-base text-blue-600 dark:text-blue-400 flex items-center justify-center gap-2 mb-5">
+                        <p className="text-sm lg:text-md text-base text-blue-600 dark:text-blue-400 flex items-center justify-center gap-2 mb-5">
 
-                                <span className="whitespace-nowrap pr-0.5">{t("notRegistered")}</span>
+                            <span className="whitespace-nowrap pr-0.5">{t("notRegistered")}</span>
 
-                                <NavLink
-                                    to={`/${ENDPOINTS.REGISTER}`}
-                                    className="whitespace-nowrap text-blue-800 hover:underline text-sm lg:text-md dark:text-blue-300"
-                                    onClick={() => dispatch(setCurrentNav(ENDPOINTS.REGISTER))}
-                                >
-                                    {t("register")}
+                            <NavLink
+                                to={`/${ENDPOINTS.REGISTER}`}
+                                className="whitespace-nowrap text-blue-800 hover:underline text-sm lg:text-md dark:text-blue-300"
+                                onClick={() => dispatch(setCurrentNav(ENDPOINTS.REGISTER))}
+                            >
+                                {t("register")}
 
-                                </NavLink>
+                            </NavLink>
 
-                            </p>
+                        </p>
 
-                        </div>
+                    </div>
 
-                        <form
-                            className="translate-y-0 transition-all duration-1000 ease-in-out"
-                            onSubmit={(e) => { e.preventDefault(); handleSignIn(); }}
-                            ref={componentRef}
-                        >
-                            <InputBox
-                                type="email"
-                                name="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                placeholder={t('form.email')}
-                                autoComplete="email"
-                                required
-                            />
+                    <form
+                        className="translate-y-0 transition-all duration-1000 ease-in-out"
+                        onSubmit={(e) => { e.preventDefault(); handleSignIn(); }}
+                        ref={componentRef}
+                    >
+                        <InputBox
+                            type="email"
+                            name="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder={t('form.email')}
+                            autoComplete="email"
+                            required
+                        />
 
-                            <InputBox
-                                type="password"
-                                name="password"
-                                value={pwd}
-                                onChange={(e) => setPwd(e.target.value)}
-                                placeholder={t('form.password')}
-                                ref={emailRef}
-                                autoComplete="current-password"
-                                required
-                            />
+                        <InputBox
+                            type="password"
+                            name="password"
+                            value={pwd}
+                            onChange={(e) => setPwd(e.target.value)}
+                            placeholder={t('form.password')}
+                            ref={emailRef}
+                            autoComplete="current-password"
+                            required
+                        />
 
+                        <ButtonSimple
 
-                            <div className="mb-10">
+                            className="bg-gradient-to-l from-red-100 to-gray-300 w-auto flex items-center m-auto cursor-pointer rounded-full border border-blue-100  px-5 py-2 text-base  text-white-900 transition hover:bg-gradient-to-br hover:from-purple-100 px-2 "
 
-                                <ButtonSimple
+                            title={t("login")}
+                        />
 
-                                    className="w-auto flex items-center m-auto cursor-pointer rounded-full border border-blue-100  px-5 py-2 text-base  text-white-900 transition hover:bg-gradient-to-br hover:from-purple-100 px-2 "
+                    </form>
 
-                                    title={t("login")}
-                                />
+                    <NavLink
+                        to="/forgetPassword"
+                        className="whitespace-nowrap mb-2 inline-block  text-sm lg:text-md text-blue-600 hover:text-primary hover:underline dark:text-blue-600"
+                        onClick={() => dispatch(setCurrentNav("forgetPassword"))}
+                    >
+                        {t("forgetPwd")}
 
-                            </div>
-
-                        </form>
-
-                        <NavLink
-                            to="/forgetPassword"
-                            className="whitespace-nowrap mb-2 inline-block  text-sm lg:text-md text-blue-600 hover:text-primary hover:underline dark:text-blue-600"
-                            onClick={() => dispatch(setCurrentNav("forgetPassword"))}
-                        >
-                            {t("forgetPwd")}
-
-                        </NavLink>
+                    </NavLink>
 
                 </section>
                 :
