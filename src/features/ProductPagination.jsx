@@ -1,13 +1,21 @@
 import React, { useState, useRef, useEffect } from "react";
 
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
+
 const PaginationProduit = ({ products = [], itemsPerPage = 5 }) => {
+
     const [currentPage, setCurrentPage] = useState(1);
+
     const scrollRef = useRef(null);
 
     const totalPages = Math.ceil(products.length / itemsPerPage);
 
     const startIndex = (currentPage - 1) * itemsPerPage;
+
     const currentItems = products.slice(startIndex, startIndex + itemsPerPage);
+
+    const lengthItemsSupTwo = (currentItems?.length<= 2)
 
     const handleNext = () => {
         setCurrentPage((prev) => Math.min(prev + 1, totalPages));
@@ -39,9 +47,10 @@ const PaginationProduit = ({ products = [], itemsPerPage = 5 }) => {
                   md:justify-center
                   flex-nowrap
                   w-full
+                  bg-none
                   py-2
                   px-2
-                  scrollbar_hidden
+                  scrollbor_hidden_
                 "
             >
                 {
@@ -66,14 +75,15 @@ const PaginationProduit = ({ products = [], itemsPerPage = 5 }) => {
             </div>
 
             {/* Pagination */}
-            <div className="flex items-center gap-2 mt-4">
+            <div className={`flex items-center gap-2 mt-4 ${lengthItemsSupTwo?"hidden":""}`}>
 
                 <button
                     onClick={handlePrev}
                     disabled={currentPage === 1}
                     className="disabled:opacity-40"
                 >
-                    ◀
+                    <ChevronLeft className="w-5 h-5 text-gray-600" />
+
                 </button>
 
                 <span className="text-sm font-medium">
@@ -85,7 +95,8 @@ const PaginationProduit = ({ products = [], itemsPerPage = 5 }) => {
                     disabled={currentPage === totalPages}
                     className="disabled:opacity-40"
                 >
-                    ▶
+                    <ChevronRight className="w-5 h-5 text-gray-600" />
+
                 </button>
 
             </div>

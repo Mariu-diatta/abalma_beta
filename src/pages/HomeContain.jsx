@@ -40,7 +40,6 @@ const HomeContain = () => {
                         </p>
   
                     </header>
-
                 </section>
 
                 {/* ========= PRODUCTS ========= */}
