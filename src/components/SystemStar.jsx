@@ -6,7 +6,7 @@ const PrintNumberStars = ({ productNbViews, t }) => {
 
     return (
 
-        < div className = "flex items-center" >
+        < div className = "flex items-center mt-2" >
 
             <div className="flex items-center">
 

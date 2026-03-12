@@ -1600,3 +1600,16 @@ export const services = [
         </svg>),
     },
 ];
+
+
+export const availableColors = [
+    "#000000",
+    "#ffffff",
+    "#ff0000",
+    "#0000ff",
+    "#00ff00"
+];
+
+export const availableSizes = ["S", "M", "L", "XL"];
+
+export const socialLinks = ["facebook", "instagram", "tiktok", "twitter"];

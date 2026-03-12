@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, lazy } from 'react';
 import { useSelector } from 'react-redux';
-import OwnerAvatar from '../components/OwnerProfil';
-import FollowProfilUser from '../components/ViewsProfilUser';
-import NumberFollowFollowed from '../components/FollowUserComp';
 import { useTranslation } from 'react-i18next';
+
+const OwnerAvatar = lazy(() => import("../components/OwnerProfil"));
+const FollowProfilUser = lazy(() => import("../components/ViewsProfilUser"));
+const NumberFollowFollowed = lazy(() => import("../components/FollowUserComp"));
 
 const ProfilPopPov = () => {
 
@@ -56,7 +57,7 @@ const ProfilPopPov = () => {
     }, []);
 
     return (
-        <div className="relative inline-block z-30">
+        <div className="relative inline-block z-30 bg-white">
             {/* Bouton toggle */}
             <button
                 ref={buttonRef}
@@ -65,7 +66,7 @@ const ProfilPopPov = () => {
                 aria-haspopup="true"
                 aria-expanded={isVisible}
                 aria-controls="popover-user-profile"
-                className="flex flex-col items-center cursor-pointer p-3 text-center text-sm rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:hover:bg-gray-600"
+                className="flex items-center gap-3 cursor-pointer p-3 text-center text-sm rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-50"
             >
                 <svg
                     className="w-5 h-5 text-blue-800 dark:text-white"
@@ -89,7 +90,7 @@ const ProfilPopPov = () => {
                     aria-modal="true"
                     className={`
                     absolute z-50 w-64 max-h-[70vh] overflow-y-auto
-                    text-md border rounded-lg shadow-lg
+                    text-md border border-white/80 rounded-lg shadow-lg bg-white
                     ${showAbove ? 'bottom-full mb-2 left-0 -translate-x-50 z-100' : 'top-full mt-2 right-2'}
                   `}
                 >

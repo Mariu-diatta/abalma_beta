@@ -19,7 +19,7 @@ import {
 } from "../slices/chatSlice";
 
 import OwnerAvatar from "../components/OwnerProfil";
-import ProductModal from "../pages/ProductViewsDetails";
+import ProductDetailsSection from "../pages/ProductViewsDetails";
 import LoadingCard from "../components/LoardingSpin";
 import { useTranslation } from 'react-i18next';
 import PrintNumberStars from "../components/SystemStar";
@@ -428,10 +428,9 @@ const GridProductDefault = ({ categorie_item }) => {
                     )
             }
 
-            <ProductModal
+            <ProductDetailsSection
                 isOpen={!!modalData}
                 onClose={closeModal}
-                dataProduct={productData}
             />
 
         </div>

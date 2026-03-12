@@ -9,7 +9,7 @@ import { ButtonSimple } from "../components/Button";
 import TitleCompGen from "../components/TitleComponentGen";
 import FormElementFileUpload from "./FormFile";
 import InputBox from "../components/InputBoxFloat";
-import { ENDPOINTS, LIST_CATEGORIES_KEYS } from "../utils";
+import { ENDPOINTS, LIST_CATEGORIES_KEYS, availableColors, availableSizes, socialLinks } from "../utils";
 import { NavLink } from 'react-router-dom';
 import { setCurrentNav } from "../slices/navigateSlice";
 
@@ -30,11 +30,15 @@ const AddUploadProduct = () => {
 
     const [currentSection, setCurrentSection] = useState(1);
 
+    const [selectedColors, setSelectedColors] = useState([]);
+
+    const [selectedSizes, setSelectedSizes] = useState([]);
+
     var initDataProduct = {
         date_emprunt: "",
         price_product: "",
         currency_price: "",
-        color_product: "",
+        color_product: selectedColors,
         date_fin_emprunt: "",
         categorie_product: "",
         code_reference: "",
@@ -47,7 +51,7 @@ const AddUploadProduct = () => {
         paymentMethod: "",
         adress: "",
         delivery: "",
-        taille_product: "MEDIUM",
+        taille_product: selectedSizes,
         Currency_price: "",
         type_choice: "DURABLE",
         link_facebook: "",
@@ -66,6 +70,25 @@ const AddUploadProduct = () => {
 
     const [imageLoaded, setImageLoaded] = useState(null); 
 
+    const OptionSelector = ({ options, selectedOptions, toggleOption, isColor }) => (
+        <div className="flex gap-2 flex-wrap">
+            {options.map(opt => (
+                <button
+                    key={opt}
+                    type="button"
+                    onClick={() => toggleOption(opt)}
+                    className={` border border-gray-100 cursor-pointer my-2 h-6 w-6 text-sm  border border-gray-200 ${selectedOptions.includes(opt)
+                            ? isColor ? "ring-2 ring-blue-500 rounded-full " : "rounded-full bg-blue-500  h-5 w-5"
+                            : isColor ? "rounded-full" : "rounded-full bg-gray-200"
+                        }`}
+                    style={isColor ? { backgroundColor: opt } : {}}
+                >
+                    {!isColor && opt}
+                </button>
+            ))}
+        </div>
+    );
+
     const isUserVerified =user?.is_fournisseur && user?.is_verified
     function getImage(image) {
 
@@ -76,7 +99,28 @@ const AddUploadProduct = () => {
 
     const onChangeClick = (e) => {
         const { name, value } = e.target;
-        setDataProduct((prev) => ({ ...prev, [name]: value }));
+        setDataProduct(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    // Quand tu changes la couleur
+    const toggleColor = (color) => {
+        setSelectedColors(prev => {
+            const updated = prev.includes(color) ? prev.filter(c => c !== color) : [...prev, color];
+            setDataProduct(dp => ({ ...dp, color_product: updated }));
+            return updated;
+        });
+    };
+
+    // Quand tu changes la taille
+    const toggleSize = (size) => {
+        setSelectedSizes(prev => {
+            const updated = prev.includes(size) ? prev.filter(s => s !== size) : [...prev, size];
+            setDataProduct(dp => ({ ...dp, taille_product: updated }));
+            return updated;
+        });
     };
 
     const isLoanOptionSelected = dataProduct.operation_product === "PRETER";
@@ -183,12 +227,11 @@ const AddUploadProduct = () => {
             const formData = new FormData();
             // Ajouter tous les champs du produit
             Object.entries(dataProduct).forEach(([key, value]) => {
-                if (!["link_facebook", "link_instagramme", "link_tiktok", "link_twitter"].includes(key)) {
+                if (!socialLinks.includes(key)) {
                     formData.append(key, value);
                 }
             });
             formData.append("social_links", JSON.stringify(social_links));
-            formData.append("image_product", imageFile);
             formData.append("image_product", imageFile);
             formData.append("fournisseur", parseInt(currentUserCompte.user));
             formData.append("type_choice", dataProduct.type_choice);
@@ -197,6 +240,8 @@ const AddUploadProduct = () => {
             formData.append("is_available", dataProduct.is_available);
             formData.append("is_active", dataProduct.is_active);
             formData.append("is_verified", dataProduct.is_verified);
+            formData.append("color_product", JSON.stringify(dataProduct.color_product));
+            formData.append("taille_product", JSON.stringify(dataProduct.taille_product));
 
             if (isLoanOptionSelected) {
                 formData.append("date_emprunt", formatToISOString(dataProduct.date_emprunt));
@@ -306,14 +351,13 @@ const AddUploadProduct = () => {
                                     required
                                 />
 
-                                <InputBox
-                                    type="text"
-                                    id="color_product"
-                                    name="color_product"
-                                    value={dataProduct?.color_product}
-                                    onChange={onChangeClick}
-                                    placeholder="Jaune"
+                                <OptionSelector
+                                    options={availableColors}
+                                    selectedOptions={selectedColors}
+                                    toggleOption={toggleColor}
+                                    isColor
                                 />
+
                                 <InputBox
                                     type="text"
                                     id="code_reference"
@@ -333,26 +377,12 @@ const AddUploadProduct = () => {
                                     placeholder={t("price")}
                                     required
                                 />
-                                <select
-                                    id="taille_product"
-                                    name="taille_product"
-                                    value={dataProduct?.taille_product}
-                                    onChange={onChangeClick}
-                                    className="border-0 border-gray-300 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-0"
-                                >
-                                    <option value="">{t("add_product.select_size")}</option>
-                                    <option value="SMALL">{t("add_product.SMALL")}</option>
-                                    <option value="MEDIUM">{t("add_product.MEDIUM")}</option>
-                                    <option value="BIG">{t("add_product.BIG")}</option>
-                                    <option value="L">{t("L")}</option>
 
-                                    <option value="XL">{t("XL")}</option>
-
-                                    <option value="M">{t("M")}</option>
-
-                                    <option value="SM">{t("SM")}</option>
-
-                                </select>
+                                <OptionSelector
+                                    options={availableSizes}
+                                    selectedOptions={selectedSizes}
+                                    toggleOption={toggleSize}
+                                />
 
                                 <button type="button" onClick={nextSection} className={` ${currentSection >= 2 ? "hidden" : ""}  px-4 py-2 bg-gradient-to-l from-red-50 to-gray-200 text-white rounded-lg mt-4`}>
                                     {t("next")}
@@ -594,13 +624,21 @@ const AddUploadProduct = () => {
 export default AddUploadProduct;
 
 
-const ProductField = ({ label, value, isLong }) => (
+const ProductField = ({ label, value, isLong }) => {
+    if (!value) return null;
 
-    <div className="grid grid-cols-[150px_1fr] gap-7 items-start bg-gray-50 p-2">
-        <span className="font-medium text-[16px] ">{label.slice(0, 1).toUpperCase()}{label.slice(1,)}</span>
-        <span className={isLong ? "max-h-32 overflow-y-auto justify-start " : " text-green"}>{value}</span>
-    </div>
-);
+    return (
+        <div className="grid grid-cols-[150px_1fr] gap-7 items-start bg-gray-50 p-2 rounded">
+            <span className="font-medium text-[16px]">
+                {label.charAt(0).toUpperCase() + label.slice(1)}
+            </span>
+            <span className={isLong ? "max-h-32 overflow-y-auto" : ""}>
+                {typeof value === "string" || typeof value === "number" ? value : value}
+            </span>
+        </div>
+    );
+};
+
 
 const ProductSummary = ({
     product,
@@ -611,88 +649,98 @@ const ProductSummary = ({
     isLoadingSubmit,
     children
 }) => {
-
     if (!product) return null;
 
-    return (
+    // Liste des champs simples
+    const simpleFields = [
+        { label: t("name"), value: product.name_product },
+        { label: t("price"), value: `${product.price_product} ${product.Currency_price}` },
+        { label: t("quantity"), value: product.quantity_product },
+        { label: t("shipping_price"), value: product.shipping_price },
+        { label: t("operation"), value: product.operation_product },
+        { label: t("delivery"), value: `${product.delivery || ""} ${product.adress || ""}` },
+        { label: t("adress"), value: product.adress },
+        { label: t("availability"), value: product.is_available ? t("yes") : t("no") },
+        { label: t("promotion"), value: product.promotion ? t("yes") : t("no") },
+        { label: t("active"), value: product.is_active ? t("yes") : t("no") },
+        { label: t("verified"), value: product.is_verified ? t("yes") : t("no") },
+    ];
 
-        <div
-            className="flex flex-col gap-4  p-6 rounded-lg w-full max-w-2xl m-auto from-red-100 to-blue-300  text-gray-900 dark:text-gray-100"
-        >
+    return (
+        <div className="flex flex-col gap-6 p-6 rounded-lg w-full max-w-2xl mx-auto bg-gradient-to-r from-red-100 to-blue-200 text-gray-900 dark:text-gray-100 shadow-md">
 
             {/* INFORMATIONS DU PRODUIT */}
-            <div className="flex flex-col gap-2 text-sm">
-
-                <ProductField label={t("name")} value={product.name_product} />
+            <div className="flex flex-col gap-3 text-sm">
 
                 <ProductField
-                    label={t("price")}
-                    value={`${product.price_product} ${product.Currency_price}`}
+                    label={t("size")}
+                    value={Array.isArray(product.taille_product) ? product.taille_product.join(", ") : product.taille_product}
                 />
-                <ProductField label={t("size")} value={product.taille_product} />
-                <ProductField label={t("color")} value={product.color_product} />
-                <ProductField label={t("quantity")} value={product.quantity_product} />
-                <ProductField label={t("description")} value={product.description_product} isLong />
 
                 <ProductField
-                    label={t("delivery")}
-                    value={`${product.delivery || ""} ${product.adress || ""}`}
+                    label={t("color")}
+                    value={
+                        Array.isArray(product.color_product) ? (
+                            <div className="flex flex-wrap gap-2">
+                                {product.color_product.map((c, i) => (
+                                    <span
+                                        key={i}
+                                        className="w-6 h-6 rounded-full border border-gray-300"
+                                        style={{ backgroundColor: c }}
+                                    />
+                                ))}
+                            </div>
+                        ) : product.color_product
+                    }
                 />
 
-                <ProductField label={t("shipping_price")} value={`${product.shipping_price}`} />
+                <ProductField
+                    label={t("description")}
+                    value={product.description_product}
+                    isLong
+                />
 
-                <ProductField label={t("adress")} value={`${product.adress}`} />
+                {/* Champs simples */}
+                {simpleFields.map((field, i) => (
+                    <ProductField key={i} label={field.label} value={field.value} />
+                ))}
 
-                <ProductField label={t("operation")} value={product.operation_product} />
+                {/* Champs conditionnels */}
+                {product.type_choice && <ProductField label={t("type_choice")} value={product.type_choice} />}
 
-                {product.type_choice && (
-                    <ProductField label={t("type_choice")} value={product.type_choice} />
-                )}
-
-                <ProductField label={t("availability")} value={product.is_available ? t("yes") : t("no")} />
-                <ProductField label={t("promotion")} value={product.promotion ? t("yes") : t("no")} />
-                <ProductField label={t("active")} value={product.is_active ? t("yes") : t("no")} />
-                <ProductField label={t("verified")} value={product.is_verified ? t("yes") : t("no")} />
-
-                {
-                    children
-                }
+                {children}
 
             </div>
 
             {/* ACTIONS */}
-            <div className="flex justify-start mt-4 gap-2">
+            <div className="flex flex-wrap gap-3 mt-4">
 
                 <button
                     onClick={onEdit}
-                    className="bg-gradient-to-l from-green-100 to-gray-200 hover:bg-green-100  text-white px-3 py-1 rounded-full transition-colors"
+                    className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full transition-colors"
                 >
                     {t("edit")}
                 </button>
 
                 <button
                     onClick={onDelete}
-                    className="bg-gradient-to-l from-red-100 to-gray-200 hover:bg-red-100 text-white px-3 py-1 rounded-full transition-colors"
+                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full transition-colors"
                 >
                     {t("delete")}
-
                 </button>
 
-                {
-                    isLoadingSubmit ?
-                    <LoadingCard /> 
-                    :
+                {isLoadingSubmit ? (
+                    <LoadingCard />
+                ) : (
                     <button
                         onClick={onAddNew}
-                            className="bg-gradient-to-l from-gray-100 to-blue-200 hover:bg-blue-100  text-white px-3 py-1 rounded-full transition-colors"
+                        className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full transition-colors"
                     >
                         {t("submit")}
-
                     </button>
-                }
+                )}
 
             </div>
-
         </div>
     );
 };
