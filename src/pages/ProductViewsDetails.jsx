@@ -156,8 +156,8 @@ const ProductDetailsSection = ({ isOpen, onClose}) => {
                                         <div
                                             key={index}
                                             onClick={() => setSelectedColor(color)}
-                                            className={`w-8 h-8 rounded-full border cursor-pointer 
-                                                ${selectedColor === color ? "ring-2 ring-blue-500" : ""}
+                                            className={`w-8 h-8 rounded-full border cursor-pointer  border-gray-100 shadow-md
+                                                ${selectedColor === color ? "ring-2 ring-blue-300" : ""}
                                               `}
                                             style={{ backgroundColor: color }}
                                         />
@@ -261,7 +261,7 @@ const Info = ({ label, value }) => {
                     value.map((item, index) => (
                         <span
                             key={index}
-                            className="px-3 py-1 border rounded"
+                            className="px-3 py-1 border rounded border-gray-300 shadow-md"
                         >
                             {String(item).toLowerCase()}
                         </span>
