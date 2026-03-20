@@ -19,12 +19,12 @@ const ServicesSection = () => {
                 </div>
 
                 {/* Grid */}
-                <div className="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
+                <div className="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0 py-5">
 
                     {
                         services?.map((service, index) => (
 
-                                <div key={index} className="text-center items-center">
+                                <div key={index} className="text-center items-center  bg-white/30 rounded-xl p-5 shadow-sm h-full">
 
                                     <div className="flex justify-center items-center mb-4 w-12 h-12 rounded-full bg-blue-100 m-auto text-2xl">
                                         {service.icon}

@@ -10,7 +10,6 @@ import { ENDPOINTS,  IMPORTANTS_URLS,  loginClient } from '../utils';
 import { useNavigate } from 'react-router-dom'; // 
 import { useSelector } from 'react-redux';
 import { showMessage } from '../components/AlertMessage';
-import { ButtonSimple } from "../components/Button";
 
 // Lazy load
 const InputBox = lazy(() => import("../components/InputBoxFloat"));
@@ -142,99 +141,104 @@ const LogIn = () => {
             
             {
                 (!loading) ?
-                <section className="mb-15">
+                    <section className="mb-12">
 
-                    <div className="py-O">
+                        {/* HEADER */}
+                        <div className="mb-8 text-center space-y-2">
+                            <TitleCompGen title={t("login")} />
 
-                        <TitleCompGen title={t("login")} />
+                            <p className="text-sm text-gray-500 dark:text-gray-400 flex justify-center gap-1">
+                                <span>{t("notRegistered")}</span>
 
-                        <p className="text-sm lg:text-md text-base text-blue-600 dark:text-blue-400 flex items-center justify-center gap-2 mb-5">
+                                <NavLink
+                                    to={`/${ENDPOINTS.REGISTER}`}
+                                    onClick={() => dispatch(setCurrentNav(ENDPOINTS.REGISTER))}
+                                    className="font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition"
+                                >
+                                    {t("register")}
+                                </NavLink>
+                            </p>
+                        </div>
 
-                            <span className="whitespace-nowrap pr-0.5">{t("notRegistered")}</span>
+                        {/* FORM */}
+                        <form
+                            className="space-y-5 transition-all duration-700 ease-in-out"
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                handleSignIn();
+                            }}
+                            ref={componentRef}
+                        >
+                            <InputBox
+                                type="email"
+                                name="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder={t('form.email')}
+                                autoComplete="email"
+                                required
+                            />
 
+                            <InputBox
+                                type="password"
+                                name="password"
+                                value={pwd}
+                                onChange={(e) => setPwd(e.target.value)}
+                                placeholder={t('form.password')}
+                                ref={emailRef}
+                                autoComplete="current-password"
+                                required
+                            />
+
+                            {/* BUTTON */}
+                            <button
+                                type="submit"
+                                className="
+                                        w-full py-3 rounded-lg font-medium
+                                        bg-gradient-to-r from-blue-400 to-red-200                                        
+                                        text-white shadow-md
+                                        hover:shadow-lg hover:scale-[1.02]
+                                        active:scale-[0.98]
+                                        transition-all duration-300
+                                      "
+                                >
+                                {t("login")}
+                            </button>
+                        </form>
+
+                        {/* FORGOT PASSWORD */}
+                        <div className="mt-4 text-center">
                             <NavLink
-                                to={`/${ENDPOINTS.REGISTER}`}
-                                className="whitespace-nowrap text-blue-800 hover:underline text-sm lg:text-md dark:text-blue-300"
-                                onClick={() => dispatch(setCurrentNav(ENDPOINTS.REGISTER))}
+                                to="/forgetPassword"
+                                onClick={() => dispatch(setCurrentNav("forgetPassword"))}
+                                className="text-sm text-gray-500 hover:text-blue-600 dark:text-gray-400 transition"
                             >
-                                {t("register")}
-
+                                {t("forgetPwd")}
                             </NavLink>
-
-                        </p>
-
-                    </div>
-
-                    <form
-                        className="translate-y-0 transition-all duration-1000 ease-in-out"
-                        onSubmit={(e) => { e.preventDefault(); handleSignIn(); }}
-                        ref={componentRef}
-                    >
-                        <InputBox
-                            type="email"
-                            name="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder={t('form.email')}
-                            autoComplete="email"
-                            required
-                        />
-
-                        <InputBox
-                            type="password"
-                            name="password"
-                            value={pwd}
-                            onChange={(e) => setPwd(e.target.value)}
-                            placeholder={t('form.password')}
-                            ref={emailRef}
-                            autoComplete="current-password"
-                            required
-                        />
-
-                        <ButtonSimple
-
-                            className="bg-gradient-to-l from-red-100 to-gray-300 w-auto flex items-center m-auto cursor-pointer rounded-full border border-blue-100  px-5 py-2 text-base  text-white-900 transition hover:bg-gradient-to-br hover:from-purple-100 px-2 "
-
-                            title={t("login")}
-                        />
-
-                    </form>
-
-                    <NavLink
-                        to="/forgetPassword"
-                        className="whitespace-nowrap mb-2 inline-block  text-sm lg:text-md text-blue-600 hover:text-primary hover:underline dark:text-blue-600"
-                        onClick={() => dispatch(setCurrentNav("forgetPassword"))}
-                    >
-                        {t("forgetPwd")}
-
-                    </NavLink>
-
-                </section>
+                        </div>
+                    </section>
                 :
                 <LoadingCard />
             }
 
 
-            <p className="mb-6 text-md text-bold text-gray-500 dark:text-dark-7 my-6">
-                {t('connect_with')}
-            </p>
-
-            
-            <section>
-
-                <div className="flex flex-wrap justify-between items-center sm:justify-center lg:flex-nowrap -mx-2 mb-12 w-full">
-
-
-                    <GoogleOAuthProvider clientId="154955455828-340tuohbjc1c4imb29uqi4hr9l5dm0sv.apps.googleusercontent.com">
-
-                        <LoginWithGoogle />
-
-                    </GoogleOAuthProvider>
-
-
+            <div className="relative my-8">
+                <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-gray-200 dark:border-gray-700"></div>
                 </div>
 
-            </section >
+                <div className="relative text-center text-sm">
+                    <span className="bg-white dark:bg-dark-2 px-3 text-gray-400">
+                        {t("connect_with")}
+                    </span>
+                </div>
+            </div>
+
+            <div className="flex justify-center mb-4">
+                <GoogleOAuthProvider clientId="154955455828-340tuohbjc1c4imb29uqi4hr9l5dm0sv.apps.googleusercontent.com">
+                    <LoginWithGoogle />
+                </GoogleOAuthProvider>
+            </div>
 
         </FormLayout>
     );

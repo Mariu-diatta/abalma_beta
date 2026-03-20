@@ -4,7 +4,6 @@ import ButtonToggleChatsPanel from '../components/ButtonHandleChatsPanel';
 import InputBoxChat from '../components/InputBoxChat';
 import BoxMessagesChats from '../features/MessageBoxChat';
 import { useTranslation } from 'react-i18next';
-import AnaliesChatsWithAi from './ChatWithAi';
 import { backendBase } from '../services/Axios';
 import { ENDPOINTS, IMPORTANTS_URLS } from '../utils';
 import { setCurrentNav } from '../slices/navigateSlice';
@@ -138,59 +137,75 @@ const ChatApp = ({ setShow, show }) => {
     }, [currentUser?.id, selectedUser?.id]);
 
     return (
-        <main className="flex flex-col w-screen rounded-2xl overflow-hidden bg-none shadow-sm z-8 w-full mb-0">
 
-            <div className="md:hidden">
-                <AnaliesChatsWithAi />
-            </div>
+        <main className="flex flex-col w-screen rounded-2xl overflow-hidden bg-none shadow-md z-8 w-full mb-0 h-auto">
 
-            <section className="flex justify-between items-align-center p-2 bg-none max-h-[10dvh] min-h-[10dvh]">
-                
-            {selectedUser && (
-                    <div className="flex items-center gap-3 text-gray-700 mb-3">
+            <section className="flex justify-between items-center py-2 border-0 bg-white/70 backdrop-blur-md max-h-[90px]">
 
-                        <img
-                            src={selectedUser?.image || selectedUser?.photo_url || "/default-avatar.png"}
-                            alt={`${selectedUser?.nom || "Utilisateur"} avatar`}
-                            className="h-[40px] w-[40px] rounded-full object-cover"
-                        />
+                {
+                    selectedUser && (
 
-                        <div>
-                            <p className="text-md font-semibold text-blue-600">{selectedUser?.prenom || "Prénom"}</p>
-                            <p className="text-xs text-gray-500">{selectedUser?.nom?.toLowerCase() || "Nom"}</p>
+                        <div className="flex items-center gap-3 text-gray-700">
+
+                            <img
+                                src={selectedUser?.image || selectedUser?.photo_url || "/default-avatar.png"}
+                                alt={`${selectedUser?.nom || "Utilisateur"} avatar`}
+                                className="h-[45px] w-[45px] rounded-full object-cover ring-2 ring-blue-200"
+                            />
+
+                            <div className="leading-tight">
+                                <p className="text-sm md:text-base font-semibold text-blue-600">
+                                    {selectedUser?.prenom || "Prénom"}
+                                </p>
+                                <p className="text-xs text-gray-500">
+                                    {selectedUser?.nom?.toLowerCase() || "Nom"}
+                                </p>
+                            </div>
+
+                            {
+                                typing && (
+                                    <div className="text-xs text-gray-500 pl-2 animate-pulse">
+                                        {t('typing')}
+                                    </div>
+                                )
+                            }
+
                         </div>
+                    )
+                }
 
-                        {
-                            typing && (
-                                <div className="text-xs text-gray-500 pl-3 pb-1 animate-pulse">
-                                    {t('typing')}
-                                </div>
-                            )
-                        }
-
-                    </div>
-                )}
-
-                <div className="w-0" />
+                <div />
 
                 <ButtonToggleChatsPanel showSidebar={show} setShowSidebar={setShow} />
 
             </section>
 
-            <section>
+            <>
 
-                <BoxMessagesChats messages={messages} messagesEndRef={messagesEndRef} typing={typing} />
+                <div className="flex-1 overflow-y-auto py-3 space-y-2 scroll-smooth scrollbor_hidden">
 
-                <InputBoxChat
-                    allRoomsChats={allRoomsChats}
-                    input={input}
-                    setInput={setInput}
-                    setShow={setShow}
-                    sendMessage={sendMessage}
-                    handleTyping={handleTyping}
-                />
+                    <BoxMessagesChats
+                        messages={messages}
+                        messagesEndRef={messagesEndRef}
+                        typing={typing}
+                    />
 
-            </section>
+                </div>
+
+                <div className="border-t bg-white/80 backdrop-blur-md">
+
+                    <InputBoxChat
+                        allRoomsChats={allRoomsChats}
+                        input={input}
+                        setInput={setInput}
+                        setShow={setShow}
+                        sendMessage={sendMessage}
+                        handleTyping={handleTyping}
+                    />
+
+                </div>
+
+            </>
 
         </main>
     );

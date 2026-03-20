@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { showMessage } from './AlertMessage';
 import { setCurrentNav } from '../slices/navigateSlice';
 import { CreateClient, ENDPOINTS, IMPORTANTS_URLS } from '../utils';
-import { ButtonSimple } from './Button';
 
 // Lazy load heavier components
 const InputBox = lazy(() => import('./InputBoxFloat'));
@@ -142,54 +141,48 @@ const RegisterForm = () => {
 
 
     return (
-
         <FormLayout>
+            {!loading ? (
+                <section className="mb-12">
 
-            {
-                (!loading)?
-                <section className="mb-15">
-  
-                    <div className="py-7">
-
+                    {/* HEADER */}
+                    <div className="mb-8 text-center space-y-2">
                         <TitleCompGen title={t('register')} />
 
-                        <div className="text-sm lg:text-md text-base text-body-color dark:text-dark-6 gap-3">
-
-                            <span>{t("alredyRegister")} </span>
-
+                        <p className="text-sm text-gray-500 dark:text-gray-400 flex justify-center gap-1">
+                            <span>{t("alredyRegister")}</span>
                             <Link
                                 to={`/${ENDPOINTS.LOGIN}`}
-                                className="text-sm lg:text-md text-primary hover:underline"
                                 onClick={() => dispatch(setCurrentNav(ENDPOINTS.LOGIN))}
+                                className="font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition"
                             >
                                 {t("login")}
-
                             </Link>
-
-                        </div>
-
+                        </p>
                     </div>
 
-                    <form 
-                        onSubmit={handleSignUp} ref={componentRef}
-                        className="translate-y-0 transition-all duration-1000 ease-in-out mb-3"
+                    {/* FORM */}
+                    <form
+                        onSubmit={handleSignUp}
+                        ref={componentRef}
+                        className="space-y-5 transition-all duration-700 ease-in-out"
                     >
-
-                        <InputBox
-                            type="text"
-                            name={"nom"}
-                            placeholder={t('form.lastName')}
-                            value={form.nom}
-                            onChange={handleChange}
-                        />
-
-                        <InputBox
-                            type="text"
-                            name="prenom"
-                            placeholder={t('form.firstName')}
-                            value={form.prenom}
-                            onChange={handleChange}
-                        />
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <InputBox
+                                type="text"
+                                name="nom"
+                                placeholder={t('form.lastName')}
+                                value={form.nom}
+                                onChange={handleChange}
+                            />
+                            <InputBox
+                                type="text"
+                                name="prenom"
+                                placeholder={t('form.firstName')}
+                                value={form.prenom}
+                                onChange={handleChange}
+                            />
+                        </div>
 
                         <InputBox
                             type="email"
@@ -199,13 +192,12 @@ const RegisterForm = () => {
                             onChange={handleChange}
                         />
 
-
                         <PhoneInput form={form} handleChange={handleChange} setForm={setForm} />
 
                         <InputBox
                             type="password"
                             name="password"
-                            placeholder="Mot de passe"
+                            placeholder={t('form.password')}
                             value={form.password}
                             onChange={handleChange}
                             autoComplete="new-password"
@@ -218,29 +210,30 @@ const RegisterForm = () => {
                             value={form.password1}
                             onChange={handleChange}
                             autoComplete="off"
-
                         />
 
+                        {/* BUTTON */}
+                        <button
+                            type="submit"
+                            className="
+                                w-full py-3 rounded-lg font-medium
+                                bg-gradient-to-r from-blue-400 to-red-200                                
+                                text-white shadow-md
+                                hover:shadow-lg hover:scale-[1.02]
+                                active:scale-[0.98]
+                                transition-all duration-300
+                            "
+                        >
+                            {t("register")}
 
-                        <ButtonSimple
-
-                            className="bg-gradient-to-l from-red-100 to-gray-300 w-auto flex items-center m-auto cursor-pointer rounded-full border border-blue-100  px-5 py-2 text-base  text-white-900 transition hover:bg-gradient-to-br hover:from-purple-100 px-2 "
-
-                            title={t("register")}
-                        />
+                        </button>
 
                     </form>
 
-                    {/* Decorations (optionnels) */}
-                    <div className="absolute right-1 top-1" />
-
-                    <div className="absolute bottom-1 left-1" />
-
                 </section>
-                :
+            ) : (
                 <LoadingCard />
-            } 
-
+            )}
         </FormLayout>
     );
 };

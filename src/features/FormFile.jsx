@@ -1,77 +1,67 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 
-
 const FormElementFileUpload = ({
     label = "Uploader une image",
     onFileSelect,
     getFile,
     maxSizeMB = 5, // Limite de taille par défaut
-    getImage
+    getImage,
+    multiple = false, // Ajout d'une prop pour activer multi-upload
 }) => {
-    const [previewUrl, setPreviewUrl] = useState(null);
-    const [fileName, setFileName] = useState(null);
+    const [previewUrls, setPreviewUrls] = useState([]);
+    const [fileNames, setFileNames] = useState([]);
     const [error, setError] = useState(null);
     const { t } = useTranslation();
 
     const handleImageUpload = (e) => {
+        const files = Array.from(e.target.files);
 
-        const file = e.target.files[0];
+        if (files.length === 0) return;
 
-        if (!file) return;
+        const validFiles = [];
+        const previews = [];
+        const names = [];
 
-        // Vérifie la taille du fichier
-        const fileSizeMB = file.size / (1024 * 1024);
+        for (let file of files) {
+            const fileSizeMB = file.size / (1024 * 1024);
+            if (fileSizeMB > maxSizeMB) {
+                setError(`Le fichier ${file.name} dépasse la taille maximale de ${maxSizeMB} Mo.`);
+                continue;
+            }
+            validFiles.push(file);
+            previews.push(URL.createObjectURL(file));
+            names.push(file.name);
+        }
 
-        if (fileSizeMB > maxSizeMB) {
-
-            setError(`Le fichier dépasse la taille maximale de ${maxSizeMB} Mo.`);
-
-            setPreviewUrl(null);
-
-            setFileName(null);
-
-            getFile(null);
-
+        if (validFiles.length === 0) {
+            setPreviewUrls([]);
+            setFileNames([]);
+            getFile && getFile(null);
+            onFileSelect && onFileSelect(null);
             return;
         }
 
-        setError(null); // Clear errors
+        setError(null);
+        setPreviewUrls(previews);
+        setFileNames(names);
 
-        const url = URL.createObjectURL(file);
-
-        setPreviewUrl(url);
-
-        getImage && getImage(url)
-
-        setFileName(file.name);
-
-        getFile && getFile(file);
-
-        onFileSelect && onFileSelect(file);
+        getImage && getImage(previews); // retourne un tableau d’URLs
+        getFile && getFile(validFiles); // retourne un tableau de fichiers
+        onFileSelect && onFileSelect(validFiles);
     };
 
-    // Nettoyage de l’URL après démontage
+    // Nettoyage des URLs après démontage
     useEffect(() => {
-
         return () => {
-
-            if (previewUrl) {
-
-                URL.revokeObjectURL(previewUrl);
-            }
+            previewUrls.forEach(url => URL.revokeObjectURL(url));
         };
-    }, [previewUrl]);
+    }, [previewUrls]);
 
     return (
-        <div className="max-w-md px-4 rounded-lg ">
-
-            <div className="mb-4 ">
-
-                <label
-                    htmlFor="file-upload"
-                    className="block text-sm mb-2"
-                >
+        <div className="max-w-md px-4 rounded-lg">
+            <div className="mb-4">
+                <label htmlFor="file-upload" className="block text-sm mb-2">
                     {label} <span className="text-red-500">*</span>
                 </label>
 
@@ -79,8 +69,9 @@ const FormElementFileUpload = ({
                     id="file-upload"
                     type="file"
                     accept="image/*"
+                    multiple={multiple}
                     onChange={handleImageUpload}
-                    className="block w-full text-sm text-gray-700  pb-1
+                    className="block w-full text-sm text-gray-700 pb-1
                         file:mr-4 file:py-2 file:px-4
                         file:rounded file:border-0
                         file:text-sm file:font-semibold
@@ -91,25 +82,26 @@ const FormElementFileUpload = ({
                 />
             </div>
 
-            {fileName && !error && (
+            {fileNames.length > 0 && !error && (
                 <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                    {t("uploadedFile")} : <strong>{fileName}</strong>
+                    {t("uploadedFile")} : <strong>{fileNames.join(", ")}</strong>
                 </p>
             )}
 
             {error && (
-                <p className="text-sm text-red-600 dark:text-red-400 mb-2">
-                    {error}
-                </p>
+                <p className="text-sm text-red-600 dark:text-red-400 mb-2">{error}</p>
             )}
 
-            {previewUrl && !error && (
-                <div className="mt-4">
-                    <img
-                        src={previewUrl}
-                        alt="Aperçu de l'image sélectionnée"
-                        className="w-32 h-32 rounded border border-gray-300 shadow object-cover"
-                    />
+            {previewUrls.length > 0 && !error && (
+                <div className="mt-4 flex gap-2 flex-wrap">
+                    {previewUrls.map((url, idx) => (
+                        <img
+                            key={idx}
+                            src={url}
+                            alt={`Aperçu ${idx + 1}`}
+                            className="w-32 h-32 rounded border border-gray-300 shadow object-cover"
+                        />
+                    ))}
                 </div>
             )}
         </div>

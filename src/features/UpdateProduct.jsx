@@ -9,9 +9,10 @@ import { ButtonSimple } from "../components/Button";
 import TitleCompGen from "../components/TitleComponentGen";
 import FormElementFileUpload from "./FormFile";
 import InputBox from "../components/InputBoxFloat";
-import { ENDPOINTS, LIST_CATEGORIES_KEYS, availableColors, availableSizes, socialLinks } from "../utils";
+import { ENDPOINTS, LIST_CATEGORIES_KEYS, PAYEMENTMODE, availableColors, availableSizes, socialLinks } from "../utils";
 import { NavLink } from 'react-router-dom';
 import { setCurrentNav } from "../slices/navigateSlice";
+import LocationSearchPopover from "./LocationSearch";
 
 
 
@@ -21,71 +22,99 @@ const AddUploadProduct = () => {
     const bottomRef = useRef(null);
 
     const user = useSelector((state) => state.auth.user);
-    const currentUserCompte = useSelector((state) => state.auth.compteUser);
-
-    const [imageFile, setImageFile] = useState(null);
     const [isProductAdded, setIsProductAdded] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
 
     const [currentSection, setCurrentSection] = useState(1);
 
-    const [selectedColors, setSelectedColors] = useState([]);
-
-    const [selectedSizes, setSelectedSizes] = useState([]);
+    const [imageVariants, setImageVariants] = useState([]);
 
     var initDataProduct = {
-        date_emprunt: "",
-        price_product: "",
-        currency_price: "",
-        color_product: selectedColors,
-        date_fin_emprunt: "",
-        categorie_product: "",
-        code_reference: "",
-        operation_product: "",
-        image_product: null,
-        description_product: "",
-        fournisseur: "",
-        quantity_product: 1,
-        name_product: "",
-        paymentMethod: "",
-        adress: "",
-        delivery: "",
-        taille_product: selectedSizes,
-        Currency_price: "",
-        type_choice: "DURABLE",
-        link_facebook: "",
-        link_instagram: "",
-        link_tiktok: "",
-        link_twitter:"",
-        promotion: false,
-        shipping_price: 0,
-        is_available: true,
-        is_active: true,
-        is_verified: false,
-        commission_percentage: 10,
+        "code_reference": "",
+        "name_product": "",
+        "description_product": "",
+        "categorie_product": null,
+        "operation_product": null,
+        "price_product": null,
+        "discount_price": null,
+        "currency_price": null,
+        "promotion": false,
+        "quantity_product": null,
+        "is_available": false,
+        "delivery": null,
+        "shipping_price": null,
+        "adress": "",
+        "date_emprunt": null,
+        "date_fin_emprunt": null,
+        "type_choice": null,
+        "payment_method": null,
+        "social_links": null,
+        "is_active": false,
+        "is_verified": false,
+        "commission_percentage": null,
+        "images": [],
+        "variants": []
     }
 
     const [dataProduct, setDataProduct] = useState(initDataProduct); 
 
+    const getAdress = (newAdress) => {
+        setDataProduct(prev => ({ ...prev, adress: newAdress }))
+    }
+
+    const [categorie, setCategorie] = useState(dataProduct?.categorie_product || "");
+
     const [imageLoaded, setImageLoaded] = useState(null); 
 
-    const OptionSelector = ({ options, selectedOptions, toggleOption, isColor }) => (
+    const OptionSelector = ({ options, selectedOption, onSelect, isColor }) => (
+
         <div className="flex gap-2 flex-wrap">
-            {options.map(opt => (
-                <button
-                    key={opt}
-                    type="button"
-                    onClick={() => toggleOption(opt)}
-                    className={` border border-gray-100 cursor-pointer my-2 h-6 w-6 text-sm  border border-gray-200 ${selectedOptions.includes(opt)
-                            ? isColor ? "ring-2 ring-blue-500 rounded-full " : "rounded-full bg-blue-500  h-5 w-5"
-                            : isColor ? "rounded-full" : "rounded-full bg-gray-200"
-                        }`}
-                    style={isColor ? { backgroundColor: opt } : {}}
-                >
-                    {!isColor && opt}
-                </button>
-            ))}
+
+            {
+                options.map(opt => {
+                const isSelected = selectedOption === opt;
+
+                return (
+                    <button
+                        key={opt}
+                        type="button"
+                        onClick={() => onSelect(opt)}
+                        className={`
+                                relative cursor-pointer my-2 border-2 transition-all duration-150
+            
+                                ${isColor
+                                ? "w-6 h-6 rounded-full"
+                                : "px-3 py-1 rounded-full text-sm"
+                            }
+
+                                ${isSelected
+                                ? "border-green-400 ring-2 ring-green-300 scale-110"
+                                : "border-gray-300 hover:border-gray-400"
+                            }
+
+                                ${!isColor && (
+                                isSelected
+                                    ? "bg-blue-500 text-white"
+                                    : "bg-gray-200 text-gray-700"
+                            )}
+                        `}
+                        style={isColor ? { backgroundColor: opt } : {}}
+                    >
+
+                        {!isColor && opt}
+
+                        {isSelected && (
+                            <span className="absolute inset-0 flex items-center justify-center font-bold text-xs text-white drop-shadow">
+                                ✓
+                            </span>
+                        )}
+
+                    </button>
+                );
+                })
+            }
+
         </div>
     );
 
@@ -95,7 +124,79 @@ const AddUploadProduct = () => {
         setImageLoaded(image)
     }
 
-    const handleFileSelect = (file) => setImageFile(file);
+    const handleFileSelect = (files) => {
+        const filesArray = Array.from(files);
+        const newImages = filesArray.map(file => ({
+            file,
+            preview: URL.createObjectURL(file),
+            color: null,
+            size: null
+        }));
+
+        setImageVariants(prev => [...prev, ...newImages]);
+    };
+
+    const ImageVariantSelector = ({ imgIndex }) => {
+
+        const img = imageVariants[imgIndex];
+
+        const toggleColorForImage = (color) => {
+
+            setImageVariants(prev => {
+                const updated = [...prev];
+                updated[imgIndex].color = color;
+                return updated;
+            });
+        };
+
+        const toggleSizeForImage = (size) => {
+
+            setImageVariants(prev => {
+                const updated = [...prev];
+                updated[imgIndex].size = size;
+                return updated;
+            });
+        };
+
+        return (
+
+            <div className="flex flex-wrap gap-2 mb-4 border p-2 rounded border border-gray-100">
+
+                <div className="relative w-24 h-24">
+
+                    <img src={img.preview} alt="preview" className="w-24 h-24 object-cover rounded-md shadow mb-2 border border-gray-100" />
+
+                    <span
+                        onClick={() =>
+                            setImageVariants(prev => prev.filter((item, idx) => idx !== imgIndex))
+                        }
+                        className="absolute top-0 right-0 m-1 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 h-5 w-5 flex items-center justify-center cursor-pointer"
+                    >
+                        x
+                    </span>
+
+                </div>
+
+                <div>
+                    <div>
+                        <OptionSelector
+                            options={availableColors}
+                            selectedOption={img.color}
+                            onSelect={toggleColorForImage}
+                            isColor
+                        />
+                    </div>
+                    <div>
+                        <OptionSelector
+                            options={availableSizes}
+                            selectedOption={img.size}
+                            onSelect={toggleSizeForImage}
+                        />
+                    </div>
+                </div>
+            </div>
+        );
+    };
 
     const onChangeClick = (e) => {
         const { name, value } = e.target;
@@ -103,24 +204,6 @@ const AddUploadProduct = () => {
             ...prev,
             [name]: value
         }));
-    };
-
-    // Quand tu changes la couleur
-    const toggleColor = (color) => {
-        setSelectedColors(prev => {
-            const updated = prev.includes(color) ? prev.filter(c => c !== color) : [...prev, color];
-            setDataProduct(dp => ({ ...dp, color_product: updated }));
-            return updated;
-        });
-    };
-
-    // Quand tu changes la taille
-    const toggleSize = (size) => {
-        setSelectedSizes(prev => {
-            const updated = prev.includes(size) ? prev.filter(s => s !== size) : [...prev, size];
-            setDataProduct(dp => ({ ...dp, taille_product: updated }));
-            return updated;
-        });
     };
 
     const isLoanOptionSelected = dataProduct.operation_product === "PRETER";
@@ -143,45 +226,10 @@ const AddUploadProduct = () => {
         });
     };
 
-    const validateProduct = (data, imageFile) => {
-        const requiredFields = ["categorie_product", "operation_product", "code_reference", "description_product", "adress"];
-
-        for (let field of requiredFields) {
-            if (!data[field]?.trim()) {
-                return `Le champ "${field}" est requis.`;
-            }
-        }
-
-        if (!imageFile) return "L'image du produit est requise.";
-
-        if (data.operation_product === "PRETER" && (!data.date_emprunt || !data.date_fin_emprunt)) {
-            return "Les dates d'emprunt et de fin sont requises.";
-        }
-
-        // Vérification des URLs
-        const urlFields = ["link_facebook", "link_instagramme", "link_tiktok", "link_twitter"];
-        for (let field of urlFields) {
-            if (data[field]) {
-                try {
-                    new URL(data[field]); // Lance une erreur si ce n'est pas une URL valide
-                } catch {
-                    return `Le lien pour ${field.replace("link_", "")} n'est pas une URL valide.`;
-                }
-            }
-        }
-
-        return null; // Tout est ok
-    };
-
     const saveDataForSubmitForm = (e) => {
+
+        setIsLoading(true)
         e.preventDefault();
-
-        const errorMsg = validateProduct(dataProduct, imageFile);
-        if (errorMsg) {
-            notify("Erreur", errorMsg);
-            return;
-        }
-
         setIsProductAdded(true);
     };
 
@@ -189,88 +237,97 @@ const AddUploadProduct = () => {
 
         e.preventDefault();
 
-        if (!currentUserCompte?.id) {
-            notify("Erreur", "Pas de compte utilisateur associé.");
-            return;
-        }
+        setIsLoadingSubmit(true);
+
+        const social_links = {};
+
+        ["link_facebook", "link_instagramme", "link_tiktok", "link_twitter"].forEach(key => {
+            if (dataProduct[key]) social_links[key.replace("link_", "")] = dataProduct[key];
+        });
+       
 
         try {
 
-            setIsLoading(true)
-
-            const requiredFields = ["categorie_product", "operation_product", "code_reference", "description_product", "adress"];
-
-            for (let field of requiredFields) {
-                if (!dataProduct[field]?.trim()) {
-                    notify("Erreur", `Le champ "${field}" est requis.`);
-                    return;
-                }
-            }
-
-            if (!imageFile) {
-                notify("Erreur", "L'image du produit est requise.");
-                return;
-            }
-
-            if (isLoanOptionSelected && (!dataProduct.date_emprunt || !dataProduct.date_fin_emprunt)) {
-                notify("Erreur", "Les dates d'emprunt et de fin sont requises.");
-                return;
-            }
-
-            setIsLoadingSubmit(true);
-
-            const social_links = {};
-            ["link_facebook", "link_instagramme", "link_tiktok", "link_twitter"].forEach(key => {
-                if (dataProduct[key]) social_links[key.replace("link_", "")] = dataProduct[key];
-            });
-
             const formData = new FormData();
-            // Ajouter tous les champs du produit
-            Object.entries(dataProduct).forEach(([key, value]) => {
-                if (!socialLinks.includes(key)) {
-                    formData.append(key, value);
-                }
-            });
-            formData.append("social_links", JSON.stringify(social_links));
-            formData.append("image_product", imageFile);
-            formData.append("fournisseur", parseInt(currentUserCompte.user));
-            formData.append("type_choice", dataProduct.type_choice);
-            formData.append("shipping_price", dataProduct.shipping_price);
-            formData.append("promotion", dataProduct.promotion);
-            formData.append("is_available", dataProduct.is_available);
-            formData.append("is_active", dataProduct.is_active);
-            formData.append("is_verified", dataProduct.is_verified);
-            formData.append("color_product", JSON.stringify(dataProduct.color_product));
-            formData.append("taille_product", JSON.stringify(dataProduct.taille_product));
+            const variants = [];
 
+            // Génère les variants à partir des couleurs et tailles sélectionnées
+            const generateVariants = () => {
+
+                imageVariants.forEach(img => {
+
+                    formData.append("variant_images", img.file);
+
+                    if (img.color && img.size) {
+
+                        variants.push({
+                            color: img.color,
+                            size: img.size
+                        });
+                    }
+                });
+
+                return variants;
+            };
+
+            // Tous les champs
+            Object.entries(dataProduct).forEach(([key, value]) => {
+                if (!socialLinks.includes(key) && key !== "categorie_product") formData.append(key, value ?? "");
+            });
+
+            formData.append("social_links", JSON.stringify(social_links));
+
+            // Préparer images pour l'envoi
+            const imagesToSend = imageVariants.map(img => ({
+                image: img.file,
+            }));
+
+            // Préparer variants pour l'envoi
+            const variantsToSend = generateVariants(); // déjà génère [{imageFile, color, size}]
+
+            formData.append("variants", JSON.stringify(variantsToSend));
+
+            setDataProduct(prev => ({
+                ...prev,
+                images: imagesToSend,
+                variants: variantsToSend
+            }));
+
+            for (let pair of formData.entries()) {
+                console.log(pair[0], pair[1])
+            }
+
+            // Dates si PRETER
             if (isLoanOptionSelected) {
                 formData.append("date_emprunt", formatToISOString(dataProduct.date_emprunt));
                 formData.append("date_fin_emprunt", formatToISOString(dataProduct.date_fin_emprunt));
             }
 
+            const category = await api.post("/categories/", { name : categorie })
+
+            formData.append("categorie_product", category?.data?.slug)
+
             await api.post("/produits/", formData, { headers: { "Content-Type": "multipart/form-data" } });
 
             notify("Message", "Produit créé avec succès !");
-            dispatch(addMessageNotif(`Produit ${dataProduct?.code_reference} créé le ${new Date().toLocaleString()}`));
-            setDataProduct(initDataProduct);
-            setImageFile(null);
-            setCurrentSection(1);
-            setIsProductAdded(false);
 
-        } catch (error) {
-            //console.log("Erreur", error)
-            notify("Erreur", error?.response?.data?.code_reference || error?.Message ||"Erreur inconnue lors de la création du produit.");
+            dispatch(addMessageNotif(`Produit ${dataProduct?.code_reference} créé le ${new Date().toLocaleString()}`));
+;
+        } catch (err) {
+
+            console.log("Erreur de la donnée", err)
+
+            notify("Erreur", " Erreur vérifier les données !");
 
         } finally {
-            setIsLoadingSubmit(false);
-            setIsProductAdded(false);
-            setIsLoading(false)
+            setDataProduct(initDataProduct);
+            setIsLoadingSubmit(false)
         }
     };
 
     return (
 
-        <div className="rounded-md flex flex-col justify-center items-center pb-[10dvh] overflow-x-hidden">
+        <div className="rounded-md flex flex-col justify-center items-center pb-[10dvh] overflow-x-hidden ">
 
             <span className={`${isProductAdded && "hidden"}`}>
 
@@ -301,22 +358,36 @@ const AddUploadProduct = () => {
 
             {isProductAdded ? (
                 <ProductSummary
-                    isLoadingSubmit={isLoadingSubmit}
+                    isLoading={isLoading}
                     product={dataProduct}
                     t={t}
                     onEdit={() => {
                         setCurrentSection(5)
-                        setDataProduct({ ...dataProduct});
+                        setDataProduct({ ...dataProduct });
                         setIsProductAdded(false);
-
+                        setImageVariants([])
+                        setIsLoading(false)
+                        setIsLoadingSubmit(false)
+                        setIsProductAdded(false)
                     }}
                     onDelete={() => {
                         setDataProduct({ ...initDataProduct});
                         setIsProductAdded(false);
                         setCurrentSection(1)
+                        setImageVariants([])
+                        setIsLoading(false)
+                        setIsLoadingSubmit(false)
+                        setIsProductAdded(false)
+
                     }}
                     onAddNew={(e) => {
                         submitForm(e);
+                        setIsLoading(false)
+                        setIsLoadingSubmit(false)
+                        setIsProductAdded(false)
+                        setImageVariants([])
+
+
                     }}
                 >
                     <img
@@ -327,11 +398,11 @@ const AddUploadProduct = () => {
 
                 </ProductSummary>
             ) : (
-                <div className="py-1 lg:py-2 w-full md:w-1/2 lg:w-1/2 px-4 shadow-lg rounded-lg">
+                    <div className="py-1 lg:py-2 w-full md:w-1/2 lg:w-1/2 px-4 shadow-lg rounded-lg bg-white/70 backdrop-blur-md rounded-xl border border-gray-200 p-2">
 
                     <form
                         onSubmit={saveDataForSubmitForm}
-                        className={`${isUserVerified ? "w-full md:w-auto" : "opacity-50 pointer-events-none cursor-not-allowed"}`}
+                        className={` ${isUserVerified ? "w-full md:w-auto" : "opacity-50 pointer-events-none cursor-not-allowed"}`}
                     >
                         {/* Sections du formulaire */}
                         {currentSection >= 1 && (
@@ -351,22 +422,23 @@ const AddUploadProduct = () => {
                                     required
                                 />
 
-                                <OptionSelector
-                                    options={availableColors}
-                                    selectedOptions={selectedColors}
-                                    toggleOption={toggleColor}
-                                    isColor
-                                />
+                                {/*<OptionSelector*/}
+                                {/*    options={availableColors}*/}
+                                {/*    selectedOptions={selectedColors}*/}
+                                {/*    toggleOption={toggleColor}*/}
+                                {/*    isColor*/}
+                                {/*/>*/}
 
-                                <InputBox
-                                    type="text"
-                                    id="code_reference"
-                                    name="code_reference"
-                                    value={dataProduct?.code_reference}
-                                    onChange={onChangeClick}
-                                    placeholder="Reference ex: ABC-123"
-                                    required
-                                />
+                                {/*<InputBox*/}
+                                {/*    type="text"*/}
+                                {/*    id="code_reference"*/}
+                                {/*    name="code_reference"*/}
+                                {/*    value={dataProduct?.code_reference}*/}
+                                {/*    onChange={onChangeClick}*/}
+                                {/*    placeholder="Reference ex: ABC-123"*/}
+
+                                {/*/>*/}
+
                                 <InputBox
                                     type="Number"
                                     min="0"
@@ -378,15 +450,31 @@ const AddUploadProduct = () => {
                                     required
                                 />
 
-                                <OptionSelector
-                                    options={availableSizes}
-                                    selectedOptions={selectedSizes}
-                                    toggleOption={toggleSize}
-                                />
+                                <select
+                                    id="Currency_price"
+                                    name="Currency_price"
+                                    value={dataProduct?.Currency_price}
+                                    onChange={onChangeClick}
+                                    className="my-4 border-0 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-0"
+                                >
+                                    <option value="" disabled>{t("add_product.select_currency")}</option>
+                                    <option value="EURO">{t("add_product.euro")}</option>
+                                    <option value="DOLLAR">{t("add_product.dollar")}</option>
+                                    <option value="FRANC">{t("add_product.franc")}</option>
+                                </select>
+
+                                {/*<OptionSelector*/}
+                                {/*    options={availableSizes}*/}
+                                {/*    selectedOptions={selectedSizes}*/}
+                                {/*    toggleOption={toggleSize}*/}
+                                {/*/>*/}
 
                                 <button type="button" onClick={nextSection} className={` ${currentSection >= 2 ? "hidden" : ""}  px-4 py-2 bg-gradient-to-l from-red-50 to-gray-200 text-white rounded-lg mt-4`}>
-                                    {t("next")}
+                                    <svg className="w-[33px] h-[33px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M16.153 19 21 12l-4.847-7H3l4.848 7L3 19h13.153Z" />
+                                    </svg>
                                 </button>
+
 
                             </div>
                         )}
@@ -400,27 +488,46 @@ const AddUploadProduct = () => {
                                 <select
                                     id="categorie_product"
                                     name="categorie_product"
-                                    value={dataProduct?.categorie_product}
-                                    onChange={onChangeClick}
+                                    value={categorie}                 // <-- utiliser l'état local
+                                    onChange={(e) => {
+                                        setCategorie(e.target.value);  // <-- mise à jour de l'état
+                                        onChangeClick(e);
+                                    }}
                                     className="my-4 border-0 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-0"
                                     required
                                 >
-                                    <option value="">{t("add_product.select_category")}</option>
+                                <option value="" disabled>{t("add_product.select_category")}</option>
                                     {
-                                        LIST_CATEGORIES_KEYS?.map(
-
-                                            (value, idx) => <option key={idx} value={`${value}`}>{t(`add_product.categories.${value}`)}</option>
-
-                                        )
+                                        LIST_CATEGORIES_KEYS?.map((value, idx) => (
+                                            <option key={idx} value={value}>
+                                                {t(`add_product.categories.${value}`)}
+                                            </option>
+                                        ))
                                     }
-
                                 </select>
 
                                 <FormElementFileUpload
                                     label={t("add_product.ChooseImage")}
                                     getFile={handleFileSelect}
                                     getImage={getImage}
+                                    multiple  // Permet de choisir plusieurs images
                                 />
+                                    <div className="flex flex-col gap-2 my-2">
+                                        {imageVariants.map((img, idx) => (
+                                            <div key={idx} className="
+                                                  flex gap-4 
+                                                  p-3 
+                                                  rounded-xl 
+                                                  border border-gray-100 
+                                                  bg-gray-50
+                                                  hover:shadow-md
+                                                  transition
+                                                  cursor-pointer
+                                                ">
+                                                <ImageVariantSelector imgIndex={idx} />
+                                            </div>
+                                        ))}
+                                    </div>
 
                                 <textarea
                                     id="description_product"
@@ -428,13 +535,15 @@ const AddUploadProduct = () => {
                                     value={dataProduct?.description_product}
                                     onChange={onChangeClick}
                                     rows="6"
-                                    className="my-4 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg"
+                                    className="my-4 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg focus:outline-none border border-gray-300 focus:bg-yellow-100"
                                     placeholder="Description du produit..."
                                     required
                                 />
 
                                 <button type="button" onClick={nextSection} className={` ${currentSection >= 3 ? "hidden" : ""}  px-4 py-2 bg-gradient-to-l from-red-50 to-gray-200 text-white rounded-lg mt-4`}>
-                                    {t("next")}
+                                    <svg className="w-[33px] h-[33px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M16.153 19 21 12l-4.847-7H3l4.848 7L3 19h13.153Z" />
+                                    </svg>
                                 </button>
 
                             </div>
@@ -448,27 +557,14 @@ const AddUploadProduct = () => {
                                 </h2>
 
                                 <select
-                                    id="Currency_price"
-                                    name="Currency_price"
-                                    value={dataProduct?.Currency_price}
-                                    onChange={onChangeClick}
-                                    className="my-4 border-0 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-0"
-                                >
-                                    <option value="">{t("add_product.select_currency")}</option>
-                                    <option value="EURO">{t("add_product.euro")}</option>
-                                    <option value="DOLLAR">{t("add_product.dollar")}</option>
-                                    <option value="FRANC">{t("add_product.franc")}</option>
-                                </select>
-
-                                <select
                                     id="operation_product"
                                     name="operation_product"
                                     value={dataProduct.operation_product}
                                     onChange={onChangeClick}
-                                        className="my-4 bg-gray-50 border-0 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-0"
+                                    className="my-4 bg-gray-50 border-0 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-0"
                                     required
                                 >
-                                    <option value="">{t("add_product.select_operation")}</option>
+                                    <option value="" disabled>{t("add_product.select_operation")}</option>
                                     <option value="PRETER">{t("add_product.PRETER")}</option>
                                     <option value="VENDRE">{t("add_product.VENDRE")}</option>
                                 </select>
@@ -480,8 +576,27 @@ const AddUploadProduct = () => {
                                     </>
                                 )}
 
+
+                                <select
+                                    id="payment_method "
+                                    name="payment_method "
+                                    value={dataProduct.payment_method}
+                                    onChange={onChangeClick}
+                                    className="my-4 bg-gray-50 border-0 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-0"
+                                    required
+                                >
+                                    <option value="" disabled>{t("payment_mode")}</option>
+                                    <option value={PAYEMENTMODE[0]}>{t("CASH")}</option>
+                                    <option value={PAYEMENTMODE[1]}>{t("CARD")}</option>
+                                    <option value={PAYEMENTMODE[2]}>{t("MOBILE")}</option>
+
+                                </select>
+
+
                                 <button type="button" onClick={nextSection} className={` ${currentSection >= 4 ? "hidden" : ""} px-4 py-2 bg-gradient-to-l from-red-50 to-gray-200 text-white rounded-lg mt-4`}>
-                                    {t("next")}
+                                    <svg className="w-[33px] h-[33px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M16.153 19 21 12l-4.847-7H3l4.848 7L3 19h13.153Z" />
+                                    </svg>
                                 </button>
 
                             </div>
@@ -506,15 +621,17 @@ const AddUploadProduct = () => {
                                     <option value="DELPAID">{t("add_product.DELPAID")}</option>
                                 </select>
 
-                                <InputBox
-                                    type="text"
-                                    id="adress"
-                                    name="adress"
-                                    value={dataProduct?.adress}
-                                    onChange={onChangeClick}
-                                    placeholder={t("adress")}
-                                    required
-                                />
+                                <LocationSearchPopover setLocationSearch={getAdress} />
+
+                                {/*<InputBox*/}
+                                {/*    type="text"*/}
+                                {/*    id="adress"*/}
+                                {/*    name="adress"*/}
+                                {/*    value={dataProduct?.adress}*/}
+                                {/*    onChange={onChangeClick}*/}
+                                {/*    placeholder={t("adress")}*/}
+                                {/*    required*/}
+                                {/*/>*/}
 
                                 <InputBox
                                     type="number"
@@ -597,8 +714,8 @@ const AddUploadProduct = () => {
                                     <InputBox
                                         placeholder={t('TicToc')}
                                         type="url"
-                                        id="'link_tictoc'"
-                                        name="'link_tictoc'"
+                                        id="link_tictoc"
+                                        name="link_tictoc"
                                         value={dataProduct?.link_tictoc}
                                         onChange={onChangeClick}
                                     />
@@ -606,7 +723,7 @@ const AddUploadProduct = () => {
                                 </div>
 
                                 <div className="flex gap-3 justify-center items-center m-auto my-2">
-                                    {isLoading ? <LoadingCard /> : <ButtonSimple title={t("save")} />}
+                                    {isLoadingSubmit ? <LoadingCard /> : <ButtonSimple title={t("save")} />}
                                 </div>
 
                             </div>
@@ -646,7 +763,7 @@ const ProductSummary = ({
     onDelete,
     onAddNew,
     t,
-    isLoadingSubmit,
+    isLoading,
     children
 }) => {
     if (!product) return null;
@@ -659,6 +776,7 @@ const ProductSummary = ({
         { label: t("shipping_price"), value: product.shipping_price },
         { label: t("operation"), value: product.operation_product },
         { label: t("delivery"), value: `${product.delivery || ""} ${product.adress || ""}` },
+        { label: t("add_product.select_category"), value: `${product.categorie_product || ""}` },
         { label: t("adress"), value: product.adress },
         { label: t("availability"), value: product.is_available ? t("yes") : t("no") },
         { label: t("promotion"), value: product.promotion ? t("yes") : t("no") },
@@ -670,7 +788,7 @@ const ProductSummary = ({
         <div className="flex flex-col gap-6 p-6 rounded-lg w-full max-w-2xl mx-auto bg-gradient-to-r from-red-100 to-blue-200 text-gray-900 dark:text-gray-100 shadow-md">
 
             {/* INFORMATIONS DU PRODUIT */}
-            <div className="flex flex-col gap-3 text-sm">
+            <form className="flex flex-col gap-3 text-sm" onSubmit={onAddNew}>
 
                 <ProductField
                     label={t("size")}
@@ -710,37 +828,39 @@ const ProductSummary = ({
 
                 {children}
 
-            </div>
+                {/* ACTIONS */}
+                <div className="flex flex-wrap gap-3 mt-4">
 
-            {/* ACTIONS */}
-            <div className="flex flex-wrap gap-3 mt-4">
-
-                <button
-                    onClick={onEdit}
-                    className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full transition-colors"
-                >
-                    {t("edit")}
-                </button>
-
-                <button
-                    onClick={onDelete}
-                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full transition-colors"
-                >
-                    {t("delete")}
-                </button>
-
-                {isLoadingSubmit ? (
-                    <LoadingCard />
-                ) : (
                     <button
-                        onClick={onAddNew}
-                        className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full transition-colors"
+                        onClick={onEdit}
+                        className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full transition-colors"
                     >
-                        {t("submit")}
+                        {t("edit")}
                     </button>
-                )}
 
-            </div>
+                    <button
+                        onClick={onDelete}
+                        className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full transition-colors"
+                    >
+                        {t("delete")}
+                    </button>
+
+                    {!isLoading ? (
+                        <LoadingCard />
+                    ) : (
+                        <button
+                            type="submit"
+                            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full transition-colors"
+                        >
+                            {t("submit")}
+                        </button>
+                    )}
+
+                </div>
+
+            </form>
+
+
         </div>
     );
 };

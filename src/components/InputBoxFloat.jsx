@@ -32,7 +32,7 @@ const InputBox = ({
                 className="
                   block w-full px-2.5 pt-5 pb-2.5
                   text-black
-                  bg-transparent
+                  bg-white
                   border-b
                   border-blue-100
                   focus:outline-none focus:ring-0

@@ -1,7 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-
 import { ChevronLeft, ChevronRight } from "lucide-react";
-
 
 const PaginationProduit = ({ products = [], itemsPerPage = 5 }) => {
 
@@ -15,25 +13,34 @@ const PaginationProduit = ({ products = [], itemsPerPage = 5 }) => {
 
     const currentItems = products.slice(startIndex, startIndex + itemsPerPage);
 
-    const lengthItemsSupTwo = (currentItems?.length<= 2)
+    const lengthItemsSupTwo = (currentItems?.length <= 2);
 
     const handleNext = () => {
+
         setCurrentPage((prev) => Math.min(prev + 1, totalPages));
     };
 
     const handlePrev = () => {
+
         setCurrentPage((prev) => Math.max(prev - 1, 1));
     };
 
     // 🔁 Reset scroll quand on change de page
     useEffect(() => {
+
         if (scrollRef.current) {
+
             scrollRef.current.scrollTo({
                 left: 0,
                 behavior: "smooth",
             });
         }
-    }, [currentPage]);
+
+    }, [currentPage]);  
+
+    const variantsProducts = currentItems.map(product => product?.variants);
+
+    const productImages = variantsProducts.map(variant => variant[0]?.image);
 
     return (
         <div className="flex flex-col items-center w-full justify-center">
@@ -54,28 +61,27 @@ const PaginationProduit = ({ products = [], itemsPerPage = 5 }) => {
                 "
             >
                 {
-                    currentItems?.map((product) => (
-                            <img
-                                key={product?.id}
-                                src={product?.image_product}
-                                alt={`Product ${product.id}`}
-                                className="
-                                  w-24 h-24
-                                  flex-shrink-0
-                                  rounded-full
-                                  object-cover
-                                  border-0
-                                  shadow-md
-                                "
-                            />
-                        )
-                    )
-                }
+                    productImages?.map((img, indx) => (
+                    <img
+                        key={indx}
+                        src={img}
+                        alt={`Product ${indx}`}
+                        className="
+                            w-24 h-24
+                            flex-shrink-0
+                            rounded-full
+                            object-cover
+                            border-0
+                            shadow-md
+                        "
+                    />
+                )
+                )}
 
             </div>
 
             {/* Pagination */}
-            <div className={`flex items-center gap-2 mt-4 ${lengthItemsSupTwo?"hidden":""}`}>
+            <div className={`flex items-center gap-2 mt-4 ${lengthItemsSupTwo ? "hidden" : ""}`}>
 
                 <button
                     onClick={handlePrev}

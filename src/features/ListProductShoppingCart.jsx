@@ -135,13 +135,15 @@ const ListProductShoppingCart = () => {
 
                                     const total = (price * qty).toFixed(CONSTANTS?.DECIMALS_DIGITS);
 
+                                    const imageCurrentProdFirstVar=prod?.variants[0].image
+
                                     return (
 
                                         <tr key={prod?.id} className="border-gray-200 hover:bg-gray-50">
 
                                             <td className="p-1">
                                                 <div className="w-10 h-10 md:w-32 md:h-32 overflow-hidden rounded-lg border border-gray-200 ">
-                                                    <img src={prod.image_product} alt={prod?.description_product || "Image du produit"} className="object-contain w-full h-full" loading="lazy" />
+                                                    <img src={imageCurrentProdFirstVar} alt={prod?.description_product || "Image du produit"} className="object-contain w-full h-full" loading="lazy" />
                                                 </div>
                                             </td>
 
@@ -210,7 +212,7 @@ const ListProductShoppingCart = () => {
                     TotalPriceSupZero &&
                     <div className="text-right p-6">
 
-                        <button onClick={boughtProduct} className="whitespace-nowrap-pointer text-white bg-gradient-to-br from-purple-300 to-blue-300 hover:bg-gradient-to-br hover:from-purple-400focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center">
+                        <button onClick={boughtProduct} className="cursor-pointer whitespace-nowrap-pointer text-white bg-gradient-to-br from-purple-300 to-blue-300 hover:bg-gradient-to-br hover:from-purple-400focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center">
                             <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                 <path fillRule="evenodd" d="M7 6a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-2v-4a3 3 0 0 0-3-3H7V6Z" clipRule="evenodd" />
                                 <path fillRule="evenodd" d="M2 11a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7Zm7.5 1a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z" clipRule="evenodd" />

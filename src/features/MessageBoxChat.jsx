@@ -13,9 +13,9 @@ const BoxMessagesChats = ({ messages, messagesEndRef }) => {
 
     return (
 
-        <div className="relative flex-1 space-y-0 pr-2 max-h-[100dvh] min-h-[100dvh] shadow-lg">
+        <div className="relative flex-1 space-y-0 min-h-[80dvh] min-h-[80dvh]">
 
-            <div className="w-full h-px bg-gray-100 mb-3" />
+            <div className="w-full h-px bg-gray-100" />
 
             {/* 💬 Liste des messages */}
 

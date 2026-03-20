@@ -1,24 +1,29 @@
 import React from 'react'
 
-const InputBoxChat = ({ allRoomsChats, input, setInput, setShow, sendMessage, handleTyping }) => {
+const InputBoxChat = ({
+    allRoomsChats,
+    input,
+    setInput,
+    setShow,
+    sendMessage,
+    handleTyping
+}) => {
+    return (
+        <div className="absolute bottom-0 left-0 w-full">
 
-    return(
+            <div className="flex items-center px-2 py-2 bg-white">
 
-        <div className=" fixed bottom-0 md:bottom-2 w-screen md:w-[50dvw] p-0">
-
-	         <div className="bg-none  flex items-center gap-0 me-0 px-2 py-2  rounded-xl mb-0">
-            
                 <input
                     disabled={allRoomsChats?.length === 0}
                     value={input}
-                    onChange={e => {
+                    onChange={(e) => {
                         setInput(e.target.value);
                         setShow(false);
-                        handleTyping()
+                        handleTyping();
                     }}
-                    onKeyDown={e => e.key === "Enter" && sendMessage()}
+                    onKeyDown={(e) => e.key === "Enter" && sendMessage()}
                     placeholder="Votre message..."
-                    className="bg-none flex-1 px-3 py-2 border-r-0 border border-gray-300 rounded-e-none rounded-xl text-sm focus:outline-none focus:ring-0 "
+                    className="flex-1 px-3 py-2 border border-gray-300 border-r-0 rounded-l-xl text-sm focus:outline-none"
                 />
 
                 <button

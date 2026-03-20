@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import TitleCompGen from "./TitleComponentGen";
 import ServicesSection from "../features/ServiceSections";
 import TestimonialCarousel from "./Testimony";
-import CompDesign from "./BoxDesignCoponent";
 
 
 const ServicesPlatforms = () => {
@@ -55,7 +54,7 @@ const ServicesPlatforms = () => {
 
 
     return (
-        <section className="pb-20 pt-20 dark:bg-dark lg:pb-[120px] lg:pt-[120px] ">
+        <section className="pb-20 pt-10 lg:pb-[120px] lg:pt-[5px] shodow-md">
 
             <div className="container mx-auto translate-y-0 transition-all duration-1000 ease-in-out " ref={componentRef}>
 
@@ -576,87 +575,81 @@ const SingleActivity = () => {
 
     return (
 
-        <main className="border-0  relative w-full  m-auto pb-1 mt-0 pt-0  mt-0 bg-gradient-to-br from-red-50 to-blue-100 rounded-full translate-y-6 transition-all duration-1000 ease-in-out">
+        <main className="border-0 w-full relative m-auto pb-1 mt-0 pt-0  mt-0 bg-gradient-to-br from-red-50 to-blue-100 rounded-full translate-y-6 transition-all duration-1000 ease-in-out">
 
-            <div className="relative md:w-3/4 m-auto pt-0 mt-0 shadow-md rounded-lg p-2">
+            <div className="relative md:w-3/4 m-auto mt-2 rounded-2xl p-2 bg-none">
 
-                <div className="m-auto text-center mt-0">
+                {/* Title */}
+                <div className="text-center mb-6">
                     <TitleCompGen title={t('Activités')} />
                 </div>
 
-                <div className="pb-30 md:pb-0">
+                {/* Card */}
+                <section className="relative flex flex-col items-center gap-4 p-2 rounded-xl bg-gradient-to-br from-white:30 to-gray-50 border border-gray-100 shadow-md">
 
-                    <section className="w-full items-center md:flex  p-2 border-0 text-white" >
+                    {/* Content */}
+                    <div className="w-full text-center">
 
-                        <div className="w-full p-1">
+                        {/* Details */}
+                        <p className="mb-4 text-sm italic leading-relaxed text-gray-600">
+                            {details}
+                        </p>
 
-                            <p className="mb-2 text-base font-normal italic leading-[1.81] text-body-color dark:text-dark-6  text-[14px] ">
-                                {details}
-                            </p>
+                        {/* Name */}
+                        <h4 className="text-lg font-semibold text-gray-900">
+                            {name}
+                        </h4>
 
-                            <h4 className="mb-2 text-md font-semibold leading-[27px] text-dark ">
-                                {name}
-                            </h4>
+                        {/* Position */}
+                        <p className="text-sm text-gray-500">
+                            {position}
+                        </p>
 
-                            <p className="text-base text-body-color dark:text-dark-6">
-                                {position}
-                            </p>
+                    </div>
 
-                        </div>
-
+                    {/* Logo */}
+                    <div className="mt-2">
                         {logo}
+                    </div>
 
-                    </section>
+                </section>
 
-                    {/*Button navigations*/}
-                    <section className="absolute left-0 right-0 z-10 flex items-center justify-center gap-5 sm:bottom-0 mt-2">
+                {/* Navigation Buttons */}
+                <section className="absolute inset-x-0 -bottom-6 flex items-center justify-center gap-6">
 
-                        <div className="prev-arrow cursor-pointer" onClick={handlePrev}>
+                    {/* Previous */}
+                    <button
+                        onClick={handlePrev}
+                        className="flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-lg hover:shadow-xl transition hover:scale-105"
+                    >
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="text-gray-700">
+                            <path
+                                d="M12.5 15L7.5 10L12.5 5"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
+                        </svg>
+                    </button>
 
-                            <button className="flex h-[50px] w-[50px] items-center justify-center rounded-full border-0 text-gray transition-all shadow-lg hover:border-transparent hover:drop-shadow-testimonial dark:border-dark-3 dark:bg-dark-2 dark:text-white">
-                                <svg
-                                    width="20"
-                                    height="21"
-                                    viewBox="0 0 20 21"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="fill-current"
-                                >
-                                    <path
-                                        d="M17.5 9.5H4.15625L9.46875 4.09375C9.75 3.8125 9.75 3.375 9.46875 3.09375C9.1875 2.8125 8.75 2.8125 8.46875 3.09375L2 9.65625C1.71875 9.9375 1.71875 10.375 2 10.6562L8.46875 17.2188C8.59375 17.3438 8.78125 17.4375 8.96875 17.4375C9.15625 17.4375 9.3125 17.375 9.46875 17.25C9.75 16.9687 9.75 16.5313 9.46875 16.25L4.1875 10.9062H17.5C17.875 10.9062 18.1875 10.5937 18.1875 10.2187C18.1875 9.8125 17.875 9.5 17.5 9.5Z"
-                                        fill=""
-                                    />
-                                </svg>
-                            </button>
+                    {/* Next */}
+                    <button
+                        onClick={handleNext}
+                        className="flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-lg hover:shadow-xl transition hover:scale-105"
+                    >
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="text-gray-700">
+                            <path
+                                d="M7.5 5L12.5 10L7.5 15"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
+                        </svg>
+                    </button>
 
-                        </div>
-
-                        <div className="next-arrow cursor-pointer" onClick={handleNext}>
-
-                            <button className="flex h-[50px] w-[50px] items-center justify-center rounded-full border-0 shadow-lg  text-dark transition-all hover:border-transparent hover:drop-shadow-testimonial dark:border-dark-3 dark:bg-dark-2 dark:text-white">
-
-                                <svg
-                                    width="20"
-                                    height="21"
-                                    viewBox="0 0 20 21"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="fill-current"
-                                >
-                                    <path
-                                        d="M18 9.6875L11.5312 3.125C11.25 2.84375 10.8125 2.84375 10.5312 3.125C10.25 3.40625 10.25 3.84375 10.5312 4.125L15.7812 9.46875H2.5C2.125 9.46875 1.8125 9.78125 1.8125 10.1562C1.8125 10.5312 2.125 10.875 2.5 10.875H15.8437L10.5312 16.2813C10.25 16.5625 10.25 17 10.5312 17.2813C10.6562 17.4063 10.8437 17.4688 11.0312 17.4688C11.2187 17.4688 11.4062 17.4062 11.5312 17.25L18 10.6875C18.2812 10.4062 18.2812 9.96875 18 9.6875Z"
-                                        fill=""
-                                    />
-                                </svg>
-
-                            </button>
-
-                        </div>
-
-                    </section>
-
-                </div>
-
+                </section>
 
             </div>
 
@@ -667,7 +660,7 @@ const SingleActivity = () => {
                 autoplayInterval={6000}
             />
 
-            <CompDesign/>
+            {/*<CompDesign/>*/}
 
         </main>
     );

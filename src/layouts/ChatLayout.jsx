@@ -21,9 +21,11 @@ import { clearCart } from '../slices/cartSlice';
 import { logout } from '../slices/authSlice';
 
 import { setCurrentNav } from '../slices/navigateSlice';
-import AnaliesChatsWithAi from '../pages/ChatWithAi';
+
 import { addAiChat } from '../slices/aiChatSlice';
+
 import TitleCompGen from '../components/TitleComponentGen';
+import AnaliesChatsWithAi from '../pages/ChatWithAi';
 
 const ChatLayout = () => {
 
@@ -246,139 +248,126 @@ const ChatLayout = () => {
 
     return (
 
-        <main
-            className="grid grid-cols-12  flex justify-center items-start mx-auto gap-2 pb-1 bg-grey-100  mb-2 fixed  md:mt-0"
-        >
-            {/* Sidebar */}
+        <main className=" overflow-hidden grid grid-cols-12 mt-10  backdrop-blur-md rounded-lg mx-auto py-2 border border-gray-300 px-1 gap-2">
 
-            <section className="relative md:col-span-4 h-full">
+            {/* Sidebar */}
+            <section className="relative md:col-span-5 h-full overflow-y-auto border border-gray-200 rounded-lg">
 
                 <div
 
                     className={`
-                        bg-white fixed top-0 left-0 h-full
-                        bg-gray-100 z-20 transform transition-transform duration-300 ease-in-out
+                        bg-white fixed top-0 left-0 h-full border-0  overflow_hidden  overflow-y-auto md:h-[70dvh] h-[90dvh]
+                        z-20 transform transition-transform duration-300 ease-in-out  rounded-lg
                         ${showSidebar ? 'translate-x-0' : '-translate-x-full'}
                         md:static md:translate-x-0 md:block
                         flex flex-col
                       `
                     }
                 >
-                    <div className="p-1 gap-3 pt-6 mt-5 flex-1 overflow-y-auto scrollbor_hidden justyfy-between">
 
-                        <TitleCompGen title={"Discussions"} />
 
-                        {
-                            (allChats?.length === 0) ?
-                            (
-                                <div className="text-center text-md py-6 border border-gray-50 rounded-full">
-                                    {t('message.nomessage')}
-                                </div>
-                            )
-                            :
-                            (
-                                <ul className="mt-10 space-y-2 ">
+                    <TitleCompGen title={"Discussions"} />
 
-                                    {
-                                        allChats?.map(
+                    {
+                        (allChats?.length === 0) ?
+                        (
+                            <div className="text-center text-md py-6 border border-gray-50 rounded-full">
+                                {t('message.nomessage')}
+                            </div>
+                        )
+                        :
+                        (
+                                <ul className="mt-10 space-y-2  overflow-y-auto scrollbor_hidden ">
 
-                                            (room, index) => {
+                                {
+                                    allChats?.map(
 
-                                                const currentReceiver = receivers[room?.current_receiver];
-                                                const currentSender = senders[room?.current_owner];
-                                                const whoCurrentUserChatWith =
-                                                currentReceiver?.email === currentUser?.email
-                                                    ? currentSender
-                                                    : currentReceiver;
+                                        (room, index) => {
 
-                                                return (
+                                            const currentReceiver = receivers[room?.current_receiver];
+                                            const currentSender = senders[room?.current_owner];
+                                            const whoCurrentUserChatWith =
+                                            currentReceiver?.email === currentUser?.email
+                                                ? currentSender
+                                                : currentReceiver;
 
-                                                    <li
-                                                        key={index}
-                                                        className={`w-full flex items-center justify-between px-2 py-1 rounded-lg text-sm font-medium transition-colors
-                                                        ${currentChat?.name === room?.name
-                                                            ? 'bg-blue-50 text-white-800'
-                                                            : 'hover:bg-gray-50'
-                                                        }`}
+                                            return (
+
+                                                <li
+                                                    key={index}
+                                                    className={`w-full flex items-center justify-between px-2 py-1 rounded-lg text-sm font-medium transition-colors
+                                                    ${currentChat?.name === room?.name
+                                                        ? 'bg-blue-50 text-white-800'
+                                                        : 'hover:bg-gray-50'
+                                                    }`}
+                                                >
+                                                    <button
+
+                                                        onClick={() => {
+                                                            dispatch(addAiChat(null));
+                                                            dispatch(addCurrentChat(room));
+                                                            dispatch(addUser(whoCurrentUserChatWith));
+                                                        }}
+
+                                                        className="flex gap-1 cursor-pointer flex-grow items-center "
                                                     >
-                                                        <button
+                                                        <img
 
-                                                            onClick={() => {
-                                                                dispatch(addAiChat(null));
-                                                                dispatch(addCurrentChat(room));
-                                                                dispatch(addUser(whoCurrentUserChatWith));
-                                                            }}
-
-                                                            className="flex gap-1 cursor-pointer flex-grow items-center "
-                                                        >
-                                                            <img
-
-                                                                src={
-                                                                    whoCurrentUserChatWith?.image ||
-                                                                    whoCurrentUserChatWith?.photo_url
-                                                                }
-
-                                                                alt={`${whoCurrentUserChatWith?.nom || 'Moi'
-                                                                    } avatar`}
-                                                                className="h-[60px] w-[60px] rounded-full object-cover"
-                                                            />
-
-                                                            <div className="flex leading-tight gap-1 items-center">
-
-                                                                <span className="text-md font-medium text-gray-600">
-                                                                    {whoCurrentUserChatWith?.prenom?.slice(0, 20) ||
-                                                                        'Prénom'}
-                                                                </span>
-
-                                                                <span className="text-xs text-gray">
-                                                                    {whoCurrentUserChatWith?.nom?.toLowerCase()}
-                                                                </span>
-
-                                                            </div>
-
-                                                        </button>
-
-                                                        <button
-                                                            onClick={
-                                                                () => handleDeleteRoom(room)
+                                                            src={
+                                                                whoCurrentUserChatWith?.image ||
+                                                                whoCurrentUserChatWith?.photo_url
                                                             }
-                                                            className="cursor-pointer ml-2 bg-none hover:bg-red-200 text-lg shadow-sm h-7 w-7 rounded-full"
-                                                            aria-label={`Supprimer ${room.name}`}
-                                                        >
-                                                            ✕
-                                                        </button>
 
-                                                    </li>
-                                                );
-                                            }
-                                        )
-                                    }
+                                                            alt={`${whoCurrentUserChatWith?.nom || 'Moi'
+                                                                } avatar`}
+                                                            className="h-[60px] w-[60px] rounded-full object-cover"
+                                                        />
 
-                                </ul>
-                            )
+                                                        <div className="flex leading-tight gap-1 items-center">
+
+                                                            <span className="text-md font-medium text-gray-600">
+                                                                {whoCurrentUserChatWith?.prenom?.slice(0, 20) ||
+                                                                    'Prénom'}
+                                                            </span>
+
+                                                            <span className="text-xs text-gray">
+                                                                {whoCurrentUserChatWith?.nom?.toLowerCase()}
+                                                            </span>
+
+                                                        </div>
+
+                                                    </button>
+
+                                                    <button
+                                                        onClick={
+                                                            () => handleDeleteRoom(room)
+                                                        }
+                                                        className="cursor-pointer ml-2 bg-none hover:bg-red-200 text-lg shadow-sm h-7 w-7 rounded-full"
+                                                        aria-label={`Supprimer ${room.name}`}
+                                                    >
+                                                        ✕
+                                                    </button>
+
+                                                </li>
+                                            );
+                                        }
+                                    )
+                                }
+
+                            </ul>
+                        )
                     }
 
-                    </div>
-
-                </div>
-
-                <div className="">
                     <AnaliesChatsWithAi />
+
                 </div>
 
             </section>
 
-
              {/*Main Chat Area */}
-            <section className="col-span-12 md:col-span-8  p-0  scrollbor_hidden">
+            <section className="col-span-12 md:col-span-7  p-0 scrollbor_hidden overflow-y-hidden md:max-h-[70dvh] max-h-[90dvh] w-full">
 
-                <div
-                    className="lg:me-2 lg:pe-2 lg:ps-1 flex overflow_hidden "
-                    style={{
-                        backgroundColor: 'var(--color-bg)',
-                        color: 'var(--color-text)',
-                    }}
-                >
+                <div className=" flex overflow_hidden  overflow-y-auto md:h-[70dvh] h-[90dvh] w-full">
 
                     <ChatApp setShow={setShowSidebar} show={showSidebar} />
 

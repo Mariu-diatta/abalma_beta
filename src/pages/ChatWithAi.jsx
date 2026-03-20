@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { addAiChat } from "../slices/aiChatSlice";
 import LoadingCard from "../components/LoardingSpin";
+import { createPortal } from "react-dom";
 
 const AnaliesChatsWithAi = () => {
 
@@ -88,49 +89,41 @@ const AnaliesChatsWithAi = () => {
 
             {/* BUTTON OPEN */}
 
-            {
-                loadingList ?
-                <button
-                    onClick={fetchAiAnalysisList}
-                    className="bg-gradient-to-r from-red-100 to-gray-200 rounded-lg px-4 py-1 hover:bg-gray-200 fixed top-10 right-5 md:absolute   translate-y-0 transition-all duration-1000 ease-in-out"
-                >
-                    {t("loading")}
-
-                </button>
-                :
-                <button
-                    onClick={fetchAiAnalysisList}
-                    className="bg-gradient-to-r from-red-100 to-gray-200 rounded-lg px-4 py-2 hover:bg-gray-200 fixed top-10 right-5 md:absolute translate-y-0 transition-all duration-1000 ease-in-out"
-                >
-                    {t("ai_analies")}
-
-                </button>
-            }
+            <button
+                onClick={fetchAiAnalysisList}
+                className=" bg-gradient-to-r from-blue-400 to-gray-200 text-gray-700 font-sm text-sm z-10 rounded-full  hover:font-medium px-2 cursor-pointer py-2 fixed bottom-2 left-1/2 md:absolute w-full -translate-x-1/2 shadow-md hover:shadow-lg  transition-all duration-200"
+            >
+                {loadingList ? t("loading") : t("ai_analies")}
+            </button>
 
             {/* POPOVER */}
             {
-                open && (
+                open && createPortal(
 
-                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 pt-3 shadow-lg">
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-2">
 
-                        <div className="bg-white w-full max-w-3xl rounded-xl shadow-lg p-6 relative mx-2 ">
+                        <div className="bg-white w-full max-w-3xl rounded-2xl shadow-2xl p-5 md:p-6 relative">
 
                             {/* CLOSE */}
                             <button
                                 onClick={() => setOpen(false)}
-                                className="absolute top-3 right-3 text-gray-400 hover:text-gray-600"
+                                className="absolute top-3 right-3 text-gray-400 hover:text-gray-700 text-lg"
                             >
                                 ✕
                             </button>
 
-                            <h2 className="text-md font-semibold mb-4 shadow-sm p-2">
+                            <h2 className="text-lg md:text-xl font-semibold mb-4 border-b border-gray-400 pb-2">
                                 {t("title_ai_analyse")}
                             </h2>
 
-                            <div className="text-md max-h-[70vh] overflow-y-auto space-y-6 scrollbor_hidden">
+                            <div className="text-sm md:text-base max-h-[70vh] overflow-y-auto space-y-5 pr-1">
 
                                 {
-                                    (aiData.length === 0) && (<p className="text-gray-500">{t("no_resum_ai")}</p>)
+                                    (aiData.length === 0) && (
+                                        <p className="text-gray-500 text-center py-4">
+                                            {t("no_resum_ai")}
+                                        </p>
+                                    )
                                 }
 
                                 {
@@ -138,11 +131,11 @@ const AnaliesChatsWithAi = () => {
 
                                         (item) => (
 
-                                            <div key={item.id} className="border-gray-50 rounded-lg p-4 space-y-3">
+                                            <div key={item.id} className="border border-gray-300 rounded-xl p-4 space-y-3 shadow-sm hover:shadow-md transition">
 
                                                 <div className="flex justify-between items-center flex-wrap gap-2">
 
-                                                    <p className="text-sm text-gray-400">
+                                                    <p className="text-xs md:text-sm text-gray-400">
                                                         {new Date(item.created_at).toLocaleString()}
                                                     </p>
 
@@ -150,28 +143,28 @@ const AnaliesChatsWithAi = () => {
 
                                                         <button
                                                             onClick={() => handleViewAiChat(item.id)}
-                                                            className="shadow-lg text-sm bg-gray-100 hover:bg-gray-200 p-2 rounded-lg"
+                                                            className="border border-blue-300 text-xs md:text-sm bg-blue-100 hover:bg-blue-200 px-3 py-1 rounded-lg transition flex items-center justify-center min-w-[90px]"
                                                             disabled={loadingViewId}
                                                         >
-                                                            {loadingViewId===item.id ? <LoadingCard /> : t("view_ai_discuss")}
+                                                            {loadingViewId === item.id ? <LoadingCard /> : t("view_ai_discuss")}
                                                         </button>
 
                                                         <button
                                                             onClick={() => handleDeleteAiChat(item.id)}
-                                                            className="shadow-lg text-sm bg-red-100 hover:bg-red-200 p-2 rounded-lg"
+                                                            className="border border-blue-300 text-xs md:text-sm bg-red-100 hover:bg-red-200 px-3 py-1 rounded-lg transition flex items-center justify-center min-w-[90px]"
                                                             disabled={loadingDeleteId}
                                                         >
-                                                            {loadingDeleteId=== item.id ? <LoadingCard /> : t("del_ai_discuss")}
+                                                            {loadingDeleteId === item.id ? <LoadingCard /> : t("del_ai_discuss")}
                                                         </button>
 
                                                     </div>
                                                 </div>
 
-                                                <Section title={t("summary")} content={item.resume}/>
+                                                <Section title={t("summary")} content={item.resume} />
 
-                                                <Section title={t("advice")} content={item.advise}/>
+                                                <Section title={t("advice")} content={item.advise} />
 
-                                                <Section title={t("directive")} content={item.directive}/>
+                                                <Section title={t("directive")} content={item.directive} />
 
                                             </div>
                                         )
@@ -180,11 +173,20 @@ const AnaliesChatsWithAi = () => {
 
                             </div>
 
-                            {error && <p className="text-red-500 mt-4 text-sm">{error}</p>}
+                            {
+                                error && (
+                                    <p className="text-red-500 mt-4 text-sm text-center">
+                                        {error}
+                                    </p>
+                                )
+                            }
+
 
                         </div>
 
-                    </div>
+                    </div>,
+
+                    document.body
                 )
             }
 
@@ -215,3 +217,4 @@ const extractContent = (raw) => {
 };
 
 export default AnaliesChatsWithAi;
+

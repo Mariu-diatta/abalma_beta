@@ -182,7 +182,7 @@ const MyProductList = () => {
                                                     <div className="w-10 h-10 md:w-20 md:h-20 overflow-hidden rounded-lg border border-gray-200 dark:border-gray-600">
 
                                                         <img
-                                                            src={prod?.image_product}
+                                                            src={prod?.variants[0]?.image}
                                                             alt={prod?.name_product}
                                                             className="object-contain w-auto h-auto"
                                                         />

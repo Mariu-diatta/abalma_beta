@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import Logo from "../components/LogoApp";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import LanguageDropdown from "../features/Langages";
-import TitleCompGen from "../components/TitleComponentGen";
+import TitleCompGen, { TitleCompGenLitle } from "../components/TitleComponentGen";
 import { ENDPOINTS } from "../utils";
 import { useSelector } from "react-redux";
 
@@ -107,23 +106,22 @@ const Footer = () => {
     return (
 
         <footer
-            className="w-full text-sm flex flex-col items-center justify-center mt-0"
+            className="shadow-md border border-blue-200 w-full text-sm flex flex-col items-start justify-center mt-0 pt-0 bg-gradient-to-t from-red-50 to-blue-100 bg-gray-50"
         >
 
-
-            <div className="flex flex-col gap-6 items-center lg:flex-row w-full max-w-7xl mx-auto px-4 text-center lg:text-left translate-y-1 transition-all duration-1000 ease-in-out bg-none" ref={componentRef_}>
+            <div className="flex flex-col gap-6 items-start lg:flex-row w-full  mx-auto px-4 text-center lg:text-left translate-y-1 transition-all duration-1000 ease-in-out bg-none" ref={componentRef_}>
 
                 {/* Logo et description */}
-                <div className="mb-10 lg:w-1/2">
+                <div className="mb-10 lg:w-1/2 flex flex-col justify-start ">
 
-                    <TitleCompGen    title={t('ABALMA')} />
+                    <TitleCompGen title={t('ABALMA')} />
 
-                    <p className="flex items-start justify-start mb-2 text-sm text-body-color dark:text-dark-6">
+                    <p className=" mb-2 text-sm text-body-color">
                         {t("app_description")}
                     </p>
 
                     {/* Conditions et politique */}
-                    <label className="flex flex-wrap gap-3 justify-start text-sm text-gray-700 mb-2 px-4">
+                    <label className="flex flex-wrap gap-3 justify-start text-sm text-gray-700 mb-2">
 
                         <MyCheckbox/>
 
@@ -141,13 +139,10 @@ const Footer = () => {
 
                 </div>
 
-
                 {/* Contact et langue */}
                 <div className="flex flex-col gap-4 mb-5 lg:mb-0 lg:ml-auto">
 
-                    <p className="mb-2 text-sm text-body-color dark:text-dark-6">
-                        {t('contact_us')}
-                    </p>
+                    <TitleCompGenLitle title={t('contact_us')} />
 
                     {/* Téléphone */}
                     <div className="flex items-center gap-3">
@@ -205,155 +200,82 @@ const Footer = () => {
 
                 </div>
 
-                <div className="flex flex-col justify-center gap-2 bg-none">
+                {/* Langue */}
+                <div className="flex flex-col items-center gap-3 text-sm">
+                    <TitleCompGenLitle title={t("choose_language")} />
+                    <LanguageDropdown/>
+                </div>
 
-                    {/* Langue */}
-                    <div className="flex items-center gap-3 text-sm">
-                        <span>{t("choose_language")}</span>
-                        <LanguageDropdown/>
-                    </div>
+                <div>
 
-                   <>
+                    <TitleCompGenLitle title={t('follow_us')} />
 
-                        <p className="mb-2 text-sm text-body-color dark:text-dark-6">
-                            {t('follow_us')}
-                        </p>
+                    <div className="flex gap-2 bg-none py-2">
 
-                        <div className="flex gap-2 bg-none">
+                        <a
+                            href="https://www.facebook.com/profile.php?id=61578340873240/"
+                            className="flex h-8 w-8 items-center justify-center rounded-full border border-stroke text-dark hover:border-primary hover:bg-primary hover:text-white dark:border-dark-3 dark:text-white dark:hover:border-primary"
+                        >
+                            <svg  viewBox="0 0 8 16" className="w-5 h-5  fill-current">
+                                <path d="M7.43902 6.4H6.19918H5.75639V5.88387V4.28387V3.76774H6.19918H7.12906C7.3726 3.76774 7.57186 3.56129 7.57186 3.25161V0.516129C7.57186 0.232258 7.39474 0 7.12906 0H5.51285C3.76379 0 2.54609 1.44516 2.54609 3.5871V5.83226V6.34839H2.10329H0.597778C0.287819 6.34839 0 6.63226 0 7.04516V8.90323C0 9.26452 0.243539 9.6 0.597778 9.6H2.05902H2.50181V10.1161V15.3032C2.50181 15.6645 2.74535 16 3.09959 16H5.18075C5.31359 16 5.42429 15.9226 5.51285 15.8194C5.60141 15.7161 5.66783 15.5355 5.66783 15.3806V10.1419V9.62581H6.13276H7.12906C7.41688 9.62581 7.63828 9.41935 7.68256 9.10968V9.08387V9.05806L7.99252 7.27742C8.01466 7.09677 7.99252 6.89032 7.85968 6.68387C7.8154 6.55484 7.61614 6.42581 7.43902 6.4Z" />
+                            </svg>
 
-                            <a
-                                href="https://www.facebook.com/profile.php?id=61578340873240/"
-                                className="flex h-8 w-8 items-center justify-center rounded-full border border-stroke text-dark hover:border-primary hover:bg-primary hover:text-white dark:border-dark-3 dark:text-white dark:hover:border-primary"
-                            >
-                                <svg  viewBox="0 0 8 16" className="w-5 h-5  fill-current">
-                                    <path d="M7.43902 6.4H6.19918H5.75639V5.88387V4.28387V3.76774H6.19918H7.12906C7.3726 3.76774 7.57186 3.56129 7.57186 3.25161V0.516129C7.57186 0.232258 7.39474 0 7.12906 0H5.51285C3.76379 0 2.54609 1.44516 2.54609 3.5871V5.83226V6.34839H2.10329H0.597778C0.287819 6.34839 0 6.63226 0 7.04516V8.90323C0 9.26452 0.243539 9.6 0.597778 9.6H2.05902H2.50181V10.1161V15.3032C2.50181 15.6645 2.74535 16 3.09959 16H5.18075C5.31359 16 5.42429 15.9226 5.51285 15.8194C5.60141 15.7161 5.66783 15.5355 5.66783 15.3806V10.1419V9.62581H6.13276H7.12906C7.41688 9.62581 7.63828 9.41935 7.68256 9.10968V9.08387V9.05806L7.99252 7.27742C8.01466 7.09677 7.99252 6.89032 7.85968 6.68387C7.8154 6.55484 7.61614 6.42581 7.43902 6.4Z" />
-                                </svg>
+                        </a>
 
-                            </a>
+                        <a
+                            href="/"
+                            onClick={()=>alert("Nous serons bientôt présent sur ce réseau") }
+                            className="flex h-8 w-8 items-center justify-center rounded-full border border-stroke text-dark hover:border-primary hover:bg-primary hover:text-white dark:border-dark-3 dark:text-white dark:hover:border-primary"
+                        >
+                            <svg className="w-5 h-5  text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M13.795 10.533 20.68 2h-3.073l-5.255 6.517L7.69 2H1l7.806 10.91L1.47 22h3.074l5.705-7.07L15.31 22H22l-8.205-11.467Zm-2.38 2.95L9.97 11.464 4.36 3.627h2.31l4.528 6.317 1.443 2.02 6.018 8.409h-2.31l-4.934-6.89Z" />
+                            </svg>
+                        </a>
 
-                            <a
-                                href="/"
-                                onClick={()=>alert("Nous serons bientôt présent sur ce réseau") }
-                                className="flex h-8 w-8 items-center justify-center rounded-full border border-stroke text-dark hover:border-primary hover:bg-primary hover:text-white dark:border-dark-3 dark:text-white dark:hover:border-primary"
-                            >
-                                <svg className="w-5 h-5  text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M13.795 10.533 20.68 2h-3.073l-5.255 6.517L7.69 2H1l7.806 10.91L1.47 22h3.074l5.705-7.07L15.31 22H22l-8.205-11.467Zm-2.38 2.95L9.97 11.464 4.36 3.627h2.31l4.528 6.317 1.443 2.02 6.018 8.409h-2.31l-4.934-6.89Z" />
-                                </svg>
-                            </a>
+                        <a
+                            href="/"
+                            onClick={() => alert("Nous serons bientôt présent sur ce réseau")}
+                            className="flex h-8 w-8 items-center justify-center rounded-full border border-stroke text-dark hover:border-primary hover:bg-primary hover:text-white dark:border-dark-3 dark:text-white dark:hover:border-primary"
+                        >
+                            <svg viewBox="0 0 16 12" className="w-5 h-5 fill-current">
+                                <path d="M15.6645 1.88018C15.4839 1.13364 14.9419 0.552995 14.2452 0.359447C13.0065 6.59222e-08 8 0 8 0C8 0 2.99355 6.59222e-08 1.75484 0.359447C1.05806 0.552995 0.516129 1.13364 0.335484 1.88018C0 3.23502 0 6 0 6C0 6 0 8.79263 0.335484 10.1198C0.516129 10.8664 1.05806 11.447 1.75484 11.6406C2.99355 12 8 12 8 12C8 12 13.0065 12 14.2452 11.6406C14.9419 11.447 15.4839 10.8664 15.6645 10.1198C16 8.79263 16 6 16 6C16 6 16 3.23502 15.6645 1.88018ZM6.4 8.57143V3.42857L10.5548 6L6.4 8.57143Z" />
+                            </svg>
+                        </a>
 
-                            <a
-                                href="/"
-                                onClick={() => alert("Nous serons bientôt présent sur ce réseau")}
-                                className="flex h-8 w-8 items-center justify-center rounded-full border border-stroke text-dark hover:border-primary hover:bg-primary hover:text-white dark:border-dark-3 dark:text-white dark:hover:border-primary"
-                            >
-                                <svg viewBox="0 0 16 12" className="w-5 h-5 fill-current">
-                                    <path d="M15.6645 1.88018C15.4839 1.13364 14.9419 0.552995 14.2452 0.359447C13.0065 6.59222e-08 8 0 8 0C8 0 2.99355 6.59222e-08 1.75484 0.359447C1.05806 0.552995 0.516129 1.13364 0.335484 1.88018C0 3.23502 0 6 0 6C0 6 0 8.79263 0.335484 10.1198C0.516129 10.8664 1.05806 11.447 1.75484 11.6406C2.99355 12 8 12 8 12C8 12 13.0065 12 14.2452 11.6406C14.9419 11.447 15.4839 10.8664 15.6645 10.1198C16 8.79263 16 6 16 6C16 6 16 3.23502 15.6645 1.88018ZM6.4 8.57143V3.42857L10.5548 6L6.4 8.57143Z" />
-                                </svg>
-                            </a>
+                        <div
+                            className="flex h-8 w-8 items-center justify-center rounded-full border border-stroke text-dark hover:border-primary hover:bg-primary hover:text-white dark:border-dark-3 dark:text-white dark:hover:border-primary"
+                        >
 
-                            <div
-                                className="flex h-8 w-8 items-center justify-center rounded-full border border-stroke text-dark hover:border-primary hover:bg-primary hover:text-white dark:border-dark-3 dark:text-white dark:hover:border-primary"
-                            >
+                            <div className="badge-base LI-profile-badge" data-locale="fr_FR" data-size="medium" data-theme="light" data-type="VERTICAL" data-vanity="mariusdiatta" data-version="v1">
 
-                                <div className="badge-base LI-profile-badge" data-locale="fr_FR" data-size="medium" data-theme="light" data-type="VERTICAL" data-vanity="mariusdiatta" data-version="v1">
+                                <a className="badge-base__link LI-simple-link" href="https://fr.linkedin.com/in/mariusdiatta?trk=profile-badge">
 
-                                    <a className="badge-base__link LI-simple-link" href="https://fr.linkedin.com/in/mariusdiatta?trk=profile-badge">
-
-                                        <svg viewBox="0 0 14 14" className="w-5 h-5  fill-current">
-                                            <path d="M13.0214 0H1.02084C0.453707 0 0 0.451613 0 1.01613V12.9839C0 13.5258 0.453707 14 1.02084 14H12.976C13.5432 14 13.9969 13.5484 13.9969 12.9839V0.993548C14.0422 0.451613 13.5885 0 13.0214 0ZM4.15142 11.9H2.08705V5.23871H4.15142V11.9ZM3.10789 4.3129C2.42733 4.3129 1.90557 3.77097 1.90557 3.11613C1.90557 2.46129 2.45002 1.91935 3.10789 1.91935C3.76577 1.91935 4.31022 2.46129 4.31022 3.11613C4.31022 3.77097 3.81114 4.3129 3.10789 4.3129ZM11.9779 11.9H9.9135V8.67097C9.9135 7.90323 9.89082 6.8871 8.82461 6.8871C7.73571 6.8871 7.57691 7.74516 7.57691 8.60323V11.9H5.51254V5.23871H7.53154V6.16452H7.55423C7.84914 5.62258 8.50701 5.08065 9.52785 5.08065C11.6376 5.08065 12.0232 6.43548 12.0232 8.2871V11.9H11.9779Z" />
-                                        </svg>
-                                    </a>
-
-                                </div>
+                                    <svg viewBox="0 0 14 14" className="w-5 h-5  fill-current">
+                                        <path d="M13.0214 0H1.02084C0.453707 0 0 0.451613 0 1.01613V12.9839C0 13.5258 0.453707 14 1.02084 14H12.976C13.5432 14 13.9969 13.5484 13.9969 12.9839V0.993548C14.0422 0.451613 13.5885 0 13.0214 0ZM4.15142 11.9H2.08705V5.23871H4.15142V11.9ZM3.10789 4.3129C2.42733 4.3129 1.90557 3.77097 1.90557 3.11613C1.90557 2.46129 2.45002 1.91935 3.10789 1.91935C3.76577 1.91935 4.31022 2.46129 4.31022 3.11613C4.31022 3.77097 3.81114 4.3129 3.10789 4.3129ZM11.9779 11.9H9.9135V8.67097C9.9135 7.90323 9.89082 6.8871 8.82461 6.8871C7.73571 6.8871 7.57691 7.74516 7.57691 8.60323V11.9H5.51254V5.23871H7.53154V6.16452H7.55423C7.84914 5.62258 8.50701 5.08065 9.52785 5.08065C11.6376 5.08065 12.0232 6.43548 12.0232 8.2871V11.9H11.9779Z" />
+                                    </svg>
+                                </a>
 
                             </div>
 
                         </div>
 
-                    </>
+                    </div>
 
                 </div>
 
 
-            </div>
-
-            {/* Liens rapides avec animation */}
-            <div
-                ref={componentRef}
-                className="w-full opacity-0 translate-y-5 transition-all duration-1000 ease-in-out bg-none"
-            >
-                <div className="flex flex-col lg:flex-row justify-center  gap-3 p-0">
-
-                    <LinkGroup header={t('about_us')}>
-                        <NavLink link="/#" label={t('about_abalma')} className="text-sm" />
-                        {/*<NavLink link="/#" label={t("contact_us")} className="text-sm" />*/}
-                        <NavLink link="/#" label={t('company_info_legal')} className="text-sm" />
-                    </LinkGroup>
-
-                    <LinkGroup header={t('client_services')}>
-                        <NavLink link="/#" label={t('client_support')} className="text-sm" />
-                        <NavLink link="/#" label={t('client_support_alert')} className="text-sm" />
-                        <NavLink link="/#" label={t('client_fraud')} className="text-sm" />
-                    </LinkGroup>
-
-                    <LinkGroup header={t('help')}>  
-                        <NavLink link="/#" label={t('help_center_faq')} className="text-sm" />
-                        <NavLink link="/#" label={t('security_center')} className="text-sm" />
-                        <NavLink link="/#" label={t('abalma_purchase_protection')} className="text-sm" />
-                        <NavLink link="/#" label={t('digital_services_act')} className="text-sm" />
-                    </LinkGroup>
-
-                </div>
             </div>
 
             {/* Bas de page */}
-            <div className="w-full  text-center text-sm  px-4 pt-2 mb-5 border-t border-gray-400 mb-8 pb-8 lg:mb-0 bg-none">
+            <div className="w-full  text-center text-sm  px-4 pt-2 mb-5 border-t border-gray-300 mb-8 pb-8 lg:mb-0 bg-none">
 
                 <p className="text-sm mb-1 bg-none">
-                    &copy; 2026 <strong className="text-blue-800">Abalma</strong> {t("footer_toutDroit")}
+                    &copy; 2026 <strong className="text-blue-500">Abalma</strong> {t("footer_toutDroit")}
                 </p>
 
             </div>
 
         </footer>
-    );
-};
-
-const LinkGroup = ({ children, header }) => {
-
-    return (
-
-        <div className="w-full px-4 sm:w-1/2 lg:w-1/4 text-sm">
-
-            <div className="mb-10 w-full">
-
-                <h4 className="mb-6 text-sm font-semibold text-dark ">
-                    {header}
-                </h4>
-
-                <ul className="space-y-3">{children}</ul>
-
-            </div>
-
-        </div>
-    );
-};
-
-const NavLink = ({ link, label, className = "text-sm" }) => {
-
-    return (
-
-        <li>
-
-            <a
-                href={link}
-                className={`inline-block text-body-color hover:text-primary dark:text-dark-6 ${className}`}
-            >
-                {label}
-
-            </a>
-
-        </li>
     );
 };
 

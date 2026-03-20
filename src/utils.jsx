@@ -1613,3 +1613,5 @@ export const availableColors = [
 export const availableSizes = ["S", "M", "L", "XL"];
 
 export const socialLinks = ["facebook", "instagram", "tiktok", "twitter"];
+
+export const PAYEMENTMODE = ["CASH", "CARD", "MOBILE"]

@@ -7,12 +7,18 @@ import LoadingCard from '../components/LoardingSpin';
 import { CONSTANTS, removeAccents, translateCategory } from '../utils';
 import SearchBar from '../components/BtnSearchWithFilter';
 import ScrollableButtonsCategoryProducts from './ScrollCategoryButtons';
-import PaginationProduit from './ProductPagination';
 import ListProductByCategory from './ListProductCategory';
+import PaginationProduit from './PaginationProduit';
 
 const GridLayoutProduct = () => {
 
     const [filteredItems, setFilteredItems] = useState([])
+
+    const productsFiltered = filteredItems.filter(prod =>
+
+        prod.variants?.some(variant => variant.image)
+
+    );
 
     const [filteredItemsPopover, setFilteredItemsPopover] = useState([])
 
@@ -40,7 +46,7 @@ const GridLayoutProduct = () => {
 
     const currentUser = useSelector(state => state.auth.user);
 
-    const filteredItemsLenght = (filteredItems?.length === 0)
+    const filteredItemsLenght = (productsFiltered?.length === 0)
 
     const isCurrentUserConnected = (currentUser && currentUser?.is_connected)
 
@@ -217,10 +223,7 @@ const GridLayoutProduct = () => {
 
         <div className="space-y-4  pb-[10dvh]">
 
-            {
-                isCurrentUserConnected &&
-                <SearchBar />
-            }
+            { isCurrentUserConnected && <SearchBar /> }
 
             <ScrollableButtonsCategoryProducts
 
@@ -238,7 +241,7 @@ const GridLayoutProduct = () => {
 
             <aside className={`${filteredItemsLenght ? "hidden" : "p-0"}`}>
 
-                <PaginationProduit products={filteredItems} />
+                <PaginationProduit products={productsFiltered} />
 
             </aside>
 
@@ -249,7 +252,7 @@ const GridLayoutProduct = () => {
                 <LoadingCard />
                 :
                 <ListProductByCategory
-                    filteredItems={filteredItems}
+                    filteredItems={productsFiltered}
                     cartItems={cartItems}
                     owners={owners}
                     openModal={openModal}
@@ -259,7 +262,7 @@ const GridLayoutProduct = () => {
 
             </main>
 
-            <ModalViewProduct isOpen={!!modalData} onClose={closeModal} products={filteredItems}/>
+            <ModalViewProduct isOpen={!!modalData} onClose={closeModal} products={productsFiltered}/>
 
         </div>
     );

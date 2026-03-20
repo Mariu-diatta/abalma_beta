@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import api from '../services/Axios';
 import { useTranslation } from 'react-i18next';
 import UsersContactsList from './ContactUser';
@@ -135,7 +135,7 @@ const Tabs = () => {
             {/* Tabs Navigation */}
             <nav className="mb-4 border-0  bg-none" role="tablist" aria-label="Main tabs">
 
-                <ul className="flex space-x-0 overflow-x-auto text-sm font-medium text-center ">
+                <ul className="flex space-x-0 overflow-x-auto text-sm font-medium text-center bg-white/70 backdrop-blur-md ">
 
                     {
                         tabs?.map((tab) => (

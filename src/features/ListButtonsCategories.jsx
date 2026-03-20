@@ -1,6 +1,7 @@
 import React from 'react';
 import { menuItems } from "../components/MenuItem";
 import { useTranslation } from 'react-i18next';
+import  { TitleCompGenLitle } from '../components/TitleComponentGen';
 
 const ListButtonsCategories = (
     {
@@ -42,9 +43,10 @@ const ListButtonsCategories = (
                             `}
                         >
                             <span className="flex flex-col gap-2 items-center gap-1 bg-none">
-
-                                <span className="h-3">{cat.replace("_", " ")}</span>
                                 {menuItems(t).find(item => item.name === cat)?.photo}
+                                <span className="h-3 shadow-md rounded-xl h-8 pb-7 px-2">
+                                    <TitleCompGenLitle title={cat.replace("_", " ")}/>
+                                </span>
                             </span>
 
                         </button>

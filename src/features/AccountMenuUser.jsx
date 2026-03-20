@@ -98,7 +98,7 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
                 onBlur={() => setDropdownOpen(false)}
 
-                className={`bg-gradient-to-l from-red-50 to-gray-200 h-100 border border-gray-100 shadow-lg absolute right-0 top-full me-3 overflow-hidden rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${dropdownOpen ? "block z-100" : "hidden"}`}
+                className={`bg-gradient-to-l from-blue-300 to-white-300 h-100 border border-gray-100 shadow-lg absolute right-0 top-full me-3 overflow-hidden rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${dropdownOpen ? "block z-100" : "hidden"}`}
 
             >
 

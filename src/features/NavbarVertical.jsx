@@ -12,6 +12,7 @@ import ScrollTop, { ButtonScrollTopDown } from "../components/ButtonScroll";
 import ButtonUpdateAccountUserToPro from "../components/ButtonPro";
 import { ENDPOINTS, fetchRooms } from "../utils";
 import ButtonsNavigateThemecolorPayDropdownaccount from "./DropDownAccount";
+import AnaliesChatsWithAi from "../pages/ChatWithAi";
 
 const VertcalNavbar = ({ children }) => {
 
@@ -104,7 +105,7 @@ const VertcalNavbar = ({ children }) => {
 
     return (
 
-        <main className="overflow-y-auto h-full pt-2  pb-[20dvh] mb-[0dvh] dark:text-white text-gray-100">
+        <main className=" h-full  pb-[20dvh] mb-[0dvh] dark:text-white text-gray-100 transition-all duration-200 ease-in-out">
 
             {/* Toggle Button */}
             <button
@@ -113,7 +114,7 @@ const VertcalNavbar = ({ children }) => {
 
                 type="button"
 
-                className=" z-8 fixed top-0 left-2 inline-flex items-center ms-3 text-sm  rounded-lg sm:hidden hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-gray-100 dark:focus:ring-gray-50"
+                className="transition-all duration-200 ease-in-out z-8 fixed top-0 left-2 inline-flex items-center ms-3 text-sm  rounded-lg sm:hidden hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-gray-100 dark:focus:ring-gray-50"
             >
 
                 <span className="sr-only">...</span>
@@ -254,23 +255,20 @@ const VertcalNavbar = ({ children }) => {
                                 {
                                     (currentNav === ENDPOINTS?.MESSAGE_INBOX) ?
 
-                                    <svg className="shadow-lg rounded-full  w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                        <svg className="w-5 h-5 opacity-80  w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                         <path fillRule="evenodd" d="M4 3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h1v2a1 1 0 0 0 1.707.707L9.414 13H15a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4Z" clipRule="evenodd" />
                                         <path fillRule="evenodd" d="M8.023 17.215c.033-.03.066-.062.098-.094L10.243 15H15a3 3 0 0 0 3-3V8h2a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-1v2a1 1 0 0 1-1.707.707L14.586 18H9a1 1 0 0 1-.977-.785Z" clipRule="evenodd" />
                                     </svg>
 
                                     :
-                                    <svg className="shadow-lg rounded-full   w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <svg className="w-5 h-5 opacity-80 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M9 17h6l3 3v-3h2V9h-2M4 4h11v8H9l-3 3v-3H4V4Z" />
                                     </svg>
                                 }
 
                                 <span className="flex-1 ms-3 whitespace-nowrap">{t('AccountPage.messages')}</span>
 
-                                <span
-
-                                    className="bg-white shadow-lg rounded-full  inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm  text-blue-900  rounded-full  dark:text-blue-900"
-                                >
+                                <span className="ml-auto text-xs bg-indigo-100 text-indigo-600 px-2 py-0.5 rounded-md">
 
                                     {allRooms?.length}
 
@@ -299,13 +297,13 @@ const VertcalNavbar = ({ children }) => {
                                 {
                                     (currentNav === ENDPOINTS?.ADD_PRODUCT) ?
 
-                                    <svg className="shadow-lg rounded-full   shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 24">
+                                    <svg className="w-5 h-5 opacity-80  shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 24">
 
                                         <path fillRule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4.243a1 1 0 1 0-2 0V11H7.757a1 1 0 1 0 0 2H11v3.243a1 1 0 1 0 2 0V13h3.243a1 1 0 1 0 0-2H13V7.757Z" clipRule="evenodd" />
 
                                     </svg>
                                     :
-                                    <svg className="shadow-lg rounded-full  w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <svg className="w-5 h-5 opacity-80  w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                     </svg>
                                 }
@@ -329,13 +327,13 @@ const VertcalNavbar = ({ children }) => {
                                     {
                                         currentPageBlogs ?
 
-                                        <svg className="shadow-lg rounded-full w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                        <svg className="w-5 h-5 opacity-80 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                             <path fillRule="evenodd" d="M14 4.182A4.136 4.136 0 0 1 16.9 3c1.087 0 2.13.425 2.899 1.182A4.01 4.01 0 0 1 21 7.037c0 1.068-.43 2.092-1.194 2.849L18.5 11.214l-5.8-5.71 1.287-1.31.012-.012Zm-2.717 2.763L6.186 12.13l2.175 2.141 5.063-5.218-2.141-2.108Zm-6.25 6.886-1.98 5.849a.992.992 0 0 0 .245 1.026 1.03 1.03 0 0 0 1.043.242L10.282 19l-5.25-5.168Zm6.954 4.01 5.096-5.186-2.218-2.183-5.063 5.218 2.185 2.15Z" clipRule="evenodd" />
                                         </svg>
 
                                         :
 
-                                        <svg className="shadow-lg rounded-full  w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <svg className="w-5 h-5 opacity-80  w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M10.779 17.779 4.36 19.918 6.5 13.5m4.279 4.279 8.364-8.643a3.027 3.027 0 0 0-2.14-5.165 3.03 3.03 0 0 0-2.14.886L6.5 13.5m4.279 4.279L6.499 13.5m2.14 2.14 6.213-6.504M12.75 7.04 17 11.28" />
                                         </svg>
                                     }
@@ -529,9 +527,9 @@ const VertcalNavbar = ({ children }) => {
 
             </section>
 
-            <section className="p-0 m-0  sm:ml-64 h-full " >
+            <section className="sm:ml-72 px-2 md:px-6 lg:px-8 h-[100dvh] sticky bottom-0 transition-all duration-200 ease-in-out bg-gradient-to-l from-blue-50 to-white overflow-y-auto" >
 
-                <div className="p-0 m-0 border-0  border-white rounded-lg dark:border-gray-700">
+                <div className="p-0 m-0 border-0  border-white rounded-lg dark:border-gray-700 transition-all duration-200 ease-in-out">
 
                     <section className="flex items-center justify-end h-auto mb-0 pb-0 rounded-sm md:mb-6 md:pb-1 sticky-top top-5">
 
@@ -547,13 +545,13 @@ const VertcalNavbar = ({ children }) => {
 
                         aria-labelledby={`${currentNav}-tab-button`}
 
-                        className="h-full rounded-lg w-auto sm:mb-[30px] sm:pb-[50px] sm:z-[1000] mt-0 mb-2 sm:pt-1"
+                        className="h-full rounded-lg w-auto h-full sm:z-[1000] mt-0 mb-2 sm:pt-1 transition-all duration-200 ease-in-out"
                     > 
                         <ScrollTop/>
 
                         <ButtonScrollTopDown>
 
-                            <section className="mt-[40px] md:mt-auto">
+                            <section className=" md:mt-auto">
                                 {children}
                             </section>
 

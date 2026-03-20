@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import OwnerAvatar from "./OwnerProfil";
 import ScrollingContent from "./ScrollContain";
 import { useTranslation } from 'react-i18next';
 import { addMessageNotif, addUser } from "../slices/chatSlice";
 import { addToCart } from "../slices/cartSlice";
+import { useRef } from "react";
 // Import lazy du composant
 const PrintNumberStars = React.lazy(() => import("./SystemStar"));
 
@@ -20,19 +21,53 @@ const ProductCard = ({
 
 }) => {
 
+
     const dispatch = useDispatch();
 
     const quantityProduct = (item?.quantity_product !== "0")
 
     const { t } = useTranslation();
 
+    const variantProduct = item?.variants
+
+    const nberVariants = variantProduct.length
+
+    const imageIndexRef = useRef(0)
+
+    const [currentImage, setCurrentImage] = useState(
+        variantProduct[0]?.image
+    )
+
+    useEffect(() => {
+
+        if (nberVariants <= 1) return
+
+        const interval = setInterval(() => {
+
+            imageIndexRef.current =
+                (imageIndexRef.current + 1) % nberVariants
+
+            setCurrentImage(
+                variantProduct[imageIndexRef.current]?.image
+            )
+
+        }, 3000)
+
+        return () => clearInterval(interval)
+
+    }, [nberVariants, variantProduct])
+
+
     return (
 
         <div
-
             className={`
-            rounded-lg  w-auto md:max-w-[250px] shadow-xs transition transform hover:-translate-y-1 hover:shadow-lg ${isInCart ? "opacity-50 pointer-events-none bg-gray-100" : "bg-white"
-                }`}
+                rounded-lg
+                w-auto md:max-w-100 
+                shadow-xs transition transform
+                hover:-translate-y-1 hover:shadow-lg
+                ${isInCart ? "opacity-50 pointer-events-none bg-gray-100" : "bg-white"
+            }`}
         >
             {/* Image & Modal Trigger */}
             <div>
@@ -62,25 +97,26 @@ const ProductCard = ({
                     className="
                       absolute inset-0 
                       bg-cover bg-center 
-                      blur-sm 
+                      blur-sm w-full
+                      h-64 
                       scale-110
                       opacity-60
                       transition-transform
                       duration-500
                     "
-                    style={{ backgroundImage: `url(${item?.image_product})` }}
+                     style={{ backgroundImage: `url(${currentImage})` }}
                   />
 
                   {/* Image principale du produit */}
                   <img
-                    src={item?.image_product}
+                    src={currentImage}
                     alt={item?.name_product || "Produit"}
                     loading="lazy"
                     className="
                       relative
                       w-full
                       h-full
-                      object-contain
+                      object-cover
                       transition-transform
                       duration-300
                       ease-in-out

@@ -22,7 +22,11 @@ i18n
      en: {
 
          translation: {
-               
+             payment_mode: "--Payment mode--",
+             "CASH":"Cash",
+             "CARD":"Card",
+             "MOBILE":"Mobile",
+
              verifyAccount: "Please verify your account to continue",
 
              services_text_content: {
@@ -741,6 +745,10 @@ i18n
      fr: {
 
          translation: {
+             payment_mode:"--Mode de paiment--",
+             "CASH": "Cash",
+             "CARD": "Carte",
+             "MOBILE": "Mobile",
              verifyAccount: "Merci de vérifier votre compte pour continuer", 
              services_text_content: {
                  livraison: {

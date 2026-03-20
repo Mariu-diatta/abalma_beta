@@ -91,7 +91,7 @@ function SubscriptionCard({
                 {/* Bouton */}
                 <button
                     onClick={onSubscribe}
-                    className="bg-gradient-to-r from-red-50 to-gray-200 bottom-2 w-full bg-indigo-50 hover:bg-indigo-100 text-white font-medium py-2.5 rounded-xl transition cursor-pointer"
+                    className="bg-gradient-to-r from-orange-500 to-yellow-50 bottom-2 w-full bg-indigo-50 hover:bg-indigo-100 text-white font-medium py-2.5 rounded-xl transition cursor-pointer"
                 >
                     {t("my_subscription")}
 
@@ -164,7 +164,7 @@ export default function SubscriptionsPage() {
 
     return (
 
-        <main className="min-h-screen flex flex-col items-center justify-center bg-gray-50 bg-none  pt-[2dvh] mx-2">
+        <main className=" flex flex-col items-center justify-center bg-gray-50 bg-none  pt-[2dvh] mx-2">
 
             <button
 
@@ -189,11 +189,11 @@ export default function SubscriptionsPage() {
 
             </button>
 
-            <div className="m-auto text-center">
+            <div className="m-auto text-start py-5">
                 <TitleCompGen title={t("Subscriptionb2b")} />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-none overflow-y-auto h-full scrollbor_hidden py-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-none overflow-y-auto h-full scrollbor_hidden pb-3 pt-0 ">
 
                 <SubscriptionCard
                     title={t("discovery")}
@@ -204,40 +204,41 @@ export default function SubscriptionsPage() {
                     onSubscribe={() => handleSubscribe("price_1SSl4MCEAhT0NnGVWwQhaslP")}
                 />
 
-                <SubscriptionCard
-                    title="Pro"
-                    price="9,00€ / mois"
-                    subtitle="Idéal pour les artisans et les dropshippers"
-                    features={[
-                        "Badge vérifié",
-                        "Contact illimité",
-                        "Support prioritaire",
-                        "Visibilité accrue",
-                        "Accès à des fournisseurs exclusifs",
-                        "Mises à jour automatiques des stocks",
-                        "Suivi des commandes en temps réel",
-                        "Gestion simplifiée des retours",
-                        "Analyse des ventes et statistiques détaillées",
-                        "Campagnes marketing automatisées",
-                        "Optimisation SEO des fiches produits",
-                        "Accès à des outils de pricing dynamique",
-                        "Formation et conseils pour booster les ventes",
-                        "Alertes sur les produits tendance",
-                    ]}
-                    highlight={true}
-                    onSubscribe={() => handleSubscribe()}
-                />
+                {/*<SubscriptionCard*/}
+                {/*    title="Pro"*/}
+                {/*    price="9,00€ / mois"*/}
+                {/*    subtitle="Idéal pour les artisans et les dropshippers"*/}
+                {/*    features={[*/}
+                {/*        "Badge vérifié",*/}
+                {/*        "Contact illimité",*/}
+                {/*        "Support prioritaire",*/}
+                {/*        "Visibilité accrue",*/}
+                {/*        "Accès à des fournisseurs exclusifs",*/}
+                {/*        "Mises à jour automatiques des stocks",*/}
+                {/*        "Suivi des commandes en temps réel",*/}
+                {/*        "Gestion simplifiée des retours",*/}
+                {/*        "Analyse des ventes et statistiques détaillées",*/}
+                {/*        "Campagnes marketing automatisées",*/}
+                {/*        "Optimisation SEO des fiches produits",*/}
+                {/*        "Accès à des outils de pricing dynamique",*/}
+                {/*        "Formation et conseils pour booster les ventes",*/}
+                {/*        "Alertes sur les produits tendance",*/}
+                {/*    ]}*/}
+                {/*    highlight={true}*/}
+                {/*    onSubscribe={() => handleSubscribe()}*/}
+                {/*/>*/}
 
                 <SubscriptionCard
-                    title={t("Business")}
+                    title={t("Pro")}
                     price="20,00€ / mois"
                     subtitle="Pour les équipes"
                     features={[
-                        "Multi-comptes",
-                        "Intégration API",
-                        "Assistance dédiée",
+                        "Lancez et gérez votre activité de dropshipping facilement",
+                        "Accès à des formations expertes",
+                        "Chats illimités sans restriction",
+                        "Accompagnement personnalisé prioritaire",
                     ]}
-                    highlight={false}
+                    highlight={true}
                     onSubscribe={()=>handleSubscribe("price_1SSl8mCEAhT0NnGVixibJU9I")}
                 />
 

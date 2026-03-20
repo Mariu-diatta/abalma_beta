@@ -22,6 +22,8 @@ const ProductDetailsSection = ({ isOpen, onClose}) => {
 
     const product = useSelector(state => state.cart.selectedProductView);
 
+    const [index, setIndex] = useState(0);
+
     if (!isOpen || !product) return null;
 
     const handleAddToCart = () => {
@@ -45,8 +47,14 @@ const ProductDetailsSection = ({ isOpen, onClose}) => {
     const operations = [
         { logo: express_delivery, title: t("delivery"), value: product?.delivery },
         { logo: home_5657414, title: t("adress"), value: product?.adress },
-        { logo: pay_8331969, title: t("paymentMethod"), value: product?.paymentMethod }
+        { logo: pay_8331969, title: t("paymentMethod"), value: product?.payment_method }
     ];
+
+    const variantsProduct = product?.variants
+
+    const imageCurrentVariantImage = product?.variants?.[index]?.image
+
+    const getPrevImageVariant = (index) => index < (variantsProduct.length - 1) ? (index + 1) : 0
 
     return (
 
@@ -55,7 +63,7 @@ const ProductDetailsSection = ({ isOpen, onClose}) => {
             {/* Overlay */}
             <div
                 className="absolute inset-0 bg-black/60"
-                onClick={onClose}
+                onClick={() => { onClose(); setIndex(0) }}
             />
 
             {/* Modal */}
@@ -63,7 +71,7 @@ const ProductDetailsSection = ({ isOpen, onClose}) => {
 
                 {/* Close */}
                 <button
-                    onClick={onClose}
+                    onClick={() => { onClose();  setIndex(0)}}
                     className="absolute right-4 top-4 text-gray-500 hover:text-black"
                 >
                     ✖
@@ -77,9 +85,10 @@ const ProductDetailsSection = ({ isOpen, onClose}) => {
                         <div className="max-w-md mx-auto">
 
                             <img
-                                src={product?.image_product}
+                                src={imageCurrentVariantImage}
                                 alt={product?.name_product}
                                 className="w-full object-contain"
+                                onClick={() => setIndex(getPrevImageVariant(index))}
                             />
 
                         </div>
@@ -151,15 +160,20 @@ const ProductDetailsSection = ({ isOpen, onClose}) => {
                                 </legend>
                                 <div className="flex gap-2 mt-2">
 
-                                    {Array.isArray(product?.color_product) && product?.color_product?.map((color, index) => (
+                                    {Array.isArray(variantsProduct) && variantsProduct?.map((variant, index) => (
 
                                         <div
                                             key={index}
-                                            onClick={() => setSelectedColor(color)}
+                                            onClick={
+                                                () => {
+                                                    setSelectedColor(variant?.color);
+                                                    setIndex(index)
+                                                }
+                                            }
                                             className={`w-8 h-8 rounded-full border cursor-pointer  border-gray-100 shadow-md
-                                                ${selectedColor === color ? "ring-2 ring-blue-300" : ""}
+                                                ${selectedColor === variant?.color ? "ring-2 ring-blue-300" : ""}
                                               `}
-                                            style={{ backgroundColor: color }}
+                                            style={{ backgroundColor: variant?.color}}
                                         />
 
                                     ))}
@@ -186,7 +200,7 @@ const ProductDetailsSection = ({ isOpen, onClose}) => {
 
                                 <Info label="Type" value={product?.type_choice} />
                                 <Info label="Quantité" value={product?.quantity_product} />
-                                <Info label="Taille" value={product?.taille_product} />
+                                <Info label="Taille" value={variantsProduct?.map(variant=> variant.size)} />
                                 <Info label="Opération" value={product?.operation_product} />
                                 <Info label="Catégorie" value={product?.categorie_product} />
 
@@ -246,6 +260,8 @@ export default ProductDetailsSection;
 
 const Info = ({ label, value }) => {
 
+    const [size, setSize] = useState(null)
+
     if (!value || (Array.isArray(value) && value.length === 0)) return null;
 
     return (
@@ -261,7 +277,8 @@ const Info = ({ label, value }) => {
                     value.map((item, index) => (
                         <span
                             key={index}
-                            className="px-3 py-1 border rounded border-gray-300 shadow-md"
+                            className={`px-3 py-1 border rounded border-gray-300 shadow-md ${size===item && "bg-green-400"}`}
+                            oncClick={()=>setSize(item) }
                         >
                             {String(item).toLowerCase()}
                         </span>

@@ -111,7 +111,8 @@ const PrintMessagesOnChat = ({
 
         return (
 
-            <div className="shadow-lg flex flex-col gap-4 h-[70dvh] overflow-y-auto z-0 scrollbor_hidden rounded-lg p-4 bg-gray-50 shadow-lg relative">
+            <div className="shadow-lg flex flex-col gap-4 min-h-[80dvh] min-h-[80dvh] overflow-y-auto 
+                z-0 scrollbor_hidden rounded-lg p-4 bg-gray-50 shadow-lg relative">
 
                 <button
                     onClick={setHandleButtonDianios(false)}
@@ -221,7 +222,7 @@ const PrintMessagesOnChat = ({
                     </>
                 }
 
-                <ul className="flex-1 overflow-y-auto border-b-0 mb-10 px-2 mx-3 mt-8 scrollbor_hidden max-h-[70dvh] min-h-[70dvh] md:px-[3vh]">
+                <ul className="flex-1 overflow-y-auto border-b-0  scrollbor_hidden max-h-[70dvh] min-h-[70dvh] md:px-[3vh]">
 
                     {
                         currentUser?.id &&
@@ -247,7 +248,7 @@ const PrintMessagesOnChat = ({
                                         )
                                     }
 
-                                    <li className={`flex items-end gap-2 pb-3 ${alignment}`}>
+                                    <li className={`flex items-end gap-2 pb-1 ${alignment}`}>
 
                                         {
                                             !isCurrentUser && (
