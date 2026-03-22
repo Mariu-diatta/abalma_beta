@@ -217,7 +217,7 @@ const RegisterForm = () => {
                             type="submit"
                             className="
                                 w-full py-3 rounded-lg font-medium
-                                bg-gradient-to-r from-blue-400 to-red-200                                
+                                bg-gradient-to-r from-blue-200 to-blue-100                                 
                                 text-white shadow-md
                                 hover:shadow-lg hover:scale-[1.02]
                                 active:scale-[0.98]

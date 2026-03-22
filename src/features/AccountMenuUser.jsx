@@ -34,7 +34,7 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
             <button
                 ref={trigger}
                 onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="hover:bg-gray-50 relative inline-flex items-center justify-center gap-0 rounded-lg  px-1 dark:text-white"
+                className="hover:bg-gray-50 relative inline-flex items-center justify-center gap-0 rounded-lg  px-1"
             >
                 {
                     userImage ? (
@@ -98,7 +98,7 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
                 onBlur={() => setDropdownOpen(false)}
 
-                className={`bg-gradient-to-l from-blue-300 to-white-300 h-100 border border-gray-100 shadow-lg absolute right-0 top-full me-3 overflow-hidden rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${dropdownOpen ? "block z-100" : "hidden"}`}
+                className={`bg-blue-100 h-100 border border-gray-100 shadow-lg absolute right-0 top-full me-3 overflow-hidden rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${dropdownOpen ? "block z-100" : "hidden"}`}
 
             >
 

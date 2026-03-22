@@ -54,7 +54,7 @@ const HomeContain = () => {
                 </section>
 
                 {/* ========= SERVICES ========= */}
-                <section aria-labelledby="services" className="bg-gradient-to-br from-red-50 to-blue-100 bg-gray-50 px-1 translate-y-0 transition-all duration-1000 ease-in-out rounded-b-xl">
+                <section aria-labelledby="services" className=" px-1 translate-y-0 transition-all duration-1000 ease-in-out ">
 
                     <ServicesPlatforms />
            

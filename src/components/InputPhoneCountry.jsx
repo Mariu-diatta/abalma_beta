@@ -31,7 +31,9 @@ export default function PhoneInput({ form, handleChange, setForm }) {
     };
 
     return (
+
         <div className="w-auto flex flex-wrap items-center justify-center gap-2 px-2">
+
 
             {/* Dropdown pays */}
             <select
@@ -41,7 +43,7 @@ export default function PhoneInput({ form, handleChange, setForm }) {
                     handleCountryChange(countries.find((c) => c.name === e.target.value))
                 }
             >
-                {countries.map((c) => (
+                {countries?.map((c) => (
                     <option key={c.name} value={c.name} disabled={c.disabled} >
                         {c.name}
                     </option>
@@ -58,7 +60,7 @@ export default function PhoneInput({ form, handleChange, setForm }) {
                 type="tel"
                 name="telephone"
                 placeholder={t("form.phone")}
-                value={form.telephone}
+                value={form?.telephone}
                 onChange={handleChange_}
             />
 

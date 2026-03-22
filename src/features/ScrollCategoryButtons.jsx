@@ -112,13 +112,14 @@ const ScrollableCategoryButtons = ({
 
             <section
 
-                className=" w-full mb-0 sticky top-[10dvh] z-5  px-3 py-[0dvh] md:py-0 lg:py-0 bg-none mb-0"
+                className=" w-full mb-0 sticky top-[10dvh] z-5  px-1 py-[0dvh] md:py-0 lg:py-0 bg-none mb-0"
             >
 
                 {
                     showLeft && (
 
                         <button
+                            type="button"
 
                             className="absolute left-0 top-1/2 -translate-y-1/2 z-5 p-2 shadow rounded-full bg-none hidden md:flex bg-white"
 
@@ -157,6 +158,7 @@ const ScrollableCategoryButtons = ({
                     showRight && (
 
                         <button
+                            type="button"
                             className="absolute right-0 top-1/2 -translate-y-1/2 z-5 p-3 shadow rounded-full hidden md:flex bg-white"
                             onClick={() => scroll("right")}
                         >

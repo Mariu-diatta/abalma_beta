@@ -9,34 +9,34 @@ const LocationSearchPopover = ({ setLocationSearch}) => {
 
     const inputRef = useRef(null);
 
-    useEffect(
-        () => {
-            setLocationSearch(selectedLocation)
-        }, [setLocationSearch,selectedLocation]
-    )
-
-  const searchLocation = async () => {
-    if (!query) return;
-
-    try {
-      const response = await axios.get(
-        "https://nominatim.openstreetmap.org/search",
-        {
-          params: {
-            q: query,
-            format: "json",
-            addressdetails: 1,
-            limit: 10,
-          },
+    useEffect(() => {
+        if (selectedLocation) {
+            setLocationSearch(selectedLocation); // ← seulement quand selectedLocation change
         }
-      );
+    }, [selectedLocation, setLocationSearch]); 
 
-      setResults(response.data);
-      setIsOpen(true); // ouvre le popover
-    } catch (error) {
-      console.error("Erreur recherche lieu :", error);
-    }
-  };
+    const searchLocation = async () => {
+        if (!query) return;
+
+        try {
+          const response = await axios.get(
+            "https://nominatim.openstreetmap.org/search",
+            {
+              params: {
+                q: query,
+                format: "json",
+                addressdetails: 1,
+                limit: 10,
+              },
+            }
+          );
+
+          setResults(response.data);
+          setIsOpen(true); // ouvre le popover
+        } catch (error) {
+          console.error("Erreur recherche lieu :", error);
+        }
+   };
 
   const handleSelect = (place) => {
     const locationString = `${place.display_name} | Lat:${place.lat}, Lon:${place.lon}`;

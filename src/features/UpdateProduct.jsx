@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import api from "../services/Axios";
@@ -13,7 +13,7 @@ import { ENDPOINTS, LIST_CATEGORIES_KEYS, PAYEMENTMODE, availableColors, availab
 import { NavLink } from 'react-router-dom';
 import { setCurrentNav } from "../slices/navigateSlice";
 import LocationSearchPopover from "./LocationSearch";
-
+import { FaDollarSign, FaBoxes, FaTruck, FaTag, FaCheckCircle, FaTimesCircle, FaEdit, FaTrash} from "react-icons/fa";
 
 
 const AddUploadProduct = () => {
@@ -23,7 +23,6 @@ const AddUploadProduct = () => {
 
     const user = useSelector((state) => state.auth.user);
     const [isProductAdded, setIsProductAdded] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
     const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
 
     const [currentSection, setCurrentSection] = useState(1);
@@ -62,8 +61,6 @@ const AddUploadProduct = () => {
     const getAdress = (newAdress) => {
         setDataProduct(prev => ({ ...prev, adress: newAdress }))
     }
-
-    const [categorie, setCategorie] = useState(dataProduct?.categorie_product || "");
 
     const [imageLoaded, setImageLoaded] = useState(null); 
 
@@ -227,8 +224,6 @@ const AddUploadProduct = () => {
     };
 
     const saveDataForSubmitForm = (e) => {
-
-        setIsLoading(true)
         e.preventDefault();
         setIsProductAdded(true);
     };
@@ -249,30 +244,23 @@ const AddUploadProduct = () => {
         try {
 
             const formData = new FormData();
-            const variants = [];
 
-            // Génère les variants à partir des couleurs et tailles sélectionnées
-            const generateVariants = () => {
+            // Préparer images pour l'envoi
+            const variantsToSend = imageVariants.map(img => {
+                if (!img.color || !img.size) {
+                    throw new Error("Chaque image doit avoir une couleur et une taille");
+                }
+                formData.append("variant_images", img.file);
+                return {
+                    color: img.color,
+                    size: img.size,
+                };
+            });
 
-                imageVariants.forEach(img => {
-
-                    formData.append("variant_images", img.file);
-
-                    if (img.color && img.size) {
-
-                        variants.push({
-                            color: img.color,
-                            size: img.size
-                        });
-                    }
-                });
-
-                return variants;
-            };
 
             // Tous les champs
             Object.entries(dataProduct).forEach(([key, value]) => {
-                if (!socialLinks.includes(key) && key !== "categorie_product") formData.append(key, value ?? "");
+                if (!socialLinks.includes(key)) formData.append(key, value ?? "");
             });
 
             formData.append("social_links", JSON.stringify(social_links));
@@ -281,9 +269,6 @@ const AddUploadProduct = () => {
             const imagesToSend = imageVariants.map(img => ({
                 image: img.file,
             }));
-
-            // Préparer variants pour l'envoi
-            const variantsToSend = generateVariants(); // déjà génère [{imageFile, color, size}]
 
             formData.append("variants", JSON.stringify(variantsToSend));
 
@@ -303,9 +288,26 @@ const AddUploadProduct = () => {
                 formData.append("date_fin_emprunt", formatToISOString(dataProduct.date_fin_emprunt));
             }
 
-            const category = await api.post("/categories/", { name : categorie })
+            if (!dataProduct?.price_product) {
 
-            formData.append("categorie_product", category?.data?.slug)
+                notify("Erreur", "price product obligatoire!");
+
+                throw new Error("price product obligatoire")
+            }
+
+            if (dataProduct?.categorie_product) {
+
+                const category = await api.post("/categories/", { name: dataProduct.categorie_product });
+
+                formData.append("categorie_product", category?.data?.slug);
+
+            } else {
+
+                notify("Erreur", " Categorie obligatoire!");
+
+                throw new Error("Categorie obligatoire"); // évite d'envoyer vide
+
+            }
 
             await api.post("/produits/", formData, { headers: { "Content-Type": "multipart/form-data" } });
 
@@ -317,7 +319,26 @@ const AddUploadProduct = () => {
 
             console.log("Erreur de la donnée", err)
 
-            notify("Erreur", " Erreur vérifier les données !");
+            const responseData = err?.response?.data
+
+            var resp=""
+
+            if (typeof responseData === "object" && !Array.isArray(responseData) && responseData !== null) {
+                var i = 0;
+                while (i <= responseData.length) {
+                    i++;
+                    resp += `${responseData[i]}`
+                }
+            } else if (Array.isArray(responseData)) {
+                var j = 0;
+                while (j<= responseData.length) {
+                    j++;
+                    resp += `${responseData[i]}`
+                }
+
+            }
+
+            notify("Erreur", `${resp}`);
 
         } finally {
             setDataProduct(initDataProduct);
@@ -358,15 +379,13 @@ const AddUploadProduct = () => {
 
             {isProductAdded ? (
                 <ProductSummary
-                    isLoading={isLoading}
+                    isLoading={isLoadingSubmit}
                     product={dataProduct}
                     t={t}
                     onEdit={() => {
                         setCurrentSection(5)
                         setDataProduct({ ...dataProduct });
                         setIsProductAdded(false);
-                        setImageVariants([])
-                        setIsLoading(false)
                         setIsLoadingSubmit(false)
                         setIsProductAdded(false)
                     }}
@@ -375,19 +394,17 @@ const AddUploadProduct = () => {
                         setIsProductAdded(false);
                         setCurrentSection(1)
                         setImageVariants([])
-                        setIsLoading(false)
                         setIsLoadingSubmit(false)
                         setIsProductAdded(false)
 
                     }}
                     onAddNew={(e) => {
                         submitForm(e);
-                        setIsLoading(false)
-                        setIsLoadingSubmit(false)
-                        setIsProductAdded(false)
-                        setImageVariants([])
-
-
+                        if (!isLoadingSubmit) {
+                            setIsLoadingSubmit(false)
+                            setIsProductAdded(false)
+                            setImageVariants([])
+                        }
                     }}
                 >
                     <img
@@ -440,17 +457,18 @@ const AddUploadProduct = () => {
                                 {/*/>*/}
 
                                 <InputBox
-                                    type="Number"
-                                    min="0"
-                                    id="price_product"
-                                    name="price_product"
-                                    value={dataProduct?.price_product}
-                                    onChange={onChangeClick}
-                                    placeholder={t("price")}
-                                    required
+                                        type="Number"
+                                        min="0"
+                                        id="price_product"
+                                        name="price_product"
+                                        value={dataProduct?.price_product}
+                                        onChange={onChangeClick}
+                                        placeholder={t("price")}
+                                        required={true}
                                 />
 
                                 <select
+                                    required={true}
                                     id="Currency_price"
                                     name="Currency_price"
                                     value={dataProduct?.Currency_price}
@@ -486,15 +504,15 @@ const AddUploadProduct = () => {
                                 </h2>
 
                                 <select
-                                    id="categorie_product"
-                                    name="categorie_product"
-                                    value={categorie}                 // <-- utiliser l'état local
-                                    onChange={(e) => {
-                                        setCategorie(e.target.value);  // <-- mise à jour de l'état
-                                        onChangeClick(e);
-                                    }}
-                                    className="my-4 border-0 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-0"
-                                    required
+                                        id="categorie_product"
+                                        name="categorie_product"
+                                        value={dataProduct.categorie_product || ""}
+                                        onChange={(e) => {
+                                            const value = e.target.value;
+                                            setDataProduct(prev => ({ ...prev, categorie_product: value })); // <-- assure que l'état principal est mis à jour
+                                        }}
+                                        className="my-4 border-0 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-0"
+                                        required={true}
                                 >
                                 <option value="" disabled>{t("add_product.select_category")}</option>
                                     {
@@ -528,7 +546,6 @@ const AddUploadProduct = () => {
                                             </div>
                                         ))}
                                     </div>
-
                                 <textarea
                                     id="description_product"
                                     name="description_product"
@@ -536,8 +553,10 @@ const AddUploadProduct = () => {
                                     onChange={onChangeClick}
                                     rows="6"
                                     className="my-4 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg focus:outline-none border border-gray-300 focus:bg-yellow-100"
-                                    placeholder="Description du produit..."
-                                    required
+                                    placeholder="Description du produit entre 20 et 100 caractères..."
+                                    required={true}
+                                    minLength={20}
+                                    maxLength={100}
                                 />
 
                                 <button type="button" onClick={nextSection} className={` ${currentSection >= 3 ? "hidden" : ""}  px-4 py-2 bg-gradient-to-l from-red-50 to-gray-200 text-white rounded-lg mt-4`}>
@@ -757,6 +776,7 @@ const ProductField = ({ label, value, isLong }) => {
 };
 
 
+
 const ProductSummary = ({
     product,
     onEdit,
@@ -764,32 +784,36 @@ const ProductSummary = ({
     onAddNew,
     t,
     isLoading,
-    children
+    children,
 }) => {
     if (!product) return null;
 
-    // Liste des champs simples
     const simpleFields = [
-        { label: t("name"), value: product.name_product },
-        { label: t("price"), value: `${product.price_product} ${product.Currency_price}` },
-        { label: t("quantity"), value: product.quantity_product },
-        { label: t("shipping_price"), value: product.shipping_price },
-        { label: t("operation"), value: product.operation_product },
-        { label: t("delivery"), value: `${product.delivery || ""} ${product.adress || ""}` },
-        { label: t("add_product.select_category"), value: `${product.categorie_product || ""}` },
-        { label: t("adress"), value: product.adress },
-        { label: t("availability"), value: product.is_available ? t("yes") : t("no") },
-        { label: t("promotion"), value: product.promotion ? t("yes") : t("no") },
-        { label: t("active"), value: product.is_active ? t("yes") : t("no") },
-        { label: t("verified"), value: product.is_verified ? t("yes") : t("no") },
+        { icon: <FaDollarSign className="text-yellow-500" />, label: t("price"), value: `${product.price_product} ${product.Currency_price}` },
+        { icon: <FaBoxes className="text-blue-500" />, label: t("quantity"), value: product.quantity_product },
+        { icon: <FaTruck className="text-gray-600" />, label: t("shipping_price"), value: `${product.shipping_price} ${ product.Currency_price }` },
+        { icon: <FaTag className="text-purple-500" />, label: t("category"), value: product.categorie_product || "" },
+        { icon: product.is_available ? <FaCheckCircle className="text-green-500" /> : <FaTimesCircle className="text-red-500" />, label: t("availability"), value: product.is_available ? t("yes") : t("no") },
+        { icon: product.promotion ? <FaTag className="text-pink-500" /> : null, label: t("promotion"), value: product.promotion ? t("yes") : t("no") },
+        { icon: product.is_active ? <FaCheckCircle className="text-green-400" /> : <FaTimesCircle className="text-red-400" />, label: t("active"), value: product.is_active ? t("yes") : t("no") },
+        { icon: product.is_verified ? <FaCheckCircle className="text-blue-400" /> : <FaTimesCircle className="text-gray-400" />, label: t("verified"), value: product.is_verified ? t("yes") : t("no") },
     ];
 
     return (
-        <div className="flex flex-col gap-6 p-6 rounded-lg w-full max-w-2xl mx-auto bg-gradient-to-r from-red-100 to-blue-200 text-gray-900 dark:text-gray-100 shadow-md">
+        <div className="max-w-3xl mx-auto p-6 bg-gradient-to-br from-blue-0 to-blue-50 rounded-2xl shadow-xl text-gray-900 dark:text-gray-100 flex flex-col gap-6">
 
-            {/* INFORMATIONS DU PRODUIT */}
-            <form className="flex flex-col gap-3 text-sm" onSubmit={onAddNew}>
+            {/* HEADER */}
+            <div className="flex justify-between items-center">
+                <h2 className="text-2xl font-bold">{product.name_product}</h2>
+                {product.promotion && (
+                    <span className="bg-pink-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                        {t("promotion")}
+                    </span>
+                )}
+            </div>
 
+            {/* VARIANTS */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <ProductField
                     label={t("size")}
                     value={Array.isArray(product.taille_product) ? product.taille_product.join(", ") : product.taille_product}
@@ -803,7 +827,7 @@ const ProductSummary = ({
                                 {product.color_product.map((c, i) => (
                                     <span
                                         key={i}
-                                        className="w-6 h-6 rounded-full border border-gray-300"
+                                        className="w-6 h-6 rounded-full border border-gray-300 shadow-inner"
                                         style={{ backgroundColor: c }}
                                     />
                                 ))}
@@ -811,56 +835,65 @@ const ProductSummary = ({
                         ) : product.color_product
                     }
                 />
+            </div>
 
-                <ProductField
-                    label={t("description")}
-                    value={product.description_product}
-                    isLong
-                />
+            {/* DESCRIPTION */}
+            <ProductField
+                label={t("description")}
+                value={product.description_product}
+                isLong
+            />
 
-                {/* Champs simples */}
+            {/* CHAMPS AVEC ICONES */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {simpleFields.map((field, i) => (
-                    <ProductField key={i} label={field.label} value={field.value} />
+                    <div key={i} className="flex items-center gap-2 bg-white p-3 rounded-lg shadow-sm">
+                        {field.icon && <div className="text-lg">{field.icon}</div>}
+                        <div className="flex flex-col">
+                            <span className="text-xs text-gray-500">{field.label}</span>
+                            <span className="font-medium">{field.value}</span>
+                        </div>
+                    </div>
                 ))}
 
-                {/* Champs conditionnels */}
-                {product.type_choice && <ProductField label={t("type_choice")} value={product.type_choice} />}
+                {product.type_choice && (
+                    <div className="flex items-center gap-2 bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm">
+                        <span className="text-xs text-gray-500">{t("type_choice")}</span>
+                        <span className="font-medium">{product.type_choice}</span>
+                    </div>
+                )}
+            </div>
 
-                {children}
+            {children}
 
-                {/* ACTIONS */}
-                <div className="flex flex-wrap gap-3 mt-4">
+            {/* ACTIONS */}
+            <div className="flex flex-wrap gap-3 mt-4 justify-end">
+                <button
+                    onClick={onEdit}
+                    className="flex items-center gap-2 bg-green-100 hover:bg-green-600 text-white px-4 py-2 rounded-full transition-colors"
+                >
+                    <FaEdit /> {t("edit")}
+                </button>
 
+                <button
+                    onClick={onDelete}
+                    className="flex items-center gap-2 bg-red-100 hover:bg-red-600 text-white px-4 py-2 rounded-full transition-colors"
+                >
+                    <FaTrash /> {t("delete")}
+                </button>
+
+                {isLoading ? (
+                    <LoadingCard />
+                ) : (
                     <button
-                        onClick={onEdit}
-                        className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full transition-colors"
+                        type="submit"
+                        onClick={onAddNew}
+                        className="bg-blue-100 hover:bg-blue-600 text-white px-4 py-2 rounded-full transition-colors"
                     >
-                        {t("edit")}
+                        {t("submit")}
                     </button>
-
-                    <button
-                        onClick={onDelete}
-                        className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full transition-colors"
-                    >
-                        {t("delete")}
-                    </button>
-
-                    {!isLoading ? (
-                        <LoadingCard />
-                    ) : (
-                        <button
-                            type="submit"
-                            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full transition-colors"
-                        >
-                            {t("submit")}
-                        </button>
-                    )}
-
-                </div>
-
-            </form>
-
-
+                )}
+            </div>
         </div>
     );
 };

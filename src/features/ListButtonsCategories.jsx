@@ -23,11 +23,14 @@ const ListButtonsCategories = (
 
                         <button
 
+                            type="button"
+
                             key={cat}
 
                             onMouseOver={() => setProductSpecificHandler(cat.replace("_", ""))}
 
-                            onClick={() => {
+                            onClick={(e) => {
+                                e.preventDefault();
                                 const label = cat.replace("_", " ");
                                 setActiveCategory(label);
                                 setActivateButtonCategory(label);

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+ï»¿import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -12,7 +12,7 @@ import image_2 from '../assets/image_2.jpg';
 import image_3 from '../assets/image_3.jpg';
 
 import HoverImage from '../components/HoverImage';
-import TitleCompGen from '../components/TitleComponentGen';
+import TitleCompGen, { TitleCompGenLitle } from '../components/TitleComponentGen';
 
 /* -------------------------------------------------------------------------- */
 /*                             PAGE ENTRY WRAPPER                             */
@@ -88,135 +88,68 @@ const AboutContainer = () => {
     /* ---------------------------------------------------------------------- */
 
     return (
-        <main className="overflow-hidden pt-6 pb-3 lg:pt-6 lg:pb-4 dark:bg-dark bg-home animate-fade-in">
+        <section className="grid lg:grid-cols-2 gap-10 items-center bg-gradient-to-br from-purple-10 to-blue-50 backdrop-blur-xl rounded-3xl shadow-xl p-3 lg:px-10 transition-all duration-500">
 
-            <div className="container mx-auto">
+            {/* ---------------- LEFT (IMAGES) ---------------- */}
+            <div>
 
-                {/* ================================================================
-                   SECTION 1 : IMAGES + TEXTE DE PRÉSENTATION
-                ================================================================= */}
-                <section className="flex flex-wrap items-start justify-between">
+                <TitleCompGenLitle title="Bienvenue dans la plateforme abalma!!" />
 
-                    {/* --------------------------- LEFT IMAGES --------------------------- */}
-                    <div
-                        ref={leftSectionRef}
-                        className="w-full lg:w-6/12 px-4 py-0 opacity-0 translate-y-10 transition-all duration-700 ease-in-out"
-                    >
-                        <div className="flex items-center -mx-3 sm:-mx-4">
-
-                            {/* Left column images */}
-                            <div className="w-full px-3 sm:px-4 xl:w-1/2 ">
-
-                                {
-                                    [
-                                        { img: image_1, text: t('about_image_text') },
-                                        { img: image_2, text: t('about_image_text2') }
-                                    ].map((prod, idx) => (
-
-                                        <div key={idx} className="py-3 sm:py-4">
-
-                                            <HoverImage
-                                                src={prod.img}
-                                                alt={t(`image_${idx + 1}_alt`)}
-                                                text={prod.text}
-                                            />
-
-                                        </div>
-                                    ))
-                                }
-
-                            </div>
-
-                            {/* Right main image */}
-                            <div className="w-full px-3 sm:px-4 xl:w-1/2">
-
-                                <div className="relative z-10 my-4">
-
-                                    <HoverImage
-                                        src={image_3}
-                                        alt={t('image_3_alt')}
-                                        text={t('about_image_text1')}
-                                    />
-
-                                </div>
-
-                            </div>
-
-                        </div>
+                <div
+                    ref={leftSectionRef}
+                    className="grid grid-cols-2 gap-8 opacity-0 translate-y-5 transition-all duration-700"
+                >
+                    {/* Small images */}
+                    <div className="flex flex-col gap-8 justify-between  h-full">
+                        <HoverImage src={image_1} text={t('about_image_text')} />
+                        <HoverImage src={image_2} text={t('about_image_text2')} />
                     </div>
 
-                    {/* ----------------------- RIGHT CONTENT (TEXT) ---------------------- */}
-                    <section
-                        ref={rightSectionRef}
-                        className="
-                            w-full lg:w-1/2 xl:w-5/12 text-sm px-4 mt-6 rounded-lg
-                            opacity-0 translate-y-10 scale-95
-                            transition-all duration-700 ease-out
-                            will-change-transform
-                            data-[visible=true]:opacity-100
-                            data-[visible=true]:translate-y-0
-                            data-[visible=true]:scale-100
-                            hover:shadow-xl
-                        "
-                    >
-                        <div className="px-1 flex-col gap-5">
-
-                            <TitleCompGen title={t('title_policy')} />
-
-                            <h2 className="mb-5 text-md sm:text-xl font-medium text-gray-500 dark:text-white">
-                                {t('subtitle')}
-                            </h2>
-
-                            <p
-                                className="
-                                    mb-5 text-sm md:text-base text-body-color dark:text-dark-6 
-                                    px-1 leading-relaxed whitespace-pre-line max-w-3xl overflow-x-auto scrollbor_hidden
-                                "
-                            >
-                                {t('paragraph')}
-                            </p>
-
-                            <button
-                                onClick={() => {
-                                    navigate(`/${ENDPOINTS.LOGIN}`);
-                                    dispatch(setCurrentNav(ENDPOINTS.LOGIN));
-                                }}
-                                className="cursor-pointer  items-center justify-center py-3 px-7 text-base font-medium text-white bg-primary rounded-full p-2 transition-all duration-300 hover:bg-opacity-90 hover:scale-95"
-                            >
-                                {t('button')}
-                            </button>
-
+                    {/* Big image */}
+                    <div className="flex items-center">
+                        <div className="rounded-2xl overflow-hidden shadow-lg hover:scale-105 transition duration-500">
+                            <HoverImage src={image_3} text={t('about_image_text1')} />
                         </div>
-                    </section>
-
-                </section>
-
-                {/* ================================================================
-                   SECTION 2 : VIDÉO YOUTUBE
-                ================================================================= */}
-                <section className="py-3 sm:py-2 mb-6">
-                    <div className="w-full md:w-1/2 mx-auto rounded-2xl shadow-lg overflow-hidden duration-400 hover:scale-105">
-                        <iframe
-                            width="560"
-                            height="315"
-                            src="https://www.youtube.com/embed/-T0bnilkHxU"
-                            title="YouTube video player"
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                            className="w-full h-64 md:h-96 rounded-2xl shadow-lg"
-                        ></iframe>
                     </div>
-                </section>
-
-                {/* FUTURE ASIDE SECTION (optionnel)
-                <aside>
-                    <div>Recommandations, promotions, etc.</div>
-                </aside>
-                */}
-
+                </div>
             </div>
 
-        </main>
+            {/* ---------------- RIGHT (CONTENT CARD) ---------------- */}
+            <div
+                ref={rightSectionRef}
+                className="bg-white rounded-2xl shadow-lg p-2  opacity-0 translate-y-10 scale-95 transition-all duration-700"
+            >
+                <div className="flex flex-col gap-5">
+
+                    <TitleCompGen title="Choose Abalma!" />
+
+                    <img
+                        src={image_3} alt="pt"
+                        className="rouded-md w-auto h-50 object-cover transition-transform duration-500 ease-in-out hover:h-full"
+                    />
+
+                    <p
+                        className="
+                                mb-5 text-sm text-body-color  
+                                px-1 leading-relaxed whitespace-pre-line max-w-3xl overflow-x-auto scrollbor_hidden
+                            "
+                    >
+                        {t('paragraph')}
+                    </p>
+
+                    <button
+                        onClick={() => {
+                            navigate(`/${ENDPOINTS.LOGIN}`);
+                            dispatch(setCurrentNav(ENDPOINTS.LOGIN));
+                        }}
+                        className="mt-4 w-fit px-6 py-3 rounded-full bg-blue-100 text-white font-medium shadow-md hover:scale-105 hover:bg-blue-700 transition-all"
+                    >
+                        {t('button')}
+                    </button>
+
+                </div>
+            </div>
+
+        </section>
     );
 };

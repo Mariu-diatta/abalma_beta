@@ -575,7 +575,7 @@ const SingleActivity = () => {
 
     return (
 
-        <main className="border-0 w-full relative m-auto pb-1 mt-0 pt-0  mt-0 bg-gradient-to-br from-red-50 to-blue-100 rounded-full translate-y-6 transition-all duration-1000 ease-in-out">
+        <main className="border-0 w-full relative m-auto pb-1 mt-0 pt-0  mt-0 bg-none translate-y-6 transition-all duration-1000 ease-in-out">
 
             <div className="relative md:w-3/4 m-auto mt-2 rounded-2xl p-2 bg-none">
 

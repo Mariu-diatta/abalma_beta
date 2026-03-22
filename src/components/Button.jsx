@@ -24,15 +24,15 @@ const WhiteRoundedButton = ({ titleButton, to }) => {
           `;
 
     const defaultClasses = isRegister? `
-        bg-gradient-to-r from-red-50 to-gray-200
+        bg-blue-200  shadow-lg
         hover:from-purple-100 hover:to-blue-200
-        border-gray-200
+        border border-gray-200
         `
         : `
-        bg-white
+        bg-white shadow-lg
         hover:bg-gradient-to-br hover:from-purple-50 hover:to-blue-100
         border-t sm:border-b-0 lg:border-b lg:border-t-0
-        border-gray-100
+        border border-gray-100
       `;
 
     const activeClasses = `

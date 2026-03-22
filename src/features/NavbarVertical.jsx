@@ -12,7 +12,6 @@ import ScrollTop, { ButtonScrollTopDown } from "../components/ButtonScroll";
 import ButtonUpdateAccountUserToPro from "../components/ButtonPro";
 import { ENDPOINTS, fetchRooms } from "../utils";
 import ButtonsNavigateThemecolorPayDropdownaccount from "./DropDownAccount";
-import AnaliesChatsWithAi from "../pages/ChatWithAi";
 
 const VertcalNavbar = ({ children }) => {
 
@@ -545,13 +544,13 @@ const VertcalNavbar = ({ children }) => {
 
                         aria-labelledby={`${currentNav}-tab-button`}
 
-                        className="h-full rounded-lg w-auto h-full sm:z-[1000] mt-0 mb-2 sm:pt-1 transition-all duration-200 ease-in-out"
+                        className="rounded-lg w-full h-full sm:z-[1000] mt-0 mb-2 sm:pt-1 transition-all duration-200 ease-in-out"
                     > 
                         <ScrollTop/>
 
                         <ButtonScrollTopDown>
 
-                            <section className=" md:mt-auto">
+                            <section className="mt-5">
                                 {children}
                             </section>
 

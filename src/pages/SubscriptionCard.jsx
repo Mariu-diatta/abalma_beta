@@ -91,7 +91,7 @@ function SubscriptionCard({
                 {/* Bouton */}
                 <button
                     onClick={onSubscribe}
-                    className="bg-gradient-to-r from-orange-500 to-yellow-50 bottom-2 w-full bg-indigo-50 hover:bg-indigo-100 text-white font-medium py-2.5 rounded-xl transition cursor-pointer"
+                    className="bg-gradient-to-r from-blue-200 to-blue-50 bottom-2 w-full bg-indigo-50 hover:bg-indigo-100 text-white font-medium py-2.5 rounded-xl transition cursor-pointer"
                 >
                     {t("my_subscription")}
 
