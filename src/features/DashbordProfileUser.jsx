@@ -129,13 +129,13 @@ const Tabs = () => {
 
     return (
 
-        <div className="h-screan w-full px-1 py-1  z-0">
+        <div className="h-screan w-full py-5  z-0">
 
 
             {/* Tabs Navigation */}
             <nav className="mb-4 border-0  bg-none" role="tablist" aria-label="Main tabs">
 
-                <ul className="flex space-x-0 overflow-x-auto text-sm font-medium text-center bg-white/70 backdrop-blur-md ">
+                <ul className="flex space-x-0 overflow-x-auto text-sm font-medium text-center w-full backdrop-blur-md ">
 
                     {
                         tabs?.map((tab) => (

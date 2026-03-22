@@ -70,7 +70,7 @@ const UsersContactsList = () => {
 
     return (
 
-        <div className="dark:text-white text-gray-800   absolute fixed w-[98dvw] md:w-[80dvw] m-auto sm:rounded-lg pb-6 mb-6  mt-5 pb-[30dvh] overflow-y-auto h-full scrollbor_hidden">
+        <div className="absolute dark:text-white text-gray-800   absolute fixed w-[98dvw] md:w-[80dvw] m-auto sm:rounded-lg pb-6 mb-6  mt-5 pb-[30dvh] overflow-y-auto h-full scrollbor_hidden">
 
             <TitleCompGen title={t('ParamText.title')} />
 
@@ -164,13 +164,13 @@ const UsersContactsList = () => {
 
                         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-lg p-1">
 
-                            <thead className="border border-gray-200">
+                            <thead className="border-0 border-gray-200">
 
                                 <tr>
 
-                                    <th className="px-6 py-3">{t('ParamText.table.name')}</th>
+                                    <th className="px-2 py-3">{t('ParamText.table.name')}</th>
 
-                                    <th className="px-6 py-3">{t('ParamText.table.about')}</th>
+                                    <th className="px-2 py-3">{t('ParamText.table.about')}</th>
 
                                 </tr>
 

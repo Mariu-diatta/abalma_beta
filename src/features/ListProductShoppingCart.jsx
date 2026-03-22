@@ -98,7 +98,7 @@ const ListProductShoppingCart = () => {
 
     return (
 
-        <div className="overflow-x-auto sm:rounded-lg p-1 dark:text-white text-gray-100">
+        <div className="overflow-x-auto sm:rounded-lg  my-6 p-1  text-gray-100">
 
             {/* TITRE */}
             <nav className="flex items-center gap-2 m-2">
@@ -109,7 +109,7 @@ const ListProductShoppingCart = () => {
 
             <main>
 
-                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-lg p-1">
+                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-lg">
                 
                     <thead className="border border-gray-200">
 
@@ -194,7 +194,7 @@ const ListProductShoppingCart = () => {
                     <tfoot>
                         <tr className="style-bg">
                             <td colSpan="4" className="text-right px-6 py-3 font-bold">Total:</td>
-                            <td className="px-6 py-3 text-white-900 dark:text-white">{totalPriceBuy} ({reference})</td>
+                            <td className="px-6 py-3 font-bold">{totalPriceBuy} ({reference})</td>
                             <td></td>
                         </tr>
                     </tfoot>

@@ -577,7 +577,7 @@ const SingleActivity = () => {
 
         <main className="border-0 w-full relative m-auto pb-1 mt-0 pt-0  mt-0 bg-none translate-y-6 transition-all duration-1000 ease-in-out">
 
-            <div className="relative md:w-3/4 m-auto mt-2 rounded-2xl p-2 bg-none">
+            <div className="relative md:w-3/4 m-auto mt-2 rounded-2xl py-5 bg-none">
 
                 {/* Title */}
                 <div className="text-center mb-6">

@@ -49,7 +49,7 @@ const PaginationProduit = ({ products = [], itemsPerPage = 5 }) => {
             <div
                 ref={scrollRef}
                 className="
-                  flex gap-3
+                  flex gap-3 items-center justify-center
                   overflow-x-auto
                   md:justify-center
                   flex-nowrap

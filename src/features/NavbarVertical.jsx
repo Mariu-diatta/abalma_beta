@@ -133,11 +133,11 @@ const VertcalNavbar = ({ children }) => {
 
                 ref={sidebarRef}
 
-                className={`dark:bg-white shadow-lg fixed top-0 left-0 z-40 md:z-0 w-64 h-full transition-transform ${isSidebarOpen ? '' : '-translate-x-full'} sm:translate-x-0`}
+                className={`dark:bg-white shadow-lg fixed top-0 left-0 z-40 md:z-0 w-70 h-full transition-transform m-0 ${isSidebarOpen ? '' : '-translate-x-full'} sm:translate-x-0`}
 
                 aria-label="Sidebar"
             >
-                <div className="bg-gradient-to-l from-white-50 to-white/80 scrollbor_hidden h-full px-3 py-6 overflow-y-auto">
+                <div className="bg-gradient-to-l from-white-50 to-white/80 scrollbor_hidden h-full px-1 py-6 overflow-y-auto">
 
                     <ul className="space-y-2 ">
 
@@ -254,13 +254,13 @@ const VertcalNavbar = ({ children }) => {
                                 {
                                     (currentNav === ENDPOINTS?.MESSAGE_INBOX) ?
 
-                                        <svg className="w-5 h-5 opacity-80  w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                        <svg className="w-6 h-6 opacity-80  text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                         <path fillRule="evenodd" d="M4 3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h1v2a1 1 0 0 0 1.707.707L9.414 13H15a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4Z" clipRule="evenodd" />
                                         <path fillRule="evenodd" d="M8.023 17.215c.033-.03.066-.062.098-.094L10.243 15H15a3 3 0 0 0 3-3V8h2a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-1v2a1 1 0 0 1-1.707.707L14.586 18H9a1 1 0 0 1-.977-.785Z" clipRule="evenodd" />
                                     </svg>
 
                                     :
-                                        <svg className="w-5 h-5 opacity-80 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <svg className="w-6 h-6 opacity-80 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M9 17h6l3 3v-3h2V9h-2M4 4h11v8H9l-3 3v-3H4V4Z" />
                                     </svg>
                                 }
@@ -296,13 +296,13 @@ const VertcalNavbar = ({ children }) => {
                                 {
                                     (currentNav === ENDPOINTS?.ADD_PRODUCT) ?
 
-                                    <svg className="w-5 h-5 opacity-80  shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 24">
+                                    <svg className="opacity-80  shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 24">
 
                                         <path fillRule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4.243a1 1 0 1 0-2 0V11H7.757a1 1 0 1 0 0 2H11v3.243a1 1 0 1 0 2 0V13h3.243a1 1 0 1 0 0-2H13V7.757Z" clipRule="evenodd" />
 
                                     </svg>
                                     :
-                                    <svg className="w-5 h-5 opacity-80  w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <svg className="opacity-80  w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                     </svg>
                                 }
@@ -450,11 +450,11 @@ const VertcalNavbar = ({ children }) => {
 
                         {
                             !currentPageSubScription?
-                            <svg className="shadow-lg  w-6 h-6text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <svg className="shadow-lg  w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M6 14h2m3 0h4m2 2h2m0 0h2m-2 0v2m0-2v-2m-5 4H4c-.55228 0-1-.4477-1-1V7c0-.55228.44772-1 1-1h16c.5523 0 1 .44772 1 1v4M3 10h18" />
                             </svg>
                             :
-                            <svg className="shadow-lg  w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <svg className="shadow-lg  w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                 <path fill="currentColor" d="M2 7c0-1.10457.89543-2 2-2h16c1.1046 0 2 .89543 2 2v4c0 .5523-.4477 1-1 1s-1-.4477-1-1v-1H4v7h10c.5523 0 1 .4477 1 1s-.4477 1-1 1H4c-1.10457 0-2-.8954-2-2V7Z" />
                                 <path fill="currentColor" d="M5 14c0-.5523.44772-1 1-1h2c.55228 0 1 .4477 1 1s-.44772 1-1 1H6c-.55228 0-1-.4477-1-1Zm5 0c0-.5523.4477-1 1-1h4c.5523 0 1 .4477 1 1s-.4477 1-1 1h-4c-.5523 0-1-.4477-1-1Zm9-1c.5523 0 1 .4477 1 1v1h1c.5523 0 1 .4477 1 1s-.4477 1-1 1h-1v1c0 .5523-.4477 1-1 1s-1-.4477-1-1v-1h-1c-.5523 0-1-.4477-1-1s.4477-1 1-1h1v-1c0-.5523.4477-1 1-1Z" />
                             </svg>
@@ -489,11 +489,11 @@ const VertcalNavbar = ({ children }) => {
 
                         {
                             !isCurrenNavHelp?
-                            <svg className=" shadow-lg  w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <svg className=" shadow-lg  w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M14 17h6m-3 3v-6M4.857 4h4.286c.473 0 .857.384.857.857v4.286a.857.857 0 0 1-.857.857H4.857A.857.857 0 0 1 4 9.143V4.857C4 4.384 4.384 4 4.857 4Zm10 0h4.286c.473 0 .857.384.857.857v4.286a.857.857 0 0 1-.857.857h-4.286A.857.857 0 0 1 14 9.143V4.857c0-.473.384-.857.857-.857Zm-10 10h4.286c.473 0 .857.384.857.857v4.286a.857.857 0 0 1-.857.857H4.857A.857.857 0 0 1 4 19.143v-4.286c0-.473.384-.857.857-.857Z" />
                             </svg>
                             :
-                            <svg className="shadow-lg  w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <svg className="shadow-lg  w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                 <path fillRule="evenodd" d="M4.857 3A1.857 1.857 0 0 0 3 4.857v4.286C3 10.169 3.831 11 4.857 11h4.286A1.857 1.857 0 0 0 11 9.143V4.857A1.857 1.857 0 0 0 9.143 3H4.857Zm10 0A1.857 1.857 0 0 0 13 4.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 21 9.143V4.857A1.857 1.857 0 0 0 19.143 3h-4.286Zm-10 10A1.857 1.857 0 0 0 3 14.857v4.286C3 20.169 3.831 21 4.857 21h4.286A1.857 1.857 0 0 0 11 19.143v-4.286A1.857 1.857 0 0 0 9.143 13H4.857ZM18 14a1 1 0 1 0-2 0v2h-2a1 1 0 1 0 0 2h2v2a1 1 0 1 0 2 0v-2h2a1 1 0 1 0 0-2h-2v-2Z" clipRule="evenodd" />
                             </svg>
                         }
@@ -510,7 +510,7 @@ const VertcalNavbar = ({ children }) => {
                                     dispatch(setCurrentNav(ENDPOINTS?.HELP))
                                 }
                             }
-                            className={`cursor-pointer ml-3 inline-block px-1 py-2 border-b-2 rounded-t-md transition-colors duration-300 
+                            className={`cursor-pointer ml-1 inline-block px-1 py-2 border-b-2 rounded-t-md transition-colors duration-300 
                                     ${isCurrenNavHelp
                                     ? 'border-b-gray-600'
                                     : 'border-b-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
@@ -526,7 +526,7 @@ const VertcalNavbar = ({ children }) => {
 
             </section>
 
-            <section className="sm:ml-72 px-2 md:px-6 lg:px-8 h-[100dvh] sticky bottom-0 transition-all duration-200 ease-in-out bg-gradient-to-l from-blue-50 to-white overflow-y-auto" >
+            <section className="sm:ml-72  h-[100dvh] sticky bottom-0 transition-all duration-200 ease-in-out bg-gradient-to-l from-blue-100 to-white overflow-y-auto" >
 
                 <div className="p-0 m-0 border-0  border-white rounded-lg dark:border-gray-700 transition-all duration-200 ease-in-out">
 

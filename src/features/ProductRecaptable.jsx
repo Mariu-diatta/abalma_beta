@@ -474,13 +474,13 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
 
                     </thead>
 
-                    <tbody className="bg-white">
+                    <tbody>
 
                         {
                             (paginatedProducts?.length === 0) ?
                             (
                                 <tr>
-                                    <td colSpan="9" className="text-center p-4">
+                                    <td colSpan="9" className="text-center p-3 w-full bg-none">
                                         {t('TableRecap.noProducts')}
                                     </td>
                                 </tr>
@@ -544,37 +544,6 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
                                             }
                                         </td>
 
-                                        {/*{*/}
-                                        {/*    (MODE.BUY && mode !== MODE.BUY && STATUS_FLOW_ITEM[item?.status] !== CONSTANTS.CONFIRMED) &&*/}
-                                        {/*    <td className={`px-4 py-3 ${mode === MODE.BUY ? "hidden" : ""}`}>*/}
-
-                                        {/*        {*/}
-                                        {/*            !inLoadUpdateProductTransStatus?*/}
-                                        {/*            <button*/}
-                                        {/*                onClick={() => updateStatusTransaction(*/}
-                                        {/*                    API_URL_BACKEND?.STATUS_TRANSACTION_PRODUCT,*/}
-                                        {/*                    {*/}
-                                        {/*                        item_id: item?.item_id,*/}
-                                        {/*                        new_status: STATUS_FLOW_ITEM[item?.status]*/}
-                                        {/*                    },*/}
-                                        {/*                    setInLoadUpdateProductTransStatus,*/}
-                                        {/*                    dispatch*/}
-
-                                        {/*                )}*/}
-                                        {/*                disabled={selectedSubTransaction ? false : true}*/}
-                                        {/*                className="disabled:opacity-40 disabled:bg-gray-50 hover:bg-blue-300 px-2 cursor-pointer p-1 rounded-lg bg-gradient-to-br from-blue-100 to-orange-50"*/}
-                                        {/*                title={t('update')}*/}
-                                        {/*            >*/}
-                                        {/*                {STATUS_FLOW_ITEM[item?.status]}*/}
-  
-                                        {/*            </button> */}
-                                        {/*            :*/}
-                                        {/*            <LoadingCard/>*/}
-
-                                        {/*        }*/}
-
-                                        {/*    </td>*/}
-                                        {/*}*/}
                                     </tr>
                                 )
                             )
@@ -606,7 +575,6 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
             <div className=" flex justify-between items-center mt-1 pb-6 px-1">
 
                 <span>
-                    {/*{t('TableRecap.pagination.page')} {currentPage} {t('TableRecap.pagination.of')} {totalPages}*/}
                     Page {currentPage} / {totalPages}
                 </span>
 
