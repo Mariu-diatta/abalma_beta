@@ -114,7 +114,7 @@ const Footer = () => {
                 {/* Logo et description */}
                 <div className="mb-3 md:mb-10 lg:w-1/2 flex flex-col justify-start ">
 
-                    <TitleCompGen title={t('ABALMA')} />
+                    <TitleCompGen title={t('Abalma')} />
 
                     <p className=" mb-2 text-sm text-body-color">
                         {t("app_description")}

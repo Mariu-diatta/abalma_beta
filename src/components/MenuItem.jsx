@@ -49,8 +49,8 @@ export const menuItems = (t) =>
                 className={STYLE.STYLE_BTN_CATEGORIES}
                 src={images[cat.idx]}
                 alt=""
-                width="30"
-                height="30"
+                width="120"
+                height="100"
             />
        
     }));

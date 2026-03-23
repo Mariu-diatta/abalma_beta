@@ -5,7 +5,7 @@ const TitleCompGen = ({ title }) => {
     return (
 
         <div
-            className="relative overflow-hidden w-full px-4 py-1"
+            className="relative overflow-hidden w-full  py-1"
         >
             <h1
                 className="
