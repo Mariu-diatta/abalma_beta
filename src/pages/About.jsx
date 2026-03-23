@@ -12,7 +12,7 @@ import image_2 from '../assets/image_2.jpg';
 import image_3 from '../assets/image_3.jpg';
 
 import HoverImage from '../components/HoverImage';
-import TitleCompGen, { TitleCompGenLitle } from '../components/TitleComponentGen';
+import TitleCompGen from '../components/TitleComponentGen';
 
 /* -------------------------------------------------------------------------- */
 /*                             PAGE ENTRY WRAPPER                             */
@@ -93,7 +93,7 @@ const AboutContainer = () => {
             {/* ---------------- LEFT (IMAGES) ---------------- */}
             <div>
 
-                <TitleCompGenLitle title="Bienvenue dans la plateforme abalma!!" />
+                {/*<TitleCompGenLitle title="Bienvenue dans la plateforme abalma!!" />*/}
 
                 <div
                     ref={leftSectionRef}

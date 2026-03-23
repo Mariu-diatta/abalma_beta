@@ -99,6 +99,7 @@ const NavbarHeader = () => {
 
     return (
         <nav className="sticky top-0 z-50 max-h-[20px] min-h-[20px] bg-none mt-0">
+
             <header
                 id="header"
                 className="flex w-full items-center justify-between h-[50px] px-1 bg-white/80"
@@ -108,12 +109,14 @@ const NavbarHeader = () => {
 
                 {!isHidden && (
                     <div className={`flex w-full items-center ${isCentered ? "justify-center" : "justify-end"}`}>
+
                         <ButtonNavigate tabs={getTabsNavigationsItems(currentNav, t)} />
 
                         {/* Lazy-loaded SearchBar */}
                         <Suspense fallback={null}>
                             <SearchBar />
                         </Suspense>
+
                     </div>
                 )}
 

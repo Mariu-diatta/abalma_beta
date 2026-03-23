@@ -526,7 +526,7 @@ const VertcalNavbar = ({ children }) => {
 
             </section>
 
-            <section className="sm:ml-72  h-[100dvh] sticky bottom-0 transition-all duration-200 ease-in-out bg-gradient-to-l from-blue-100 to-white overflow-y-auto" >
+            <section className="sm:ml-72  h-[100dvh] sticky bottom-0 transition-all duration-200 ease-in-out bg-white/20 overflow-y-auto" >
 
                 <div className="p-0 m-0 border-0  border-white rounded-lg dark:border-gray-700 transition-all duration-200 ease-in-out">
 

@@ -434,7 +434,7 @@ i18n
             client_support_alert: "Product safety alerts",
             client_fraud: "Report suspicious activity",
             client_services: "Client services",
-            contact_us:'contact us',
+            contact_us:'Contact us',
             know_us:"Know us",
             about_abalma: "About Abalma",
             help: "Help",

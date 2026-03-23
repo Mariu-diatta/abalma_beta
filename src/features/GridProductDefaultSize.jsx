@@ -26,6 +26,7 @@ import PrintNumberStars from "../components/SystemStar";
 import ScrollingContent from "../components/ScrollContain";
 import SearchBar from "../components/BtnSearchWithFilter";
 import ProfilPictureView from "../components/ProfilPictureView";
+import { removeAccents } from "../utils";
 
 const GridProductDefault = ({ categorie_item }) => {
 
@@ -57,7 +58,7 @@ const GridProductDefault = ({ categorie_item }) => {
 
         const chunked = [];
 
-        for (let i = 0; i < productData.length; i += 3) {
+        for (let i = 0; i < productData?.length; i += 3) {
             chunked.push(productData.slice(i, i + 3));
         }
 
@@ -72,7 +73,9 @@ const GridProductDefault = ({ categorie_item }) => {
 
         try {
 
-            const { data: products } = await api.get(`/products/filter/?categorie_product=${category}`);
+            let cleanCategory = removeAccents(category)?.toLowerCase();
+
+            const { data: products } = await api.get(`/products/filter/?categorie_product=${cleanCategory}`);
 
             const availableProducts = products.filter(p => parseInt(p.quantity_product) !== 0);
 
