@@ -78,7 +78,7 @@ export default function TestimonialCarousel({
                 {/* Slider */}
                 <div className="overflow-hidden">
                     <div
-                        className="flex items-center transition-transform duration-700 ease-in-out"
+                        className="flex items-center transition-transform duration-700 ease-in-out gap-2"
                         style={{
                             transform: `translateX(-${(index * 100) / itemsPerView}%)`,
                         }}
