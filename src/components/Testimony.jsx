@@ -89,7 +89,7 @@ export default function TestimonialCarousel({
                                 style={{ width: `${100 / itemsPerView}%` }}
                                 className="flex-shrink-0 px-1"
                             >
-                                <div className="rounded-xl p-4 shadow-sm h-full  bg-white/30">
+                                <div className="rounded-xl p-4 shadow-2xl h-full  bg-white/30">
 
                                     {/* Avatar */}
                                     <div className="flex items-start justfy-start gap-4">
