@@ -8,32 +8,32 @@ export default function TestimonialCarousel({
 }) {
     const [testimonials, setTestimonials] = useState([]);
     const [index, setIndex] = useState(0);
+    const [itemsPerView, setItemsPerView] = useState(1);
     const timerRef = useRef(null);
 
     const length = testimonials.length;
 
-    // 🔥 Nombre d'éléments visibles selon écran
+    // 📱 Responsive
     const getItemsPerView = () => {
-        if (window.innerWidth >= 1024) return 4; // desktop
-        if (window.innerWidth >= 768) return 2; // tablet
-        return 1; // mobile
+        if (window.innerWidth >= 1024) return 4;
+        if (window.innerWidth >= 768) return 2;
+        return 1;
     };
 
-    const [itemsPerView, setItemsPerView] = useState(getItemsPerView());
-
-    // 🔄 Update responsive
     useEffect(() => {
         const handleResize = () => setItemsPerView(getItemsPerView());
+        handleResize(); // initial
+
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
     const maxIndex = Math.max(0, length - itemsPerView);
 
-    // 📡 Fetch
+    // 📡 Fetch data
     useEffect(() => {
         api.get("/content/testmony/")
-            .then(resp => setTestimonials(resp.data || []))
+            .then(res => setTestimonials(res.data || []))
             .catch(console.error);
     }, []);
 
@@ -45,13 +45,17 @@ export default function TestimonialCarousel({
         setIndex(prev => (prev <= 0 ? maxIndex : prev - 1));
     }, [maxIndex]);
 
-    // ⏱️ Autoplay
+    // ⏱ Autoplay
     const stopAutoplay = () => {
-        if (timerRef.current) clearInterval(timerRef.current);
+        if (timerRef.current) {
+            clearInterval(timerRef.current);
+            timerRef.current = null;
+        }
     };
 
     const startAutoplay = useCallback(() => {
         if (!autoplay || length <= itemsPerView) return;
+
         stopAutoplay();
         timerRef.current = setInterval(goNext, autoplayInterval);
     }, [autoplay, autoplayInterval, goNext, length, itemsPerView]);
@@ -66,43 +70,42 @@ export default function TestimonialCarousel({
     return (
         <section className="relative w-full mx-auto px-1 text-center">
 
-            <TitleCompGen
-                title="Ils développent leur activité avec Abalma"
-            />
+            <TitleCompGen title="Ils développent leur activité avec Abalma" />
 
             <div
-                className="relative rounded-2xl bg-none"
+                className="relative rounded-2xl"
                 onMouseEnter={stopAutoplay}
                 onMouseLeave={startAutoplay}
             >
                 {/* Slider */}
                 <div className="overflow-hidden">
                     <div
-                        className="flex items-center transition-transform duration-700 ease-in-out gap-2"
+                        className="flex transition-transform duration-700 ease-in-out gap-2"
                         style={{
                             transform: `translateX(-${(index * 100) / itemsPerView}%)`,
                         }}
                     >
-                        {testimonials.map((t, i) => (
-                            <div
-                                key={t.id ?? i}
-                                style={{ width: `${100 / itemsPerView}%` }}
-                                className="flex-shrink-0 py-4 gap-2"
-                            >
-                                <div className="rounded-xl p-4 shadow-2xl h-full  bg-white/30">
+                        {testimonials.map((t, i) => {
+                            const stars = parseInt(t?.number_stars ?? 0, 10);
 
-                                    {/* Avatar */}
-                                    <div className="flex items-start justfy-start gap-4">
-                                        <img
-                                            src={t?.image || t?.photo_url || "/avatar.png"}
-                                            alt={t?.prenom || "Avatar"}
-                                            className="w-14 h-14 rounded-full object-cover border border-gray-100 shadow-md"
-                                            loading="lazy"
-                                        /> 
+                            return (
+                                <div
+                                    key={t.id ?? i}
+                                    style={{ width: `${100 / itemsPerView}%` }}
+                                    className="flex-shrink-0 py-4"
+                                >
+                                    <div className="rounded-xl p-4 shadow-xl h-full bg-white/30">
 
-                                        <div className="flex flex-col justify-start items-start">
+                                        <div className="flex items-start justify-start gap-4">
+                                            <img
+                                                src={t?.image || t?.photo_url || "/avatar.png"}
+                                                alt={t?.prenom || "Avatar"}
+                                                className="w-14 h-14 rounded-full object-cover border shadow-md"
+                                                loading="lazy"
+                                            />
 
-                                            <>
+                                            <div className="flex flex-col items-start">
+
                                                 <h4 className="font-semibold">
                                                     {t?.prenom || "Utilisateur"}
                                                 </h4>
@@ -112,40 +115,32 @@ export default function TestimonialCarousel({
                                                         {t.profession}
                                                     </p>
                                                 )}
-                                            </>
 
-                                            {/* Content */}
-                                            <p className="text-gray-700 italic mb-3">
-                                                {t?.content}
-                                            </p>
+                                                <p className="text-gray-700 italic my-2">
+                                                    {t?.content}
+                                                </p>
 
-                                            {/* Stars */}
-                                            <div className="flex mb-3">
-                                                {[...Array(5)].map((_, idx) => (
+                                                {/* Stars */}
+                                                <div className="flex">
+                                                    {[...Array(5)].map((_, idx) => (
+                                                        <svg
+                                                            key={idx}
+                                                            className="w-5 h-5"
+                                                            fill={idx < stars ? "gold" : "lightgray"}
+                                                            viewBox="0 0 24 24"
+                                                        >
+                                                            <path d="M12 2l2.9 6.6 7.1.6-5.3 4.6 1.6 7-6.3-3.7-6.3 3.7 1.6-7L2 9.2l7.1-.6L12 2z" />
+                                                        </svg>
+                                                    ))}
+                                                </div>
 
-                                                    <svg
-                                                        key={idx}
-                                                        className={(idx < parseInt(t?.number_stars ?? 0)) ? "w-6 h-6 text-green-100" : "w-6 h-6 text-yellow-50"}
-                                                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                        width="24"
-                                                        height="24"
-                                                        fill={(idx < parseInt(t?.number_stars ?? 0)) ? "yellow" : "gray"}
-                                                        viewBox="0 0 24 24">
-                                                        <path
-                                                            stroke="currentColor"
-                                                            strokeWidth="0"
-                                                            d="M11.083 5.104c.35-.8 1.485-.8 1.834 0l1.752 4.022a1 1 0 0 0 .84.597l4.463.342c.9.069 1.255 1.2.556 1.771l-3.33 2.723a1 1 0 0 0-.337 1.016l1.03 4.119c.214.858-.71 1.552-1.474 1.106l-3.913-2.281a1 1 0 0 0-1.008 0L7.583 20.8c-.764.446-1.688-.248-1.474-1.106l1.03-4.119A1 1 0 0 0 6.8 14.56l-3.33-2.723c-.698-.571-.342-1.702.557-1.771l4.462-.342a1 1 0 0 0 .84-.597l1.753-4.022Z" />
-                                                    </svg>
-
-                                                ))}
                                             </div>
-
                                         </div>
-                                    </div>
 
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 </div>
 
@@ -168,33 +163,20 @@ export default function TestimonialCarousel({
                     </>
                 )}
 
-                {/* Dots indicator */}
-                {
-                    (length > 1) && (
-                        <div className="flex justify-center gap-2 mt-2">
-
-                            {
-                                testimonials?.map((_, i) => (
-
-                                    <button
-                                        key={i}
-                                        onClick={() => setIndex(i)}
-                                        className={`h-2 rounded-full transition-all duration-300 w-3  ${i === index
-                                            ? "w-6 bg-blue-300"
-                                            : "w-3 bg-gray-300"
-                                            }`}
-                                    />
-                                )
-                                )
-                            }
-
-                        </div>
-                    )
-                }
-
+                {/* Dots */}
+                {length > 1 && (
+                    <div className="flex justify-center gap-2 mt-3">
+                        {testimonials.map((_, i) => (
+                            <button
+                                key={i}
+                                onClick={() => setIndex(i)}
+                                className={`h-2 rounded-full transition-all duration-300 ${i === index ? "w-6 bg-blue-400" : "w-3 bg-gray-300"
+                                    }`}
+                            />
+                        ))}
+                    </div>
+                )}
             </div>
-
-
         </section>
     );
 }
