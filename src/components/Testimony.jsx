@@ -64,7 +64,7 @@ export default function TestimonialCarousel({
     if (!length) return null;
 
     return (
-        <section className="relative w-full mx-auto px-2 text-center">
+        <section className="relative w-full mx-auto px-1 text-center">
 
             <TitleCompGen
                 title="Ils développent leur activité avec Abalma"
@@ -87,7 +87,7 @@ export default function TestimonialCarousel({
                             <div
                                 key={t.id ?? i}
                                 style={{ width: `${100 / itemsPerView}%` }}
-                                className="flex-shrink-0 px-1"
+                                className="flex-shrink-0 py-4"
                             >
                                 <div className="rounded-xl p-4 shadow-2xl h-full  bg-white/30">
 
