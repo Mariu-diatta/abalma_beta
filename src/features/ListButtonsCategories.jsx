@@ -37,7 +37,7 @@ const ListButtonsCategories = (
                             }}
 
                             className={`
-                                flex items-center gap-2 px-3 py-1 rounded-lg text-sm font-normal whitespace-nowrap shadow-sm
+                                flex items-center gap-2 px-3 py-1 rounded-lg text-sm font-normal whitespace-nowrap shadow-[0_50px_100px_rgba(0,0,0,0.1)]
                                 transition-all duration-200 border-none bg z-2 border-0 mx-1 md:mx-3
                                 ${activateButtonCategory?.toLowerCase() === cat.replace("_", "").toLowerCase()
                                 ? " bg-gradient-to-l from-blue-0 to-blue-200 text-white  ring-0 "
