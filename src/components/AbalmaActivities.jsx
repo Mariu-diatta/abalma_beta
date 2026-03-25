@@ -585,7 +585,7 @@ const SingleActivity = () => {
                 </div>
 
                 {/* Card */}
-                <section className="relative flex flex-col items-center gap-4 p-2 rounded-xl bg-gradient-to-br from-white:30 to-gray-50 border border-gray-100 shadow-md">
+                <section className="relative flex flex-col items-center gap-4 p-2 rounded-xl bg-gradient-to-br from-white:30 to-gray-50 border border-gray-100 shadow-xl">
 
                     {/* Content */}
                     <div className="w-full text-center">

@@ -28,7 +28,7 @@ function SubscriptionCard({
     return (
 
         <div
-            className={`py-7 relative flex flex-col justify-between rounded-3xl border shadow-sm p-6 w-full max-w-sm transition hover:shadow-md hover:-translate-y-1
+            className={`relative flex flex-col justify-between rounded-lg shadow-md p-6 w-full max-w-sm transition hover:shadow-2xl hover:-translate-y-1
                 ${
                     highlight?
                     "bg-gradient-to-br from-indigo-50 to-white border-indigo-200"
@@ -67,8 +67,6 @@ function SubscriptionCard({
                 </div>
 
             </div>
-
-
 
             {/* Liste des avantages */}
             <ul className={`flex flex-col gap-3 text-gray-700 mb-6 ${(features?.length<0) && "hidden"}`}>
@@ -164,7 +162,7 @@ export default function SubscriptionsPage() {
 
     return (
 
-        <main className=" flex flex-col items-center justify-center bg-gray-50 bg-none  pt-[2dvh] mx-2">
+        <main className=" flex flex-col items-center justify-center  bg-none  pt-[2dvh] mx-2">
 
             <button
 
@@ -193,7 +191,7 @@ export default function SubscriptionsPage() {
                 <TitleCompGen title={t("Subscriptionb2b")} />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-none overflow-y-auto h-full scrollbor_hidden pb-3 pt-0 ">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-none overflow-y-auto  p-7 pt-0 ">
 
                 <SubscriptionCard
                     title={t("discovery")}
@@ -203,30 +201,6 @@ export default function SubscriptionsPage() {
                     highlight={false}
                     onSubscribe={() => handleSubscribe("price_1SSl4MCEAhT0NnGVWwQhaslP")}
                 />
-
-                {/*<SubscriptionCard*/}
-                {/*    title="Pro"*/}
-                {/*    price="9,00€ / mois"*/}
-                {/*    subtitle="Idéal pour les artisans et les dropshippers"*/}
-                {/*    features={[*/}
-                {/*        "Badge vérifié",*/}
-                {/*        "Contact illimité",*/}
-                {/*        "Support prioritaire",*/}
-                {/*        "Visibilité accrue",*/}
-                {/*        "Accès à des fournisseurs exclusifs",*/}
-                {/*        "Mises à jour automatiques des stocks",*/}
-                {/*        "Suivi des commandes en temps réel",*/}
-                {/*        "Gestion simplifiée des retours",*/}
-                {/*        "Analyse des ventes et statistiques détaillées",*/}
-                {/*        "Campagnes marketing automatisées",*/}
-                {/*        "Optimisation SEO des fiches produits",*/}
-                {/*        "Accès à des outils de pricing dynamique",*/}
-                {/*        "Formation et conseils pour booster les ventes",*/}
-                {/*        "Alertes sur les produits tendance",*/}
-                {/*    ]}*/}
-                {/*    highlight={true}*/}
-                {/*    onSubscribe={() => handleSubscribe()}*/}
-                {/*/>*/}
 
                 <SubscriptionCard
                     title={t("Pro")}

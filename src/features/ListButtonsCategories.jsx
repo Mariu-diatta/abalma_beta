@@ -37,11 +37,11 @@ const ListButtonsCategories = (
                             }}
 
                             className={`
-                                flex items-center gap-2 px-3 py-1 rounded-lg text-sm font-normal whitespace-nowrap
+                                flex items-center gap-2 px-3 py-1 rounded-lg text-sm font-normal whitespace-nowrap shadow-sm
                                 transition-all duration-200 border-none bg z-2 border-0 mx-1 md:mx-3
                                 ${activateButtonCategory?.toLowerCase() === cat.replace("_", "").toLowerCase()
                                 ? " bg-gradient-to-l from-blue-0 to-blue-200 text-white  ring-0 "
-                                : " text-blue-100 border border-blue-50 hover:bg-blue-100 hover:text-white hover:shadow-sm"
+                                : " text-blue-100 border border-blue-50 hover:bg-blue-100 hover:text-white hover:shadow-2xl"
                                 }
                             `}
                         >
