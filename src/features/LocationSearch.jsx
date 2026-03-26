@@ -57,6 +57,7 @@ const LocationSearchPopover = ({ setLocationSearch}) => {
                 onFocus={() => query && results.length > 0 && setIsOpen(true)}
                 placeholder="Entrez un lieu..."
                 className="w-full border p-2 rounded border-0 border-b border-b-gray-100 focus:outline-none "
+                required="true"
               />
 
               <span
@@ -71,18 +72,22 @@ const LocationSearchPopover = ({ setLocationSearch}) => {
           </div>
 
           {/* Popover */}
-          {isOpen && results.length > 0 && (
+          {isOpen && results?.length > 0 && (
             <div className="absolute w-full z-20  mt-1 max-h-64 overflow-y-auto border border-gray-100 bg-white rounded shadow-lg">
-              {results.map((place) => (
-                <div
-                  key={place.place_id}
-                  onClick={() => handleSelect(place)}
-                  className="p-2 hover:bg-gray-100 cursor-pointer"
-                >
-                  <p className="font-semibold">{place.name || place.display_name}</p>
-                  <p className="text-xs text-gray-600">{place.display_name}</p>
-                </div>
-              ))}
+
+                  {
+                      results?.map((place) => (
+                        <div
+                          key={place?.place_id}
+                          onClick={() => handleSelect(place)}
+                          className="p-2 hover:bg-gray-100 cursor-pointer"
+                        >
+                          <p className="font-semibold">{place?.name || place?.display_name}</p>
+                          <p className="text-xs text-gray-600">{place?.display_name}</p>
+                        </div>
+                    ))
+                  }
+
             </div>
           )}
 

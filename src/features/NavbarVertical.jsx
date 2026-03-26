@@ -137,7 +137,7 @@ const VertcalNavbar = ({ children }) => {
 
                 aria-label="Sidebar"
             >
-                <div className="bg-gradient-to-l from-white-50 to-white/80 scrollbor_hidden h-full px-1 py-6 overflow-y-auto">
+                <div className="bg-gradient-to-l from-white-50 to-white/80 scrollbor_hidden h-full px-1 overflow-y-auto">
 
                     <ul className="space-y-2 ">
 
@@ -398,11 +398,11 @@ const VertcalNavbar = ({ children }) => {
 
                                     {
                                         photo?
-                                        <div className=" p-1 rounded-full shadow-sm  border border-gray-200">
+                                        <div className=" p-1 rounded-full shadow-2xl  border border-gray-200">
                                             {photo}
                                         </div>
                                         :
-                                        <div className=" p-1 rounded-full shadow-sm  border border-gray-200 h-8 w-8">
+                                        <div className=" p-1 rounded-full shadow-sm  border border-gray-200">
                                         </div>
                                     }
 

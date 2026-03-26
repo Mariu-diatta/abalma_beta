@@ -288,11 +288,11 @@ const AddUploadProduct = () => {
                 formData.append("date_fin_emprunt", formatToISOString(dataProduct.date_fin_emprunt));
             }
 
-            if (!dataProduct?.price_product) {
+            if (!dataProduct?.price_product || !dataProduct?.adress ) {
 
-                notify("Erreur", "price product obligatoire!");
+                notify("Erreur", "price or adress product obligatoire!");
 
-                throw new Error("price product obligatoire")
+                throw new Error("price or adress product obligatoire")
             }
 
             if (dataProduct?.categorie_product) {
@@ -341,7 +341,9 @@ const AddUploadProduct = () => {
             notify("Erreur", `${resp}`);
 
         } finally {
+
             setDataProduct(initDataProduct);
+
             setIsLoadingSubmit(false)
         }
     };
@@ -415,7 +417,7 @@ const AddUploadProduct = () => {
 
                 </ProductSummary>
             ) : (
-                    <div className="py-1 lg:py-2 w-full md:w-1/2 lg:w-1/2 px-4 shadow-lg rounded-lg bg-white/70 backdrop-blur-md rounded-xl border border-gray-200 p-2">
+                <div className="py-1 lg:py-2 w-full md:w-1/2 lg:w-1/2 px-4 shadow-lg rounded-lg bg-white/70 backdrop-blur-md rounded-xl border border-gray-200 p-2">
 
                     <form
                         onSubmit={saveDataForSubmitForm}
@@ -439,32 +441,15 @@ const AddUploadProduct = () => {
                                     required
                                 />
 
-                                {/*<OptionSelector*/}
-                                {/*    options={availableColors}*/}
-                                {/*    selectedOptions={selectedColors}*/}
-                                {/*    toggleOption={toggleColor}*/}
-                                {/*    isColor*/}
-                                {/*/>*/}
-
-                                {/*<InputBox*/}
-                                {/*    type="text"*/}
-                                {/*    id="code_reference"*/}
-                                {/*    name="code_reference"*/}
-                                {/*    value={dataProduct?.code_reference}*/}
-                                {/*    onChange={onChangeClick}*/}
-                                {/*    placeholder="Reference ex: ABC-123"*/}
-
-                                {/*/>*/}
-
                                 <InputBox
-                                        type="Number"
-                                        min="0"
-                                        id="price_product"
-                                        name="price_product"
-                                        value={dataProduct?.price_product}
-                                        onChange={onChangeClick}
-                                        placeholder={t("price")}
-                                        required={true}
+                                    type="Number"
+                                    min="0"
+                                    id="price_product"
+                                    name="price_product"
+                                    value={dataProduct?.price_product}
+                                    onChange={onChangeClick}
+                                    placeholder={t("price")}
+                                    required={true}
                                 />
 
                                 <select
@@ -480,12 +465,6 @@ const AddUploadProduct = () => {
                                     <option value="DOLLAR">{t("add_product.dollar")}</option>
                                     <option value="FRANC">{t("add_product.franc")}</option>
                                 </select>
-
-                                {/*<OptionSelector*/}
-                                {/*    options={availableSizes}*/}
-                                {/*    selectedOptions={selectedSizes}*/}
-                                {/*    toggleOption={toggleSize}*/}
-                                {/*/>*/}
 
                                 <button type="button" onClick={nextSection} className={` ${currentSection >= 2 ? "hidden" : ""}  px-4 py-2 bg-gradient-to-l from-red-50 to-gray-200 text-white rounded-lg mt-4`}>
                                     <svg className="w-[33px] h-[33px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -531,7 +510,7 @@ const AddUploadProduct = () => {
                                     multiple  // Permet de choisir plusieurs images
                                 />
                                     <div className="flex flex-col gap-2 my-2">
-                                        {imageVariants.map((img, idx) => (
+                                        {imageVariants.map((_, idx) => (
                                             <div key={idx} className="
                                                   flex gap-4 
                                                   p-3 
@@ -546,6 +525,7 @@ const AddUploadProduct = () => {
                                             </div>
                                         ))}
                                     </div>
+
                                 <textarea
                                     id="description_product"
                                     name="description_product"
@@ -641,16 +621,6 @@ const AddUploadProduct = () => {
                                 </select>
 
                                 <LocationSearchPopover setLocationSearch={getAdress} />
-
-                                {/*<InputBox*/}
-                                {/*    type="text"*/}
-                                {/*    id="adress"*/}
-                                {/*    name="adress"*/}
-                                {/*    value={dataProduct?.adress}*/}
-                                {/*    onChange={onChangeClick}*/}
-                                {/*    placeholder={t("adress")}*/}
-                                {/*    required*/}
-                                {/*/>*/}
 
                                 <InputBox
                                     type="number"
@@ -751,8 +721,10 @@ const AddUploadProduct = () => {
                         <div ref={bottomRef} />
 
                     </form>
+
                 </div>
             )}
+
         </div>
     );
 };
@@ -846,22 +818,28 @@ const ProductSummary = ({
 
             {/* CHAMPS AVEC ICONES */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {simpleFields.map((field, i) => (
-                    <div key={i} className="flex items-center gap-2 bg-white p-3 rounded-lg shadow-sm">
-                        {field.icon && <div className="text-lg">{field.icon}</div>}
-                        <div className="flex flex-col">
-                            <span className="text-xs text-gray-500">{field.label}</span>
-                            <span className="font-medium">{field.value}</span>
-                        </div>
-                    </div>
-                ))}
 
-                {product.type_choice && (
-                    <div className="flex items-center gap-2 bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm">
-                        <span className="text-xs text-gray-500">{t("type_choice")}</span>
-                        <span className="font-medium">{product.type_choice}</span>
-                    </div>
-                )}
+                {
+                    simpleFields.map((field, i) => (
+                            <div key={i} className="flex items-center gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                {field.icon && <div className="text-lg">{field.icon}</div>}
+                                <div className="flex flex-col">
+                                    <span className="text-xs text-gray-500">{field.label}</span>
+                                    <span className="font-medium">{field.value}</span>
+                                </div>
+                            </div>
+                        )
+                    )
+                }
+
+                {
+                    product.type_choice && (
+                        <div className="flex items-center gap-2 bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm">
+                            <span className="text-xs text-gray-500">{t("type_choice")}</span>
+                            <span className="font-medium">{product.type_choice}</span>
+                        </div>
+                    )
+                }
             </div>
 
             {children}
