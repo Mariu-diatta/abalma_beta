@@ -8,7 +8,7 @@ const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) 
 
     const { t } = useTranslation();
 
-    if (!filteredItems || filteredItems.length === 0) {
+    if (!filteredItems || filteredItems?.length === 0) {
 
         return <NoContentComp content={t('ListItemsFilterProduct.noProduct')} />;
     }
@@ -27,9 +27,9 @@ const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) 
             {
                 Object.entries(groupedItems).map(([category, items]) => {
 
-                    const cols = Math.min(items.length, 4);
+                    const cols = Math.min(items?.length, 4);
 
-                    const cols_sm= Math.min(items.length, 2);
+                    const cols_sm= Math.min(items?.length, 2);
 
                     return (
 
@@ -45,7 +45,7 @@ const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) 
                                     tracking-wide
                                 ">
                                     
-                                    <TitleCompGenLitle title={t(`add_product.categories.${category.toUpperCase() ?? ""}`)} />
+                                    <TitleCompGenLitle title={t(`add_product.categories.${category?.toUpperCase() ?? ""}`)} />
 
                                 </h2>
 
@@ -72,8 +72,6 @@ const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) 
                                             (product) => product?.id === item?.id
                                         );
 
-                                        const owner = owners[item?.fournisseur];
-
                                         return (
 
                                             <ProductCard
@@ -81,7 +79,7 @@ const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) 
                                                 id={item.id}
                                                 item={item}
                                                 isInCart={isInCart}
-                                                owner={owner}
+                                                owner={item?.fournisseur}
                                                 openModal={openModal}
                                                 owners={owners}
                                                 qut_sold={item?.quanttity_product_sold}

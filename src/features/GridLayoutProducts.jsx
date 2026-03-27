@@ -16,7 +16,7 @@ const GridLayoutProduct = () => {
 
     const productsFiltered = filteredItems.filter(prod =>
 
-        prod.variants?.some(variant => variant.image)
+        prod.variants?.some(variant => variant?.image)
 
     );
 
@@ -154,29 +154,29 @@ const GridLayoutProduct = () => {
 
                 setFilteredItemsPopover(filtered);
 
-                const uniqueOwnerIds = [...new Set(products.map(p => p?.fournisseur))].filter(Boolean);
+                //const uniqueOwnerIds = [...new Set(products.map(p => p?.fournisseur))].filter(Boolean);
 
-                const responses = await Promise.all(
+                //const responses = await Promise.all(
 
-                    uniqueOwnerIds?.map(id =>
+                //    uniqueOwnerIds?.map(id =>
 
-                        api.get(`clients/${id}/`)
+                //        api.get(`clients/${id}/`)
 
-                        .then(res => ({ id, data: res.data }))
+                //        .then(res => ({ id, data: res.data }))
 
-                        .catch(() => ({ id, data: null }))
-                    )
-                );
+                //        .catch(() => ({ id, data: null }))
+                //    )
+                //);
 
-                const ownerMap = responses.reduce((acc, { id, data }) => {
+                //const ownerMap = responses.reduce((acc, { id, data }) => {
 
-                    if (data) acc[id] = data;
+                //    if (data) acc[id] = data;
 
-                    return acc;
+                //    return acc;
 
-                }, {});
+                //}, {});
 
-                setOwners(ownerMap);
+                //setOwners(ownerMap);
 
             } catch (error) {
 

@@ -30,7 +30,7 @@ const OwnerAvatar = ({ owner }) => {
 
                     <img
 
-                        src={owner?.image || owner?.photo_url}
+                        src={owner?.image || owner?.photo_url }
 
                         alt={owner?.nom || 'Fournisseur'}
 

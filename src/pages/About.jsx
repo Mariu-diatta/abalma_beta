@@ -88,7 +88,7 @@ const AboutContainer = () => {
     /* ---------------------------------------------------------------------- */
 
     return (
-        <section className="grid lg:grid-cols-2 gap-10 items-center bg-gradient-to-br from-purple-10 to-blue-50 backdrop-blur-xl rounded-3xl shadow-xl p-3 lg:px-10 transition-all duration-500">
+        <section className="grid lg:grid-cols-2 gap-10 items-center bg-gradient-to-br from-purple-10 to-blue-50 backdrop-blur-xl p-3 lg:px-10 transition-all duration-500">
 
             {/* ---------------- LEFT (IMAGES) ---------------- */}
             <div>
@@ -130,11 +130,12 @@ const AboutContainer = () => {
 
                     <p
                         className="
-                                mb-5 text-sm text-body-color  
-                                px-1 leading-relaxed whitespace-pre-line max-w-3xl overflow-x-auto scrollbor_hidden
-                            "
+                            mb-5 text-sm text-body-color  
+                            px-1 leading-relaxed whitespace-pre-line max-w-3xl overflow-x-auto scrollbor_hidden
+                        "
                     >
                         {t('paragraph')}
+
                     </p>
 
                     <button

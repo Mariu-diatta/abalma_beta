@@ -135,7 +135,7 @@ const Tabs = () => {
             {/* Tabs Navigation */}
             <nav className="mb-4 border-0  bg-none" role="tablist" aria-label="Main tabs">
 
-                <ul className="flex justify-center  space-x-0 overflow-x-auto text-sm font-medium text-center w-full backdrop-blur-md ">
+                <ul className="flex justify-center md:justify-start  space-x-0 overflow-x-auto text-sm font-medium text-center w-full backdrop-blur-md ">
 
                     {
                         tabs?.map((tab) => (

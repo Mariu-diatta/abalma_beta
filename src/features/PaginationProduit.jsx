@@ -13,7 +13,7 @@ const PaginationProduit = ({ products = [], itemsPerPage = 5 }) => {
 
     const currentItems = products.slice(startIndex, startIndex + itemsPerPage);
 
-    const lengthItemsSupTwo = (currentItems?.length <= 2);
+    const lengthItemsSupTwo = (products?.length <= 2);
 
     const handleNext = () => {
 
@@ -72,7 +72,8 @@ const PaginationProduit = ({ products = [], itemsPerPage = 5 }) => {
                             rounded-full
                             object-cover
                             border-0
-                            shadow-md
+                            shadow-xl
+                            hover:shadow-2xl
                         "
                     />
                 )

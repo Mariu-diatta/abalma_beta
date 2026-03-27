@@ -36,11 +36,13 @@ const LocationSearchPopover = ({ setLocationSearch}) => {
         } catch (error) {
           console.error("Erreur recherche lieu :", error);
         }
+
+        setSelectedLocation(query);
    };
 
   const handleSelect = (place) => {
     const locationString = `${place.display_name} | Lat:${place.lat}, Lon:${place.lon}`;
-    setSelectedLocation(locationString);
+    setSelectedLocation(locationString ?? query);
     setIsOpen(false); // fermer le popover après sélection
     setQuery(place.display_name); // afficher le lieu choisi dans l'input
   };
@@ -53,8 +55,11 @@ const LocationSearchPopover = ({ setLocationSearch}) => {
                 ref={inputRef}
                 type="text"
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                onFocus={() => query && results.length > 0 && setIsOpen(true)}
+                onChange={(e) => {
+                    setQuery(e.target.value)
+                    //searchLocation()
+                }}
+                onFocus={(e) => e.target.value.length === 0 && setIsOpen(false)}
                 placeholder="Entrez un lieu..."
                 className="w-full border p-2 rounded border-0 border-b border-b-gray-100 focus:outline-none "
                 required="true"

@@ -22,7 +22,7 @@ const MobileNav = ({ open }) => {
       } lg:static lg:block lg:max-w-full lg:w-auto`}
     >
       <div
-        className="text-sm absolute top-3 flex flex-col items-start justify-start gap-3 p-1 sm:hidden shadow-lg rounded-lg w-full py-5 bg-white/90"
+         className="text-sm absolute top-3 flex flex-col items-start justify-start gap-3 sm:hidden p-1 shadow-2xl rounded-lg w-full py-5 bg-white/90"
       >
         <WhiteRoundedButton titleButton={t(ENDPOINTS.LOGIN)} to={ENDPOINTS.LOGIN} />
 

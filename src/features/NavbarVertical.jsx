@@ -550,7 +550,7 @@ const VertcalNavbar = ({ children }) => {
 
                         <ButtonScrollTopDown>
 
-                            <section className="mt-5">
+                            <section className="mt-2">
                                 {children}
                             </section>
 

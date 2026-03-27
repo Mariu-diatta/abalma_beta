@@ -58,7 +58,7 @@ const ProductDetailsSection = ({ isOpen, onClose}) => {
 
     return (
 
-        <div className="fixed inset-0 z-[100] flex items-center justify-center">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center shodow-2xl">
 
             {/* Overlay */}
             <div

@@ -5,6 +5,8 @@ import ServicesPlatforms from '../components/AbalmaActivities';
 import SubscriptionsPage from './SubscriptionCard';
 import bg_image from '../assets/bg_image_.jpg'
 import TitleCompGen from '../components/TitleComponentGen';
+import TestimonialCarousel from '../components/Testimony';
+import ServicesSection from '../features/ServiceSections';
 //import ScrollTop from '../components/ButtonScroll';
 
 const HomeContain = () => {
@@ -54,12 +56,26 @@ const HomeContain = () => {
                 </section>
 
                 {/* ========= SERVICES ========= */}
-                <section aria-labelledby="services" className=" px-1 translate-y-0 transition-all duration-1000 ease-in-out ">
+                <section aria-labelledby="services" className=" px-1 translate-y-0 translate-x-0 transition-all duration-1000 ease-in-out ">
 
                     <ServicesPlatforms />
            
                 </section>
 
+                <section aria-labelledby="Tesmonies" className=" translate-y-0 transition-all duration-1000 ease-in-out py-3">
+
+                    <ServicesSection/>
+
+                </section>
+
+                <section aria-labelledby="Tesmonies" className=" translate-y-0 transition-all duration-1000 ease-in-out py-3">
+
+                    <TestimonialCarousel
+                        autoplay={true}
+                        autoplayInterval={6000}
+                    />
+
+                </section>
 
             </main>
 

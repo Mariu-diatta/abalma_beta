@@ -116,7 +116,7 @@ const ProductCard = ({
                       relative
                       w-full
                       h-full
-                      object-cover
+                      object-contain
                       transition-transform
                       duration-300
                       ease-in-out
@@ -146,7 +146,7 @@ const ProductCard = ({
                     {
                         quantityProduct &&
                         (
-                            <span className="text-xs text-gray-600">
+                            <span className="text-xs text-gray-600 bg-gray-100 p-1 rounded-lg">
 
                                 {t("quantity")} {item?.quantity_product}
 
@@ -160,20 +160,18 @@ const ProductCard = ({
                 <PrintNumberStars productNbViews={item?.total_views} t={t} />
 
                 {/* Description */}
-                <p className="text-xs text-start truncate mb-1 md:text-sm whitespace-nowrap overflow-y-auto w-full scrollbor_hidden ">
+                <p className="text-xs text-start truncate mb-1 md:text-sm whitespace-nowrap overflow-y-auto w-full scrollbor_hidden px-2">
                     {item?.description_product.toLowerCase()}
                 </p>
 
                 <div className="whitespace-nowrap flex text-xs gap-1 md:hidden bg-grey-200 text-green dark:bg-white-100 my-auto w-auto p-1 rounded-lg"><p>{t('quantity_sold')}</p>{qut_sold} </div>
 
                 {/* Prix & Boutons */}
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center w-full">
 
                     <ScrollingContent item={item} t={t} qut_sold={item?.quantity_product_sold}/>
 
-                    <div
-                        className="flex gap-2"
-                    >
+                    <div className="flex gap-2">
 
                         <button
 

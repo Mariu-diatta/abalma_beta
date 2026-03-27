@@ -2,54 +2,60 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formaterPrix } from '../utils';
 
-
-
-// Rendu memoïsé du prix du produit
 const RendrePrixProduitMonnaie = ({ item }) => {
+  const { t, i18n } = useTranslation();
 
-    const { t, i18n } = useTranslation();
+  return useMemo(() => {
+    if (!item?.price_product) return null;
 
-    return useMemo(() => {
-        //const currentLang = i18n.language;
-        const prix = item?.price_product; // Valeur par défaut à 0 si undefined
-        const monnaie = item?.currency_price?.toUpperCase() || 'EUR'; // Par défaut EUR
-        const prixFormate = formaterPrix(prix, monnaie, t, i18n.language);
-        const space = item?.currency_price === "DOLLAR" ?",":","
-        const itemCurrencyPrice = (item?.currency_price === "DOLLAR")
-        const prixFormat =  !(item?.currency_price === "DOLLAR")?
-                            (
-                                (item?.currency_price === "EURO") ?
-                                "€"
-                                :
-                                "XOF"
-                            )
-                            :
-                            "$";
-        const PriceFormat = (prixFormat === "$") 
+    const prixFormate = formaterPrix(
+      item.price_product,
+      item.currency_price,
+      t,
+      i18n.language
+    );
 
-        return (
+    // 🔹 Séparer symbole et nombre automatiquement
+    const match = prixFormate.match(/^(\D*)([\d\s.,]+)(.*)$/);
 
-            <span
-                className="whitespace-nowrap text-blue-700  text-sm sm:text-base"
-                aria-label={PriceFormat ? `XOF` : prixFormat}
-            >
-                {
-                    itemCurrencyPrice ?
-                    <span>
-                            <span>{prixFormate.split(space)[0]}</span>.
-                            <span className="text-[12px]"> {prixFormate.split(space)[1]}</span >
-                     </span>
-                    :
-                    <span>
-                            <span>{prixFormate.split(space)[0]}</span>,
-                            <span className="text-[12px]"> {prixFormate.split(space)[1]}</span >
-                    </span >
-                }
+    if (!match) return prixFormate;
 
-            </span>
-        );
+    const [, before, numberPart, after] = match;
 
-    }, [item?.price_product, t, i18n.language, item?.currency_price]);
+    // 🔹 Trouver séparateur décimal
+    let entier = numberPart;
+    let decimales = "";
+    let separator = "";
+
+    if (numberPart.includes(",")) separator = ",";
+    else if (numberPart.includes(".")) separator = ".";
+
+    if (separator) {
+      [entier, decimales] = numberPart.split(separator);
+    }
+
+    return (
+      <span className="whitespace-nowrap text-blue-700 text-sm sm:text-base font-bold">
+        
+        {/* symbole avant */}
+        {before && <span>{before}</span>}
+
+        {/* entier */}
+        <span>{entier}</span>
+
+        {/* décimales */}
+        {decimales && (
+          <span className="text-[12px] align-center">
+            {separator}{decimales}
+          </span>
+        )}
+
+        {/* symbole après */}
+        {after && <span>{after}</span>}
+
+      </span>
+    );
+  }, [item?.price_product, item?.currency_price, t, i18n.language]);
 };
 
 export default RendrePrixProduitMonnaie;

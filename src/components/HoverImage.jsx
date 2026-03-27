@@ -4,7 +4,7 @@ const HoverImage = ({ src, alt, text }) => {
 
     return (
 
-        <div className="relative group overflow-hidden rounded-2xl shadow-lg">
+        <div className="relative group overflow-hidden rounded-2xl shadow-2xl">
 
             <img
                 src={src}

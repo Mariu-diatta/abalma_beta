@@ -9,17 +9,17 @@ const ServicesSection = () => {
 
     return (
 
-        <section className="bg-none translate-y-5 transition-all duration-1000 ease-in-out">
+        <section className="bg-none translate-y-0 transition-all duration-1000 ease-in-out ">
 
-            <div className="py-2 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+            <div className="px-4 mx-auto max-w-screen-xl sm:py-5 lg:px-6">
 
                 {/* Header */}
-                <div className="m-auto text-center">
+                <div className="m-auto text-center m-0">
                     <TitleCompGen title={t('Services')} />
                 </div>
 
                 {/* Grid */}
-                <div className="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0 py-5">
+                <div className="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0 ">
 
                     {
                         services?.map((service, index) => (

@@ -68,12 +68,12 @@ export default function TestimonialCarousel({
     if (!length) return null;
 
     return (
-        <section className="relative w-full mx-auto px-1 text-center">
+        <section className="relative w-screen mx-auto text-center mb-5">
 
             <TitleCompGen title="Ils développent leur activité avec Abalma" />
 
             <div
-                className="relative rounded-2xl"
+                className="relative rounded-2xl w-screen"
                 onMouseEnter={stopAutoplay}
                 onMouseLeave={startAutoplay}
             >
@@ -86,28 +86,33 @@ export default function TestimonialCarousel({
                         }}
                     >
                         {testimonials.map((t, i) => {
-                            const stars = parseInt(t?.number_stars ?? 0, 10);
 
+                            const stars = parseInt(t?.number_stars ?? 0, 10);
+                            const client = t?.client
+                            const image = client?.image || client?.photo_url
+                            const { nom, prenom }=client
                             return (
                                 <div
                                     key={t.id ?? i}
                                     style={{ width: `${100 / itemsPerView}%` }}
-                                    className="flex-shrink-0 py-4"
+                                    className="flex-shrink-0 py-1"
                                 >
-                                    <div className="rounded-xl p-4 shadow-xl h-full bg-white/30">
+                                    <div className="rounded-xl w-auto px-4 m-0 shadow-xl h-full bg-white/30">
 
                                         <div className="flex items-start justify-start gap-4">
+
                                             <img
-                                                src={t?.image || t?.photo_url || "/avatar.png"}
-                                                alt={t?.prenom || "Avatar"}
-                                                className="w-14 h-14 rounded-full object-cover border shadow-md"
+                                                src={image}
+                                                alt={"..."}
+                                                className="w-14 h-14 rounded-full object-cover border shadow-xl border border-gray-100"
                                                 loading="lazy"
                                             />
 
                                             <div className="flex flex-col items-start">
 
-                                                <h4 className="font-semibold">
-                                                    {t?.prenom || "Utilisateur"}
+                                                <h4 className="flex flex-col font-bold">
+                                                    <p className="text-md text-gray-500">{prenom || "Utilisateur"}</p>
+                                                    <p className="text-md text-gray-300">{nom || "nom"}</p>
                                                 </h4>
 
                                                 {t?.profession && (
@@ -116,7 +121,7 @@ export default function TestimonialCarousel({
                                                     </p>
                                                 )}
 
-                                                <p className="text-gray-700 italic my-2">
+                                                <p className="text-gray-700 italic my-2 h-30 overflow-y-auto rounded-lg p-1 w-auto scrollbor_hidden">
                                                     {t?.content}
                                                 </p>
 
@@ -149,14 +154,14 @@ export default function TestimonialCarousel({
                     <>
                         <button
                             onClick={goPrev}
-                            className="absolute left-1 top-1/2 -translate-y-1/2 bg-white shadow rounded-full px-2 py-1"
+                            className="absolute left-3 top-1/2 -translate-y-1/2 bg-white shadow rounded-full px-2 py-1"
                         >
                             ‹
                         </button>
 
                         <button
                             onClick={goNext}
-                            className="absolute right-1 top-1/2 -translate-y-1/2 bg-white shadow rounded-full px-2 py-1"
+                            className="absolute right-3 top-1/2 -translate-y-1/2 bg-white shadow rounded-full px-2 py-1"
                         >
                             ›
                         </button>
@@ -177,6 +182,7 @@ export default function TestimonialCarousel({
                     </div>
                 )}
             </div>
+
         </section>
     );
 }

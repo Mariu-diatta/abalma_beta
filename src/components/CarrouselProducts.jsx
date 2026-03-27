@@ -87,7 +87,7 @@ const Carousel = ({ products, openModal, owners }) => {
                     <img
                         src={current?.image}
                         alt="product"
-                        className="relative w-full h-full object-contain "
+                        className="relative w-full h-full object-contain shadow-2xl"
                     />
 
                 </div>

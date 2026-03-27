@@ -2,8 +2,6 @@ import { numberStarsViews } from "../utils";
 
 const PrintNumberStars = ({ productNbViews, t }) => {
 
-    if (productNbViews <= 0 ) return
-
     return (
 
         < div className = "flex items-center mt-2" >
@@ -28,9 +26,9 @@ const PrintNumberStars = ({ productNbViews, t }) => {
             </div>
 
             <p
-                className="whitespace-nowrap ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500 sm:text-sx"
+                className="whitespace-nowrap  text-xs font-normal text-indigo-600 hover:text-indigo-500 sm:text-sx rounded-full bg-blue-200 p-1"
             >
-                {productNbViews} {t("reviews")}
+                {productNbViews?? 0} {t("reviews")}
             </p>
 
         </div>
