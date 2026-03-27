@@ -230,7 +230,7 @@ const HelpPage = () => {
                                 placeholder="Décrivez votre problème..."
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
-                                maxlenght="50"
+                                maxLength={100}
                                 className="w-full p-3 rounded-xl bg-white/70 border border-gray-200 
                                 focus:outline-none focus:ring-2 focus:ring-blue-400 transition resize-none"
                             />
@@ -424,6 +424,7 @@ function TestmonyList() {
                     placeholder="Écris ton témoignage..."
                     className="border-blue-800 p-3 rounded-xl w-full focus:ring-0 outline-none border border-gray-200"
                     rows="2"
+                    maxLength={100}
                     required
                 />
 
