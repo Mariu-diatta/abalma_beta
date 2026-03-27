@@ -78,14 +78,14 @@ const SearchBar = ({disabled = false }) => {
             <form
                 onSubmit={handleSubmit}
                 className={clsx(
-                    "mt-0 rounded-full shadow-lg",
+                    "mt-0 rounded-full hover:shadow-xl",
                     "relative flex",
                     searchTerm ? "w-full" : "w-full  md:w-1/2"
                 )}
             >
                 <button
                     type="submit"
-                    className="px-2.5 border border-gray-200 shadow-md text-sm z-10 text-sm text-gray-900  rounded-l-full border-0  dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none focus:ring-0 "
+                    className="px-2.5 border-r-0 border border-gray-100   text-sm z-10 text-sm text-gray-900  rounded-l-full dark:placeholder-gray-400 dark:text-white focus:outline-none focus:ring-0 "
                     disabled={disabled}
                 >
                     <svg className="w-4 h-4" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -99,7 +99,7 @@ const SearchBar = ({disabled = false }) => {
                 <input
                     ref={searchBtnRef}
                     type="search"
-                    className={` block px-2.5 py-2.5 w-full z-10 text-md rounded-e-full border-0 border-gray-50  dark:border-s-gray-700 bg-gray-50  dark:border-gray-600 dark:placeholder-gray-400 focus:outline-none focus:ring-0`}
+                    className={` block px-2.5 py-2.5 w-full z-10 text-md rounded-e-full border-l-0 border border-gray-100 dark:placeholder-gray-400 focus:outline-none focus:ring-0`}
                     placeholder={`${t("Search")} ${selectedCategory ? selectedCategory?.replace(/_/g, " ").toLowerCase() : (t('All')).toLowerCase() } `}
                     value={searchTerm??""}
                     onChange={(e) => {

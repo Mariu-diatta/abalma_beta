@@ -26,14 +26,14 @@ function SubscriptionCard({
     const { t } = useTranslation();
 
     return (
-
         <div
-            className={`relative flex flex-col justify-between rounded-lg shadow-md p-6 w-full max-w-sm transition hover:shadow-2xl hover:-translate-y-1
-                ${
-                    highlight?
-                    "bg-gradient-to-br from-indigo-50 to-white border-indigo-200"
-                    :
-                    "bg-white/2 border-gray-200"
+            className={
+                `relative flex flex-col justify-between rounded-lg shadow-md p-6 w-full max-w-sm transition transform
+                hover:shadow-2xl hover:-translate-y-1
+                animate-fade-in-up
+                ${highlight
+                ? "bg-gradient-to-br from-indigo-50 to-white border-indigo-200"
+                : "bg-white border-gray-200"
                 }`
             }
         >
@@ -162,7 +162,7 @@ export default function SubscriptionsPage() {
 
     return (
 
-        <main className=" flex flex-col items-center justify-center  bg-none  pt-[2dvh] mx-2">
+        <main className=" flex flex-col items-center justify-center  bg-none  pt-[2dvh] mx-2 ">
 
             <button
 
@@ -191,7 +191,7 @@ export default function SubscriptionsPage() {
                 <TitleCompGen title={t("Subscriptionb2b")} />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-none overflow-y-auto  p-7 pt-0 ">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-none overflow-y-auto  p-7 pt-0 translate-y-0 transition-all duration-1000 ease-in-out">
 
                 <SubscriptionCard
                     title={t("discovery")}

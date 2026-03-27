@@ -85,7 +85,7 @@ export default function TestimonialCarousel({
                             transform: `translateX(-${(index * 100) / itemsPerView}%)`,
                         }}
                     >
-                        {testimonials.map((t, i) => {
+                        {testimonials?.map((t, i) => {
 
                             const stars = parseInt(t?.number_stars ?? 0, 10);
                             const client = t?.client

@@ -117,7 +117,7 @@ const AboutContainer = () => {
             {/* ---------------- RIGHT (CONTENT CARD) ---------------- */}
             <div
                 ref={rightSectionRef}
-                className="bg-white rounded-2xl shadow-lg p-2  opacity-0 translate-y-10 scale-95 transition-all duration-700"
+                className="bg-white rounded-2xl shadow-2xl  p-2  opacity-0 translate-y-10 scale-95 transition-all duration-700"
             >
                 <div className="flex flex-col gap-5">
 
