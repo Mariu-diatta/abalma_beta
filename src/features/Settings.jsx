@@ -4,9 +4,8 @@ import api from '../services/Axios';
 import { updateTheme } from '../slices/navigateSlice';
 import { useTranslation } from 'react-i18next';
 import { applyTheme } from '../utils';
-import TitleCompGen from '../components/TitleComponentGen';
+import TitleCompGen, { TitleCompGenLitle } from '../components/TitleComponentGen';
 import DeleteProfilAccount from './DeleteAccount';
-import FloatingInput from '../components/InputFloating';
 import NotificationToggle from '../components/NotificationToggle';
 import ThemeSelector from '../components/Them';
 import SubscriptionsPage from '../pages/SubscriptionCard';
@@ -87,16 +86,7 @@ function Section({ title, children }) {
             marginBottom: '1.25rem',
         }}>
             {title && (
-                <h2 style={{
-                    fontSize: '13px',
-                    fontWeight: 600,
-                    letterSpacing: '0.06em',
-                    textTransform: 'uppercase',
-                    color: 'var(--color-text-tertiary)',
-                    margin: '0 0 1.25rem',
-                }}>
-                    {title}
-                </h2>
+                <TitleCompGenLitle title={title} />
             )}
             {children}
         </div>
@@ -152,6 +142,7 @@ function PrimaryButton({ children, onClick, type = 'button', danger = false, sty
 function NavItem({ label, icon: Icon, active, onClick, danger }) {
     return (
         <button
+            className="whitespace-nowrap z-100"
             onClick={onClick}
             style={{
                 display: 'flex',
@@ -365,10 +356,12 @@ const SettingsForm = () => {
         <>
             {toast && <Toast message={toast} onClose={() => setToast(null)} />}
 
-            <div style={{
-                maxWidth: '960px',
+            <div 
+
+              style={{
+                maxWidth: '100%',
                 margin: '0 auto',
-                padding: '2rem 1rem 6rem',
+                padding: '2rem 1rem 2rem',
                 fontFamily: 'var(--font-sans)',
             }}>
                 {/* Page header */}
@@ -379,11 +372,10 @@ const SettingsForm = () => {
                     </p>
                 </div>
 
-                <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }}>
+                <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }} className="flex flex-col md:block md:flex-row">
 
                     {/* ── Sidebar ── */}
-                    <aside style={{
-                        width: '200px',
+                    <aside className="flex md:block overflow-x-auto w-full md:w-[200px] scrollbor_hidden_ " style={{
                         flexShrink: 0,
                         background: 'var(--color-background-primary)',
                         border: '0.5px solid var(--color-border-tertiary)',
@@ -405,7 +397,7 @@ const SettingsForm = () => {
                     </aside>
 
                     {/* ── Content ── */}
-                    <main style={{ flex: 1, minWidth: 0 }}>
+                    <main style={{ flex: 1, minWidth: 0 }} className="overflow-x-auto w-full md:w-auto scrollbor_hidden_ ">
 
                         {/* ── Profile ── */}
                         {activeSection === 'profile' && (
@@ -549,9 +541,7 @@ const SettingsForm = () => {
 
                         {/* ── Subscription ── */}
                         {activeSection === 'subscription' && (
-                            <Section title={t('settingsText.subscription', 'Abonnement')}>
                                 <SubscriptionsPage />
-                            </Section>
                         )}
 
                         {/* ── Danger zone ── */}
