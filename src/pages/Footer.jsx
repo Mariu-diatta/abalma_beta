@@ -106,7 +106,7 @@ const Footer = () => {
     return (
 
         <footer
-            className="shadow-md border border-gray-100 w-full text-sm flex flex-col items-start justify-center mt-0 pt-0 bg-white/20"
+            className="shadow-border border-gray-100 w-full text-sm flex flex-col items-start justify-center mt-0 pt-0 bg-white/20"
         >
 
             <div className="flex flex-col gap-6 items-center md:items-start lg:flex-row w-full  mx-auto px-4 text-center lg:text-left translate-y-1 transition-all duration-1000 ease-in-out bg-none" ref={componentRef_}>
