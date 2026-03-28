@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import ButtonToggleChatsPanel from '../components/ButtonHandleChatsPanel';
 import InputBoxChat from '../components/InputBoxChat';
 import BoxMessagesChats from '../features/MessageBoxChat';
@@ -7,12 +7,179 @@ import { useTranslation } from 'react-i18next';
 import { backendBase } from '../services/Axios';
 import { ENDPOINTS, IMPORTANTS_URLS } from '../utils';
 import { setCurrentNav } from '../slices/navigateSlice';
-import { useDispatch, } from 'react-redux';
 
+// ─── Styles ───────────────────────────────────────────────────────────────────
+const styles = `
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
+  .chat-root * { font-family: 'Plus Jakarta Sans', sans-serif; box-sizing: border-box; }
+
+  /* Layout principal */
+  .chat-root {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #f8fafc;
+    box-shadow: 0 8px 40px rgba(15,23,42,.1);
+  }
+
+  /* ── Header ── */
+  .chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: rgba(255,255,255,.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(226,232,240,.8);
+    flex-shrink: 0;
+    min-height: 64px;
+    gap: 12px;
+  }
+
+  .chat-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #bfdbfe;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 3px rgba(59,130,246,.12);
+  }
+
+  .chat-user-name {
+    font-size: .95rem;
+    font-weight: 700;
+    color: #1e40af;
+    line-height: 1.2;
+  }
+  .chat-user-sub {
+    font-size: .75rem;
+    color: #94a3b8;
+    text-transform: lowercase;
+    line-height: 1;
+    margin-top: 2px;
+  }
+
+  /* Indicateur "en ligne" */
+  .chat-online-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 2px rgba(34,197,94,.2);
+    flex-shrink: 0;
+  }
+
+  /* Indicateur typing */
+  @keyframes chat-blink {
+    0%, 80%, 100% { opacity: .25; transform: scale(.8); }
+    40%           { opacity: 1;   transform: scale(1);   }
+  }
+  .chat-typing {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    background: #eff6ff;
+    border-radius: 99px;
+    border: 1px solid #bfdbfe;
+  }
+  .chat-typing span {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: #3b82f6;
+    display: inline-block;
+    animation: chat-blink 1.2s ease infinite;
+  }
+  .chat-typing span:nth-child(2) { animation-delay: .2s; }
+  .chat-typing span:nth-child(3) { animation-delay: .4s; }
+  .chat-typing-label {
+    font-size: .72rem;
+    color: #3b82f6;
+    font-weight: 600;
+    margin-left: 4px;
+    white-space: nowrap;
+  }
+
+  /* Placeholder (pas de conversation sélectionnée) */
+  .chat-empty {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: #94a3b8;
+    padding: 32px;
+    text-align: center;
+  }
+  .chat-empty-icon {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: #f1f5f9;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem;
+  }
+  .chat-empty-title { font-size: .95rem; font-weight: 600; color: #64748b; }
+  .chat-empty-sub   { font-size: .8rem; color: #cbd5e1; }
+
+  /* Zone messages */
+  .chat-messages-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 0;
+    scroll-behavior: smooth;
+    background: linear-gradient(180deg, #f0f7ff 0%, #f8fafc 100%);
+  }
+  .chat-messages-area::-webkit-scrollbar { width: 4px; }
+  .chat-messages-area::-webkit-scrollbar-track { background: transparent; }
+  .chat-messages-area::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 99px; }
+  .chat-messages-area::-webkit-scrollbar-thumb:hover { background: #cbd5e1; }
+
+  /* Pied (input) */
+  .chat-footer {
+    flex-shrink: 0;
+    background: rgba(255,255,255,.9);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(226,232,240,.8);
+  }
+
+  /* Barre de statut connexion */
+  .chat-status-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 16px;
+    font-size: .7rem;
+    font-weight: 600;
+    color: #94a3b8;
+    background: rgba(248,250,252,.8);
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .chat-status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #94a3b8;
+    transition: background .3s;
+  }
+  .chat-status-dot.connected { background: #22c55e; }
+  .chat-status-dot.error     { background: #ef4444; }
+`;
+
+// ─── Constantes ───────────────────────────────────────────────────────────────
+const WS_READY = WebSocket.OPEN;
+
+// ─── ChatApp ─────────────────────────────────────────────────────────────────
 const ChatApp = ({ setShow, show }) => {
     const { t } = useTranslation();
-    const ws = useRef(null);
+    const dispatch = useDispatch();
+
+    const wsRef = useRef(null);
     const messagesEndRef = useRef(null);
     const typingTimeoutRef = useRef(null);
 
@@ -22,178 +189,169 @@ const ChatApp = ({ setShow, show }) => {
     const selectedUser = useSelector((state) => state.chat.userSlected);
 
     const [messages, setMessages] = useState([]);
-    const [input, setInput] = useState("");
+    const [input, setInput] = useState('');
     const [typing, setTyping] = useState(false);
-    const dispatch = useDispatch();
+    const [wsStatus, setWsStatus] = useState('idle'); // idle | connected | error
 
-
+    // ── WebSocket ──
     useEffect(() => {
+        if (!currentUser || wsRef.current) return;
 
-        if (!currentUser) return;
-        if (ws.current) return; // 🔒 empêche les reconnexions
-
-        const protocol = window.location.protocol === "https:" ? "wss" : "ws";
+        const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
         const socketUrl = `${protocol}://${backendBase}/ws/private/${currentUser.id}/`;
+        const socket = new WebSocket(socketUrl);
+        wsRef.current = socket;
 
-        ws.current = new WebSocket(socketUrl);
+        socket.onopen = () => setWsStatus('connected');
 
-        ws.current.onopen = () => {
-            console.log("✅ WS connecté (user) :", currentUser.id);
-        };
-
-        ws.current.onmessage = (e) => {
-
+        socket.onmessage = (e) => {
             try {
                 const data = JSON.parse(e.data);
-
-                if (data.action === "new_message") {
+                if (data.action === 'new_message') {
                     setMessages((prev) => [...prev, data.message]);
                 }
-
-                if (data.action === "typing") {
+                if (data.action === 'typing') {
                     setTyping(true);
                     clearTimeout(typingTimeoutRef.current);
                     typingTimeoutRef.current = setTimeout(() => setTyping(false), 1800);
                 }
-
             } catch (err) {
-                console.error("❌ WS parse error:", err);
+                console.error('❌ WS parse error:', err);
             }
         };
 
-        ws.current.onerror = (err) => {
-            console.error("❌ WS error :", err);
-            // ❌ ne pas fermer ici
-        };
+        socket.onerror = () => setWsStatus('error');
 
-        ws.current.onclose = (e) => {
-            console.log("🔌 WS fermé :", e.code, e.reason);
-            ws.current = null;
+        socket.onclose = () => {
+            wsRef.current = null;
+            setWsStatus('idle');
         };
 
         return () => {
-            ws.current?.close();
-            ws.current = null;
+            socket.close();
+            wsRef.current = null;
             clearTimeout(typingTimeoutRef.current);
         };
+    }, [currentUser]);
 
-    }, [currentUser]); // 👈 UNE SEULE dépendance
-
-
-    // ===== Load previous messages =====
+    // ── Charger les messages du chat courant ──
     useEffect(() => {
-        setMessages([]);
-        if (!currentChat?.messages) return;
-
-        const formatted = currentChat.messages.map((msg) => ({
-            id: msg?.id,
-            text: msg.text,
-            sender_id: msg?.user,
-            created_at: msg?.created_at_formatted,
-        }));
-
-        setMessages(formatted);
+        if (!currentChat?.messages) { setMessages([]); return; }
+        setMessages(
+            currentChat.messages.map((msg) => ({
+                id: msg?.id,
+                text: msg.text,
+                sender_id: msg?.user,
+                created_at: msg?.created_at_formatted,
+            }))
+        );
     }, [currentChat, selectedUser]);
 
-    // ===== Scroll to bottom =====
+    // ── Scroll vers le bas ──
     useEffect(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
 
-    useEffect(
-        () => {
-            const currentUrl = window.location.href;
-            if (currentUrl === IMPORTANTS_URLS?.MESSAGE_APP || currentUrl === IMPORTANTS_URLS?.MESSAGE_APPS) {
-                dispatch(setCurrentNav(ENDPOINTS.MESSAGE_INBOX))
-            }
+    // ── Sync nav URL ──
+    useEffect(() => {
+        const url = window.location.href;
+        if (url === IMPORTANTS_URLS?.MESSAGE_APP || url === IMPORTANTS_URLS?.MESSAGE_APPS) {
+            dispatch(setCurrentNav(ENDPOINTS.MESSAGE_INBOX));
+        }
+    }, [dispatch]);
 
-        }, [dispatch]
-    )
-
-    // ===== Send Message =====
+    // ── Envoi d'un message ──
     const sendMessage = useCallback(() => {
         const trimmed = input.trim();
-        if (!trimmed || !ws.current || ws.current.readyState !== WebSocket.OPEN) return;
-
-        ws.current.send(JSON.stringify({
-            action: "send_message",
+        if (!trimmed || wsRef.current?.readyState !== WS_READY) return;
+        wsRef.current.send(JSON.stringify({
+            action: 'send_message',
             sender_id: currentUser?.id,
             receiver_id: selectedUser?.id,
             text: trimmed,
         }));
-
-        setInput("");
+        setInput('');
     }, [input, currentUser?.id, selectedUser?.id]);
 
-    // ===== Detect typing =====
+    // ── Indicateur de saisie ──
     const handleTyping = useCallback(() => {
-        if (ws.current?.readyState === WebSocket.OPEN) {
-            ws.current.send(JSON.stringify({
-                action: "typing",
-                sender_id: currentUser?.id,
-                receiver_id: selectedUser?.id,
-            }));
-        }
+        if (wsRef.current?.readyState !== WS_READY) return;
+        wsRef.current.send(JSON.stringify({
+            action: 'typing',
+            sender_id: currentUser?.id,
+            receiver_id: selectedUser?.id,
+        }));
     }, [currentUser?.id, selectedUser?.id]);
 
+    // ── Rendu ──
     return (
+        <>
+            <style>{styles}</style>
+            <main className="chat-root">
 
-        <main className="flex flex-col w-screen rounded-2xl overflow-hidden bg-none shadow-md z-8 w-full mb-0 h-auto">
+                {/* Header */}
+                <header className="chat-header">
+                    {selectedUser ? (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
+                            <div style={{ position: 'relative', flexShrink: 0 }}>
+                                <img
+                                    src={selectedUser?.image || selectedUser?.photo_url || '/default-avatar.png'}
+                                    alt={`${selectedUser?.nom || 'Utilisateur'} avatar`}
+                                    className="chat-avatar"
+                                />
+                                <span className="chat-online-dot" style={{ position: 'absolute', bottom: 1, right: 1 }} />
+                            </div>
 
-            <section className="flex justify-between items-center py-2 border-0 bg-white/70 backdrop-blur-md max-h-[90px]">
-
-                {
-                    selectedUser && (
-
-                        <div className="flex items-center gap-3 text-gray-700">
-
-                            <img
-                                src={selectedUser?.image || selectedUser?.photo_url || "/default-avatar.png"}
-                                alt={`${selectedUser?.nom || "Utilisateur"} avatar`}
-                                className="h-[45px] w-[45px] rounded-full object-cover ring-2 ring-blue-200"
-                            />
-
-                            <div className="leading-tight">
-                                <p className="text-sm md:text-base font-semibold text-blue-600">
-                                    {selectedUser?.prenom || "Prénom"}
+                            <div style={{ minWidth: 0 }}>
+                                <p className="chat-user-name" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                    {selectedUser?.prenom || 'Prénom'}
                                 </p>
-                                <p className="text-xs text-gray-500">
-                                    {selectedUser?.nom?.toLowerCase() || "Nom"}
+                                <p className="chat-user-sub">
+                                    {selectedUser?.nom || 'Nom'}
                                 </p>
                             </div>
 
-                            {
-                                typing && (
-                                    <div className="text-xs text-gray-500 pl-2 animate-pulse">
-                                        {t('typing')}
-                                    </div>
-                                )
-                            }
-
+                            {typing && (
+                                <div className="chat-typing" style={{ marginLeft: 8 }}>
+                                    <span /><span /><span />
+                                    <span className="chat-typing-label">{t('typing')}</span>
+                                </div>
+                            )}
                         </div>
-                    )
-                }
+                    ) : (
+                        <div style={{ fontSize: '.85rem', color: '#94a3b8', fontWeight: 500 }}>
+                            Sélectionnez une conversation
+                        </div>
+                    )}
 
-                <div />
+                    <ButtonToggleChatsPanel showSidebar={show} setShowSidebar={setShow} />
+                </header>
 
-                <ButtonToggleChatsPanel showSidebar={show} setShowSidebar={setShow} />
-
-            </section>
-
-            <>
-
-                <div className="flex-1 overflow-y-auto py-3 space-y-2 scroll-smooth scrollbor_hidden">
-
-                    <BoxMessagesChats
-                        messages={messages}
-                        messagesEndRef={messagesEndRef}
-                        typing={typing}
-                    />
-
+                {/* Barre de statut WS */}
+                <div className="chat-status-bar">
+                    <span className={`chat-status-dot ${wsStatus}`} />
+                    {wsStatus === 'connected' ? 'Connecté' : wsStatus === 'error' ? 'Erreur de connexion' : 'En attente…'}
                 </div>
 
-                <div className="border-t bg-white/80 backdrop-blur-md">
+                {/* Zone messages */}
+                {selectedUser ? (
+                    <div className="chat-messages-area">
+                        <BoxMessagesChats
+                            messages={messages}
+                            messagesEndRef={messagesEndRef}
+                            typing={typing}
+                        />
+                    </div>
+                ) : (
+                    <div className="chat-empty">
+                        <div className="chat-empty-icon">💬</div>
+                        <p className="chat-empty-title">Aucune conversation ouverte</p>
+                        <p className="chat-empty-sub">Choisissez un contact pour commencer à échanger</p>
+                    </div>
+                )}
 
+                {/* Input */}
+                <footer className="chat-footer">
                     <InputBoxChat
                         allRoomsChats={allRoomsChats}
                         input={input}
@@ -202,12 +360,9 @@ const ChatApp = ({ setShow, show }) => {
                         sendMessage={sendMessage}
                         handleTyping={handleTyping}
                     />
-
-                </div>
-
-            </>
-
-        </main>
+                </footer>
+            </main>
+        </>
     );
 };
 
