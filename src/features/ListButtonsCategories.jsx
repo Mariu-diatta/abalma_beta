@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React from 'react';
 import { menuItems } from '../components/MenuItem';
 import { useTranslation } from 'react-i18next';
 
@@ -11,12 +11,11 @@ const styles = `
     display: flex;
     align-items: flex-start;
     gap: 10px;
-    padding: 10px 0px;
+    padding: 10px 4px;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    width:"100%"
   }
   .lbc-wrap::-webkit-scrollbar { display: none; }
 
@@ -140,57 +139,6 @@ const styles = `
   .lbc-btn:nth-child(10) { animation-delay: .40s; }
 `;
 
-// ─── Styles flèches de navigation ────────────────────────────────────────────
-const navStyles = `
-  .lbc-outer {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  .lbc-nav-btn {
-    flex-shrink: 0;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    border: 1.5px solid rgba(37,99,235,.2);
-    background: rgba(255,255,255,.9);
-    backdrop-filter: blur(8px);
-    color: #2563eb;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 10px rgba(37,99,235,.12);
-    transition: background .15s, box-shadow .15s, transform .15s, opacity .2s;
-    z-index: 2;
-  }
-  .lbc-nav-btn:hover {
-    background: #2563eb;
-    color: #fff;
-    box-shadow: 0 4px 16px rgba(37,99,235,.35);
-    transform: scale(1.08);
-  }
-  .lbc-nav-btn:active { transform: scale(.94); }
-  .lbc-nav-btn:disabled {
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  /* Dégradé fondu sur les bords */
-  .lbc-fade-left,
-  .lbc-fade-right {
-    position: absolute;
-    top: 0; bottom: 0;
-    width: 28px;
-    pointer-events: none;
-    z-index: 1;
-  }
-  .lbc-fade-left  { left: 36px;  background: linear-gradient(to right, rgba(255,255,255,.85), transparent); }
-  .lbc-fade-right { right: 36px; background: linear-gradient(to left,  rgba(255,255,255,.85), transparent); }
-`;
-
 // ─── Utilitaires ──────────────────────────────────────────────────────────────
 
 /** Normalise une clé de catégorie : retire les underscores et passe en minuscules. */
@@ -213,106 +161,40 @@ const ListButtonsCategories = ({
 }) => {
     const { t } = useTranslation();
     const menuList = menuItems(t);
-    const scrollRef = useRef(null);
-    const [canScrollLeft, setCanScrollLeft] = useState(false);
-    const [canScrollRight, setCanScrollRight] = useState(false);
-
-    const updateScrollState = () => {
-        const el = scrollRef.current;
-        if (!el) return;
-        setCanScrollLeft(el.scrollLeft > 4);
-        setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
-    };
-
-    useEffect(() => {
-        updateScrollState();
-        const el = scrollRef.current;
-        el?.addEventListener('scroll', updateScrollState, { passive: true });
-        window.addEventListener('resize', updateScrollState);
-        return () => {
-            el?.removeEventListener('scroll', updateScrollState);
-            window.removeEventListener('resize', updateScrollState);
-        };
-    }, [categories]);
-
-    const scroll = (dir) => {
-        scrollRef.current?.scrollBy({ left: dir * 180, behavior: 'smooth' });
-    };
 
     if (!categories?.length) return null;
 
     return (
         <>
-            <style>{styles}{navStyles}</style>
+            <style>{styles}</style>
+            <section className="lbc-wrap" role="toolbar" aria-label="Filtres par catégorie">
+                {categories.map((cat) => {
+                    const label = formatLabel(cat);
+                    const key = normalizeKey(cat);
+                    const isActive = normalizeKey(activateButtonCategory ?? '') === key;
+                    const icon = menuList.find((item) => item.name === cat)?.photo;
 
-            <div className="lbc-outer">
-                {/* Bouton gauche */}
-                <button
-                    type="button"
-                    className="lbc-nav-btn"
-                    aria-label="Défiler à gauche"
-                    disabled={!canScrollLeft}
-                    onClick={() => scroll(-1)}
-                >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
-                    </svg>
-                </button>
-
-                {/* Dégradé bord gauche */}
-                {canScrollLeft && <span className="lbc-fade-left" />}
-
-                {/* Liste scrollable */}
-                <section
-                    ref={scrollRef}
-                    className="hidden md:block lbc-wrap"
-                    role="toolbar"
-                    aria-label="Filtres par catégorie"
-                >
-                    {categories.map((cat) => {
-                        const label = formatLabel(cat);
-                        const key = normalizeKey(cat);
-                        const isActive = normalizeKey(activateButtonCategory ?? '') === key;
-                        const icon = menuList.find((item) => item.name === cat)?.photo;
-
-                        return (
-                            <button
-                                key={cat}
-                                type="button"
-                                role="radio"
-                                aria-checked={isActive}
-                                aria-label={label}
-                                className={`lbc-btn${isActive ? ' active' : ''}`}
-                                onMouseEnter={() => setProductSpecificHandler(key)}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    setActiveCategory(label);
-                                    setActivateButtonCategory(label);
-                                }}
-                            >
-                                {icon && <span className="lbc-icon">{icon}</span>}
-                                <span className="lbc-label">{label}</span>
-                            </button>
-                        );
-                    })}
-                </section>
-
-                {/* Dégradé bord droit */}
-                {canScrollRight && <span className="lbc-fade-right" />}
-
-                {/* Bouton droit */}
-                <button
-                    type="button"
-                    className="hidden md:block lbc-nav-btn "
-                    aria-label="Défiler à droite"
-                    disabled={!canScrollRight}
-                    onClick={() => scroll(1)}
-                >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
-                    </svg>
-                </button>
-            </div>
+                    return (
+                        <button
+                            key={cat}
+                            type="button"
+                            role="radio"
+                            aria-checked={isActive}
+                            aria-label={label}
+                            className={`lbc-btn${isActive ? ' active' : ''}`}
+                            onMouseEnter={() => setProductSpecificHandler(key)}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setActiveCategory(label);
+                                setActivateButtonCategory(label);
+                            }}
+                        >
+                            {icon && <span className="lbc-icon">{icon}</span>}
+                            <span className="lbc-label">{label}</span>
+                        </button>
+                    );
+                })}
+            </section>
         </>
     );
 };

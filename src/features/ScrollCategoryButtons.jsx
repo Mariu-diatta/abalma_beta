@@ -134,7 +134,7 @@ const ScrollableCategoryButtons = ({
                 <div
                     ref={scrollRef}
 
-                    className="overflow-x-auto px-10 scrollbor_hidden_ bg-none"
+                    className="overflow-x-auto px-2 scrollbor_hidden_ bg-none"
                 >
 
                     <ListButtonsCategories
