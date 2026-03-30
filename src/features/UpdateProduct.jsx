@@ -14,6 +14,7 @@ import { NavLink } from "react-router-dom";
 import { setCurrentNav } from "../slices/navigateSlice";
 import LocationSearchPopover from "./LocationSearch";
 import { FaDollarSign, FaBoxes, FaTruck, FaTag, FaCheckCircle, FaTimesCircle, FaEdit, FaTrash } from "react-icons/fa";
+import TitleCompGen from "../components/TitleComponentGen";
 
 
 // ─── Constantes ───────────────────────────────────────────────────────────────
@@ -309,6 +310,7 @@ const AddUploadProduct = () => {
             >
                 {/* Titre */}
                 {/*linear-gradient(160deg, #fff7ed 0%, #fff 40%, #fef3c7 100%)*/}
+
                 {!isProductAdded && (
                     <div className="ap-fade" style={{ maxWidth: 560, margin: "0 auto 24px", textAlign: "center" }}>
                         {/*<p style={{*/}
@@ -317,9 +319,9 @@ const AddUploadProduct = () => {
                         {/*}}>*/}
                         {/*    Marketplace*/}
                         {/*</p>*/}
-                        <h1 style={{ fontFamily: "'Outfit',sans-serif", fontSize: "clamp(1.4rem,4vw,1.9rem)", fontWeight: 700, color: "#0f172a", margin: "0 0 8px" }}>
-                            {t("add_product.add_or_update_product")}
-                        </h1>
+
+                        <TitleCompGen title={t("add_product.add_or_update_product")} />
+
                         {!isUserVerified && (
                             <div className="ap-verify-banner" style={{ maxWidth: 400, margin: "12px auto 0" }}>
                                 <span>⚠️</span>
