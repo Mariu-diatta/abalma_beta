@@ -248,16 +248,16 @@ const ChatLayout = () => {
 
     return (
 
-        <main className=" px-4 md:px-0 overflow-hidden grid grid-cols-12 mt-10  backdrop-blur-md rounded-lg mx-auto py-2 border border-gray-300 px-1 gap-2">
+        <main className="sticky bottom-1 overflow-hidden grid grid-cols-12 mt-12  backdrop-blur-md rounded-lg mx-2 px-2 py-2 border border-gray-300 gap-2 shadow-xl">
 
             {/* Sidebar */}
-            <section className="relative md:col-span-5 h-full overflow-y-auto border border-gray-200 rounded-lg">
+            <section className="relative md:col-span-5 h-full overflow-y-auto border border-gray-200 rounded-lg px-2">
 
                 <div
 
                     className={`
                         bg-white fixed top-0 left-0 h-full border-0  overflow_hidden  overflow-y-auto md:h-[70dvh] h-[90dvh]
-                        z-20 transform transition-transform duration-300 ease-in-out  rounded-lg
+                        z-20 transform transition-transform duration-300 ease-in-out  rounded-lg px-1
                         ${showSidebar ? 'translate-x-0' : '-translate-x-full'}
                         md:static md:translate-x-0 md:block
                         flex flex-col
@@ -365,7 +365,7 @@ const ChatLayout = () => {
             </section>
 
              {/*Main Chat Area */}
-            <section className="col-span-12 md:col-span-7  p-0 scrollbor_hidden overflow-y-hidden md:max-h-[70dvh] max-h-[90dvh] w-full">
+            <section className="col-span-12 md:col-span-7  scrollbor_hidden overflow-y-hidden md:max-h-[70dvh] max-h-[90dvh] w-full">
 
                 <div className=" flex overflow_hidden  overflow-y-auto md:h-[70dvh] h-[90dvh] w-full">
 

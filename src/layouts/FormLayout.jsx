@@ -12,7 +12,7 @@ const FormLayout = ({ children }) => {
 
             <ScrollTop />
 
-            <section className="bg-gray-1 px-2">
+            <section className="bg-gray-1 px-2 mt-10 p-2 overflow-y-auto h-full scrollbor_hidden">
 
                 <div className="container mx-auto">
 

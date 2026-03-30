@@ -36,7 +36,7 @@ const HomeLayout = ({ children }) => {
 
     return (
 
-        <main className=" d-flex flex-column items-start justify-between style-bg mx-0 mb-[30dvh]" >
+        <main className=" d-flex flex-column items-start justify-between style-bg mx-0 overflow-y-auto h-full scrollbor_hidden" >
 
             <NavbarHeader />
 
@@ -44,11 +44,7 @@ const HomeLayout = ({ children }) => {
 
             <section className="mt-[5dvh]"> 
 
-                {/*<ButtonScrollTopDown>*/}
-
-                    {children}
-
-                {/*</ButtonScrollTopDown>*/}
+                {children}
 
                 <Footer />
 

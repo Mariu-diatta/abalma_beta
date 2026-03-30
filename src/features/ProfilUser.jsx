@@ -308,7 +308,7 @@ const ProfileCard = () => {
 
             {/* Photo de couverture */}
             <div
-                className="relative h-48 sm:h-64 md:h-70 bg-cover bg-center bg-gray-200"
+                className="relative h-48 sm:h-64 md:h-70 bg-cover bg-center bg-gray-200 mt-0 pt-0"
                 style={{ backgroundImage: `url(${previewUrlBackground || DEFAULT_COVER})` }}
             >
                 {isBgPhotoEditing && (
@@ -326,7 +326,7 @@ const ProfileCard = () => {
                 {isCurrentUser && (
                     <button
                         onClick={() => setIsEditingPhotoBg((prev) => !prev)}
-                        className="absolute top-4 right-4 p-2 bg-white rounded-full shadow hover:bg-gray-100"
+                        className="absolute top-1/2 right-4 p-2 bg-white rounded-full shadow hover:bg-gray-100"
                         aria-label={t('ProfilText.modifierCouverture')}
                     >
                         <CameraIcon />

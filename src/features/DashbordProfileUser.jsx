@@ -170,7 +170,7 @@ const Tabs = () => {
                 id={`${activeTab}-tab`}
                 role="tabpanel"
                 aria-labelledby={`${activeTab}-tab-button`}
-                className="rounded-lg h-screan overflow-x-auto z-0"
+                className="rounded-lg h-screan overflow-x-auto z-0 px-2"
                 onTouchStart={onTouchStart}
                 onTouchMove={onTouchMove}
                 onTouchEnd={onTouchEnd}

@@ -6,170 +6,6 @@ import LoadingCard from "../components/LoardingSpin";
 import { useDispatch, useSelector } from "react-redux";
 import { showMessage } from "../components/AlertMessage";
 
-// ─── Styles injectés globalement ──────────────────────────────────────────────
-const globalStyles = `
-  @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap');
-
-  .help-page * { font-family: 'DM Sans', sans-serif; }
-  .help-page h1, .help-page h2, .help-page .display { font-family: 'Sora', sans-serif; }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(18px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes shimmer {
-    0%   { background-position: -200% center; }
-    100% { background-position:  200% center; }
-  }
-  @keyframes pulse-ring {
-    0%   { box-shadow: 0 0 0 0 rgba(99,102,241,.35); }
-    70%  { box-shadow: 0 0 0 10px rgba(99,102,241,0); }
-    100% { box-shadow: 0 0 0 0 rgba(99,102,241,0); }
-  }
-  @keyframes star-pop {
-    0%   { transform: scale(1); }
-    50%  { transform: scale(1.45); }
-    100% { transform: scale(1); }
-  }
-
-  .anim-fade-up   { animation: fadeUp .5s ease both; }
-  .delay-1 { animation-delay: .08s; }
-  .delay-2 { animation-delay: .16s; }
-  .delay-3 { animation-delay: .24s; }
-
-  .glass-card {
-    background: rgba(255,255,255,.62);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border: 1px solid rgba(255,255,255,.7);
-    border-radius: 20px;
-    box-shadow: 0 8px 32px rgba(99,102,241,.08), 0 1px 0 rgba(255,255,255,.9) inset;
-  }
-
-  .btn-primary {
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-    color: #fff;
-    font-family: 'Sora', sans-serif;
-    font-weight: 600;
-    letter-spacing: .02em;
-    border-radius: 14px;
-    padding: 11px 0;
-    width: 100%;
-    border: none;
-    cursor: pointer;
-    transition: transform .15s, box-shadow .15s, filter .15s;
-    box-shadow: 0 4px 18px rgba(99,102,241,.38);
-  }
-  .btn-primary:hover  { filter: brightness(1.08); box-shadow: 0 6px 24px rgba(99,102,241,.5); transform: translateY(-1px); }
-  .btn-primary:active { transform: scale(.97); }
-
-  .field-input {
-    width: 100%;
-    padding: 11px 14px;
-    border-radius: 12px;
-    border: 1.5px solid rgba(99,102,241,.18);
-    background: rgba(255,255,255,.75);
-    font-family: 'DM Sans', sans-serif;
-    font-size: .9rem;
-    color: #1e1b4b;
-    outline: none;
-    transition: border-color .2s, box-shadow .2s;
-  }
-  .field-input:focus {
-    border-color: #6366f1;
-    box-shadow: 0 0 0 3px rgba(99,102,241,.14);
-  }
-
-  .field-label {
-    display: block;
-    font-size: .78rem;
-    font-weight: 600;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    color: #6366f1;
-    margin-bottom: 7px;
-  }
-
-  .faq-item {
-    border-radius: 14px;
-    overflow: hidden;
-    transition: box-shadow .2s;
-  }
-  .faq-item:hover { box-shadow: 0 6px 20px rgba(99,102,241,.12); }
-
-  .faq-btn {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    width: 100%;
-    padding: 14px 16px;
-    background: rgba(255,255,255,.7);
-    backdrop-filter: blur(12px);
-    border: 1.5px solid rgba(255,255,255,.85);
-    border-radius: 14px;
-    cursor: pointer;
-    text-align: left;
-    font-family: 'DM Sans', sans-serif;
-    font-size: .9rem;
-    font-weight: 500;
-    color: #312e81;
-    transition: background .2s;
-  }
-  .faq-btn:hover { background: rgba(99,102,241,.06); }
-
-  .faq-answer {
-    background: rgba(238,240,255,.7);
-    border: 1.5px solid rgba(99,102,241,.12);
-    border-radius: 0 0 14px 14px;
-    padding: 14px 16px;
-    font-size: .875rem;
-    color: #4c4680;
-    line-height: 1.65;
-  }
-
-  .star-svg { cursor: pointer; transition: transform .18s; }
-  .star-svg.active { animation: star-pop .25s ease; }
-
-  .badge-count {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
-    color: #fff;
-    font-size: .72rem;
-    font-weight: 700;
-    border-radius: 999px;
-    min-width: 24px;
-    height: 24px;
-    padding: 0 8px;
-    box-shadow: 0 2px 8px rgba(99,102,241,.35);
-  }
-
-  .success-card {
-    position: relative;
-    max-width: 440px;
-    margin: 60px auto;
-    padding: 40px 32px;
-    text-align: center;
-    border-radius: 24px;
-    background: rgba(255,255,255,.75);
-    backdrop-filter: blur(20px);
-    border: 1.5px solid rgba(255,255,255,.9);
-    box-shadow: 0 12px 40px rgba(99,102,241,.15);
-    animation: fadeUp .4s ease both;
-  }
-
-  .section-title {
-    font-family: 'Sora', sans-serif;
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: #312e81;
-    margin-bottom: 16px;
-    letter-spacing: -.01em;
-  }
-`;
-
 // ─── HelpPage ─────────────────────────────────────────────────────────────────
 const HelpPage = () => {
     const { t } = useTranslation();
@@ -203,7 +39,6 @@ const HelpPage = () => {
     if (submitted) {
         return (
             <>
-                <style>{globalStyles}</style>
                 <div className="help-page" style={{ minHeight: '100vh', background: 'linear-gradient(135deg,#eef2ff 0%,#f5f3ff 50%,#ede9fe 100%)', padding: '40px 16px' }}>
                     <div className="success-card">
                         <button
@@ -225,9 +60,8 @@ const HelpPage = () => {
 
     return (
         <>
-            <style>{globalStyles}</style>
             <div
-                className="help-page"
+                className="help-page scrollbor_hidden"
                 style={{
                     minHeight: '100vh',
                     background: '',

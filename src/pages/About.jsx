@@ -88,7 +88,7 @@ const AboutContainer = () => {
     /* ---------------------------------------------------------------------- */
 
     return (
-        <section className="grid lg:grid-cols-2 gap-10 items-center bg-gradient-to-br from-purple-10 to-blue-50 backdrop-blur-xl p-3 lg:px-10 transition-all duration-500">
+        <section className="overflow-y-auto h-full scrollbor_hidden grid lg:grid-cols-2 gap-10 items-center bg-gradient-to-br from-purple-10 to-blue-50 backdrop-blur-xl p-3 lg:px-10 transition-all duration-500">
 
             {/* ---------------- LEFT (IMAGES) ---------------- */}
             <div>
@@ -111,13 +111,15 @@ const AboutContainer = () => {
                             <HoverImage src={image_3} text={t('about_image_text1')} />
                         </div>
                     </div>
+
                 </div>
+
             </div>
 
             {/* ---------------- RIGHT (CONTENT CARD) ---------------- */}
             <div
                 ref={rightSectionRef}
-                className="bg-white rounded-2xl shadow-2xl  p-2  opacity-0 translate-y-10 scale-95 transition-all duration-700"
+                className="bg-white rounded-xl shadow-xl  p-2  opacity-0 translate-y-10 scale-95 transition-all duration-700"
             >
                 <div className="flex flex-col gap-5">
 

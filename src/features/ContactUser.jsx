@@ -70,7 +70,7 @@ const UsersContactsList = () => {
 
     return (
 
-        <div className="absolute dark:text-white text-gray-800   absolute fixed w-[98dvw] md:w-[80dvw] m-auto sm:rounded-lg pb-6 mb-6  mt-5 pb-[30dvh] overflow-y-auto h-full scrollbor_hidden">
+        <div className="absolute dark:text-white text-gray-800   absolute fixed w-[98dvw] md:w-[80dvw] m-auto sm:rounded-lg pb-6 mb-6  mt-5 pb-[30dvh] overflow-y-auto h-full scrollbor_hidden px-2">
 
             <TitleCompGen title={t('ParamText.title')} />
 
@@ -79,6 +79,7 @@ const UsersContactsList = () => {
                 <LoadingCard/>
                 :
                 <div className="flex flex-col justify-between  h-[75dvh]">
+
                     {/* Bar d'action */}
                     <div className="flex items-center justify-between flex-wrap md:flex-nowrap space-y-4 md:space-y-0 pb-4 px-4 ">
 
@@ -160,7 +161,7 @@ const UsersContactsList = () => {
 
                     </div>
 
-                    <div className="relative overflow-y-auto h-[80dvh] scrollbor_hidden pb-[20dvh]">
+                    <div className="relative overflow-y-auto h-[80dvh] scrollbor_hidden pb-[20dvh] ">
 
                         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-lg p-1">
 

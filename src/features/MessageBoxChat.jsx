@@ -13,7 +13,7 @@ const BoxMessagesChats = ({ messages, messagesEndRef }) => {
 
     return (
 
-        <div className="relative flex-1 space-y-0 min-h-[80dvh] min-h-[80dvh]">
+        <div className="relative flex-1 space-y-0 min-h-[80dvh] min-h-[80dvh] px-3">
 
             <div className="w-full h-px bg-gray-100" />
 
