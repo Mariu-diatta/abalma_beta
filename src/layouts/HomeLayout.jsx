@@ -2,7 +2,7 @@ import React, { useEffect} from 'react';
 import Footer from '../pages/Footer';
 import NavbarHeader from '../pages/Header';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+//import { Navigate } from 'react-router-dom';
 import { setCurrentNav } from '../slices/navigateSlice';
 import ScrollTop from '../components/ButtonScroll';
 import { ENDPOINTS } from '../utils';
@@ -22,17 +22,17 @@ const HomeLayout = ({ children }) => {
 
     }, [currentUser, dispatch]);
 
-    useEffect(
+    //useEffect(
 
-        () => {
+    //    () => {
 
-            if (currentUser) {
+    //        if (currentUser) {
 
-                <Navigate to={`/${ENDPOINTS.ACCOUNT_HOME}`} replace />;
-            }
+    //            <Navigate to={`/${ENDPOINTS.ACCOUNT_HOME}`} replace />;
+    //        }
 
-        }, [currentUser]
-    )
+    //    }, [currentUser]
+    //)
 
     return (
 
