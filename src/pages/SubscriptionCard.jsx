@@ -7,7 +7,7 @@ import { ENDPOINTS } from '../utils';
 import { useDispatch } from 'react-redux';
 import { setCurrentNav } from '../slices/navigateSlice';
 import { useTranslation } from 'react-i18next';
-import TitleCompGen, { TitleCompGenLitle } from '../components/TitleComponentGen';
+import TitleCompGen from '../components/TitleComponentGen';
 
 function SubscriptionCard({
     title = "Abalma Pro",
@@ -162,7 +162,7 @@ export default function SubscriptionsPage() {
 
     return (
 
-        <main className=" flex flex-col items-center justify-center  bg-none mx-2 ">
+        <main className=" flex flex-col items-center justify-center  bg-none mx-2 mt-3">
 
             <button
 
@@ -188,10 +188,10 @@ export default function SubscriptionsPage() {
             </button>
 
             <div className="m-auto text-start pb-2">
-                <TitleCompGenLitle title={t("Subscriptionb2b")} />
+                <TitleCompGen title={t("Subscriptionb2b")} />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-none overflow-y-auto  p-5 pt-0 translate-y-0 transition-all duration-1000 ease-in-out">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-none p-5 pt-0 translate-y-0 transition-all duration-1000 ease-in-out">
 
                 <SubscriptionCard
                     title={t("discovery")}

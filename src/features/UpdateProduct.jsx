@@ -5,8 +5,7 @@ import api from "../services/Axios";
 import AttentionAlertMesage, { showMessage } from "../components/AlertMessage";
 import { addMessageNotif } from "../slices/chatSlice";
 import LoadingCard from "../components/LoardingSpin";
-//import { ButtonSimple } from "../components/Button";
-//import TitleCompGen from "../components/TitleComponentGen";
+
 import FormElementFileUpload from "./FormFile";
 import InputBox from "../components/InputBoxFloat";
 import { ENDPOINTS, LIST_CATEGORIES_KEYS, PAYEMENTMODE, availableColors, availableSizes, socialLinks } from "../utils";

@@ -1,52 +1,56 @@
 import React from "react";
-import TitleCompGen from "../components/TitleComponentGen";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import { services } from "../utils";
+import TitleCompGen from "../components/TitleComponentGen";
 
+
+// ─── Composant ────────────────────────────────────────────────────────────────
 const ServicesSection = () => {
-
     const { t } = useTranslation();
 
     return (
-
-        <section className="bg-none translate-y-0 transition-all duration-1000 ease-in-out ">
-
-            <div className="px-4 mx-auto max-w-screen-xl sm:py-5 lg:px-6">
+        <>
+            <section className="ss-root ss-section" aria-labelledby="services-title">
 
                 {/* Header */}
-                <div className="m-auto text-center m-0">
-                    <TitleCompGen title={t('Services')} />
+                <div className="ss-header">
+                    <TitleCompGen title="Nos services" />
                 </div>
 
-                {/* Grid */}
-                <div className="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0 ">
+                {/* Grille de services */}
+                <div className="ss-grid" role="list">
+                    {services?.map((service, index) => (
+                        <article
+                            key={service?.key ?? index}
+                            className="ss-card"
+                            role="listitem"
+                        >
+                            <div className="ss-icon-wrap" aria-hidden="true">
+                                {service.icon}
+                            </div>
 
-                    {
-                        services?.map((service, index) => (
+                            <div>
+                                <h3 className="ss-card-title">
+                                    {t(`${service.key}.title`)}
+                                </h3>
+                            </div>
 
-                                <div key={index} className="text-center items-center  bg-white/30 rounded-xl p-5 shadow-2xl h-full ">
+                            <p className="ss-card-desc">
+                                {t(`${service.key}.description`)}
+                            </p>
 
-                                    <div className="flex justify-center items-center mb-4 w-12 h-12 rounded-full bg-blue-100 m-auto text-2xl">
-                                        {service.icon}
-                                    </div>
-
-                                    <h3 className="mb-2 text-xl font-bold ">
-                                        {t(`${service.key}.title`)}
-                                    </h3>
-
-                                    <p className="text-gray-500 "> 
-                                        {t(`${service.key}.description`)}
-                                    </p>
-
-                                </div>
-                            )
-                        )
-                    }
-
+                            <span className="ss-card-link" aria-hidden="true">
+                                En savoir plus
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="m9 5 7 7-7 7" />
+                                </svg>
+                            </span>
+                        </article>
+                    ))}
                 </div>
 
-            </div>
-        </section>
+            </section>
+        </>
     );
 };
 
