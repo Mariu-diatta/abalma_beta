@@ -3,6 +3,7 @@ import api from '../services/Axios'
 import CashTransactionCard from './CashTransactionCard'
 import { useTranslation } from "react-i18next";
 import { TitleCompGenLitle } from '../components/TitleComponentGen';
+import LoadingCard from '../components/LoardingSpin';
 
 const CashTransaction = () => {
 
@@ -74,7 +75,7 @@ const CashTransaction = () => {
             {/* CONTENT */}
             <main>
 
-                {loading && <p className="text-center">Loading...</p>}
+                {loading && <LoadingCard/>}
 
                 {!loading && transactions.length > 0 ? (
                     <div className="gap-2">

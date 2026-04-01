@@ -1,289 +1,224 @@
-import React, { useEffect,  useRef, useState } from 'react';
-import { useDispatch} from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import api from '../services/Axios';
 import { useTranslation } from 'react-i18next';
 import { updateContentBlog } from '../slices/cartSlice';
 import LoadingCard from '../components/LoardingSpin';
-import { ButtonSimple } from '../components/Button';
-import TitleCompGen from '../components/TitleComponentGen';
 import ButtonCreatBlog from '../components/ButtonBlogCreat';
+import { useCallback } from 'react';
 
+
+
+// ─── Composant ────────────────────────────────────────────────────────────────
 export const ModalFormCreatBlog = () => {
-
     const { t } = useTranslation();
-    const [loading, setLoading] = useState(true);
+    const dispatch = useDispatch();
+
     const [isOpen, setIsOpen] = useState(false);
+    const [title, setTitle] = useState('');
+    const [message, setMessage] = useState('');
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+    const [loading, setLoading] = useState(false);
+
     const modalRef = useRef(null);
-    const modalRef_ = useRef(null);
     const inputRef = useRef(null);
 
-    // États du formulaire  
-    const [title, setTitle] = useState("");
-    const [message, setMessage] = useState("");
-    const [error, setError] = useState("");
-    const [success, setSuccess] = useState("");
-    const dispatch = useDispatch()
+    const MAX_MESSAGE = 500;
 
-    // Simule la récupération de l'utilisateur connecté
-    // À remplacer par ta logique d'authentification réelle
-    const getCurrentUser = () => {
 
-        return { id: 1, name: "Utilisateur Demo" };
-    };
-
-    const handleScroll = (ref) => {
-        window.scrollTo({
-            top: 12,
-            left: 0,
-            behavior: "smooth",
-        });
-    };
-
-    const handleToggleModal = () => {
-        setError("");
-        setSuccess("");
-        setIsOpen(!isOpen);
-        handleScroll(modalRef_ )
-    };
-
-    const handleClose = () => {
+    const handleClose =useCallback( () => {
         setIsOpen(false);
-        setTitle("");
-        setMessage("");
-        setError("");
-        setSuccess("");
+        resetForm();
+    },[]);
+
+
+    // ── Focus auto à l'ouverture ──
+    useEffect(() => {
+        if (isOpen) setTimeout(() => inputRef.current?.focus(), 50);
+    }, [isOpen]);
+
+    // ── Fermeture au clic extérieur ──
+    useEffect(() => {
+        if (!isOpen) return;
+        const handler = (e) => {
+            if (modalRef.current && !modalRef.current.contains(e.target)) handleClose();
+        };
+        document.addEventListener('mousedown', handler);
+        return () => document.removeEventListener('mousedown', handler);
+    }, [isOpen, handleClose]);
+
+    // ── Fermeture à Escape ──
+    useEffect(() => {
+        if (!isOpen) return;
+        const handler = (e) => { if (e.key === 'Escape') handleClose(); };
+        document.addEventListener('keydown', handler);
+        return () => document.removeEventListener('keydown', handler);
+    }, [isOpen, handleClose]);
+
+    // ── Lock scroll du body quand le modal est ouvert ──
+    useEffect(() => {
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+        return () => { document.body.style.overflow = ''; };
+    }, [isOpen]);
+
+    const resetForm = () => {
+        setTitle('');
+        setMessage('');
+        setError('');
+        setSuccess('');
     };
 
-    // Focus input quand modal s'ouvre
-    useEffect(() => {
-
-        if (isOpen && inputRef.current) {
-
-            inputRef.current.focus();
-        }
-
-    }, [isOpen]);
-
-    // Fermer modal si clic à l'extérieur
-    useEffect(() => {
-
-        const handleClickOutside = (e) => {
-
-            if (isOpen && modalRef.current && !modalRef.current.contains(e.target)) {
-
-                handleClose();
-            }
-        };
-
-        if (isOpen) {
-            document.addEventListener("mousedown", handleClickOutside);
-        }
-
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-
-    }, [isOpen]);
+    const handleOpen = () => {
+        resetForm();
+        setIsOpen(true);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
     const handleSubmit = async (e) => {
-
         e.preventDefault();
-        setError("");
-        setSuccess("")
+        setError('');
+        setSuccess('');
 
         if (!title.trim() || !message.trim()) {
-
-            setError(t("blog.fill_all_fields") || "Veuillez remplir tous les champs");
-
+            setError(t('blog.fill_all_fields') || 'Veuillez remplir tous les champs.');
             return;
         }
 
+        setLoading(true);
         try {
-
-            const user = getCurrentUser();
-
-            if (!user) {
-
-                setError(t("blog.user_not_authenticated") || "Utilisateur non authentifié");
-
-                return;
-            }
-
-            const payload = {
-
+            const { data } = await api.post('blogs/', {
                 title_blog: title,
-
                 blog_message: message,
-            };
-
-            // Exemple : POST (ou PUT) vers ton API
-            const response = await api.post("blogs/", payload);
-
-            dispatch(updateContentBlog(response?.data))
-
-            setSuccess(t("blog.blog_created") || "Blog créé avec succès !");
-
-            setTitle("");
-
-            setMessage("");
-
-            // Fermer modal après délai (ex : 1.5s)
-            setTimeout(() => {
-
-                handleClose();
-
-            }, 1500);
-
+            });
+            dispatch(updateContentBlog(data));
+            setSuccess(t('blog.blog_created') || 'Blog créé avec succès !');
+            resetForm();
+            setTimeout(handleClose, 1500);
         } catch (err) {
-
-            console.error("Erreur lors de la création du blog", err?.response?.data?.detail);
-
-            setError(err?.response?.data?.detail || t("blog.error_creating") || "Erreur lors de la création du blog");
-
+            setError(
+                err?.response?.data?.detail ||
+                t('blog.error_creating') ||
+                'Erreur lors de la création du blog.'
+            );
         } finally {
-
-            setLoading(true)
+            setLoading(false);
         }
     };
 
     return (
+        <>
+            <div className="blog-modal-root">
 
-        <div className="bg-none z-0"  ref={modalRef_} >
+                {/* Bouton déclencheur */}
+                <ButtonCreatBlog handleToggleModal={handleOpen} isOpen={isOpen} />
 
-            {/* Modal */}
-            {
-                isOpen && (
-                <div
-                    className="fixed w-full h-full inset-0 bg-black/50  flex items-center justify-center p-2 inset-0 mb-8  z-[100] pb-8 "
-                    aria-labelledby="modal-title"
-                    aria-describedby="modal-description"
-                    role="dialog"
-                    id="modal-blog-form"
-                >
+                {/* Modal */}
+                {isOpen && (
                     <div
-                        ref={modalRef}
-                        className="bg-white rounded-lg shadow-lg w-full max-w-2xl p-2"
+                        className="blog-overlay"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="blog-modal-title"
                     >
-                        {/* Header */}
-                        <div className="flex justify-between gap-4  mb-4">
+                        <div ref={modalRef} className="blog-panel">
 
-                            <TitleCompGen title={t('blog.create_blog')} />
-
-                            <button
-                                onClick={handleClose}
-                                aria-label={t("blog.close_modal") || "Fermer la fenêtre"}
-                                className="absolute right-6 text-gray-400 hover:text-gray-900 "
-                            >
-                                <svg
-                                    className="w-4 h-4"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-
-                                </svg>
-
-                            </button>
-
-                        </div>
-
-                        {/* Form */}
-                        <form className="space-y-4" onSubmit={handleSubmit}>
-
-                            <div>
-
-                                <label
-                                    htmlFor="title-input"
-                                    className="whitespace-nowrap block text-sm font-medium text-gray-700 dark:text-gray-300"
-                                >
-                                    {t("blog.title_pop")}
-
-                                </label>
-
-                                <input
-                                    id="title-input"
-                                    ref={inputRef}
-                                    type="text"
-                                    value={title}
-                                    onChange={(e) => setTitle(e.target.value)}
-                                    className="mt-1 block w-full border px-3 py-2 rounded-md text-sm border-gray-300 focus:ring-blue-500 focus:border-blue-300"
-                                    placeholder={t("blog.title_placeholder") || "Titre du blog"}
-                                    required
-                                />
-
-                            </div>
-
-                            <div>
-
-                                <label
-                                    htmlFor="message-input"
-                                    className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                                >
-                                    {t("blog.description")}
-                                </label>
-
-                                <textarea
-                                    id="message-input"
-                                    rows="4"
-                                    value={message}
-                                    onChange={(e) => setMessage(e.target.value)}
-                                    className="mt-1 block w-full border px-3 py-2 rounded-md text-sm border-gray-300 focus:ring-blue-500 focus:border-gray-100"
-                                    placeholder={t("blog.description_placeholder") || "Contenu du blog..."}
-                                    required
-                                />
-
-                            </div>
-
-                            {error && (
-                                <p className="text-red-600 dark:text-red-400">{error}</p>
-                            )}
-
-                            {success && (
-                                <p className="text-green-600 dark:text-green-400">{success}</p>
-                            )}
-
-                            {/* Footer */}
-                            <div className="flex justify-end items-end gap-1 pt-1">
-
-                                {
-                                    loading?
-                                    <ButtonSimple
-                                        title={t("blog.submit")}
-                                    />
-                                    :
-                                    <LoadingCard/>
-                                }
-
+                            {/* Header */}
+                            <div className="blog-header">
+                                <h2 id="blog-modal-title" className="blog-title">
+                                    <span className="blog-title-icon">✍</span>
+                                    {t('blog.create_blog')}
+                                </h2>
                                 <button
                                     type="button"
                                     onClick={handleClose}
-                                    className="px-1 py-1 rounded-full px-2 text-sm border bg-red-300 border-gray-300 text-gray-100 hover:bg-red-400"
+                                    className="blog-close-btn"
+                                    aria-label={t('blog.close_modal') || 'Fermer'}
                                 >
-                                    {t("blog.cancel")}
-
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
                                 </button>
-
                             </div>
 
-                        </form>
+                            {/* Corps */}
+                            <form className="blog-body" onSubmit={handleSubmit}>
+                                {/* Titre */}
+                                <div>
+                                    <label htmlFor="blog-title" className="blog-label">
+                                        {t('blog.title_pop')}
+                                    </label>
+                                    <input
+                                        id="blog-title"
+                                        ref={inputRef}
+                                        type="text"
+                                        value={title}
+                                        onChange={(e) => setTitle(e.target.value)}
+                                        className="blog-input"
+                                        placeholder={t('blog.title_placeholder') || 'Titre du blog'}
+                                        required
+                                        maxLength={120}
+                                    />
+                                </div>
 
+                                {/* Description */}
+                                <div>
+                                    <label htmlFor="blog-message" className="blog-label">
+                                        {t('blog.description')}
+                                    </label>
+                                    <textarea
+                                        id="blog-message"
+                                        rows="5"
+                                        value={message}
+                                        onChange={(e) => setMessage(e.target.value)}
+                                        className="blog-textarea"
+                                        placeholder={t('blog.description_placeholder') || 'Contenu du blog…'}
+                                        required
+                                        maxLength={MAX_MESSAGE}
+                                    />
+                                    <p className="blog-char-count">{message.length}/{MAX_MESSAGE}</p>
+                                </div>
+
+                                {/* Feedback */}
+                                {error && (
+                                    <div className="blog-feedback error" role="alert">
+                                        <span>⚠️</span> {error}
+                                    </div>
+                                )}
+                                {success && (
+                                    <div className="blog-feedback success" role="status">
+                                        <span>✅</span> {success}
+                                    </div>
+                                )}
+
+                                {/* Footer dans le form pour que le submit button fonctionne */}
+                                <div className="blog-footer" style={{ margin: '0 -24px -22px', borderRadius: '0 0 20px 20px' }}>
+                                    <button
+                                        type="button"
+                                        onClick={handleClose}
+                                        className="blog-cancel-btn"
+                                    >
+                                        {t('blog.cancel')}
+                                    </button>
+
+                                    {loading ? (
+                                        <LoadingCard />
+                                    ) : (
+                                        <button
+                                            type="submit"
+                                            className="blog-submit-btn"
+                                            disabled={!title.trim() || !message.trim()}
+                                        >
+                                            {t('blog.submit')}
+                                        </button>
+                                    )}
+                                </div>
+                            </form>
+
+                        </div>
                     </div>
-                </div>
-                )
-            }
-
-            {/* Toggle Button */}
-            <ButtonCreatBlog
-                handleToggleModal={handleToggleModal}
-                isOpen={isOpen}
-            />
-
-        </div>
+                )}
+            </div>
+        </>
     );
 };

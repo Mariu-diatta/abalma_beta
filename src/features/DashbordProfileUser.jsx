@@ -1,185 +1,154 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useLayoutEffect, useMemo } from 'react';
 import api from '../services/Axios';
 import { useTranslation } from 'react-i18next';
 import UsersContactsList from './ContactUser';
 import TablesRecapActivities from './TablesRecapActivities';
 
+const MIN_SWIPE = 50;
+
+const isScrollableX = (el) => {
+    while (el && el !== document.body) {
+        const { overflowX } = window.getComputedStyle(el);
+        if (el.scrollWidth > el.clientWidth && (overflowX === 'auto' || overflowX === 'scroll')) return true;
+        el = el.parentElement;
+    }
+    return false;
+};
 
 const Tabs = () => {
-
     const { t } = useTranslation();
 
     const [activeTab, setActiveTab] = useState('dashboard');
+    const [productsTrasactionBought, setProductsTrasactionBought] = useState([]);
+    const [productsTrasactionSell, setProductsTrasactionSell] = useState([]);
+    const [pillStyle, setPillStyle] = useState({ left: 0, width: 0 });
 
-    const [productsTrasactionBought, setProductsTrasactionBought] = useState([])
-
-    const [productsTrasactionSell, setProductsTrasactionSell] = useState([])
-
-
-    const minSwipeDistance = 50; // seuil minimum
-
-    const isScrollableX = (element) => {
-        while (element && element !== document.body) {
-            const hasHorizontalScroll =
-                element.scrollWidth > element.clientWidth;
-
-            const style = window.getComputedStyle(element);
-            const overflowX = style.overflowX;
-
-            if (
-                hasHorizontalScroll &&
-                (overflowX === "auto" || overflowX === "scroll")
-            ) {
-                return true;
-            }
-
-            element = element.parentElement;
-        }
-        return false;
-    };
+    const navRef = useRef(null);
+    const btnRefs = useRef([]);
 
     const touchStartX = useRef(null);
     const touchEndX = useRef(null);
-    const shouldIgnoreSwipe = useRef(false);
+    const ignoreSwipe = useRef(false);
 
-    const onTouchStart = (e) => {
-        const target = e.target;
-
-        // Vérifie si l'utilisateur est dans un élément scrollable horizontal
-        if (isScrollableX(target)) {
-            shouldIgnoreSwipe.current = true;
-            return;
-        }
-
-        shouldIgnoreSwipe.current = false;
-        touchStartX.current = e.targetTouches[0].clientX;
-    };
-
-    const onTouchMove = (e) => {
-        touchEndX.current = e.targetTouches[0].clientX;
-    };
-
-    const onTouchEnd = () => {
-        if (!touchStartX.current || !touchEndX.current) return;
-
-        const distance = touchStartX.current - touchEndX.current;
-
-        if (Math.abs(distance) < minSwipeDistance) return;
-
-        const currentIndex = tabs.findIndex(tab => tab.id === activeTab);
-
-        if (distance > 0 && currentIndex < tabs.length - 1) {
-            // Swipe vers la gauche → tab suivante
-            setActiveTab(tabs[currentIndex + 1].id);
-        } else if (distance < 0 && currentIndex > 0) {
-            // Swipe vers la droite → tab précédente
-            setActiveTab(tabs[currentIndex - 1].id);
-        }
-    };
-
-    const tabs = [
-
+    const tabs =useMemo(()=> [
         { id: 'dashboard', label: t('Dashboard.dashboard') },
-
         { id: 'contacts', label: t('Dashboard.contacts') },
-    ];
+    ],[t]);
+
+    // Mesure la pill après que le DOM soit peint
+    useLayoutEffect(() => {
+        const id = requestAnimationFrame(() =>
+            requestAnimationFrame(() => {
+                const idx = tabs.findIndex((tab) => tab.id === activeTab);
+                const btn = btnRefs.current[idx];
+                const nav = navRef.current;
+                if (!btn || !nav) return;
+                const nr = nav.getBoundingClientRect();
+                const br = btn.getBoundingClientRect();
+                setPillStyle({ left: br.left - nr.left, width: br.width });
+            })
+        );
+        return () => cancelAnimationFrame(id);
+    }, [activeTab, tabs]);
 
     useEffect(() => {
-
-        const getProduct = async () => {
-
-            try {
-
-                const productTransaction = await api.get('product/fournisseur/transaction/');
-
-                //console.log("DashbordProfileUsr, LES PRODUITS BOUGHT DE LA TRANSACTION", productTransaction?.data);
-                setProductsTrasactionBought(productTransaction?.data);
-
-            } catch (e) {
-
-                //console.log("ERREUR LORS DU DEBUGGING", e);
-
-            } finally {
-
-                //setLoading(false)
-            }
-        };
-
-        getProduct();
-
+        api.get('product/fournisseur/transaction/')
+            .then(({ data }) => setProductsTrasactionBought(data))
+            .catch(() => { });
     }, []);
 
-    const tabContent = {
+    const currentIndex = tabs.findIndex((tab) => tab.id === activeTab);
 
-        dashboard: (
+    const onTouchStart = (e) => {
+        if (isScrollableX(e.target)) { ignoreSwipe.current = true; return; }
+        ignoreSwipe.current = false;
+        touchStartX.current = e.targetTouches[0].clientX;
+        touchEndX.current = null;
+    };
+    const onTouchMove = (e) => { touchEndX.current = e.targetTouches[0].clientX; };
+    const onTouchEnd = () => {
+        if (ignoreSwipe.current || touchStartX.current === null || touchEndX.current === null) return;
+        const dist = touchStartX.current - touchEndX.current;
+        if (Math.abs(dist) < MIN_SWIPE) return;
+        if (dist > 0 && currentIndex < tabs.length - 1) setActiveTab(tabs[currentIndex + 1].id);
+        if (dist < 0 && currentIndex > 0) setActiveTab(tabs[currentIndex - 1].id);
+        touchStartX.current = null;
+        touchEndX.current = null;
+    };
 
-            <TablesRecapActivities
-                productsTrasactionBought={productsTrasactionBought}
-                setProductsTrasactionBought={setProductsTrasactionBought}
-                productsTrasactionSell={productsTrasactionSell}
-                setProductsTrasactionSell={setProductsTrasactionSell}
-            />
-        ),
-
-        contacts: (
-
-            <UsersContactsList/>
-        ),
+    // Rendu du contenu via switch plutôt que par objet (évite d'instancier tous les composants)
+    const renderContent = (activeTabSelected) => {
+        var activeTab = activeTabSelected
+        switch (activeTab) {
+            case 'dashboard':
+                return (
+                    <TablesRecapActivities
+                        productsTrasactionBought={productsTrasactionBought}
+                        setProductsTrasactionBought={setProductsTrasactionBought}
+                        productsTrasactionSell={productsTrasactionSell}
+                        setProductsTrasactionSell={setProductsTrasactionSell}
+                    />
+                );
+            case 'contacts':
+                return <UsersContactsList />;
+            default:
+                return null;
+        }
     };
 
     return (
+        <>
+            <div className="tabs-root" style={{ width: '100%', paddingTop: 20 }}>
 
-        <div className="h-screan w-full py-5  z-0">
+                <nav className="tabs-nav-wrap mt-8 md:mt-0" role="tablist" aria-label="Onglets principaux">
+                    <div ref={navRef} className="tabs-nav">
+                        {pillStyle.width > 0 && (
+                            <span
+                                className="tabs-pill"
+                                style={{ left: pillStyle.left, width: pillStyle.width }}
+                                aria-hidden="true"
+                            />
+                        )}
+                        {tabs.map((tab, idx) => (
+                            <button
+                                key={tab.id}
+                                ref={(el) => { btnRefs.current[idx] = el; }}
+                                type="button"
+                                role="tab"
+                                aria-selected={activeTab === tab.id}
+                                aria-controls={`${tab.id}-panel`}
+                                id={`${tab.id}-tab`}
+                                className={`tabs-btn${activeTab === tab.id ? ' active' : ''}`}
+                                onClick={() => setActiveTab(tab.id)}
+                            >
+                                {tab.label}
+                            </button>
+                        ))}
+                    </div>
+                </nav>
 
+                <div className="tabs-dots" aria-hidden="true">
+                    {tabs.map((tab) => (
+                        <span key={tab.id} className={`tabs-dot${activeTab === tab.id ? ' active' : ''}`} />
+                    ))}
+                </div>
 
-            {/* Tabs Navigation */}
-            <nav className="mb-4 border-0  bg-none" role="tablist" aria-label="Main tabs">
+                <section
+                    id={`${activeTab}-panel`}
+                    role="tabpanel"
+                    aria-labelledby={`${activeTab}-tab`}
+                    className="tabs-panel"
+                    onTouchStart={onTouchStart}
+                    onTouchMove={onTouchMove}
+                    onTouchEnd={onTouchEnd}
+                >
+                    <div key={activeTab} className="tabs-panel-inner">
+                        {renderContent(activeTab)}
+                    </div>
+                </section>
 
-                <ul className="flex justify-center md:justify-start  space-x-0 overflow-x-auto text-sm font-medium text-center w-full backdrop-blur-md ">
-
-                    {
-                        tabs?.map((tab) => (
-
-                            <li key={tab.id} role="presentation">
-
-                                <button
-                                    type="button"
-                                    role="tab"
-                                    aria-selected={activeTab === tab.id}
-                                    aria-controls={`${tab.id}-tab`}
-                                    id={`${tab.id}-tab-button`}
-                                    onClick={() => setActiveTab(tab.id)}
-                                    className={`hover:bg-gray-100 dark:hover:bg-dark-3  inline-block px-10 py-2 rounded-t-md transition-colors duration-300 cursor-pointer ${activeTab === tab.id
-                                        ? 'border-b-gray-600 border-b-2 dark:border-b-gray-500 '
-                                            : 'border-transparent hover:text-gray-700 hover:border-gray-300 dark:hover:text-gray-300'
-                                        } focus:outline-none `}
-                                >
-                                    {tab?.label}
-
-                                </button>
-
-                            </li>
-                        ))
-                    }
-                </ul>
-
-            </nav>
-
-            {/* Tab Content */}
-            <section
-                id={`${activeTab}-tab`}
-                role="tabpanel"
-                aria-labelledby={`${activeTab}-tab-button`}
-                className="rounded-lg h-screan overflow-x-auto z-0 px-2"
-                onTouchStart={onTouchStart}
-                onTouchMove={onTouchMove}
-                onTouchEnd={onTouchEnd}
-            >
-                {tabContent[activeTab]}
-
-            </section>
-
-        </div>
+            </div>
+        </>
     );
 };
 

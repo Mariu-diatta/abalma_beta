@@ -493,14 +493,14 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
                                         key={index} 
                                         className=" dark:border-gray-700 border-gray-200 hover:bg-gray-50"
                                     >
-                                        <td className="px-4 py-3 ">{item?.description_product?.slice(0, 6) || '-'}</td>
-                                        <td className="px-4 py-3 ">{item?.categorie_product || '-'}</td>
+                                        <td className="px-4 py-3 whitespace-nowrap">{item?.name_product?.slice(0, 6) || '-'}</td>
+                                        <td className="px-4 py-3 whitespace-nowrap">{item?.categorie_product?.name || '-'}</td>
                                         <td className="px-4 py-3 ">{item?.is_active?"True":"False" || '-'}</td>
                                         <td className="px-4 py-3 whitespace-nowrap">{item?.price_product} {(item?.currency_price) || '-'}</td>
-                                        <td className="px-4 py-3 ">{item?.created_at ? convertDate(item?.created_at) : convertDate(item?.created) || '-'}</td>
+                                        <td className="px-4 py-3 whitespace-nowrap">{item?.created_at ? convertDate(item?.created_at) : convertDate(item?.created) || '-'}</td>
                                         <td className="px-4 py-3 ">{item?.is_available?"True":"False" || '-'}</td>
                                         <td className="px-4 py-3 ">{item?.operation_product || '-'}</td>
-                                        <td className="px-4 py-3 ">{convertDate(item?.created) || 'N/A'}</td>
+                                        <td className="px-4 py-3 whitespace-nowrap">{convertDate(item?.created) || 'N/A'}</td>
                                         <td className="px-4 py-3 ">{item?.date_fin_emprunt || '-'}</td>
                                         <td className="px-4 py-3 ">{item?.date_fin_stock || '-'}</td>
 

@@ -88,54 +88,9 @@ const OwnerPopover = ({ owner, onClose }) => {
 
                                 const response = api.get(`/rooms/?receiver_id=${selectedProductOwner?.id}`);
 
-                                //console.log("Le room actuel: OwnerProfil", response?.data)
-
-                                //if (response?.data?.length > 0) {
-
-                                //    response?.data?.forEach(
-
-                                //        room => {
-
-                                //            if (room?.messages.length > 0) {
-
-                                //                dispatch(addRoom(room));
-                                //            }
-
-                                //        }
-                                //    )
-
-                                //}
-
                                 dispatch(addRoom(response?.data));
 
                                 dispatch(addCurrentChat(response?.data));
-
-                                //const ownerPhone = selectedProductOwner?.telephone;
-
-                                //const ownerName = owner?.nom;
-
-                                //if (ownerPhone && ownerName) {
-
-                                //    hashPassword(ownerPhone)
-
-                                //        .then(hashed => {
-
-                                //            const roomName = `room_${ownerName}_${hashed}`;
-
-                                //            console.log("le room", roomName);
-
-                                //            dispatch(addRoom({ name: roomName }));
-
-                                //            dispatch(addCurrentChat({name:roomName}));
-
-                                //        })
-                                //        .catch(hashErr => {
-
-                                //            console.error("Erreur lors du hachage du numéro de téléphone:", hashErr);
-                                //        });
-                                //} else {
-                                //    console.warn("Données manquantes pour créer une room de fallback.");
-                                //}
 
                             } else {
                                 //console.error("Erreur inconnue lors de la création du chat:", errorMsg);
@@ -168,12 +123,13 @@ const OwnerPopover = ({ owner, onClose }) => {
         <span
             ref={ref}
 
-            className="absolute left-0 mt-0 rounded-xl border border-gray-50 bg-white/50 p-1 shadow-xl animate-fade-in z-[9999]"
+            className="absolute left-0 mt-0 rounded-xl border border-white p-1 shadow-xl animate-fade-in bg-gray-200 z-200"
 
             style={
                 {
 
-                    width: calculatedWidth
+                    width: calculatedWidth,
+                    zIndex:999
                 }
             }
         >
@@ -214,7 +170,7 @@ const OwnerPopover = ({ owner, onClose }) => {
                         onClose();
                     }}
 
-                    className=" rounded-md text-gray-700 hover:bg-gray-50 dark:text-white cursor-pointer"
+                    className=" rounded-md text-gray-700 hover:bg-gray-50 dark:text-white cursor-pointer z-50"
 
                     title="Voir le profil"
                 >
@@ -246,7 +202,7 @@ const OwnerPopover = ({ owner, onClose }) => {
                             }
                         }
 
-                        className="p-1.5 rounded-md text-gray-700 hover:bg-gray-50 dark:text-white cursor-pointer"
+                        className="p-1.5 rounded-md text-gray-700 hover:bg-gray-50 dark:text-white cursor-pointer z-50"
 
                         title="Écrire un message"
                     >
