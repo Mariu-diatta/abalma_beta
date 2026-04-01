@@ -162,7 +162,7 @@ export default function SubscriptionsPage() {
 
     return (
 
-        <main className=" flex flex-col items-center justify-center  bg-none mx-2 mt-3">
+        <main className=" flex flex-col items-center justify-center  bg-none mx-2 mt-3 overflow-y-auto h-full">
 
             <button
 
@@ -191,7 +191,22 @@ export default function SubscriptionsPage() {
                 <TitleCompGen title={t("Subscriptionb2b")} />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-none p-5 pt-0 translate-y-0 transition-all duration-1000 ease-in-out">
+            <div
+                className="
+                    grid 
+                    grid-cols-1
+                    md:grid-cols-2
+                    gap-6
+                    bg-none
+                    p-5
+                    pt-0
+                    translate-y-0
+                    transition-all
+                    duration-1000
+                    ease-in-out
+
+                "
+            >
 
                 <SubscriptionCard
                     title={t("discovery")}
