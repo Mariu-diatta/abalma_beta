@@ -10,7 +10,6 @@ import FormLayout from "../layouts/FormLayout";
 import TitleCompGen from "../components/TitleComponentGen";
 import { ENDPOINTS } from "../utils";
 import LoadingCard from "../components/LoardingSpin";
-import { setCurrentNav } from "../slices/navigateSlice";
 
 const LayoutPwdForget = () => {
 
@@ -121,11 +120,6 @@ const LayoutPwdForget = () => {
     }, [step, dispatch, t]);
 
 
-    useEffect(
-        () => {
-            dispatch(setCurrentNav(`${window.location.href}`))
-        },[dispatch]
-    )
 
     const StepIndicator = () => (
 

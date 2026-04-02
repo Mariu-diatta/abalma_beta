@@ -94,7 +94,7 @@ const NavbarHeader = () => {
             dispatch(setCurrentNav(ENDPOINTS.REGISTER));
         } else if ([IMPORTANTS_URLS.LOGIN, IMPORTANTS_URLS.LOGINS].includes(currentUrl)) {
             dispatch(setCurrentNav(ENDPOINTS.LOGIN));
-        }
+        } else dispatch(setCurrentNav(`${window.location.href}`))
     }, [currentNav, navigate, dispatch]);
 
     return (
