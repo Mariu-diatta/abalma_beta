@@ -162,7 +162,7 @@ export default function SubscriptionsPage() {
 
     return (
 
-        <main className=" flex flex-col items-center justify-center  bg-none mx-2 mt-3 overflow-y-auto h-full">
+        <main className=" flex flex-col items-center justify-center  bg-none mx-2 mt-3 overflow-y-auto h-full py-[100px]">
 
             <button
 
