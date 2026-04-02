@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from 'react-i18next';
 import InputBox from "../components/InputBoxFloat";
 import api from "../services/Axios";
@@ -8,7 +8,7 @@ import { useDispatch} from "react-redux";
 import { ButtonSimple } from "../components/Button";
 import FormLayout from "../layouts/FormLayout";
 import TitleCompGen from "../components/TitleComponentGen";
-import { ENDPOINTS } from "../utils";
+//import { ENDPOINTS } from "../utils";
 import LoadingCard from "../components/LoardingSpin";
 
 const LayoutPwdForget = () => {
@@ -18,7 +18,7 @@ const LayoutPwdForget = () => {
     const [step, setStep] = useState(uidb64 && token ? 2 : 1);
     const [email, setEmail] = useState("");
     const [newPassword, setNewPassword] = useState("");
-    const [countdown, setCountdown] = useState(100);
+    //const [countdown, setCountdown] = useState(100);
     const dispatch = useDispatch();
     const [loadingStep1, setLoadingStep1] = useState(false);
     const [loadingStep2, setLoadingStep2] = useState(false);
@@ -65,7 +65,7 @@ const LayoutPwdForget = () => {
 
         if (!uidb64 || !token) {
 
-            showMessage(dispatch, {Type:"Erreur", Messgae:t("form.invalidLink") || "Lien de réinitialisation invalide."})
+            showMessage(dispatch, {Type:"Erreur", Message:t("form.invalidLink") || "Lien de réinitialisation invalide."})
 
             return;
         }
@@ -93,31 +93,31 @@ const LayoutPwdForget = () => {
     };
 
     // Redirection automatique après succès
-    useEffect(() => {
+    //useEffect(() => {
 
-        if (step === 3) {
+    //    if (step === 3) {
 
-            //showMessage(dispatch, { Type: "Message", Messgae: t('password.initSucces') })
+    //        //showMessage(dispatch, { Type: "Message", Messgae: t('password.initSucces') })
 
-            const timer = setInterval(() => {
+    //        const timer = setInterval(() => {
 
-                setCountdown((prev) => {
+    //            setCountdown((prev) => {
 
-                    if (prev <= 1) {
+    //                if (prev <= 1) {
 
-                        clearInterval(timer);
+    //                    clearInterval(timer);
 
-                        window.location.href = `/${ENDPOINTS.LOGIN}`;
-                    }
-                    return prev - 1;
-                });
+    //                    window.location.href = `/${ENDPOINTS.LOGIN}`;
+    //                }
+    //                return prev - 1;
+    //            });
 
-            }, 1000);
+    //        }, 1000);
 
-            return () => clearInterval(timer);
-        }
+    //        return () => clearInterval(timer);
+    //    }
 
-    }, [step, dispatch, t]);
+    //}, [step, dispatch, t]);
 
     const StepIndicator = () => (
 
@@ -241,7 +241,8 @@ const LayoutPwdForget = () => {
                         </p>
                                    
                         <p className="mt-4 text-xs  text-gray-700 dark:text-gray-300">
-                            {t("forgetPswd.redirectIn")} {Math.floor(countdown / 60)}:{String(countdown % 60).padStart(2, "0")}...
+                        {t("forgetPswd.redirectIn")}
+                        {/*{Math.floor(countdown / 60)}:{String(countdown % 60).padStart(2, "0")}...*/}
                         </p>
 
                     </div>
