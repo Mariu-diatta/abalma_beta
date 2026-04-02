@@ -215,14 +215,7 @@ const RegisterForm = () => {
                         {/* BUTTON */}
                         <button
                             type="submit"
-                            className="
-                                w-full py-3 rounded-lg font-medium
-                                bg-gradient-to-r from-blue-200 to-blue-100                                 
-                                text-white shadow-md
-                                hover:shadow-lg hover:scale-[1.02]
-                                active:scale-[0.98]
-                                transition-all duration-300
-                            "
+                            className="fp-btn"
                         >
                             {t("register")}
 

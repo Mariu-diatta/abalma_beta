@@ -56,13 +56,10 @@ const HomeContain = () => {
                 </section>
 
                 {/* ========= SERVICES ========= */}
-                <section aria-labelledby="services" className=" px-1 translate-y-0 translate-x-0 transition-all duration-1000 ease-in-out ">
+                <section aria-labelledby="services" className="translate-y-0 translate-x-0 transition-all duration-1000 ease-in-out ">
 
                     <ServicesPlatforms />
            
-                </section>
-
-                <section aria-labelledby="Tesmonies" className=" translate-y-6 transition-all duration-1000 ease-in-out py-3">
 
                     <ServicesSection/>
 

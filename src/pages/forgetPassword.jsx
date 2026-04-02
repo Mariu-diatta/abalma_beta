@@ -1,256 +1,209 @@
 import { useEffect, useState } from "react";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import InputBox from "../components/InputBoxFloat";
 import api from "../services/Axios";
 import { useParams } from "react-router-dom";
 import { showMessage } from "../components/AlertMessage";
-import { useDispatch} from "react-redux";
-import { ButtonSimple } from "../components/Button";
-import FormLayout from "../layouts/FormLayout";
-import TitleCompGen from "../components/TitleComponentGen";
+import { useDispatch } from "react-redux";
 import { ENDPOINTS } from "../utils";
 import LoadingCard from "../components/LoardingSpin";
 
-const LayoutPwdForget = () => {
 
+// ─── Icônes ───────────────────────────────────────────────────────────────────
+const LockIcon = () => (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+        <path stroke="#fff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+            d="M12 14v3m-5-6V7a5 5 0 0 1 10 0v4M5 11h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1Z" />
+    </svg>
+);
+
+const InfoIcon = () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+            d="M12 17v-6m0-4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+    </svg>
+);
+
+// ─── Stepper ──────────────────────────────────────────────────────────────────
+const Stepper = ({ step, labels }) => (
+    <div className="fp-stepper" aria-label="Étapes">
+        {labels.map((label, i) => {
+            const s = i + 1;
+            const state = s < step ? 'done' : s === step ? 'active' : 'pending';
+            return (
+                <div key={s} style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
+                    <div className="fp-step">
+                        <div className={`fp-step-dot ${state}`}>
+                            {state === 'done' ? '✓' : s}
+                        </div>
+                        <span className={`fp-step-label ${state}`}>{label}</span>
+                    </div>
+                    {i < labels.length - 1 && (
+                        <div className={`fp-step-line ${state === 'done' ? 'done' : ''}`} />
+                    )}
+                </div>
+            );
+        })}
+    </div>
+);
+
+// ─── Composant principal ──────────────────────────────────────────────────────
+const LayoutPwdForget = () => {
     const { t } = useTranslation();
-    const { uidb64, token } = useParams();
-    const [step, setStep] = useState(uidb64 && token ? 2 : 1);
-    const [email, setEmail] = useState("");
-    const [newPassword, setNewPassword] = useState("");
-    const [countdown, setCountdown] = useState(100);
     const dispatch = useDispatch();
+    const { uidb64, token } = useParams();
+
+    const [step, setStep] = useState(uidb64 && token ? 2 : 1);
+    const [email, setEmail] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [countdown, setCountdown] = useState(60);
     const [loadingStep1, setLoadingStep1] = useState(false);
     const [loadingStep2, setLoadingStep2] = useState(false);
 
-    // Étape 1 : Demande de lien de réinitialisation
-    const handleRequestCode = async () => {
+    const notify = (type, msg) => showMessage(dispatch, { Type: type, Message: msg });
 
-        if (!email) {
-
-            showMessage(dispatch,{Type:"Erreur", Message:t("form.emailRequired")})
-
-            return;
-        }
-
+    // ── Étape 1 : demande de lien ──
+    const handleRequestCode = async (e) => {
+        e.preventDefault();
+        if (!email) { notify('Erreur', t('form.emailRequired')); return; }
+        setLoadingStep1(true);
         try {
-            setLoadingStep1(true)
-
-            await api.post("/forget_password/request/", { email });
-
-            showMessage(dispatch, { Type: "Message", Message: `${t('password.linkSend')} : ${email}` });
-
+            await api.post('/forget_password/request/', { email });
+            notify('Message', `${t('password.linkSend')} : ${email}`);
             setStep(2);
-
         } catch (err) {
-
-
-            showMessage(dispatch, {Type:"Erreur", Message:t('form.resetRequestError')}+err?.response || err?.request?.response || err)
-
-        }finally{
-            setLoadingStep1(false)
-        }
-    };
-
-    // Étape 2 : Réinitialisation du mot de passe
-    const handleResetPassword = async () => {
-
-
-        if (!newPassword) {
-
-            showMessage(dispatch, { Type: "Erreur", Message: t("form.passwordRequired")})
-
-            return;
-        }
-
-        if (!uidb64 || !token) {
-
-            showMessage(dispatch, {Type:"Erreur", Messgae:t("form.invalidLink") || "Lien de réinitialisation invalide."})
-
-            return;
-        }
-
-        try {
-
-            setLoadingStep2(true)
-
-            await api.post(`/forget_password/reset/${uidb64}/${token}/`, {
-
-                password: newPassword
-            });
-
-            //showMessage(dispatch, { Type: "Message", Messgae: t('password.initPswd') })
-
-            setStep(3);
-
-        } catch (err) {
-
-            showMessage(dispatch, { Type: "Erreur", Messgae: err?.response || t("form.resetError") })
-
+            notify('Erreur', t('form.resetRequestError'));
         } finally {
-            setLoadingStep2(false)
+            setLoadingStep1(false);
         }
     };
 
-    // Redirection automatique après succès
-    useEffect(() => {
-
-        if (step === 3) {
-
-            //showMessage(dispatch, { Type: "Message", Messgae: t('password.initSucces') })
-
-            const timer = setInterval(() => {
-
-                setCountdown((prev) => {
-
-                    if (prev <= 1) {
-
-                        clearInterval(timer);
-
-                        window.location.href = `/${ENDPOINTS.LOGIN}`;
-                    }
-                    return prev - 1;
-                });
-
-            }, 1000);
-
-            return () => clearInterval(timer);
+    // ── Étape 2 : nouveau mot de passe ──
+    const handleResetPassword = async (e) => {
+        e.preventDefault();
+        if (!newPassword) { notify('Erreur', t('form.passwordRequired')); return; }
+        if (!uidb64 || !token) { notify('Erreur', t('form.invalidLink')); return; }
+        setLoadingStep2(true);
+        try {
+            await api.post(`/forget_password/reset/${uidb64}/${token}/`, { password: newPassword });
+            setStep(3);
+        } catch (err) {
+            notify('Erreur', t('form.resetError'));
+        } finally {
+            setLoadingStep2(false);
         }
+    };
 
-    }, [step, dispatch, t]);
+    // ── Compte à rebours étape 3 ──
+    useEffect(() => {
+        if (step !== 3) return;
+        const timer = setInterval(() => {
+            setCountdown((prev) => {
+                if (prev <= 1) {
+                    clearInterval(timer);
+                    window.location.href = `/${ENDPOINTS.LOGIN}`;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+        return () => clearInterval(timer);
+    }, [step]);
 
+    const stepLabels = [
+        t('forgetPswd.step1') || 'Email',
+        t('forgetPswd.step2') || 'Nouveau mot de passe',
+        t('forgetPswd.step3') || 'Terminé',
+    ];
 
-
-    const StepIndicator = () => (
-
-        <ol className="flex items-center justify-around w-full mb-10">
-
-            {[1, 2, 3].map((s, idx) => (
-
-                <li key={s} className="relative w-full mb-6">
-
-                    <div className="text-sm  flex items-center">
-
-                        <div className={`z-10 flex items-center justify-center w-6 h-6 rounded-full ring-0 ring-white sm:ring-8 shrink-0 
-                            ${s <= step ? 'bg-blue-600 text-white' : 'bg-gray-20 dark:bg-gray-700'}`}>
-
-                            <span className={`w-2.5 h-2.5 ${s <= step ? 'bg-white' : 'bg-gray-400'} rounded-full`}></span>
-
-                        </div>
-
-                        {idx < 2 && <div className="text-sm flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>}
-
-                    </div>
-
-                    <div className="mt-3 text-center">
-
-                        <small className="whitespace-nowrap text-xs  text-black-900 dark:text-white">{t(`forgetPswd.step${s}`)}</small>
-
-                    </div>
-
-                </li>
-
-            ))}
-
-        </ol>
-    );
+    const mins = Math.floor(countdown / 60);
+    const secs = String(countdown % 60).padStart(2, '0');
 
     return (
+        <>
+            <div className="fp-root fp-wrap">
+                <div className="fp-card">
 
-         <FormLayout>
+                    {/* Header */}
+                    <div className="fp-header">
+                        <div className="fp-icon-wrap" aria-hidden="true">
+                            <LockIcon />
+                        </div>
+                        <h1 className="fp-title">{t('forgetPswd.title')}</h1>
+                        <p className="fp-subtitle">
+                            {step === 1 && (t('forgetPswd.subtitle1') || 'Entrez votre email pour recevoir un lien de réinitialisation.')}
+                            {step === 2 && (t('forgetPswd.subtitle2') || 'Choisissez votre nouveau mot de passe.')}
+                            {step === 3 && (t('forgetPswd.subtitle3') || 'Votre mot de passe a été réinitialisé !')}
+                        </p>
+                    </div>
 
-                <TitleCompGen title={t('forgetPswd.title')} />
+                    {/* Stepper */}
+                    <Stepper step={step} labels={stepLabels} />
 
-                <StepIndicator />
-
-     
-                {
-                    (step === 1) && (
-                    <form
-                        onSubmit={
-                            (e) => { 
-                                e.preventDefault();
-                                handleRequestCode();
-                            }
-                        }
-
-                        className="py-2"
-                    >
-                        <InputBox
-                            type="email"
-                            name="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder={t("form.email")}
-                            required
-                        />
-
-                        {  !loadingStep1?
-                            <ButtonSimple
-                                title={t("forgetPswd.getCode")}
-                            />
-                            :
-                            <LoadingCard/>
-
-                        }
-
-                    </form>
-                )}
-                            
-                {
-                    (step === 2) &&
-                    (
-
-                        uidb64 && token ?
-                        (
-                            <form onSubmit={(e) => {
-                                e.preventDefault();
-                                handleResetPassword();
-                            }}>
-
+                    {/* ── Étape 1 ── */}
+                    {step === 1 && (
+                        <form onSubmit={handleRequestCode} className="fp-animated">
+                            <div className="fp-field">
                                 <InputBox
-                                    type="password"
-                                    name="newPassword"
-                                    value={newPassword}
-                                    onChange={(e) => setNewPassword(e.target.value)}
-                                    placeholder={t("form.newPassword")}
+                                    type="email"
+                                    name="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    placeholder={t('form.email')}
                                     required
                                 />
+                            </div>
+                            {loadingStep1 ? <LoadingCard /> : (
+                                <button type="submit" className="fp-btn">
+                                    {t('forgetPswd.getCode')}
+                                </button>
+                            )}
+                        </form>
+                    )}
 
-                                {
-                                    !loadingStep2?
-                                    <ButtonSimple
-                                        title={t("forgetPswd.reset")}
+                    {/* ── Étape 2 ── */}
+                    {step === 2 && (
+                        uidb64 && token ? (
+                            <form onSubmit={handleResetPassword} className="fp-animated">
+                                <div className="fp-field">
+                                    <InputBox
+                                        type="password"
+                                        name="newPassword"
+                                        value={newPassword}
+                                        onChange={(e) => setNewPassword(e.target.value)}
+                                        placeholder={t('form.newPassword')}
+                                        required
                                     />
-                                    :
-                                    <LoadingCard/>
-                                }
-
+                                </div>
+                                {loadingStep2 ? <LoadingCard /> : (
+                                    <button type="submit" className="fp-btn">
+                                        {t('forgetPswd.reset')}
+                                    </button>
+                                )}
                             </form>
+                        ) : (
+                            <div className="fp-info-box fp-animated">
+                                <span className="fp-info-icon"><InfoIcon /></span>
+                                <span>{t('confirmForgotPassword')}</span>
+                            </div>
                         )
-                        : 
-                        (<p className="text-sm">{t('confirmForgotPassword')}</p>)
-                    )
-                                
-                }
+                    )}
 
-                {step === 3 && (
+                    {/* ── Étape 3 : succès ── */}
+                    {step === 3 && (
+                        <div className="fp-success fp-animated">
+                            <div className="fp-success-icon">✅</div>
+                            <p className="fp-success-title">{t('forgetPswd.success')}</p>
+                            <p className="fp-success-sub">{t('forgetPswd.redirectIn')}</p>
+                            <div className="fp-countdown">
+                                <span>Redirection dans</span>
+                                <span className="fp-countdown-num">{mins}:{secs}</span>
+                            </div>
+                        </div>
+                    )}
 
-                    <div className="text-center">
-
-                        <p className="text-lg font-medium text-green-600 dark:text-green-400">
-                            {t("forgetPswd.success")}
-                        </p>
-                                   
-                        <p className="mt-4 text-xs  text-gray-700 dark:text-gray-300">
-                            {t("forgetPswd.redirectIn")} {Math.floor(countdown / 60)}:{String(countdown % 60).padStart(2, "0")}...
-                        </p>
-
-                    </div>
-                )}
-
-
-         </FormLayout >
+                </div>
+            </div>
+        </>
     );
 };
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, lazy, Suspense } from "react";
+﻿import React, { useEffect, useState, useRef, lazy, Suspense } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
@@ -26,7 +26,7 @@ const NavbarHeader = () => {
 
     const [open, setOpen] = useState(false);
 
-    // Pages sp�cifiques
+    // Pages spécifiques
     const shouldShowNav = [ENDPOINTS.LOGIN, ENDPOINTS.REGISTER].includes(currentNav);
     const isHidden = currentNav === ENDPOINTS.FORGETPSWD;
     const isCentered = currentNav === ENDPOINTS.ABOUT;
@@ -88,14 +88,13 @@ const NavbarHeader = () => {
     useEffect(() => {
         const currentUrl = window.location.href;
 
-        //if (currentNav === ENDPOINTS.HOME) {
-        //    navigate("/", { replace: true });
-        //} else 
-        if ([IMPORTANTS_URLS.REGISTER, IMPORTANTS_URLS.REGISTERS].includes(currentUrl)) {
+        if (currentNav === ENDPOINTS.HOME) {
+            navigate("/", { replace: true });
+        } else if ([IMPORTANTS_URLS.REGISTER, IMPORTANTS_URLS.REGISTERS].includes(currentUrl)) {
             dispatch(setCurrentNav(ENDPOINTS.REGISTER));
         } else if ([IMPORTANTS_URLS.LOGIN, IMPORTANTS_URLS.LOGINS].includes(currentUrl)) {
             dispatch(setCurrentNav(ENDPOINTS.LOGIN));
-        } 
+        } else navigate(`/${currentNav}`, { replace: true });
     }, [currentNav, navigate, dispatch]);
 
     return (
