@@ -88,13 +88,14 @@ const NavbarHeader = () => {
     useEffect(() => {
         const currentUrl = window.location.href;
 
-        if (currentNav === ENDPOINTS.HOME) {
-            navigate("/", { replace: true });
-        } else if ([IMPORTANTS_URLS.REGISTER, IMPORTANTS_URLS.REGISTERS].includes(currentUrl)) {
+        //if (currentNav === ENDPOINTS.HOME) {
+        //    navigate("/", { replace: true });
+        //} else 
+        if ([IMPORTANTS_URLS.REGISTER, IMPORTANTS_URLS.REGISTERS].includes(currentUrl)) {
             dispatch(setCurrentNav(ENDPOINTS.REGISTER));
         } else if ([IMPORTANTS_URLS.LOGIN, IMPORTANTS_URLS.LOGINS].includes(currentUrl)) {
             dispatch(setCurrentNav(ENDPOINTS.LOGIN));
-        } else dispatch(setCurrentNav(`${window.location.href}`))
+        } 
     }, [currentNav, navigate, dispatch]);
 
     return (
