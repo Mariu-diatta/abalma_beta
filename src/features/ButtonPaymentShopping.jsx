@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Logo from "../components/LogoApp";
 import { useTranslation } from 'react-i18next';
 import PaymentTransaction from "./PaymentProductTransaction";
+import { convertir } from "../utils";
 
 const BuyButtonWithPaymentForm = ({ total_price, reference }) => {
 
@@ -43,7 +44,7 @@ const BuyButtonWithPaymentForm = ({ total_price, reference }) => {
 
                                 <Logo />
 
-                                <span className="text-lg font-semibold"> {t('total_pay')} {total_price} ({reference})</span>
+                                <span className="text-lg font-semibold"> {t('total_pay')} {convertir("XOF", reference, total_price).toFixed(2)} ({reference})</span>
 
                             </div>
 

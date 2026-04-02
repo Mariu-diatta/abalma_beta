@@ -25,7 +25,7 @@ const ViewProduct = ({ productSelected }) => {
             {/* Infos du produit */}
             <div className="flex flex-wrap justify-center gap-4 mb-6 text-center hidden">
                 <p className="px-4 py-2">{productSelected?.description_product || '-'}</p>
-                <p className="px-4 py-2">{productSelected?.categorie_product || '-'}</p>
+                <p className="px-4 py-2">{productSelected?.categorie_product?.name || '-'}</p>
                 <p className="px-4 py-2 capitalize">{productSelected?.statut || '-'}</p>
                 <p className="px-4 py-2">{productSelected?.price_product || '-'}</p>
                 <p className="px-4 py-2">{productSelected?.date_emprunt || 'N/A'}</p>

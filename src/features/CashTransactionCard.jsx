@@ -1,175 +1,131 @@
-import React, { useState } from "react";
-import { useTranslation } from 'react-i18next';
-import { API_URL_BACKEND, STATUS_FLOW_STYLE, STATUS_FLOW_SUBTRANSACTION, STATUS_FLOW_TRANSACTION, updateStatusTransaction } from "../utils";
-import { useDispatch, } from 'react-redux';
+import React, { useState, useCallback } from "react";
+import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import {
+    API_URL_BACKEND,
+    STATUS_FLOW_STYLE,
+    STATUS_FLOW_SUBTRANSACTION,
+    STATUS_FLOW_TRANSACTION,
+    updateStatusTransaction,
+} from "../utils";
 import LoadingCard from "../components/LoardingSpin";
 
 
-const styles = {
-    card: {
-        borderRadius: "12px",
-        background: "#fff",
-        padding: "20px",
-        boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-        maxWidth: "100%",
-        fontFamily: "Inter, sans-serif",
-    },
-    header: {
-        marginBottom: "8px",
-    },
-    title: {
-        margin: 0,
-        fontSize: "16px",
-        fontWeight: 600,
-    },
-    location: {
-        fontSize: "13px",
-        color: "#6b7280",
-    },
-    info: {
-        fontSize: "14px",
-        margin: "12px 0",
-        display: "flex",
-        flexDirection: "column",
-        gap: "6px",
-    },
-    footer: {
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-    },
-    status: {
-        padding: "4px 10px",
-        borderRadius: "999px",
-        fontSize: "12px",
-        color: "#fff",
-        fontWeight: 500,
-    },
-    button: {
-        border: "none",
-        background: "linear-gradient(90deg, #22c55e 0%, #2563eb 100%)",         
-        color: "#fff",
-        padding: "8px 14px",
-        borderRadius: "8px",
-        cursor: "pointer",
-        fontSize: "13px",
-    },
-};
+// ─── Icône wallet ──────────────────────────────────────────────────────────────
+const WalletIcon = () => (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path stroke="currentColor" strokeLinecap="round" strokeWidth="1.8"
+            d="M8 7V6a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-1M3 18v-7a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Zm8-3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
+    </svg>
+);
 
+// ─── Ligne d'info ─────────────────────────────────────────────────────────────
+const InfoRow = ({ icon, label, value }) => (
+    <div className="ctc-row">
+        <span className="ctc-row-icon" aria-hidden="true">{icon}</span>
+        <span className="ctc-row-label">{label}</span>
+        <span className="ctc-row-value">{value}</span>
+    </div>
+);
 
-export default function CashTransactionCard({ transaction, setSearchTransactionByCode}) {
-
+// ─── Composant principal ──────────────────────────────────────────────────────
+export default function CashTransactionCard({ transaction, setSearchTransactionByCode }) {
     const { t } = useTranslation();
-
     const dispatch = useDispatch();
 
-    var moneyCash = transaction?.items[0].product?.currency_price
+    const [isUpdating, setIsUpdating] = useState(false);
 
-    const [inloadUpdateTransStatus, setInloadUpdateTransStatus] = useState(false);
+    // Données dérivées
+    const currency = transaction?.items?.[0]?.product?.currency_price ?? '';
+    const statusKey = STATUS_FLOW_TRANSACTION[transaction?.status];
+    const statusInfo = STATUS_FLOW_STYLE[statusKey];
+    const nextStatus = STATUS_FLOW_SUBTRANSACTION[transaction?.status];
+    const canAdvance = !!nextStatus;
+    const formattedDate = transaction?.created_at
+        ? new Date(transaction.created_at).toLocaleDateString()
+        : '—';
+
+    // ── Mise à jour du statut ──
+    const handleStatusUpdate = useCallback(async () => {
+        if (!canAdvance) return;
+        try {
+            const resp = await updateStatusTransaction(
+                API_URL_BACKEND?.STATUS_SUB_TRANSACTION,
+                { sub_transaction_id: transaction?.id, new_status: nextStatus },
+                setIsUpdating,
+                dispatch
+            );
+            setSearchTransactionByCode((prev) =>
+                prev.map((el) =>
+                    el.id === transaction?.id ? { ...el, status: resp?.new_status } : el
+                )
+            );
+        } catch (err) {
+            console.error('Erreur mise à jour statut :', err);
+        }
+    }, [canAdvance, nextStatus, transaction?.id, setSearchTransactionByCode, dispatch]);
 
     return (
+        <>
+            <article className="ctc-card" aria-label={`Transaction #${transaction?.code}`}>
 
-        <div style={styles.card}>
-
-            <div style={styles.header}>
-                <h3 style={styles.title}>Transaction #{transaction?.code}</h3>
-                <span style={styles.location}>{t('paymentMode')}</span>
-            </div>
-
-            <div style={styles.info}>
-
-                <div className="flex gap-2">
-                    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" strokeLinecap="round" strokeWidth="1" d="M8 7V6a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-1M3 18v-7a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Zm8-3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
-                    </svg>
-                    <strong className="flex gap-1"><p>{transaction?.price}</p><p>{moneyCash}</p></strong>
+                {/* Header */}
+                <div className="ctc-header">
+                    <h3 className="ctc-title">{t('paymentMode')}</h3>
+                    <span className="ctc-code">#{transaction?.code}</span>
                 </div>
 
-                <div>📦 {t('quantityNber')}: {transaction?.subproduct_count}</div>
+                {/* Infos */}
+                <div className="ctc-rows">
+                    <InfoRow
+                        icon={<WalletIcon />}
+                        label={t('price') || 'Montant'}
+                        value={`${transaction?.price ?? '—'} ${currency}`}
+                    />
+                    <InfoRow
+                        icon="📦"
+                        label={t('quantityNber') || 'Quantité'}
+                        value={transaction?.subproduct_count ?? '—'}
+                    />
+                    <InfoRow
+                        icon="🕒"
+                        label={t('date') || 'Date'}
+                        value={formattedDate}
+                    />
+                </div>
 
-                <div>🕒 {new Date(transaction?.created_at).toLocaleDateString()}</div>
+                <div className="ctc-divider" />
 
-            </div>
+                {/* Footer : statut + action */}
+                <div className="ctc-footer">
+                    {statusInfo && (
+                        <span
+                            className="ctc-badge"
+                            style={{ backgroundColor: statusInfo.color }}
+                            aria-label={`Statut : ${statusInfo.label}`}
+                        >
+                            <span className="ctc-badge-dot" />
+                            {statusInfo.label}
+                        </span>
+                    )}
 
-            <div style={styles.footer}>
+                    {isUpdating ? (
+                        <LoadingCard />
+                    ) : (
+                        <button
+                            type="button"
+                            className="ctc-action-btn"
+                            onClick={handleStatusUpdate}
+                            disabled={!canAdvance}
+                            aria-label={canAdvance ? `Passer au statut : ${nextStatus}` : 'Aucune action disponible'}
+                            title={canAdvance ? nextStatus : 'Statut final'}
+                        >
+                            {canAdvance ? nextStatus : '✅'}
+                        </button>
+                    )}
+                </div>
 
-                <span
-                    style={{
-                        ...styles.status,
-                        backgroundColor: STATUS_FLOW_STYLE[STATUS_FLOW_TRANSACTION[transaction?.status]]?.color,
-                    }}
-                >
-                    {STATUS_FLOW_STYLE[STATUS_FLOW_TRANSACTION[transaction?.status]]?.label}
-
-                </span>
-
-                {
-                    !inloadUpdateTransStatus?
-                    <button
-                        className="bg-blue/20 hover:bg-blue-100"
-
-                        onClick={
-
-                            async () => {
-
-                                try {
-
-                                    const resp = await updateStatusTransaction(
-
-                                        API_URL_BACKEND?.STATUS_SUB_TRANSACTION,
-
-                                        {
-                                            sub_transaction_id: transaction?.id,
-
-                                            new_status: STATUS_FLOW_SUBTRANSACTION[transaction?.status],
-                                        },
-
-                                        setInloadUpdateTransStatus,
-
-                                        dispatch
-                                    )
-
-                                    setSearchTransactionByCode(prev =>
-
-                                        prev.map(el =>
-
-                                            el.id === transaction?.id
-
-                                                ? { ...el, status: resp?.new_status }
-
-                                                : el
-                                        )
-                                    )
-
-                                } catch (err) {
-
-                                    console.log(err)
-                                }
-                            }
-                        }
-
-                        disabled={!STATUS_FLOW_SUBTRANSACTION[transaction?.status]}
-
-                        style={
-                            {
-                                ...styles.button,
-                                opacity: STATUS_FLOW_STYLE[STATUS_FLOW_SUBTRANSACTION[transaction?.status]]?.next ? 1 : 0.6,
-                            }
-                        }
-                    >
-                        {
-                            transaction?.status
-                            ? STATUS_FLOW_SUBTRANSACTION[transaction?.status]
-                            : "✅"
-                        }
-
-                    </button>
-                    :
-                    <LoadingCard/>
-                }
-
-            </div>
-
-        </div>
+            </article>
+        </>
     );
 }

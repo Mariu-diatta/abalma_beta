@@ -637,7 +637,7 @@ export const payNow = async (
 
 };
 
-export function convertir(de, vers) {
+export function convertir(de, vers, value) {
     const taux = {
         EUR_USD: 1.10,
         USD_EUR: 0.91,
@@ -653,15 +653,10 @@ export function convertir(de, vers) {
 
     if (taux[key] !== undefined) {
 
-        return  taux[key];
+        return  taux[key] * value;
     }
 
     return null; // conversion impossible
-}
-
-export const convertRates = async (setConvertValue, rateToConvert, referenceRate) => {
-      const value = convertir(referenceRate, rateToConvert)
-      setConvertValue(value)
 }
 
 export const OPERATIONS_STATUS = {
@@ -719,7 +714,7 @@ export const STATUS_FLOW_TRANSACTION = {
     };
 
 export const STATUS_FLOW_SUBTRANSACTION = {
-        forward: "in_progress",
+        forward: "pending",
         pending: "in_progress",
         in_progress: "confirmed",
         confirmed: "shipped",

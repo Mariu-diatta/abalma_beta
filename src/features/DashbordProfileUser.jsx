@@ -76,6 +76,7 @@ const Tabs = () => {
         touchEndX.current = null;
     };
 
+
     // Rendu du contenu via switch plutôt que par objet (évite d'instancier tous les composants)
     const renderContent = (activeTabSelected) => {
         var activeTab = activeTabSelected
