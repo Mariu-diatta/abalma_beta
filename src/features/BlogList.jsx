@@ -3,71 +3,7 @@ import { useTranslation } from 'react-i18next';
 import BlogCard from './BlogCard';
 import BlogDetails from './BlogDetails';
 import NoContentComp from '../components/NoContentComp';
-
-// ─── Styles ───────────────────────────────────────────────────────────────────
-const styles = `
-  @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=DM+Sans:wght@400;500&display=swap');
-
-  .bl-root * { box-sizing: border-box; font-family: 'DM Sans', sans-serif; }
-
-  /* Grille */
-  .bl-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    padding: 8px 4px 60px;
-    align-content: start;
-  }
-
-  /* Etat vide */
-  .bl-empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    padding: 32px 16px;
-    text-align: center;
-    grid-column: 1 / -1;
-  }
-  .bl-empty-text {
-    font-family: 'Lora', serif;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #64748b;
-  }
-
-  /* Bouton retour */
-  .bl-back-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 9px 18px;
-    border-radius: 10px;
-    border: 1.5px solid #e2e8f0;
-    background: #fff;
-    font-family: 'DM Sans', sans-serif;
-    font-size: .875rem;
-    font-weight: 600;
-    color: #475569;
-    cursor: pointer;
-    margin-bottom: 16px;
-    transition: background .15s, border-color .15s, transform .12s;
-  }
-  .bl-back-btn:hover {
-    background: #f8fafc;
-    border-color: #cbd5e1;
-    transform: translateX(-2px);
-  }
-
-  /* Animation d'entrée des cartes */
-  @keyframes bl-card-in {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .bl-card-wrap {
-    animation: bl-card-in .3s ease both;
-  }
-`;
+import {createPortal} from "react-dom"
 
 // ─── Illustration vide (SVG allégé) ──────────────────────────────────────────
 const EmptyIllustration = () => (
@@ -110,30 +46,43 @@ const BlogList = ({ blogs }) => {
 
     // Vue détail
     if (viewMore && selectedBlog) {
+
         return (
-            <>
-                <style>{styles}</style>
-                <div style={{ maxWidth: 760, margin: '0 auto', padding: '16px 8px' }}>
-                    <button
-                        type="button"
-                        className="bl-back-btn"
-                        onClick={() => handleClicked(false, null)}
-                    >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m15 19-7-7 7-7" />
-                        </svg>
-                        {t('back') || 'Retour'}
-                    </button>
-                    <BlogDetails blog={selectedBlog} onClose={handleClicked} />
-                </div>
-            </>
+
+            <div className="prt-root prt-wrap">
+                {
+                    createPortal(
+
+                        <div style={{ maxWidth: 760, margin: '0 auto', padding: '16px 8px', zIndex:500 }}>
+
+                            <button
+                                type="button"
+                                className="bl-back-btn"
+                                onClick={() => handleClicked(false, null)}
+                            >
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m15 19-7-7 7-7" />
+                                </svg>
+
+                                {t('back') || 'Retour'}
+
+                            </button>
+               
+                            <BlogDetails blog={selectedBlog} onClose={handleClicked} />
+
+                        </div>,
+
+                        document.body
+                    )
+                }
+
+            </div>
         );
     }
 
     // Vue liste
     return (
         <>
-            <style>{styles}</style>
             <div className="bl-root">
                 {isEmpty ? (
                     <div className="bl-grid">

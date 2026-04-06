@@ -6,7 +6,7 @@ const LoadingCard = () => {
 
         <div
 
-            className="flex justify-center m-auto relative items-center block w-min p-1 border-0  rounded-full  dark:bg-gray-800 dark:border-gray-800 dark:hover:bg-gray-700 mt-50"
+            className="flex justify-center m-auto relative items-center block w-min p-1 border-0  rounded-full  dark:bg-gray-800 dark:border-gray-800 dark:hover:bg-gray-700 mt-20"
 
             style={
                 {
