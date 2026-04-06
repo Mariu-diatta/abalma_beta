@@ -1,618 +1,415 @@
-import React, { useMemo, useState } from 'react';
-import ViewProduct from '../components/ViewProduct';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import ViewProduct from '../components/ViewProduct';
 import {
-    API_URL_BACKEND, CONSTANTS, MODE, NAMES_TABLES, OPERATIONS_STATUS, STATUS_FLOW_SUBTRANSACTION, STATUS_FLOW_TRANSACTION, convertDate, updateStatusTransaction } from '../utils';
-import { TitleCompGenLitle } from '../components/TitleComponentGen';
+    API_URL_BACKEND, CONSTANTS, MODE, NAMES_TABLES, OPERATIONS_STATUS,
+    STATUS_FLOW_SUBTRANSACTION, STATUS_FLOW_TRANSACTION, convertDate,
+    updateStatusTransaction,
+} from '../utils';
 import TransactionsDropdown from './TransactionsDropdown';
-import { useEffect } from 'react';
 import api from '../services/Axios';
-import { useDispatch, } from 'react-redux';
 import LoadingCard from '../components/LoardingSpin';
 import TransactionAndSubTransactionCard from './SubTransactionCard';
+import {createPortal} from "react-dom"
 
+// ─── Constantes ───────────────────────────────────────────────────────────────
+const ITEMS_PER_PAGE = 5;
+
+// ─── Icônes ───────────────────────────────────────────────────────────────────
+const EyeIcon = () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+        <path stroke="currentColor" strokeWidth="1.8" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
+        <path stroke="currentColor" strokeWidth="1.8" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+    </svg>
+);
+
+const TrashIcon = () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8"
+            d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
+    </svg>
+);
+
+const ChevronIcon = ({ dir }) => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+            d={dir === 'left' ? 'm15 19-7-7 7-7' : 'm9 5 7 7-7 7'} />
+    </svg>
+);
+
+// ─── Composant ────────────────────────────────────────────────────────────────
 const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode }) => {
-
     const { t } = useTranslation();
+    const dispatch = useDispatch();
+
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedStatus, setSelectedStatus] = useState('');
-    const [loadingDelet, setLoadingDelete] = useState(false);
-
+    const [loadingDelete, setLoadingDelete] = useState(false);
+    const [currentProductDeleted, setCurrentProductDeleted] = useState(null);
     const [popoverOpen, setPopoverOpen] = useState(false);
-    const [product, setProductView] = useState(null);
+    const [productView, setProductView] = useState(null);
     const [inLoadUpdateTransStatus, setInloadUpdateTransStatus] = useState(false);
     const [inloadUpdateSubTransStatus, setInloadUpdateSubTransStatus] = useState(false);
-    const dispatch = useDispatch();
-
     const [selectedSubTransaction, setSelectedSubTransaction] = useState(null);
     const [selectedTransaction, setSelectedTransaction] = useState(null);
     const [transactionsData, setTransactionsData] = useState([]);
     const [subTransactionsData, setSubTransactionsData] = useState([]);
     const [deletedSubTrans, setDeletedSubTrans] = useState(false);
     const [deletedTrans, setDeletedTrans] = useState(false);
-    const [currentProductDeleted, setCurrentProductDeleted] = useState(null);
 
-    const itemsPerPage = 5;
+    const statusLabels = useMemo(() => OPERATIONS_STATUS, []);
 
-    const statusLabels = useMemo(() => (OPERATIONS_STATUS), []);
+    // ── Reset sous-transaction quand la transaction change ──
+    useEffect(() => { setSelectedSubTransaction(null); }, [selectedTransaction]);
 
+    // ── Fetch transactions ──
+    useEffect(() => {
+        api.get('transactions/products/', { params: { mode } })
+            .then(({ data }) => setTransactionsData(data?.results || data))
+            .catch((err) => console.error('Erreur transactions:', err));
+        setDeletedTrans(false);
+    }, [mode]);
+
+    // ── Fetch sous-transactions ──
+    useEffect(() => {
+        if (!selectedTransaction?.id) return;
+        api.get('sub/transaction/', { params: { trans_id: selectedTransaction.id, mode } })
+            .then(({ data }) => setSubTransactionsData(data?.sub_transactions))
+            .catch((err) => console.error('Erreur sous-transactions:', err));
+        setDeletedSubTrans(false);
+    }, [selectedTransaction, mode]);
+
+    // ── Fetch produits de la sous-transaction ──
+    useEffect(() => {
+        if (!selectedSubTransaction?.id) return;
+        api.get('item/products/transaction/', { params: { subTrans_id: selectedSubTransaction.id } })
+            .then(({ data }) => setProductsTrasaction(data?.products_transactions))
+            .catch((err) => console.error('Erreur produits transaction:', err));
+    }, [selectedSubTransaction, setProductsTrasaction]);
+
+    // ── Suppression produit ──
     const deleteProduct = async (item) => {
-
-        setCurrentProductDeleted(item?.id)
-
-        setLoadingDelete(true)
-
+        setCurrentProductDeleted(item?.id);
+        setLoadingDelete(true);
         try {
-            await api.delete(`produits/${item?.id}/`).then(
-
-                resp => {
-                    console.log("Response user :::", resp)
-                }
-
-            ).catch(
-
-                err => {
-                    //console.log("Erreur log :::", err)
-                    alert(err?.response?.data?.detail)
-
-                }
-
-            )
-
+            await api.delete(`produits/${item?.id}/`);
         } catch (err) {
-
-            alert(err?.response?.data?.detail)
-
+            alert(err?.response?.data?.detail || 'Erreur lors de la suppression');
         } finally {
-
-            setLoadingDelete(false)
+            setLoadingDelete(false);
+            setCurrentProductDeleted(null);
         }
-    }
-
-    /** 🔍 Extraction simple de TOUS les produits */
-    const extractAllProducts = (products) => {
-        return products.flatMap(p =>
-            p.items?.flatMap(sub =>
-                sub.items?.map(i => i.product) || []
-            ) || []
-        );
     };
 
+    // ── Extraction produits ──
+    const extractAllProducts = (list) =>
+        list.flatMap((p) => p.items?.flatMap((sub) => sub.items?.map((i) => i.product) || []) || []);
+
+    // ── Filtrage + sélection transaction ──
     const filteredProducts = useMemo(() => {
-        let result = extractAllProducts(products);
-        setDeletedTrans(false)
-        setDeletedSubTrans(false)
+        setDeletedTrans(false);
+        setDeletedSubTrans(false);
 
-        // Filtrer par statut
-        if (selectedStatus) {
-            result = result.filter(p =>
-                statusLabels[p.operation_product] === selectedStatus
-            );
-        }
-
-        // Filtre de recherche
-        if (searchTerm.trim()) {
-
-            const term = searchTerm.toLowerCase();
-
-            result = result.filter(p =>
-                p?.description_product?.toLowerCase().includes(term)
-            );
-        }
-
-
-        if (selectedTransaction && !selectedSubTransaction) {
-
-            return []
-        }
+        if (selectedTransaction && !selectedSubTransaction) return [];
 
         if (selectedSubTransaction) {
+            return products.filter((item) => item?.product).map((item) => item.product);
+        }
 
-            const listProdt = [];
+        let result = extractAllProducts(products);
 
-            products?.forEach(item => {
-
-                if (item?.product) {
-
-                    listProdt.push(item.product);
-                }
-            });
-
-            return listProdt;
+        if (selectedStatus) {
+            result = result.filter((p) => statusLabels[p.operation_product] === selectedStatus);
+        }
+        if (searchTerm.trim()) {
+            const term = searchTerm.toLowerCase();
+            result = result.filter((p) => p?.description_product?.toLowerCase().includes(term));
         }
 
         return result;
+    }, [products, selectedSubTransaction, selectedTransaction, selectedStatus, searchTerm, statusLabels]);
 
-    }, [
-        products,
-        selectedSubTransaction,
-        selectedStatus,
-        searchTerm,
-        statusLabels,
-        selectedTransaction
-    ]);
-
-    /** 📄 Pagination */
-    const totalPages = Math.max(1, Math.ceil(filteredProducts?.length / itemsPerPage));
-
-    const selectedSubTransactionNotDeleted = (selectedSubTransaction && !deletedSubTrans)
+    const totalPages = Math.max(1, Math.ceil(filteredProducts.length / ITEMS_PER_PAGE));
+    const safePage = Math.min(currentPage, totalPages);
 
     const paginatedProducts = useMemo(() => {
+        const start = (safePage - 1) * ITEMS_PER_PAGE;
+        return filteredProducts.slice(start, start + ITEMS_PER_PAGE);
+    }, [filteredProducts, safePage]);
 
-        const start = (currentPage - 1) * itemsPerPage;
+    // ── Handler mise à jour statut transaction ──
+    const handleUpdateTransStatus = async () => {
+        try {
+            const resp = await updateStatusTransaction(
+                API_URL_BACKEND?.STATUS_TRANSACTION,
+                { transaction_id: selectedTransaction?.id, new_status: STATUS_FLOW_TRANSACTION[selectedTransaction?.status] },
+                setInloadUpdateTransStatus,
+                dispatch
+            );
+            setTransactionsData((prev) =>
+                prev.map((el) => el.id === selectedTransaction?.id ? { ...el, status: resp?.new_status } : el)
+            );
+        } catch (err) { console.error(err); }
+    };
 
-        return filteredProducts?.slice(start, start + itemsPerPage);
+    const handleUpdateSubTransStatus = async () => {
+        try {
+            const resp = await updateStatusTransaction(
+                API_URL_BACKEND?.STATUS_SUB_TRANSACTION,
+                { sub_transaction_id: selectedSubTransaction?.id, new_status: STATUS_FLOW_SUBTRANSACTION[selectedSubTransaction?.status] },
+                setInloadUpdateSubTransStatus,
+                dispatch
+            );
+            setSubTransactionsData((prev) =>
+                prev.map((el) => el.id === selectedSubTransaction?.id ? { ...el, status: resp?.new_status } : el)
+            );
+        } catch (err) { console.error(err); }
+    };
 
-    }, [filteredProducts, currentPage]);
-
-    const closePopover = () => setPopoverOpen(false);
-
-    useEffect(() => {setSelectedSubTransaction(null)}, [selectedTransaction] )
-
-    useEffect(
-
-        () => {
-
-            api.get("transactions/products/", {
-
-                params: {
-
-                    mode: mode
-                }
-
-            }).then(
-
-                resp => {
-
-                    setTransactionsData(resp?.data?.results || resp?.data);
-                }
-
-            ).catch(
-
-                err => console.log("ERREUR LIST TRANSACTION :::", err)
-            )
-
-            setDeletedTrans(false)
-
-        }, [mode]
-    )
-
-    useEffect(
-
-        () => {
-
-            if (!selectedTransaction?.id) return
-
-            api.get("sub/transaction/", {
-
-                params: {
-
-                    trans_id: selectedTransaction.id,
-
-                    mode: mode
-
-                }
-
-            }).then(
-
-                resp => {
-
-                    setSubTransactionsData(resp?.data?.sub_transactions)
-                }
-
-            ).catch(
-
-                err => console.log("ERREUR LIST SUB TRANSACTION :::", err)
-            )
-
-            setDeletedSubTrans(false)
-
-        }, [selectedTransaction, mode]
-    )
-
-    useEffect(
-
-        () => {
-
-            if (!selectedSubTransaction?.id) return
-
-            api.get("item/products/transaction/", {
-
-                params: {
-
-                    subTrans_id: selectedSubTransaction.id
-                }
-
-            }).then(
-
-                resp => {
-
-                    setProductsTrasaction(resp?.data?.products_transactions)
-                }
-
-            ).catch(
-
-                err => console.log("ERREUR LIST SUB PRODUITS TRANSACTION :::", err)
-            )
-
-        }, [selectedSubTransaction, setProductsTrasaction]
-    )
+    const isBuyMode = mode === MODE.BUY;
 
     return (
+        <>
+            <div className="prt-root prt-wrap">
 
-        <div className="overflow-x-auto sm:rounded-lg p-1 dark:text-white text-gray-100">
+                {/* Toolbar */}
+                <div className="prt-toolbar">
+                    <h2 className="prt-title">
+                        📋 {title}
+                        {filteredProducts.length > 0 && (
+                            <span className="prt-count">{filteredProducts.length}</span>
+                        )}
+                    </h2>
+                </div>
 
-            {/* TITRE */}
-            <nav className="flex items-center gap-2 m-2">
-
-                <TitleCompGenLitle title={title} />
-
-            </nav>
-
-            {/* FILTRES */}
-            <nav className="flex items-center justify-between gap-4 m-2">
-
-                {/* Filtre par statut */}
-                <select
-
-                    value={selectedStatus}
-
-                    onChange={e => {
-
-                        setSelectedStatus(e.target.value);
-
-                        setSelectedSubTransaction(null);
-
-                        setSelectedTransaction(null)
-                    }}
-
-                    className="focus:outline-none px-2 py-2 border rounded-full flex border-blue-50  focus:border-blue-50 focus:ring-1 focus:ring-blue-100  "
-                >
-                    <option value="">{t('TableRecap.statusAll')}</option>
-
-                    {
-                        Object.values(statusLabels).map(s => (
-
+                {/* Filtres */}
+                <div className="prt-filters">
+                    <select
+                        value={selectedStatus}
+                        onChange={(e) => {
+                            setSelectedStatus(e.target.value);
+                            setSelectedSubTransaction(null);
+                            setSelectedTransaction(null);
+                        }}
+                        className="prt-select"
+                        aria-label="Filtrer par statut"
+                    >
+                        <option value="">{t('TableRecap.statusAll')}</option>
+                        {Object.values(statusLabels).map((s) => (
                             <option key={s} value={s}>{s}</option>
+                        ))}
+                    </select>
 
-                        ))
-                    }
-
-                </select>
-
-                {/* Transactions */}
-                {
-                    (!selectedStatus) && (
+                    {!selectedStatus && (
                         <TransactionsDropdown
                             transactionsData={transactionsData}
                             subTransactionsData={subTransactionsData}
                             onSelectTransaction={setSelectedTransaction}
                             onSubTransactionSelect={setSelectedSubTransaction}
                         />
-                    )
-                }
+                    )}
 
-                {/* Recherche */}
-                <input
-                    type="text"
-                    placeholder={t('TableRecap.searchPlaceholder')}
-                    value={searchTerm}
-                    onChange={e => setSearchTerm(e.target.value)}
-                    className="focus:outline-none focus:ring-0 rounded-full border px-3 py-2 border-blue-50 focus:border-blue-50 focus:ring-1 focus:ring-blue-100"
-                />
-
-            </nav>
-
-            {
-                (selectedTransaction || selectedSubTransaction) && (
-
-                    <div className="flex flex-col md:flex-row md:justify-center md:w-auto md:mx-auto gap-7  mb-4 p-1 rounded-lg">
-
-                        {
-                            (selectedTransaction && !deletedTrans) && (
-
-                                <TransactionAndSubTransactionCard
-                                    title="Transaction"
-                                    icon={
-                                        <svg
-                                            className="w-6 h-6 text-gray-800"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                stroke="currentColor"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth="1"
-                                                d="M15 4h3a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3m0 3h6m-3 5h3m-6 0h.01M12 16h3m-6 0h.01M10 3v4h4V3h-4Z"
-                                            />
-                                        </svg>
-                                    }
-                                    status={selectedTransaction?.status}
-                                    url="transactions/products"
-                                    pk={selectedTransaction?.id}
-                                    data={transactionsData}
-                                    setData={setTransactionsData}
-                                    setDeleted={setDeletedTrans}
-                                    createdAt={convertDate(selectedTransaction?.created_at)}
-                                    code={selectedTransaction?.code}
-                                    price={selectedTransaction?.price}
-                                    priceLabel={t("recaptTransaction.price")}
-                                    showAction={mode !== MODE.BUY}
-                                    isLoading={inLoadUpdateTransStatus}
-                                    actionDisabled={false}
-                                    actionLabel={STATUS_FLOW_TRANSACTION[selectedTransaction?.status]}
-
-                                    onClick={async () => {
-                                        try {
-                                            const resp = await updateStatusTransaction(
-                                                API_URL_BACKEND?.STATUS_TRANSACTION,
-                                                {
-                                                    transaction_id: selectedTransaction?.id,
-                                                    new_status:
-                                                        STATUS_FLOW_TRANSACTION[selectedTransaction?.status],
-                                                },
-                                                setInloadUpdateTransStatus,
-                                                dispatch
-                                            )
-
-                                            // 🔥 Mettre à jour le state local
-                                            setTransactionsData(prev =>
-                                                prev.map(el =>
-                                                    el.id === selectedTransaction?.id
-                                                        ? { ...el, status: resp?.new_status }
-                                                        : el
-                                                )
-
-                                            )
-
-                                        } catch (err) {
-                                            console.log(err)
-                                        }
-                                    }}
-                                />
-                            )
-                        }
-
-                        {
-                            selectedSubTransactionNotDeleted && (
-
-                                <TransactionAndSubTransactionCard
-                                    title="Sous-transaction"
-                                    icon={
-                                        <svg
-                                            className="w-5 h-5"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                stroke="currentColor"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth="1.5"
-                                                d="M16.153 19 21 12l-4.847-7H3l4.848 7L3 19h13.153Z"
-                                            />
-                                        </svg>
-                                    }
-                                    url="sub/transaction"
-                                    pk={selectedSubTransaction?.id}
-                                    status={selectedSubTransaction?.status}
-                                    data={subTransactionsData}
-                                    setData={setSubTransactionsData}
-                                    setDeleted={setDeletedSubTrans}
-                                    createdAt={convertDate(selectedSubTransaction?.created_at)}
-                                    code={selectedSubTransaction?.code}
-                                    price={selectedSubTransaction?.price}
-                                    priceLabel={t("recaptTransaction.price")}
-                                    showAction={mode !== MODE.BUY}  
-                                    isLoading={inloadUpdateSubTransStatus}
-                                    actionLabel={STATUS_FLOW_SUBTRANSACTION[selectedSubTransaction?.status]}
-                                    actionDisabled={false}
-                                    onClick={async () => {
-                                        try {
-                                            const resp = await updateStatusTransaction(
-                                                API_URL_BACKEND?.STATUS_SUB_TRANSACTION,
-                                                {
-                                                    sub_transaction_id: selectedSubTransaction?.id,
-                                                    new_status:
-                                                        STATUS_FLOW_SUBTRANSACTION[selectedSubTransaction?.status],
-                                                },
-                                                setInloadUpdateSubTransStatus,
-                                                dispatch
-                                            )
-
-                                            // 🔥 Mettre à jour le state local
-                                            setSubTransactionsData(prev =>
-                                                prev.map(el =>
-                                                    el.id === selectedSubTransaction?.id
-                                                        ? { ...el, status: resp?.new_status }
-                                                        : el
-                                                )
-                                            )
-
-                                            console.log("Transaction new state:::", subTransactionsData)
-
-                                        } catch (err) {
-                                            console.log(err)
-                                        }
-                                    }}
-                                />
-
-                            )
-                        }
-
+                    <div className="prt-search-wrap">
+                        <span className="prt-search-icon">
+                            <svg width="13" height="13" viewBox="0 0 20 20" fill="none">
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                            </svg>
+                        </span>
+                        <input
+                            type="search"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            placeholder={t('TableRecap.searchPlaceholder')}
+                            className="prt-search"
+                            aria-label={t('TableRecap.searchPlaceholder')}
+                        />
                     </div>
-                )
-            }
+                </div>
 
-            {/* TABLEAU */}
-            <main className=" overflow-x-auto sm:rounded-lg p-1 z-0 scrollbor_hidden">
+                {/* Cartes transaction / sous-transaction */}
+                {(selectedTransaction || selectedSubTransaction) && (
+                    <div className="prt-trans-row">
+                        {selectedTransaction && !deletedTrans && (
+                            <TransactionAndSubTransactionCard
+                                title="Transaction"
+                                icon={<svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 4h3a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3m0 3h6m-3 5h3m-6 0h.01M12 16h3m-6 0h.01M10 3v4h4V3h-4Z" /></svg>}
+                                status={selectedTransaction?.status}
+                                url="transactions/products"
+                                pk={selectedTransaction?.id}
+                                data={transactionsData}
+                                setData={setTransactionsData}
+                                setDeleted={setDeletedTrans}
+                                createdAt={convertDate(selectedTransaction?.created_at)}
+                                code={selectedTransaction?.code}
+                                price={selectedTransaction?.price}
+                                priceLabel={t('recaptTransaction.price')}
+                                showAction={!isBuyMode}
+                                isLoading={inLoadUpdateTransStatus}
+                                actionDisabled={false}
+                                actionLabel={STATUS_FLOW_TRANSACTION[selectedTransaction?.status]}
+                                onClick={handleUpdateTransStatus}
+                            />
+                        )}
 
-                <table
-                    className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-lg p-1"
-                >
+                        {selectedSubTransaction && !deletedSubTrans && (
+                            <TransactionAndSubTransactionCard
+                                title="Sous-transaction"
+                                icon={<svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16.153 19 21 12l-4.847-7H3l4.848 7L3 19h13.153Z" /></svg>}
+                                url="sub/transaction"
+                                pk={selectedSubTransaction?.id}
+                                status={selectedSubTransaction?.status}
+                                data={subTransactionsData}
+                                setData={setSubTransactionsData}
+                                setDeleted={setDeletedSubTrans}
+                                createdAt={convertDate(selectedSubTransaction?.created_at)}
+                                code={selectedSubTransaction?.code}
+                                price={selectedSubTransaction?.price}
+                                priceLabel={t('recaptTransaction.price')}
+                                showAction={!isBuyMode}
+                                isLoading={inloadUpdateSubTransStatus}
+                                actionLabel={STATUS_FLOW_SUBTRANSACTION[selectedSubTransaction?.status]}
+                                actionDisabled={false}
+                                onClick={handleUpdateSubTransStatus}
+                            />
+                        )}
+                    </div>
+                )}
 
-                    <thead className="border border-gray-200">
-
-                        <tr>
-                            {
-                                NAMES_TABLES?.map(header => (
-
-                                        <th key={header}
-                                        className={`px-4 py-3 whitespace-nowrap cursor-pointer  ${(mode === MODE.BUY && (header === CONSTANTS.UPDATE || header === CONSTANTS.ACTION))?"hidden":""}`}
-                                        >
-                                          { t(`TableRecap.tableHeaders.${header}`)} 
-
+                {/* Tableau */}
+                <div className="prt-table-wrap scrollbor_hidden">
+                    <table className="prt-table">
+                        <thead>
+                            <tr>
+                                {NAMES_TABLES?.map((header) => {
+                                    const isHidden = isBuyMode && (header === CONSTANTS.UPDATE || header === CONSTANTS.ACTION);
+                                    if (isHidden) return null;
+                                    return (
+                                        <th key={header}>
+                                            {t(`TableRecap.tableHeaders.${header}`)}
                                         </th>
-                                    )
-                                )
-                            }
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        {
-                            (paginatedProducts?.length === 0) ?
-                            (
+                                    );
+                                })}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {paginatedProducts.length === 0 ? (
                                 <tr>
-                                    <td colSpan="9" className="text-center p-3 w-full bg-none">
+                                    <td colSpan={NAMES_TABLES?.length} className="prt-empty">
                                         {t('TableRecap.noProducts')}
                                     </td>
                                 </tr>
-                            ) 
-                            : 
-                            (
-                                paginatedProducts?.map((item, index) => (
+                            ) : (
+                                paginatedProducts.map((item, idx) => (
+                                    <tr key={item?.id ?? idx}>
+                                        <td>{item?.name_product?.slice(0, 20) || '—'}</td>
+                                        <td>{item?.categorie_product?.name || item?.categorie_product || '—'}</td>
+                                        <td>
+                                            <span className={`prt-badge ${item?.is_active ? 'prt-badge-active' : 'prt-badge-inactive'}`}>
+                                                {item?.is_active ? '✓ Actif' : '✗ Inactif'}
+                                            </span>
+                                        </td>
+                                        <td>{item?.price_product ? `${item.price_product} ${item?.currency_price || ''}` : '—'}</td>
+                                        <td>{item?.created_at ? convertDate(item.created_at) : item?.created ? convertDate(item.created) : '—'}</td>
+                                        <td>
+                                            <span className={`prt-badge ${item?.is_available ? 'prt-badge-avail' : 'prt-badge-unavail'}`}>
+                                                {item?.is_available ? '● Disponible' : '○ Indisponible'}
+                                            </span>
+                                        </td>
+                                        <td>{item?.operation_product || '—'}</td>
+                                        <td>{item?.created ? convertDate(item.created) : '—'}</td>
+                                        <td>{item?.date_fin_emprunt || '—'}</td>
+                                        <td>{item?.date_fin_stock || '—'}</td>
 
-                                    <tr
-                                        key={index} 
-                                        className=" dark:border-gray-700 border-gray-200 hover:bg-gray-50"
-                                    >
-                                        <td className="px-4 py-3 whitespace-nowrap">{item?.name_product?.slice(0, 6) || '-'}</td>
-                                        <td className="px-4 py-3 whitespace-nowrap">{item?.categorie_product?.name || '-'}</td>
-                                        <td className="px-4 py-3 ">{item?.is_active?"True":"False" || '-'}</td>
-                                        <td className="px-4 py-3 whitespace-nowrap">{item?.price_product} {(item?.currency_price) || '-'}</td>
-                                        <td className="px-4 py-3 whitespace-nowrap">{item?.created_at ? convertDate(item?.created_at) : convertDate(item?.created) || '-'}</td>
-                                        <td className="px-4 py-3 ">{item?.is_available?"True":"False" || '-'}</td>
-                                        <td className="px-4 py-3 ">{item?.operation_product || '-'}</td>
-                                        <td className="px-4 py-3 whitespace-nowrap">{convertDate(item?.created) || 'N/A'}</td>
-                                        <td className="px-4 py-3 ">{item?.date_fin_emprunt || '-'}</td>
-                                        <td className="px-4 py-3 ">{item?.date_fin_stock || '-'}</td>
-
-                                        <td className="px-4 py-3 ">
-
+                                        {/* Voir */}
+                                        <td>
                                             <button
-                                                onClick={() => {
-                                                    setPopoverOpen(true);
-                                                    setProductView(item);
-                                                }}
-                                                className="p-1 bg-gradient-to-br from-purple-100 hover:bg-gradient-to-br hover:from-purple-400 rounded-lg hover:bg-blue-700 text-xs"
+                                                type="button"
+                                                className="prt-btn-view"
+                                                onClick={() => { setPopoverOpen(true); setProductView(item); }}
+                                                aria-label="Voir le produit"
+                                                title="Voir"
                                             >
-                                                <svg className="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                    <path stroke="currentColor" strokeWidth="1" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
-                                                    <path stroke="currentColor" strokeWidth="1" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                                </svg>
-
+                                                <EyeIcon />
                                             </button>
-
                                         </td>
 
-                                        <td className={`px-4 py-3 ${mode === MODE.BUY?"hidden":""}`}>
-                                            {
-                                                !(loadingDelet && currentProductDeleted === item?.id) ?
-                                                <button
-                                                    className="p-1 rounded-lg cursor-pointer hover:bg-gray-100 bg-gradient-to-br from-pink-100 to-orange-50 hover:bg-gradient-to-br hover:to-orange-500 hover:bg-pink-200"
-                                                    title={t('delete')}
-                                                        onClick={
-                                                            () => {
-                                                                deleteProduct(item)
-                                                             }
-                                                        }
-                                                >
-                                                    <svg className="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.4" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
-                                                    </svg>
-
-                                                </button>
-                                                :
-                                                <LoadingCard />
-                                            }
-                                        </td>
-
+                                        {/* Supprimer (caché en mode achat) */}
+                                        {!isBuyMode && (
+                                            <td>
+                                                {loadingDelete && currentProductDeleted === item?.id ? (
+                                                    <LoadingCard />
+                                                ) : (
+                                                    <button
+                                                        type="button"
+                                                        className="prt-btn-del"
+                                                        onClick={() => deleteProduct(item)}
+                                                        aria-label={t('delete')}
+                                                        title={t('delete')}
+                                                    >
+                                                        <TrashIcon />
+                                                    </button>
+                                                )}
+                                            </td>
+                                        )}
                                     </tr>
-                                )
-                            )
-                        )}
-
-                    </tbody>
-
-                </table>
-
-                {/* POPOVER VIEW */}
-                {
-                    (popoverOpen && product) && (
-
-                        <div
-                            style={{ zInddex: 9999 }}
-
-                            className="fixed inset-0 flex items-center justify-center bg-black/40 " onClick={closePopover}
-                        >
-
-                            <ViewProduct productSelected={product} />
-
-                        </div>
-                    )
-                }
-
-            </main>
-
-            {/* PAGINATION */}
-            <div className=" flex justify-between items-center mt-1 pb-6 px-1">
-
-                <span>
-                    Page {currentPage} / {totalPages}
-                </span>
-
-                <div>
-
-                    <button
-                        onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                        disabled={currentPage === 1}
-                        className="px-3 py-1 border-gray-200 rounded-full disabled:opacity-40"
-
-                    >
-                        <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="m15 19-7-7 7-7" />
-                        </svg>
-
-                    </button>
-
-                    <button
-                        onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                        disabled={currentPage === totalPages}
-                        className="px-3 py-1 border-gray-200 rounded-full disabled:opacity-40"
-                    >
-                        <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="m9 5 7 7-7 7" />
-                        </svg>
-
-                    </button>
-
+                                ))
+                            )}
+                        </tbody>
+                    </table>
                 </div>
 
-            </div>
+                {/* Pagination */}
+                {filteredProducts.length > ITEMS_PER_PAGE && (
+                    <div className="prt-pagination">
+                        <p className="prt-page-info">
+                            Page <strong>{safePage}</strong> / {totalPages}
+                            <span style={{ margin: '0 6px', color: '#cbd5e1' }}>·</span>
+                            {filteredProducts.length} résultat{filteredProducts.length !== 1 ? 's' : ''}
+                        </p>
+                        <div style={{ display: 'flex', gap: 4 }}>
+                            <button
+                                type="button"
+                                className="prt-page-btn"
+                                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                                disabled={safePage === 1}
+                                aria-label="Page précédente"
+                            >
+                                <ChevronIcon dir="left" />
+                            </button>
+                            <button
+                                type="button"
+                                className="prt-page-btn"
+                                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                                disabled={safePage === totalPages}
+                                aria-label="Page suivante"
+                            >
+                                <ChevronIcon dir="right" />
+                            </button>
+                        </div>
+                    </div>
+                )}
 
-        </div>
+                {/* Modal aperçu produit */}
+                {popoverOpen && productView && createPortal(
+                    <div
+                        className="prt-overlay"
+                        onClick={() => setPopoverOpen(false)}
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label="Aperçu du produit"
+                    >
+                        <div onClick={(e) => e.stopPropagation()}>
+                            <ViewProduct productSelected={productView} />
+                        </div>
+                    </div>,
+                    document.body
+                )}
+            </div>
+        </>
     );
 };
 
 export default ProductsRecapTable;
-
-
-
-

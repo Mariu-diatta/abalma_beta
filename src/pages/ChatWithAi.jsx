@@ -94,6 +94,7 @@ const AnaliesChatsWithAi = () => {
                 className=" bg-gradient-to-r from-blue-400 to-gray-200 text-gray-700 font-sm text-sm z-10 rounded-full  hover:font-medium px-2 cursor-pointer py-2 fixed bottom-2 left-1/2 md:absolute w-full -translate-x-1/2 shadow-md hover:shadow-lg  transition-all duration-200"
             >
                 {loadingList ? t("loading") : t("ai_analies")}
+
             </button>
 
             {/* POPOVER */}
