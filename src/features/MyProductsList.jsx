@@ -16,11 +16,11 @@ const ProductRow = ({ prod, onDelete, loadingDelete, selectedBtnProduct, t }) =>
     const isDeleting = loadingDelete && selectedBtnProduct === prod?.id;
 
     return (
-        <tr className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition">
+        <tr className="border-b border-gray-200 hover:bg-gray-50  transition">
 
             {/* Image */}
             <td className="p-2">
-                <div className="w-10 h-10 md:w-16 md:h-16 overflow-hidden rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50">
+                <div className="w-10 h-10 md:w-16 md:h-16 overflow-hidden rounded-lg border border-gray-200  bg-gray-50">
                     <img
                         src={prod?.variants?.[0]?.image ?? prod?.image_product}
                         alt={prod?.name_product}
@@ -33,7 +33,7 @@ const ProductRow = ({ prod, onDelete, loadingDelete, selectedBtnProduct, t }) =>
 
             {/* Nom + description */}
             <td className="px-4 py-3">
-                <p className="font-medium text-gray-800 dark:text-white text-sm">
+                <p className="font-medium text-gray-800  text-sm">
                     {prod?.name_product}
                 </p>
                 <p className="text-xs text-gray-400 truncate max-w-[160px]">
@@ -49,12 +49,12 @@ const ProductRow = ({ prod, onDelete, loadingDelete, selectedBtnProduct, t }) =>
             </td>
 
             {/* Quantité */}
-            <td className="px-4 py-3 text-center text-sm text-gray-700 dark:text-gray-300">
+            <td className="px-4 py-3 text-center text-sm text-gray-700 ">
                 {prod?.quantity_product ?? 0}
             </td>
 
             {/* Prix */}
-            <td className="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">
+            <td className="px-4 py-3 text-sm text-gray-700">
                 <RendrePrixProduitMonnaie item={prod} />
             </td>
 
@@ -239,9 +239,9 @@ const MyProductList = () => {
             {/* État : données */}
             {!loading && !error && (
                 <>
-                    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 shadow-sm">
+                    <table className="w-full text-sm text-left text-gray-500  shadow-sm">
 
-                        <thead className="border-b border-gray-200 dark:border-gray-700 text-xs text-gray-500 uppercase">
+                        <thead className="border-b border-gray-100 text-xs text-gray-500 uppercase">
                             <tr>
                                 <th className="px-4 py-3">{t("tableEntries.image")}</th>
                                 <th className="px-4 py-3">{t("tableEntries.product")}</th>
