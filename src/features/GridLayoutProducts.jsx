@@ -65,7 +65,7 @@ const GridLayoutProduct = () => {
 
         const isDefaultCategory = (cleanCategory) => {
 
-            if (!cleanCategory) return true;
+            if (!cleanCategory) return false;
 
             return cleanCategory?.toLowerCase() === DEFAULT_ACTIVE_CATEGORY?.toLowerCase();
         }
@@ -80,9 +80,13 @@ const GridLayoutProduct = () => {
 
                 const url = isDefaultCategory(cleanCategory)
                     ? "produits/"
-                    : `products/filter/?categorie_product=${cleanCategory}`;
+                    : "products/filter/"
 
-                const { data: products } = await api.get(url);
+                const { data: products } = await api.get(url, {
+                    params: {
+                        product_categorie: cleanCategory,
+                    },
+                });
 
                 const filtered = products.filter(item => parseInt(item?.quantity_product) !== 0);
 
@@ -123,21 +127,23 @@ const GridLayoutProduct = () => {
 
         fetchProductsAndOwners();
 
-    }, [activeButtonCategory,DEFAULT_ACTIVE_CATEGORY]);
+    }, [activeButtonCategory, DEFAULT_ACTIVE_CATEGORY]);
+
 
     useEffect(() => {
-
-
-        const isDefaultCategory = (cleanCategory) => {
-
-                if (!cleanCategory) return true;
-
-                return cleanCategory === DEFAULT_ACTIVE_CATEGORY?.toLowerCase();
-        }
 
         const fetchProductsAndOwners = async () => {
 
             try {
+
+
+                const isDefaultCategory = (cleanCategory) => {
+
+                    if (!cleanCategory) return true;
+
+                    return cleanCategory === DEFAULT_ACTIVE_CATEGORY?.toLowerCase();
+                }
+
                 const translatedCategory = translateCategory(isButtonOver.replace("_", " ").toLocaleUpperCase());
 
                 var cleanCategory = removeAccents(translatedCategory)?.toLowerCase();
@@ -145,7 +151,7 @@ const GridLayoutProduct = () => {
                 const url = isDefaultCategory(cleanCategory)
                     ?
                     "produits/"
-                    :
+                    :       
                     `products/filter/?categorie_product=${cleanCategory?.toUpperCase()}`;
 
                 const { data: products } = await api.get(url);
