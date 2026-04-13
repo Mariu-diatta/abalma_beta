@@ -154,30 +154,6 @@ const GridLayoutProduct = () => {
 
                 setFilteredItemsPopover(filtered);
 
-                //const uniqueOwnerIds = [...new Set(products.map(p => p?.fournisseur))].filter(Boolean);
-
-                //const responses = await Promise.all(
-
-                //    uniqueOwnerIds?.map(id =>
-
-                //        api.get(`clients/${id}/`)
-
-                //        .then(res => ({ id, data: res.data }))
-
-                //        .catch(() => ({ id, data: null }))
-                //    )
-                //);
-
-                //const ownerMap = responses.reduce((acc, { id, data }) => {
-
-                //    if (data) acc[id] = data;
-
-                //    return acc;
-
-                //}, {});
-
-                //setOwners(ownerMap);
-
             } catch (error) {
 
                 // console.error("Erreur lors du chargement :", error);
