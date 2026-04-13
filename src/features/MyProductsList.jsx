@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import CenteredModal from "./ModalProductDetailsViewsCentered";
 import { TitleCompGenLitle } from "../components/TitleComponentGen";
 import ButtonSearchGeneric from "../components/ButtonSearchGeneric";
+import { createPortal } from "react-dom"
 
 const ITEMS_PER_PAGE = 5;
 
@@ -205,16 +206,22 @@ const MyProductList = () => {
 
                                                 <td className="px-6 py-4 ">
 
-                                                    <CenteredModal product={prod} >
+                                                    {
+                                                        createPortal(
 
-                                                        <img
-                                                            src={prod?.image_product}
-                                                            alt="Aperçu de l'image sélectionnée"
-                                                            className="w-32 h-32 rounded border border-gray-100 shadow object-cover"
-                                                        />
+                                                            <CenteredModal product={prod} >
 
-                                                    </CenteredModal>
+                                                                <img
+                                                                    src={prod?.image_product}
+                                                                    alt="Aperçu de l'image sélectionnée"
+                                                                    className="w-32 h-32 rounded border border-gray-100 shadow object-cover"
+                                                                />
 
+                                                            </CenteredModal>,
+
+                                                            document.body
+                                                        )
+                                                    }
                                                 </td>
 
                                                 <td className="px-6 py-4">

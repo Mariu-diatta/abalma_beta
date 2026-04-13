@@ -244,7 +244,10 @@ const AddUploadProduct = () => {
                 if (!socialLinks.includes(key)) formData.append(key, value ?? "");
             });
 
+            console.log("Le data du produit", dataProduct)
+
             formData.append("price_product", Number(dataProduct?.price_product));
+            formData.append("quantity_product", Number(dataProduct?.quantity_product));
             formData.append("social_links", JSON.stringify(social_links));
             formData.append("variants", JSON.stringify(variantsToSend));
 
