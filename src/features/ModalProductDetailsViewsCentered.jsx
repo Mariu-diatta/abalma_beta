@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import LoadingCard from "../components/LoardingSpin";
 import api from "../services/Axios";
+import { createPortal } from "react-dom"
 
 function CenteredModal({ product, children}) {
 
@@ -137,10 +138,8 @@ function CenteredModal({ product, children}) {
 
             </button>
 
-
-
             {
-                isOpen && (
+                isOpen && createPortal(
                     <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50 overflow-y-auto h-full pt-6">
 
 
@@ -279,8 +278,11 @@ function CenteredModal({ product, children}) {
 
                         </div>
 
-                    </div>
-                )}
+                    </div>,
+                    document.body
+                )
+            }
+
         </div>
     );
 }
