@@ -113,6 +113,7 @@ const ProductCard = ({
                     alt={item?.name_product || "Produit"}
                     loading="lazy"
                     className="
+                      p-1
                       relative
                       w-full
                       h-full
