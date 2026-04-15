@@ -70,7 +70,7 @@ const PaginationProduit = ({ products = [], itemsPerPage = 5 }) => {
                             w-24 h-24
                             flex-shrink-0
                             rounded-full
-                            object-cover
+                            object-contain                            
                             border-0
                             shadow-xl
                             hover:shadow-2xl

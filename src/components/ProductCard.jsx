@@ -121,7 +121,7 @@ const ProductCard = ({
                       duration-300
                       ease-in-out
                       hover:scale-105
-                      hover:brightness-90
+                      hover:brightness-90h
                     "
                     onError={(e) => {
                       // fallback si image manquante

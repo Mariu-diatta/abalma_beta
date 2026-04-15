@@ -78,9 +78,7 @@ const GridLayoutProduct = () => {
 
                 let cleanCategory = removeAccents(translatedCategory)?.toLowerCase();
 
-                const url = isDefaultCategory(cleanCategory)
-                    ? "produits/"
-                    : "products/filter/"
+                const url = isDefaultCategory(cleanCategory) ? "produits/" : "products/filter/"
 
                 const { data: products } = await api.get(url, {
                     params: {
@@ -148,13 +146,13 @@ const GridLayoutProduct = () => {
 
                 var cleanCategory = removeAccents(translatedCategory)?.toLowerCase();
 
-                const url = isDefaultCategory(cleanCategory)
-                    ?
-                    "produits/"
-                    :       
-                    `products/filter/?categorie_product=${cleanCategory?.toUpperCase()}`;
+                const url = isDefaultCategory(cleanCategory) ? "produits/" : "products/filter/";
 
-                const { data: products } = await api.get(url);
+                const { data: products } = await api.get(url, {
+                    params: {
+                        product_categorie: cleanCategory?.toUpperCase(),
+                    },
+                });
 
                 const filtered = products.filter(item => parseInt(item?.quantity_product) !== 0);
 

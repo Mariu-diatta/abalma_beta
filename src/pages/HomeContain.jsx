@@ -18,7 +18,7 @@ const HomeContain = () => {
         <>
 
             {/* ====================== MAIN CONTENT ====================== */}
-            <main className="pt-[10dvh] shadow-full bg-gradient-to-br from-purple-10 to-blue-50">
+            <main className="pt-[10dvh] shadow-full bg-gradient-to-br from-purple-10 to-blue-50 overflow-y-hidden px-2">
 
                 {/* ========= HERO / Intro ========= */}
                 <section className="max-w-screen-md mx-auto text-center mb-10 relative w-full px-2 text-[10px] md:text-[15px] translate-y-0 transition-all duration-1000 ease-in-out">
