@@ -68,6 +68,7 @@ const ProductDetailsSection = ({ isOpen, onClose}) => {
                     signal: controller.signal
                 });
             } catch (err) {
+                console.log("Erreur update view count:", err);
                 if (err.name !== "CanceledError" && err.name !== "AbortError") {
                     console.error("Erreur update view count:", err);
                 }
