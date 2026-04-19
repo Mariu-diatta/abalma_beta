@@ -59,6 +59,9 @@ const ProductDetailsSection = ({ isOpen, onClose}) => {
 
     useEffect(() => {
 
+
+        if (isAllowToOpen) return;
+
         const updateViewCount = async () => {
 
             try {
@@ -78,7 +81,7 @@ const ProductDetailsSection = ({ isOpen, onClose}) => {
 
         updateViewCount();
 
-    }, [product?.id]);
+    }, [product?.id, isAllowToOpen]);
 
     if (isAllowToOpen) return;
 

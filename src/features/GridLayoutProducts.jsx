@@ -90,7 +90,8 @@ const GridLayoutProduct = () => {
 
                 setFilteredItems(filtered);
 
-                const uniqueOwnerIds = [...new Set(products.map(p => p?.fournisseur))].filter(Boolean);
+                const uniqueOwnerIds = [...new Set(products.map(p => p?.fournisseur))]
+                    .filter(id => id != null);
 
                 const responses = await Promise.all(
 
