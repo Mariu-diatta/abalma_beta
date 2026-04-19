@@ -55,12 +55,14 @@ const ProductDetailsSection = ({ isOpen, onClose}) => {
 
     const getPrevImageVariant = (index) => index < (variantsProduct.length - 1) ? (index + 1) : 0 
 
+    const isAllowToOpen = !isOpen || !product?.id
 
     useEffect(() => {
 
-        const updateViewCount = async () => {
+        if (isAllowToOpen) return;
 
-            if (!isOpen || !product?.id) return;
+
+        const updateViewCount = async () => {
 
             try {
 
@@ -76,7 +78,9 @@ const ProductDetailsSection = ({ isOpen, onClose}) => {
 
         updateViewCount();
 
-    }, [product?.id, isOpen]);
+    }, []);
+
+    if (isAllowToOpen) return;
 
     return (
 
