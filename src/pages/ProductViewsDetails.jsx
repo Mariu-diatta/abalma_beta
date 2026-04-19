@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { addToCart } from "../slices/cartSlice";
@@ -11,6 +11,7 @@ import express_delivery from "../../src/assets/express-delivery_1981844.png";
 import home_5657414 from "../../src/assets/home-address_12248895.png";
 import pay_8331969 from "../../src/assets/pay_8331969.png";
 import ProfilPopPov from "../features/PopovProfile";
+import api from "../services/Axios";
 
 const ProductDetailsSection = ({ isOpen, onClose}) => {
 
@@ -23,8 +24,6 @@ const ProductDetailsSection = ({ isOpen, onClose}) => {
     const product = useSelector(state => state.cart.selectedProductView);
 
     const [index, setIndex] = useState(0);
-
-    if (!isOpen || !product) return null;
 
     const handleAddToCart = () => {
 
@@ -54,7 +53,30 @@ const ProductDetailsSection = ({ isOpen, onClose}) => {
 
     const imageCurrentVariantImage = product?.variants?.[index]?.image
 
-    const getPrevImageVariant = (index) => index < (variantsProduct.length - 1) ? (index + 1) : 0
+    const getPrevImageVariant = (index) => index < (variantsProduct.length - 1) ? (index + 1) : 0 
+
+
+    useEffect(() => {
+
+        const updateViewCount = async () => {
+
+            if (!isOpen || !product?.id) return;
+
+            try {
+
+                const result = await api.get(`products_details/${product.id}`);
+
+                return result;
+
+            } catch (err) {
+
+                console.error("Erreur update view count:", err);
+            }
+        };
+
+        updateViewCount();
+
+    }, [product?.id, isOpen]);
 
     return (
 
