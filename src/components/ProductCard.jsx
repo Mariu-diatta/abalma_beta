@@ -158,7 +158,7 @@ const ProductCard = ({
                 </div>
 
                 {/* Étoiles & Reviews */}
-                <PrintNumberStars productNbViews={item?.total_views} t={t} />
+                <PrintNumberStars productNbViews={item?.view_count} t={t} />
 
                 {/* Description */}
                 <p className="text-xs text-start truncate mb-1 md:text-sm whitespace-nowrap overflow-y-auto w-full scrollbor_hidden px-2">
