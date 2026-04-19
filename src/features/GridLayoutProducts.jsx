@@ -90,7 +90,7 @@ const GridLayoutProduct = () => {
 
                 setFilteredItems(filtered);
 
-                const uniqueOwnerIds = [...new Set(products.map(p => p?.fournisseur))]
+                const uniqueOwnerIds = [...new Set(products.map(p => p?.fournisseur?.id))]
                     .filter(id => id != null);
 
                 const responses = await Promise.all(
@@ -127,7 +127,6 @@ const GridLayoutProduct = () => {
         fetchProductsAndOwners();
 
     }, [activeButtonCategory, DEFAULT_ACTIVE_CATEGORY]);
-
 
     useEffect(() => {
 

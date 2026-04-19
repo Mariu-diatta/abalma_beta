@@ -58,29 +58,27 @@ const ProductDetailsSection = ({ isOpen, onClose}) => {
     const isAllowToOpen = !isOpen || !product?.id
 
     useEffect(() => {
+        if (!product?.id || isAllowToOpen) return;
 
-
-        if (isAllowToOpen) return;
+        const controller = new AbortController();
 
         const updateViewCount = async () => {
-
             try {
-
-                const result = await api.get(`products_details/${product?.id}`);
-
-                return result;
-
+                await api.get(`products_details/${product.id}/`, {
+                    signal: controller.signal
+                });
             } catch (err) {
-
-                console.error("Erreur update view count:", err);
-
-                console.log("Erreur update view count:", err);
-
+                if (err.name !== "CanceledError" && err.name !== "AbortError") {
+                    console.error("Erreur update view count:", err);
+                }
             }
         };
 
         updateViewCount();
 
+        return () => {
+            controller.abort(); // 🔥 clean cancel
+        };
     }, [product?.id, isAllowToOpen]);
 
     if (isAllowToOpen) return;
