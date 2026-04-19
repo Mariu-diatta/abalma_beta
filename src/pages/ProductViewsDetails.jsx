@@ -148,7 +148,7 @@ const ProductDetailsSection = ({ isOpen, onClose}) => {
 
                                 <PrintNumberStars
                                     t={t}
-                                    productNbViews={product?.view_count??0}
+                                    productNbViews={product?.view_count}
                                 />
 
                             </div>
