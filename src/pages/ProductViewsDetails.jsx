@@ -59,26 +59,26 @@ const ProductDetailsSection = ({ isOpen, onClose}) => {
 
     useEffect(() => {
 
-        if (isAllowToOpen) return;
-
-
         const updateViewCount = async () => {
 
             try {
 
-                const result = await api.get(`products_details/${product.id}`);
+                const result = await api.get(`products_details/${product?.id}`);
 
                 return result;
 
             } catch (err) {
 
                 console.error("Erreur update view count:", err);
+
+                console.log("Erreur update view count:", err);
+
             }
         };
 
         updateViewCount();
 
-    }, []);
+    }, [product?.id]);
 
     if (isAllowToOpen) return;
 
