@@ -143,6 +143,30 @@ const GridProductDefault = ({ categorie_item }) => {
 
     }, [fetchProductsAndOwners, categorySelectedData]);
 
+    const VariantSlider = ({ variants = [] }) => {
+        const [index, setIndex] = useState(0);
+
+        useEffect(() => {
+            if (!variants.length) return;
+
+            const interval = setInterval(() => {
+                setIndex(prev => (prev + 1) % variants.length);
+            }, 2500);
+
+            return () => clearInterval(interval);
+        }, [variants.length]);
+
+        if (!variants.length) return null;
+
+        return (
+            <img
+                src={variants[index]?.image}
+                alt="variant"
+                loading="lazy"
+                className="h-auto w-full rounded-lg transition duration-500 ease-in-out hover:brightness-75 hover:grayscale"
+            />
+        );
+    };
 
     return (
 
@@ -189,6 +213,11 @@ const GridProductDefault = ({ categorie_item }) => {
 
                                                     const prodQutySupZero = product?.quantity_product !== "0"
 
+                                                    const variantProduct = product?.variants
+
+                                                    const nberVariants = variantProduct.length
+
+
                                                     return (
 
                                                         <div
@@ -202,16 +231,9 @@ const GridProductDefault = ({ categorie_item }) => {
                                                                 className="relative w-full block rounded-lg overflow-hidden"
                                                                 aria-label={`Voir le produit ${product?.product_name}`}
                                                             >
-                                                                <img
-                                                                    src={product.image_product}
-                                                                    alt={"alt_prod"}
-                                                                    onClick={() => {
-                                                                        openModal(product);
-                                                                        dispatch(addUser(owner));
-                                                                    }}
-                                                                    loading="lazy"
-                                                                    className="h-auto w-full rounded-lg transition duration-300 ease-in-out hover:brightness-75 hover:grayscale"
-                                                                />
+
+                                                                <VariantSlider variants={product?.variants || []} />
+
                                                             </div>
 
                                                             <div className="p-1">
