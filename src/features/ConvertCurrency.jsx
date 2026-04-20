@@ -35,7 +35,7 @@ const RendrePrixProduitMonnaie = ({ item }) => {
     }
 
     return (
-      <span className="whitespace-nowrap text-blue-700 text-sm sm:text-base font-bold p-1">
+      <span className="absolute whitespace-nowrap text-blue-700 text-sm sm:text-base font-bold p-1">
         
         {/* symbole avant */}
         {before && <span>{before}</span>}
