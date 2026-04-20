@@ -292,7 +292,7 @@ const VerticalNavbar = ({ children }) => {
                 </aside>
 
                 {/* ── Zone de contenu ── */}
-                <div className="bg-gray-900">
+                <div className="bg-gray-900 overflow-y-hidden">
 
                     <div className="w-full flex start-end">
                         <ButtonsNavigateThemecolorPayDropdownaccount />

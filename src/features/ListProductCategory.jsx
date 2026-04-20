@@ -22,7 +22,7 @@ const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) 
 
     return (
 
-        <div className="space-y-6">
+        <div className="space-y-6 overflow-y-hidden">
 
             {
                 Object.entries(groupedItems).map(([category, items]) => {

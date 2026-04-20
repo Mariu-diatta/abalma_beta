@@ -170,7 +170,7 @@ const GridProductDefault = ({ categorie_item }) => {
 
     return (
 
-        <div className="py-1 justify-center">
+        <div className="py-3 justify-center items-center my-6">
 
             {
                 isCurrentUserConnected &&
@@ -193,14 +193,14 @@ const GridProductDefault = ({ categorie_item }) => {
                     productDataColsLenght ?
                     (
 
-                        <div className="grid grid-cols-2 md:grid-cols-5 gap-1 mt-2 w-[100dvw] md:w-auto mx-auto overflow-x-hidden">
+                            <div className="grid grid-cols-2 md:grid-cols-5 gap-1 mt-2 w-[100dvw] md:w-auto mx-auto overflow-x-hidden justify-items-center">
 
                         {
                             cols?.map(
 
                                 (products, colIdx) => (
 
-                                    <div key={colIdx} className="grid gap-1">
+                                    <div key={colIdx} className="grid gap-1 justify-items-center">
 
                                         {
                                             products?.map(
@@ -213,16 +213,11 @@ const GridProductDefault = ({ categorie_item }) => {
 
                                                     const prodQutySupZero = product?.quantity_product !== "0"
 
-                                                    const variantProduct = product?.variants
-
-                                                    const nberVariants = variantProduct.length
-
-
                                                     return (
 
                                                         <div
                                                             key={product?.id}
-                                                            className={`w-[50dvw] md:w-50 min-h-50 rounded-lg  transition transform hover:-translate-y-1 ${isInCart
+                                                            className={`w-[50dvw] md:w-50 min-h-auto rounded-lg  transition transform hover:-translate-y-1 ${isInCart
                                                                     ? "opacity-50 pointer-events-none bg-gray-100"
                                                                     : "bg-white"
                                                                 }`}
