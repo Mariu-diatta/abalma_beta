@@ -234,14 +234,14 @@ const GridProductDefault = ({ categorie_item }) => {
 
                                                                 </div>
 
-                                                                <PrintNumberStars productNbViews={product?.total_views} t={t} />
+                                                                <PrintNumberStars productNbViews={product?.view_count} t={t} />
 
                                                                 <p className="text-xs truncate mb-1 md:text-sm">
                                                                     {product?.description_product}
                                                                 </p>
 
                                                                 <div className="whitespace-nowrap flex text-xs gap-1 md:hidden dark:bg-white-100 p-1 rounded-lg">
-                                                                    <p>{t('quantity_sold')}</p>{product?.quatity_sold}
+                                                                    <p>{t('quantity_sold')}</p>{product?.quantity_product_sold}
                                                                 </div>
 
                                                                 <div className="flex justify-between items-center">
