@@ -242,7 +242,7 @@ const ListProductShoppingCart = () => {
 
     return (
         <>
-            <div className="sc-root sc-wrap]">
+            <div className="sc-root sc-wrap">
 
                 {/* Titre */}
                 <h2 className="sc-title">
