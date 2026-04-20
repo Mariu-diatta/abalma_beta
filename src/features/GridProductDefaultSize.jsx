@@ -86,13 +86,20 @@ const GridProductDefault = ({ categorie_item }) => {
 
             setProductData(availableProducts);
 
-            const ownerIds = [...new Set(availableProducts.map(p => p.fournisseur).filter(Boolean))];
+            const uniqueOwnerIds = [...new Set(products.map(p => p?.fournisseur?.id))]
+                .filter(id => id != null);
 
-            const responses = await Promise.all(ownerIds.map(id =>
-                api.get(`clients/${id}/`)
-                    .then(res => ({ id, data: res.data }))
-                    .catch(() => ({ id, data: null }))
-            ));
+            const responses = await Promise.all(
+
+                uniqueOwnerIds.map(id =>
+
+                    api.get(`clients/${id}/`)
+
+                        .then(res => ({ id, data: res.data }))
+
+                        .catch(() => ({ id, data: null }))
+                )
+            );
 
             const ownerMap = responses.reduce((acc, { id, data }) => {
 
