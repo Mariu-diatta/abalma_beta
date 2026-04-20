@@ -65,7 +65,8 @@ const ProductDetailsSection = ({ isOpen, onClose}) => {
         const updateViewCount = async () => {
             try {
                 await api.get(`products_details/${product.id}/`, {
-                    signal: controller.signal
+                    signal: controller.signal,
+                    withCredentials: true
                 });
             } catch (err) {
                 console.log("Erreur update view count:", err);

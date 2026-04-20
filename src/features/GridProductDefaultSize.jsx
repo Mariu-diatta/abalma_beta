@@ -75,8 +75,13 @@ const GridProductDefault = ({ categorie_item }) => {
 
             let cleanCategory = removeAccents(category)?.toLowerCase();
 
-            const { data: products } = await api.get(`/products/filter/?categorie_product=${cleanCategory}`);
+            const url = "products/filter/"
 
+            const { data: products } = await api.get(url, {
+                params: {
+                    product_categorie: cleanCategory,
+                },
+            });
             const availableProducts = products.filter(p => parseInt(p.quantity_product) !== 0);
 
             setProductData(availableProducts);
