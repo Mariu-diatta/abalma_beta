@@ -56,6 +56,7 @@ const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) 
                             {/* Produits */}
                             <div
                                 className={`
+                                    overflow-y-hidden
                                     grid
                                     gap-2 md:gap-4
                                     w-fit
