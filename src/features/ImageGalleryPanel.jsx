@@ -16,7 +16,7 @@ function CategoryImagesDisplay({ products, openModal, owners }) {
             {
                 imagesProductsVariants?.map((item,k)=> {
 
-                    return (item?.image_product) && <section className="flex flex-col z-0 px-3" key={k}>
+                    return (item?.image_product) && <section className="flex flex-col z-0" key={k}>
 
                                 <img
                                     key={k}

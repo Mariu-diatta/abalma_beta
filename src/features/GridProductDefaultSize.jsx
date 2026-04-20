@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
 import api from "../services/Axios";
-import { useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
 import {
@@ -114,7 +114,7 @@ const GridProductDefault = ({ categorie_item }) => {
             dispatch(updateCategorySelected(category));
 
         } catch (error) {
-        //    console.error("Erreur de chargement des produits :", error);
+            //    console.error("Erreur de chargement des produits :", error);
         } finally {
 
             setIsLoading(false);
@@ -191,46 +191,35 @@ const GridProductDefault = ({ categorie_item }) => {
                     )
                     :
                     productDataColsLenght ?
-                    (
+                        (
 
-                            <div className="grid grid-cols-2 md:grid-cols-5 gap-1 mt-2 w-[100dvw] md:w-auto mx-auto overflow-x-hidden justify-items-center">
+                            <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mt-2 w-full mx-auto justify-items-center">
 
-                        {
-                            cols?.map(
+                                {
+                                    cols?.map((products, colIdx) => (
 
-                                (products, colIdx) => (
-
-                                    <div key={colIdx} className="grid gap-1 justify-items-center">
+                                    <div key={colIdx} className="flex flex-col items-center gap-3">
 
                                         {
-                                            products?.map(
+                                            products?.map(product => 
 
-                                                product => {
-
+                                                {
                                                     const isInCart = cartItems?.some(p => p.id === product.id);
 
                                                     const owner = owners[product.fournisseur];
 
                                                     const prodQutySupZero = product?.quantity_product !== "0"
 
-                                                    return (
+                                                    return(
 
                                                         <div
                                                             key={product?.id}
-                                                            className={`w-[50dvw] md:w-50 min-h-auto rounded-lg  transition transform hover:-translate-y-1 ${isInCart
-                                                                    ? "opacity-50 pointer-events-none bg-gray-100"
-                                                                    : "bg-white"
+                                                            className={`w-[50dvw] md:w-50 mx-auto min-h-auto rounded-lg transition transform hover:-translate-y-1 ${isInCart ? "opacity-50 pointer-events-none bg-gray-100" : "bg-white"
                                                                 }`}
                                                         >
-                                                            <div
-                                                                className="relative w-full block rounded-lg overflow-hidden"
-                                                                aria-label={`Voir le produit ${product?.product_name}`}
-                                                            >
-
+                                                            <div className="relative w-full block rounded-lg overflow-hidden">
                                                                 <VariantSlider variants={product?.variants || []} />
-
                                                             </div>
-
                                                             <div className="p-1">
 
                                                                 <div className="flex justify-between items-center mb-1">
@@ -295,39 +284,42 @@ const GridProductDefault = ({ categorie_item }) => {
                                                                 </div>
 
                                                             </div>
+
                                                         </div>
-                                                    );
+                                                    )
                                                 }
                                             )
                                         }
 
                                     </div>
-                                )
-                            )
-                        }
-                        </div>
-                    ) 
-                    : 
-                    (
-                        <ProfilPictureView currentUser={currentUser}>
 
-                            <button
-                                onClick={() => {
-                                    dispatch(setCurrentNav("add-product"));
-                                    navigate("/add-product");
-                                }}
-                                title="Ajouter un nouveau produit"
-                                className="mt-5 flex items-center justify-center rounded-md  border border-gray-100 h-30 w-30 bg-white hover:bg-gray-100 transition"
-                            >
-                 
-                                <svg className="w-8 h-8 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                </svg>
+                                    ))
+                                }
 
-                            </button>
+                            </div>
 
-                        </ProfilPictureView>
-                    )
+                        )
+                        :
+                        (
+                            <ProfilPictureView currentUser={currentUser}>
+
+                                <button
+                                    onClick={() => {
+                                        dispatch(setCurrentNav("add-product"));
+                                        navigate("/add-product");
+                                    }}
+                                    title="Ajouter un nouveau produit"
+                                    className="mt-5 flex items-center justify-center rounded-md  border border-gray-100 h-30 w-30 bg-white hover:bg-gray-100 transition"
+                                >
+
+                                    <svg className="w-8 h-8 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                    </svg>
+
+                                </button>
+
+                            </ProfilPictureView>
+                        )
             }
 
             <ProductDetailsSection

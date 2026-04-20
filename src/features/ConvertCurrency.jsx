@@ -35,7 +35,7 @@ const RendrePrixProduitMonnaie = ({ item }) => {
     }
 
     return (
-      <span className="whitespace-nowrap text-blue-700 text-sm sm:text-base font-bold p-1 mx-2">
+      <span className="whitespace-nowrap text-blue-700 text-sm sm:text-base font-bold p-1 ">
         
         {/* symbole avant */}
         {before && <span>{before}</span>}
@@ -45,7 +45,7 @@ const RendrePrixProduitMonnaie = ({ item }) => {
 
         {/* décimales */}
         {decimales && (
-          <span className="text-[12px] align-center">
+          <span className="text-sm align-center">
             {separator}{decimales}
           </span>
         )}
