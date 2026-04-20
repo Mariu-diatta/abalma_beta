@@ -201,7 +201,7 @@ const GridLayoutProduct = () => {
   
     return (
 
-        <div className="space-y-4  pb-[10dvh] my-3 overflow-y-hidden">
+        <div className="space-y-4  pb-[10dvh] my-3 overflow-x-hidden">
 
             { isCurrentUserConnected && <SearchBar /> }
 
@@ -225,7 +225,7 @@ const GridLayoutProduct = () => {
 
             </aside>
 
-            <main className="h-full">
+            <main className="h-full overflow-x-hidden">
 
             {
                 (loading) ?

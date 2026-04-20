@@ -22,7 +22,7 @@ const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) 
 
     return (
 
-        <div className="space-y-6 overflow-y-hidden">
+        <div className="space-y-6 overflow-x-hidden">
 
             {
                 Object.entries(groupedItems).map(([category, items]) => {
@@ -33,10 +33,10 @@ const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) 
 
                     return (
 
-                        <div key={category} className="flex flex-col items-center gap-3">
+                        <div key={category} className="flex flex-col items-center gap-3 overflow-x-hidden">
 
                             {/* Nom catégorie */}
-                            <div className="flex flex-col items-center gap-2">
+                            <div className="flex flex-col items-center gap-2 overflow-x-hidden">
 
                                 <h2 className="
                                     text-sm md:text-base 
@@ -56,7 +56,7 @@ const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) 
                             {/* Produits */}
                             <div
                                 className={`
-                                    overflow-y-hidden
+                                    overflow-x-hidden
                                     grid
                                     gap-2 md:gap-4
                                     w-fit
