@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import PaymentTransaction from "./PaymentProductTransaction";
 //import { convertir } from "../utils";
 
+
 const BuyButtonWithPaymentForm = ({ total_price, reference }) => {
 
     const { t } = useTranslation();
@@ -35,7 +36,7 @@ const BuyButtonWithPaymentForm = ({ total_price, reference }) => {
             {
                 showForm && (
 
-                    <div className="backdrop-blur-sm fixed inset-0 z-50 bg-gray-100 bg-transparent  bg-opacity-100 flex items-center justify-center style-bg" onClick={() => setShowPaymentForm(false)}>
+                    <div className="h-full w-full overflow-y-auto backdrop-blur-sm fixed inset-0 z-50 bg-gray-100 bg-transparent  bg-opacity-100 flex items-center justify-center style-bg" onClick={() => setShowPaymentForm(false)}>
 
                         <div className=" rounded-lg p-6 w-full max-w-xl shadow-xl " onClick={(e) => e.stopPropagation()}>
 
