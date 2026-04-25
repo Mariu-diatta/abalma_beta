@@ -112,8 +112,6 @@ export function PaymentWithCard(
                     color: "blue",
                     shape: "rect",
                     label: "paypal",
-                    overflowY: "auto",
-                    width:"100%"
                 }}
 
                 createOrder={createOrder}

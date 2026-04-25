@@ -16,12 +16,12 @@ const PaymentCard = ({ children }) => {
 
     return (
 
-        <section className="mb-0 w-full h-full overflow-y-auto">
+        <section className="mb-0 w-full">
 
-            <div className="h-full flex justify-center items-center max-w-screen-xl mx-auto px-1 py-8 lg:py-16">
+            <div className="flex justify-center items-center max-w-screen-xl mx-auto px-4 py-8 lg:py-16">
 
 
-               {children}
+                    {children}
 
 
             </div>
