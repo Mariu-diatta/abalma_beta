@@ -103,7 +103,7 @@ export const PaymentForm = () => {
                     Pay with MasterCard
                 </button>
                 :
-                <LoadingCard />
+                <LoadingCard />  
             }
 
         </form>
