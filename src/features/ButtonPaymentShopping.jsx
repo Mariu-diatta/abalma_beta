@@ -36,9 +36,13 @@ const BuyButtonWithPaymentForm = ({ total_price, reference }) => {
             {
                 showForm && (
 
-                    <div className="m-5 z-[9999] backdrop-blur-sm fixed inset-0 z-50 bg-gray-100 bg-transparent  bg-opacity-100 flex items-center justify-center style-bg" onClick={() => setShowPaymentForm(false)}>
+                    <div className=" z-[9999] backdrop-blur-sm fixed inset-0 z-50 bg-gray-100 bg-transparent  bg-opacity-100 flex items-center justify-center style-bg" onClick={() => setShowPaymentForm(false)}>
 
-                        <div className=" w-full h-full rounded-lg p-6 shadow-xl " onClick={(e) => e.stopPropagation()}>
+                        <svg className="w-6 h-6 text-gray-800 fixed right-2 top-2" onClick={() => setShowPaymentForm(true)}  aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18 17.94 6M18 18 6.06 6" />
+                        </svg>
+
+                        <div className="m-10  w-full h-full rounded-lg p-1 shadow-xl " onClick={(e) => e.stopPropagation()}>
 
                             <div className="flex justify-between items-center mb-4 style-bg">
 
