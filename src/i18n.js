@@ -73,7 +73,8 @@ i18n
              directive: "Directives",
              send:"Send",
              MySales: "My Sales",
-             paymentMode:"Cash payment",
+             paymentMode: "Cash payment",
+             paymentModeCard: "Card payment",
              STATUS: {
                   "pending": "Pending",
                   "recorded": "Recorded",
@@ -791,6 +792,7 @@ i18n
              advice: "Conseils",
              directive: "Directives",
              paymentMode: "Paiement cash",
+             paymentModeCard: "Payment par carte",
              transactionByCash:"Transaction par  cash",
              send: "Envoyer",
              MySales: "Mes ventes",
