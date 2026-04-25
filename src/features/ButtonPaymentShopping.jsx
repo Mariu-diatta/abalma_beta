@@ -36,9 +36,9 @@ const BuyButtonWithPaymentForm = ({ total_price, reference }) => {
             {
                 showForm && (
 
-                    <div className="backdrop-blur-sm fixed inset-0 z-50 bg-gray-100 bg-transparent  bg-opacity-100 flex items-center justify-center style-bg" onClick={() => setShowPaymentForm(false)}>
+                    <div className="z-[9999] backdrop-blur-sm fixed inset-0 z-50 bg-gray-100 bg-transparent  bg-opacity-100 flex items-center justify-center style-bg" onClick={() => setShowPaymentForm(false)}>
 
-                        <div className=" rounded-lg p-6 w-full max-w-xl shadow-xl " onClick={(e) => e.stopPropagation()}>
+                        <div className="w-full h-full overflow-y-auto rounded-lg p-6 shadow-xl " onClick={(e) => e.stopPropagation()}>
 
                             <div className="flex justify-between items-center mb-4 style-bg">
 
