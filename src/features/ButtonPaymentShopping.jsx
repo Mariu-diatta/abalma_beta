@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Logo from "../components/LogoApp";
 import { useTranslation } from 'react-i18next';
 import PaymentTransaction from "./PaymentProductTransaction";
-import { convertir } from "../utils";
+//import { convertir } from "../utils";
 
 const BuyButtonWithPaymentForm = ({ total_price, reference }) => {
 
@@ -27,7 +27,7 @@ const BuyButtonWithPaymentForm = ({ total_price, reference }) => {
                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M3 10h18M6 14h2m3 0h5M3 7v10a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1Z" />
                     </svg>
 
-                    <span class="whitespace-nowrap">  {t('paymentModeCard')} - {total_price} {reference}</span>
+                        <span class="whitespace-nowrap">{" "} {t('paymentModeCard')} - {total_price} {reference}</span>
 
                 </button>
             }
@@ -43,7 +43,7 @@ const BuyButtonWithPaymentForm = ({ total_price, reference }) => {
 
                                 <Logo />
 
-                                <span className="text-lg font-semibold"> {t('total_pay')} {convertir("XOF", reference, total_price).toFixed(2)} ({reference})</span>
+                                <span className="text-lg font-semibold"> {t('total_pay')}  {total_price.toFixed(2)} ({reference})</span>
 
                             </div>
 
