@@ -17,7 +17,7 @@ const BuyButtonWithPaymentForm = ({ total_price, reference }) => {
 
     return (
 
-        <div className="text-right p-6">
+        <div className="text-right p-6 h-full overflow-y-auto">
 
             {
                 priceDiffZero &&
@@ -36,7 +36,7 @@ const BuyButtonWithPaymentForm = ({ total_price, reference }) => {
             {
                 showForm && (
 
-                    <div className="h-full w-full overflow-y-auto backdrop-blur-sm fixed inset-0 z-50 bg-gray-100 bg-transparent  bg-opacity-100 flex items-center justify-center style-bg" onClick={() => setShowPaymentForm(false)}>
+                    <div className="backdrop-blur-sm fixed inset-0 z-50 bg-gray-100 bg-transparent  bg-opacity-100 flex items-center justify-center style-bg" onClick={() => setShowPaymentForm(false)}>
 
                         <div className=" rounded-lg p-6 w-full max-w-xl shadow-xl " onClick={(e) => e.stopPropagation()}>
 
