@@ -10,7 +10,9 @@ const ProfilPopPov = () => {
 
     const { t } = useTranslation();
 
-    const currentOwnUser = useSelector(state => state.chat.userSlected);
+    const product = useSelector(state => state.cart.selectedProductView);
+
+    const currentOwnUser = product.fournisseur;
 
     const [isVisible, setIsVisible] = useState(false);
     const [showAbove, setShowAbove] = useState(false);
