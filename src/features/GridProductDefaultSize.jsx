@@ -4,8 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
 import {
-    addToCart,
-    updateSelectedProduct
+    addToCart
 } from "../slices/cartSlice";
 
 import {
@@ -14,8 +13,7 @@ import {
 } from "../slices/navigateSlice";
 
 import {
-    addMessageNotif,
-    addUser
+    addMessageNotif
 } from "../slices/chatSlice";
 
 import OwnerAvatar from "../components/OwnerProfil";
@@ -42,12 +40,6 @@ const GridProductDefault = ({ categorie_item }) => {
     const [modalData, setModalData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const categorySelectedData = useSelector(state => state?.navigate?.categorySelectedOnSearch)
-
-    // Open modal with product
-    const openModal = (product) => {
-        setModalData(product);
-        dispatch(updateSelectedProduct(product));
-    };
 
     const closeModal = () => setModalData(null);
 

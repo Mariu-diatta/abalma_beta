@@ -68,7 +68,7 @@ const ProfilPopPov = () => {
                 aria-haspopup="true"
                 aria-expanded={isVisible}
                 aria-controls="popover-user-profile"
-                className="flex items-center gap-3 cursor-pointer p-3 text-center text-sm rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-50"
+                className="flex items-center gap-3 cursor-pointer p-1 text-center text-sm rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-50"
             >
                 <svg
                     className="w-5 h-5 text-blue-800 dark:text-white"
@@ -80,7 +80,7 @@ const ProfilPopPov = () => {
                 >
                     <path d="M5 7h14M5 12h14M5 17h10" />
                 </svg>
-                <span className="whitespace-nowrap">{t("your_profil")}</span>
+                <span className="whitespace-nowrap hidden">{t("your_profil")}</span>
             </button>
 
             {/* Popover */}

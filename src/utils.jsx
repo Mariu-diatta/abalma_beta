@@ -212,6 +212,124 @@ export const productViews = async (dataProduct, setProductNbViews) => {
 // 🔹 Base des catégories
 // ============================
 
+export const CATEGORY_FIELDS = {
+
+    cosmetiques: {
+        fields: [
+            { name: "contenance", required: true },
+            { name: "type", required: false },
+            { name: "composition", required: false },
+        ],
+        rules: {
+            size: false,
+            color: false
+        }
+    },
+
+    habits: {
+        fields: [
+            { name: "taille", required: true },
+            { name: "couleur", required: true },
+            { name: "matiere", required: false },
+        ],
+        rules: {
+            size: true,
+            color: true
+        }
+    },
+
+    materiels_informatiques: {
+        fields: [
+            { name: "marque", required: true },
+            { name: "modele", required: true },
+            { name: "ram", required: false },
+            { name: "stockage", required: false },
+            { name: "processeur", required: false },
+            { name: "etat", required: true },
+        ],
+        rules: {
+            size: false,
+            color: false
+        }
+    },
+
+    telephonie: {
+        fields: [
+            { name: "marque", required: true },
+            { name: "modele", required: true },
+            { name: "stockage", required: true },
+            { name: "etat", required: true },
+        ],
+        rules: {
+            size: false,
+            color: false
+        }
+    },
+
+    electronique: {
+        fields: [
+            { name: "marque", required: true },
+            { name: "modele", required: false },
+            { name: "etat", required: true },
+            { name: "garantie", required: false },
+        ],
+        rules: {
+            size: false,
+            color: false
+        }
+    },
+
+    vehicules: {
+        fields: [
+            { name: "marque", required: true },
+            { name: "modele", required: true },
+            { name: "annee", required: true },
+            { name: "kilometrage", required: true },
+            { name: "carburant", required: false },
+        ],
+        rules: {
+            size: false,
+            color: true // ex: couleur carrosserie
+        }
+    },
+
+    electromenager: {
+        fields: [
+            { name: "marque", required: true },
+            { name: "puissance", required: false },
+            { name: "etat", required: true },
+        ],
+        rules: {
+            size: false,
+            color: false
+        }
+    },
+
+    livres: {
+        fields: [
+            { name: "auteur", required: true },
+            { name: "langue", required: false },
+            { name: "etat", required: false },
+        ],
+        rules: {
+            size: false,
+            color: false
+        }
+    },
+
+    sacs: {
+        fields: [
+            { name: "marque", required: false },
+            { name: "couleur", required: true },
+            { name: "matiere", required: false },
+        ],
+        rules: {
+            size: false,
+            color: true
+        }
+    }
+}
+
 // CATEGORIES
 export const CATEGORIES = {
     DIVERS: { fr: "Divers", en: "Other / Misc", idx: "divers" },

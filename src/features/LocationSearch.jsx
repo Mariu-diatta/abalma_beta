@@ -41,7 +41,7 @@ const LocationSearchPopover = ({ setLocationSearch}) => {
    };
 
   const handleSelect = (place) => {
-    const locationString = `${place.display_name} | Lat:${place.lat}, Lon:${place.lon}`;
+    const locationString = `${place.display_name}`;
     setSelectedLocation(locationString ?? query);
     setIsOpen(false); // fermer le popover après sélection
     setQuery(place.display_name); // afficher le lieu choisi dans l'input

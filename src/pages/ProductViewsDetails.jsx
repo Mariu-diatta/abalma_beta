@@ -57,6 +57,24 @@ const ProductDetailsSection = ({ isOpen, onClose}) => {
 
     const isAllowToOpen = !isOpen || !product?.id
 
+    const socialIcons = {
+        twitter: "🐦",
+        facebook: "📘",
+        instagram: "📸",
+        tiktok: "🎵",
+    };
+
+    const infos = [
+        { label: "Type", value: product?.type_choice },
+        { label: "Quantité", value: product?.quantity_product },
+        {
+            label: "Taille",
+            value: variantsProduct?.map(v => v.size).filter(Boolean).join(", ")
+        },
+        { label: "Opération", value: product?.operation_product },
+        { label: "Catégorie", value: product?.categorie_product }
+    ];
+
     useEffect(() => {
         if (!product?.id || isAllowToOpen) return;
 
@@ -182,7 +200,7 @@ const ProductDetailsSection = ({ isOpen, onClose}) => {
                             <hr className="my-6 border-gray-300" />
 
                             {/* COLOR */}
-                            <fieldset>
+                            {Array.isArray(variantsProduct) && variantsProduct[0]?.color && <fieldset>
 
                                 <legend className="text-sm font-medium">
                                     {t("color_prod")}
@@ -202,14 +220,14 @@ const ProductDetailsSection = ({ isOpen, onClose}) => {
                                             className={`w-8 h-8 rounded-full border cursor-pointer  border-gray-100 shadow-md
                                                 ${selectedColor === variant?.color ? "ring-2 ring-blue-300" : ""}
                                               `}
-                                            style={{ backgroundColor: variant?.color}}
+                                            style={{ backgroundColor: variant?.color }}
                                         />
 
                                     ))}
 
                                 </div>
 
-                            </fieldset>
+                            </fieldset>}
 
                             {/* DESCRIPTION */}
                             <div className="mt-6">
@@ -225,15 +243,83 @@ const ProductDetailsSection = ({ isOpen, onClose}) => {
                             </div>
 
                             {/* INFO GRID */}
-                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-6">
+                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-6 flex overflow-x-auto w-full">
 
-                                <Info label="Type" value={product?.type_choice} />
-                                <Info label="Quantité" value={product?.quantity_product} />
-                                <Info label="Taille" value={variantsProduct?.map(variant=> variant.size)} />
-                                <Info label="Opération" value={product?.operation_product} />
-                                <Info label="Catégorie" value={product?.categorie_product} />
+                                    {
+                                        Object.entries(product?.attributes || {}).length > 0 ? (
 
+                                            Object.entries(product.attributes).map(([key, value]) => (
+
+                                                <span
+                                                    key={key}
+                                                    className="flex items-center justify-between gap-3 px-3 py-1.5 rounded-lg bg-gray-50 border border-gray-200 text-sm"
+                                                >
+                                                    <span className="text-gray-500 font-medium tracking-wide uppercase text-xs">
+                                                        {key}
+                                                    </span>
+
+                                                    <span className="font-bold text-blue-900 capitalize">
+                                                        {String(value)}
+                                                    </span>
+
+                                                </span>
+                                            )
+                                        )
+
+                                    ) : (
+                                            <>
+                                                {infos?.map((item, index) => (
+                                                    item?.value && (
+                                                        <Info
+                                                            key={index}
+                                                            label={item.label}
+                                                            value={item.value}
+                                                        />
+                                                    )
+                                                ))}
+                                            </>
+                                        )
+                                    }
                             </div>
+
+                            <hr className="my-6 border-gray-300" />
+
+                            {
+                                Object.entries(product?.social_links || {}).length > 0 &&
+                                Object.entries(product?.social_links).map(([key, value]) => {
+
+                                    const isSocial = socialIcons[key?.toLowerCase()];
+
+                                    return (
+                                        <span
+                                            key={key}
+                                            className="flex items-center justify-between gap-3 px-3 py-1.5 my-2 rounded-lg bg-gray-50 border border-gray-200 text-sm"
+                                        >
+                                            {/* clé */}
+                                            <span className="text-gray-500 font-medium tracking-wide uppercase text-xs">
+                                                {isSocial} {key}
+                                            </span>
+
+                                            {/* valeur */}
+                                            {isSocial ? (
+                                                <a
+                                                    href={value}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="font-bold text-blue-600 hover:underline flex items-center gap-1"
+                                                >
+                                                    <span className="text-green-800 ">{String(value)} </span>
+                                                </a>
+                                            ) : (
+                                                <span className="font-bold text-blue-900 capitalize">
+                                                    {String(value)}
+                                                </span>
+                                            )}
+                                        </span>
+                                    );
+                                })
+                            }
+
 
                             <hr className="my-6 border-gray-300" />
 
@@ -254,7 +340,7 @@ const ProductDetailsSection = ({ isOpen, onClose}) => {
                                     </span>
                                 ))}
 
-                            </div>
+                            </div> 
 
                             <hr className="my-6 border-gray-300" />
 

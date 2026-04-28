@@ -8,12 +8,13 @@ import LoadingCard from "../components/LoardingSpin";
 
 import FormElementFileUpload from "./FormFile";
 import InputBox from "../components/InputBoxFloat";
-import { ENDPOINTS, LIST_CATEGORIES_KEYS, PAYEMENTMODE, availableColors, availableSizes, socialLinks } from "../utils";
+import { ENDPOINTS, LIST_CATEGORIES_KEYS, PAYEMENTMODE, availableColors, availableSizes, socialLinks, CATEGORY_FIELDS } from "../utils";
 import { NavLink } from "react-router-dom";
 import { setCurrentNav } from "../slices/navigateSlice";
 import LocationSearchPopover from "./LocationSearch";
 import { FaDollarSign, FaBoxes, FaTruck, FaTag, FaCheckCircle, FaTimesCircle, FaEdit, FaTrash } from "react-icons/fa";
 import TitleCompGen from "../components/TitleComponentGen";
+import { useEffect } from "react";
 
 
 // ─── Constantes ───────────────────────────────────────────────────────────────
@@ -25,7 +26,8 @@ const INITIAL_PRODUCT = {
     delivery: null, shipping_price: null, adress: "",
     date_emprunt: null, date_fin_emprunt: null, type_choice: null,
     payment_method: null, social_links: null, is_active: false,
-    is_verified: false, commission_percentage: null, images: [], variants: [],
+    is_verified: false, commission_percentage: null, images: [],
+    variants: [], "attributes": {}
 };
 
 //const STEPS = ["Infos", "Détails", "Paiement", "Livraison"];
@@ -102,28 +104,38 @@ const OptionSelector = ({ options, selectedOption, onSelect, isColor }) => (
 );
 
 // ─── Variant image ────────────────────────────────────────────────────────────
-const ImageVariantCard = ({ imgIndex, imageVariants, setImageVariants }) => {
+const ImageVariantCard = ({ imgIndex, imageVariants, setImageVariants, fieldsRules }) => {
+
     const img = imageVariants[imgIndex];
 
     const updateVariant = useCallback((key, value) => {
+
         setImageVariants((prev) => {
+
             const updated = [...prev];
+
             updated[imgIndex] = { ...updated[imgIndex], [key]: value };
+
             return updated;
+
         });
+
     }, [imgIndex, setImageVariants]);
 
-    const removeVariant = () =>
-        setImageVariants((prev) => prev.filter((_, i) => i !== imgIndex));
+    const removeVariant = () => setImageVariants((prev) => prev.filter((_, i) => i !== imgIndex));
 
     return (
+
         <div className="ap-variant-card ap-section">
+
             <div style={{ position: "relative", flexShrink: 0 }}>
+
                 <img
                     src={img.preview}
                     alt="preview"
                     style={{ width: 80, height: 80, objectFit: "cover", borderRadius: 10, border: "1.5px solid #e2e8f0" }}
                 />
+
                 <button
                     type="button"
                     onClick={removeVariant}
@@ -136,17 +148,29 @@ const ImageVariantCard = ({ imgIndex, imageVariants, setImageVariants }) => {
                         lineHeight: 1,
                     }}
                 >×</button>
+
             </div>
+
             <div style={{ flex: 1 }}>
-                <div style={{ marginBottom: 6 }}>
-                    <span className="ap-label">Couleur</span>
-                    <OptionSelector options={availableColors} selectedOption={img.color} onSelect={(v) => updateVariant("color", v)} isColor />
-                </div>
-                <div>
-                    <span className="ap-label">Taille</span>
-                    <OptionSelector options={availableSizes} selectedOption={img.size} onSelect={(v) => updateVariant("size", v)} />
-                </div>
+
+                {
+                    !fieldsRules?.color ? null:
+                    <div style={{ marginBottom: 6 }}>
+                        <span className="ap-label">Couleur</span>
+                        <OptionSelector options={availableColors} selectedOption={img.color} onSelect={(v) => updateVariant("color", v)} isColor />
+                    </div>
+                }
+
+                {
+                    !fieldsRules?.size ? null:
+                    <div>
+                        <span className="ap-label">Taille</span>
+                        <OptionSelector options={availableSizes} selectedOption={img.size} onSelect={(v) => updateVariant("size", v)} />
+                    </div>
+                }
+
             </div>
+
         </div>
     );
 };
@@ -156,7 +180,6 @@ const AddUploadProduct = () => {
     const dispatch = useDispatch();
     const { t } = useTranslation();
     const bottomRef = useRef(null);
-
     const user = useSelector((state) => state.auth.user);
     const [isProductAdded, setIsProductAdded] = useState(false);
     const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
@@ -164,14 +187,43 @@ const AddUploadProduct = () => {
     const [imageVariants, setImageVariants] = useState([]);
     const [imageLoaded, setImageLoaded] = useState(null);
     const [dataProduct, setDataProduct] = useState(INITIAL_PRODUCT);
-
+    const [attributes, setAttributes] = useState({});
     const isUserVerified = user?.is_fournisseur && user?.is_verified;
     const isLoanOptionSelected = dataProduct.operation_product === "PRETER";
 
+    const [fields, setFields] = useState([])
+
+    const [fieldsRules, setFieldsRules] = useState([])
+
+    const setCategory = (e) => {
+        e.preventDefault()
+        setDataProduct((p) => ({ ...p, categorie_product: e.target.value }))
+        const value = (e.target.value).toLowerCase()
+        const selectedFiels = CATEGORY_FIELDS[value]?.fields
+        const rulesFields = CATEGORY_FIELDS[value]?.rules
+        setFieldsRules(rulesFields)
+        setFields(selectedFiels)
+    }
+
+    useEffect(() => {
+
+        if (fields?.length > 0) {
+
+            const initialAttributes = {}
+
+            fields.forEach(field => {
+
+                initialAttributes[field.name] = ""
+            })
+
+            setAttributes(initialAttributes)
+        }
+
+    }, [fields])
+
     const notify = (type, msg) => showMessage(dispatch, { Type: type, Message: msg });
 
-    const getAdress = (newAdress) =>
-        setDataProduct((prev) => ({ ...prev, adress: newAdress }));
+    const getAdress = (newAdress) => setDataProduct((prev) => ({ ...prev, adress: newAdress }));
 
     const onChangeClick = (e) => {
         const { name, value } = e.target;
@@ -179,12 +231,14 @@ const AddUploadProduct = () => {
     };
 
     const handleFileSelect = (files) => {
+
         const newImages = Array.from(files).map((file) => ({
             file,
             preview: URL.createObjectURL(file),
             color: null,
             size: null,
         }));
+
         setImageVariants((prev) => [...prev, ...newImages]);
     };
 
@@ -209,9 +263,9 @@ const AddUploadProduct = () => {
         if (dataProduct.adress === "") return "Adresse obligatoire";
         if (dataProduct.operation_product === "") return "Type d'opération obligatoire";
         if (!dataProduct.payment_method === "") return "Mode de paiement obligatoire";
-        for (const img of imageVariants) {
-            if (!img.color || !img.size) return "Chaque image doit avoir une couleur et une taille";
-        }
+        //for (const img of imageVariants) {
+        //    if (!img.color || !img.size) return "Chaque image doit avoir une couleur et une taille";
+        //}
         return null;
     };
 
@@ -250,6 +304,8 @@ const AddUploadProduct = () => {
             formData.append("quantity_product", parseInt(dataProduct?.quantity_product));
             formData.append("social_links", JSON.stringify(social_links));
             formData.append("variants", JSON.stringify(variantsToSend));
+            formData.append("attributes", JSON.stringify(attributes)); 
+
 
             if (isLoanOptionSelected) {
                 formData.append("date_emprunt", formatToISOString(dataProduct.date_emprunt));
@@ -290,14 +346,16 @@ const AddUploadProduct = () => {
         setIsLoadingSubmit(false);
     };
 
-    const handleSubmitNew = (e) => {
-        submitForm(e);
-        if (!isLoadingSubmit) {
-            setIsLoadingSubmit(false);
-            setIsProductAdded(false);
-            setImageVariants([]);
-        }
-    };
+    //const handleSubmitNew = (e) => {
+
+    //    submitForm(e);
+
+    //    if (!isLoadingSubmit) {
+    //        setIsLoadingSubmit(false);
+    //        setIsProductAdded(false);
+    //        setImageVariants([]);
+    //    }
+    //};
 
     // ── Rendu ──
     return (
@@ -310,17 +368,9 @@ const AddUploadProduct = () => {
                     padding: "32px 16px 80px",
                 }}
             >
-                {/* Titre */}
-                {/*linear-gradient(160deg, #fff7ed 0%, #fff 40%, #fef3c7 100%)*/}
-
                 {!isProductAdded && (
+
                     <div className="ap-fade" style={{ maxWidth: 560, margin: "0 auto 24px", textAlign: "center" }}>
-                        {/*<p style={{*/}
-                        {/*    fontFamily: "'Outfit',sans-serif", fontSize: ".72rem", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase",*/}
-                        {/*    color: "#f97316", marginBottom: 4*/}
-                        {/*}}>*/}
-                        {/*    Marketplace*/}
-                        {/*</p>*/}
 
                         <TitleCompGen title={t("add_product.add_or_update_product")} />
 
@@ -358,11 +408,12 @@ const AddUploadProduct = () => {
                         t={t}
                         onEdit={handleEditProduct}
                         onDelete={handleDeleteProduct}
-                        onAddNew={handleSubmitNew}
+                        onAddNew={submitForm}
                     >
                         {imageLoaded && (
                             <img src={imageLoaded} alt="aperçu" style={{ width: 160, height: 160, objectFit: "cover", borderRadius: 14, border: "2px solid #e2e8f0" }} />
                         )}
+                        {/*handleSubmitNew*/}
                     </ProductSummary>
                 ) : (
                     <div
@@ -378,7 +429,9 @@ const AddUploadProduct = () => {
                         >
                             {/* ── Section 1 : Infos ── */}
                             {currentSection >= 1 && (
+
                                 <div className="ap-section">
+
                                     <SectionTitle icon={STEP_ICONS[0]} text={t("add_product.informations")} />
 
                                     <Field label="Nom du produit">
@@ -409,10 +462,11 @@ const AddUploadProduct = () => {
                             {/* ── Section 2 : Détails ── */}
                             {currentSection >= 2 && (
                                 <div className="ap-section" style={{ marginTop: 24 }}>
+
                                     <SectionTitle icon={STEP_ICONS[1]} text={t("add_product.details")} />
 
                                     <Field label={t("add_product.select_category")}>
-                                        <select required id="categorie_product" name="categorie_product" value={dataProduct.categorie_product ?? ""} onChange={(e) => setDataProduct((p) => ({ ...p, categorie_product: e.target.value }))} className="ap-select">
+                                            <select required id="categorie_product" name="categorie_product" value={dataProduct.categorie_product ?? ""} onChange={(e) => { setCategory(e); handleFileSelect({}); setImageLoaded(null)}} className="ap-select">
                                             <option value="" disabled>{t("add_product.select_category")}</option>
                                             {LIST_CATEGORIES_KEYS?.map((value, idx) => (
                                                 <option key={idx} value={value}>{t(`add_product.categories.${value}`)}</option>
@@ -420,17 +474,61 @@ const AddUploadProduct = () => {
                                         </select>
                                     </Field>
 
+                                    <div className={` ${fields?.length>0 ? "mb-5 p-2 shadow-md rounded-md" : null }` }>
+                                        {
+                                            fields?.map((field,key) => (
+                                                <div className="relative mb-6 w-auto">
+                                                    <input
+                                                        id={key}
+                                                        key={field?.name}
+                                                        name={field.name} 
+                                                        required={field?.required}
+                                                        onChange={e => setAttributes(prev => ({...prev,[e.target.name]:e.target.value }))} 
+                                                        placeholder=" "
+                                                        className="
+                                                          block w-full px-2.5 pt-5 pb-2.5
+                                                          text-black
+                                                          bg-white
+                                                          border-b
+                                                          border-blue-100
+                                                          focus:outline-none focus:ring-0
+                                                          peer
+                                                        "
+                                                    />
+                                                    <label
+                                                        htmlFor={key}
+                                                        className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+                                                    >
+                                                        {field?.name}
+                                                    </label>
+                                                </div>
+                                            ))
+                                        }      
+                                    </div>
+
                                     <Field label={t("add_product.ChooseImage")}>
-                                        <FormElementFileUpload label={t("add_product.ChooseImage")} getFile={handleFileSelect} getImage={setImageLoaded} multiple />
+                                         <FormElementFileUpload label={t("add_product.ChooseImage")} getFile={handleFileSelect} getImage={setImageLoaded} imageLoaded={imageLoaded}  multiple />
                                     </Field>
 
-                                    {imageVariants.length > 0 && (
-                                        <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 16 }}>
-                                            {imageVariants.map((_, idx) => (
-                                                <ImageVariantCard key={idx} imgIndex={idx} imageVariants={imageVariants} setImageVariants={setImageVariants} />
-                                            ))}
-                                        </div>
-                                    )}
+                                    {
+                                        (imageVariants?.length > 0) && (
+
+                                            <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 16 }}>
+                                                {
+                                                    imageVariants?.map((_, idx) => (
+
+                                                        <ImageVariantCard
+                                                            key={idx}
+                                                            imgIndex={idx}
+                                                            imageVariants={imageVariants}
+                                                            setImageVariants={setImageVariants}
+                                                            fieldsRules={fieldsRules}
+                                                        />
+                                                    ))
+                                                }
+                                            </div>
+                                        )
+                                    }
 
                                     <Field label="Description">
                                         <textarea
@@ -497,7 +595,9 @@ const AddUploadProduct = () => {
 
                             {/* ── Section 4 : Livraison & Liens ── */}
                             {currentSection >= 4 && (
+
                                 <div className="ap-section" style={{ marginTop: 24 }}>
+
                                     <SectionTitle icon={STEP_ICONS[3]} text={t("add_product.informations_livraison")} />
 
                                     <Field label="Mode de livraison">
@@ -512,12 +612,15 @@ const AddUploadProduct = () => {
                                     </Field>
 
                                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+
                                         <Field label="Prix livraison">
                                             <InputBox type="number" name="shipping_price" min="0" value={dataProduct.shipping_price} onChange={onChangeClick} placeholder="0.00" className="ap-input" />
                                         </Field>
+
                                         <Field label={t("add_product.quantity")}>
                                             <InputBox type="number" id="quantity_product" name="quantity_product" value={dataProduct?.quantity_product} onChange={onChangeClick} min="1" placeholder="1" className="ap-input" />
                                         </Field>
+
                                     </div>
 
                                     {/* Liens sociaux */}
@@ -526,10 +629,14 @@ const AddUploadProduct = () => {
                                         { name: "link_twitter", label: "Twitter", icon: "𝕏" },
                                         { name: "link_facebook", label: "Facebook", icon: "f" },
                                         { name: "link_instagramme", label: "Instagram", icon: "◎" },
-                                        { name: "link_tictoc", label: t("TicToc"), icon: "♪" },
+                                            { name: "link_tictoc", label: t("TicToc"), icon: "♪" },
+
                                     ].map(({ name, label, icon }) => (
+
                                         <div key={name} className="ap-social-row" style={{ marginBottom: 10 }}>
+
                                             <span style={{ fontSize: ".9rem", fontWeight: 700, color: "#64748b", width: 20, textAlign: "center", flexShrink: 0 }}>{icon}</span>
+
                                             <InputBox
                                                 placeholder={label}
                                                 type="url"
@@ -539,21 +646,32 @@ const AddUploadProduct = () => {
                                                 onChange={onChangeClick}
                                                 className="ap-input"
                                             />
+
                                         </div>
+
                                     ))}
 
                                     <div style={{ display: "flex", justifyContent: "center", marginTop: 24 }}>
-                                        {isLoadingSubmit ? <LoadingCard /> : (
-                                            <button type="submit" className="ap-btn-primary">
-                                                Vérifier le produit ✦
-                                            </button>
-                                        )}
+
+                                        {
+                                            isLoadingSubmit ? 
+                                            <LoadingCard /> : 
+                                            (
+                                                <button type="submit" className="ap-btn-primary">
+                                                    Vérifier le produit ✦
+                                                </button>
+                                            )
+                                    }
+
                                     </div>
+
                                 </div>
                             )}
 
                             <div ref={bottomRef} />
+
                         </form>
+
                     </div>
                 )}
             </div>
@@ -562,7 +680,6 @@ const AddUploadProduct = () => {
 };
 
 export default AddUploadProduct;
-
 
 // ─── Champ de résumé ─────────────────────────────────────────────────────────
 const ProductField = ({ icon, label, value, isLong }) => {
@@ -582,9 +699,9 @@ const ProductField = ({ icon, label, value, isLong }) => {
     );
 };
 
-
 // ─── Résumé produit ───────────────────────────────────────────────────────────
 const ProductSummary = ({ product, onEdit, onDelete, onAddNew, t, isLoading, children }) => {
+
     if (!product) return null;
 
     const fields = [
@@ -600,6 +717,7 @@ const ProductSummary = ({ product, onEdit, onDelete, onAddNew, t, isLoading, chi
     ].filter((f) => f.value);
 
     return (
+
         <div className="ap-summary-card ap-fade">
 
             {/* Header */}
@@ -649,15 +767,25 @@ const ProductSummary = ({ product, onEdit, onDelete, onAddNew, t, isLoading, chi
                     <FaTrash /> {t("delete")}
                 </button>
 
-                {isLoading ? <LoadingCard /> : (
-                    <button
-                        type="button"
-                        onClick={onAddNew}
-                        className="ap-btn-primary"
-                    >
-                        {t("submit")} ✦
-                    </button>
-                )}
+                <button
+                    type="button"
+                    onClick={onAddNew}
+                    disabled={isLoading}
+                    className="ap-btn-primary flex items-center gap-2 justify-center"
+                    style={{ opacity: isLoading ? 0.7 : 1, cursor: isLoading ? "not-allowed" : "pointer" }}
+                >
+                    {isLoading ? (
+                        <span className="flex gap-1">
+                            <LoadingCard />
+                            <span>Envoi...</span>
+                        </span>
+                    ) : (
+                        <>
+                            {t("submit")} ✦
+                        </>
+                    )}
+                </button>
+
             </div>
 
         </div>

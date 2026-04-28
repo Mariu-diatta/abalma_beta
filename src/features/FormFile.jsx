@@ -8,6 +8,7 @@ const FormElementFileUpload = ({
     maxSizeMB = 5, // Limite de taille par défaut
     getImage,
     multiple = false, // Ajout d'une prop pour activer multi-upload
+    imageLoaded
 }) => {
     const [previewUrls, setPreviewUrls] = useState([]);
     const [fileNames, setFileNames] = useState([]);
@@ -60,6 +61,7 @@ const FormElementFileUpload = ({
 
     return (
         <div className="max-w-md px-4 rounded-lg">
+
             <div className="mb-4">
                 <label htmlFor="file-upload" className="block text-sm mb-2">
                     {label} <span className="text-red-500">*</span>
@@ -82,7 +84,7 @@ const FormElementFileUpload = ({
                 />
             </div>
 
-            {fileNames.length > 0 && !error && (
+            {fileNames.length > 0 && imageLoaded && !error && (
                 <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
                     {t("uploadedFile")} : <strong>{fileNames.join(", ")}</strong>
                 </p>
@@ -92,9 +94,9 @@ const FormElementFileUpload = ({
                 <p className="text-sm text-red-600 dark:text-red-400 mb-2">{error}</p>
             )}
 
-            {previewUrls.length > 0 && !error && (
+            {previewUrls?.length > 0 && imageLoaded && !error && (
                 <div className="mt-4 flex gap-2 flex-wrap">
-                    {previewUrls.map((url, idx) => (
+                    {previewUrls?.map((url, idx) => (
                         <img
                             key={idx}
                             src={url}
