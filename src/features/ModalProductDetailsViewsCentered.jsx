@@ -52,7 +52,7 @@ function CenteredModal({ product, children }) {
             quantity_product: product?.quantity_product ?? "",
             name_product: product?.name_product ?? "",
             taille_product: product?.taille_product ?? "",
-            image_product: product?.image_product ?? "",
+            image_product: product?.image_product ?? null,
             id: product?.id,
         });
         setImageFile(null);
@@ -84,7 +84,8 @@ function CenteredModal({ product, children }) {
             formData.append("description_product", dataProduct.description_product?.trim() ?? "");
             formData.append("fournisseur", parseInt(currentUserCompte?.user));
 
-            if (imageFile) formData.append("image_product", imageFile);
+            if (imageFile) formData.append("image_product", imageFile)
+            else formData.append("image_product", product?.image_product);
 
             try {
                 const { data } = await api.put(`produits/${product?.id}/`, formData, {
@@ -104,7 +105,7 @@ function CenteredModal({ product, children }) {
                 setLoading(false);
             }
         },
-        [dataProduct, imageFile, currentUserCompte?.user, product?.id, dispatch, t]
+        [dataProduct, imageFile, currentUserCompte?.user, product, dispatch, t]
     );
 
     const handleOpen = useCallback(() => {
@@ -240,6 +241,7 @@ function CenteredModal({ product, children }) {
                                     label="Choisissez une image"
                                     getFile={handleFileSelect}
                                     getImage={() => { }}
+                                    required={false}
                                 />
                             </div>
 

@@ -15,6 +15,10 @@ const ProductRow = ({ prod, onDelete, loadingDelete, selectedBtnProduct, t }) =>
 
     const isDeleting = loadingDelete && selectedBtnProduct === prod?.id;
 
+    const imageSrc = useMemo(() => {
+        return prod?.variants?.[0]?.image || prod?.image_product || "/placeholder.png";
+    }, [prod]);
+
     return (
         <tr className="border-b border-gray-200 hover:bg-gray-50  transition">
 
@@ -22,11 +26,14 @@ const ProductRow = ({ prod, onDelete, loadingDelete, selectedBtnProduct, t }) =>
             <td className="p-2">
                 <div className="w-10 h-10 md:w-16 md:h-16 overflow-hidden rounded-lg border border-gray-200  bg-gray-50">
                     <img
-                        src={prod?.variants?.[0]?.image ?? prod?.image_product}
+                        src={imageSrc}
                         alt={prod?.name_product}
                         className="object-contain w-full h-full"
                         loading="lazy"
-                        onError={(e) => { e.currentTarget.src = "/placeholder.png"; }}
+                        onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = "/placeholder.png";
+                        }}
                     />
                 </div>
             </td>
@@ -62,9 +69,13 @@ const ProductRow = ({ prod, onDelete, loadingDelete, selectedBtnProduct, t }) =>
             <td className="px-4 py-3">
                 <CenteredModal product={prod}>
                     <img
-                        src={prod?.image_product}
-                        alt="Aperçu"
-                        className="w-28 h-28 rounded border border-gray-100 shadow object-cover"
+                        src={imageSrc}
+                        alt={prod?.name_product}
+                        className="object-contain w-full h-full"
+                        onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = "/placeholder.png";
+                        }}
                     />
                 </CenteredModal>
             </td>

@@ -79,7 +79,9 @@ const Tabs = () => {
 
     // Rendu du contenu via switch plutôt que par objet (évite d'instancier tous les composants)
     const renderContent = (activeTab) => {
+
         switch (activeTab) {
+
             case 'dashboard':
                 return (
                     <TablesRecapActivities
@@ -89,8 +91,10 @@ const Tabs = () => {
                         setProductsTrasactionSell={setProductsTrasactionSell}
                     />
                 );
+
             case 'contacts':
                 return <UsersContactsList />;
+
             default:
                 return null;
         }

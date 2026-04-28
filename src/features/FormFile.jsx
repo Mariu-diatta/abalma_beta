@@ -8,6 +8,7 @@ const FormElementFileUpload = ({
     maxSizeMB = 5, // Limite de taille par défaut
     getImage,
     multiple = false, // Ajout d'une prop pour activer multi-upload
+    required=true,
     imageLoaded
 }) => {
     const [previewUrls, setPreviewUrls] = useState([]);
@@ -80,7 +81,7 @@ const FormElementFileUpload = ({
                         file:bg-blue-300 file:text-blue-700
                         hover:file:bg-blue-500
                         dark:file:text-white"
-                    required
+                    required={required}
                 />
             </div>
 
