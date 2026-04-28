@@ -98,21 +98,19 @@ const ProfilPopPov = () => {
                 >
                     <div className="p-4 space-y-3">
 
-                        <div className="flex items-center justify-between">
+                        <div className="flex flex-col  gap-5 w-full">
 
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 me-6">
 
                                 <OwnerAvatar owner={currentOwnUser} />
 
-                                <small>{currentOwnUser?.nom} {currentOwnUser?.prenom}</small>
+                                <small>@{currentOwnUser?.nom}-{currentOwnUser?.prenom}</small>
 
                             </div>
 
                             <FollowProfilUser clientId={currentOwnUser?.id} />
 
                         </div>
-
-                        <p className="text-sm text-gray-500">@{currentOwnUser?.nom}</p>
 
                         <p className="text-sm">{currentOwnUser?.description?.slice(0, 80)}…</p>
 

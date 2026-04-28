@@ -75,6 +75,8 @@ const ProductDetailsSection = ({ isOpen, onClose}) => {
         { label: "Catégorie", value: product?.categorie_product }
     ];
 
+    const [expandedKey, setExpandedKey] = useState(null);
+
     useEffect(() => {
         if (!product?.id || isAllowToOpen) return;
 
@@ -243,28 +245,50 @@ const ProductDetailsSection = ({ isOpen, onClose}) => {
                             </div>
 
                             {/* INFO GRID */}
-                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-6 flex overflow-x-auto w-full">
+                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-6 flex overflow-x-auto  w-full scrollbor_hidden">
 
                                     {
                                         Object.entries(product?.attributes || {}).length > 0 ? (
 
-                                            Object.entries(product.attributes).map(([key, value]) => (
+                                        Object.entries(product.attributes).map(([key, value]) => {
 
+                                            const isExpanded = expandedKey === key;
+
+                                            return (
                                                 <span
                                                     key={key}
-                                                    className="flex items-center justify-between gap-3 px-3 py-1.5 rounded-lg bg-gray-50 border border-gray-200 text-sm"
+                                                    onClick={() => setExpandedKey(isExpanded ? null : key)}
+                                                    className="group relative flex items-center justify-between gap-3 px-3 py-1.5 rounded-lg bg-gray-50 border border-gray-200 text-sm w-full hover:shadow-lg transition cursor-pointer"
                                                 >
                                                     <span className="text-gray-500 font-medium tracking-wide uppercase text-xs">
                                                         {key}
                                                     </span>
 
-                                                    <span className="font-bold text-blue-900 capitalize">
+                                                    <span
+                                                        className={`font-bold text-blue-900 capitalize transition-all duration-200 ${isExpanded
+                                                                ? "whitespace-normal break-words"
+                                                                : "truncate max-w-[120px]"
+                                                            }`}
+                                                    >
                                                         {String(value)}
+
                                                     </span>
 
+                                                    {/* Tooltip uniquement si NON ouvert */}
+                                                    {!isExpanded && (
+                                                        <div className="
+                                                            absolute left-1/2 -translate-x-1/2 -top-10
+                                                            opacity-0 group-hover:opacity-100
+                                                            transition-all duration-200
+                                                            bg-blue-100 text-white text-xs px-3 py-1 rounded-md shadow-lg
+                                                            whitespace-nowrap z-50
+                                                        ">
+                                                            {String(value)}
+                                                        </div>
+                                                    )}
                                                 </span>
-                                            )
-                                        )
+                                            );
+                                        })
 
                                     ) : (
                                             <>
