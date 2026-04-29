@@ -67,12 +67,19 @@ function CenteredModal({ product, children }) {
     }, []);
 
     const handleSubmit = useCallback(
+
         async (e) => {
+
             e.preventDefault();
+
+            if (!product?.id) { return null }
+
             setLoading(true);
+
             setAlertMessage({ text: "", type: "success" });
 
             const formData = new FormData();
+
             const fields = [
                 "categorie_product", "Currency_price", "quantity_product",
                 "price_product", "color_product", "operation_product",
@@ -88,7 +95,7 @@ function CenteredModal({ product, children }) {
             else formData.append("image_product", product?.image_product);
 
             try {
-                const { data } = await api.put(`produits/${product?.id}/`, formData, {
+                const { data } = await api.put(`owner/product/${product?.id}/`, formData, {
                     headers: { "Content-Type": "multipart/form-data" },
                 });
 
@@ -104,8 +111,7 @@ function CenteredModal({ product, children }) {
             } finally {
                 setLoading(false);
             }
-        },
-        [dataProduct, imageFile, currentUserCompte?.user, product, dispatch, t]
+        },[dataProduct, imageFile, currentUserCompte?.user, product, dispatch, t]
     );
 
     const handleOpen = useCallback(() => {

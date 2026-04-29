@@ -193,7 +193,7 @@ const MyProductList = () => {
         setLoadingDelete(true);
         setSelectedBtnProduct(id);
         try {
-            await api.delete(`produits/${id}/`);
+            await api.delete(`owner/product/${id}/`);
             setProducts((prev) => prev.filter((p) => p.id !== id));
             // Revient à la page précédente si la page courante devient vide
             setPage((prev) => (prev > 1 ? prev - 1 : prev));
