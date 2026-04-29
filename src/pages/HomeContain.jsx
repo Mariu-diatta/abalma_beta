@@ -58,8 +58,7 @@ const HomeContain = () => {
                 {/* ========= SERVICES ========= */}
                 <section aria-labelledby="services" className="translate-y-0 translate-x-0 transition-all duration-1000 ease-in-out ">
 
-                    <ServicesPlatforms />
-           
+                    <ServicesPlatforms />     
 
                     <ServicesSection/>
 

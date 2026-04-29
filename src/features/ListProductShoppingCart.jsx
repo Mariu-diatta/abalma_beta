@@ -98,7 +98,7 @@ const ListProductShoppingCart = () => {
                     </h2>
                     <div className="sc-empty">
                         <div className="sc-empty-icon">
-                            <svg class="w-auto max-w-[16rem] h-40 text-gray-800 dark:text-white" aria-hidden="true" width="463" height="406" viewBox="0 0 463 406" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg className="w-auto max-w-[16rem] h-40 text-gray-800 dark:text-white" aria-hidden="true" width="463" height="406" viewBox="0 0 463 406" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M336 149H268C266.895 149 266 149.895 266 151V238C266 239.105 266.895 240 268 240H336C337.105 240 338 239.105 338 238V151C338 149.895 337.105 149 336 149Z" fill="#d6e2fb" />
                                 <path d="M336 149H268C266.895 149 266 149.895 266 151V238C266 239.105 266.895 240 268 240H336C337.105 240 338 239.105 338 238V151C338 149.895 337.105 149 336 149Z" fill="url(#paint0_linear_243_1817)" />
                                 <path d="M358 240L426 240C427.105 240 428 239.105 428 238L428 198C428 196.895 427.105 196 426 196L358 196C356.895 196 356 196.895 356 198L356 238C356 239.105 356.895 240 358 240Z" fill="#d6e2fb" />
@@ -191,7 +191,7 @@ const ListProductShoppingCart = () => {
                                     </linearGradient>
                                     <linearGradient id="paint11_linear_243_1817" x1="201.5" y1="320.5" x2="201.5" y2="355.5" gradientUnits="userSpaceOnUse">
                                         <stop stopColor="#d6e2fb" />
-                                        <stop offset="1" stop-color="#d6e2fb" stopOpacity="0" />
+                                        <stop offset="1" stopColor="#d6e2fb" stopOpacity="0" />
                                     </linearGradient>
                                     <linearGradient id="paint12_linear_243_1817" x1="201" y1="440" x2="214.336" y2="368.487" gradientUnits="userSpaceOnUse">
                                         <stop stopColor="#c8d8fa" />

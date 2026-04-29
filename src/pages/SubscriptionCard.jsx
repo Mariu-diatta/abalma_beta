@@ -87,7 +87,7 @@ function SubscriptionCard({
 
             <div>
 
-                <PayPalButton />
+                <PayPalButton/>
 
                 {/* Bouton */}
                 {/*<button*/}
@@ -98,12 +98,9 @@ function SubscriptionCard({
 
                 {/*</button>*/}
 
-
-                {/*<p className="text-center text-xs text-gray-400 mt-3">*/}
-
-                {/*    {t("secure_subscription")}*/}
-
-                {/*</p>*/}
+                <p className="text-center text-xs text-gray-400 mt-3">
+                    {t("secure_subscription")}
+                </p>
 
             </div>
 

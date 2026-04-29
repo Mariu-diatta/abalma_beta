@@ -263,9 +263,6 @@ const AddUploadProduct = () => {
         if (dataProduct.adress === "") return "Adresse obligatoire";
         if (dataProduct.operation_product === "") return "Type d'opération obligatoire";
         if (!dataProduct.payment_method === "") return "Mode de paiement obligatoire";
-        //for (const img of imageVariants) {
-        //    if (!img.color || !img.size) return "Chaque image doit avoir une couleur et une taille";
-        //}
         return null;
     };
 

@@ -20,13 +20,13 @@ function CenteredModal({ product, children }) {
         date_emprunt: product?.date_emprunt ?? "",
         date_fin_emprunt: product?.date_fin_emprunt ?? "",
         price_product: product?.price_product ?? "",
-        Currency_price: product?.Currency_price ?? "",
+        currency_price: product?.currency_price ?? "",
         color_product: product?.color_product ?? "",
         categorie_product: product?.categorie_product ?? "",
         code_reference: product?.code_reference ?? "",
         operation_product: product?.operation_product ?? "",
         description_product: product?.description_product ?? "",
-        fournisseur: product?.fournisseur ?? "",
+        fournisseur: product?.fournisseur?.id ?? "",
         quantity_product: product?.quantity_product ?? "",
         name_product: product?.name_product ?? "",
         taille_product: product?.taille_product ?? "",
@@ -42,7 +42,7 @@ function CenteredModal({ product, children }) {
             date_emprunt: product?.date_emprunt ?? "",
             date_fin_emprunt: product?.date_fin_emprunt ?? "",
             price_product: product?.price_product ?? "",
-            Currency_price: product?.Currency_price ?? "",
+            currency_price: product?.currency_price ?? "",
             color_product: product?.color_product ?? "",
             categorie_product: product?.categorie_product ?? "",
             code_reference: product?.code_reference ?? "",
@@ -66,53 +66,79 @@ function CenteredModal({ product, children }) {
         setDataProduct((prev) => ({ ...prev, [name]: value }));
     }, []);
 
-    const handleSubmit = useCallback(
+    const handleSubmit = useCallback(async (e) => {
 
-        async (e) => {
+        e.preventDefault();
 
-            e.preventDefault();
+        if (!product?.id) return;
 
-            if (!product?.id) { return null }
+        setLoading(true);
 
-            setLoading(true);
+        setAlertMessage({ text: "", type: "success" });
 
-            setAlertMessage({ text: "", type: "success" });
 
-            const formData = new FormData();
+        const changedFields = {};
 
-            const fields = [
-                "categorie_product", "Currency_price", "quantity_product",
-                "price_product", "color_product", "operation_product",
-                "taille_product", "name_product",
-            ];
-
-            fields.forEach((field) => formData.append(field, dataProduct[field] ?? ""));
-            formData.append("code_reference", dataProduct.code_reference?.trim() ?? "");
-            formData.append("description_product", dataProduct.description_product?.trim() ?? "");
-            formData.append("fournisseur", parseInt(currentUserCompte?.user));
-
-            if (imageFile) formData.append("image_product", imageFile)
-            else formData.append("image_product", product?.image_product);
-
-            try {
-                const { data } = await api.put(`owner/product/${product?.id}/`, formData, {
-                    headers: { "Content-Type": "multipart/form-data" },
-                });
-
-                // Met à jour Redux avec les données retournées par l'API
-                dispatch(setProductUpdate({ ...dataProduct, ...data }));
-                setAlertMessage({ text: t("addProductModify"), type: "success" });
-
-                setTimeout(() => setIsOpen(false), 1500); // Ferme après confirmation visible
-
-            } catch (error) {
-                const msg = error?.response?.data?.detail || "Erreur lors de la modification ❌";
-                setAlertMessage({ text: msg, type: "error" });
-            } finally {
-                setLoading(false);
+        Object.keys(dataProduct).forEach((key) => {
+            if (dataProduct[key] !== product?.[key]) {
+                changedFields[key] = dataProduct[key];
             }
-        },[dataProduct, imageFile, currentUserCompte?.user, product, dispatch, t]
-    );
+        });
+
+        if (Object.keys(changedFields).length === 0 && !imageFile) {
+            setAlertMessage({
+                text: "Aucune modification détectée",
+                type: "error",
+            });
+            setLoading(false);
+            return;
+        }
+        
+        const formData = new FormData();
+
+        // Ajouter seulement les champs modifiés
+        Object.entries(changedFields).forEach(([key, value]) => {
+            if (value !== null && value !== undefined) {
+                formData.append(key, value);
+            }
+        });
+
+        // Image
+        if (imageFile) {
+            formData.append("image_product", imageFile);
+        }
+
+        // Fournisseur (si nécessaire)
+        formData.append("fournisseur", currentUserCompte?.user);
+
+        try {
+            const { data } = await api.patch(
+                `owner/product/${product?.id}/`,
+                formData,
+                {
+                    headers: { "Content-Type": "multipart/form-data" },
+                }
+            );
+
+            dispatch(setProductUpdate(data));
+
+            setAlertMessage({
+                text: t("addProductModify"),
+                type: "success",
+            });
+
+            setTimeout(() => setIsOpen(false), 1500);
+
+        } catch (error) {
+            console.log(error)
+            const msg = error?.response?.data?.detail || "Erreur ❌";
+            setAlertMessage({ text: msg, type: "error" });
+
+        } finally {
+            setLoading(false);
+        }
+
+    }, [imageFile, product, currentUserCompte?.user, dispatch, dataProduct, t]);
 
     const handleOpen = useCallback(() => {
         resetForm();
@@ -133,7 +159,7 @@ function CenteredModal({ product, children }) {
     const inputClass = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-purple-300 transition";
 
     return (
-        <div>
+        <div style={{zIndex:"300"}} className="my-5">
             <button
                 onClick={handleOpen}
                 title={t("modifyProduct.title_modify_product")}
@@ -201,14 +227,14 @@ function CenteredModal({ product, children }) {
                             </select>
 
                             <select
-                                name="Currency_price"
-                                value={dataProduct.Currency_price}
+                                name="currency_price"
+                                value={dataProduct.currency_price}
                                 onChange={onChangeClick}
                                 className={inputClass}
                             >
                                 <option value="">{t("add_product.select_currency")}</option>
-                                <option value="EURO">{t("add_product.euro")}</option>
-                                <option value="DOLLAR">{t("add_product.dollar")}</option>
+                                <option value="EUR">{t("add_product.euro")}</option>
+                                <option value="USD">{t("add_product.dollar")}</option>
                                 <option value="FRANC">{t("add_product.franc")}</option>
                             </select>
 
