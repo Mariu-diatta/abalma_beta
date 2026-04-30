@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import { setCurrentNav } from '../slices/navigateSlice';
 import { useTranslation } from 'react-i18next';
 import TitleCompGen from '../components/TitleComponentGen';
-import { useEffect, useRef } from "react";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 function SubscriptionCard({
     title = "Abalma Pro",
@@ -87,17 +87,7 @@ function SubscriptionCard({
 
             <div>
 
-                <PayPalButton/>
-
-                {/* Bouton */}
-                {/*<button*/}
-                {/*    onClick={onSubscribe}*/}
-                {/*    className="bg-gradient-to-r from-blue-200 to-blue-50 bottom-2 w-full bg-indigo-50 hover:bg-indigo-100 text-white font-medium py-2.5 rounded-xl transition cursor-pointer"*/}
-                {/*>*/}
-                {/*    {t("my_subscription")}*/}
-
-                {/*</button>*/}
-
+                <PayPalSubscription/>
                 <p className="text-center text-xs text-gray-400 mt-3">
                     {t("secure_subscription")}
                 </p>
@@ -108,6 +98,43 @@ function SubscriptionCard({
     );
 }
 
+
+export function PayPalSubscription() {
+    return (
+        <PayPalScriptProvider
+            options={{
+                "client-id": "Aac7QRleq_w4artKozmhQIV176fi93VTttK908csWRWcl1gE6qGrHWuUHmOXTJFz-32x-E7J2cptvzHC",
+                vault: true,
+                intent: "subscription",
+            }}
+        >
+            <PayPalButtons
+                style={{
+                    shape: "rect",
+                    color: "gold",
+                    layout: "vertical",
+                    label: "subscribe",
+                }}
+                createSubscription={(data, actions) => {
+                    return actions.subscription.create({
+                        plan_id: "P-92Y48848DU934623LNHWXRNY",
+                    });
+                }}
+                onApprove={(data) => {
+                    console.log("Subscription ID:", data.subscriptionID);
+
+                    // 👉 ici tu peux appeler ton backend
+                    // fetch('/api/activate-subscription', {...})
+
+                    alert("Subscription successful!");
+                }}
+                onError={(err) => {
+                    console.error("PayPal error:", err);
+                }}
+            />
+        </PayPalScriptProvider>
+    );
+}
 export default function SubscriptionsPage() {
 
     const { t } = useTranslation();
@@ -236,59 +263,6 @@ export default function SubscriptionsPage() {
         </main>
     );
 }
-
-const PayPalButton = () => {
-    const paypalRef = useRef(null);
-
-    useEffect(() => {
-        // Éviter de charger plusieurs fois le script
-        if (window.paypal) {
-            renderButton();
-            return;
-        }
-
-        const script = document.createElement("script");
-        script.src =
-            "https://www.paypal.com/sdk/js?client-id=TON_CLIENT_ID&vault=true&intent=subscription";
-        script.async = true;
-
-        script.onload = () => {
-            renderButton();
-        };
-
-        document.body.appendChild(script);
-
-        function renderButton() {
-            window.paypal
-                .Buttons({
-                    style: {
-                        shape: "pill",
-                        color: "gold",
-                        layout: "vertical",
-                        label: "subscribe",
-                    },
-
-                    createSubscription: (data, actions) => {
-                        return actions.subscription.create({
-                            plan_id: "P-92Y48848DU934623LNHWXRNY",
-                        });
-                    },
-
-                    onApprove: (data) => {
-                        console.log("Subscription ID:", data.subscriptionID);
-                        alert("Abonnement activé !");
-                    },
-
-                    onError: (err) => {
-                        console.error("Erreur PayPal :", err);
-                    },
-                })
-                .render(paypalRef.current);
-        }
-    }, []);
-
-    return <div ref={paypalRef} />;
-};
 
 
 
