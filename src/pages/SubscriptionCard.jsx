@@ -33,8 +33,8 @@ function SubscriptionCard({
                 hover:shadow-2xl hover:-translate-y-1
                 animate-fade-in-up
                 ${highlight
-                ? "bg-gradient-to-br from-indigo-50 to-white border-indigo-200"
-                : "bg-white border-gray-200"
+                    ? "bg-gradient-to-br from-indigo-50 to-white border-indigo-200"
+                    : "bg-white border-gray-200"
                 }`
             }
         >
@@ -43,9 +43,9 @@ function SubscriptionCard({
                 {/* Étiquette Recommandé */}
                 {
                     highlight && (
-                    <span className="absolute top-3 right-3 bg-indigo-200 text-white text-xs px-3 py-1 rounded-full">
-                        {t("redo_subscription")}
-                    </span>
+                        <span className="absolute top-3 right-3 bg-indigo-200 text-white text-xs px-3 py-1 rounded-full">
+                            {t("redo_subscription")}
+                        </span>
                     )
                 }
 
@@ -70,7 +70,7 @@ function SubscriptionCard({
             </div>
 
             {/* Liste des avantages */}
-            <ul className={`flex flex-col gap-3 text-gray-700 mb-6 ${(features?.length<0) && "hidden"}`}>
+            <ul className={`flex flex-col gap-3 text-gray-700 mb-6 ${(features?.length < 0) && "hidden"}`}>
                 {
                     features.map((feature, i) => (
 
@@ -85,48 +85,46 @@ function SubscriptionCard({
                 }
             </ul>
 
-            <div>
-
-                <PayPalSubscription/>
-                <p className="text-center text-xs text-gray-400 mt-3">
-                    {t("secure_subscription")}
-                </p>
-
-            </div>
-
+            <PayPalSubscription
+                onSubscribe={onSubscribe}
+                ispro={highlight}
+            />
         </div>
     );
 }
 
+export function PayPalSubscription({ onSubscribe, ispro }) {
 
-export function PayPalSubscription() {
     return (
+
         <PayPalScriptProvider
+
             options={{
-                "client-id": "Aac7QRleq_w4artKozmhQIV176fi93VTttK908csWRWcl1gE6qGrHWuUHmOXTJFz-32x-E7J2cptvzHC",
+                "client-id":"Aac7QRleq_w4artKozmhQIV176fi93VTttK908csWRWcl1gE6qGrHWuUHmOXTJFz-32x-E7J2cptvzHC",
                 vault: true,
                 intent: "subscription",
             }}
         >
             <PayPalButtons
+
                 style={{
                     shape: "rect",
                     color: "gold",
                     layout: "vertical",
                     label: "subscribe",
                 }}
+
                 createSubscription={(data, actions) => {
+
                     return actions.subscription.create({
-                        plan_id: "P-92Y48848DU934623LNHWXRNY",
+                        plan_id: ispro ? "P-92Y48848DU934623LNHWXRNY" : "P-471693517W4346429NHZ7W2I",
                     });
                 }}
+
+
                 onApprove={(data) => {
-                    console.log("Subscription ID:", data.subscriptionID);
 
-                    // 👉 ici tu peux appeler ton backend
-                    // fetch('/api/activate-subscription', {...})
-
-                    alert("Subscription successful!");
+                    onSubscribe(data)
                 }}
                 onError={(err) => {
                     console.error("PayPal error:", err);
@@ -147,9 +145,9 @@ export default function SubscriptionsPage() {
 
     const currentNav = useSelector(state => state.navigate.currentNav);
 
-    const isCurrentNavSubscribtion = currentNav !== ENDPOINTS?.SUBSCRIPTION 
+    const isCurrentNavSubscribtion = currentNav !== ENDPOINTS?.SUBSCRIPTION
 
-    const handleSubscribe = (amount = "price_1SSjTKCEAhT0NnGVt0SzuhBu") => {
+    const handleSubscribe = async (data, type_subscription) => {
 
         if (!currentUser) {
 
@@ -161,20 +159,18 @@ export default function SubscriptionsPage() {
 
             try {
 
-                api.post("create-checkout-subscription-session/", { "email": currentUser?.email, "amount_id": amount })
-                .then(
-                    resp => {
+                const response = await api.post("/api/paypal/validate/", {
+                    subscriptionID: data.subscriptionID,
+                    type_subscription: type_subscription
+                });
 
-                        const url_link = resp?.data?.url?.replace(/^http:\/\/localhost:3000\//, '');
+                const result = response.json();
 
-                        console.log("Le lien de redirection pour payer :::", url_link)
-
-                        //navigate(`/${url_link}`, { replace: true })
-
-                        window.location.href = url_link;
-                    }
-
-                )
+                if (result.valid) {
+                    alert("Subscription activated");
+                } else {
+                    alert("Validation failed");
+                }
 
             } catch (e) {
 
@@ -193,7 +189,7 @@ export default function SubscriptionsPage() {
 
             <button
 
-                className={`${isCurrentNavSubscribtion ? "hidden":"shadow-lg z-10 "}`}  
+                className={`${isCurrentNavSubscribtion ? "hidden" : "shadow-lg z-10 "}`}
 
                 onClick={
 
@@ -241,7 +237,7 @@ export default function SubscriptionsPage() {
                     subtitle="Pour tester la plateforme"
                     features={["Profil visible", "Limité à 5 contacts / mois"]}
                     highlight={false}
-                    onSubscribe={() => handleSubscribe("price_1SSl4MCEAhT0NnGVWwQhaslP")}
+                    onSubscribe={(data) => handleSubscribe(data, "DISCOVERY")}
                 />
 
                 <SubscriptionCard
@@ -255,7 +251,7 @@ export default function SubscriptionsPage() {
                         "Accompagnement personnalisé prioritaire",
                     ]}
                     highlight={true}
-                    onSubscribe={()=>handleSubscribe("price_1SSl8mCEAhT0NnGVixibJU9I")}
+                    onSubscribe={(data) => handleSubscribe(data, "PRO")}
                 />
 
             </div>
@@ -263,6 +259,8 @@ export default function SubscriptionsPage() {
         </main>
     );
 }
+
+
 
 
 
