@@ -5,7 +5,7 @@ import PaymentTransaction from "./PaymentProductTransaction";
 //import { convertir } from "../utils";
 
 
-const BuyButtonWithPaymentForm = ({ total_price, reference }) => {
+const BuyButtonWithPaymentForm = ({ total_price,reference }) => {
 
     const { t } = useTranslation();
 
