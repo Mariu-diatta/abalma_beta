@@ -114,7 +114,7 @@ i18n
              Business:"Business",
              discovery:"Discovery",
              my_subscription: "Subscribe",
-             secure_subscription: "Secure payment via PayPal. Cancel anytime.",
+             secure_subscription: "Secure payment via Stripe. Cancel anytime.",
              subscription: "Choose a subscription",
              blogs:"Blog",
              payment_text: {
@@ -837,7 +837,7 @@ i18n
              Subscriptionb2b:"S'abonner pour B2B",
              redo_subscription: "Recommandé",
              my_subscription: "Je m’abonne",
-             secure_subscription: "Paiement sécurisé via PayPal. Annulable à tout moment.",
+             secure_subscription: "Paiement sécurisé via Stripe. Annulable à tout moment.",
              subscription: "Choose a subscription",
              blogs: "Blog",
              payment_text: {

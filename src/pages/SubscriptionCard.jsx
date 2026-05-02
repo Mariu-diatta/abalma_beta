@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Check } from "lucide-react";
 import api from '../services/Axios';
 import { useSelector } from 'react-redux';
@@ -9,6 +9,8 @@ import { setCurrentNav } from '../slices/navigateSlice';
 import { useTranslation } from 'react-i18next';
 import TitleCompGen from '../components/TitleComponentGen';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import LoadingCard from '../components/LoardingSpin';
+
 
 function SubscriptionCard({
     title = "Abalma Pro",
@@ -21,10 +23,41 @@ function SubscriptionCard({
         "Support premium",
     ],
     highlight = true,
+    amount_id,
     onSubscribe,
 }) {
 
     const { t } = useTranslation();
+
+    const currentUser = useSelector(state => state.auth.user)
+
+    const [loading, setLoading]=useState(false)
+
+    const handleSubscribe = async (email, amount_id) => {
+
+        if (!email) alert("Connectez vous !!!")
+
+        setLoading(true)
+
+        try {
+            const { data } = await api.post('/create-checkout-session-subscription/', {
+                email: email,
+                amount_id: amount_id
+            });
+
+            if (data.url) {
+                window.location.href = data.url;
+            } else {
+                console.error(data.error);
+            }
+
+        } catch (error) {
+            console.error('Erreur:', error);
+
+        } finally {
+            setLoading(false)
+        }
+    };
 
     return (
         <div
@@ -72,7 +105,7 @@ function SubscriptionCard({
             {/* Liste des avantages */}
             <ul className={`flex flex-col gap-3 text-gray-700 mb-6 ${(features?.length < 0) && "hidden"}`}>
                 {
-                    features.map((feature, i) => (
+                    features?.map((feature, i) => (
 
                         <li key={i} className="flex items-center gap-2">
 
@@ -85,10 +118,27 @@ function SubscriptionCard({
                 }
             </ul>
 
-            <PayPalSubscription
-                onSubscribe={onSubscribe}
-                ispro={highlight}
-            />
+            <button
+                onClick={() => handleSubscribe(currentUser?.email, amount_id)}
+                disabled={loading || !currentUser?.email}
+                className={`
+                bg-gray-200 py-2.5 font-semibold my-1 rounded-md
+                hover:bg-gray-300 transition
+                disabled:opacity-50 disabled:cursor-not-allowed
+                flex items-center justify-center gap-2
+              `}
+            >
+                {loading ? (
+                    <LoadingCard />
+                ) : (
+                    "S’abonner"
+                )}
+            </button>
+
+            <p className="text-sm text-gray-500 mt-2">
+                {t('secure_subscription')}
+            </p>
+
         </div>
     );
 }
@@ -126,6 +176,7 @@ export function PayPalSubscription({ onSubscribe, ispro }) {
 
                     onSubscribe(data)
                 }}
+
                 onError={(err) => {
                     console.error("PayPal error:", err);
                 }}
@@ -185,7 +236,7 @@ export default function SubscriptionsPage() {
 
     return (
 
-        <main className=" flex flex-col items-center justify-center  bg-none mx-2 mt-3 overflow-y-auto h-full pt-[100px]">
+        <main className=" flex flex-col items-center justify-center  bg-none mx-2 mt-16 overflow-y-auto h-full pt-[100px]">
 
             <button
 
@@ -233,16 +284,17 @@ export default function SubscriptionsPage() {
 
                 <SubscriptionCard
                     title={t("discovery")}
-                    price="0€ / mois"
+                    price="0,00€ / mois"
                     subtitle="Pour tester la plateforme"
                     features={["Profil visible", "Limité à 5 contacts / mois"]}
                     highlight={false}
+                    amount_id="price_1SSl4MCEAhT0NnGVWwQhaslP"
                     onSubscribe={(data) => handleSubscribe(data, "DISCOVERY")}
                 />
 
                 <SubscriptionCard
                     title={t("Pro")}
-                    price="20,00€ / mois"
+                    price="10,00€ / mois"
                     subtitle="Pour les équipes"
                     features={[
                         "Lancez et gérez votre activité de dropshipping facilement",
@@ -251,6 +303,7 @@ export default function SubscriptionsPage() {
                         "Accompagnement personnalisé prioritaire",
                     ]}
                     highlight={true}
+                    amount_id="price_1SSl8mCEAhT0NnGVixibJU9I"
                     onSubscribe={(data) => handleSubscribe(data, "PRO")}
                 />
 
