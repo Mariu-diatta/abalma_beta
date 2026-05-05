@@ -28,13 +28,18 @@ export function PaymentWithCard(
 
         setLoading(true)
 
+        if (!currentUser?.email) alert("Alert erreur lors du paiment")
+
         try {
 
             const res = await api.post(
 
                 "create-payment/",
 
-                { items: dataItems, currency: refRate }
+                { items: dataItems, currency: refRate, email: currentUser?.email },
+                {
+                    withCredentials: true
+                }
             );
 
             window.location.href = res.data.url;
@@ -42,8 +47,8 @@ export function PaymentWithCard(
         } catch (error) {
 
             handlePaymentError(error);
-
-            throw error;
+            console.log(error)
+            alert(error?.response?.data?.error || "Error, veullez recommencer")
 
         } finally {
 

@@ -442,8 +442,8 @@ const AddUploadProduct = () => {
                                     <Field label={t("add_product.select_currency")}>
                                         <select required id="currency_price" name="currency_price" value={dataProduct?.currency_price ?? ""} onChange={onChangeClick} className="ap-select">
                                             <option value="" disabled>{t("add_product.select_currency")}</option>
-                                            <option value="EURO">{t("add_product.euro")}</option>
-                                            <option value="DOLLAR">{t("add_product.dollar")}</option>
+                                            <option value="EUR">{t("add_product.euro")}</option>
+                                            <option value="USD">{t("add_product.dollar")}</option>
                                             <option value="FRANC">{t("add_product.franc")}</option>
                                         </select>
                                     </Field>

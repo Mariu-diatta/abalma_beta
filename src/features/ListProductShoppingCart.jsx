@@ -63,7 +63,7 @@ const ListProductShoppingCart = () => {
     const grandTotalFmt = !isNaN(grandTotal)
         ? grandTotal.toFixed(CONSTANTS?.DECIMALS_DIGITS)
         : CONSTANTS?.ZERO_DECIMALS_DIGITS;
-    const grandTotalConverted = convertir('XOF', reference, grandTotalFmt)?.toFixed(2);
+    const grandTotalConverted = convertir(itemsData[0]?.currency_price, reference, grandTotalFmt)?.toFixed(2);
     const hasTotalPositive = Number(grandTotalFmt) > 0;
 
     // ── Sync total Redux ──

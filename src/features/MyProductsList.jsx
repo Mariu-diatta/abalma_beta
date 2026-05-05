@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import CenteredModal from "./ModalProductDetailsViewsCentered";
 import { TitleCompGenLitle } from "../components/TitleComponentGen";
 import ButtonSearchGeneric from "../components/ButtonSearchGeneric";
+import PromoCodeForm from "./PromoForm";
 
 const ITEMS_PER_PAGE = 5;
 
@@ -65,6 +66,11 @@ const ProductRow = ({ prod, onDelete, loadingDelete, selectedBtnProduct, t }) =>
                 <RendrePrixProduitMonnaie item={prod} />
             </td>
 
+            {/* Prix */}
+           <td className="px-4 py-3 text-sm text-gray-700">
+                {!prod.promotion ? <PromoCodeForm product_id={prod?.id} /> : `${prod.promotion}`}
+           </td>
+        
             {/* Modifier */}
             <td className="px-4 py-3">
                 <CenteredModal product={prod}>
@@ -259,8 +265,9 @@ const MyProductList = () => {
                                 <th className="px-4 py-3">{t("tableEntries.category")}</th>
                                 <th className="px-4 py-3 text-center">{t("tableEntries.quantity")}</th>
                                 <th className="px-4 py-3">{t("tableEntries.price")}</th>
-                                <th className="px-4 py-3"></th>
-                                <th className="px-4 py-3"></th>
+                                {<th className="px-4 py-3">Promotion</th>}
+                                <th className="px-4 py-3">Modifier</th>
+                                <th className="px-4 py-3">Supprimer</th>
                             </tr>
                         </thead>
 

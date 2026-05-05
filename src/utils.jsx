@@ -696,7 +696,7 @@ export const CONSTANTS = {
     XOF: "XOF",
     EUR: "EUR",
     USD: "USD",
-    FRANC: "CFA XOF",
+    FRANC: "XOF",
     FR: "fr",
     UPDATE: 'update',
     CONFIRMED: 'confirmed',
@@ -764,7 +764,10 @@ export function convertir(de, vers, value) {
         XOF_EUR: 1 / 655,
 
         USD_XOF: 600,
-        XOF_USD: 1 / 600
+        XOF_USD: 1 / 600,
+
+        EUR_EUR: 1.00,
+        USD_USD: 1.00,
     };
 
     const key = `${de}_${vers}`;
