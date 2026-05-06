@@ -123,7 +123,7 @@ const OwnerPopover = ({ owner, onClose }) => {
         <span
             ref={ref}
 
-            className="absolute left-0 mt-0 rounded-xl border border-white p-1 shadow-xl animate-fade-in bg-gray-200 z-200"
+            className="absolute left-0 mt-0 rounded-xl border border-white p-1 shadow-xl animate-fade-in bg-gray-200"
 
             style={
                 {

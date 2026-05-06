@@ -69,14 +69,16 @@ export function PaymentWithCard(
     return (
 
         <>
-            {
-                !loading?
+            
                 <button onClick={createOrder} className="bg-gray-200 py-2.5 text-bold my-1 hover:bg-gray-300 rounded-md w-1/2">
-                    Payer
+                {
+                    !loading ?
+                    "Payer"
+                    :
+                    <LoadingCard />
+                }
                 </button>
-                :
-                <LoadingCard/>
-           }
+
        </>
 
     )

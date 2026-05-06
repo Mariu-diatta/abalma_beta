@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { addMessageNotif, addUser } from "../slices/chatSlice";
 import { addToCart } from "../slices/cartSlice";
 import { useRef } from "react";
+
 // Import lazy du composant
 const PrintNumberStars = React.lazy(() => import("./SystemStar"));
 
@@ -165,12 +166,10 @@ const ProductCard = ({
                     {item?.description_product.toLowerCase()}
                 </p>
 
-                <div className="whitespace-nowrap flex text-xs gap-1 md:hidden bg-grey-200 text-green dark:bg-white-100 my-auto w-auto p-1 rounded-lg"><p>{t('quantity_sold')}</p>{qut_sold} </div>
-
                 {/* Prix & Boutons */}
                 <div className="flex justify-between items-center w-full">
 
-                    <ScrollingContent item={item} t={t} qut_sold={item?.quantity_product_sold}/>
+                    <ScrollingContent item={item} t={t} qut_sold={item?.quantity_product_sold} />
 
                     <div className="flex gap-2">
 

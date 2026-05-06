@@ -2068,7 +2068,7 @@ html, body, #root {
     position: relative;
     display: inline-block;
     flex-shrink: 0;
-    z-index: 100
+    z-index: 50
 }
 
 /* Avatar image */
