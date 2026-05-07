@@ -64,7 +64,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
             />
 
             {/* Modal */}
-            <div className="relative bg-white max-w-5xl w-full rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh]">
+            <div className="scrollbor_hidden relative bg-white max-w-5xl w-full rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[98vh]">
 
                 {/* Header Mobile / Close Button */}
                 <button
@@ -74,7 +74,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                     <X size={20} />
                 </button>
 
-                <div className="overflow-y-auto p-6 md:p-10 scrollbar-hide">
+                <div className="overflow-y-auto p-6 md:p-10 scrollbor_hidden">
                     <div className="lg:grid lg:grid-cols-2 lg:gap-12 items-start">
 
                         {/* SECTION GAUCHE : VISUEL */}
