@@ -141,10 +141,11 @@ const LogIn = ({ callbackState,onClose }) => { // Prop onClose ajoutée
 
                             {/* GOOGLE */}
                             <div className="flex justify-center">
-                                <GoogleOAuthProvider clientId="VOTRE_CLIENT_ID">
+                                <GoogleOAuthProvider clientId="154955455828-340tuohbjc1c4imb29uqi4hr9l5dm0sv.apps.googleusercontent.com">
                                     <LoginWithGoogle />
                                 </GoogleOAuthProvider>
                             </div>
+
                         </section>
                     ) : (
                         <div className="py-20">
