@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { useTranslation } from "react-i18next";
-import WhiteRoundedButton, { WhiteRoundedButtonSignInRegister } from "../components/Button";
+import { WhiteRoundedButtonSignInRegister } from "../components/Button";
 import ThemeToggle from "./Theme";
 import NotificationsComponent from "../components/NotificationComponent";
 import PayBack from "../components/BacketButtonPay";
@@ -38,12 +38,12 @@ const MobileNav = ({ open }) => {
             {showLogin && <LogIn onClose={() => setShowLogin(false)} />}
         </WhiteRoundedButtonSignInRegister>
 
-        <WhiteRoundedButton
+        <WhiteRoundedButtonSignInRegister
             titleButton={t(ENDPOINTS.REGISTER)}
             onClick={() => setShowRegister(true)}
         >
             {showRegister && <RegisterForm onClose={() => setShowRegister(false)} />}
-        </WhiteRoundedButton>
+        </WhiteRoundedButtonSignInRegister>
 
         <div className="flex justify-between items-center gap-1 text-sm hover:bg-gray-100">
 
