@@ -8,7 +8,7 @@ const ImageGallery = ({ imagesEls,  openModal, owners}) => {
 
     return (
 
-        <div className="grid grid-cols-2 gap-0.5 h-full w-full overflow-x-auto overflow-y-auto overflow-x-auto scrollbor_hidden z-0 p-0 m-0">
+        <div className="grid grid-cols-2 gap-1 h-full w-full overflow-x-auto overflow-y-auto overflow-x-auto scrollbor_hidden z-0 p-0 m-0">
 
 
             {imagesEls?.map(item => {
@@ -18,13 +18,11 @@ const ImageGallery = ({ imagesEls,  openModal, owners}) => {
                 return (
                     <ProductCard
                         key={item?.id} // ✅ Clé unique ici
-                        id={item?.id}
                         item={item}
                         isInCart={isInCart}
                         owner={owner}
                         openModal={openModal}
                         owners={owners}
-                        qut_sold={item?.quanttity_product_sold}
                     />
                 );
             })}

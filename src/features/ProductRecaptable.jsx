@@ -58,7 +58,6 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
     const [subTransactionsData, setSubTransactionsData] = useState([]);
     const [deletedSubTrans, setDeletedSubTrans] = useState(false);
     const [deletedTrans, setDeletedTrans] = useState(false);
-
     const statusLabels = useMemo(() => OPERATIONS_STATUS, []);
 
     // ── Reset sous-transaction quand la transaction change ──
@@ -322,7 +321,8 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
                                         <td>{item?.created ? convertDate(item.created) : '—'}</td>
                                         <td>{item?.date_fin_emprunt || '—'}</td>
                                         <td>{item?.date_fin_stock || '—'}</td>
-
+                                        <td>{item?.status}</td>
+                                        {/*<td>{item?.code}</td>*/}
                                         {/* Voir */}
                                         <td>
                                             <button

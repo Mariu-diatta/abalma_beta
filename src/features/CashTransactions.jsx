@@ -36,12 +36,63 @@ const CashTransaction = () => {
     const [searchValue, setSearchValue] = useState('');
     const [loading, setLoading] = useState(false);
     const [isSearchMode, setIsSearchMode] = useState(false);
+    const [pagination, setPagination] = useState({
+        next: null,
+        previous: null,
+    });
+
+    useEffect(() => {
+        const handleScroll = async () => {
+            // si déjà en train de charger ou pas de next → stop
+            if (loading || !pagination.next || isSearchMode) return;
+
+            const scrollTop = window.scrollY;
+            const windowHeight = window.innerHeight;
+            const fullHeight = document.documentElement.scrollHeight;
+
+            // 👇 détecte bas de page (avec marge)
+            if (scrollTop + windowHeight >= fullHeight - 100) {
+                try {
+                    setLoading(true);
+
+                    const { data } = await api.get(pagination.next);
+
+                    setTransactions(prev => [...prev, ...data.results]);
+
+                    setPagination({
+                        next: data.next,
+                        previous: data.previous,
+                    });
+
+                } catch (err) {
+                    console.error('Erreur pagination:', err);
+                } finally {
+                    setLoading(false);
+                }
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [pagination.next, loading, isSearchMode]);
 
     // ── Chargement initial ──
     useEffect(() => {
+
         setLoading(true);
+
         api.get('/cashtransaction')
-            .then(({ data }) => setTransactions(data))
+            .then(({ data }) => {
+
+                setTransactions(data?.results);
+
+                setPagination({
+                    next: data.next,
+                    previous: data.previous,
+                });
+
+            })
             .catch((err) => console.error('Erreur liste:', err))
             .finally(() => setLoading(false));
     }, []);
@@ -54,7 +105,8 @@ const CashTransaction = () => {
         setIsSearchMode(true);
         try {
             const { data } = await api.get(`/cashtransaction/${encodeURIComponent(query)}/`);
-            setTransactions(Array.isArray(data) ? data : [data]);
+            setTransactions(Array.isArray(data?.results) ? data?.results : [data?.results]);
+            console.log(data)
         } catch (err) {
             console.error('Erreur search:', err);
             setTransactions([]);
@@ -68,7 +120,7 @@ const CashTransaction = () => {
         setIsSearchMode(false);
         setLoading(true);
         api.get('/cashtransaction')
-            .then(({ data }) => setTransactions(data))
+            .then(({ data }) => setTransactions(data?.results))
             .catch((err) => console.error('Erreur reset:', err))
             .finally(() => setLoading(false));
     };
@@ -161,6 +213,9 @@ const CashTransaction = () => {
                     </div>
                 )}
             </div>
+
+            {loading && <p style={{ textAlign: "center" }}>Chargement...</p>}
+
         </>
     );
 };

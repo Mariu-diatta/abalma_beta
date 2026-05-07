@@ -135,7 +135,7 @@ const TablesRecapActivities = ({
                                 />
                             )}
 
-                            {tabs.map((tab, idx) => (
+                            {tabs?.map((tab, idx) => (
                                 <button
                                     key={tab.id}
                                     ref={(el) => { btnRefs.current[idx] = el; }}
@@ -157,7 +157,7 @@ const TablesRecapActivities = ({
 
                 {/* Dots mobile */}
                 <div className="tra-dots" aria-hidden="true">
-                    {tabs.map((tab) => (
+                    {tabs?.map((tab) => (
                         <span
                             key={tab.id}
                             className={`tra-dot${activeTab === tab.id ? ' active' : ''}`}
@@ -176,6 +176,7 @@ const TablesRecapActivities = ({
                         <div className="tra-panel-inner">
                             {renderContent()}
                         </div>
+
                     </section>
                 </div>
 

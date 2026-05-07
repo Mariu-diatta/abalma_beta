@@ -807,7 +807,7 @@ export const STATUS={
 
 export const NAMES_TABLES= [
     'name', 'categories', 'actif', 'price', 'created','available', 'operation',
-    'operationDate', 'endDate',  'Date_fin_stock', 'view', 'actions'
+    'operationDate', 'endDate',  'Date_fin_stock','status', 'view', 'actions'
 ]
 
 export const STATUS_FLOW = {

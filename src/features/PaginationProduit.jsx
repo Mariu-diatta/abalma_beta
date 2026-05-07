@@ -67,13 +67,13 @@ const PaginationProduit = ({ products = [], itemsPerPage = 5 }) => {
                         src={img}
                         alt={`Product ${indx}`}
                         className="
-                            w-24 h-24
+                            w-40 h-40
                             flex-shrink-0
                             rounded-full
                             object-contain                            
-                            border-0
-                            shadow-xl
+                            border border-gray-200
                             hover:shadow-2xl
+                            hover:border-blue-300
                         "
                     />
                 )

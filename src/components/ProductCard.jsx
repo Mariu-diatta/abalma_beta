@@ -13,12 +13,10 @@ const PrintNumberStars = React.lazy(() => import("./SystemStar"));
 
 const ProductCard = ({
     item,
-    qut_sold,
     isInCart,
     owner,
     openModal,
     owners,
-    id
 
 }) => {
 
@@ -71,69 +69,61 @@ const ProductCard = ({
             }`}
         >
             {/* Image & Modal Trigger */}
-            <div>
 
-                <div
-
-                  onClick={() => {
+            <div
+                onClick={() => {
                     openModal(item);
                     dispatch(addUser(owners[item?.fournisseur]));
-                  }}
-                  className="
+                }}
+                className="
                     relative
                     w-full
                     aspect-[4/5]
                     overflow-hidden
-                    rounded-lg
+                    rounded-xl
                     cursor-pointer
                     bg-gray-100
                     shadow-md
                     hover:shadow-xl
-                    transition-shadow
+                    transition-all
                     duration-300
-                  "
-                >
-                  {/* Image de fond floutée pour effet de profondeur */}
-                  <div
-                    className="
-                      absolute inset-0 
-                      bg-cover bg-center 
-                      blur-sm w-full
-                      h-64 
-                      scale-110
-                      opacity-60
-                      transition-transform
-                      duration-500
-                    "
-                     style={{ backgroundImage: `url(${currentImage})` }}
-                  />
+                    group
+                "
+            >
 
-                  {/* Image principale du produit */}
-                  <img
-                    src={currentImage}
-                    alt={item?.name_product || "Produit"}
-                    loading="lazy"
+                {/* 🔥 BACKGROUND (remplit tout) */}
+                <div
                     className="
-                      p-1
-                      relative
-                      w-full
-                      h-full
-                      object-contain
-                      transition-transform
-                      duration-300
-                      ease-in-out
-                      hover:scale-105
-                      hover:brightness-90h
+                        absolute inset-0
+                        bg-cover bg-center
+                        blur-2xl
+                        scale-110
+                        opacity-40
                     "
-                    onError={(e) => {
-                      // fallback si image manquante
-                      if (!e.target.src.includes("default-product.jpg")) {
-                        e.target.src = "/default-product.jpg";
-                      }
-                    }}
-                  />
+                    style={{ backgroundImage: `url(${currentImage})` }}
+                />
+
+                {/* 🔥 IMAGE PRINCIPALE (100% visible) */}
+                <div className="relative z-10 w-full h-full flex items-center justify-center p-2">
+                    <img
+                        src={currentImage}
+                        alt={item?.name_product || "Produit"}
+                        loading="lazy"
+                        className="
+                            max-w-full
+                            max-h-full
+                            object-contain
+                            transition-transform
+                            duration-500
+                            group-hover:scale-105
+                        "
+                        onError={(e) => {
+                            if (!e.target.src.includes("default-product.jpg")) {
+                                e.target.src = "/default-product.jpg";
+                            }
+                        }}
+                    />
                 </div>
-
 
             </div>
 

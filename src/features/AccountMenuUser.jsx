@@ -140,8 +140,8 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
                     ]?.map(
 
-                        elem => <div>
-
+                        (elem, id) => <div key={id}>
+                            
                             <button
 
                                 className={`shadow-sm flex gap-1 w-full items-center justify-between px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white ${currentNav === elem.endPoint && "bg-gray-50"}`}

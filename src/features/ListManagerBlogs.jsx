@@ -369,12 +369,12 @@ const MyBlogsList = () => {
                                 <div className="mbl-card-body">
                                     <p className="mbl-card-title">{blog?.title_blog}</p>
                                     <p className="mbl-card-excerpt">{blog?.blog_message}</p>
-                                    <p className="mbl-card-date">
+                                    <soan className="mbl-card-date">
                                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
                                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 2v3m8-3v3M3 9h18M5 4h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Z" />
                                         </svg>
                                         {formatISODate(blog?.created_at)}
-                                    </p>
+                                    </soan>
                                 </div>
 
                                 {loadingDelete && triggerdBtnId === blog?.id ? (
@@ -400,11 +400,11 @@ const MyBlogsList = () => {
                 {/* Pagination */}
                 {!loading && filteredBlogs.length > ITEMS_PER_PAGE && (
                     <div className="mbl-pagination">
-                        <p className="mbl-page-info">
+                        <div className="mbl-page-info">
                             Page <strong>{safePage}</strong> / {totalPages}
                             <span style={{ marginLeft: 8, color: '#cbd5e1' }}>·</span>
                             <span style={{ marginLeft: 8 }}>{filteredBlogs.length} article{filteredBlogs.length !== 1 ? 's' : ''}</span>
-                        </p>
+                        </div>
                         <div className="mbl-page-btns">
                             <button
                                 type="button"

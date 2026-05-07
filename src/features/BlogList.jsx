@@ -88,9 +88,9 @@ const BlogList = ({ blogs }) => {
                     <div className="bl-grid">
                         <div className="bl-empty">
                             <EmptyIllustration />
-                            <p className="bl-empty-text">
+                            <div className="bl-empty-text">
                                 <NoContentComp content={t('blogNone')} />
-                            </p>
+                            </div>
                         </div>
                     </div>
                 ) : (
