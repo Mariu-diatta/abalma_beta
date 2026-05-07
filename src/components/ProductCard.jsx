@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, lazy } from "react";
 import { useDispatch } from "react-redux";
 import { useTranslation } from 'react-i18next';
-import { ShoppingCart, Eye } from "lucide-react"; // Utilisation de Lucide pour plus de finesse
+import { Eye } from "lucide-react"; // Utilisation de Lucide pour plus de finesse
 import OwnerAvatar from "./OwnerProfil";
 import ScrollingContent from "./ScrollContain";
 import { addMessageNotif } from "../slices/chatSlice";
@@ -45,7 +45,7 @@ const ProductCard = ({ item, isInCart, owner, openModal}) => {
             {/* Zone Image */}
             <div
                 onClick={() => openModal(item)}
-                className="relative aspect-[4/5] w-full overflow-hidden cursor-pointer bg-gray-50"
+                className="relative aspect-1 w-1/2 overflow-hidden cursor-pointer bg-gray-50"
             >
                 {/* Effet de fond flouté (Amélioré) */}
                 <div
@@ -63,7 +63,7 @@ const ProductCard = ({ item, isInCart, owner, openModal}) => {
                 )}
 
                 {/* Image Principale */}
-                <div className="relative z-10 w-50 h-50 flex items-center justify-center p-2">
+                <div className="relative z-10 w-full h-full flex items-center justify-center p-2">
                     <img
                         src={currentImage}
                         alt={item?.name_product}
@@ -112,23 +112,7 @@ const ProductCard = ({ item, isInCart, owner, openModal}) => {
 
                             title="Ajouter au panier"
 
-                            onClick={
-                                () => {
-
-                                    dispatch(
-
-                                        addToCart(item)
-
-                                    );
-
-                                    dispatch(
-
-                                        addMessageNotif(
-
-                                            `Produit ${item?.code_reference} sélectionné le ${Date.now()}`
-                                        )
-                                    );
-                                }}
+                            onClick={(e) => handleAddToCart(e) }
 
                             aria-disabled="true"
 

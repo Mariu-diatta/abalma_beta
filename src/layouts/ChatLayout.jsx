@@ -153,9 +153,9 @@ const ChatLayout = () => {
 
                             dispatch(logout());
 
-                            dispatch(setCurrentNav("login"))
+                            dispatch(setCurrentNav("home"))
 
-                            return navigate("/login", { replace: true });
+                            return navigate("/", { replace: true });
 
 
 
