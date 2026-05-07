@@ -6,7 +6,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { setCurrentNav } from '../slices/navigateSlice';
 import { LoginWithGoogle } from '../firebase';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import { ENDPOINTS,loginClient } from '../utils';
+import {loginClient } from '../utils';
 import { showMessage } from '../components/AlertMessage';
 import { X } from "lucide-react"; // Icône pour fermer
 
@@ -14,7 +14,7 @@ const InputBox = lazy(() => import("../components/InputBoxFloat"));
 const LoadingCard = lazy(() => import("../components/LoardingSpin"));
 const TitleCompGen = lazy(() => import("../components/TitleComponentGen"));
 
-const LogIn = ({ onClose }) => { // Prop onClose ajoutée
+const LogIn = ({ callbackState,onClose }) => { // Prop onClose ajoutée
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState("");
     const [pwd, setPwd] = useState("");
@@ -69,19 +69,18 @@ const LogIn = ({ onClose }) => { // Prop onClose ajoutée
                             {/* HEADER */}
                             <div className="mb-8 text-center space-y-2">
                                 <TitleCompGen title={t("login")} />
-                                <p className="text-sm text-gray-500 dark:text-gray-400">
+                                <span className="text-sm text-gray-500 dark:text-gray-400">
                                     <span>{t("notRegistered")}</span>{" "}
-                                    <NavLink
-                                        to={`/${ENDPOINTS.REGISTER}`}
+                                    <button
                                         onClick={() => {
-                                            dispatch(setCurrentNav(ENDPOINTS.REGISTER));
-                                            if (onClose) onClose();
+                                            callbackState();
+                                            onClose()
                                         }}
                                         className="font-semibold text-blue-600 hover:underline"
                                     >
                                         {t("register")}
-                                    </NavLink>
-                                </p>
+                                    </button>
+                                </span>
                             </div>
 
                             {/* FORM */}

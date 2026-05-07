@@ -2262,7 +2262,7 @@ html, body, #root {
     background: #fff;
     border: 1.5px solid #f1f5f9;
     border-radius: 20px;
-    padding: 28px 24px;
+    padding: 25px 1px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -2274,29 +2274,29 @@ html, body, #root {
     overflow: hidden;
 }
 
-    .ss-card::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: linear-gradient(90deg, #6366f1, #818cf8);
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform .3s ease;
-        border-radius: 0 0 20px 20px;
-    }
+.ss-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #6366f1, #818cf8);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .3s ease;
+    border-radius: 0 0 20px 20px;
+}
 
-    .ss-card:hover {
-        box-shadow: 0 10px 32px rgba(99,102,241,.13);
-        border-color: #c7d2fe;
-        transform: translateY(-4px);
-    }
+.ss-card:hover {
+    box-shadow: 0 10px 32px rgba(99,102,241,.13);
+    border-color: #c7d2fe;
+    transform: translateY(-4px);
+}
 
-        .ss-card:hover::after {
-            transform: scaleX(1);
-        }
+.ss-card:hover::after {
+    transform: scaleX(1);
+}
 
 /* Icône */
 .ss-icon-wrap {

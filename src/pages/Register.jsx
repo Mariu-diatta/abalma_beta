@@ -13,7 +13,7 @@ import { showMessage } from '../components/AlertMessage';
 
 
 
-const RegisterForm = ({ onClose }) => {
+const RegisterForm = ({ callbackState, onClose}) => {
     const dispatch = useDispatch();
     const { t } = useTranslation();
     const [loading, setLoading] = useState(false);
@@ -65,15 +65,18 @@ const RegisterForm = ({ onClose }) => {
                         <section>
                             <div className="mb-8 text-center">
                                 <TitleCompGen title={t('register')} />
-                                <p className="text-sm text-gray-500 mt-2">
+                                <span className="text-sm text-gray-500 mt-2">
                                     {t("alredyRegister")}{" "}
                                     <button
-                                        onClick={() => { if (onClose) onClose(); navigate("/login"); }}
+                                        onClick={() => {
+                                             callbackState();
+                                             onClose()
+                                        }}
                                         className="font-semibold text-blue-600 hover:underline"
                                     >
                                         {t("login")}
                                     </button>
-                                </p>
+                                </span>
                             </div>
 
                             <form onSubmit={handleSignUp} ref={componentRef} className="space-y-2 scrollbor_hidden">

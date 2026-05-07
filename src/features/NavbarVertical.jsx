@@ -127,7 +127,7 @@ const VerticalNavbar = ({ children }) => {
 
     // ── Fetch rooms ──
     useEffect(() => {
-        if (!currentUser) { navigate("/login", { replace: true }); return; }
+        if (!currentUser) { navigate("/", { replace: true }); return; }
 
         const loadRooms = async () => {
             try {

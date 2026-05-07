@@ -9,7 +9,7 @@ import { addToCart } from "../slices/cartSlice";
 
 const PrintNumberStars = lazy(() => import("./SystemStar"));
 
-const ProductCard = ({ item, isInCart, owner, openModal, owners }) => {
+const ProductCard = ({ item, isInCart, owner, openModal}) => {
     const dispatch = useDispatch();
     const { t } = useTranslation();
     const variantProduct = item?.variants ;
@@ -63,7 +63,7 @@ const ProductCard = ({ item, isInCart, owner, openModal, owners }) => {
                 )}
 
                 {/* Image Principale */}
-                <div className="relative z-10 w-full h-full flex items-center justify-center p-6">
+                <div className="relative z-10 w-50 h-50 flex items-center justify-center p-2">
                     <img
                         src={currentImage}
                         alt={item?.name_product}
@@ -72,9 +72,9 @@ const ProductCard = ({ item, isInCart, owner, openModal, owners }) => {
                 </div>
 
                 {/* Overlay Action Rapide (Mobile friendly) */}
-                <div className="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-gradient-to-t from-black/20 to-transparent z-20 hidden md:block">
-                    <button className="w-full bg-white/95 backdrop-blur shadow-xl py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-2 text-gray-800">
-                        <Eye size={14} /> {t("voir_details")}
+                <div className="w-10 h-10 rounded-full absolute bg-white inset-x-0 bottom-0 p-4 m-2 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-gradient-to-t from-black/20 to-transparent z-20 hidden md:block">
+                    <button className="w-full h-full bg-none backdrop-blur shadow-xl py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-2 text-gray-800">
+                        <Eye size={14} />
                     </button>
                 </div>
             </div>

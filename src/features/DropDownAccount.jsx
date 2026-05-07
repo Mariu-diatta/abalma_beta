@@ -90,10 +90,10 @@ export default function ButtonsNavigateThemecolorPayDropdownaccount() {
         dispatch(clearRooms());
         dispatch(cleanAllMessageNotif());
         dispatch(logout());
-        dispatch(setCurrentNav(ENDPOINTS?.LOGIN));
+        dispatch(setCurrentNav(ENDPOINTS?.HOME));
 
         // 2️⃣ Naviguer directement
-        navigate(`/${ENDPOINTS?.LOGIN}`, { replace: true });
+        navigate(`/${ENDPOINTS?.HOME}`, { replace: true });
 
         // 3️⃣ Essayer la requête API en arrière-plan
         try {
