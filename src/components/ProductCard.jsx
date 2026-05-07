@@ -45,7 +45,7 @@ const ProductCard = ({ item, isInCart, owner, openModal}) => {
             {/* Zone Image */}
             <div
                 onClick={() => openModal(item)}
-                className="relative aspect-1 w-1/2 overflow-hidden cursor-pointer bg-gray-50"
+                className="relative aspect-1 w-full overflow-hidden cursor-pointer bg-gray-50"
             >
                 {/* Effet de fond flouté (Amélioré) */}
                 <div
@@ -63,12 +63,15 @@ const ProductCard = ({ item, isInCart, owner, openModal}) => {
                 )}
 
                 {/* Image Principale */}
-                <div className="relative z-10 w-full h-full flex items-center justify-center p-2">
+                <div className="relative aspect-square rounded-2xl bg-gray-50 border border-gray-100 overflow-hidden group">
+
                     <img
                         src={currentImage}
                         alt={item?.name_product}
-                        className="max-w-full max-h-full object-contain transition-transform duration-500 group-hover:scale-110"
+                        className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105 cursor-zoom-in"
+
                     />
+
                 </div>
 
                 {/* Overlay Action Rapide (Mobile friendly) */}

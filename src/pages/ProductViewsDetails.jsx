@@ -83,7 +83,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                                 <img
                                     src={imageCurrentVariantImage}
                                     alt={product?.name_product}
-                                    className="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-105 cursor-zoom-in"
+                                    className="w-full h-full object-contain  transition-transform duration-500 group-hover:scale-105 cursor-zoom-in"
                                     onClick={() => setIndex((index + 1) % variantsProduct.length)}
                                 />
                             </div>
