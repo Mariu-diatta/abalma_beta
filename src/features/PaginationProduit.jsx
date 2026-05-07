@@ -1,112 +1,104 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const PaginationProduit = ({ products = [], itemsPerPage = 5 }) => {
-
-    const [currentPage, setCurrentPage] = useState(1);
-
+const PaginationProduit = ({ products = [] }) => {
     const scrollRef = useRef(null);
 
-    const totalPages = Math.ceil(products.length / itemsPerPage);
-
-    const startIndex = (currentPage - 1) * itemsPerPage;
-
-    const currentItems = products.slice(startIndex, startIndex + itemsPerPage);
-
-    const lengthItemsSupTwo = (products?.length <= 2);
-
-    const handleNext = () => {
-
-        setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-    };
-
-    const handlePrev = () => {
-
-        setCurrentPage((prev) => Math.max(prev - 1, 1));
-    };
-
-    // 🔁 Reset scroll quand on change de page
-    useEffect(() => {
-
+    // Fonction pour scroller horizontalement
+    const scroll = (direction) => {
         if (scrollRef.current) {
+            const { scrollLeft, clientWidth } = scrollRef.current;
+            const scrollTo = direction === "left"
+                ? scrollLeft - clientWidth * 0.8
+                : scrollLeft + clientWidth * 0.8;
 
             scrollRef.current.scrollTo({
-                left: 0,
+                left: scrollTo,
                 behavior: "smooth",
             });
         }
+    };
 
-    }, [currentPage]);  
-
-    const variantsProducts = currentItems.map(product => product?.variants);
-
-    const productImages = variantsProducts.map(variant => variant[0]?.image);
+    if (!products.length) return null;
 
     return (
-        <div className="flex flex-col items-center w-full justify-center">
+        <div className="relative group w-full px-4 py-6">
 
-            {/* Liste scrollable */}
+            {/* Flèche Gauche */}
+            <button
+                onClick={() => scroll("left")}
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 p-2 rounded-full shadow-lg border border-gray-100 hover:bg-blue-600 hover:text-white transition-all opacity-0 group-hover:opacity-100 hidden md:block"
+            >
+                <ChevronLeft className="w-6 h-6" />
+            </button>
+
+            {/* Conteneur des Produits */}
             <div
                 ref={scrollRef}
                 className="
-                  flex gap-3 items-center justify-center
-                  overflow-x-auto
-                  md:justify-center
-                  flex-nowrap
-                  w-full
-                  bg-none
-                  py-2
-                  px-2
-                  scrollbor_hidden_
-                "
+                    flex 
+                    gap-6 
+                    overflow-x-auto 
+                    scroll-smooth
+                    /* CENTRAGE MAGIQUE ICI */
+                    justify-start md:justify-center 
+                    /* -------------------- */
+                    pb-4 
+                    px-4
+                    no-scrollbar
+                    snap-x 
+                    snap-mandatory
+                    w-full
+                  "
             >
-                {
-                    productImages?.map((img, indx) => (
-                    <img
-                        key={indx}
-                        src={img}
-                        alt={`Product ${indx}`}
-                        className="
-                            w-40 h-40
-                            flex-shrink-0
-                            rounded-full
-                            object-contain                            
-                            border border-gray-200
-                            hover:shadow-2xl
-                            hover:border-blue-300
-                        "
-                    />
-                )
-                )}
+                {products.map((product, index) => {
+                    const image = product?.variants?.[0]?.image;
+                    const name = product?.name || `Produit ${index + 1}`;
 
+                    return (
+                        <div
+                            key={index}
+                            className="
+                                flex-shrink-0 w-48 md:w-56 
+                                snap-start group/item 
+                                cursor-pointer
+                              "
+                        >
+                            {/* Card Image */}
+                            <div className="rounded-full relative overflow-hidden rounded-2xl bg-gray-50 border border-gray-100 aspect-square flex items-center justify-center transition-all duration-300 group-hover/item:shadow-xl group-hover/item:border-blue-200">
+                                <img
+                                    src={image}
+                                    alt={name}
+                                    className="
+                                        w-full h-full object-cover 
+                                        transition-transform duration-500  
+                                        group-hover/item:scale-110
+                                      "
+                                />
+                                {/* Overlay au survol */}
+                                <div className="absolute inset-0 bg-black/5 opacity-0 group-hover/item:opacity-100 transition-opacity" />
+                            </div>
+
+                        </div>
+                    );
+                })}
             </div>
 
-            {/* Pagination */}
-            <div className={`flex items-center gap-2 mt-4 ${lengthItemsSupTwo ? "hidden" : ""}`}>
+            {/* Flèche Droite */}
+            <button
+                onClick={() => scroll("right")}
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 p-2 rounded-full shadow-lg border border-gray-100 hover:bg-blue-600 hover:text-white transition-all opacity-0 group-hover:opacity-100 hidden md:block"
+            >
+                <ChevronRight className="w-6 h-6" />
+            </button>
 
-                <button
-                    onClick={handlePrev}
-                    disabled={currentPage === 1}
-                    className="disabled:opacity-40"
-                >
-                    <ChevronLeft className="w-5 h-5 text-gray-600" />
-
-                </button>
-
-                <span className="text-sm font-medium">
-                    {currentPage} / {totalPages}
-                </span>
-
-                <button
-                    onClick={handleNext}
-                    disabled={currentPage === totalPages}
-                    className="disabled:opacity-40"
-                >
-                    <ChevronRight className="w-5 h-5 text-gray-600" />
-
-                </button>
-
-            </div>
+            {/* Style CSS pour cacher la scrollbar (Inline ou dans votre CSS) */}
+            <style dangerouslySetInnerHTML={{
+                __html: `
+                    .no-scrollbar::-webkit-scrollbar { display: none; }
+                    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+                  `}}
+            />
         </div>
     );
 };

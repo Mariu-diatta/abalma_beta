@@ -1,221 +1,132 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, lazy } from "react";
 import { useDispatch } from "react-redux";
+import { useTranslation } from 'react-i18next';
+import { ShoppingCart, Eye } from "lucide-react"; // Utilisation de Lucide pour plus de finesse
 import OwnerAvatar from "./OwnerProfil";
 import ScrollingContent from "./ScrollContain";
-import { useTranslation } from 'react-i18next';
-import { addMessageNotif, addUser } from "../slices/chatSlice";
+import { addMessageNotif } from "../slices/chatSlice";
 import { addToCart } from "../slices/cartSlice";
-import { useRef } from "react";
 
-// Import lazy du composant
-const PrintNumberStars = React.lazy(() => import("./SystemStar"));
+const PrintNumberStars = lazy(() => import("./SystemStar"));
 
-
-const ProductCard = ({
-    item,
-    isInCart,
-    owner,
-    openModal,
-    owners,
-
-}) => {
-
-
+const ProductCard = ({ item, isInCart, owner, openModal, owners }) => {
     const dispatch = useDispatch();
-
-    const quantityProduct = (item?.quantity_product !== "0")
-
     const { t } = useTranslation();
+    const variantProduct = item?.variants ;
+    const nberVariants = variantProduct.length;
+    const imageIndexRef = useRef(0);
+    const [currentImage, setCurrentImage] = useState(variantProduct[0]?.image);
 
-    const variantProduct = item?.variants
-
-    const nberVariants = variantProduct.length
-
-    const imageIndexRef = useRef(0)
-
-    const [currentImage, setCurrentImage] = useState(
-        variantProduct[0]?.image
-    )
-
+    // Diaporama automatique fluide
     useEffect(() => {
-
-        if (nberVariants <= 1) return
-
+        if (nberVariants <= 1) return;
         const interval = setInterval(() => {
+            imageIndexRef.current = (imageIndexRef.current + 1) % nberVariants;
+            setCurrentImage(variantProduct[imageIndexRef.current]?.image);
+        }, 3500);
+        return () => clearInterval(interval);
+    }, [nberVariants, variantProduct]);
 
-            imageIndexRef.current =
-                (imageIndexRef.current + 1) % nberVariants
-
-            setCurrentImage(
-                variantProduct[imageIndexRef.current]?.image
-            )
-
-        }, 3000)
-
-        return () => clearInterval(interval)
-
-    }, [nberVariants, variantProduct])
-
+    const handleAddToCart = (e) => {
+        e.stopPropagation(); // Évite d'ouvrir la modal en cliquant sur le panier
+        dispatch(addToCart(item));
+        dispatch(addMessageNotif(`Produit ${item?.code_reference} ajouté !`));
+    };
 
     return (
-
         <div
             className={`
-                rounded-lg
-                w-auto md:max-w-100 
-                shadow-xs transition transform
-                hover:-translate-y-1 hover:shadow-lg
-                ${isInCart ? "opacity-50 pointer-events-none bg-gray-100" : "bg-white"
-            }`}
+                group relative flex flex-col w-full bg-white 
+                rounded-2xl border border-gray-100 overflow-hidden
+                transition-all duration-300 hover:shadow-2xl hover:border-blue-100
+                ${isInCart ? "opacity-75 grayscale-[0.5]" : ""}
+            `}
         >
-            {/* Image & Modal Trigger */}
-
+            {/* Zone Image */}
             <div
-                onClick={() => {
-                    openModal(item);
-                    dispatch(addUser(owners[item?.fournisseur]));
-                }}
-                className="
-                    relative
-                    w-full
-                    aspect-[4/5]
-                    overflow-hidden
-                    rounded-xl
-                    cursor-pointer
-                    bg-gray-100
-                    shadow-md
-                    hover:shadow-xl
-                    transition-all
-                    duration-300
-                    group
-                "
+                onClick={() => openModal(item)}
+                className="relative aspect-[4/5] w-full overflow-hidden cursor-pointer bg-gray-50"
             >
-
-                {/* 🔥 BACKGROUND (remplit tout) */}
+                {/* Effet de fond flouté (Amélioré) */}
                 <div
-                    className="
-                        absolute inset-0
-                        bg-cover bg-center
-                        blur-2xl
-                        scale-110
-                        opacity-40
-                    "
+                    className="absolute inset-0 bg-cover bg-center blur-3xl opacity-20 scale-110 transition-transform duration-700 group-hover:scale-125"
                     style={{ backgroundImage: `url(${currentImage})` }}
                 />
 
-                {/* 🔥 IMAGE PRINCIPALE (100% visible) */}
-                <div className="relative z-10 w-full h-full flex items-center justify-center p-2">
+                {/* Badge Quantité (Top Left) */}
+                {item?.quantity_product > 0 && (
+                    <div className="absolute top-3 left-3 z-20">
+                        <span className="bg-white/90 backdrop-blur-md text-[10px] font-bold px-2 py-1 rounded-full shadow-sm text-gray-700 border border-white/50">
+                            {item.quantity_product} {t("disponible")}
+                        </span>
+                    </div>
+                )}
+
+                {/* Image Principale */}
+                <div className="relative z-10 w-full h-full flex items-center justify-center p-6">
                     <img
                         src={currentImage}
-                        alt={item?.name_product || "Produit"}
-                        loading="lazy"
-                        className="
-                            max-w-full
-                            max-h-full
-                            object-contain
-                            transition-transform
-                            duration-500
-                            group-hover:scale-105
-                        "
-                        onError={(e) => {
-                            if (!e.target.src.includes("default-product.jpg")) {
-                                e.target.src = "/default-product.jpg";
-                            }
-                        }}
+                        alt={item?.name_product}
+                        className="max-w-full max-h-full object-contain transition-transform duration-500 group-hover:scale-110"
                     />
                 </div>
 
+                {/* Overlay Action Rapide (Mobile friendly) */}
+                <div className="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-gradient-to-t from-black/20 to-transparent z-20 hidden md:block">
+                    <button className="w-full bg-white/95 backdrop-blur shadow-xl py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-2 text-gray-800">
+                        <Eye size={14} /> {t("voir_details")}
+                    </button>
+                </div>
             </div>
 
-            {/* Infos Produit */}
-            <div className="p-1">
-
-                {/* Avatar & Quantité */}
-                <div className="flex justify-between items-center mb-1">
-
-                    <OwnerAvatar owner={owner}/>
-
-                    {
-                        quantityProduct &&
-                        (
-                            <span className="text-xs text-gray-600 bg-gray-100 p-1 rounded-lg">
-
-                                {t("quantity")} {item?.quantity_product}
-
-                            </span>
-                        )
-                    }
-
+            {/* Infos Section */}
+            <div className="p-4 flex flex-col flex-grow">
+                {/* Vendeur & Stars */}
+                <div className="flex justify-between items-start mb-2">
+                    <OwnerAvatar owner={owner} />
+                    <div className="scale-90 origin-right">
+                        <PrintNumberStars productNbViews={item?.view_count} t={t} />
+                    </div>
                 </div>
 
-                {/* Étoiles & Reviews */}
-                <PrintNumberStars productNbViews={item?.view_count} t={t} />
+                {/* Nom & Description */}
+                <div className="flex-grow">
+                    <h3 className="text-sm font-bold text-gray-900 line-clamp-1 mb-1">
+                        {item?.name_product || "Sans nom"}
+                    </h3>
+                    <p className="text-[11px] text-gray-500 line-clamp-2 leading-relaxed mb-3">
+                        {item?.description_product?.toLowerCase()}
+                    </p>
+                </div>
 
-                {/* Description */}
-                <p className="text-xs text-start truncate mb-1 md:text-sm whitespace-nowrap overflow-y-auto w-full scrollbor_hidden px-2">
-                    {item?.description_product.toLowerCase()}
-                </p>
-
-                {/* Prix & Boutons */}
-                <div className="flex justify-between items-center w-full">
-
-                    <ScrollingContent item={item} t={t} qut_sold={item?.quantity_product_sold} />
-
-                    <div className="flex gap-2">
-
-                        <button
-
-                            title="Ajouter au panier"
-
-                            onClick={
-                                () => {
-
-                                    dispatch(
-
-                                        addToCart(item)
-
-                                    );
-
-                                    dispatch(
-
-                                        addMessageNotif(
-
-                                            `Produit ${item?.code_reference} sélectionné le ${Date.now()}`
-                                        )
-                                    );
-                                }}
-
-                            aria-disabled="true"
-
-                            className="cursor-pointer p-1 rounded-full hover:bg-green-100 transition"
-                        >
-                            <svg
-                                className="w-8 h-6 text-gray-800 dark:text-white border-1 rounded-lg"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    stroke="currentColor"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="1"
-                                    d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7h-1M8 7h-.688M13 5v4m-2-2h4"
-                                />
-                            </svg>
-
-                        </button>
-
+                {/* Prix & Panier */}
+                <div className="flex items-center justify-between mt-auto pt-3 border-t border-gray-50">
+                    <div className="flex flex-col">
+                        <span className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">
+                            {t("prix_unitaire")}
+                        </span>
+                        <div className="text-blue-600 font-black text-lg">
+                            <ScrollingContent item={item} t={t} qut_sold={item?.quantity_product_sold} />
+                        </div>
                     </div>
 
+                    <button
+                        disabled={isInCart}
+                        onClick={handleAddToCart}
+                        className={`
+                            p-3 rounded-xl transition-all duration-300
+                            ${isInCart
+                                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                : "bg-[#2563EB] text-white shadow-lg shadow-blue-200 hover:bg-[#1D4ED8] hover:scale-110 active:scale-95"
+                            }
+                        `}
+                    >
+                        <ShoppingCart size={20} strokeWidth={2.5} />
+                    </button>
                 </div>
-
             </div>
-
         </div>
     );
 };
 
 export default ProductCard;
-

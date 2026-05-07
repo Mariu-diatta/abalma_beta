@@ -10,6 +10,7 @@ import ScrollableButtonsCategoryProducts from './ScrollCategoryButtons';
 import ListProductByCategory from './ListProductCategory';
 import PaginationProduit from './PaginationProduit';
 
+
 const GridLayoutProduct = () => {
 
     const [filteredItems, setFilteredItems] = useState([])
@@ -201,7 +202,7 @@ const GridLayoutProduct = () => {
   
     return (
 
-        <div className="space-y-4  pb-[10dvh] my-3 overflow-x-hidden">
+        <div className="space-y-4 overflow-x-hidden">
 
             { isCurrentUserConnected && <SearchBar /> }
 

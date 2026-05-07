@@ -18,7 +18,7 @@ const ServicesSection = () => {
                 </div>
 
                 {/* Grille de services */}
-                <div className="ss-grid" role="list">
+                <div className="ss-grid-1" role="list">
                     {services?.map((service, index) => (
                         <article
                             key={service?.key ?? index}

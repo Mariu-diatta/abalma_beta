@@ -1,20 +1,11 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { menuItems } from '../components/MenuItem';
 import { useTranslation } from 'react-i18next';
+import { ChevronDown, ChevronUp, Grid } from 'lucide-react';
 
-
-// ─── Utilitaires ──────────────────────────────────────────────────────────────
-
-/** Normalise une clé de catégorie : retire les underscores et passe en minuscules. */
 const normalizeKey = (cat) => cat.replace(/_/g, '').toLowerCase();
-
-/** Formate le libellé affiché : underscores → espaces + capitalize. */
-const formatLabel = (cat) =>
-    cat
-        .replace(/_/g, ' ')
-        .replace(/\b\w/g, (c) => c.toUpperCase());
-
-// ─── Composant ────────────────────────────────────────────────────────────────
+const formatLabel = (cat) => cat.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 
 const ListButtonsCategories = ({
     categories,
@@ -25,40 +16,107 @@ const ListButtonsCategories = ({
 }) => {
     const { t } = useTranslation();
     const menuList = menuItems(t);
+    const [isOpen, setIsOpen] = useState(false);
+    const [coords, setCoords] = useState({ top: 0, left: 0, width: 0 });
+
+    const triggerRef = useRef(null);
+    const popoverRef = useRef(null);
+
+    // Calcul de la position du bouton pour placer le Popover
+    const updatePosition = () => {
+        if (triggerRef.current) {
+            const rect = triggerRef.current.getBoundingClientRect();
+            setCoords({
+                top: rect.bottom + window.scrollY + 10,
+                left: rect.left + window.scrollX,
+                width: rect.width
+            });
+        }
+    };
+
+    const togglePopover = () => {
+        updatePosition();
+        setIsOpen(!isOpen);
+    };
+
+    // Gestion du clic extérieur et du redimensionnement
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (popoverRef.current && !popoverRef.current.contains(event.target) &&
+                !triggerRef.current.contains(event.target)) {
+                setIsOpen(false);
+            }
+        };
+
+        if (isOpen) {
+            window.addEventListener('resize', updatePosition);
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            window.removeEventListener('resize', updatePosition);
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isOpen]);
 
     if (!categories?.length) return null;
 
     return (
-        <>
-            <section className="lbc-wrap" role="toolbar" aria-label="Filtres par catégorie">
-                {categories.map((cat) => {
-                    const label = formatLabel(cat);
-                    const key = normalizeKey(cat);
-                    const isActive = normalizeKey(activateButtonCategory ?? '') === key;
-                    const icon = menuList.find((item) => item.name === cat)?.photo;
+        <div className="relative inline-block">
+            {/* Bouton Déclencheur */}
+            <button
+                ref={triggerRef}
+                type="button"
+                onClick={togglePopover}
+                className={`category-popover-trigger ${isOpen ? 'active' : ''}`}
+            >
+                <Grid size={18} />
+                <span>{isOpen ? t('Fermer') : t('Catégories')}</span>
+                {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+            </button>
 
-                    return (
-                        <button
-                            key={cat}
-                            type="button"
-                            role="radio"
-                            aria-checked={isActive}
-                            aria-label={label}
-                            className={`lbc-btn${isActive ? ' active' : ''}`}
-                            onMouseEnter={() => setProductSpecificHandler(key)}
-                            onClick={(e) => {
-                                e.preventDefault();
-                                setActiveCategory(label);
-                                setActivateButtonCategory(label);
-                            }}
-                        >
-                            {icon && <span className="lbc-icon">{icon}</span>}
-                            <span className="lbc-label">{label}</span>
-                        </button>
-                    );
-                })}
-            </section>
-        </>
+            {/* Le Portal - Sort le contenu du flux DOM parent */}
+            {isOpen && createPortal(
+                <div
+                    ref={popoverRef}
+                    className="portal-popover-content"
+                    style={{
+                        position: 'absolute',
+                        top: `${coords.top}px`,
+                        left: `${coords.left}px`,
+                        zIndex: 9999
+                    }}
+                >
+                    <section className="ss-grid scrollable-grid">
+                        {categories.map((cat) => {
+                            const label = formatLabel(cat);
+                            const key = normalizeKey(cat);
+                            const isActive = normalizeKey(activateButtonCategory ?? '') === key;
+                            const icon = menuList.find((item) => item.name === cat)?.photo;
+
+                            return (
+                                <button
+                                    key={cat}
+                                    type="button"
+                                    className={`lbc-btn${isActive ? 'active' : ''}`}
+                                    onMouseEnter={() => setProductSpecificHandler(key)}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setActiveCategory(label);
+                                        setActivateButtonCategory(label);
+                                        setIsOpen(false);
+                                    }}
+                                >
+                                    {icon && <span className="lbc-icon">{icon}</span>}
+                                    <span className="lbc-label">{label.toLowerCase()}</span>
+                                </button>
+                            );
+                        })}
+                    </section>
+                </div>,
+                document.body // Injecté directement à la racine du site
+            )}
+        </div>
     );
 };
 

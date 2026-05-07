@@ -1,17 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { useTranslation } from "react-i18next";
-import WhiteRoundedButton from "../components/Button";
+import WhiteRoundedButton, { WhiteRoundedButtonSignInRegister } from "../components/Button";
 import ThemeToggle from "./Theme";
 import NotificationsComponent from "../components/NotificationComponent";
 import PayBack from "../components/BacketButtonPay";
 import { useSelector } from "react-redux";
 import { ENDPOINTS } from "../utils";
 import LanguageDropdown from "./Langages";
+import LogIn from "../pages/Login";
+import RegisterForm from "../pages/Register";
 
 const MobileNav = ({ open }) => {
 
-  const { t } = useTranslation();
+    const { t } = useTranslation();
+
+    const [showLogin, setShowLogin] = useState(false);
+
+    const [showRegister, setShowRegister] = useState(false);
 
   return (
 
@@ -24,9 +30,20 @@ const MobileNav = ({ open }) => {
       <div
          className="text-sm absolute top-3 flex flex-col items-start justify-start gap-3 sm:hidden p-1 shadow-2xl rounded-lg w-full py-5 bg-white/90"
       >
-        <WhiteRoundedButton titleButton={t(ENDPOINTS.LOGIN)} to={ENDPOINTS.LOGIN} />
 
-        <WhiteRoundedButton titleButton={t(ENDPOINTS.REGISTER)} to={ENDPOINTS.REGISTER} />
+        <WhiteRoundedButtonSignInRegister
+            titleButton={t(ENDPOINTS.LOGIN)}
+            onClick={() => setShowLogin(true)}
+        >
+            {showLogin && <LogIn onClose={() => setShowLogin(false)} />}
+        </WhiteRoundedButtonSignInRegister>
+
+        <WhiteRoundedButton
+            titleButton={t(ENDPOINTS.REGISTER)}
+            onClick={() => setShowRegister(true)}
+        >
+            {showRegister && <RegisterForm onClose={() => setShowRegister(false)} />}
+        </WhiteRoundedButton>
 
         <div className="flex justify-between items-center gap-1 text-sm hover:bg-gray-100">
 

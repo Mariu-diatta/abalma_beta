@@ -17,7 +17,7 @@ const InputBox = ({
 
     return (
 
-        <div className="relative mb-6 w-auto">
+        <div className="relative mb-3 w-auto">
 
             <input
                 id={inputId}

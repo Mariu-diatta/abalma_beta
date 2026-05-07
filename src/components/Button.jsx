@@ -6,7 +6,7 @@ import { CONSTANTS, ENDPOINTS, removeAccents } from "../utils";
 import { useTranslation } from 'react-i18next';
 
 
-const WhiteRoundedButton = ({ titleButton, to }) => {
+const WhiteRoundedButton = ({ titleButton, to, children=null}) => {
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
@@ -43,29 +43,75 @@ const WhiteRoundedButton = ({ titleButton, to }) => {
   `;
 
     return (
+         <>
+            <NavLink
 
-        <NavLink
+                to={`/${to}`}
 
-            to={`/${to}`}
+                className={({ isActive }) =>`
+                  ${baseClasses}
+                  ${defaultClasses}
+                  ${isActive ? activeClasses : "text-gray-700 dark:text-gray-200"}
+                  dark:bg-dark
+                `
+                }
 
-            className={({ isActive }) =>`
-              ${baseClasses}
-              ${defaultClasses}
-              ${isActive ? activeClasses : "text-gray-700 dark:text-gray-200"}
-              dark:bg-dark
-            `
-            }
+                onClick={() => dispatch(setCurrentNav(to))}
+            >
+                {titleButton}
 
-            onClick={() => dispatch(setCurrentNav(to))}
-        >
-            {titleButton}
-
-        </NavLink>
+            </NavLink>
+            {children}
+         </>
     );
 };
 
 
 export default WhiteRoundedButton;
+
+export const WhiteRoundedButtonSignInRegister = ({ titleButton,  children = null, onClick = null }) => {
+
+    const { t } = useTranslation();
+
+    const isRegister = titleButton === t(ENDPOINTS.REGISTER);
+
+    // Classes de base plus modernes
+    const baseClasses = `
+        whitespace-nowrap
+        inline-flex items-center justify-center
+        rounded-full
+        px-6 py-2
+        text-[14px]
+        font-semibold
+        transition-all duration-300
+        active:scale-95
+    `;
+
+    // Design plus e-commerce (ombres douces et gradients)
+    const defaultClasses = isRegister
+        ? `bg-[#2563EB] text-white shadow-lg shadow-blue-200 hover:bg-[#1536a3] border-none`
+        : `bg-white text-gray-700 shadow-sm border border-gray-100 hover:shadow-md hover:border-blue-200 hover:bg-blue-50/30`;
+
+    // Rendu conditionnel : si onClick existe, c'est un bouton de modale, sinon c'est un lien
+    const renderButton = () => {
+            return (
+                <button
+                    type="button"
+                    onClick={onClick}
+                    className={`${baseClasses} ${defaultClasses}`}
+                >
+                    {titleButton}
+                </button>
+            );
+    };
+
+    return (
+        <>
+            {renderButton()}
+            {children}
+        </>
+    );
+};
 
 export const ButtonNavigate = ({ tabs }) => {
 
@@ -128,7 +174,6 @@ export const ButtonNavigate = ({ tabs }) => {
                                     <>{tab.logo}</>
 
                                     <>{tab.label}</>
-
                                 </NavLink>
                             }
 

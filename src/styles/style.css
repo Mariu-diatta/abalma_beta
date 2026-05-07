@@ -2187,9 +2187,9 @@ html, body, #root {
     letter-spacing: -.025em;
 }
 
-    .ss-title span {
-        color: #6366f1;
-    }
+.ss-title span {
+    color: #6366f1;
+}
 
 .ss-subtitle {
     font-size: .95rem;
@@ -2203,12 +2203,47 @@ html, body, #root {
 .ss-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 20px;
-    max-width: 1100px;
+    gap: 10px;
+    max-width: 100%;
     margin: 0 auto;
-    position: relative;
     z-index: 1;
 }
+
+
+.ss-grid-1 {
+    display: flex;
+    flex-wrap: wrap; /* Permet le passage à la ligne */
+    justify-content: center; /* Centre les items sur chaque ligne */
+    gap: 15px;
+    max-width: %; /* Largeur max de ta zone de contenu */
+    margin: 0 auto;
+    padding: 10px;
+}
+
+/* On définit la taille des enfants pour forcer le nombre par ligne */
+    .ss-grid-1 > * {
+        flex: 1 1 200px; /* Grandit et rétrécit, avec une base de 200px */
+        max-width: calc(50% - 15px); /* Par défaut 2 par ligne sur mobile */
+        min-width: 140px;
+    }
+
+/* Tablette et Desktop léger : 3 par ligne si assez d'items */
+@media (min-width: 768px) {
+    .ss-grid-1 > * {
+        /* Si tu as 4 items, il en mettra 2 et 2 grâce au flex-grow */
+        /* Si tu as 6 items, il en mettra 3 et 3 */
+        max-width: calc(33.333% - 15px);
+    }
+}
+
+/* Grand écran : Garder un alignement propre */
+@media (min-width: 1024px) {
+    .ss-grid-1 > * {
+        max-width: calc(25% - 15px); /* Max 4 par ligne pour rester lisible */
+    }
+}
+
+
 
 /* Carte */
 @keyframes ss-card-in {
@@ -4478,59 +4513,59 @@ forget password`*/
     overflow: hidden;
 }
 
-    /* Shimmer sur hover */
-    .lbc-btn::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,.45) 50%, transparent 70%);
-        transform: translateX(-100%);
-        transition: transform .4s ease;
-        pointer-events: none;
-    }
+/* Shimmer sur hover */
+.lbc-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,.45) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform .4s ease;
+    pointer-events: none;
+}
 
-    .lbc-btn:hover::before {
-        transform: translateX(100%);
-    }
+.lbc-btn:hover::before {
+    transform: translateX(100%);
+}
 
-    .lbc-btn:hover {
-        transform: translateY(-3px) scale(1.05);
-        box-shadow: 0 8px 24px rgba(59,130,246,.18);
-        border-color: rgba(59,130,246,.25);
-        background: rgba(239,246,255,.95);
-        color: #1d4ed8;
-    }
+.lbc-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 24px rgba(59,130,246,.18);
+    border-color: rgba(59,130,246,.25);
+    background: rgba(239,246,255,.95);
+    color: #1d4ed8;
+}
 
-    .lbc-btn:active {
-        transform: scale(.96);
-    }
+.lbc-btn:active {
+    transform: scale(.96);
+}
 
-    /* État actif */
-    .lbc-btn.active {
-        background: linear-gradient(145deg, #2563eb, #3b82f6);
-        border-color: #1d4ed8;
-        color: #fff;
-        box-shadow: 0 6px 20px rgba(37,99,235,.38), 0 1px 0 rgba(255,255,255,.2) inset;
-        transform: translateY(-2px) scale(1.04);
-    }
+/* État actif */
+.lbc-btn.active {
+    background: linear-gradient(145deg, #2563eb, #3b82f6);
+    border-color: #1d4ed8;
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(37,99,235,.38), 0 1px 0 rgba(255,255,255,.2) inset;
+    transform: translateY(-2px) scale(1.04);
+}
 
-        .lbc-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: 5px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 16px;
-            height: 3px;
-            border-radius: 99px;
-            background: rgba(255,255,255,.6);
-        }
+.lbc-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 3px;
+    border-radius: 99px;
+    background: rgba(255,255,255,.6);
+}
 
-        .lbc-btn.active:hover {
-            background: linear-gradient(145deg, #1d4ed8, #2563eb);
-            box-shadow: 0 8px 28px rgba(37,99,235,.5);
-            color: #fff;
-        }
+.lbc-btn.active:hover {
+    background: linear-gradient(145deg, #1d4ed8, #2563eb);
+    box-shadow: 0 8px 28px rgba(37,99,235,.5);
+    color: #fff;
+}
 
 /* Icône */
 .lbc-icon {
@@ -4600,6 +4635,95 @@ forget password`*/
 
 .lbc-btn:nth-child(10) {
     animation-delay: .40s;
+}
+
+
+/* Bouton Déclencheur */
+.category-popover-trigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 2px 5px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.category-popover-trigger.active {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Contenu du Portal (Popup) */
+.portal-popover-content {
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0px 30px rgba(0, 0, 0, 0.15);
+    border: 1px solid #efefef;
+    min-width: 98%;
+    max-width: 98vw;
+    position:absolute
+}
+
+/* Grille en 2 rangées scrollable horizontalement */
+.scrollable-grid {
+    display: grid;
+    grid-template-rows: repeat(2, 1fr); /* Force 2 rangées */
+    grid-auto-flow: column; /* Remplit par colonne */
+    grid-auto-columns: minmax(100px, auto);
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+}
+
+/* Design des boutons de catégorie */
+.lbc-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding:10px;
+    border-radius: 10px;
+    background: #f9fafb;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.lbc-btn:hover {
+    background: #f0f4ff;
+    transform: translateY(-2px);
+}
+
+.lbc-btn.active {
+    background: #eef2ff;
+    border-color: #3b82f6;
+    color: #3b82f6;
+}
+
+.lbc-icon {
+    font-size: 24px;
+    margin-bottom: 4px;
+}
+
+.lbc-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+/* Scrollbar discrète */
+.scrollable-grid::-webkit-scrollbar {
+    height: 4px;
+}
+
+.scrollable-grid::-webkit-scrollbar-thumb {
+    background: #ddd;
+    border-radius: 4px;
 }
 
 
