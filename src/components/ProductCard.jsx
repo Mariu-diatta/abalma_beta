@@ -99,30 +99,61 @@ const ProductCard = ({ item, isInCart, owner, openModal}) => {
                     </p>
                 </div>
 
-                {/* Prix & Panier */}
-                <div className="flex items-center justify-between mt-auto pt-3 border-t border-gray-50">
-                    <div className="flex flex-col">
-                        <span className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">
-                            {t("prix_unitaire")}
-                        </span>
-                        <div className="text-blue-600 font-black text-lg">
-                            <ScrollingContent item={item} t={t} qut_sold={item?.quantity_product_sold} />
-                        </div>
+                {/* Prix & Boutons */}
+                <div className="flex justify-between items-center">
+
+                    <ScrollingContent item={item} t={t} qut_sold={item?.quantity_product_sold} />
+
+                    <div
+                        className="flex gap-2"
+                    >
+
+                        <button
+
+                            title="Ajouter au panier"
+
+                            onClick={
+                                () => {
+
+                                    dispatch(
+
+                                        addToCart(item)
+
+                                    );
+
+                                    dispatch(
+
+                                        addMessageNotif(
+
+                                            `Produit ${item?.code_reference} sélectionné le ${Date.now()}`
+                                        )
+                                    );
+                                }}
+
+                            aria-disabled="true"
+
+                            className="cursor-pointer p-1 rounded-full hover:bg-green-100 transition"
+                        >
+                            <svg
+                                className="w-8 h-6 text-gray-800 dark:text-white border-1 rounded-lg"
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke="currentColor"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="1"
+                                    d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7h-1M8 7h-.688M13 5v4m-2-2h4"
+                                />
+                            </svg>
+
+                        </button>
+
                     </div>
 
-                    <button
-                        disabled={isInCart}
-                        onClick={handleAddToCart}
-                        className={`
-                            p-3 rounded-xl transition-all duration-300
-                            ${isInCart
-                                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                                : "bg-[#2563EB] text-white shadow-lg shadow-blue-200 hover:bg-[#1D4ED8] hover:scale-110 active:scale-95"
-                            }
-                        `}
-                    >
-                        <ShoppingCart size={20} strokeWidth={2.5} />
-                    </button>
                 </div>
             </div>
         </div>
