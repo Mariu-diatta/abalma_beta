@@ -35,19 +35,28 @@ const MobileNav = ({ open }) => {
             titleButton={t(ENDPOINTS.LOGIN)}
             onClick={() => setShowLogin(!showLogin)}
         >
-            {showLogin && <LogIn onClose={() => setShowLogin(!showLogin)} />}
+            {showLogin && <LogIn
+                callbackState={() => {
+                    setShowLogin(false);      // 1. fermer le login
+                    setShowRegister(true); // 2. ouvre le registre
+                }}
+                onClose={() => setShowLogin(!showLogin)}
+            />}
         </WhiteRoundedButtonSignInRegister>
 
         <WhiteRoundedButtonSignInRegister
             titleButton={t(ENDPOINTS.REGISTER)}
             onClick={() => setShowRegister(!showRegister)}
         >
-                  {showRegister &&
-                        <RegisterForm
-                            callbackState={()=>setShowLogin(true)}
-                            onClose={() => {setShowRegister(!showRegister)}}
-                        />
-                  }
+            {showRegister &&
+                <RegisterForm
+                    callbackState={() => {
+                        setShowRegister(false); // 1. Ferme le registre
+                        setShowLogin(true);      // 2. Ouvre le login
+                    }}
+                    onClose={() => { setShowRegister(!showRegister) }}
+                />
+            }
         </WhiteRoundedButtonSignInRegister>
 
         <div className="flex justify-between items-center gap-1 text-sm hover:bg-gray-100">
