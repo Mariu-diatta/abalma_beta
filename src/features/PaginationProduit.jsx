@@ -22,7 +22,7 @@ const PaginationProduit = ({ products = [] }) => {
     if (!products.length) return null;
 
     return (
-        <div className="relative group w-full px-4 py-6">
+        <div className="relative group w-full px-0 py-6">
 
             {/* Flèche Gauche */}
             <button
@@ -44,7 +44,7 @@ const PaginationProduit = ({ products = [] }) => {
                     justify-start md:justify-center 
                     /* -------------------- */
                     pb-4 
-                    px-4
+                    px-0
                     no-scrollbar
                     snap-x 
                     snap-mandatory
