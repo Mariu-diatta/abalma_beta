@@ -19,7 +19,10 @@ const ServicesSection = () => {
 
                 {/* Grille de services */}
                 <div className="grid grid-cols-1 md:grid-cols-2 items-center justify-center gap-1 " role="list">
-                    {services?.map((service, index) => (
+
+                    {
+                        services?.map((service, index) => (
+
                         <article
                             key={service?.key ?? index}
                             className="ss-card m-2"
@@ -46,7 +49,8 @@ const ServicesSection = () => {
                                 </svg>
                             </span>
                         </article>
-                    ))}
+                        ))
+                    }
                 </div>
 
             </section>

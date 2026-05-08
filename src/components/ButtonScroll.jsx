@@ -101,7 +101,7 @@ const ScrollTop = () => {
 
     return (
 
-        <div ref={messagesEndRef} className="pt-[1dvh]"/>
+        <div ref={messagesEndRef} className="mt-[2dvh]"/>
     )
 }
 

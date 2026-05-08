@@ -49,7 +49,7 @@ api.interceptors.response.use(
                 return api(originalRequest); // rejoue la requête
             } catch (refreshError) {
                 console.warn("Session expirée, redirection vers login");
-                window.location.href = "/login";
+                window.location.href = "/";
                 return Promise.reject(refreshError);
             }
         }

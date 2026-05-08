@@ -7,7 +7,6 @@ import ProtectedRoute from "../ProtectedRoute";
 import About from "../pages/About";
 import ErrorPage from "../pages/ErrorPage";
 import Home from "../pages/Home";
-import LogIn from "../pages/Login";
 import Register from "../pages/Register";
 
 // Components
@@ -55,7 +54,7 @@ const routes = [
 
             { path: "forgetPassword/reset/:uidb64/:token", element: <LayoutPwdForget/> },
 
-            { path: "logIn", element: <LogIn /> },
+            { path: "logIn", element: <Home/> },
 
             {
         

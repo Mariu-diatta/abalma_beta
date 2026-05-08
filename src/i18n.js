@@ -463,7 +463,7 @@ i18n
             delete: "Delete",
             welcome: "Welcome",
             login: "Sing in",
-            register: "Creat an account",
+            register: "Create Account",
             home: "Home",
             about: "About",
             profil: "profil",
@@ -929,7 +929,7 @@ i18n
              NO_SERVICE_PRO: "SERVICE PAS ENCORE DISPONIBLE",
              LOGOUT_CONFIRM: "Voulez-vous vous deconnecter?",
              no_message: "Aucun message à afficher",
-             creatAccountSucces:"'Compte créé avec succès.",
+             creatAccountSucces:"Compte créé avec succès.",
              password: {
                  initPswd: "Mot de passe réinitialisé.",
                  initSucces: "Mot de passe réinitialisé avec succès.",

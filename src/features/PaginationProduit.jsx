@@ -70,7 +70,7 @@ const PaginationProduit = ({ products = [] }) => {
                                     src={image}
                                     alt={name}
                                     className="
-                                        w-full h-full object-cover 
+                                        w-full h-full object-container m-2 
                                         transition-transform duration-500  
                                         group-hover/item:scale-110
                                       "

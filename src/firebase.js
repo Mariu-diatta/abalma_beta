@@ -113,7 +113,7 @@ export function LoginWithGoogle() {
 
             const erroMessage =err?.response?.data?.error || err?.message || err?.response?.data?.detail || err?.response?.data?.detail?.error
 
-            dispatch(setCurrentNav(ENDPOINTS.LOGIN))
+            dispatch(setCurrentNav(ENDPOINTS.HOME))
 
             showMessage(
 

@@ -92,8 +92,6 @@ const NavbarHeader = () => {
             navigate("/", { replace: true });
         } else if ([IMPORTANTS_URLS.REGISTER, IMPORTANTS_URLS.REGISTERS].includes(currentUrl)) {
             dispatch(setCurrentNav(ENDPOINTS.REGISTER));
-        } else if ([IMPORTANTS_URLS.LOGIN, IMPORTANTS_URLS.LOGINS].includes(currentUrl)) {
-            dispatch(setCurrentNav(ENDPOINTS.LOGIN));
         } else navigate(`/${currentNav}`, { replace: true });
     }, [currentNav, navigate, dispatch]);
 

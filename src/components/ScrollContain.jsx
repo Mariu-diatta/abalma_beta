@@ -34,7 +34,7 @@ export default function ScrollingContent({ item, qut_sold, t }) {
 
                     <div className={` ${quantSoldNotZero?"hidden":""} flex items-center gap-1 text-blue-50 rounded-lg rouded-lg p-1 text-sm font-medium`}>
 
-                        {t("quantity_sold")} : <span className="bg-green-100 rounded-full p-">{qut_sold}</span>
+                        {t("quantity_sold")} : <span className="bg-green-100 rounded-full ">{qut_sold}</span>
 
                     </div>
 

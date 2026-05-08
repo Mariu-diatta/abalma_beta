@@ -41,7 +41,7 @@ const RegisterForm = ({ callbackState, onClose}) => {
         const response = await CreateClient(form, setLoading, showMessage, dispatch, t);
         if (response) {
             if (onClose) onClose();
-            navigate("/login", { replace: true });
+            navigate("/", { replace: true });
         }
     };
 

@@ -63,6 +63,7 @@ const ListButtonsCategories = ({
 
     return (
         <div className="relative inline-block">
+
             {/* Bouton Déclencheur */}
             <button
                 ref={triggerRef}

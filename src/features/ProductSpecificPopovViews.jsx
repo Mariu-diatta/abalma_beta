@@ -7,7 +7,6 @@ import CategoryProductsCardDisplay from './ImageGallery';
 
 const ProductSpecifiViews = ({ products, openModal, owners, panelRef }) => {
 
-
     return (
 
         <div

@@ -307,11 +307,13 @@ const VerticalNavbar = ({ children }) => {
                             style={{ padding: "0px 0 40px" }}
                         >
                             <ScrollTop />
+
                             <ButtonScrollTopDown>
                                 <div style={{ padding: "0px 0" }}>
                                     {children}
                                 </div>
                             </ButtonScrollTopDown>
+
                         </section>
 
                     </main>

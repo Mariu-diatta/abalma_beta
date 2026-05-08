@@ -14,7 +14,9 @@ const InputBox = lazy(() => import("../components/InputBoxFloat"));
 const LoadingCard = lazy(() => import("../components/LoardingSpin"));
 const TitleCompGen = lazy(() => import("../components/TitleComponentGen"));
 
-const LogIn = ({ callbackState,onClose }) => { // Prop onClose ajoutée
+const LogIn = ({ callbackState, onClose }) => {
+
+    // Prop onClose ajoutée
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState("");
     const [pwd, setPwd] = useState("");

@@ -36,7 +36,7 @@ const PayBack = () => {
 
                             dispatch(setCurrentNav(ENDPOINTS.HOME));
 
-                            navigate(`/${ENDPOINTS.HOME}`);
+                            navigate(`/`);
                         }
 
                     }

@@ -43,7 +43,7 @@ const RegisterForm = ({ onClose }) => {
         const response = await CreateClient(form, setLoading, showMessage, dispatch, t);
         if (response) {
             if (onClose) onClose();
-            navigate("/login", { replace: true });
+            navigate("/", { replace: true });
         }
     };
 
@@ -69,7 +69,7 @@ const RegisterForm = ({ onClose }) => {
                                     <p className="text-sm text-gray-500 mt-2">
                                         {t("alredyRegister")}{" "}
                                         <button
-                                            onClick={() => { if (onClose) onClose(); navigate("/login"); }}
+                                            onClick={() => { if (onClose) onClose(); navigate("/"); }}
                                             className="font-semibold text-blue-600 hover:underline"
                                         >
                                             {t("login")}

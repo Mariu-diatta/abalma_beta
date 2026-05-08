@@ -610,7 +610,7 @@ export const getTabsNavigationsItems = (currentNav, t) => {
                 label: 'Blog',
                 endPoint: '/blogs',
                 logo:
-                    (!(currentNav === "blogs") && !(currentNav === "login") && !(currentNav === "/register")) ?
+                    (!(currentNav === "blogs") && !(currentNav === "login")) ?
                         (
                             <svg
                                 className="w-6 h-6 text-gray-800 dark:text-white"

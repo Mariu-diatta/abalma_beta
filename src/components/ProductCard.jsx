@@ -36,124 +36,81 @@ const ProductCard = ({ item, isInCart, owner, openModal}) => {
     return (
         <div
             className={`
-                group relative flex flex-col w-full bg-white 
+                group relative flex flex-col bg-white 
                 rounded-2xl border border-gray-100 overflow-hidden
-                transition-all duration-300 hover:shadow-2xl hover:border-blue-100
+                transition-all duration-300 hover:shadow-2xl hover:border-blue-100 h-full w-full md:max-w-[30vw] 
                 ${isInCart ? "opacity-75 grayscale-[0.5]" : ""}
             `}
         >
-            {/* Zone Image */}
-            {/*<div*/}
-            {/*    onClick={() => openModal(item)}*/}
-            {/*    className="relative aspect-1 w-full overflow-hidden cursor-pointer bg-gray-50"*/}
-            {/*>*/}
-            {/*    */}{/* Effet de fond flouté (Amélioré) */}
-            {/*    <div*/}
-            {/*        className="absolute inset-0 bg-cover bg-center blur-3xl opacity-20 scale-110 transition-transform duration-700 group-hover:scale-125"*/}
-            {/*        style={{ backgroundImage: `url(${currentImage})` }}*/}
-            {/*    />*/}
-
-            {/*    */}{/* Badge Quantité (Top Left) */}
-            {/*    {item?.quantity_product > 0 && (*/}
-            {/*        <div className="absolute top-3 left-3 z-20">*/}
-            {/*            <span className="bg-white/90 backdrop-blur-md text-[10px] font-bold px-2 py-1 rounded-full shadow-sm text-gray-700 border border-white/50">*/}
-            {/*                {item.quantity_product} {t("disponible")}*/}
-            {/*            </span>*/}
-            {/*        </div>*/}
-            {/*    )}*/}
-
-            {/*    */}{/* Image Principale */}
-            {/*    <div className="relative aspect-square rounded-2xl bg-gray-50 border border-gray-100 overflow-hidden group">*/}
-
-            {/*        <img*/}
-            {/*            src={currentImage}*/}
-            {/*            alt={item?.name_product}*/}
-            {/*            className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105 cursor-zoom-in"*/}
-
-            {/*        />*/}
-
-            {/*    </div>*/}
-
-            {/*    */}{/* Overlay Action Rapide (Mobile friendly) */}
-            {/*    <div className="w-10 h-10 rounded-full absolute bg-white inset-x-0 bottom-0 p-4 m-2 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-gradient-to-t from-black/20 to-transparent z-20 hidden md:block">*/}
-            {/*        <button className="w-full h-full bg-none backdrop-blur shadow-xl py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-2 text-gray-800">*/}
-            {/*            <Eye size={14} />*/}
-            {/*        </button>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
-
-
             {/* Image & Modal Trigger */}
-            <div>
-                {/* Badge Quantité (Top Left) */}
+            <div className="relative group"> {/* Ajout de group pour l'overlay hover */}
+
+                {/* Badge Quantité */}
                 {item?.quantity_product > 0 && (
                     <div className="absolute top-3 left-3 z-20">
-                        <span className="bg-white/90 backdrop-blur-md text-[10px] font-bold px-2 py-1 rounded-full shadow-sm text-gray-700 border border-white/50">
+                        <span className="bg-white/90 backdrop-blur-md text-[10px] font-bold px-2 py-1 rounded-full shadow-sm text-gray-700 border border-white/50 ">
                             {item.quantity_product} {t("disponible")}
                         </span>
                     </div>
                 )}
-                <div
 
-                    onClick={() => {
-                        openModal(item);
-                    //    dispatch(addUser(owners[item?.fournisseur]));
-                    }}
+                <div
+                    onClick={() => openModal(item)}
                     className="
-                    relative
-                    w-full
-                    aspect-[4/5]
-                    overflow-hidden
-                    rounded-lg
-                    cursor-pointer
-                    bg-gray-100
-                    shadow-md
-                    hover:shadow-xl
-                    transition-shadow
-                    duration-300
-                  "
-                >
-                    {/* Image de fond floutée pour effet de profondeur */}
-                    <div
-                        className="
-                      absolute inset-0 
-                      bg-cover bg-center 
-                      blur-sm 
-                      scale-110
-                      opacity-60
-                      transition-transform
-                      duration-500
+                        relative
+                        w-full
+                        aspect-[4/5]
+                        overflow-hidden
+                        rounded-lg
+                        cursor-pointer
+                        bg-gray-100
+                        shadow-md
+                        hover:shadow-xl
+                        transition-all
+                        duration-300
+                        /* ACTIONS POUR CENTRER : */
+                        flex
+                        items-center
+                        justify-center
                     "
+                >
+                    {/* Image de fond floutée */}
+                    <div
+                        className="absolute inset-0 bg-cover bg-center blur-sm scale-110 opacity-40 transition-transform duration-500"
                         style={{ backgroundImage: `url(${currentImage})` }}
                     />
 
-                    {/* Image principale du produit */}
+                    {/* Image principale du produit centrée */}
                     <img
                         src={currentImage}
                         alt={item?.name_product || "Produit"}
                         loading="lazy"
                         className="
-                      relative
-                      max-w-100
-                      h-full
-                      object-contain
-                      transition-transform
-                      duration-300
-                      ease-in-out
-                      hover:scale-105
-                      hover:brightness-90
-                    "
+                            relative
+                            z-10
+                            /* TAILLE INTELLIGENTE : */
+                            max-w-full 
+                            max-h-full
+                            w-auto
+                            h-auto
+                            object-contain /* Important pour ne pas déformer */
+                            transition-transform
+                            duration-300
+                            ease-in-out
+                            group-hover:scale-110
+                        "
                         onError={(e) => {
-                            // fallback si image manquante
                             if (!e.target.src.includes("default-product.jpg")) {
                                 e.target.src = "/default-product.jpg";
                             }
                         }}
                     />
-                    {/* Overlay Action Rapide (Mobile friendly) */}
-                    <div className="w-10 h-10 rounded-full absolute bg-white inset-x-0 bottom-0 p-4 m-2 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-gradient-to-t from-black/20 to-transparent z-20 hidden md:block">
-                        <button className="w-full h-full bg-none backdrop-blur shadow-xl py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-2 text-gray-800">
-                            <Eye size={14} />
+
+                    {/* Overlay Action Rapide */}
+                    <div className="absolute inset-x-0 bottom-4 flex justify-center translate-y-12 group-hover:translate-y-0 transition-transform duration-300 z-20 hidden md:flex">
+                        <button className="bg-white/90 backdrop-blur px-4 py-2 rounded-full shadow-lg text-xs font-bold flex items-center justify-center gap-2 text-gray-800 hover:bg-white">
+                            <Eye size={16} />
+                            <span>{t("voir_details")}</span>
                         </button>
                     </div>
                 </div>

@@ -93,7 +93,7 @@ export default function ButtonsNavigateThemecolorPayDropdownaccount() {
         dispatch(setCurrentNav(ENDPOINTS?.HOME));
 
         // 2️⃣ Naviguer directement
-        navigate(`/${ENDPOINTS?.HOME}`, { replace: true });
+        navigate(`/`, { replace: true });
 
         // 3️⃣ Essayer la requête API en arrière-plan
         try {
