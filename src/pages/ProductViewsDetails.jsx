@@ -56,7 +56,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
     if (!isOpen || !product?.id) return null;
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-2">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-1">
             {/* Overlay flouté pour un look premium */}
             <div
                 className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity"
@@ -64,7 +64,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
             />
 
             {/* Modal */}
-            <div className="scrollbor_hidden relative bg-white max-w-[100vw] w-full rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[98vh]">
+            <div className="scrollbor_hidden relative bg-white max-w-[100vw] w-full rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh]">
 
                 {/* Header Mobile / Close Button */}
                 <button
