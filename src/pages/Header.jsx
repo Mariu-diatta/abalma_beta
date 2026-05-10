@@ -96,7 +96,7 @@ const NavbarHeader = () => {
     }, [currentNav, navigate, dispatch]);
 
     return (
-        <nav className="sticky top-0 z-50 max-h-[20px] min-h-[20px] bg-none mt-0">
+        <nav className="sticky top-0 z-50 max-h-[20px] min-h-[20px] bg-none mb-8">
 
             <header
                 id="header"

@@ -41,15 +41,12 @@ const PersistLogIn = () => {
 
                     dispatch(setCurrentNav(currentNav));
 
-                    //navigate("/account-home", { replace: true });
-
                     if (getRefreshToken?.data?.user) dispatch(login(getRefreshToken?.data?.user))
                 }
                 
             } catch (error) {
 
                 console.error("Utilisateur non authentifié :", error);
-                // Tu peux rediriger vers /login ici si tu veux
 
             } finally {
 

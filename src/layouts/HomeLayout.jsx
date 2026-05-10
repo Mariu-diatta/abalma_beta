@@ -11,15 +11,15 @@ const HomeLayout = ({ children }) => {
 
             <NavbarHeader />
 
-            <ScrollTop />
+            {/*<ScrollTop />*/}
 
-            <section className="mt-[5dvh]"> 
+            {/*<section className="mt-[5dvh]"> */}
 
                 {children}
 
                 <Footer />
 
-            </section>
+            {/*</section>*/}
 
         </main>
     );

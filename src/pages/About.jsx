@@ -65,7 +65,7 @@ const AboutContainer = () => {
     useRevealOnScroll([leftRef, rightRef]);
 
     return (
-        <section className="overflow-y-auto h-full grid lg:grid-cols-2 gap-10 items-center bg-gradient-to-br from-purple-10 to-blue-50 backdrop-blur-xl p-3 lg:px-10 transition-all duration-500">
+        <section className="overflow-hidden h-full grid lg:grid-cols-2 gap-10 items-center bg-gradient-to-br from-purple-10 to-blue-50 backdrop-blur-xl p-3 lg:px-10 transition-all duration-500">
 
             {/* LEFT */}
             <div ref={leftRef} className="grid grid-cols-2 gap-8 opacity-0 translate-y-10 scale-95 transition-all duration-700">
@@ -104,8 +104,8 @@ const AboutContainer = () => {
 
                     <button
                         onClick={() => {
-                            navigate(`/${ENDPOINTS.LOGIN}`);
-                            dispatch(setCurrentNav(ENDPOINTS.LOGIN));
+                            navigate(`/`);
+                            dispatch(setCurrentNav(ENDPOINTS.HOME));
                         }}
                         className="fp-btn"
                     >

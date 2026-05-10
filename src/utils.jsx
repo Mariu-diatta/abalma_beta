@@ -981,8 +981,8 @@ export const totalPrice = (product, referenceCurrency) => {
 };
 
 export const IMPORTANTS_URLS = {
-    LOGINS: "https://www.abalma.fr/login/",
-    LOGIN:"http://localhost:3000/login",
+    LOGINS: "https://www.abalma.fr/",
+    LOGIN:"http://localhost:3000/",
     REGISTER: "http://localhost:3000/register",
     REGISTERS: "https://www.abalma.fr/register/",
     MESSAGE_APP: "https://www.abalma.fr/message-inbox",
