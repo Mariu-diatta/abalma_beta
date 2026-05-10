@@ -18,14 +18,14 @@ const ServicesSection = () => {
                 </div>
 
                 {/* Grille de services */}
-                <div className="grid grid-cols-1 md:grid-cols-2 items-center justify-center gap-1 " role="list">
+                <div className="grid grid-cols-1 md:grid-cols-2 items-center justify-center gap-1  " role="list">
 
                     {
                         services?.map((service, index) => (
 
                         <article
                             key={service?.key ?? index}
-                            className="ss-card m-2"
+                            className="ss-card m-1 px-6 text-center py-3"
                             role="listitem"
                         >
                             <div className="ss-icon-wrap" aria-hidden="true">

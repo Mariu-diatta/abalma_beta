@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { menuItems } from '../components/MenuItem';
+//import { menuItems } from '../components/MenuItem';
 import { useTranslation } from 'react-i18next';
 import { ChevronDown, ChevronUp, Grid } from 'lucide-react';
 
@@ -15,7 +15,7 @@ const ListButtonsCategories = ({
     activateButtonCategory,
 }) => {
     const { t } = useTranslation();
-    const menuList = menuItems(t);
+    //const menuList = menuItems(t);
     const [isOpen, setIsOpen] = useState(false);
     const [coords, setCoords] = useState({ top: 0, left: 0, width: 0 });
 
@@ -62,6 +62,7 @@ const ListButtonsCategories = ({
     if (!categories?.length) return null;
 
     return (
+
         <div className="relative inline-block">
 
             {/* Bouton Déclencheur */}
@@ -71,9 +72,14 @@ const ListButtonsCategories = ({
                 onClick={togglePopover}
                 className={`category-popover-trigger ${isOpen ? 'active' : ''}`}
             >
-                <Grid size={18} />
+                <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18 6H6m12 4H6m12 4H6m12 4H6" />
+                </svg>
+
                 <span>{isOpen ? t('Fermer') : t('Catégories')}</span>
+
                 {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+
             </button>
 
             {/* Le Portal - Sort le contenu du flux DOM parent */}
@@ -88,12 +94,13 @@ const ListButtonsCategories = ({
                         zIndex: 9999
                     }}
                 >
-                    <section className="ss-grid scrollable-grid">
+                    <section className="ss-grid">
+
                         {categories.map((cat) => {
                             const label = formatLabel(cat);
                             const key = normalizeKey(cat);
                             const isActive = normalizeKey(activateButtonCategory ?? '') === key;
-                            const icon = menuList.find((item) => item.name === cat)?.photo;
+                            //const icon = menuList.find((item) => item.name === cat)?.photo;
 
                             return (
                                 <button
@@ -108,7 +115,7 @@ const ListButtonsCategories = ({
                                         setIsOpen(false);
                                     }}
                                 >
-                                    {icon && <span className="lbc-icon">{icon}</span>}
+                                    {/*{icon && <span className="lbc-icon">{icon}</span>}*/}
                                     <span className="lbc-label">{label.toLowerCase()}</span>
                                 </button>
                             );
