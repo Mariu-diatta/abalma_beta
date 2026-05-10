@@ -56,7 +56,9 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
     if (!isOpen || !product?.id) return null;
 
     return (
+
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-1">
+
             {/* Overlay flouté pour un look premium */}
             <div
                 className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity"
@@ -75,10 +77,12 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                 </button>
 
                 <div className="overflow-y-auto p-6 md:p-10 scrollbor_hidden">
+
                     <div className="lg:grid lg:grid-cols-2 lg:gap-12 items-start">
 
                         {/* SECTION GAUCHE : VISUEL */}
                         <div className="space-y-4">
+
                             <div className="relative aspect-square rounded-2xl bg-gray-50 border border-gray-100 overflow-hidden group">
                                 <img
                                     src={imageCurrentVariantImage}
@@ -87,6 +91,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                                     onClick={() => setIndex((index + 1) % variantsProduct.length)}
                                 />
                             </div>
+
                             {/* Miniatures (facultatif mais pro) */}
                             <div className="flex gap-2 overflow-x-auto pb-2">
                                 {variantsProduct.map((v, i) => (
@@ -103,6 +108,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
 
                         {/* SECTION DROITE : INFOS */}
                         <div className="mt-8 lg:mt-0">
+
                             <div className="flex justify-between items-start">
                                 <div>
                                     <h1 className="text-2xl md:text-3xl font-black text-gray-900 leading-tight">

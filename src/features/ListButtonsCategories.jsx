@@ -86,7 +86,7 @@ const ListButtonsCategories = ({
             {isOpen && createPortal(
                 <div
                     ref={popoverRef}
-                    className="portal-popover-content  bg-gray-200 overflow-auto w-secreen h-screen scrollbor_hidden py-[20vh]"
+                    className="portal-popover-content  bg-gray-200 overflow-auto w-secreen h-[85vh] scrollbor_hidden py-[20vh]"
                     style={{
                         position: 'absolute',
                         top: `${coords.top}px`,
