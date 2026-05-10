@@ -26,20 +26,25 @@ const LogIn = ({ callbackState, onClose }) => {
 
     // -- Logique inchangée --
     const handleSignIn = async () => {
+
         if (!email || !pwd) {
             showMessage(dispatch, { Type: "Erreur", Message: "Veuillez remplir tous les champs." });
             return;
         }
+
         setLoading(true);
+
         try {
             const formData = new FormData();
             formData.append("email", email);
             formData.append("password", pwd);
             await loginClient(formData, dispatch, setLoading, navigate);
             if (onClose) onClose(); // Fermer le popover après succès
+
         } catch (e) {
             const errorMessage = e?.response?.data?.detail || e?.response?.data?.error;
             showMessage(dispatch, { Type: "Erreur", Message: errorMessage || "Error" });
+
         } finally {
             setLoading(false);
         }
@@ -52,8 +57,11 @@ const LogIn = ({ callbackState, onClose }) => {
 
     // Portal vers le body
     return createPortal(
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-in fade-in duration-300"
-            onClick={handleBackdropClick}>
+
+        <div
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-in fade-in duration-300"
+            onClick={handleBackdropClick}
+        >
 
             <div className="relative w-full max-auto max-w-[450px] bg-white dark:bg-dark-2 rounded-3xl shadow-2xl overflow-hidden transform transition-all scale-95 animate-in zoom-in-95 duration-300">
 
@@ -66,11 +74,15 @@ const LogIn = ({ callbackState, onClose }) => {
                 </button>
 
                 <div className="p-8 md:p-10">
+
                     {!loading ? (
                         <section>
+
                             {/* HEADER */}
                             <div className="mb-8 text-center space-y-2">
+
                                 <TitleCompGen title={t("login")} />
+
                                 <span className="text-sm text-gray-500 dark:text-gray-400">
                                     <span>{t("notRegistered")}</span>{" "}
                                     <button
@@ -83,6 +95,7 @@ const LogIn = ({ callbackState, onClose }) => {
                                         {t("register")}
                                     </button>
                                 </span>
+
                             </div>
 
                             {/* FORM */}
@@ -114,6 +127,7 @@ const LogIn = ({ callbackState, onClose }) => {
                                 <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-bold transition-all shadow-lg shadow-blue-200 active:scale-95">
                                     {t("login")}
                                 </button>
+
                             </form>
 
                             <div className="mt-6 text-center">

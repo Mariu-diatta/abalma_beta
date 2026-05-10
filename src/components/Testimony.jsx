@@ -99,8 +99,8 @@ export default function TestimonialCarousel({
 
                 {/* Header */}
                 <div className="tc-header">
-                    <TitleCompGen title={"Ils/Elles développent leur activité avec Abalma"} />
-                    <p className="tc-subtitle">Ce que nos utilisateurs disent de nous</p>
+                    <TitleCompGen title={"Avec Abalma, ils font grandir leur activité."} />
+                    <p className="tc-subtitle">Ce que nos utilisateurs disent de nous.</p>
                 </div>
 
                 {/* Slider */}

@@ -2979,7 +2979,6 @@ const styles = `*/
     color: #64748b;
     line-height: 1.65;
     margin: 0 0 14px;
-    max-width: 260px;
 }
 
 /* Policy checkbox */
@@ -4659,14 +4658,12 @@ forget password`*/
 
 /* Contenu du Portal (Popup) */
 .portal-popover-content {
-    background: white;
+    /*    background: white/2;*/
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 0px 30px rgba(0, 0, 0, 0.15);
     border: 1px solid #efefef;
-    min-width: 96%;
-    max-width: 96vw;
-    position:absolute
+    position: relative
 }
 
 /* Grille en 2 rangées scrollable horizontalement */

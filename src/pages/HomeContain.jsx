@@ -35,7 +35,7 @@ const HomeContain = () => {
 
                 </section>
 
-                <section aria-labelledby="Tesmonies" className=" translate-y-0 transition-all duration-1000 ease-in-out py-3">
+                <section aria-labelledby="Tesmonies" className=" translate-y-0 transition-all duration-1000 ease-in-out ">
 
                     <TestimonialCarousel
                         autoplay={true}

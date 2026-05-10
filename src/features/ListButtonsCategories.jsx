@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 //import { menuItems } from '../components/MenuItem';
 import { useTranslation } from 'react-i18next';
-import { ChevronDown, ChevronUp, Grid } from 'lucide-react';
+import { ChevronDown, ChevronUp} from 'lucide-react';
 
 const normalizeKey = (cat) => cat.replace(/_/g, '').toLowerCase();
 const formatLabel = (cat) => cat.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
@@ -86,7 +86,7 @@ const ListButtonsCategories = ({
             {isOpen && createPortal(
                 <div
                     ref={popoverRef}
-                    className="portal-popover-content"
+                    className="portal-popover-content  bg-gray-200 overflow-auto w-secreen h-screen scrollbor_hidden py-[20vh]"
                     style={{
                         position: 'absolute',
                         top: `${coords.top}px`,
