@@ -3,68 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import api from '../services/Axios';
 import { updateTheme } from '../slices/navigateSlice';
 import { useTranslation } from 'react-i18next';
-import { applyTheme } from '../utils';
+import { CONSTANTS, NAV_ITEMS, applyTheme } from '../utils';
 import TitleCompGen, { TitleCompGenLitle } from '../components/TitleComponentGen';
 import DeleteProfilAccount from './DeleteAccount';
 import NotificationToggle from '../components/NotificationToggle';
 import ThemeSelector from '../components/Them';
 import SubscriptionsPage from '../pages/SubscriptionCard';
 
-/* ─────────────────────────────────────────────
-   Nav items for the left sidebar
-───────────────────────────────────────────── */
-const NAV_ITEMS = [
-    { key: 'profile', icon: ProfileIcon, labelKey: 'settingsText.profile' },
-    { key: 'preferences', icon: PrefsIcon, labelKey: 'settingsText.preferences' },
-    { key: 'payment', icon: CardIcon, labelKey: 'settingsText.paymentMethod' },
-    { key: 'subscription', icon: StarIcon, labelKey: 'settingsText.subscription' },
-    { key: 'danger', icon: TrashIcon, labelKey: 'settingsText.dangerZone' },
-];
-
-/* ─────────────────────────────────────────────
-   Tiny inline SVG icon components
-───────────────────────────────────────────── */
-function ProfileIcon({ active }) {
-    const s = active ? '#7F77DD' : 'currentColor';
-    return (
-        <svg width="18" height="18" fill="none" stroke={s} strokeWidth="1.7" viewBox="0 0 24 24">
-            <circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
-        </svg>
-    );
-}
-function PrefsIcon({ active }) {
-    const s = active ? '#7F77DD' : 'currentColor';
-    return (
-        <svg width="18" height="18" fill="none" stroke={s} strokeWidth="1.7" viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="3" />
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-        </svg>
-    );
-}
-function CardIcon({ active }) {
-    const s = active ? '#7F77DD' : 'currentColor';
-    return (
-        <svg width="18" height="18" fill="none" stroke={s} strokeWidth="1.7" viewBox="0 0 24 24">
-            <rect x="2" y="5" width="20" height="14" rx="2" /><line x1="2" y1="10" x2="22" y2="10" />
-        </svg>
-    );
-}
-function StarIcon({ active }) {
-    const s = active ? '#7F77DD' : 'currentColor';
-    return (
-        <svg width="18" height="18" fill="none" stroke={s} strokeWidth="1.7" viewBox="0 0 24 24">
-            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-        </svg>
-    );
-}
-function TrashIcon({ active }) {
-    const s = active ? '#E24B4A' : 'currentColor';
-    return (
-        <svg width="18" height="18" fill="none" stroke={s} strokeWidth="1.7" viewBox="0 0 24 24">
-            <polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14H6L5 6" /><path d="M10 11v6M14 11v6" /><path d="M9 6V4h6v2" />
-        </svg>
-    );
-}
 function ChevronRight() {
     return (
         <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -375,7 +320,7 @@ const SettingsForm = () => {
                 <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start'}} className="flex flex-col md:block md:flex-row">
 
                     {/* ── Sidebar ── */}
-                    <aside className="flex md:block overflow-x-auto w-full md:w-[200px] scrollbor_hidden_ z-50 mt-10" style={{
+                    <aside className="flex md:block overflow-x-auto w-full md:w-[200px] scrollbor_hidden_ z-10 mt-10" style={{
                         flexShrink: 0,
                         background: 'var(--color-background-primary)',
                         border: '0.5px solid var(--color-border-tertiary)',
@@ -400,12 +345,15 @@ const SettingsForm = () => {
                     <main style={{ flex: 1, minWidth: 0 }} className="overflow-x-auto w-full md:w-auto scrollbor_hidden_ ">
 
                         {/* ── Profile ── */}
-                        {activeSection === 'profile' && (
+                        {activeSection === CONSTANTS?.PROFILE && (
+
                             <form onSubmit={updatePassword}>
+
                                 <Section title={t('settingsText.profile', 'Profil')}>
 
                                     {/* Avatar row */}
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '1.25rem' }}>
+
                                         {previewUrl || currentUserData?.image ? (
                                             <img
                                                 src={previewUrl || currentUserData.image}
@@ -421,6 +369,7 @@ const SettingsForm = () => {
                                                 {initials}
                                             </div>
                                         )}
+
                                         <div>
                                             <label style={{
                                                 display: 'inline-block',
@@ -433,6 +382,7 @@ const SettingsForm = () => {
                                                 <input type="file" accept="image/*" onChange={handleImageUpload} style={{ display: 'none' }} />
                                             </label>
                                         </div>
+
                                     </div>
 
                                     <FieldRow label={t('settingsText.nameLabel', 'Nom')}>
@@ -459,13 +409,17 @@ const SettingsForm = () => {
                                             {t('settingsText.changePassword', 'Mettre à jour le mot de passe')}
                                         </PrimaryButton>
                                     </div>
+
                                 </Section>
+
                             </form>
                         )}
 
                         {/* ── Preferences ── */}
-                        {activeSection === 'preferences' && (
+                        {activeSection === CONSTANTS?.PREFERENCES && (
+
                             <form onSubmit={handleSubmit}>
+
                                 <Section title={t('settingsText.preferences', 'Préférences')}>
 
                                     <FieldRow label={t('settingsText.theme', 'Thème')}>
@@ -484,19 +438,25 @@ const SettingsForm = () => {
                                             {t('settingsText.save', 'Enregistrer')}
                                         </PrimaryButton>
                                     </div>
+
                                 </Section>
+
                             </form>
                         )}
 
                         {/* ── Payment ── */}
-                        {activeSection === 'payment' && (
+                        {activeSection === CONSTANTS?.PAYMENT && (
+
                             <form onSubmit={handleSubmitCard}>
+
                                 <Section title={t('settingsText.cardDetails', 'Carte bancaire')}>
+
                                     <FieldRow label={t('settingsText.cardNumberLabel', 'Numéro de carte')}>
                                         <InlineInput type="number" id="cardNumber" name="cardNumber"
                                             label={t('settingsText.cardNumberLabel', 'Numéro de carte')}
                                             maxLength={19} value={form.cardNumber} onChange={handleChange} />
                                     </FieldRow>
+
                                     <FieldRow label={t('settingsText.expiryLabel', 'Date d\'expiration')}>
                                         <div style={{ display: 'flex', gap: '12px' }}>
                                             <InlineInput type="date" id="expiry" name="expiry"
@@ -506,14 +466,17 @@ const SettingsForm = () => {
                                                 maxLength={4} value={form.cvv} onChange={handleChange} />
                                         </div>
                                     </FieldRow>
+
                                 </Section>
 
                                 <Section title={t('settingsText.billingAddress', 'Adresse de facturation')}>
+
                                     <FieldRow label={t('settingsText.addressLabel', 'Adresse')}>
                                         <InlineInput type="text" id="address" name="address"
                                             label={t('settingsText.addressLabel', 'Adresse')}
                                             value={form.address} onChange={handleChange} />
                                     </FieldRow>
+
                                     <FieldRow label={t('settingsText.cityLabel', 'Ville')}>
                                         <div style={{ display: 'flex', gap: '12px' }}>
                                             <InlineInput type="text" id="city" name="city"
@@ -524,6 +487,7 @@ const SettingsForm = () => {
                                                 value={form.zip} onChange={handleChange} />
                                         </div>
                                     </FieldRow>
+
                                     <FieldRow label={t('settingsText.countryLabel', 'Pays')}>
                                         <InlineInput type="text" id="country" name="country"
                                             label={t('settingsText.countryLabel', 'Pays')}
@@ -540,12 +504,12 @@ const SettingsForm = () => {
                         )}
 
                         {/* ── Subscription ── */}
-                        {activeSection === 'subscription' && (
+                        {activeSection === CONSTANTS?.SUBSCRIPTION && (
                                 <SubscriptionsPage />
                         )}
 
                         {/* ── Danger zone ── */}
-                        {activeSection === 'danger' && (
+                        {activeSection === CONSTANTS?.DANGER && (
                             <Section title={t('settingsText.dangerZone', 'Zone de danger')}>
                                 <div style={{
                                     border: '0.5px solid #F09595',

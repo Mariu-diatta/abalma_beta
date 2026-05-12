@@ -421,7 +421,6 @@ export function translateCategory(value) {
 // 💰 Gestion des monnaies
 export const symbolesMonnaies = { EUR: '€', USD: '$', XOF: 'XOF', CHF: 'CHF' };
 
-
 export const configurationMonnaies = {
     EUR: { symbole: '€', position: 'apres', code: 'EUR', decimals: 2 },
     USD: { symbole: '$', position: 'avant', code: 'USD', decimals: 2 },
@@ -700,7 +699,12 @@ export const CONSTANTS = {
     FR: "fr",
     UPDATE: 'update',
     CONFIRMED: 'confirmed',
-    ACTION:'actions'
+    ACTION: 'actions',
+    PROFILE: 'profile',
+    PREFERENCES: 'preferences',
+    PAYMENT: 'payment',
+    SUBSCRIPTION: 'subscription',
+    DANGER:'danger'
 }
   
 //put fist letter in upCase
@@ -1749,3 +1753,61 @@ export const availableSizes = ["S", "M", "L", "XL"];
 export const socialLinks = ["facebook", "instagram", "tiktok", "twitter"];
 
 export const PAYEMENTMODE = ["CASH", "CARD", "MOBILE"]
+
+
+/* ─────────────────────────────────────────────
+   Tiny inline SVG icon components
+───────────────────────────────────────────── */
+function ProfileIcon({ active }) {
+    const s = active ? '#7F77DD' : 'currentColor';
+    return (
+        <svg width="18" height="18" fill="none" stroke={s} strokeWidth="1.7" viewBox="0 0 24 24">
+            <circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+        </svg>
+    );
+}
+function PrefsIcon({ active }) {
+    const s = active ? '#7F77DD' : 'currentColor';
+    return (
+        <svg width="18" height="18" fill="none" stroke={s} strokeWidth="1.7" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="3" />
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+        </svg>
+    );
+}
+function CardIcon({ active }) {
+    const s = active ? '#7F77DD' : 'currentColor';
+    return (
+        <svg width="18" height="18" fill="none" stroke={s} strokeWidth="1.7" viewBox="0 0 24 24">
+            <rect x="2" y="5" width="20" height="14" rx="2" /><line x1="2" y1="10" x2="22" y2="10" />
+        </svg>
+    );
+}
+function StarIcon({ active }) {
+    const s = active ? '#7F77DD' : 'currentColor';
+    return (
+        <svg width="18" height="18" fill="none" stroke={s} strokeWidth="1.7" viewBox="0 0 24 24">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+        </svg>
+    );
+}
+function TrashIcon({ active }) {
+    const s = active ? '#E24B4A' : 'currentColor';
+    return (
+        <svg width="18" height="18" fill="none" stroke={s} strokeWidth="1.7" viewBox="0 0 24 24">
+            <polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14H6L5 6" /><path d="M10 11v6M14 11v6" /><path d="M9 6V4h6v2" />
+        </svg>
+    );
+}
+
+ /* ─────────────────────────────────────────────
+   Nav items for the left sidebar
+───────────────────────────────────────────── */
+
+export const NAV_ITEMS = [
+        { key: 'profile', icon: ProfileIcon, labelKey: 'settingsText.profile' },
+        { key: 'preferences', icon: PrefsIcon, labelKey: 'settingsText.preferences' },
+        { key: 'payment', icon: CardIcon, labelKey: 'settingsText.paymentMethod' },
+        { key: 'subscription', icon: StarIcon, labelKey: 'settingsText.subscription' },
+        { key: 'danger', icon: TrashIcon, labelKey: 'settingsText.dangerZone' },
+    ];
