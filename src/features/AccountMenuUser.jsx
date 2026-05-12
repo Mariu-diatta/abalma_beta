@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { ENDPOINTS } from '../utils';
 import { setCurrentNav } from '../slices/navigateSlice';
@@ -25,6 +25,18 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
     const currentNav = useSelector(state => state.navigate.currentNav);
 
+    useEffect(
+        () => {
+            navigate(`/${currentNav}`);
+        },[currentNav, navigate]
+    )
+
+    const handleButton = (elem) => {
+        dispatch(setCurrentNav(elem));
+        setDropdownOpen(false)
+        navigate(`/${elem}`);
+
+    }
 
     return (
 
@@ -90,14 +102,12 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
             </button>
 
-            {/* Dropdown menu */ }
+            {/* Dropdown menu */}
+            {/*onBlur={() => setDropdownOpen(false)}*/}
+            {/*onFocus={() => setDropdownOpen(true)}*/}
+
             <div
                 ref={dropdown}
-
-                onFocus={() => setDropdownOpen(true)}
-
-                onBlur={() => setDropdownOpen(false)}
-
                 className={`bg-white h-aut3 border-2 border-white shadow-2xl absolute right-0 top-full me-3 overflow-hidden rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${dropdownOpen ? "block z-100" : "hidden"}`}
 
             >
@@ -146,15 +156,7 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
                                 className={`shadow-sm flex gap-1 w-full items-center justify-between px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white ${currentNav === elem.endPoint && "bg-gray-50"}`}
 
-                                onClick={
-
-                                    () => {
-
-                                        navigate(`/${elem.endPoint}`);
-
-                                        dispatch(setCurrentNav(elem.endPoint))
-                                    }
-                                }
+                                onClick={()=> handleButton(elem.endPoint)}
                             >
 
                                 <div className="flex gap-2 items-center">

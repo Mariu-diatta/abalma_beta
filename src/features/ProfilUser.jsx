@@ -312,7 +312,7 @@ const ProfileCard = () => {
                 style={{ backgroundImage: `url(${previewUrlBackground || DEFAULT_COVER})` }}
             >
                 {isBgPhotoEditing && (
-                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-black/30 flex items-start justify-center">
                         <input
                             type="file"
                             accept="image/*"
@@ -335,7 +335,7 @@ const ProfileCard = () => {
             </div>
 
             {/* Section profil */}
-            <div className="relative px-4 md:px-5 lg:px-5 pb-6 bg-white">
+            <div className="relative px-4 md:px-5 lg:px-5 pb-6 bg-white pt-0 mt-0">
 
                 {/* Photo de profil */}
                 <div className="absolute -top-12 sm:-top-16 left-1/2 sm:left-6 transform -translate-x-1/2 sm:translate-x-0">
@@ -460,6 +460,7 @@ const ProfileCard = () => {
                         />
                     )}
                 </div>
+
             </div>
 
             <AttentionAlertMesage />
