@@ -179,7 +179,7 @@ const GridProductDefault = ({ categorie_item }) => {
 
     return (
 
-        <div className="py-3 justify-center items-center my-6">
+        <div className="py-3 justify-center items-center my-6 px-1">
 
             <ProductDetailsSection
                 isOpen={!!modalData}
@@ -207,7 +207,7 @@ const GridProductDefault = ({ categorie_item }) => {
                     productDataColsLenght ?
                         (
 
-                            <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mt-2 w-full mx-auto justify-items-center px-0.5">
+                            <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mt-2 w-full mx-auto justify-items-center ">
 
                                 {
                                     cols?.map((products, colIdx) => (

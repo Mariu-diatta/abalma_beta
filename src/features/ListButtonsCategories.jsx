@@ -27,7 +27,7 @@ const ListButtonsCategories = ({
         if (triggerRef.current) {
             const rect = triggerRef.current.getBoundingClientRect();
             setCoords({
-                top: rect.bottom + window.scrollY + 10,
+                top:window.scrollY + 10,
                 left: rect.left + window.scrollX,
                 width: rect.width
             });
@@ -86,7 +86,7 @@ const ListButtonsCategories = ({
             {isOpen && createPortal(
                 <div
                     ref={popoverRef}
-                    className="portal-popover-content  bg-gray-200 overflow-auto w-secreen h-[85vh] scrollbor_hidden py-[20vh]"
+                    className="portal-popover-content  bg-gray-200 overflow-auto w-secreen h-[90vh] scrollbor_hidden py-[20vh]"
                     style={{
                         position: 'absolute',
                         top: `${coords.top}px`,
