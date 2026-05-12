@@ -47,10 +47,13 @@ const ProductCard = ({ item, isInCart, owner, openModal}) => {
 
                 {/* Badge Quantité */}
                 {item?.quantity_product > 0 && (
+
                     <div className="absolute top-3 left-3 z-20">
+
                         <span className="bg-white/90 backdrop-blur-md text-[10px] font-bold px-2 py-1 rounded-full shadow-sm text-gray-700 border border-white/50 ">
                             {item.quantity_product} {t("disponible")}
                         </span>
+
                     </div>
                 )}
 
@@ -59,6 +62,7 @@ const ProductCard = ({ item, isInCart, owner, openModal}) => {
                     className="
                         relative
                         w-full
+                        h-auto
                         aspect-[4/5]
                         overflow-hidden
                         rounded-lg
@@ -90,7 +94,6 @@ const ProductCard = ({ item, isInCart, owner, openModal}) => {
                             z-10
                             /* TAILLE INTELLIGENTE : */
                             max-w-full 
-                            max-h-full
                             w-auto
                             h-auto
                             object-contain /* Important pour ne pas déformer */

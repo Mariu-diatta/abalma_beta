@@ -12,7 +12,7 @@ const HomeContain = () => {
         <>
 
             {/* ====================== MAIN CONTENT ====================== */}
-            <main className="shadow-full bg-gradient-to-br from-purple-10 to-blue-50 overflow-y-hidden px-2">
+            <main className="shadow-full bg-gradient-to-br from-purple-10 to-blue-50 overflow-y-hidden px-0.5">
 
 
                 {/* ========= PRODUCTS ========= */}

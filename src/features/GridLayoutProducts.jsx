@@ -243,7 +243,7 @@ const GridLayoutProduct = () => {
 
             </main>
 
-            <ModalViewProduct isOpen={!!modalData} onClose={closeModal} products={productsFiltered}/>
+            <ModalViewProduct isOpen={!!modalData} onClose={closeModal}/>
 
         </div>
     );

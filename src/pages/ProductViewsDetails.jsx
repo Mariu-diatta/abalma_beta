@@ -165,6 +165,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
 
                             {/* ACTION BUTTONS */}
                             <div className="mt-10 flex gap-4">
+
                                 <button
                                     onClick={handleAddToCart}
                                     className="flex-1 flex items-center justify-center gap-3 py-4 bg-[#2563EB] hover:bg-[#1D4ED8] text-white rounded-2xl font-bold shadow-xl shadow-blue-200 transition-all active:scale-95"
@@ -172,35 +173,47 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                                     <ShoppingCart size={20} />
                                     {t("add_in_basket")}
                                 </button>
+
                                 <button className="p-4 bg-gray-100 text-gray-400 rounded-2xl hover:bg-red-50 hover:text-red-500 transition-colors">
                                     <Heart size={20} />
                                 </button>
+
                             </div>
 
                             {/* LOGISTICS */}
                             <div className="mt-10 flex flex-wrap gap-6 py-6 border-y border-gray-100">
+
                                 {operations.map((op, i) => (
+
                                     <div key={i} className="flex items-center gap-3">
+
                                         <div className="p-2 bg-gray-50 rounded-lg">
                                             <img src={op.logo} className="w-5 h-5 grayscale opacity-70" alt="" />
                                         </div>
+
                                         <div className="flex flex-col">
                                             <span className="text-[10px] text-gray-400 font-bold uppercase">{op.title}</span>
                                             <span className="text-xs font-semibold text-gray-700">{op.value}</span>
                                         </div>
+
                                     </div>
                                 ))}
+
                             </div>
 
                             {/* FOOTER DATE */}
                             <div className="mt-6 flex items-center justify-end text-[11px] text-gray-400 gap-2">
+
                                 <Clock size={12} />
+
                                 <span>
                                     {isToday
                                         ? `${t("phrasaleDate")} ${createdDate.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}`
                                         : `${createdDate.toLocaleDateString("fr-FR")} ${t("at")} ${createdDate.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}`}
                                 </span>
+
                             </div>
+
                         </div>
                     </div>
                 </div>

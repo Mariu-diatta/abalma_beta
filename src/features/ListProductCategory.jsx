@@ -63,7 +63,7 @@ const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) 
                                     grid-cols-${cols_sm}
                                     md:grid-cols-${cols}
                                     mb-2
-                                    mx-1
+                                    mx-0.5
                                  `}
                             >
                                 {

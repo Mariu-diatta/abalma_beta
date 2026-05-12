@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
 import {
-    addToCart
+    addToCart, updateSelectedProduct
 } from "../slices/cartSlice";
 
 import {
@@ -43,6 +43,8 @@ const GridProductDefault = ({ categorie_item }) => {
 
     const closeModal = () => setModalData(null);
 
+    const openModal = (item) => setModalData(item);
+
     const shouldDisableSearch = useMemo(() => productData?.length <= 0, [productData]);
 
     // Group products into columns of 3
@@ -51,12 +53,22 @@ const GridProductDefault = ({ categorie_item }) => {
         const chunked = [];
 
         for (let i = 0; i < productData?.length; i += 3) {
+
             chunked.push(productData.slice(i, i + 3));
         }
 
         return chunked;
 
     }, [productData]);
+
+    useEffect(
+
+        () => {
+
+            dispatch(updateSelectedProduct(modalData))
+
+        }, [dispatch, modalData]
+    )
 
     // Fetch products and owners
     const fetchProductsAndOwners = useCallback(async (category) => {
@@ -136,16 +148,21 @@ const GridProductDefault = ({ categorie_item }) => {
     }, [fetchProductsAndOwners, categorySelectedData]);
 
     const VariantSlider = ({ variants = [] }) => {
+
         const [index, setIndex] = useState(0);
 
         useEffect(() => {
+
             if (!variants.length) return;
 
             const interval = setInterval(() => {
+
                 setIndex(prev => (prev + 1) % variants.length);
+
             }, 2500);
 
             return () => clearInterval(interval);
+
         }, [variants.length]);
 
         if (!variants.length) return null;
@@ -163,6 +180,11 @@ const GridProductDefault = ({ categorie_item }) => {
     return (
 
         <div className="py-3 justify-center items-center my-6">
+
+            <ProductDetailsSection
+                isOpen={!!modalData}
+                onClose={closeModal}
+            />
 
             {
                 isCurrentUserConnected &&
@@ -185,7 +207,7 @@ const GridProductDefault = ({ categorie_item }) => {
                     productDataColsLenght ?
                         (
 
-                            <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mt-2 w-full mx-auto justify-items-center">
+                            <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mt-2 w-full mx-auto justify-items-center px-0.5">
 
                                 {
                                     cols?.map((products, colIdx) => (
@@ -206,12 +228,15 @@ const GridProductDefault = ({ categorie_item }) => {
 
                                                         <div
                                                             key={product?.id}
+                                                            type="button"
+                                                            onClick={() => openModal(product)}
                                                             className={`w-[50dvw] md:w-50 mx-auto min-h-auto rounded-lg transition transform hover:-translate-y-1 ${isInCart ? "opacity-50 pointer-events-none bg-gray-100" : "bg-white"
                                                                 }`}
                                                         >
                                                             <div className="relative w-full block rounded-lg overflow-hidden">
                                                                 <VariantSlider variants={product?.variants || []} />
                                                             </div>
+
                                                             <div className="p-1">
 
                                                                 <div className="flex justify-between items-center mb-1">
@@ -232,16 +257,12 @@ const GridProductDefault = ({ categorie_item }) => {
                                                                     {product?.description_product}
                                                                 </p>
 
-                                                                <div className="whitespace-nowrap flex text-xs gap-1 md:hidden dark:bg-white-100 p-1 rounded-lg">
-                                                                    <p>{t('quantity_sold')}</p>{product?.quantity_product_sold}
-                                                                </div>
-
                                                                 <div className="flex justify-between items-center">
 
                                                                     <ScrollingContent
                                                                         item={product}
                                                                         t={t}
-                                                                        qut_sold={product?.quatity_sold}
+                                                                        qut_sold={product?.quantity_product_sold}
                                                                     />
 
                                                                     <button
@@ -288,6 +309,7 @@ const GridProductDefault = ({ categorie_item }) => {
                                     ))
                                 }
 
+
                             </div>
 
                         )
@@ -314,10 +336,6 @@ const GridProductDefault = ({ categorie_item }) => {
                         )
             }
 
-            <ProductDetailsSection
-                isOpen={!!modalData}
-                onClose={closeModal}
-            />
 
         </div>
     );
