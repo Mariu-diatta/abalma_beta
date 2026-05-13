@@ -34,8 +34,6 @@ const PayBack = () => {
 
                         if (window.confirm(t("connectAlertPaiement"))) {
 
-                            dispatch(setCurrentNav(ENDPOINTS.HOME));
-
                             navigate(`/`);
                         }
 

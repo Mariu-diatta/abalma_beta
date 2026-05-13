@@ -27,7 +27,8 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
     useEffect(
         () => {
-            navigate(`/${currentNav}`);
+            if (currentNav) navigate(`/${currentNav}`);
+
         },[currentNav, navigate]
     )
 

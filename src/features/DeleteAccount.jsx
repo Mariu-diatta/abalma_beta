@@ -25,7 +25,7 @@ const DeleteProfilAccount = () => {
 
     const userProfile = useMemo(() => {
 
-        if (currentNav === "settings" || currentNav === "home") return profileData;
+        if (currentNav === "settings") return profileData;
 
         if (currentNav === "user_profil_product") return selectedProductOwner;
 
@@ -55,8 +55,6 @@ const DeleteProfilAccount = () => {
                 alert('Votre compte a été supprimé avec succès');
 
                 dispatch(logout());
-
-                dispatch(setCurrentNav("home"));
 
                 navigate('/', { replace: true });
             }

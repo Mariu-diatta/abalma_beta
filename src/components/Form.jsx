@@ -1,17 +1,15 @@
-import React, { useEffect, useRef, useState, lazy } from 'react';
+import React, { useRef, useState, lazy } from 'react';
 import { createPortal } from 'react-dom';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import { showMessage } from './AlertMessage';
-import { setCurrentNav } from '../slices/navigateSlice';
-import { CreateClient, ENDPOINTS, IMPORTANTS_URLS } from '../utils';
+import { CreateClient} from '../utils';
 import { X } from 'lucide-react'; // Pour fermer
 
 const InputBox = lazy(() => import('./InputBoxFloat'));
 const LoadingCard = lazy(() => import('./LoardingSpin'));
 const PhoneInput = lazy(() => import('./InputPhoneCountry'));
-const FormLayout = lazy(() => import('../layouts/FormLayout'));
 const TitleCompGen = lazy(() => import('./TitleComponentGen'));
 
 const RegisterForm = ({ onClose }) => {
@@ -20,7 +18,6 @@ const RegisterForm = ({ onClose }) => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const componentRef = useRef(null);
-    const currentNav = useSelector(state => state.navigate.currentNav);
 
     const [form, setForm] = useState({
         "password": "", "password1": "", "email": "",

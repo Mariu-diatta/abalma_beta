@@ -86,13 +86,15 @@ const NavbarHeader = () => {
 
     // Sync currentNav with URL
     useEffect(() => {
+
         const currentUrl = window.location.href;
 
-        if (currentNav === ENDPOINTS.HOME) {
+        if (!currentNav) {
             navigate("/", { replace: true });
         } else if ([IMPORTANTS_URLS.REGISTER, IMPORTANTS_URLS.REGISTERS].includes(currentUrl)) {
             dispatch(setCurrentNav(ENDPOINTS.REGISTER));
         } else navigate(`/${currentNav}`, { replace: true });
+
     }, [currentNav, navigate, dispatch]);
 
     return (

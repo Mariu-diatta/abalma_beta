@@ -98,7 +98,7 @@ const PrivacyPolicy = () => {
 
             </section>
 
-            <button onClick={() => (currentNav ==="home") ? navigate(`/`) : navigate(`/${currentNav}`)} className="fixed top-3 right-2 " >
+            <button onClick={() => navigate(`/${currentNav}`)} className="fixed top-3 right-2 " >
 
                 <svg className="shodow-lg w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
 

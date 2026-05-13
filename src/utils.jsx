@@ -546,7 +546,7 @@ export const getTabsNavigationsItems = (currentNav, t) => {
                 id: 'home',
                 label: t('home'),
                 endPoint: '/',
-                logo: !(currentNav === "home") ? (
+                logo: !(currentNav) ? (
                     <svg
                         className="w-6 h-6 text-gray-800 dark:text-white"
                         aria-hidden="true"
@@ -640,7 +640,7 @@ export const getTabsNavigationsItems = (currentNav, t) => {
     )
 };
 
-export const ItemsNav = ["home", "blogs", "account-home", "all-products"];
+export const ItemsNav = ["blogs", "account-home", "all-products"];
 
 //Formatage de date
 export function formatISODate(isoDateStr) {
@@ -661,7 +661,6 @@ export const ENDPOINTS = {
     REGISTER: "register",
     LOGIN: "login",
     MESSAGE_INBOX: "message-inbox",
-    HOME: "home",
     ACCOUNT_HOME: "account-home",
     USER_PROFIL: "user-profil",
     PAYMENT: "payment",

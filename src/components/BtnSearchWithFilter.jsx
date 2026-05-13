@@ -73,7 +73,7 @@ const SearchBar = ({disabled = false }) => {
 
         <span
             className={`sticky top-[3dvh] md:top-1 flex justify-center items-start z-[10] py-9 px-3 md:px-0 md:w-1/2 scroll:pt-5 md:py-0 lg:py-0 ${currentNav === ENDPOINTS?.HOME ? "w-full" :"sticky top-0 "}
-                  ${ItemsNav.includes(currentNav) ? "w-full" : "hidden"}`}
+                  ${ItemsNav.includes(currentNav) ? "w-full" : !!currentNav && "hidden"}`}
         >
             <form
                 onSubmit={handleSubmit}

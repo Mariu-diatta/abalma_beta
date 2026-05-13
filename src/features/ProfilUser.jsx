@@ -54,7 +54,7 @@ const FournisseurIcon = () => (
 
 const DEFAULT_COVER = 'https://images.unsplash.com/photo-1612832020897-593fae15346e';
 
-const ALLOWED_NAVS = ['user-profil', 'home', 'user-profil-contact'];
+const ALLOWED_NAVS = ['user-profil', 'user-profil-contact'];
 
 const buildInitialFormData = (profile) => ({
     nom: profile?.nom ?? '',
@@ -94,7 +94,7 @@ const ProfileCard = () => {
 
     // ── Profil affiché ──
     const userProfile = useMemo(() => {
-        if (currentNav === 'user-profil' || currentNav === 'home') return currentUser;
+        if (currentNav === 'user-profil') return currentUser;
         if (currentNav === 'user-profil-contact') return selectedProductOwner;
         return null;
     }, [currentNav, currentUser, selectedProductOwner]);

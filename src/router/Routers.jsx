@@ -40,8 +40,6 @@ const routes = [
 
             { index: true, element: <Home/> },
 
-            { index: "home", element: <Home/> },
-
             { path: "register", element: <Register /> },
 
             { path: "about", element: <About /> },

@@ -105,7 +105,6 @@ const AboutContainer = () => {
                     <button
                         onClick={() => {
                             navigate(`/`);
-                            dispatch(setCurrentNav(ENDPOINTS.HOME));
                         }}
                         className="fp-btn"
                     >
