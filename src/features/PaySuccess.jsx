@@ -7,6 +7,7 @@ import { useDispatch} from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { setCurrentNav } from '../slices/navigateSlice';
 import api from '../services/Axios';
+import LoadingCard from '../components/LoardingSpin';
 
 
 const PaySuccess = () => {
@@ -58,25 +59,40 @@ const PaySuccess = () => {
                         </p>
                 }
             </h1>
+            {
+                succes ?
+                <div>
+                    <p className="text-gray-700 text-lg">
+                        {t("payment_text.success_transaction_done")}   
+                    </p>
 
-            <p className="text-gray-700 text-lg">
-                {t("payment_text.success_transaction_done")}   
-            </p>
+                    <p className="text-gray-500 mt-1">
+                        {t("payment_text.success_transaction_message")}   
+                        </p>
+                </div >
+                :
+                <p>
+                    {t("payment_text.paid_fail")}
+                    {data?.email}
+                </p>
+  
+            }
 
-            <p className="text-gray-500 mt-1">
-                {t("payment_text.success_transaction_message")}   
-            </p>
-
-            <button
-                onClick={(e) => {
-                    e.preventDefault();
-                    dispatch(setCurrentNav(ENDPOINTS?.PAYMENT))
-                    navigate(`/${ENDPOINTS?.PAYMENT}`)
-                }}
-                className="mt-6 inline-block bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg font-medium"
-            >
-                {t("payment_text.btn_back_to_dashbord")}
-            </button>
+            {
+                succes ?
+                <button
+                    onClick={(e) => {
+                        e.preventDefault();
+                        dispatch(setCurrentNav(ENDPOINTS?.PAYMENT))
+                        navigate(`/${ENDPOINTS?.PAYMENT}`)
+                    }}
+                    className="mt-6 inline-block bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg font-medium"
+                >
+                    {t("payment_text.btn_back_to_dashbord")}
+                </button>
+                : 
+                <LoadingCard />
+            }
 
         </div>
     );
