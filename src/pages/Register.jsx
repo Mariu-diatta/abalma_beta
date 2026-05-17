@@ -80,6 +80,7 @@ const RegisterForm = ({ callbackState, onClose}) => {
                             </div>
 
                             <form onSubmit={handleSignUp} ref={componentRef} className="space-y-2 scrollbor_hidden">
+
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <InputBox type="text" name="nom" placeholder={t('form.lastName')} value={form.nom} onChange={handleChange} />
                                     <InputBox type="text" name="prenom" placeholder={t('form.firstName')} value={form.prenom} onChange={handleChange} />

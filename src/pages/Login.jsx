@@ -25,9 +25,7 @@ const LogIn = ({ callbackState, onClose }) => {
     const navigate = useNavigate();
 
     // -- Logique inchangée --
-    const handleSignIn = async (e) => {
-
-        e.preventDefault();
+    const handleSignIn = async () => {
 
         if (!email || !pwd) {
             showMessage(dispatch, { Type: "Erreur", Message: "Veuillez remplir tous les champs." });
@@ -60,7 +58,8 @@ const LogIn = ({ callbackState, onClose }) => {
     // Portal vers le body
     return createPortal(
 
-        <div className="scrollbor_hidden fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+        <div
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 "
             onClick={handleBackdropClick}
         >
 
@@ -102,7 +101,10 @@ const LogIn = ({ callbackState, onClose }) => {
                             {/* FORM */}
                             <form
                                 className="space-y-4"
-                                onSubmit={handleSignIn}
+                                onSubmit={(e) => {
+                                    e.preventDefault();
+                                    handleSignIn();
+                                }}
                             >
                                 <InputBox
                                     type="email"

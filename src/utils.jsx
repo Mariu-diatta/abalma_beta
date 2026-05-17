@@ -674,6 +674,7 @@ export const formaterPrix = (prix, monnaie, t, locale) => {
 export const loginClient = async (data, dispatch, setIsLoading, navigate) => {
 
     try {
+
         const response = await api.post('login/', data, {
             headers: {
                 'Content-Type': 'multipart/form-data',
