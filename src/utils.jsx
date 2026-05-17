@@ -327,7 +327,212 @@ export const CATEGORY_FIELDS = {
             size: false,
             color: true
         }
+    },
+
+    chaussures: {
+        fields: [
+            { name: "taille", required: true },
+            { name: "couleur", required: true },
+            { name: "marque", required: false },
+            { name: "etat", required: false },
+        ],
+        rules: { size: true, color: true }
+    },
+
+    divers: {
+        fields: [],
+        rules: { size: false, color: false }
+    },
+
+    jouets: {
+        fields: [
+            { name: "type", required: true },
+            { name: "age", required: false },
+            { name: "etat", required: false },
+        ],
+        rules: { size: false, color: false }
+    },
+
+    cahiers: {
+        fields: [
+            { name: "nombre_pages", required: false },
+            { name: "format", required: false },
+            { name: "etat", required: false },
+        ],
+        rules: { size: false, color: false }
+    },
+
+    sport: {
+        fields: [
+            { name: "type", required: true },
+            { name: "marque", required: false },
+            { name: "etat", required: false },
+        ],
+        rules: { size: false, color: false }
+    },
+
+    jeux_video: {
+        fields: [
+            { name: "plateforme", required: true },
+            { name: "titre", required: true },
+            { name: "etat", required: false },
+        ],
+        rules: { size: false, color: false }
+    },
+
+    meubles: {
+        fields: [
+            { name: "type", required: true },
+            { name: "matiere", required: false },
+            { name: "etat", required: true },
+        ],
+        rules: { size: true, color: false }
+    },
+
+    fournitures_scolaires: {
+        fields: [
+            { name: "type", required: true },
+            { name: "quantite", required: false },
+        ],
+        rules: { size: false, color: false }
+    },
+
+    bijoux: {
+        fields: [
+            { name: "matiere", required: true },
+            { name: "couleur", required: false },
+            { name: "etat", required: false },
+        ],
+        rules: { size: false, color: true }
+    },
+
+    alimentation: {
+        fields: [
+            { name: "type", required: true },
+            { name: "date_expiration", required: false },
+            { name: "poids", required: false },
+        ],
+        rules: { size: false, color: false }
+    },
+
+    musique: {
+        fields: [
+            { name: "type", required: true },
+            { name: "artiste", required: false },
+            { name: "etat", required: false },
+        ],
+        rules: { size: false, color: false }
+    },
+
+    sante_beaute: {
+        fields: [
+            { name: "type", required: true },
+            { name: "marque", required: false },
+        ],
+        rules: { size: false, color: false }
+    },
+
+    maison_decoration: {
+        fields: [
+            { name: "type", required: true },
+            { name: "couleur", required: false },
+            { name: "matiere", required: false },
+        ],
+        rules: { size: true, color: true }
+    },
+
+    bebes: {
+        fields: [
+            { name: "type", required: true },
+            { name: "age", required: false },
+            { name: "etat", required: false },
+        ],
+        rules: { size: true, color: false }
+    },
+
+    jardinage: {
+        fields: [
+            { name: "type", required: true },
+            { name: "marque", required: false },
+        ],
+        rules: { size: false, color: false }
+    },
+
+    bricolage: {
+        fields: [
+            { name: "type", required: true },
+            { name: "marque", required: false },
+            { name: "etat", required: false },
+        ],
+        rules: { size: false, color: false }
+    },
+
+    animaux: {
+        fields: [
+            { name: "type", required: true },
+            { name: "taille", required: false },
+        ],
+        rules: { size: true, color: false }
+    },
+
+    films_series: {
+        fields: [
+            { name: "titre", required: true },
+            { name: "format", required: false },
+        ],
+        rules: { size: false, color: false }
+    },
+
+    services: {
+        fields: [
+            { name: "type", required: true },
+            { name: "duree", required: false },
+        ],
+        rules: { size: false, color: false }
+    },
+
+    art: {
+        fields: [
+            { name: "type", required: true },
+            { name: "matiere", required: false },
+        ],
+        rules: { size: true, color: true }
+    },
+
+    voyage: {
+        fields: [
+            { name: "destination", required: false },
+            { name: "type", required: true },
+        ],
+        rules: { size: false, color: false }
+    },
+
+    medical: {
+        fields: [
+            { name: "type", required: true },
+            { name: "etat", required: true },
+        ],
+        rules: { size: false, color: false }
+    },
+
+    high_tech: {
+        fields: [
+            { name: "marque", required: true },
+            { name: "modele", required: false },
+            { name: "etat", required: true },
+        ],
+        rules: { size: false, color: false }
+    },
+
+    automoto: {
+        fields: [
+            { name: "marque", required: true },
+            { name: "modele", required: false },
+            { name: "etat", required: true },
+        ],
+        rules: { size: false, color: true }
     }
+
 }
 
 // CATEGORIES

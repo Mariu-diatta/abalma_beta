@@ -66,7 +66,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
             />
 
             {/* Modal */}
-            <div className="scrollbor_hidden relative bg-white max-w-[100vw] w-full rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh]">
+            <div   className="scrollbor_hidden relative bg-white max-w-[100vw] w-full rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh]">
 
                 {/* Header Mobile / Close Button */}
                 <button
@@ -122,10 +122,13 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                             </div>
 
                             <div className="mt-6 flex items-center justify-between bg-blue-50/50 p-4 rounded-2xl border border-blue-100">
+
                                 <div className="text-3xl font-black text-blue-600">
                                     <RendrePrixProduitMonnaie item={product} />
                                 </div>
+
                                 <PrintNumberStars t={t} productNbViews={product?.view_count} />
+
                             </div>
 
                             {/* COLORS */}

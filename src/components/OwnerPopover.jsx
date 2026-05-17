@@ -129,7 +129,7 @@ const OwnerPopover = ({ owner, onClose }) => {
                 {
 
                     width: calculatedWidth,
-                    zIndex:99
+                    zIndex:30
                 }
             }
         >

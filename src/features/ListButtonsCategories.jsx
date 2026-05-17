@@ -41,7 +41,9 @@ const ListButtonsCategories = ({
 
     // Gestion du clic extérieur et du redimensionnement
     useEffect(() => {
+
         const handleClickOutside = (event) => {
+
             if (popoverRef.current && !popoverRef.current.contains(event.target) &&
                 !triggerRef.current.contains(event.target)) {
                 setIsOpen(false);
@@ -57,6 +59,7 @@ const ListButtonsCategories = ({
             window.removeEventListener('resize', updatePosition);
             document.removeEventListener('mousedown', handleClickOutside);
         };
+
     }, [isOpen]);
 
     if (!categories?.length) return null;
@@ -73,7 +76,7 @@ const ListButtonsCategories = ({
                 className={`category-popover-trigger ${isOpen ? 'active' : ''}`}
             >
                 <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M18 6H6m12 4H6m12 4H6m12 4H6" />
+                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.5" d="M18 6H6m12 4H6m12 4H6m12 4H6" />
                 </svg>
 
                 <span>{isOpen ? t('Fermer') : t('Catégories')}</span>
@@ -95,6 +98,17 @@ const ListButtonsCategories = ({
                     }}
                 >
                     <section className="ss-grid">
+
+
+                        <div className="flex justify-between">
+
+                            <p>Catégories</p>
+
+                            <svg onClick={() => setIsOpen(false)}   className="relative top-0 right-0 w-6 h-6 text-red-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="red" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.5" d="M6 18 17.94 6M18 18 6.06 6" />
+                            </svg>
+
+                        </div>
 
                         {categories.map((cat) => {
                             const label = formatLabel(cat);
@@ -120,8 +134,11 @@ const ListButtonsCategories = ({
                                 </button>
                             );
                         })}
+
                     </section>
+
                 </div>,
+
                 document.body // Injecté directement à la racine du site
             )}
         </div>

@@ -21,14 +21,15 @@ const ProfilPopPov = () => {
     const buttonRef = useRef(null);
 
     const togglePopover = () => {
+
         setIsVisible(prev => !prev);
 
         if (buttonRef.current) {
+
             const rect = buttonRef.current.getBoundingClientRect();
             const windowHeight = window.innerHeight;
             const spaceBelow = windowHeight - rect.bottom;
             const spaceAbove = rect.top;
-
             // Affiche au-dessus si pas assez d'espace en bas
             setShowAbove(spaceBelow < 250 && spaceAbove > spaceBelow);
         }
@@ -59,7 +60,9 @@ const ProfilPopPov = () => {
     }, []);
 
     return (
+
         <div className="relative inline-block z-30 bg-white">
+
             {/* Bouton toggle */}
             <button
                 ref={buttonRef}
@@ -80,7 +83,9 @@ const ProfilPopPov = () => {
                 >
                     <path d="M5 7h14M5 12h14M5 17h10" />
                 </svg>
+
                 <span className="whitespace-nowrap hidden">{t("your_profil")}</span>
+
             </button>
 
             {/* Popover */}
