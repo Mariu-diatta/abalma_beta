@@ -102,10 +102,7 @@ const LogIn = ({ callbackState, onClose }) => {
                             {/* FORM */}
                             <form
                                 className="space-y-4"
-                                onSubmit={(e) => {
-                                    e.preventDefault();
-                                    handleSignIn();
-                                }}
+                                onSubmit={handleSignIn}
                             >
                                 <InputBox
                                     type="email"
