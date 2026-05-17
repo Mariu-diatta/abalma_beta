@@ -8,7 +8,7 @@ import LoadingCard from "../components/LoardingSpin";
 
 import FormElementFileUpload from "./FormFile";
 import InputBox from "../components/InputBoxFloat";
-import { ENDPOINTS, LIST_CATEGORIES_KEYS, PAYEMENTMODE, availableColors, availableSizes, socialLinks, CATEGORY_FIELDS } from "../utils";
+import { ENDPOINTS, LIST_CATEGORIES_KEYS, PAYEMENTMODE, availableColors, availableSizes, socialLinks, CATEGORY_FIELDS, CONSTANTS } from "../utils";
 import { NavLink } from "react-router-dom";
 import { setCurrentNav } from "../slices/navigateSlice";
 import LocationSearchPopover from "./LocationSearch";
@@ -343,17 +343,6 @@ const AddUploadProduct = () => {
         setIsLoadingSubmit(false);
     };
 
-    //const handleSubmitNew = (e) => {
-
-    //    submitForm(e);
-
-    //    if (!isLoadingSubmit) {
-    //        setIsLoadingSubmit(false);
-    //        setIsProductAdded(false);
-    //        setImageVariants([]);
-    //    }
-    //};
-
     // ── Rendu ──
     return (
         <>
@@ -463,12 +452,20 @@ const AddUploadProduct = () => {
                                     <SectionTitle icon={STEP_ICONS[1]} text={t("add_product.details")} />
 
                                     <Field label={t("add_product.select_category")}>
-                                            <select required id="categorie_product" name="categorie_product" value={dataProduct.categorie_product ?? ""} onChange={(e) => { setCategory(e); handleFileSelect({}); setImageLoaded(null)}} className="ap-select">
+
+                                        <select required id="categorie_product" name="categorie_product" value={dataProduct.categorie_product ?? ""} onChange={(e) => { setCategory(e); handleFileSelect({}); setImageLoaded(null)}} className="ap-select">
                                             <option value="" disabled>{t("add_product.select_category")}</option>
-                                            {LIST_CATEGORIES_KEYS?.map((value, idx) => (
-                                                <option key={idx} value={value}>{t(`add_product.categories.${value}`)}</option>
-                                            ))}
+                                            {
+                                                LIST_CATEGORIES_KEYS
+                                                ?.filter((value) => value !== CONSTANTS?.ALL)
+                                                .map((value, idx) => (
+                                                    <option key={idx} value={value}>
+                                                        {t(`add_product.categories.${value}`)}
+                                                    </option>
+                                                ))
+                                            }
                                         </select>
+
                                     </Field>
 
                                     <div className={` ${fields?.length>0 ? "mb-5 p-2 shadow-md rounded-md" : null }` }>

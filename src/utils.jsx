@@ -748,7 +748,7 @@ export const getTabsNavigationsItems = (currentNav, t) => {
 
         [
             {
-                id: 'home',
+                id: '',
                 label: t('home'),
                 endPoint: '/',
                 logo: !(currentNav) ? (
