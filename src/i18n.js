@@ -122,7 +122,8 @@ i18n
                  success_text_1: "Paiement réussi !",
                  success_transaction_done: "Merci ! Votre transaction a été effectuée avec succès.",
                  success_transaction_message: "Un e-mail de confirmation vous sera envoyé sous peu.",
-                 btn_back_to_dashbord: "Retour à l’accueil"
+                 btn_back_to_dashbord: "Retour à l’accueil",
+                 paid_fail:"Votre payement a échoué !!!"
              },
              stripe_pay: "Pay with Stripe",
              edit:"Edit",
@@ -845,7 +846,8 @@ i18n
                  success_text_1: "Payment successful!",
                  success_transaction_done: "Thank you! Your transaction was completed successfully.",
                  success_transaction_message: "A confirmation email will be sent to you shortly.",
-                 btn_back_to_dashbord: "Back to home"
+                 btn_back_to_dashbord: "Back to home",
+                 paid_fail: "Payement fail !!!"
              },
              stripe_pay:'Payer avec Stripe',
              edit:"Modifier",
