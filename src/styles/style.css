@@ -2068,7 +2068,7 @@ html, body, #root {
     position: relative;
     display: inline-block;
     flex-shrink: 0;
-    z-index: 50
+    z-index: 10
 }
 
 /* Avatar image */
@@ -2103,11 +2103,11 @@ html, body, #root {
     transition: border-color .2s, box-shadow .2s, transform .15s;
 }
 
-    .oa-svg:hover {
-        border-color: #6366f1;
-        box-shadow: 0 0 0 3px rgba(99,102,241,.2);
-        transform: scale(1.07);
-    }
+.oa-svg:hover {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99,102,241,.2);
+    transform: scale(1.07);
+}
 
 /* Dot online */
 .oa-online {
@@ -2215,17 +2215,17 @@ html, body, #root {
     flex-wrap: wrap; /* Permet le passage à la ligne */
     justify-content: center; /* Centre les items sur chaque ligne */
     gap: 15px;
-    max-width: %; /* Largeur max de ta zone de contenu */
+    max-width:100%; /* Largeur max de ta zone de contenu */
     margin: 0 auto;
     padding: 10px;
 }
 
 /* On définit la taille des enfants pour forcer le nombre par ligne */
-    .ss-grid-1 > * {
-        flex: 1 1 200px; /* Grandit et rétrécit, avec une base de 200px */
-        max-width: calc(50% - 15px); /* Par défaut 2 par ligne sur mobile */
-        min-width: 140px;
-    }
+.ss-grid-1 > * {
+    flex: 1 1 200px; /* Grandit et rétrécit, avec une base de 200px */
+    max-width: calc(50% - 15px); /* Par défaut 2 par ligne sur mobile */
+    min-width: 140px;
+}
 
 /* Tablette et Desktop léger : 3 par ligne si assez d'items */
 @media (min-width: 768px) {
