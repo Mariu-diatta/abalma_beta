@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch} from "react-redux";
 import { NavLink } from "react-router-dom";
 import { setCurrentNav } from "../slices/navigateSlice";
-import { CONSTANTS, ENDPOINTS, removeAccents } from "../utils";
+import { ENDPOINTS} from "../utils";
 import { useTranslation } from 'react-i18next';
 
 
@@ -115,8 +115,6 @@ export const WhiteRoundedButtonSignInRegister = ({ titleButton,  children = null
 
 export const ButtonNavigate = ({ tabs }) => {
 
-    const { t } = useTranslation();
-
     const dispatch = useDispatch();
 
     return (
@@ -144,10 +142,7 @@ export const ButtonNavigate = ({ tabs }) => {
                         <li key={tab.id} className="w-full sm:w-auto gap-6 px-1 ">
 
                             {
-                                !((
-                                    (tab.label === CONSTANTS.ABOUT) ||
-                                    (removeAccents(tab.label) === removeAccents(t('about'))) ||
-                                    (tab.label === CONSTANTS.BLOGS))) &&
+                               
 
                                 <NavLink
 

@@ -749,7 +749,7 @@ export const getTabsNavigationsItems = (currentNav, t) => {
                 id: '',
                 label: t('home'),
                 endPoint: '/',
-                logo: !(currentNav) ? (
+                logo: currentNav? (
                     <svg
                         className="w-6 h-6 text-gray-800 dark:text-white"
                         aria-hidden="true"
@@ -775,7 +775,7 @@ export const getTabsNavigationsItems = (currentNav, t) => {
                 ),
             },
             {
-                id: 'about',
+                id: CONSTANTS?.ABOUT,
                 label: t('about'),
                 endPoint: '/about',
                 logo:
@@ -808,11 +808,11 @@ export const getTabsNavigationsItems = (currentNav, t) => {
                         ),
             },
             {
-                id: 'blogs',
+                id: "blogs",
                 label: 'Blog',
                 endPoint: '/blogs',
                 logo:
-                    (!(currentNav === "blogs") && !(currentNav === "login")) ?
+                    !(currentNav === "blogs") ?
                         (
                             <svg
                                 className="w-6 h-6 text-gray-800 dark:text-white"
@@ -884,7 +884,7 @@ export const API_URL_BACKEND = {
 }
 
 export const CONSTANTS = {
-    ABOUT: "About",
+    ABOUT: "about",
     BLOGS: "Blog",
     ERRREUR: "Erreur",
     ALL: "Tous",
@@ -906,7 +906,8 @@ export const CONSTANTS = {
     PREFERENCES: 'preferences',
     PAYMENT: 'payment',
     SUBSCRIPTION: 'subscription',
-    DANGER:'danger'
+    DANGER: 'danger',
+    HOME : "home"
 }
   
 //put fist letter in upCase
