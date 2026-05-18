@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import LanguageDropdown from "../features/Langages";
-import { ENDPOINTS } from "../utils";
-import { useSelector } from "react-redux";
+
 
 // ─── Icônes ───────────────────────────────────────────────────────────────────
 const PhoneIcon = () => (
@@ -43,10 +42,6 @@ const PolicyCheckbox = () => {
 const Footer = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const currentNav = useSelector((state) => state.navigate.currentNav);
-
-    const HIDDEN_NAVS = [ENDPOINTS.REGISTER, ENDPOINTS.LOGIN, ENDPOINTS.FORGETPSWD];
-    if (HIDDEN_NAVS.includes(currentNav)) return null;
 
     const handleSocialAlert = (e) => {
         e.preventDefault();

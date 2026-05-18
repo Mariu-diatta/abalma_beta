@@ -5,9 +5,8 @@ import { useTranslation } from "react-i18next";
 
 import Logo from "../components/LogoApp";
 import { ButtonNavigate } from "../components/Button";
-import { ENDPOINTS, IMPORTANTS_URLS, getTabsNavigationsItems } from "../utils";
+import { ENDPOINTS, getTabsNavigationsItems } from "../utils";
 import api from "../services/Axios";
-import { setCurrentNav } from "../slices/navigateSlice";
 
 // Lazy load heavy components
 const SearchBar = lazy(() => import("../components/BtnSearchWithFilter"));
@@ -27,7 +26,6 @@ const NavbarHeader = () => {
     const [open, setOpen] = useState(false);
 
     // Pages spécifiques
-    const shouldShowNav = [ENDPOINTS.LOGIN, ENDPOINTS.REGISTER].includes(currentNav);
     const isHidden = currentNav === ENDPOINTS.FORGETPSWD;
     const isCentered = currentNav === ENDPOINTS.ABOUT;
 
@@ -86,13 +84,8 @@ const NavbarHeader = () => {
 
     // Sync currentNav with URL
     useEffect(() => {
-
-        const currentUrl = window.location.href;
-
         if (!currentNav) {
             navigate("/", { replace: true });
-        } else if ([IMPORTANTS_URLS.REGISTER, IMPORTANTS_URLS.REGISTERS].includes(currentUrl)) {
-            dispatch(setCurrentNav(ENDPOINTS.REGISTER));
         } else navigate(`/${currentNav}`, { replace: true });
 
     }, [currentNav, navigate, dispatch]);
@@ -120,27 +113,26 @@ const NavbarHeader = () => {
                     </div>
                 )}
 
-                {!shouldShowNav && (
-                    <span>
-                        <button
-                            onClick={() => setOpen(prev => !prev)}
-                            id="navbarToggler"
-                            className={`sm:hidden z-[71] px-3 py-3 rounded-lg text-black dark:bg-dark-3 dark:text-white focus:outline-none ${open ? "navbarTogglerActive" : ""}`}
-                            aria-label="Toggle navigation"
-                            aria-expanded={open}
-                        >
-                            <span className="block w-6 h-0.5 bg-gray-700 dark:bg-gray-400 my-[6px]" />
-                            <span className="block w-4 h-0.5 bg-gray-600 dark:bg-gray-300 my-[6px]" />
-                            <span className="block w-2 h-0.5 bg-gray-500 dark:bg-gray-200 my-[6px]" />
-                        </button>
+                <span>
+                    <button
+                        onClick={() => setOpen(prev => !prev)}
+                        id="navbarToggler"
+                        className={`sm:hidden z-[71] px-3 py-3 rounded-lg text-black dark:bg-dark-3 dark:text-white focus:outline-none ${open ? "navbarTogglerActive" : ""}`}
+                        aria-label="Toggle navigation"
+                        aria-expanded={open}
+                    >
+                        <span className="block w-6 h-0.5 bg-gray-700 dark:bg-gray-400 my-[6px]" />
+                        <span className="block w-4 h-0.5 bg-gray-600 dark:bg-gray-300 my-[6px]" />
+                        <span className="block w-2 h-0.5 bg-gray-500 dark:bg-gray-200 my-[6px]" />
+                    </button>
 
-                        {/* Lazy-loaded Navigation */}
-                        <Suspense fallback={null}>
-                            <MobileNav open={open} />
-                            <DesktopNav />
-                        </Suspense>
-                    </span>
-                )}
+                    {/* Lazy-loaded Navigation */}
+                    <Suspense fallback={null}>
+                        <MobileNav open={open} />
+                        <DesktopNav />
+                    </Suspense>
+                </span>
+                
             </header>
 
             <Outlet />

@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { NavLink } from "react-router-dom";
 import { setCurrentNav } from "../slices/navigateSlice";
 import { CONSTANTS, ENDPOINTS, removeAccents } from "../utils";
@@ -119,8 +119,6 @@ export const ButtonNavigate = ({ tabs }) => {
 
     const dispatch = useDispatch();
 
-    const currentNav = useSelector(state => state.navigate.currentNav);
-
     return (
 
         <section>
@@ -149,8 +147,7 @@ export const ButtonNavigate = ({ tabs }) => {
                                 !((
                                     (tab.label === CONSTANTS.ABOUT) ||
                                     (removeAccents(tab.label) === removeAccents(t('about'))) ||
-                                    (tab.label === CONSTANTS.BLOGS)) && ((currentNav === ENDPOINTS.LOGIN) ||
-                                    (currentNav === ENDPOINTS.REGISTER))) &&
+                                    (tab.label === CONSTANTS.BLOGS))) &&
 
                                 <NavLink
 

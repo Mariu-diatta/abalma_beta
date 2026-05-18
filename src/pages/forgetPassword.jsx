@@ -5,7 +5,6 @@ import api from "../services/Axios";
 import { useParams } from "react-router-dom";
 import { showMessage } from "../components/AlertMessage";
 import { useDispatch } from "react-redux";
-import { ENDPOINTS } from "../utils";
 import LoadingCard from "../components/LoardingSpin";
 
 
@@ -101,7 +100,7 @@ const LayoutPwdForget = () => {
             setCountdown((prev) => {
                 if (prev <= 1) {
                     clearInterval(timer);
-                    window.location.href = `/${ENDPOINTS.LOGIN}`;
+                    window.location.href = `/`;
                 }
                 return prev - 1;
             });

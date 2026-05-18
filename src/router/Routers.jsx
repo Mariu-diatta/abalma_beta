@@ -7,7 +7,6 @@ import ProtectedRoute from "../ProtectedRoute";
 import About from "../pages/About";
 import ErrorPage from "../pages/ErrorPage";
 import Home from "../pages/Home";
-import Register from "../pages/Register";
 
 // Components
 import PersistLogIn from "../features/auth/PersistLogin";
@@ -40,8 +39,6 @@ const routes = [
 
             { index: true, element: <Home/> },
 
-            { path: "register", element: <Register /> },
-
             { path: "about", element: <About /> },
 
             { path: "politique-confidentialite", element: <PrivacyPolicy /> },
@@ -51,8 +48,6 @@ const routes = [
             { path: "forgetPassword", element: <LayoutPwdForget/> },
 
             { path: "forgetPassword/reset/:uidb64/:token", element: <LayoutPwdForget/> },
-
-            { path: "logIn", element: <Home/> },
 
             {
         

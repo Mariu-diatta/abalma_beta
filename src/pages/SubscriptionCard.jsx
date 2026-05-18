@@ -33,6 +33,8 @@ function SubscriptionCard({
 
     const [loading, setLoading]=useState(false)
 
+    const IS_USE_SUBCRIB = currentUser?.is_subscribed && pro_plan 
+
     const handleSubscribe = async (email, amount_id) => {
 
         if (!email) alert("Connectez vous !!!")
@@ -120,9 +122,9 @@ function SubscriptionCard({
 
             <button
                 onClick={() => handleSubscribe(currentUser?.email, amount_id)}
-                disabled={(pro_plan && currentUser?.is_subscribed )|| loading || !currentUser?.email}
+                disabled={IS_USE_SUBCRIB}
                 className={`
-                bg-gray-200 py-2.5 font-semibold my-1 rounded-md
+                ${IS_USE_SUBCRIB ? "bg-blue-200 cursor-not-allowed" :"bg-gray-200"} py-2.5 font-semibold my-1 rounded-md
                 hover:bg-gray-300 transition
                 disabled:opacity-50 disabled:cursor-not-allowed
                 flex items-center justify-center gap-2
@@ -291,7 +293,7 @@ export default function SubscriptionsPage() {
                     highlight={false}
                     amount_id="price_1SSl4MCEAhT0NnGVWwQhaslP"
                     onSubscribe={(data) => handleSubscribe(data, "DISCOVERY")}
-                    pro_plan={currentUser?.pro_plan}
+                    pro_plan={!currentUser?.pro_plan}
                 />
 
                 <SubscriptionCard
