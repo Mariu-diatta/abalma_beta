@@ -239,7 +239,7 @@ export default function SubscriptionsPage() {
 
     return (
 
-        <main className=" flex flex-col items-center justify-center  bg-none mx-2 mt-16 overflow-y-auto h-full pt-[20dvh]">
+        <main className=" flex flex-col items-center justify-center  bg-none mx-2 mt-16 overflow-y-auto h-full pt-[20dvh] scrollbor_hidden">
 
             <button
 
