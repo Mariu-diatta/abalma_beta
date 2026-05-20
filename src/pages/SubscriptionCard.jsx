@@ -122,9 +122,9 @@ function SubscriptionCard({
 
             <button
                 onClick={() => handleSubscribe(currentUser?.email, amount_id)}
-                disabled={IS_USE_SUBCRIB}
+                disabled={!currentUser}
                 className={`
-                ${IS_USE_SUBCRIB ? "bg-blue-200 cursor-not-allowed" :"bg-gray-200"} py-2.5 font-semibold my-1 rounded-md
+                ${IS_USE_SUBCRIB ? "bg-gray-200  cursor-not-allowed" :" bg-blue-200"} py-2.5 font-semibold my-1 rounded-md
                 hover:bg-gray-300 transition
                 disabled:opacity-50 disabled:cursor-not-allowed
                 flex items-center justify-center gap-2
@@ -239,7 +239,7 @@ export default function SubscriptionsPage() {
 
     return (
 
-        <main className=" flex flex-col items-center justify-center  bg-none mx-2 mt-16 overflow-y-auto h-full pt-[100px]">
+        <main className=" flex flex-col items-center justify-center  bg-none mx-2 mt-16 overflow-y-auto h-full pt-[20dvh]">
 
             <button
 
