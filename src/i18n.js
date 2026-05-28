@@ -26,7 +26,7 @@ i18n
              "CASH":"Cash",
              "CARD":"Card",
              "MOBILE":"Mobile",
-
+             view_details: "View details",
              verifyAccount: "Please verify your account to continue",
 
              services_text_content: {
@@ -748,6 +748,7 @@ i18n
 
          translation: {
              payment_mode:"--Mode de paiment--",
+             voir_details:"Voir les détails",
              "CASH": "Cash",
              "CARD": "Carte",
              "MOBILE": "Mobile",
