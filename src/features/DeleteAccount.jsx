@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { logout } from "../slices/authSlice";
 import { useTranslation } from 'react-i18next';
 import api from "../services/Axios";
-import { setCurrentNav } from "../slices/navigateSlice";
 import LoadingCard from "../components/LoardingSpin";
+import { showMessage } from "../components/AlertMessage";
 
 
 const DeleteProfilAccount = () => {
@@ -50,9 +50,7 @@ const DeleteProfilAccount = () => {
                         withcredentials: true
                     } );
 
-                console.log("Response suppression", deleteResp?.data)
-
-                alert('Votre compte a été supprimé avec succès');
+                showMessage(dispatch, { Type: "Erreur", Message: deleteResp?.response.data.detail || 'Votre compte a été supprimé avec succès' });
 
                 dispatch(logout());
 
@@ -61,7 +59,9 @@ const DeleteProfilAccount = () => {
 
         } catch (err) {
 
-            console.error('Erreur de la suppression du compte', err);
+            console.error('Erreur de la suppression du compte', err.response.data.detail);
+
+            showMessage(dispatch, { Type: "Erreur", Message: err.response.data.detail || "Error" });
 
         } finally {
 
