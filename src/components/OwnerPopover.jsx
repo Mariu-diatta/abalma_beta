@@ -162,9 +162,9 @@ const OwnerPopover = ({ owner, onClose }) => {
 
                         dispatch(addUser(owner));
 
-                        dispatch(setCurrentNav("user-profil-contact"));
+                        dispatch(setCurrentNav("user-profil"));
 
-                        navigate("/user-profil-contact")
+                        navigate("/user-profil")
 
                         onClose();
                     }}
