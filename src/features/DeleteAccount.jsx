@@ -34,8 +34,9 @@ const DeleteProfilAccount = () => {
     }, [currentNav, profileData, selectedProductOwner]);
 
     // Suppression du compte
-    const delAccountUser = async () => {
+    const delAccountUser = async (e) => {
 
+        e.preventDefault()
 
         try {
 
@@ -59,9 +60,18 @@ const DeleteProfilAccount = () => {
 
         } catch (err) {
 
-            console.error('Erreur de la suppression du compte', err.response.data.detail);
+            console.log('Erreur de la suppression du compte', err);
 
-            showMessage(dispatch, { Type: "Erreur", Message: err.response.data.detail || "Error" });
+            const data = err.response.data
+
+            var message = data 
+
+            if (data && typeof data === "object" && !Array.isArray(data)) {
+
+                message = data?.detail
+            }
+
+            showMessage(dispatch, { Type: "Erreur", Message: message || "Error" });
 
         } finally {
 
@@ -71,7 +81,6 @@ const DeleteProfilAccount = () => {
 
     const isCurrentUser = useMemo(() => userProfile?.email === profileData?.email, [userProfile, profileData]);
 
- 
     if (!isCurrentUser) return
 
     return (
