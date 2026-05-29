@@ -53,10 +53,10 @@ const ListProductShoppingCart = () => {
     const getItemTotal = (prod) => {
         let currency = prod?.currency_price;
         if (currency === CONSTANTS?.FRANC) currency = CONSTANTS?.XOF;
-        const rate = convertir(currency, reference) || 1;
-        const price = Number(prod.price_product);
+        const ratePrice = convertir(currency, reference, prod?.price_product) || 1;
+        const price = Number(ratePrice);
         const qty = Number(prod.quantity_sold);
-        return !isNaN(price) && !isNaN(qty) ? price * qty * rate : 0;
+        return !isNaN(price) && !isNaN(qty) ? price * qty  : 0;
     };
 
     const grandTotal = itemsData.reduce((acc, prod) => acc + getItemTotal(prod), 0);

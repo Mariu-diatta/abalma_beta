@@ -968,10 +968,16 @@ export function convertir(de, vers, value) {
         USD_EUR: 0.91,
 
         EUR_XOF: 655,
+        EUR_FRANC: 655,
+
         XOF_EUR: 1 / 655,
+        FRANC_EUR: 1 / 655,
 
         USD_XOF: 600,
+        USD_FRANC: 600,
+
         XOF_USD: 1 / 600,
+        FRANC_USD: 1 / 600,
 
         EUR_EUR: 1.00,
         USD_USD: 1.00,

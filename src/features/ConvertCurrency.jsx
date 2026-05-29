@@ -1,63 +1,97 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { formaterPrix } from '../utils';
+import { CONSTANTS, convertir, formaterPrix } from '../utils';
 
 const RendrePrixProduitMonnaie = ({ item }) => {
 
-  const { t, i18n } = useTranslation();
+    const { t, i18n } = useTranslation();
 
-  return useMemo(() => {
+    return useMemo(() => {
 
-    if (!item?.price_product) return null;
+        if (!item?.price_product) return null;
 
-    const prixFormate = formaterPrix(
-      item.price_product,
-      item.currency_price,
-      t,
-      i18n.language
-    );
+        const lang = i18n.language || window.localStorage.i18nextLng || CONSTANTS?.FR;
 
-    // 🔹 Séparer symbole et nombre automatiquement
-    const match = prixFormate.match(/^(\D*)([\d\s.,]+)(.*)$/);
+        // 🎯 monnaie de référence selon langue
+        const reference = lang === CONSTANTS?.FR ? CONSTANTS?.EUR : CONSTANTS?.USD;
 
-    if (!match) return prixFormate;
+        // 🎯 monnaie produit
+        let currency = item?.currency_price;
+        if (currency === CONSTANTS?.FRANC) currency = CONSTANTS?.XOF;
 
-    const [, before, numberPart, after] = match;
+        // 💱 conversion vers monnaie de référence
+        const convertedValue =
+            convertir(currency, reference, item?.price_product) ?? item?.price_product;
 
-    // 🔹 Trouver séparateur décimal
-    let entier = numberPart;
-    let decimales = "";
-    let separator = "";
+        // 💰 format conversion
+        const prixConverti = formaterPrix(
+            convertedValue,
+            reference,
+            t,
+            i18n.language
+        );
 
-    if (numberPart.includes(",")) separator = ",";
-    else if (numberPart.includes(".")) separator = ".";
+        // 💵 format prix original
+        const prixOriginal = formaterPrix(
+            item.price_product,
+            item.currency_price,
+            t,
+            i18n.language
+        );
 
-    if (separator) {[entier, decimales] = numberPart.split(separator);}
+        // 🔥 même monnaie → afficher seulement conversion
+        const sameCurrency = currency === reference;
 
-    return (
+        // 🔹 helper parsing (conversion uniquement)
+        const parsePrice = (prix) => {
+            const match = prix.match(/^(\D*)([\d\s.,]+)(.*)$/);
+            if (!match) return prix;
 
-      <span className="whitespace-nowrap text-blue-700 text-sm sm:text-base font-bold p-1 ">
-        
-        {/* symbole avant */}
-        {before && <span>{before}</span>}
+            const [, before, numberPart, after] = match;
 
-        {/* entier */}
-        <span>{entier}</span>
+            let entier = numberPart;
+            let decimales = "";
+            let separator = "";
 
-        {/* décimales */}
-        {decimales && (
-          <span className="text-sm align-center">
-            {separator}{decimales}
-          </span>
-        )}
+            if (numberPart.includes(",")) separator = ",";
+            else if (numberPart.includes(".")) separator = ".";
 
-        {/* symbole après */}
-        {after && <span>{after}</span>}
+            if (separator) {
+                [entier, decimales] = numberPart.split(separator);
+            }
 
-      </span>
-    );
+            return (
+                <>
+                    {before && <>{before}</>}
+                    <>{entier}</>
+                    {decimales && <>{separator}{decimales}</>}
+                    {after && <>{after}</>}
+                </>
+            );
+        };
 
-  }, [item?.price_product, item?.currency_price, t, i18n.language]);
+        return (
+            <span className="whitespace-nowrap text-blue-700 text-[15px] md:text-[20px] font-bold p-1 flex flex-col items-start">
+
+                {/* 💰 prix converti */}
+                <p className="text-green-500 font-bold">{parsePrice(prixConverti)}</p>
+
+                {/* 🔥 si différente monnaie → afficher original */}
+                {!sameCurrency && (
+                    <p className="text-blue-500 text-sm font-semibold">
+                        {prixOriginal}
+                    </p>
+                )}
+
+            </span>
+        );
+
+    }, [
+        item?.price_product,
+        item?.currency_price,
+        i18n.language,
+        t
+    ]);
 };
 
 export default RendrePrixProduitMonnaie;

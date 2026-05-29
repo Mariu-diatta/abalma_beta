@@ -32,10 +32,12 @@ export default function ScrollingContent({ item, qut_sold, t }) {
 
                     <RendrePrixProduitMonnaie item={item} />
 
-                    <div className={` ${quantSoldNotZero?"hidden":""} flex items-center gap-1 text-blue-50 rounded-lg rouded-lg p-1 text-sm font-medium`}>
+                    <div className={` ${quantSoldNotZero?"hidden":""} flex items-center gap-1 text-blue-600 rounded-lg rouded-lg p-1 text-md font-medium`}>
 
-                        {t("quantity_sold")} : <span className="bg-green-100 rounded-full ">{qut_sold}</span>
-
+                        {t("quantity_sold")} :
+                        <p className="ml-2 inline-flex items-center px-2.5 py-1 rounded-full text-sm font-semibold bg-yellow-200 text-green-700">
+                            {qut_sold}
+                        </p>
                     </div>
 
                 </span>
