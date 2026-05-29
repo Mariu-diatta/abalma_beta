@@ -79,7 +79,7 @@ const ListButtonsCategories = ({
                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.5" d="M18 6H6m12 4H6m12 4H6m12 4H6" />
                 </svg>
 
-                <span>{isOpen ? t('Fermer') : t('Catégories')}</span>
+                <span>{isOpen ? t('Fermer') : t('categorie')}</span>
 
                 {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
 
@@ -89,7 +89,7 @@ const ListButtonsCategories = ({
             {isOpen && createPortal(
                 <div
                     ref={popoverRef}
-                    className="portal-popover-content  bg-gray-200 overflow-auto w-secreen h-[90vh] scrollbor_hidden py-[20vh]"
+                    className="portal-popover-content  bg-gray-200 overflow-auto w-secreen h-[100vh] scrollbor_hidden py-[20vh] my-0"
                     style={{
                         position: 'absolute',
                         top: `${coords.top}px`,
@@ -97,43 +97,79 @@ const ListButtonsCategories = ({
                         zIndex: 9999
                     }}
                 >
-                    <section className="ss-grid">
+                    <section className="ss-grid max-w-2xl mx-auto bg-white rounded-2xl shadow-sm p-4">
 
+                        {/* Header */}
+                        <div className="flex items-center justify-between mb-4 border-b pb-2">
 
-                        <div className="flex justify-between">
+                            <p className="text-lg text-blue-500 font-bold tracking-wide">
+                                {t('categorie')}
+                            </p>
 
-                            <p>Catégories</p>
-
-                            <svg onClick={() => setIsOpen(false)}   className="relative top-0 right-0 w-6 h-6 text-red-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                <path stroke="red" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.5" d="M6 18 17.94 6M18 18 6.06 6" />
-                            </svg>
+                            <button
+                                onClick={() => setIsOpen(false)}
+                                className="p-1 rounded-full hover:bg-red-50 transition"
+                                type="button"
+                            >
+                                <svg
+                                    className="w-6 h-6 text-red-700"
+                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke="currentColor"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="1.5"
+                                        d="M6 18 17.94 6M18 18 6.06 6"
+                                    />
+                                </svg>
+                            </button>
 
                         </div>
 
-                        {categories.map((cat) => {
-                            const label = formatLabel(cat);
-                            const key = normalizeKey(cat);
-                            const isActive = normalizeKey(activateButtonCategory ?? '') === key;
-                            //const icon = menuList.find((item) => item.name === cat)?.photo;
+                        {/* Categories */}
+                        <div className="flex flex-col gap-2">
 
-                            return (
-                                <button
-                                    key={cat}
-                                    type="button"
-                                    className={`lbc-btn${isActive ? 'active' : ''}`}
-                                    onMouseEnter={() => setProductSpecificHandler(key)}
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        setActiveCategory(label);
-                                        setActivateButtonCategory(label);
-                                        setIsOpen(false);
-                                    }}
-                                >
-                                    {/*{icon && <span className="lbc-icon">{icon}</span>}*/}
-                                    <span className="lbc-label">{label.toLowerCase()}</span>
-                                </button>
-                            );
-                        })}
+                            {categories.map((cat) => {
+
+                                const label = formatLabel(cat);
+                                const key = normalizeKey(cat);
+
+                                const isActive =
+                                    normalizeKey(activateButtonCategory ?? '') === key;
+
+                                return (
+
+                                    <button
+                                        key={cat}
+                                        type="button"
+                                        className={`
+                                            text-start  px-3 py-2 rounded-xl transition-all duration-200
+                                            ${isActive
+                                            ? 'active bg-blue-100 text-blue-700 font-semibold'
+                                            : 'hover:bg-pink-100'}
+                                        `}
+                                        onMouseEnter={() => setProductSpecificHandler(key)}
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            setActiveCategory(label);
+                                            setActivateButtonCategory(label);
+                                            setIsOpen(false);
+                                        }}
+                                    >
+
+                                        <span className="lbc-label capitalize">
+                                            {label.toLowerCase()}
+                                        </span>
+
+                                    </button>
+                                );
+                            })}
+
+                        </div>
 
                     </section>
 

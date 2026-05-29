@@ -23,12 +23,12 @@ i18n
 
          translation: {
              payment_mode: "--Payment mode--",
+             categorie:"Categories",
              "CASH":"Cash",
              "CARD":"Card",
              "MOBILE":"Mobile",
-             view_details: "View details",
+             voir_details: "View details",
              verifyAccount: "Please verify your account to continue",
-
              services_text_content: {
                  livraison: {
                      title: "Fast Delivery",
@@ -748,7 +748,8 @@ i18n
 
          translation: {
              payment_mode:"--Mode de paiment--",
-             voir_details:"Voir les détails",
+             voir_details: "Voir les détails",
+             categorie: "Catégories",
              "CASH": "Cash",
              "CARD": "Carte",
              "MOBILE": "Mobile",

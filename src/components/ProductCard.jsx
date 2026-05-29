@@ -50,9 +50,9 @@ const ProductCard = ({ item, isInCart, owner, openModal}) => {
 
                     <div className="absolute top-3 left-3 z-20">
 
-                        <span className="bg-white/90 backdrop-blur-md text-[10px] font-bold px-2 py-1 rounded-full shadow-sm text-gray-700 border border-white/50 ">
+                        <p className="bg-white/90 backdrop-blur-md text-[10px] font-bold px-2 py-1 rounded-full shadow-sm text-yellow-700 border border-white/50 ">
                             {item.quantity_product} {t("disponible")}
-                        </span>
+                        </p>
 
                     </div>
                 )}
@@ -144,39 +144,33 @@ const ProductCard = ({ item, isInCart, owner, openModal}) => {
 
                     <ScrollingContent item={item} t={t} qut_sold={item?.quantity_product_sold} />
 
-                    <div
-                        className="flex gap-2"
-                    >
+                    <button
 
-                        <button
+                        title="Ajouter au panier"
 
-                            title="Ajouter au panier"
+                        onClick={(e) => handleAddToCart(e) }
 
-                            onClick={(e) => handleAddToCart(e) }
+                        aria-disabled="true"
 
-                            aria-disabled="true"
-
-                            className="cursor-pointer p-1 rounded-full hover:bg-green-100 transition"
+                        className="whitespace-nowrap flex flex-row gap-2 cursor-pointer p-1 rounded-full hover:bg-green-100 transition"
+                    >  
+                        <svg
+                            className="w-8 h-6 text-gray-800 dark:text-white border border-green-200 rounded-lg"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
                         >
-                            <svg
-                                className="w-8 h-6 text-gray-800 dark:text-white border-1 rounded-lg"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    stroke="currentColor"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="1"
-                                    d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7h-1M8 7h-.688M13 5v4m-2-2h4"
-                                />
-                            </svg>
+                            <path
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="1"
+                                d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7h-1M8 7h-.688M13 5v4m-2-2h4"
+                            />
+                        </svg>
 
-                        </button>
-
-                    </div>
+                    </button>
 
                 </div>
             </div>
