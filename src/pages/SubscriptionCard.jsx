@@ -31,7 +31,7 @@ function SubscriptionCard({
 
     const currentUser = useSelector(state => state.auth.user)
 
-    const [loading, setLoading]=useState(false)
+    const [loading, setLoading] = useState(false)
 
     const IS_USE_SUBCRIB = currentUser?.is_subscribed && pro_plan 
 
@@ -192,12 +192,14 @@ export default function SubscriptionsPage() {
     const { t } = useTranslation();
 
     const currentUser = useSelector(state => state.auth.user)
-
+    
     let navigate = useNavigate();
 
     const dispatch = useDispatch()
 
     const currentNav = useSelector(state => state.navigate.currentNav);
+
+    const [loadingCancelSubscription, setLoadingCancelSubscription] = useState(false)
 
     const isCurrentNavSubscribtion = currentNav !== ENDPOINTS?.SUBSCRIPTION
 
@@ -236,10 +238,44 @@ export default function SubscriptionsPage() {
         }
     };
 
+    const cancelSubscription = async (e) => {
+
+        e.preventDefault();
+
+        setLoadingCancelSubscription(true);
+
+        try {
+
+            const response = await api.post("cancel-subscription/");
+
+            console.log(response.data);
+
+            alert("Subscription cancelled successfully");
+
+        } catch (err) {
+
+            console.log(err);
+
+            // 🔥 message backend
+            const message =
+                err?.response?.data?.detail ||
+                err?.response?.data?.message ||
+                "An error occurred while cancelling the subscription.";
+
+            alert(message);
+
+        } finally {
+
+            setLoadingCancelSubscription(false);
+
+        }
+    };
+
 
     return (
 
-        <main className=" flex flex-col items-center justify-center  bg-none mx-2 mt-16 overflow-y-auto h-full pt-[20dvh] scrollbor_hidden ">
+        <main className={`flex flex-col items-center border-t border-t-gray-200 justify-center shadow-lg  bg-none mx-2 ${isCurrentNavSubscribtion ? "" :"mt-16 pt-[10dvh]"} overflow-y-auto h-full  scrollbor_hidden`}>
+
 
             <button
 
@@ -313,6 +349,34 @@ export default function SubscriptionsPage() {
                 />
 
             </div>
+            {
+                currentUser?.is_subscribed &&
+                <div>
+                    {
+                        !loadingCancelSubscription?
+                        <button
+                            onClick={cancelSubscription}
+                            className="
+                                inline-flex items-center justify-center
+                                px-5 py-2 my-1
+                                rounded-full
+                                bg-red-100 hover:bg-red-700
+                                text-white font-semibold text-sm
+                                shadow-sm hover:shadow-md
+                                transition-all duration-200
+                                border border-red-600
+                                hover:scale-[1.02]
+                                active:scale-[0.98]
+                            "
+                        >
+                            Cancel Subscription
+
+                        </button>
+                        :
+                        <LoadingCard />
+                    }
+                </div>
+            }
 
         </main>
     );
