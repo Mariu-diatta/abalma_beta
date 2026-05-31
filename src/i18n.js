@@ -22,6 +22,8 @@ i18n
      en: {
 
          translation: {
+             text_payment: "Secure payments via Stripe",
+             text_footer_payment: "Your payments are encrypted and securely processed.",
              payment_mode: "--Payment mode--",
              categorie:"Categories",
              "CASH":"Cash",
@@ -747,6 +749,8 @@ i18n
      fr: {
 
          translation: {
+             text_payment: "Paiements sécurisés via Stripe",
+             text_footer_payment: "Toutes les transactions sont chiffrées et traitées de manière sécurisée.",
              payment_mode:"--Mode de paiment--",
              voir_details: "Voir les détails",
              categorie: "Catégories",

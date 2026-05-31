@@ -3,6 +3,14 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import LanguageDropdown from "../features/Langages";
 
+import {
+    FaCcVisa,
+    FaCcMastercard,
+    FaCcAmex,
+    FaCcDiscover,
+    FaApplePay,
+    FaGooglePay,
+} from "react-icons/fa";
 
 // ─── Icônes ───────────────────────────────────────────────────────────────────
 const PhoneIcon = () => (
@@ -145,6 +153,9 @@ const Footer = () => {
                                 </svg>
                             </a>
                         </div>
+
+                        <PaymentFooter />
+
                     </div>
 
                 </div>
@@ -160,3 +171,64 @@ const Footer = () => {
 };
 
 export default Footer;
+
+
+
+const PaymentFooter = () => {
+
+    const { t } = useTranslation();
+
+    return (
+        <footer
+            style={{
+                borderTop: "1px solid #e5e7eb",
+                padding: "5px 0",
+                marginTop: "40px",
+                backgroundColor: "#fff",
+            }}
+        >
+            <div
+                style={{
+                    maxWidth: "1200px",
+                    margin: "0 auto",
+                    padding: "0 20px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: "12px",
+                }}
+            >
+                <span
+                    style={{
+                        fontSize: "14px",
+                        color: "#6b7280",
+                    }}
+                    className="whitespace-nowrap"
+                >
+                    {t("text_payment")}
+
+                </span>
+
+                <div className="flex flex-row justify-center gap-4 text-4xl">
+                    <FaCcVisa title="Visa" />
+                    <FaCcMastercard title="Mastercard" />
+                    <FaCcAmex title="American Express" />
+                    <FaCcDiscover title="Discover" />
+                    <FaApplePay title="Apple Pay" />
+                    <FaGooglePay title="Google Pay" />
+                </div>
+
+                <small
+                    style={{
+                        color: "#9ca3af",
+                        fontSize: "12px",
+                        textAlign: "center",
+                    }}
+                >
+                    {t("text_footer_payment")}
+                </small>
+            </div>
+        </footer>
+    );
+};
+
