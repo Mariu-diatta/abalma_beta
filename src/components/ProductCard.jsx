@@ -51,7 +51,7 @@ const ProductCard = ({ item, isInCart, owner, openModal}) => {
                     <div className="absolute top-3 left-3 z-20">
 
                         <p className="bg-white/90 backdrop-blur-md text-[10px] font-bold px-2 py-1 rounded-full shadow-sm text-yellow-700 border border-white/50 ">
-                            {item.quantity_product} {t("disponible")}
+                            {item.quantity_product} {t("availability")}
                         </p>
 
                     </div>

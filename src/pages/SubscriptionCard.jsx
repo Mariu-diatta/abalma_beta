@@ -134,7 +134,7 @@ function SubscriptionCard({
                 {loading ? (
                     <LoadingCard />
                 ) : (
-                    "S’abonner"
+                   t('subscriptionPage.subscribe')
                 )}
             </button>
 
@@ -323,9 +323,9 @@ export default function SubscriptionsPage() {
 
                 <SubscriptionCard
                     title={t("discovery")}
-                    price="0,00€ / mois"
-                    subtitle="Pour tester la plateforme"
-                    features={["Profil visible", "Limité à 5 contacts / mois"]}
+                    price={t('subscriptionPage.priceDisc')}
+                    subtitle={t('subscriptionPage.subTitleDisc')}
+                    features={t('subscriptionPage.featuresDisc', { returnObjects: true })}
                     highlight={false}
                     amount_id="price_1SSl4MCEAhT0NnGVWwQhaslP"
                     onSubscribe={(data) => handleSubscribe(data, "DISCOVERY")}
@@ -334,14 +334,9 @@ export default function SubscriptionsPage() {
 
                 <SubscriptionCard
                     title={t("Pro")}
-                    price="10,00€ / mois"
-                    subtitle="Pour les équipes"
-                    features={[
-                        "Lancez et gérez votre activité de dropshipping facilement",
-                        "Accès à des formations expertes",
-                        "Chats illimités sans restriction",
-                        "Accompagnement personnalisé prioritaire",
-                    ]}
+                    price={t('subscriptionPage.price')}
+                    subtitle={t('subscriptionPage.subtitle')}
+                    features={t('subscriptionPage.features', { returnObjects: true })}
                     highlight={true}
                     amount_id="price_1SSl8mCEAhT0NnGVixibJU9I"
                     onSubscribe={(data) => handleSubscribe(data, "PRO")}
@@ -369,7 +364,7 @@ export default function SubscriptionsPage() {
                                 active:scale-[0.98]
                             "
                         >
-                            Cancel Subscription
+                           {t('subscriptionPage.cancelSubscription')}
 
                         </button>
                         :

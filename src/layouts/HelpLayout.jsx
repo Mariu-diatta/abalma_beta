@@ -74,13 +74,13 @@ const HelpPage = () => {
                     <HeroIllustration />
                     <div>
                         <p style={{ fontFamily: 'Sora,sans-serif', fontSize: '.75rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: '#6366f1', marginBottom: 4 }}>
-                            Centre d'aide
+                            {t("helpLayout.centerHelp")}
                         </p>
                         <h1 style={{ fontFamily: 'Sora,sans-serif', fontSize: 'clamp(1.4rem,4vw,2rem)', fontWeight: 700, color: '#1e1b4b', lineHeight: 1.2, margin: 0 }}>
-                            Support &amp; Aide
+                            {t("helpLayout.supportHelp")}
                         </h1>
                         <p style={{ color: '#6b7280', fontSize: '.9rem', marginTop: 6, lineHeight: 1.5, maxWidth: 340 }}>
-                            Une question ? Un problème ? Notre équipe est là pour vous.
+                            {t("helpLayout.questionHelp")}
                         </p>
                     </div>
                 </div>
@@ -97,10 +97,10 @@ const HelpPage = () => {
                             className="glass-card anim-fade-up delay-1"
                             style={{ padding: '28px 24px' }}
                         >
-                            <p className="section-title">🛠 {t('Déclarer un problème')}</p>
+                            <p className="section-title">🛠 {t('helpLayout.titleProblemeInput')}</p>
 
                             <div style={{ marginBottom: 18 }}>
-                                <label className="field-label">{t('Choisir un type de problème')}</label>
+                                <label className="field-label">{t('helpLayout.selectProblemeType')}</label>
                                 <select
                                     value={problemType}
                                     onChange={(e) => setProblemType(e.target.value)}
@@ -119,7 +119,7 @@ const HelpPage = () => {
                                 <label className="field-label">{t('helpPage.problemType.description')} *</label>
                                 <textarea
                                     rows="4"
-                                    placeholder="Décrivez votre problème..."
+                                    placeholder={t("helpLayout.textPlaceholdDescript") }
                                     value={description}
                                     onChange={(e) => setDescription(e.target.value)}
                                     maxLength={100}
@@ -240,7 +240,7 @@ function TestmonyList() {
             style={{ padding: '24px 22px' }}
         >
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-                <p className="section-title" style={{ margin: 0 }}>⭐ {t('Donnez votre avis')}</p>
+                <p className="section-title" style={{ margin: 0 }}>⭐ {t('helpLayout.textAvis')}</p>
                 <span className="badge-count">{items.length}</span>
             </div>
 
@@ -275,7 +275,7 @@ function TestmonyList() {
                 <textarea
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
-                    placeholder="Écris ton témoignage..."
+                    placeholder={t("helpLayout.textTemoignage")}
                     className="field-input"
                     style={{ resize: 'none', lineHeight: 1.6 }}
                     rows="2"

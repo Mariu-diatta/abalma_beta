@@ -420,15 +420,15 @@ const SettingsForm = () => {
 
                             <form onSubmit={handleSubmit}>
 
-                                <Section title={t('settingsText.preferences', 'Préférences')}>
+                                <Section title={t('settingsText.preferences')}>
 
-                                    <FieldRow label={t('settingsText.theme', 'Thème')}>
+                                    <FieldRow label={t('settingsText.theme')}>
                                         <ThemeSelector value={form.theme} onChange={handleUpdateThem} t={t} />
                                     </FieldRow>
 
                                     <FieldRow
-                                        label={t('settingsText.notifications', 'Notifications')}
-                                        hint={t('settingsText.notificationsHint', 'Recevoir des alertes par e-mail')}
+                                        label={t('settingsText.notifications')}
+                                        hint={t('settingsText.notificationsHint')}
                                     >
                                         <NotificationToggle checked={form.notifications} onChange={handleChange} t={t} />
                                     </FieldRow>

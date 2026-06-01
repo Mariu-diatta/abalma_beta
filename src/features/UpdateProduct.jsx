@@ -420,7 +420,7 @@ const AddUploadProduct = () => {
 
                                     <SectionTitle icon={STEP_ICONS[0]} text={t("add_product.informations")} />
 
-                                    <Field label="Nom du produit">
+                                    <Field label={t("add_product.name_product")}>
                                         <InputBox type="text" id="name_product" name="name_product" value={dataProduct?.name_product} onChange={onChangeClick} placeholder="Nom du produit" required className="ap-input" />
                                     </Field>
 
@@ -439,7 +439,7 @@ const AddUploadProduct = () => {
 
                                     {currentSection < 2 && (
                                         <button type="button" onClick={nextSection} className="ap-btn-next">
-                                            Suivant <NextArrow />
+                                            {t("TableRecap.pagination.next")} <NextArrow />
                                         </button>
                                     )}
                                 </div>
@@ -524,7 +524,8 @@ const AddUploadProduct = () => {
                                         )
                                     }
 
-                                    <Field label="Description">
+                                        <Field label={t("helpPage.problemType.description")}>
+
                                         <textarea
                                             id="description_product"
                                             name="description_product"
@@ -532,15 +533,17 @@ const AddUploadProduct = () => {
                                             onChange={onChangeClick}
                                             rows="4"
                                             className="ap-textarea"
-                                            placeholder="Description du produit entre 20 et 100 caractères..."
+                                            placeholder={t("description_product_input")}
                                             required minLength={20} maxLength={100}
                                         />
+
                                         <p className="ap-char-count">{dataProduct?.description_product?.length ?? 0}/100</p>
+
                                     </Field>
 
                                     {currentSection < 3 && (
                                         <button type="button" onClick={nextSection} className="ap-btn-next">
-                                            Suivant <NextArrow />
+                                            {t("TableRecap.pagination.next")} <NextArrow />
                                         </button>
                                     )}
                                 </div>
@@ -561,10 +564,10 @@ const AddUploadProduct = () => {
 
                                     {isLoanOptionSelected && (
                                         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                                            <Field label="Début emprunt">
+                                            <Field label={t("loan_start_date")}>
                                                 <InputBox type="datetime-local" id="date_emprunt" name="date_emprunt" value={dataProduct.date_emprunt} onChange={onChangeClick} className="ap-input" />
                                             </Field>
-                                            <Field label="Fin emprunt">
+                                            <Field label={t("loan_end_date")}>
                                                 <InputBox type="datetime-local" id="date_fin_emprunt" name="date_fin_emprunt" value={dataProduct.date_fin_emprunt} onChange={onChangeClick} className="ap-input" />
                                             </Field>
                                         </div>
@@ -581,7 +584,7 @@ const AddUploadProduct = () => {
 
                                     {currentSection < 4 && (
                                         <button type="button" onClick={nextSection} className="ap-btn-next">
-                                            Suivant <NextArrow />
+                                            {t("TableRecap.pagination.next")} <NextArrow />
                                         </button>
                                     )}
                                 </div>
@@ -594,20 +597,20 @@ const AddUploadProduct = () => {
 
                                     <SectionTitle icon={STEP_ICONS[3]} text={t("add_product.informations_livraison")} />
 
-                                    <Field label="Mode de livraison">
+                                    <Field label={t("client_support")}>
                                         <select required id="delivery" name="delivery" value={dataProduct?.delivery ?? ""} onChange={onChangeClick} className="ap-select">
                                             <option value="FREE">{t("add_product.FREE")}</option>
                                             <option value="DELPAID">{t("add_product.DELPAID")}</option>
                                         </select>
                                     </Field>
 
-                                    <Field label="Adresse">
+                                    <Field label={t("adress")}>
                                         <LocationSearchPopover setLocationSearch={getAdress} />
                                     </Field>
 
                                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
 
-                                        <Field label="Prix livraison">
+                                        <Field label={t("shipping_price:")}>
                                             <InputBox type="number" name="shipping_price" min="0" value={dataProduct.shipping_price} onChange={onChangeClick} placeholder="0.00" className="ap-input" />
                                         </Field>
 
@@ -652,7 +655,7 @@ const AddUploadProduct = () => {
                                             <LoadingCard /> : 
                                             (
                                                 <button type="submit" className="ap-btn-primary">
-                                                    Vérifier le produit ✦
+                                                    {t("text_verify_product")} ✦
                                                 </button>
                                             )
                                     }
