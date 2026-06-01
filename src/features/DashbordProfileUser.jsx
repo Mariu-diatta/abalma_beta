@@ -121,7 +121,7 @@ const Tabs = () => {
                                 aria-selected={activeTab === tab.id}
                                 aria-controls={`${tab.id}-panel`}
                                 id={`${tab.id}-tab`}
-                                className={`tabs-btn${activeTab === tab.id ? ' active' : ''}`}
+                                className={`tabs-btn ${activeTab === tab.id ? 'active' : ''}`}
                                 onClick={() => setActiveTab(tab.id)}
                             >
                                 {tab.label}
@@ -132,7 +132,7 @@ const Tabs = () => {
 
                 <div className="tabs-dots" aria-hidden="true">
                     {tabs.map((tab) => (
-                        <span key={tab.id} className={`tabs-dot${activeTab === tab.id ? ' active' : ''}`} />
+                        <span key={tab.id} className={`tabs-dot ${activeTab === tab.id ? 'active' : ''}`} />
                     ))}
                 </div>
 

@@ -117,8 +117,8 @@ export default function CashTransactionCard({ transaction, setSearchTransactionB
                             className="ctc-action-btn"
                             onClick={handleStatusUpdate}
                             disabled={!canAdvance}
-                            aria-label={canAdvance ? `Passer au statut : ${nextStatus}` : 'Aucune action disponible'}
-                            title={canAdvance ? nextStatus : 'Statut final'}
+                            aria-label={canAdvance ? ` ${t('changeStatus')} : ${nextStatus}` : t("noActionAvailable")}
+                            title={canAdvance ? nextStatus : t('finalStatus')}
                         >
                             {canAdvance ? nextStatus : '✅'}
                         </button>

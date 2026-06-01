@@ -206,7 +206,7 @@ const CashTransaction = () => {
                                     onClick={resetSearch}
                                     style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#22c55e', fontWeight: 600, fontSize: '.8rem', padding: 0 }}
                                 >
-                                    Voir toutes les transactions
+                                    {t('seeAllTransactions')}
                                 </button>
                             </p>
                         )}
@@ -214,7 +214,7 @@ const CashTransaction = () => {
                 )}
             </div>
 
-            {loading && <p style={{ textAlign: "center" }}>Chargement...</p>}
+            {loading && <p style={{ textAlign: "center" }}> {t('loading')}.</p>}
 
         </>
     );

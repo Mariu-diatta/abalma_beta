@@ -22,6 +22,14 @@ i18n
         en: {
 
             translation: {
+                finalStatus: "Final status",
+                noActionAvailable: "No action available",
+                changeStatus: "Change status to",
+                noResultFor: "No results for",
+                tryAnotherSearch: "Try another search term",
+                createFirstItem: "Create your first item!",
+                seeAllTransactions: "See all transactions",
+                search: "Search",
                 subscriptionPage: {
                     title: "Abalma Pro",
                     subtitle: "For professionals and craftsmen",
@@ -780,6 +788,14 @@ i18n
         fr: {
 
             translation: {
+                finalStatus: "Statut final",
+                noActionAvailable: "Aucune action disponible",
+                changeStatus: "Passer au statut",
+                noResultFor: "Aucun résultat pour",
+                tryAnotherSearch: "Essayez un autre terme de recherche",
+                createFirstItem: "Créez votre premier article !",
+                seeAllTransactions: "Voir toutes les transactions",
+                search: "Recherche",
                 subscriptionPage: {
                     title: "Abalma Pro",
                     subtitle: "Pour les professionnels et artisans",
@@ -1524,6 +1540,14 @@ i18n
         es: {
 
             translation: {
+                finalStatus: "Estado final",
+                noActionAvailable: "Ninguna acción disponible",
+                changeStatus: "Cambiar el estado a",
+                noResultFor: "Sin resultados para",
+                tryAnotherSearch: "Prueba otro término de búsqueda",
+                createFirstItem: "¡Crea tu primer artículo!",
+                seeAllTransactions: "Ver todas las transacciones",
+                search: "Buscar",
                 subscriptionPage: {
                     title: "Abalma Pro",
                     subtitle: "Para profesionales y artesanos",

@@ -352,10 +352,10 @@ const MyBlogsList = () => {
                     <div className="mbl-empty">
                         <div className="mbl-empty-icon">📭</div>
                         <p className="mbl-empty-title">
-                            {searchTerm ? `Aucun résultat pour "${searchTerm}"` : t('blogNone')}
+                                {searchTerm ? `${t('NoResultBlog')} "${searchTerm}"` : t('blogNone')}
                         </p>
                         <p className="mbl-empty-sub">
-                            {searchTerm ? 'Essayez un autre terme de recherche' : 'Créez votre premier article !'}
+                                {searchTerm ? t('tryAnotherSearch') : t('createFirstItem')}
                         </p>
                     </div>
                 ) : (
