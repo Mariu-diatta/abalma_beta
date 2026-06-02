@@ -1,61 +1,68 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { motion } from "framer-motion";
 import { services } from "../utils";
 import TitleCompGen from "../components/TitleComponentGen";
 
-
-// ─── Composant ────────────────────────────────────────────────────────────────
 const ServicesSection = () => {
+
     const { t } = useTranslation();
 
     return (
-        <>
-            <section className="ss-root ss-section" aria-labelledby="services-title">
+        <section
+            className="relative py-20 max-w-6xl mx-auto"
+            aria-labelledby="services-title"
+        >
+            <div className="mb-16 text-center">
+                <TitleCompGen title="Nos services" />
+            </div>
 
-                {/* Header */}
-                <div className="ss-header">
-                    <TitleCompGen title="Nos services" />
-                </div>
+            <div className="relative">
+                {services?.map((service, index) => (
+                    <motion.article
+                        key={service?.key ?? index}
+                        initial={{ opacity: 0, y: 0, scale: 0.98 }}
+                        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                        viewport={{ once: false, amount: 0.7 }}
+                        transition={{
+                            duration: 0.6,
+                            ease: "easeOut",
+                        }}
+                        className="
+                            sticky
+                            max-w-3xl
+                            mx-auto
+                            bg-white
+                            rounded-3xl
+                            shadow-xl
+                            p-8
+                            h-[400px]
+                        "
+                        style={{
+                            top: `${index * 10}px`, // 🔥 clé du décalage vers le HAUT
+                            zIndex: index + 1,
+                        }}
+                    >
+                        <div className="flex flex-col items-center text-center">
+                            <div className="text-5xl mb-4">{service.icon}</div>
 
-                {/* Grille de services */}
-                <div className="grid grid-cols-1 md:grid-cols-2 items-center justify-center gap-1 " role="list">
+                            <h3 className="text-2xl font-bold mb-3">
+                                {t(`${service.key}.title`)}
+                            </h3>
 
-                    {
-                        services?.map((service, index) => (
-
-                        <article
-                            key={service?.key ?? index}
-                            className="ss-card m-1 px-6 text-center py-3 m-3"
-                            role="listitem"
-                        >
-                            <div className="ss-icon-wrap" aria-hidden="true">
-                                {service.icon}
-                            </div>
-
-                            <div>
-                                <h3 className="ss-card-title">
-                                    {t(`${service.key}.title`)}
-                                </h3>
-                            </div>
-
-                            <p className="ss-card-desc">
+                            <p className="text-gray-600">
                                 {t(`${service.key}.description`)}
                             </p>
+                        </div>
+                    </motion.article>
+                ))}
+            </div>
 
-                            <span className="ss-card-link" aria-hidden="true">
-                                En savoir plus
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="m9 5 7 7-7 7" />
-                                </svg>
-                            </span>
-                        </article>
-                        ))
-                    }
-                </div>
-
-            </section>
-        </>
+        </section>
     );
 };
 
 export default ServicesSection;
+
+
+

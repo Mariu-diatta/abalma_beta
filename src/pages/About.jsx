@@ -1,11 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 
-import { setCurrentNav } from '../slices/navigateSlice';
 import HomeLayout from '../layouts/HomeLayout';
-import { ENDPOINTS } from '../utils';
 
 import image_1 from '../assets/image_1.jpg';
 import image_2 from '../assets/image_2.jpg';
@@ -55,9 +52,9 @@ const useRevealOnScroll = (refs) => {
 
 /* ---------------- CONTENT ---------------- */
 const AboutContainer = () => {
+
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const dispatch = useDispatch();
 
     const leftRef = useRef(null);
     const rightRef = useRef(null);

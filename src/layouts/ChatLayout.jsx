@@ -20,7 +20,7 @@ import { clearCart } from '../slices/cartSlice';
 
 import { logout } from '../slices/authSlice';
 
-import { setCurrentNav } from '../slices/navigateSlice';
+//import { setCurrentNav } from '../slices/navigateSlice';
 
 import { addAiChat } from '../slices/aiChatSlice';
 

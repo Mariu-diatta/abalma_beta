@@ -1,7 +1,7 @@
 import React from 'react';
 import Footer from '../pages/Footer';
 import NavbarHeader from '../pages/Header';
-import ScrollTop from '../components/ButtonScroll';
+//import ScrollTop from '../components/ButtonScroll';
 
 const HomeLayout = ({ children }) => {
 
