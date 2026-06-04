@@ -1,17 +1,13 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Logo from '../components/LogoApp';
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+
 
 
 const PrivacyPolicy = () => {
 
     const { t } = useTranslation();
 
-    const navigate = useNavigate();
-
-    const currentNav = useSelector(state => state.navigate.currentNav);
 
     return (
 
@@ -98,7 +94,7 @@ const PrivacyPolicy = () => {
 
             </section>
 
-            <button onClick={() => navigate(`/${currentNav}`)} className="fixed top-3 right-2 " >
+            <button onClick={() => window.history.back()} className="fixed top-3 right-2 " >
 
                 <svg className="shodow-lg w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
 

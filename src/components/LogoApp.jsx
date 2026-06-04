@@ -4,7 +4,7 @@ const Logo = () => {
 
     return (
 
-            <svg width="200" height="70" viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
+            <svg width="200" height="50" viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
 
                 <defs>
                     <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
