@@ -537,41 +537,121 @@ export const CATEGORY_FIELDS = {
 
 // CATEGORIES
 export const CATEGORIES = {
-    DIVERS: { fr: "Divers", en: "Other / Misc", idx: "divers" },
-    JOUETS: { fr: "Jouets", en: "Toys", idx: "toy_car" },
-    HABITS: { fr: "Habits", en: "Clothes", idx: "clothers" },
-    MATERIELS_INFORMATIQUES: { fr: "Matériels informatiques", en: "Computer Equipment", idx: "materiel_info" },
-    CAHIERS: { fr: "Cahiers", en: "Notebooks", idx: "notbooks" },
-    SACS: { fr: "Sacs", en: "Bags", idx: "bags" },
-    LIVRES: { fr: "Livres", en: "Books", idx: "books" },
-    ELECTROMENAGER: { fr: "Électroménager", en: "Home Appliances", idx: "home_appliance" },
-    TELEPHONIE: { fr: "Téléphonie", en: "Telephony", idx: "phone" },
-    SPORT: { fr: "Sport", en: "Sports Equipment", idx: "sport" },
-    JEUX_VIDEO: { fr: "Jeux vidéo", en: "Video Games", idx: "gaming" },
-    MEUBLES: { fr: "Meubles", en: "Furniture", idx: "meubles" },
-    VEHICULES: { fr: "Véhicules", en: "Vehicles", idx: "car" },
-    FOURNITURES_SCOLAIRES: { fr: "Fournitures scolaires", en: "School Supplies", idx: "fourniture" },
-    BIJOUX: { fr: "Bijoux", en: "Jewelry", idx: "jewelry" },
-    COSMETIQUES: { fr: "Cosmétiques", en: "Cosmetics", idx: "cosmetics" },
-    ALIMENTATION: { fr: "Alimentation", en: "Food", idx: "alimentation" },
-    MUSIQUE: { fr: "Musique", en: "Music", idx: "music" },
-    SANTE_BEAUTE: { fr: "Santé & Beauté", en: "Health & Beauty", idx: "health_beauty" },
-    MAISON_DECORATION: { fr: "Maison & Décoration", en: "Home & Decoration", idx: "home_deco" },
-    BEBES: { fr: "Bébés & Puériculture", en: "Baby & Toddler", idx: "baby" },
-    JARDINAGE: { fr: "Jardinage", en: "Gardening", idx: "gardening" },
-    BRICOLAGE: { fr: "Bricolage", en: "DIY & Tools", idx: "tools" },
-    ANIMAUX: { fr: "Animaux", en: "Pet Supplies", idx: "pets" },
-    CHAUSSURES: { fr: "Chaussures", en: "Shoes", idx: "shoes" },
-    ELECTRONIQUE: { fr: "Électronique", en: "Electronics", idx: "electronique" },
-    FILMS_SERIES: { fr: "Films & Séries", en: "Movies & Series", idx: "movies" },
-    SERVICES: { fr: "Services", en: "Services", idx: "services" },
-    ART: { fr: "Art & Artisanat", en: "Art & Craft", idx: "art" },
-    JEWELRY: { fr: "Montres & Bijoux", en: "Watches & Jewelry", idx: "jewelry" },
-    VOYAGE: { fr: "Voyage & Loisirs", en: "Travel & Leisure", idx: "travel" },
-    MEDICAL: { fr: "Matériel médical", en: "Medical Equipment", idx: "medical" },
-    HIGH_TECH: { fr: "High-Tech", en: "Gadgets & Innovation", idx: "hightech" },
-    AUTOMOTO: { fr: "Auto-moto", en: "Automotive", idx: "automoto" },
-    Tous: { fr: "Tous", en: "All", idx: "all_products" }
+    DIVERS: { fr: "Divers", en: "Other / Misc", es: "Varios", idx: "divers" },
+    JOUETS: { fr: "Jouets", en: "Toys", es: "Juguetes", idx: "toy_car" },
+    HABITS: { fr: "Habits", en: "Clothes", es: "Ropa", idx: "clothers" },
+    MATERIELS_INFORMATIQUES: {
+        fr: "Matériels informatiques",
+        en: "Computer Equipment",
+        es: "Equipos informáticos",
+        idx: "materiel_info"
+    },
+    CAHIERS: { fr: "Cahiers", en: "Notebooks", es: "Cuadernos", idx: "notbooks" },
+    SACS: { fr: "Sacs", en: "Bags", es: "Bolsos", idx: "bags" },
+    LIVRES: { fr: "Livres", en: "Books", es: "Libros", idx: "books" },
+    ELECTROMENAGER: {
+        fr: "Électroménager",
+        en: "Home Appliances",
+        es: "Electrodomésticos",
+        idx: "home_appliance"
+    },
+    TELEPHONIE: { fr: "Téléphonie", en: "Telephony", es: "Telefonía", idx: "phone" },
+    SPORT: { fr: "Sport", en: "Sports Equipment", es: "Deportes", idx: "sport" },
+    JEUX_VIDEO: { fr: "Jeux vidéo", en: "Video Games", es: "Videojuegos", idx: "gaming" },
+    MEUBLES: { fr: "Meubles", en: "Furniture", es: "Muebles", idx: "meubles" },
+    VEHICULES: { fr: "Véhicules", en: "Vehicles", es: "Vehículos", idx: "car" },
+    FOURNITURES_SCOLAIRES: {
+        fr: "Fournitures scolaires",
+        en: "School Supplies",
+        es: "Material escolar",
+        idx: "fourniture"
+    },
+    BIJOUX: { fr: "Bijoux", en: "Jewelry", es: "Joyería", idx: "jewelry" },
+    COSMETIQUES: { fr: "Cosmétiques", en: "Cosmetics", es: "Cosméticos", idx: "cosmetics" },
+    ALIMENTATION: { fr: "Alimentation", en: "Food", es: "Alimentación", idx: "alimentation" },
+    MUSIQUE: { fr: "Musique", en: "Music", es: "Música", idx: "music" },
+    SANTE_BEAUTE: {
+        fr: "Santé & Beauté",
+        en: "Health & Beauty",
+        es: "Salud y Belleza",
+        idx: "health_beauty"
+    },
+    MAISON_DECORATION: {
+        fr: "Maison & Décoration",
+        en: "Home & Decoration",
+        es: "Hogar y Decoración",
+        idx: "home_deco"
+    },
+    BEBES: {
+        fr: "Bébés & Puériculture",
+        en: "Baby & Toddler",
+        es: "Bebés y Puericultura",
+        idx: "baby"
+    },
+    JARDINAGE: { fr: "Jardinage", en: "Gardening", es: "Jardinería", idx: "gardening" },
+    BRICOLAGE: {
+        fr: "Bricolage",
+        en: "DIY & Tools",
+        es: "Bricolaje y Herramientas",
+        idx: "tools"
+    },
+    ANIMAUX: { fr: "Animaux", en: "Pet Supplies", es: "Mascotas", idx: "pets" },
+    CHAUSSURES: { fr: "Chaussures", en: "Shoes", es: "Zapatos", idx: "shoes" },
+    ELECTRONIQUE: {
+        fr: "Électronique",
+        en: "Electronics",
+        es: "Electrónica",
+        idx: "electronique"
+    },
+    FILMS_SERIES: {
+        fr: "Films & Séries",
+        en: "Movies & Series",
+        es: "Películas y Series",
+        idx: "movies"
+    },
+    SERVICES: { fr: "Services", en: "Services", es: "Servicios", idx: "services" },
+    ART: {
+        fr: "Art & Artisanat",
+        en: "Art & Craft",
+        es: "Arte y Artesanía",
+        idx: "art"
+    },
+    JEWELRY: {
+        fr: "Montres & Bijoux",
+        en: "Watches & Jewelry",
+        es: "Relojes y Joyería",
+        idx: "jewelry"
+    },
+    VOYAGE: {
+        fr: "Voyage & Loisirs",
+        en: "Travel & Leisure",
+        es: "Viajes y Ocio",
+        idx: "travel"
+    },
+    MEDICAL: {
+        fr: "Matériel médical",
+        en: "Medical Equipment",
+        es: "Equipamiento médico",
+        idx: "medical"
+    },
+    HIGH_TECH: {
+        fr: "High-Tech",
+        en: "Gadgets & Innovation",
+        es: "Alta tecnología",
+        idx: "hightech"
+    },
+    AUTOMOTO: {
+        fr: "Auto-moto",
+        en: "Automotive",
+        es: "Automóviles y Motocicletas",
+        idx: "automoto"
+    },
+    Tous: {
+        fr: "Tous",
+        en: "All",
+        es: "Todos",
+        idx: "all_products"
+    }
 };
 
 // ============================
@@ -613,9 +693,9 @@ export function translateCategory(value) {
 
     const entries = Object.entries(CATEGORIES);
 
-    for (const [key, { fr, en }] of entries) {
+    for (const [key, { fr, en, es }] of entries) {
 
-        if (value.toLowerCase() === fr.toLowerCase() || value.toLowerCase() === en.toLowerCase()) {
+        if (value?.toLowerCase() === fr.toLowerCase() || value?.toLowerCase() === en.toLowerCase() || value?.toLowerCase() === es.toLowerCase()) {
             return key;
         }
     }
