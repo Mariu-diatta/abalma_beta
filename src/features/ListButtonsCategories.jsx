@@ -108,8 +108,6 @@ const ListButtonsCategories = ({
         formatLabel(cat).toLowerCase().includes(search.toLowerCase())
     );
 
-    const activeKey = normalizeKey(activateButtonCategory ?? "");
-
     return (
         <div className="relative inline-block">
 
@@ -221,16 +219,18 @@ const ListButtonsCategories = ({
 
                                 {/* Liste */}
                                 <div className="max-h-64 overflow-y-auto p-2 flex flex-col gap-0.5 scrollbar-thin">
-                                    {filtered.length === 0 ? (
+
+                                    {categories?.length === 0 ? (
                                         <p className="text-center text-xs text-gray-400 py-6">
                                             {t("Aucun résultat") || "Aucun résultat"}
                                         </p>
                                     ) : (
-                                        filtered.map((cat) => {
+                                        categories?.map((cat) => {
+
                                             const label = formatLabel(cat);
                                             const key = normalizeKey(cat);
-                                            const isActive = activeKey === key;
 
+                                            const isActive = normalizeKey(activateButtonCategory ?? '') === key;
                                             return (
                                                 <motion.button
                                                     key={cat}
@@ -238,7 +238,8 @@ const ListButtonsCategories = ({
                                                     whileHover={{ x: 3 }}
                                                     transition={{ duration: 0.12 }}
                                                     onMouseEnter={() => setProductSpecificHandler(key)}
-                                                    onClick={() => {
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
                                                         setActiveCategory(label);
                                                         setActivateButtonCategory(label);
                                                         close();
