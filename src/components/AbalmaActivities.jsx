@@ -175,7 +175,7 @@ const ServicesPlatforms = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[420px]">
 
                     {/* ── Panneau texte ── */}
-                    <div className="relative flex flex-col justify-between p-8 lg:p-12 border-b lg:border-b-0 lg:border-r border-gray-100">
+                    <div className="relative flex flex-col justify-between p-2 lg:p-4 border-b lg:border-b-0 lg:border-r border-gray-100">
 
                         {/* Numéro discret */}
                         <span className="absolute top-8 right-8 text-[11px] font-mono text-gray-300 tracking-widest">
@@ -282,7 +282,7 @@ const ServicesPlatforms = () => {
 
                     {/* ── Panneau visuel ── */}
                     <div
-                        className="relative flex items-center justify-center p-8 lg:p-10 overflow-hidden"
+                        className="relative flex items-center justify-center p-2 lg:p-4 overflow-hidden"
                         aria-hidden="true"
                     >
                         {/* Fond décoratif */}

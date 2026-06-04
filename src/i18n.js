@@ -22,6 +22,7 @@ i18n
         en: {
 
             translation: {
+                madeWithLove:"Made with ♥ in France",
                 finalStatus: "Final status",
                 noActionAvailable: "No action available",
                 changeStatus: "Change status to",
@@ -788,6 +789,7 @@ i18n
         fr: {
 
             translation: {
+                madeWithLove: "Fabriqué avec ♥ en France",
                 finalStatus: "Statut final",
                 noActionAvailable: "Aucune action disponible",
                 changeStatus: "Passer au statut",
@@ -1540,6 +1542,7 @@ i18n
         es: {
 
             translation: {
+                madeWithLove: "Hecho con ♥ en Francia",
                 finalStatus: "Estado final",
                 noActionAvailable: "Ninguna acción disponible",
                 changeStatus: "Cambiar el estado a",

@@ -211,7 +211,7 @@ const ServicesSection = () => {
 
     return (
         <section
-            className="relative py-20 max-w-6xl mx-auto"
+            className="relative mb-6 pb-5 mt-2 w-full mx-auto"
             aria-labelledby="services-title"
         >
             <div className="text-center">
@@ -219,6 +219,7 @@ const ServicesSection = () => {
             </div>
 
             {isMobile ? <MobileCarousel t={t} /> : <DesktopFan t={t} />}
+
         </section>
     );
 };

@@ -228,7 +228,7 @@ const Footer = () => {
                         © 2026 <strong className="text-gray-600">Abalma</strong> — {t("footer_toutDroit")}
                     </span>
                     <span className="text-xs text-gray-300">
-                        Made with ♥ in France
+                       {t("madeWithLove")}
                     </span>
                 </div>
 

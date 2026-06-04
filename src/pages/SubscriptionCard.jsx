@@ -274,7 +274,7 @@ export default function SubscriptionsPage() {
 
     return (
 
-        <main className={`flex flex-col items-center border-t border-t-gray-200 justify-center shadow-lg  bg-none mx-2 ${isCurrentNavSubscribtion ? "" :"mt-16 pt-[10dvh]"} overflow-y-auto h-full  scrollbor_hidden`}>
+        <main className={`flex flex-col border-t border-gray-300 items-center border-0 justify-center  bg-none mx-2 ${isCurrentNavSubscribtion ? "" :"mt-16 pt-[10dvh]"} overflow-y-auto h-full  scrollbor_hidden`}>
 
 
             <button
