@@ -1,105 +1,143 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const PaginationProduit = ({ products = [] }) => {
     const scrollRef = useRef(null);
+    const itemRefs = useRef([]);
 
-    // Fonction pour scroller horizontalement
     const scroll = (direction) => {
         if (scrollRef.current) {
             const { scrollLeft, clientWidth } = scrollRef.current;
-            const scrollTo = direction === "left"
-                ? scrollLeft - clientWidth * 0.8
-                : scrollLeft + clientWidth * 0.8;
-
             scrollRef.current.scrollTo({
-                left: scrollTo,
+                left: direction === "left"
+                    ? scrollLeft - clientWidth * 0.6
+                    : scrollLeft + clientWidth * 0.6,
                 behavior: "smooth",
             });
         }
     };
 
+    useEffect(() => {
+        const observers = [];
+
+        itemRefs.current.forEach((el, i) => {
+            if (!el) return;
+
+            const obs = new IntersectionObserver(
+                ([entry]) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            el.classList.add("fan-visible");
+                        }, i * 60);
+                        obs.unobserve(el);
+                    }
+                },
+                { threshold: 0.2 }
+            );
+
+            obs.observe(el);
+            observers.push(obs);
+        });
+
+        return () => observers.forEach((o) => o.disconnect());
+    }, [products]);
+
     if (!products.length) return null;
 
     return (
-        <div className="relative group w-full px-0 py-6">
+        <>
+            <style>{`
+        .fan-item {
+          opacity: 0;
+          transform: translateY(60px) rotate(15deg) scale(0.85);
+          transition:
+            opacity 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+            transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+            z-index 0s;
+          will-change: transform, opacity;
+        }
+        .fan-item.fan-visible {
+          opacity: 1;
+        }
+        .fan-item:nth-child(odd).fan-visible  { transform: rotate(-2deg); }
+        .fan-item:nth-child(even).fan-visible { transform: rotate(1.5deg); }
+        .fan-item:nth-child(3n).fan-visible   { transform: rotate(-1deg); }
 
-            {/* Flèche Gauche */}
-            <button
-                onClick={() => scroll("left")}
-                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 p-2 rounded-full shadow-lg border border-gray-100 hover:bg-blue-600 hover:text-white transition-all opacity-0 group-hover:opacity-100 hidden md:block"
-            >
-                <ChevronLeft className="w-6 h-6" />
-            </button>
+        .fan-item:hover {
+          transform: translateY(-18px) scale(1.06) rotate(0deg) !important;
+          z-index: 10;
+        }
+        .fan-item:hover .fan-label { opacity: 1; }
 
-            {/* Conteneur des Produits */}
-            <div
-                ref={scrollRef}
-                className="
-                    flex 
-                    gap-6 
-                    overflow-x-auto 
-                    scroll-smooth
-                    /* CENTRAGE MAGIQUE ICI */
-                    justify-start md:justify-center 
-                    /* -------------------- */
-                    pb-4 
-                    px-0
-                    no-scrollbar
-                    snap-x 
-                    snap-mandatory
-                    w-full
-                  "
-            >
-                {products.map((product, index) => {
-                    const image = product?.variants?.[0]?.image;
-                    const name = product?.name || `Produit ${index + 1}`;
+        .fan-label {
+          opacity: 0;
+          transition: opacity 0.2s;
+        }
 
-                    return (
-                        <div
-                            key={index}
-                            className="
-                                flex-shrink-0 w-48 md:w-56 
-                                snap-start group/item 
-                                cursor-pointer
-                              "
-                        >
-                            {/* Card Image */}
-                            <div className="rounded-full relative overflow-hidden rounded-2xl bg-gray-50 border border-gray-100 aspect-square flex items-center justify-center transition-all duration-300 group-hover/item:shadow-xl group-hover/item:border-blue-200">
-                                <img
-                                    src={image}
-                                    alt={name}
-                                    className="
-                                        w-full h-full object-container m-2 
-                                        transition-transform duration-500  
-                                        group-hover/item:scale-110
-                                      "
-                                />
-                                {/* Overlay au survol */}
-                                <div className="absolute inset-0 bg-black/5 opacity-0 group-hover/item:opacity-100 transition-opacity" />
+        .fan-track::-webkit-scrollbar { display: none; }
+        .fan-track { -ms-overflow-style: none; scrollbar-width: none; }
+      `}</style>
+
+            <div className="relative group w-full py-6">
+
+                {/* Flèche Gauche */}
+                <button
+                    onClick={() => scroll("left")}
+                    className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white/90 p-2 rounded-full shadow-lg border border-gray-100 hover:bg-blue-600 hover:text-white transition-all opacity-0 group-hover:opacity-100 hidden md:flex items-center justify-center"
+                >
+                    <ChevronLeft className="w-5 h-5" />
+                </button>
+
+                {/* Track */}
+                <div
+                    ref={scrollRef}
+                    className="fan-track flex overflow-x-auto scroll-smooth pt-14 pb-4 px-4 items-end"
+                    style={{ gap: 0 }}
+                >
+                    {products.map((product, index) => {
+                        const image = product?.variants?.[0]?.image;
+                        const name = product?.name || `Produit ${index + 1}`;
+
+                        return (
+                            <div
+                                key={index}
+                                ref={(el) => (itemRefs.current[index] = el)}
+                                className="fan-item flex-shrink-0 cursor-pointer relative"
+                                style={{
+                                    width: "11rem",
+                                    marginLeft: index === 0 ? "0" : "-2.5rem",
+                                    zIndex: 1,
+                                    transformOrigin: "bottom center",
+                                    transitionDelay: `${index * 0.04}s`,
+                                }}
+                            >
+                                {/* Card image */}
+                                <div className="rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 aspect-square flex items-center justify-center transition-shadow duration-300 hover:shadow-xl">
+                                    <img
+                                        src={image}
+                                        alt={name}
+                                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                                    />
+                                </div>
+
+                                {/* Nom au survol */}
+                                <p className="fan-label text-center text-xs text-gray-500 mt-2 truncate px-1">
+                                    {name}
+                                </p>
                             </div>
+                        );
+                    })}
+                </div>
 
-                        </div>
-                    );
-                })}
+                {/* Flèche Droite */}
+                <button
+                    onClick={() => scroll("right")}
+                    className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white/90 p-2 rounded-full shadow-lg border border-gray-100 hover:bg-blue-600 hover:text-white transition-all opacity-0 group-hover:opacity-100 hidden md:flex items-center justify-center"
+                >
+                    <ChevronRight className="w-5 h-5" />
+                </button>
             </div>
-
-            {/* Flèche Droite */}
-            <button
-                onClick={() => scroll("right")}
-                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 p-2 rounded-full shadow-lg border border-gray-100 hover:bg-blue-600 hover:text-white transition-all opacity-0 group-hover:opacity-100 hidden md:block"
-            >
-                <ChevronRight className="w-6 h-6" />
-            </button>
-
-            {/* Style CSS pour cacher la scrollbar (Inline ou dans votre CSS) */}
-            <style dangerouslySetInnerHTML={{
-                __html: `
-                    .no-scrollbar::-webkit-scrollbar { display: none; }
-                    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-                  `}}
-            />
-        </div>
+        </>
     );
 };
 
