@@ -1,21 +1,28 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const getRandomRotation = () => {
-    const rotations = [-3, -2, -1.5, -1, 0.5, 1, 1.5, 2, 2.5, 3];
-    return rotations[Math.floor(Math.random() * rotations.length)];
-};
+const randomRot = () => (Math.random() - 0.5) * 6; // Entre -3deg et +3deg
 
 const PaginationProduit = ({ products = [] }) => {
     const scrollRef = useRef(null);
     const itemRefs = useRef([]);
-    const [activeIndex, setActiveIndex] = useState(null);
-    const [rotations, setRotations] = useState([]);
+    const rotationsRef = useRef([]); // Stocké en ref, pas en state → pas de re-render
 
-    // Générer les rotations initiales aléatoires
+    // Init des rotations
     useEffect(() => {
-        setRotations(products.map(() => getRandomRotation()));
+        rotationsRef.current = products.map(() => randomRot());
+        applyRotations();
     }, [products]);
+
+    // Applique directement les rotations via le DOM, sans re-render React
+    const applyRotations = () => {
+        itemRefs.current.forEach((el, i) => {
+            if (!el) return;
+            const rot = rotationsRef.current[i] ?? 0;
+            el.style.transform = `rotate(${rot}deg)`;
+            el.style.zIndex = "1";
+        });
+    };
 
     const scroll = (direction) => {
         if (scrollRef.current) {
@@ -29,30 +36,41 @@ const PaginationProduit = ({ products = [] }) => {
         }
     };
 
-    const handleEnter = (index) => {
-        // Scroll pour révéler l'item si partiellement caché
-        const el = itemRefs.current[index];
-        const track = scrollRef.current;
-        if (el && track) {
-            const elRect = el.getBoundingClientRect();
-            const trackRect = track.getBoundingClientRect();
-            const overflowRight = elRect.right - trackRect.right;
-            const overflowLeft = trackRect.left - elRect.left;
-            if (overflowRight > 0) track.scrollBy({ left: overflowRight + 24, behavior: "smooth" });
-            else if (overflowLeft > 0) track.scrollBy({ left: -(overflowLeft + 24), behavior: "smooth" });
-        }
-        setActiveIndex(index);
+    const revealItem = (el, track) => {
+        if (!el || !track) return;
+        const elRect = el.getBoundingClientRect();
+        const trackRect = track.getBoundingClientRect();
+        const overflowRight = elRect.right - trackRect.right;
+        const overflowLeft = trackRect.left - elRect.left;
+        if (overflowRight > 0) track.scrollBy({ left: overflowRight + 24, behavior: "smooth" });
+        else if (overflowLeft > 0) track.scrollBy({ left: -(overflowLeft + 24), behavior: "smooth" });
     };
 
-    const handleLeave = (index) => {
-        // Nouvelle rotation aléatoire au retour
-        setRotations((prev) => {
-            const next = [...prev];
-            next[index] = getRandomRotation();
-            return next;
-        });
-        setActiveIndex(null);
-    };
+    const handleEnter = useCallback((index) => {
+        const el = itemRefs.current[index];
+        if (!el) return;
+
+        // Révéler si partiellement caché
+        revealItem(el, scrollRef.current);
+
+        // Monter au premier plan immédiatement via DOM
+        el.style.transform = "translateY(-18px) scale(1.06) rotate(0deg)";
+        el.style.zIndex = "10";
+        el.querySelector(".fan-label").style.opacity = "1";
+    }, []);
+
+    const handleLeave = useCallback((index) => {
+        const el = itemRefs.current[index];
+        if (!el) return;
+
+        // Nouvelle rotation aléatoire tirée MAINTENANT, appliquée immédiatement
+        const newRot = randomRot();
+        rotationsRef.current[index] = newRot;
+
+        el.style.transform = `rotate(${newRot}deg)`;
+        el.style.zIndex = "1";
+        el.querySelector(".fan-label").style.opacity = "0";
+    }, []);
 
     useEffect(() => {
         const observers = [];
@@ -61,7 +79,10 @@ const PaginationProduit = ({ products = [] }) => {
             const obs = new IntersectionObserver(
                 ([entry]) => {
                     if (entry.isIntersecting) {
-                        setTimeout(() => el.classList.add("fan-visible"), i * 60);
+                        setTimeout(() => {
+                            el.classList.add("fan-visible");
+                            el.style.transform = `rotate(${rotationsRef.current[i] ?? 0}deg)`;
+                        }, i * 60);
                         obs.unobserve(el);
                     }
                 },
@@ -77,6 +98,28 @@ const PaginationProduit = ({ products = [] }) => {
 
     return (
         <>
+            <style>{`
+        .fan-item {
+          opacity: 0;
+          transform: translateY(60px) rotate(15deg) scale(0.85);
+          will-change: transform, opacity;
+          transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+        }
+        .fan-item.fan-visible {
+          opacity: 1;
+        }
+        .fan-label {
+          opacity: 0;
+          transition: opacity 0.2s;
+        }
+        .fan-track {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+          justify-content: safe center;
+        }
+        .fan-track::-webkit-scrollbar { display: none; }
+      `}</style>
+
             <div className="relative group w-full py-6">
 
                 <button
@@ -94,23 +137,16 @@ const PaginationProduit = ({ products = [] }) => {
                     {products.map((product, index) => {
                         const image = product?.variants?.[0]?.image;
                         const name = product?.name || `Produit ${index + 1}`;
-                        const isActive = activeIndex === index;
-                        const rot = rotations[index] ?? 0;
 
                         return (
                             <div
                                 key={index}
                                 ref={(el) => (itemRefs.current[index] = el)}
-                                className={`fan-item flex-shrink-0 cursor-pointer relative ${isActive ? "fan-active" : "fan-visible"}`}
+                                className="fan-item flex-shrink-0 cursor-pointer relative"
                                 style={{
                                     width: "11rem",
                                     marginLeft: index === 0 ? "0" : "-2.5rem",
-                                    zIndex: isActive ? 10 : 1,
                                     transformOrigin: "bottom center",
-                                    // Active : monte et se redresse / Repos : rotation aléatoire
-                                    transform: isActive
-                                        ? "translateY(-18px) scale(1.06) rotate(0deg)"
-                                        : `rotate(${rot}deg)`,
                                 }}
                                 onMouseEnter={() => handleEnter(index)}
                                 onMouseLeave={() => handleLeave(index)}
