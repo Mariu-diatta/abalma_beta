@@ -1,9 +1,10 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const PaginationProduit = ({ products = [] }) => {
     const scrollRef = useRef(null);
     const itemRefs = useRef([]);
+    const [activeIndex, setActiveIndex] = useState(null);
 
     const scroll = (direction) => {
         if (scrollRef.current) {
@@ -15,6 +16,27 @@ const PaginationProduit = ({ products = [] }) => {
                 behavior: "smooth",
             });
         }
+    };
+
+    // Scroll pour rendre l'item entièrement visible au clic/survol
+    const revealItem = (index) => {
+        const el = itemRefs.current[index];
+        const track = scrollRef.current;
+        if (!el || !track) return;
+
+        const elRect = el.getBoundingClientRect();
+        const trackRect = track.getBoundingClientRect();
+
+        const overflowRight = elRect.right - trackRect.right;
+        const overflowLeft = trackRect.left - elRect.left;
+
+        if (overflowRight > 0) {
+            track.scrollBy({ left: overflowRight + 24, behavior: "smooth" });
+        } else if (overflowLeft > 0) {
+            track.scrollBy({ left: -(overflowLeft + 24), behavior: "smooth" });
+        }
+
+        setActiveIndex(index);
     };
 
     useEffect(() => {
@@ -63,19 +85,26 @@ const PaginationProduit = ({ products = [] }) => {
         .fan-item:nth-child(even).fan-visible { transform: rotate(1.5deg); }
         .fan-item:nth-child(3n).fan-visible   { transform: rotate(-1deg); }
 
-        .fan-item:hover {
+        .fan-item:hover,
+        .fan-item.fan-active {
           transform: translateY(-18px) scale(1.06) rotate(0deg) !important;
           z-index: 10;
         }
-        .fan-item:hover .fan-label { opacity: 1; }
+        .fan-item:hover .fan-label,
+        .fan-item.fan-active .fan-label { opacity: 1; }
 
         .fan-label {
           opacity: 0;
           transition: opacity 0.2s;
         }
 
+        .fan-track {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+          /* Centrage si peu d'items */
+          justify-content: safe center;
+        }
         .fan-track::-webkit-scrollbar { display: none; }
-        .fan-track { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
 
             <div className="relative group w-full py-6">
@@ -102,14 +131,17 @@ const PaginationProduit = ({ products = [] }) => {
                             <div
                                 key={index}
                                 ref={(el) => (itemRefs.current[index] = el)}
-                                className="fan-item flex-shrink-0 cursor-pointer relative"
+                                className={`fan-item flex-shrink-0 cursor-pointer relative ${activeIndex === index ? "fan-active" : ""}`}
                                 style={{
                                     width: "11rem",
                                     marginLeft: index === 0 ? "0" : "-2.5rem",
-                                    zIndex: 1,
+                                    zIndex: activeIndex === index ? 10 : 1,
                                     transformOrigin: "bottom center",
                                     transitionDelay: `${index * 0.04}s`,
                                 }}
+                                onMouseEnter={() => revealItem(index)}
+                                onMouseLeave={() => setActiveIndex(null)}
+                                onClick={() => revealItem(index)}
                             >
                                 {/* Card image */}
                                 <div className="rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 aspect-square flex items-center justify-center transition-shadow duration-300 hover:shadow-xl">
