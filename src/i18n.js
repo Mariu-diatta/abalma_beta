@@ -193,7 +193,8 @@ i18n
                     success_transaction_done: "Merci ! Votre transaction a été effectuée avec succès.",
                     success_transaction_message: "Un e-mail de confirmation vous sera envoyé sous peu.",
                     btn_back_to_dashbord: "Retour à l’accueil",
-                    paid_fail:"Votre payement a échoué !!!"
+                    paid_fail: "Votre payement a échoué !!!",
+                    verification_processing: "Traitement de vérification"
                 },
                 stripe_pay: "Pay with Stripe",
                 edit:"Edit",
@@ -992,7 +993,8 @@ i18n
                     success_transaction_done: "Thank you! Your transaction was completed successfully.",
                     success_transaction_message: "A confirmation email will be sent to you shortly.",
                     btn_back_to_dashbord: "Back to home",
-                    paid_fail: "Payement fail !!!"
+                    paid_fail: "Payement fail !!!",
+                    verification_processing: "Verification processing..."
                 },
                 stripe_pay:'Payer avec Stripe',
                 edit:"Modifier",
@@ -1775,7 +1777,8 @@ i18n
                     success_transaction_done: "¡Gracias! Tu transacción se completó con éxito.",
                     success_transaction_message: "Te enviaremos un correo de confirmación en breve.",
                     btn_back_to_dashbord: "Volver al inicio",
-                    paid_fail: "¡Error en el pago!"
+                    paid_fail: "¡Error en el pago!",
+                    verification_processing: "Procesamiento de verificación"
                 },
                 stripe_pay: 'Pagar con Stripe',
                 edit: "Modificar",

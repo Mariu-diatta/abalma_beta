@@ -91,7 +91,7 @@ const PaySuccess = () => {
                 <>
                     <LoadingCard />
                     <h1 className="text-lg mt-3">
-                        {t("payment_text.verifying_payment")}
+                        {t("payment_text.verification_processing")}
                     </h1>
                 </>
             )}
