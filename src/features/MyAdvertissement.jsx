@@ -79,8 +79,8 @@ const MesPublicites = ({ onEdit }) => {
 
                 <TitleCompGenLitle title={"Mes publicités"}/>
 
-                <span className="text-sm text-gray-500">
-                    {ads.length} publicité(s)
+                <span className="text-sm text-gray-500 whitespace-nowrap">
+                    {ads.length} publicité (s)
                 </span>
             </div>
 
@@ -173,30 +173,38 @@ const MesPublicites = ({ onEdit }) => {
                                         bg-blue-50
                                         text-blue-700
                                         hover:bg-blue-100
-                                        transition
+                                        transition flex
+                                        justify-center
                                     "
                                 >
-                                    <i className="ti ti-edit" />
+                                    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.5" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z" />
+                                    </svg>
+
                                 </button>
 
                                 <button
                                     onClick={() => handleToggleActive(ad)}
                                     className={`
                                         py-2 rounded-lg
-                                        transition
+                                        transition flex justify-center
                                         ${ad.is_active
                                             ? "bg-orange-50 text-orange-700 hover:bg-orange-100"
                                             : "bg-green-50 text-green-700 hover:bg-green-100"
                                         }
                                     `}
                                 >
-                                    <i
-                                        className={
-                                            ad.is_active
-                                                ? "ti ti-player-pause"
-                                                : "ti ti-player-play"
-                                        }
-                                    />
+
+                                    {
+                                        ad?.is_active ?
+                                            (<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-width="0.5" d="M11.083 5.104c.35-.8 1.485-.8 1.834 0l1.752 4.022a1 1 0 0 0 .84.597l4.463.342c.9.069 1.255 1.2.556 1.771l-3.33 2.723a1 1 0 0 0-.337 1.016l1.03 4.119c.214.858-.71 1.552-1.474 1.106l-3.913-2.281a1 1 0 0 0-1.008 0L7.583 20.8c-.764.446-1.688-.248-1.474-1.106l1.03-4.119A1 1 0 0 0 6.8 14.56l-3.33-2.723c-.698-.571-.342-1.702.557-1.771l4.462-.342a1 1 0 0 0 .84-.597l1.753-4.022Z" />
+                                            </svg>)
+                                            :
+                                            (<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-width="0.5" d="M11.083 5.104c.35-.8 1.485-.8 1.834 0l1.752 4.022a1 1 0 0 0 .84.597l4.463.342c.9.069 1.255 1.2.556 1.771l-3.33 2.723a1 1 0 0 0-.337 1.016l1.03 4.119c.214.858-.71 1.552-1.474 1.106l-3.913-2.281a1 1 0 0 0-1.008 0L7.583 20.8c-.764.446-1.688-.248-1.474-1.106l1.03-4.119A1 1 0 0 0 6.8 14.56l-3.33-2.723c-.698-.571-.342-1.702.557-1.771l4.462-.342a1 1 0 0 0 .84-.597l1.753-4.022Z" />
+                                            </svg>)
+                                    }
                                 </button>
 
                                 <button
@@ -206,9 +214,13 @@ const MesPublicites = ({ onEdit }) => {
                                         text-purple-700
                                         hover:bg-purple-100
                                         transition
+                                        flex justify-center
                                     "
                                 >
-                                    <i className="ti ti-eye" />
+                                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z" />
+                                    </svg>
+
                                 </button>
 
                                 <button
@@ -219,9 +231,13 @@ const MesPublicites = ({ onEdit }) => {
                                         text-red-700
                                         hover:bg-red-100
                                         transition
+                                        flex justify-center
                                     "
                                 >
-                                    <i className="ti ti-trash" />
+                                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
+                                    </svg>
+
                                 </button>
 
                             </div>
