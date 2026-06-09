@@ -6,6 +6,8 @@ import MyBlogsList from '../features/ListManagerBlogs';
 import { useTranslation } from 'react-i18next';
 import { MODE } from '../utils';
 import CashTransaction from './CashTransactions';
+import MesPublicites from './MyAdvertissement';
+import AfficheForm from './CreatFormPub';
 
 
 // ─── Composant ────────────────────────────────────────────────────────────────
@@ -18,6 +20,7 @@ const TablesRecapActivities = ({
     const { t } = useTranslation();
     const [activeTab, setActiveTab] = useState('listProductShoppingCart');
     const [pillStyle, setPillStyle] = useState({ left: 0, width: 0 });
+    const [selectedAd, setSelectedAd] = useState(null);
 
     const navRef = useRef(null);
     const btnRefs = useRef([]);
@@ -180,6 +183,21 @@ const TablesRecapActivities = ({
                     </section>
                 </div>
 
+            </div>
+            <div className="mt-0">
+                <MesPublicites
+                    onEdit={(ad) => {
+                        setSelectedAd(ad);
+                    }}
+                />
+
+                {selectedAd && (
+                    <AfficheForm
+                        open={true}
+                        advertisement={selectedAd}
+                        onClose={() => setSelectedAd(null)}
+                    />
+                )}
             </div>
         </>
     );

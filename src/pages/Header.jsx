@@ -131,6 +131,7 @@ const NavbarHeader = () => {
                         <MobileNav open={open} />
                         <DesktopNav />
                     </Suspense>
+
                 </span>
                 
             </header>

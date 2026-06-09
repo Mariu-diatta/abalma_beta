@@ -15,7 +15,7 @@ import LocationSearchPopover from "./LocationSearch";
 import { FaDollarSign, FaBoxes, FaTruck, FaTag, FaCheckCircle, FaTimesCircle, FaEdit, FaTrash } from "react-icons/fa";
 import TitleCompGen from "../components/TitleComponentGen";
 import { useEffect } from "react";
-
+import AfficheForm from "./CreatFormPub";
 
 // ─── Constantes ───────────────────────────────────────────────────────────────
 const INITIAL_PRODUCT = {
@@ -188,8 +188,10 @@ const AddUploadProduct = () => {
     const [imageLoaded, setImageLoaded] = useState(null);
     const [dataProduct, setDataProduct] = useState(INITIAL_PRODUCT);
     const [attributes, setAttributes] = useState({});
+    const [openAnnonceForm, setOpenAnnonceForm] = useState(false);
     const isUserVerified = user?.is_fournisseur && user?.is_verified;
     const isLoanOptionSelected = dataProduct.operation_product === "PRETER";
+
 
     const [fields, setFields] = useState([])
 
@@ -354,11 +356,16 @@ const AddUploadProduct = () => {
                     padding: "32px 16px 80px",
                 }}
             >
+
                 {!isProductAdded && (
 
                     <div className="ap-fade" style={{ maxWidth: 560, margin: "0 auto 24px", textAlign: "center" }}>
 
-                        <TitleCompGen title={t("add_product.add_or_update_product")} />
+                        <div  className="flex flex-row">
+
+                            <TitleCompGen title={t("add_product.add_or_update_product")} />
+
+                        </div>
 
                         {!isUserVerified && (
                             <div className="ap-verify-banner" style={{ maxWidth: 400, margin: "12px auto 0" }}>
@@ -671,6 +678,64 @@ const AddUploadProduct = () => {
 
                     </div>
                 )}
+
+
+                <button
+                    className="
+                        fixed
+                        overflow-hidden
+                        whitespace-nowrap
+                        px-6
+                        py-3
+                        rounded-full
+                        font-semibold
+                        text-white
+                        bg-gradient-to-r
+                        from-blue-300
+                        via-blue-200
+                        to-orange-50
+                        shadow-lg
+                        shadow-purple-500/30
+                        transition-all
+                        duration-300
+                        hover:scale-105
+                        hover:shadow-xl
+                        hover:shadow-pink-500/40
+                        hover:bg-blue-300
+                        active:scale-95
+                        group
+                    "
+                    onClick={() => setOpenAnnonceForm(true)}
+                    style={{ opacity: isUserVerified ? 1 : .5, pointerEvents: isUserVerified ? "auto" : "none" }}
+                >
+                    {/* Effet de brillance */}
+                    <span
+                        className="
+                            absolute
+                            inset-0
+                            -translate-x-full
+                            bg-gradient-to-r
+                            from-transparent
+                            via-white/30
+                            to-transparent
+                            group-hover:translate-x-full
+                            transition-transform
+                            duration-1000
+                        "
+                    />
+
+                    <span className="relative flex items-center justify-center gap-2">
+                        🚀
+                        <p>{t('text_annonce')}</p>
+                    </span>
+
+                </button>
+
+                <AfficheForm
+                    open={openAnnonceForm}
+                    onClose={() => setOpenAnnonceForm(false)}
+                />
+
             </div>
         </>
     );

@@ -6,8 +6,10 @@ import { ENDPOINTS} from "../utils";
 import { useTranslation } from 'react-i18next';
 
 
-const WhiteRoundedButton = ({ titleButton, to, children=null}) => {
+const WhiteRoundedButton = ({ titleButton, to, children = null }) => {
+
     const dispatch = useDispatch();
+
     const { t } = useTranslation();
 
     const isRegister = titleButton === t(ENDPOINTS.REGISTER);

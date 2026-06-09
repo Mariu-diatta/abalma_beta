@@ -120,9 +120,9 @@ const Footer = () => {
                     {/* ── Colonne marque ── */}
                     <div className="flex flex-col gap-4">
 
-                        <p className="flex text-2xl font-bold tracking-tight text-gray-900">
+                        <div className="flex text-2xl font-bold tracking-tight text-gray-900">
                             Ab<p className="text-indigo-500">alma</p>
-                        </p>
+                        </div>
 
                         <p className="text-sm text-gray-500 leading-relaxed w-full ">
                             {t("app_description")}

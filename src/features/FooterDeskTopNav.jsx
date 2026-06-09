@@ -19,7 +19,6 @@ export const DesktopNav = () => {
 
     const [showLogin, setShowLogin] = useState(false);
 
-
     const [showRegister, setShowRegister] = useState(false);
 
     return (

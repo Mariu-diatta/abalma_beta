@@ -18,6 +18,7 @@ import ProbuttonComp from '../components/ProButtonComp';
 import FormEditProfil from '../components/FormEditProfil';
 import UpdateUserToPro from '../components/UpdateUserToPro';
 
+
 // ─── Icônes réutilisables ─────────────────────────────────────────────────────
 
 const CameraIcon = ({ className = 'w-6 h-6' }) => (
@@ -304,7 +305,7 @@ const ProfileCard = () => {
     // ─── Rendu ────────────────────────────────────────────────────────────────
 
     return (
-        <div className="text-gray-900 dark:text-white mt-0 p-0">
+        <div className="text-gray-900 dark:text-white mt-[-20px] p-0">
 
             {/* Photo de couverture */}
             <div
@@ -468,6 +469,7 @@ const ProfileCard = () => {
             {isCurrentUserFournisseurUnverified && (
                 <GetValidateUserFournisseur isCurrentUser={isCurrentUser} />
             )}
+
         </div>
     );
 };

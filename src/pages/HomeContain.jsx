@@ -4,6 +4,7 @@ import ServicesPlatforms from '../components/AbalmaActivities';
 import SubscriptionsPage from './SubscriptionCard';
 import TestimonialCarousel from '../components/Testimony';
 import ServicesSection from '../features/ServiceSections';
+import AffichePortal from '../components/AffichPub';
 
 const HomeContain = () => {
 
@@ -18,6 +19,7 @@ const HomeContain = () => {
                 {/* ========= PRODUCTS ========= */}
                 <GridLayoutProduct />
 
+                <AffichePortal/>
 
                 {/* ========= SUBSCRIPTIONS ========= */}
                 <section aria-labelledby="subscription-plans" className="text-center translate-y-0 transition-all duration-1000 ease-in-out">
