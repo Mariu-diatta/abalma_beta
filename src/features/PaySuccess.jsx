@@ -87,14 +87,26 @@ const PaySuccess = () => {
     return (
         <div className="flex flex-col items-center justify-center min-h-screen text-center p-4">
 
-            {loading && (
-                <>
-                    <LoadingCard />
-                    <h1 className="text-lg mt-3">
-                        {t("payment_text.verification_processing")}
-                    </h1>
-                </>
-            )}
+            {
+                loading ?
+                (
+                    <>
+                        <LoadingCard />
+                        <h1 className="text-lg mt-3">
+                            {t("payment_text.verification_processing")}
+                        </h1>
+                    </>
+                ):
+                <button
+                    onClick={() => {
+                        dispatch(setCurrentNav(ENDPOINTS.PAYMENT));
+                        navigate(`/${ENDPOINTS.PAYMENT}`);
+                    }}
+                    className="mt-6 bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg"
+                >
+                    {t("payment_text.btn_back_to_dashbord")}
+                </button>
+           }
 
             {error && (
                 <h1 className="text-red-600 text-xl font-bold">
@@ -115,16 +127,6 @@ const PaySuccess = () => {
                     <p className="text-gray-500 mt-1">
                         {paymentData?.email}
                     </p>
-
-                    <button
-                        onClick={() => {
-                            dispatch(setCurrentNav(ENDPOINTS.PAYMENT));
-                            navigate(`/${ENDPOINTS.PAYMENT}`);
-                        }}
-                        className="mt-6 bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg"
-                    >
-                        {t("payment_text.btn_back_to_dashbord")}
-                    </button>
                 </>
             )}
         </div>
