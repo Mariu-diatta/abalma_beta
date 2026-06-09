@@ -1,85 +1,132 @@
-import React, { useState } from 'react'
-import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import api from '../services/Axios';
-import { showMessage } from '../components/AlertMessage';
-import LoadingCard from '../components/LoardingSpin';
+import React, { useState} from "react";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements, useStripe, useElements, PaymentElement } from "@stripe/react-stripe-js";
 
-export function PaymentWithCard(
-    {
-        refRate
-    }
-) {
+import api from "../services/Axios";
+import { showMessage } from "../components/AlertMessage";
+import LoadingCard from "../components/LoardingSpin";
+import { toast } from "react-toastify";
 
-    const [loading, setLoading] = useState(false)
+const stripePromise = loadStripe("pk_test_51SPtoBCEAhT0NnGVzRFxVFjsufOVmvF2NjxlZhzDwYZ9PonIdQZbFrlkiEFm1vgrzOm9RXWDMvWRV8Z3OuP9tOSG00LaMYLJCQ");
 
+// ----------------------
+// FORMULAIRE DE PAIEMENT
+// ----------------------
+function CheckoutForm({ clientSecret, onSuccess }) {
+    const stripe = useStripe();
+    const elements = useElements();
+
+    const [loading, setLoading] = useState(false);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (!stripe || !elements) return;
+
+        setLoading(true);
+        const result = await stripe.confirmPayment({
+            elements,
+            redirect: "if_required",
+        });
+
+        if (result.error) {
+            toast.error(result.error.message);
+            return;
+        }
+
+        if (result.paymentIntent?.status === "succeeded") {
+            toast.success("Paiement réussi !");
+            // update state / vider panier / redirect optionnel
+        }
+
+        setLoading(false);
+    };
+
+    return (
+        <form onSubmit={handleSubmit} className="space-y-4">
+            <PaymentElement />
+
+            <button
+                disabled={!stripe || loading}
+                className="bg-gray-200 py-2.5 font-bold hover:bg-gray-300 rounded-md w-full"
+            >
+                {loading ? <LoadingCard /> : "Payer"}
+            </button>
+        </form>
+    );
+}
+
+// ----------------------
+// COMPOSANT PRINCIPAL
+// ----------------------
+export function PaymentWithCard({ refRate }) {
     const { t } = useTranslation();
+    const dispatch = useDispatch();
 
-    const dispatch = useDispatch()
+    const dataItems = useSelector((state) => state.cart.items);
+    const currentUser = useSelector((state) => state.auth.user);
 
-    const dataItems = useSelector(state => state.cart.items);
+    const [clientSecret, setClientSecret] = useState(null);
+    const [loading, setLoading] = useState(false);
 
-
-    const currentUser = useSelector(state => state.auth.user);
-
-    const currentUserNotConnected = !currentUser && !currentUser?.is_connected
+    const currentUserNotConnected = !currentUser?.email;
 
     const createOrder = async () => {
+        if (currentUserNotConnected) {
+            alert("Utilisateur non connecté");
+            return;
+        }
 
-        setLoading(true)
-
-        if (!currentUser?.email) alert("Alert erreur lors du paiment")
+        setLoading(true);
 
         try {
-
             const res = await api.post(
-
                 "create-payment/",
-
-                { items: dataItems, currency: refRate, email: currentUser?.email },
                 {
-                    withCredentials: true
-                }
+                    items: dataItems,
+                    currency: refRate,
+                    email: currentUser.email,
+                },
+                { withCredentials: true }
             );
 
-            window.location.href = res.data.url;
-
+            setClientSecret(res.data.client_secret);
         } catch (error) {
+            console.log(error);
 
-            handlePaymentError(error);
-            console.log(error)
-            alert(error?.response?.data?.error || "Error, veullez recommencer")
-
+            showMessage(dispatch, {
+                Type: "Erreur",
+                Message: t("unsuccess_transaction"),
+            });
         } finally {
-
-            setLoading(false)
+            setLoading(false);
         }
     };
 
-    const handlePaymentError = (err) => {
+    if (currentUserNotConnected) return null;
 
-        showMessage(dispatch, {
-            Type: "Erreur",
-            Message: t("unsuccess_transaction"),
-        });
-    };
+    // ----------------------
+    // STEP 1: création paiement
+    // ----------------------
+    if (!clientSecret) {
+        return (
+            <button
+                onClick={createOrder}
+                className="bg-gray-200 py-2.5 font-bold hover:bg-gray-300 rounded-md w-1/2"
+            >
+                {loading ? <LoadingCard /> : "Payer"}
+            </button>
+        );
+    }
 
-    if (currentUserNotConnected) return
-
+    // ----------------------
+    // STEP 2: paiement Stripe
+    // ----------------------
     return (
-
-        <>
-            
-                <button onClick={createOrder} className="bg-gray-200 py-2.5 text-bold my-1 hover:bg-gray-300 rounded-md w-1/2">
-                {
-                    !loading ?
-                    "Payer"
-                    :
-                    <LoadingCard />
-                }
-                </button>
-
-       </>
-
-    )
+        <Elements stripe={stripePromise} options={{ clientSecret }}>
+            <CheckoutForm />
+        </Elements>
+    );
 }
