@@ -8,7 +8,6 @@ import { useDispatch } from 'react-redux';
 import { setCurrentNav } from '../slices/navigateSlice';
 import { useTranslation } from 'react-i18next';
 import TitleCompGen from '../components/TitleComponentGen';
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import LoadingCard from '../components/LoardingSpin';
 
 
@@ -146,47 +145,7 @@ function SubscriptionCard({
     );
 }
 
-export function PayPalSubscription({ onSubscribe, ispro }) {
 
-    return (
-
-        <PayPalScriptProvider
-
-            options={{
-                "client-id":"Aac7QRleq_w4artKozmhQIV176fi93VTttK908csWRWcl1gE6qGrHWuUHmOXTJFz-32x-E7J2cptvzHC",
-                vault: true,
-                intent: "subscription",
-            }}
-        >
-            <PayPalButtons
-
-                style={{
-                    shape: "rect",
-                    color: "gold",
-                    layout: "vertical",
-                    label: "subscribe",
-                }}
-
-                createSubscription={(data, actions) => {
-
-                    return actions.subscription.create({
-                        plan_id: ispro ? "P-92Y48848DU934623LNHWXRNY" : "P-471693517W4346429NHZ7W2I",
-                    });
-                }}
-
-
-                onApprove={(data) => {
-
-                    onSubscribe(data)
-                }}
-
-                onError={(err) => {
-                    console.error("PayPal error:", err);
-                }}
-            />
-        </PayPalScriptProvider>
-    );
-}
 export default function SubscriptionsPage() {
 
     const { t } = useTranslation();
