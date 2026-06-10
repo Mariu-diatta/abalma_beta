@@ -203,6 +203,11 @@ export default function SubscriptionsPage() {
 
     const isCurrentNavSubscribtion = currentNav !== ENDPOINTS?.SUBSCRIPTION
 
+    const PRICE_ID_PRO = "price_1Tgc47CEAhT0NnGV2Io7nbHc"
+
+    const PRICE_ID_TEST = "price_1TgcKnCEAhT0NnGVWjoT1BWn"
+
+
     const handleSubscribe = async (data, type_subscription) => {
 
         if (!currentUser) {
@@ -327,7 +332,7 @@ export default function SubscriptionsPage() {
                     subtitle={t('subscriptionPage.subTitleDisc')}
                     features={t('subscriptionPage.featuresDisc', { returnObjects: true })}
                     highlight={false}
-                    amount_id="price_1SSl4MCEAhT0NnGVWwQhaslP"
+                    amount_id={PRICE_ID_PRO}
                     onSubscribe={(data) => handleSubscribe(data, "DISCOVERY")}
                     pro_plan={!currentUser?.pro_plan}
                 />
@@ -338,7 +343,7 @@ export default function SubscriptionsPage() {
                     subtitle={t('subscriptionPage.subtitle')}
                     features={t('subscriptionPage.features', { returnObjects: true })}
                     highlight={true}
-                    amount_id="price_1SSl8mCEAhT0NnGVixibJU9I"
+                    amount_id={PRICE_ID_TEST}
                     onSubscribe={(data) => handleSubscribe(data, "PRO")}
                     pro_plan={currentUser?.pro_plan}
                 />

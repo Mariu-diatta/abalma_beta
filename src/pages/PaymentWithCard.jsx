@@ -9,7 +9,7 @@ import { showMessage } from "../components/AlertMessage";
 import LoadingCard from "../components/LoardingSpin";
 import { toast } from "react-toastify";
 
-const stripePromise = loadStripe("pk_test_51SPtoBCEAhT0NnGVzRFxVFjsufOVmvF2NjxlZhzDwYZ9PonIdQZbFrlkiEFm1vgrzOm9RXWDMvWRV8Z3OuP9tOSG00LaMYLJCQ");
+const stripePromise = loadStripe("pk_live_51SPtoBCEAhT0NnGVoQjdHYYUtO485bRx760vbQd5AWu6sfAl7Imm9adI7cf6sVlEjVdEWB797NplRdMvHBGl8Kid00q8x8Skjj");
 
 // ----------------------
 // FORMULAIRE DE PAIEMENT
