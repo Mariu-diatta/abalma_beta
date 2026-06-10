@@ -291,7 +291,7 @@ export default function SubscriptionsPage() {
                     subtitle={t('subscriptionPage.subTitleDisc')}
                     features={t('subscriptionPage.featuresDisc', { returnObjects: true })}
                     highlight={false}
-                    amount_id={PRICE_ID_PRO}
+                    amount_id={PRICE_ID_TEST}
                     onSubscribe={(data) => handleSubscribe(data, "DISCOVERY")}
                     pro_plan={!currentUser?.pro_plan}
                 />
@@ -302,7 +302,7 @@ export default function SubscriptionsPage() {
                     subtitle={t('subscriptionPage.subtitle')}
                     features={t('subscriptionPage.features', { returnObjects: true })}
                     highlight={true}
-                    amount_id={PRICE_ID_TEST}
+                    amount_id={PRICE_ID_PRO}
                     onSubscribe={(data) => handleSubscribe(data, "PRO")}
                     pro_plan={currentUser?.pro_plan}
                 />
