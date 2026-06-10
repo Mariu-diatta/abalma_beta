@@ -77,6 +77,7 @@ const GridLayoutProduct = () => {
 
                 const translatedCategory = translateCategory(activeButtonCategory);
 
+
                 let cleanCategory = removeAccents(translatedCategory)?.toLowerCase();
 
                 const url = isDefaultCategory(cleanCategory) ? "produits/" : "products/filter/"

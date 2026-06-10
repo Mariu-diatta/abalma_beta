@@ -24,14 +24,15 @@ import PrintNumberStars from "../components/SystemStar";
 import ScrollingContent from "../components/ScrollContain";
 import SearchBar from "../components/BtnSearchWithFilter";
 import ProfilPictureView from "../components/ProfilPictureView";
-import { removeAccents } from "../utils";
+import { CONSTANTS, removeAccents, translateCategory } from "../utils";
+
 
 const GridProductDefault = ({ categorie_item }) => {
 
     const dispatch = useDispatch();
     const { t } = useTranslation();
     const navigate = useNavigate();
-
+    const DEFAULT_ACTIVE_CATEGORY = CONSTANTS?.ALL;
     const cartItems = useSelector(state => state.cart.items);
     const currentUser = useSelector(state => state.auth.user);
 
@@ -40,6 +41,7 @@ const GridProductDefault = ({ categorie_item }) => {
     const [modalData, setModalData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const categorySelectedData = useSelector(state => state?.navigate?.categorySelectedOnSearch)
+
 
     const closeModal = () => setModalData(null);
 
@@ -75,11 +77,20 @@ const GridProductDefault = ({ categorie_item }) => {
 
         setIsLoading(true);
 
+        const isDefaultCategory = (cleanCategory) => {
+
+            if (!cleanCategory) return false;
+
+            return cleanCategory?.toLowerCase() === DEFAULT_ACTIVE_CATEGORY?.toLowerCase();
+        }
+
         try {
 
-            let cleanCategory = removeAccents(category)?.toLowerCase();
+            const translatedCategory = translateCategory(category);
 
-            const url = "products/filter/"
+            let cleanCategory = removeAccents(translatedCategory)?.toLowerCase();
+
+            const url = isDefaultCategory(cleanCategory) ? "produits/" : "products/filter/"
 
             const { data: products } = await api.get(url, {
                 params: {
@@ -124,7 +135,7 @@ const GridProductDefault = ({ categorie_item }) => {
             setIsLoading(false);
         }
 
-    }, [dispatch]);
+    }, [dispatch, DEFAULT_ACTIVE_CATEGORY]);
 
     const productDataColsLenght = (productData?.length > 0 && cols?.length > 0)
 
