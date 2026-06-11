@@ -349,14 +349,25 @@ const ListProductShoppingCart = () => {
                     {hasTotalPositive && (
                         <button
                             type="button"
-                            className="sc-buy-btn"
+                            className="flex items-center justify-center gap-3 w-full px-6 py-3.5
+                               bg-gradient-to-r from-purple-400 to-blue-400
+                               hover:from-purple-500 hover:to-blue-500
+                               disabled:opacity-60 disabled:cursor-not-allowed
+                               text-white font-medium rounded-xl
+                               transition-all duration-200 active:scale-95
+                            "
                             onClick={boughtProduct}
                             aria-label={`Payer ${grandTotalConverted} ${reference} en cash`}
                         >
                             <CashIcon />
-                            {t('paymentMode')} — {grandTotalConverted} {reference}
+
+                            <span className="text-sm bg-white/20 px-3 py-1 rounded-full">
+                                {t('paymentMode')} — {grandTotalConverted} {reference}
+                            </span>
+
                         </button>
                     )}
+
                 </div>
 
             </div>
