@@ -162,7 +162,7 @@ export default function SubscriptionsPage() {
 
     const isCurrentNavSubscribtion = currentNav !== ENDPOINTS?.SUBSCRIPTION
 
-    const PRICE_ID_PRO = "price_1Tgc47CEAhT0NnGV2Io7nbHc"
+    const PRICE_ID_PRO = "price_1Th6cGCEAhT0NnGVS1tm2tSF"
 
     const PRICE_ID_TEST = "price_1Th5qOCEAhT0NnGVgwTLQzrt"
 
