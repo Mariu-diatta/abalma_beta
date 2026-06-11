@@ -22,6 +22,7 @@ i18n
         en: {
 
             translation: {
+                confirm_and_pay:"Confirm and pay",
                 platform_posters: "Platform posters",
                 until: "Until",
                 platform_ads: "Platform advertisements",
@@ -821,6 +822,7 @@ i18n
         fr: {
 
             translation: {
+                confirm_and_pay: "Confirmer et payer",
                 platform_posters: "Affiches de la plateforme",
                 until: "Jusqu'au",
                 platform_ads: "Annonces de la plateforme",
@@ -1606,6 +1608,7 @@ i18n
         es: {
 
             translation: {
+                confirm_and_pay: "Confirmar y pagar",
                 platform_posters: "Carteles de la plataforma",
                 until: "Hasta",
                 platform_ads: "Anuncios de la plataforma",

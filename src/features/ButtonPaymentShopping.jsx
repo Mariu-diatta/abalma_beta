@@ -86,7 +86,9 @@ const StripePaymentForm = ({ clientSecret, onSuccess, onCancel }) => {
                    disabled:opacity-50"
             >
                 {t("cancel") || "Annuler"}
+
             </button>
+
         </div>
     );
 };

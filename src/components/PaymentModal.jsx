@@ -18,7 +18,7 @@ const PaymentModal = ({ children, onClose }) => {
     if (!mounted) return null;
 
     return createPortal(
-        <div className="fixed inset-0 z-[9999] bg-black/60 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[9999] bg-black/60 flex items-center justify-center p-0 h-full w-full overflow-y-auto scrollbor_hidden">
             <div
                 className="
                     relative
