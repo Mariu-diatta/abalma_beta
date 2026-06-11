@@ -120,7 +120,7 @@ const BuyButtonWithPaymentForm = ({ total_price, reference }) => {
 
         try {
             const res = await api.post(
-                "create-payment-intent/",  // ← ton endpoint PaymentIntent
+                "create-payment/",  // ← ton endpoint PaymentIntent
                 { items: dataItems, currency: reference, email: currentUser.email },
                 { withCredentials: true }
             );
