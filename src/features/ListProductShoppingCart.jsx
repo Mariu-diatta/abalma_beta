@@ -339,7 +339,7 @@ const ListProductShoppingCart = () => {
                 </div>
 
                 {/* Actions paiement */}
-                <div className="sc-actions">
+                <div className="flex flex-row md:flex-row justify-content items-center gap-3">
 
                     <BuyButtonWithPaymentForm
                         total_price={grandTotalConverted}
@@ -361,8 +361,10 @@ const ListProductShoppingCart = () => {
                         >
                             <CashIcon />
 
+                            <span>{t('paymentMode')}</span>
+
                             <span className="text-sm bg-white/20 px-3 py-1 rounded-full">
-                                {t('paymentMode')} — {grandTotalConverted} {reference}
+                               {grandTotalConverted} {reference}
                             </span>
 
                         </button>
