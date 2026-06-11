@@ -176,7 +176,7 @@ const BuyButtonWithPaymentForm = ({ total_price, reference }) => {
                         </svg>
                         <span>{t("paymentModeCard")}</span>
                         <span className="text-sm bg-white/20 px-3 py-1 rounded-full">
-                            {total_price?.toFixed(2)} {reference}
+                            {parseFloat(total_price)?.toFixed(2)} {reference}
                         </span>
                     </>
                 )}
@@ -206,7 +206,7 @@ const BuyButtonWithPaymentForm = ({ total_price, reference }) => {
                             {t("confirm_payment") || "Paiement sécurisé"}
                         </h2>
                         <p className="text-sm text-gray-500 mb-4">
-                            Total : <strong>{total_price?.toFixed(2)} {reference}</strong>
+                            Total : <strong>{parseFloat(total_price)?.toFixed(2)} {reference}</strong>
                         </p>
 
                         {/* Résumé panier */}
@@ -218,7 +218,7 @@ const BuyButtonWithPaymentForm = ({ total_price, reference }) => {
                                         {item?.quantity > 1 && <span className="text-gray-400 ml-1">× {item?.quantity}</span>}
                                     </span>
                                     <span className="font-medium">
-                                        {(item?.price_product * item?.quantity)?.toFixed(2)} {reference}
+                                        {parseFloat(item?.price_product * item?.quantity)?.toFixed(2)} {reference}
                                     </span>
                                 </div>
                             ))}
