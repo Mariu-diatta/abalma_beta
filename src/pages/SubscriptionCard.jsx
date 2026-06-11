@@ -164,7 +164,7 @@ export default function SubscriptionsPage() {
 
     const PRICE_ID_PRO = "price_1Tgc47CEAhT0NnGV2Io7nbHc"
 
-    const PRICE_ID_TEST = "price_1TgcKnCEAhT0NnGVWjoT1BWn"
+    const PRICE_ID_TEST = "price_1Th5qOCEAhT0NnGVgwTLQzrt"
 
 
     const handleSubscribe = async (data, type_subscription) => {
