@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import api from "../services/Axios";
-
+import PaymentModal from "../components/PaymentModal";
 const stripePromise = loadStripe(process.env.STRIPE_PUBLISHABLE_KEY ??"pk_live_51SPtoBCEAhT0NnGVoQjdHYYUtO485bRx760vbQd5AWu6sfAl7Imm9adI7cf6sVlEjVdEWB797NplRdMvHBGl8Kid00q8x8Skjj");
 
 // ─── Formulaire de paiement Stripe (à l'intérieur de la modal) ───
@@ -200,40 +200,58 @@ const BuyButtonWithPaymentForm = ({ total_price, reference }) => {
 
             {/* Modal avec formulaire Stripe */}
             {showModal && clientSecret && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-                    <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6">
-                        <h2 className="text-lg font-medium text-gray-900 mb-1">
-                            {t("confirm_payment") || "Paiement sécurisé"}
-                        </h2>
-                        <p className="text-sm text-gray-500 mb-4">
-                            Total : <strong>{parseFloat(total_price)?.toFixed(2)} {reference}</strong>
-                        </p>
 
-                        {/* Résumé panier */}
-                        <div className="border border-gray-100 rounded-xl overflow-hidden mb-4">
-                            {dataItems.map((item, i) => (
-                                <div key={i} className="flex justify-between px-4 py-2.5 border-b border-gray-100 last:border-0 text-sm">
-                                    <span className="text-gray-700">
-                                        {item?.name_product}
-                                        {item?.quantity > 1 && <span className="text-gray-400 ml-1">× {item?.quantity}</span>}
-                                    </span>
-                                    <span className="font-medium">
-                                        {parseFloat(item?.price_product * item?.quantity)?.toFixed(2)} {reference}
-                                    </span>
-                                </div>
-                            ))}
-                        </div>
+                <PaymentModal onClose={handleCancel}>
 
-                        {/* Stripe Elements */}
-                        <Elements stripe={stripePromise} options={{ clientSecret }}>
-                            <StripePaymentForm
-                                clientSecret={clientSecret}
-                                onSuccess={handleSuccess}
-                                onCancel={handleCancel}
-                            />
-                        </Elements>
+                    <h2 className="text-lg font-medium text-gray-900 mb-1">
+                        {t("confirm_payment") || "Paiement sécurisé"}
+                    </h2>
+
+                    <p className="text-sm text-gray-500 mb-4">
+                        Total :
+                        <strong>
+                            {" "}
+                            {Number(total_price || 0).toFixed(2)} {reference}
+                        </strong>
+                    </p>
+
+                    <div className="border border-gray-100 rounded-xl overflow-hidden mb-4">
+                        {dataItems.map((item, i) => (
+                            <div
+                                key={i}
+                                className="flex justify-between px-4 py-3 border-b border-gray-100 last:border-0 text-sm"
+                            >
+                                <span className="text-gray-700">
+                                    {item?.name_product}
+                                    {item?.quantity > 1 && (
+                                        <span className="text-gray-400 ml-1">
+                                            × {item.quantity}
+                                        </span>
+                                    )}
+                                </span>
+
+                                <span className="font-medium">
+                                    {Number(
+                                        (item?.price_product || 0) *
+                                        (item?.quantity || 0)
+                                    ).toFixed(2)}{" "}
+                                    {reference}
+                                </span>
+                            </div>
+                        ))}
                     </div>
-                </div>
+
+                    <Elements stripe={stripePromise} options={{ clientSecret }}>
+
+                        <StripePaymentForm
+                            clientSecret={clientSecret}
+                            onSuccess={handleSuccess}
+                            onCancel={handleCancel}
+                        />
+
+                    </Elements>
+
+                </PaymentModal>
             )}
         </div>
     );
