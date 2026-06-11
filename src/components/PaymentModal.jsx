@@ -61,7 +61,7 @@ const PaymentModal = ({ children, onClose }) => {
                             ✕
                         </button>
 
-                        <div className="overflow-y-auto max-h-[90vh] p-6">
+                        <div className="overflow-y-auto max-h-[90vh] p-6 scrollbor_hidden">
                             {children}
                         </div>
 
