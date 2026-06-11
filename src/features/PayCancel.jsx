@@ -32,7 +32,9 @@ const PayCancel = () => {
                 className="mt-6 inline-block bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg font-medium"
             >
                 {t("payment_text.btn_back_to_dashbord")}
+
             </button>
+
         </div>
     )
 }
