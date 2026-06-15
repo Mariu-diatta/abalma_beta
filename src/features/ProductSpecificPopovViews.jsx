@@ -2,7 +2,6 @@ import React from 'react'
 import ProductsDisplayWithCarousel from '../components/CarrouselProducts';
 import CategoryProductsImagesGalleryDisplay from './ImageGalleryPanel';
 import CategoryProductsCardDisplay from './ImageGallery';
-//import bg_image from '../assets/bg_image_.jpg'
 
 
 const ProductSpecifiViews = ({ products, openModal, owners, panelRef }) => {
