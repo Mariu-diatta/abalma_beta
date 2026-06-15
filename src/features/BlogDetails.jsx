@@ -13,13 +13,13 @@ const BlogDetails = ({ blog, onClose }) => {
     return (
         <AnimatePresence>
             <main
-                className="fixed inset-0 backdrop-blur-sm flex justify-center items-center z-50"
+                className="fixed inset-0 bg-white/50 flex justify-center items-center z-[9998]"
                 onClick={() => onClose(false, null)}
             >
 
                 {/* Overlay fade */}
                 <motion.div
-                    className="absolute inset-0 bg-black/30"
+                    className="absolute inset-0"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -28,7 +28,7 @@ const BlogDetails = ({ blog, onClose }) => {
                 {/* Modal */}
                 <motion.div
                     className="rounded-xl shadow-lg max-w-2xl w-full mx-4 p-6 
-                    overflow-y-auto max-h-[90vh] relative scrollbor_hidden bg-white dark:bg-gray-900"
+                    overflow-y-auto max-h-[90vh] relative scrollbor_hidden bg-white "
                     onClick={(e) => e.stopPropagation()}
                     initial={{ opacity: 0, scale: 0.9, y: 20 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -39,7 +39,7 @@ const BlogDetails = ({ blog, onClose }) => {
                     {/* Bouton fermer */}
                     <button
                         onClick={() => onClose(false, null)}
-                        className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+                        className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 "
                         aria-label="Close"
                     >
                         ✕
@@ -52,7 +52,7 @@ const BlogDetails = ({ blog, onClose }) => {
                             {blog?.user && <OwnerAvatar owner={blog?.user} />}
 
                             <div>
-                                <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
+                                <h2 className="text-xl font-semibold text-gray-800 ">
                                     {blog?.title_blog}
                                 </h2>
 

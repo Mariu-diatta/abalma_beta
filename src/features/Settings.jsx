@@ -9,6 +9,7 @@ import DeleteProfilAccount from './DeleteAccount';
 import NotificationToggle from '../components/NotificationToggle';
 import ThemeSelector from '../components/Them';
 import SubscriptionsPage from '../pages/SubscriptionCard';
+import LocationSearchPopover from './LocationSearch';
 
 function ChevronRight() {
     return (
@@ -177,6 +178,10 @@ const SettingsForm = () => {
     const [activeSection, setActiveSection] = useState('profile');
     const [toast, setToast] = useState(null);
 
+    const [address, setAddress] = useState("");
+
+    const getAddress = (newAdress) => setAddress(newAdress);
+
     const [form, setForm] = useState({
         name: '',
         email: '',
@@ -195,14 +200,21 @@ const SettingsForm = () => {
     const [cartData, setCartData] = useState({});
     const [previewUrl, setPreviewUrl] = useState(null);
 
+    const [loadingAdress, setLoadingAdress] = useState(false);
+
     const showToast = (msg) => setToast(msg);
 
-    const tryRequest = async (requestFn, successMessage) => {
+    const [deliveryAddress, setDeliveryAddress] = useState(null);
+
+    const tryRequest = async (requestFn, successMessage, calback = () => {}) => {
         try {
+            calback(true)
             await requestFn();
             showToast(successMessage);
         } catch (err) {
             console.warn('Request failed:', err);
+        } finally {
+            calback(false)
         }
     };
 
@@ -243,6 +255,31 @@ const SettingsForm = () => {
             t('settingsText.passwordUpdated')
         );
     };
+
+
+    const updateDeliveredAdress = async (e) => {
+        e.preventDefault();
+        await tryRequest(
+            () => api.post("delivery-address/", { address: address }),
+            t('"Adress addded"'),
+            setLoadingAdress
+        );
+    };
+
+
+
+
+    useEffect(() => {
+
+        const getDeliveredAdress = async () => {
+
+            const res = await api.get("delivery-address/");
+
+            setDeliveryAddress(res.data);
+        };
+
+        getDeliveredAdress()
+    },[])
 
     const GetClientCard = useCallback(async () => {
         if (!currentUserData?.id) return;
@@ -346,73 +383,91 @@ const SettingsForm = () => {
 
                         {/* ── Profile ── */}
                         {activeSection === CONSTANTS?.PROFILE && (
+                           <>
+                                
+                                <form onSubmit={updatePassword}>
 
-                            <form onSubmit={updatePassword}>
+                                    <Section title={t('settingsText.profile', 'Profil')}>
 
-                                <Section title={t('settingsText.profile', 'Profil')}>
+                                        {/* Avatar row */}
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '1.25rem' }}>
 
-                                    {/* Avatar row */}
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '1.25rem' }}>
+                                            {previewUrl || currentUserData?.image ? (
+                                                <img
+                                                    src={previewUrl || currentUserData.image}
+                                                    alt="Profil"
+                                                    style={{ width: 60, height: 60, borderRadius: '50%', objectFit: 'cover', border: '2px solid #AFA9EC' }}
+                                                />
+                                            ) : (
+                                                <div style={{
+                                                    width: 60, height: 60, borderRadius: '50%',
+                                                    background: '#EEEDFE', display: 'flex', alignItems: 'center',
+                                                    justifyContent: 'center', fontSize: '20px', fontWeight: 600, color: '#534AB7',
+                                                }}>
+                                                    {initials}
+                                                </div>
+                                            )}
 
-                                        {previewUrl || currentUserData?.image ? (
-                                            <img
-                                                src={previewUrl || currentUserData.image}
-                                                alt="Profil"
-                                                style={{ width: 60, height: 60, borderRadius: '50%', objectFit: 'cover', border: '2px solid #AFA9EC' }}
-                                            />
-                                        ) : (
-                                            <div style={{
-                                                width: 60, height: 60, borderRadius: '50%',
-                                                background: '#EEEDFE', display: 'flex', alignItems: 'center',
-                                                justifyContent: 'center', fontSize: '20px', fontWeight: 600, color: '#534AB7',
-                                            }}>
-                                                {initials}
+                                            <div>
+                                                <label style={{
+                                                    display: 'inline-block',
+                                                    fontSize: '13px', fontWeight: 500,
+                                                    color: '#534AB7', cursor: 'pointer',
+                                                    border: '0.5px solid #AFA9EC',
+                                                    borderRadius: '8px', padding: '5px 12px',
+                                                }}>
+                                                    {t('settingsText.changePhoto', 'Changer la photo')}
+                                                    <input type="file" accept="image/*" onChange={handleImageUpload} style={{ display: 'none' }} />
+                                                </label>
                                             </div>
-                                        )}
 
-                                        <div>
-                                            <label style={{
-                                                display: 'inline-block',
-                                                fontSize: '13px', fontWeight: 500,
-                                                color: '#534AB7', cursor: 'pointer',
-                                                border: '0.5px solid #AFA9EC',
-                                                borderRadius: '8px', padding: '5px 12px',
-                                            }}>
-                                                {t('settingsText.changePhoto', 'Changer la photo')}
-                                                <input type="file" accept="image/*" onChange={handleImageUpload} style={{ display: 'none' }} />
-                                            </label>
                                         </div>
 
-                                    </div>
+                                        <FieldRow label={t('settingsText.nameLabel', 'Nom')}>
+                                            <InlineInput id="name" name="name" label={t('settingsText.nameLabel', 'Nom')}
+                                                value={currentUserData?.nom || ''} disabled />
+                                        </FieldRow>
 
-                                    <FieldRow label={t('settingsText.nameLabel', 'Nom')}>
-                                        <InlineInput id="name" name="name" label={t('settingsText.nameLabel', 'Nom')}
-                                            value={currentUserData?.nom || ''} disabled />
-                                    </FieldRow>
+                                        <FieldRow label={t('settingsText.emailLabel', 'Adresse e-mail')}>
+                                            <InlineInput id="email" name="email" type="email"
+                                                label={t('settingsText.emailLabel', 'Adresse e-mail')}
+                                                value={currentUserData?.email || ''} disabled />
+                                        </FieldRow>
 
-                                    <FieldRow label={t('settingsText.emailLabel', 'Adresse e-mail')}>
-                                        <InlineInput id="email" name="email" type="email"
-                                            label={t('settingsText.emailLabel', 'Adresse e-mail')}
-                                            value={currentUserData?.email || ''} disabled />
-                                    </FieldRow>
+                                        <FieldRow
+                                            label={t('settingsText.passwordLabel', 'Mot de passe')}
+                                            hint={t('settingsText.passwordHint', 'Min. 8 caractères recommandés')}
+                                        >
+                                            <InlineInput id="password" name="password" type="password"
+                                                label="••••••••" value={form.password} onChange={handleChange} />
+                                        </FieldRow>
 
-                                    <FieldRow
-                                        label={t('settingsText.passwordLabel', 'Mot de passe')}
-                                        hint={t('settingsText.passwordHint', 'Min. 8 caractères recommandés')}
-                                    >
-                                        <InlineInput id="password" name="password" type="password"
-                                            label="••••••••" value={form.password} onChange={handleChange} />
-                                    </FieldRow>
+                                        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1.25rem' }}>
+                                            <PrimaryButton type="submit">
+                                                {t('settingsText.changePassword', 'Mettre à jour le mot de passe')}
+                                            </PrimaryButton>
+                                        </div>
 
-                                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1.25rem' }}>
-                                        <PrimaryButton type="submit">
-                                            {t('settingsText.changePassword', 'Mettre à jour le mot de passe')}
-                                        </PrimaryButton>
-                                    </div>
+                                    </Section>
 
-                                </Section>
+                                </form>
 
-                            </form>
+                                <select className="text-blue-800 p-2 rounded">
+                                    {deliveryAddress?.map((item) => (
+                                        <option key={item.id} value={item.id}>
+                                            {item.address}
+                                        </option>
+                                    ))}
+                                </select>
+
+                                <form onSubmit={updateDeliveredAdress} className="mx-2 md:mx-7">
+                                    {t("Current Adress")}
+                                    <LocationSearchPopover setLocationSearch={getAddress} />
+                                    <PrimaryButton type="submit">
+                                        {!loadingAdress?t('settingsText.deleveredPawd', "Mettre à jour l'adresse de livraison"):"Loading..."}
+                                    </PrimaryButton>
+                                </form>
+                           </>
                         )}
 
                         {/* ── Preferences ── */}

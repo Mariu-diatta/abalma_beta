@@ -5071,6 +5071,31 @@ forget password`*/
     cursor: not-allowed;
 }
 
+ .fan-item{
+    opacity: 0;
+    transform: translateY(60px) rotate(15deg) scale(0.85);
+    will-change: transform, opacity;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+}
+
+.fan-item.fan-visible {
+    opacity: 1;
+}
+
+.fan-label {
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.fan-track {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    justify-content: center;
+}
+
+.fan-track::-webkit-scrollbar {
+    display: none;
+}
 
 
 

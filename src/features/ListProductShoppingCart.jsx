@@ -8,7 +8,7 @@ import {
     clearCart,
 } from "../slices/cartSlice";
 import { useTranslation } from "react-i18next";
-import { CONSTANTS, convertir } from "../utils";
+import { CONSTANTS, convertir, getItemTotal} from "../utils";
 import BuyButtonWithPaymentForm from "./ButtonPaymentShopping";
 import api from "../services/Axios";
 import { showMessage } from "../components/AlertMessage";
@@ -38,8 +38,14 @@ const ListProductShoppingCart = () => {
 
     const itemsData = data?.items ;
 
+
     const lang = i18n.language || window.localStorage.i18nextLng || CONSTANTS?.FR;
+
+    // 🎯 monnaie de référence selon langue
     const reference = lang === CONSTANTS?.FR ? CONSTANTS?.EUR : CONSTANTS?.USD;
+
+    const priceProductRef = itemsData[0]?.currency_price
+
 
     // ── Helpers ──
     const canIncreaseQty = (prod) =>
@@ -50,21 +56,10 @@ const ListProductShoppingCart = () => {
         else alert(t('quantity_limit_error'));
     };
 
-    const getItemTotal = (prod) => {
-        let currency = prod?.currency_price;
-        if (currency === CONSTANTS?.FRANC) currency = CONSTANTS?.XOF;
-        const ratePrice = convertir(currency, reference, prod?.price_product) || 1;
-        const price = Number(ratePrice);
-        const qty = Number(prod.quantity_sold);
-        return !isNaN(price) && !isNaN(qty) ? price * qty  : 0;
-    };
+    const grandTotal = itemsData.reduce((acc, prod) => acc + getItemTotal(prod, reference), 0);
 
-    const grandTotal = itemsData.reduce((acc, prod) => acc + getItemTotal(prod), 0);
-    const grandTotalFmt = !isNaN(grandTotal)
-        ? grandTotal.toFixed(CONSTANTS?.DECIMALS_DIGITS)
-        : CONSTANTS?.ZERO_DECIMALS_DIGITS;
-    const grandTotalConverted = convertir(itemsData[0]?.currency_price, reference, grandTotalFmt)?.toFixed(2);
-    const hasTotalPositive = Number(grandTotalFmt) > 0;
+    const hasTotalPositive = grandTotal > 0;;
+
 
     // ── Sync total Redux ──
     useEffect(() => {
@@ -339,7 +334,7 @@ const ListProductShoppingCart = () => {
                 </div>
 
                 {/* Actions paiement */}
-                <div className="flex flex-row md:flex-row justify-content items-center gap-3">
+                <div className="flex flex-col md:flex-row justify-content items-center gap-3 mt-3">
 
                     <div className="w-full md:w-1/2 lg:w-1/2">
                         <BuyButtonWithPaymentForm
@@ -348,7 +343,7 @@ const ListProductShoppingCart = () => {
                         />
                     </div>
 
-                   <div className="w-full md:w-1/2 lg:w-1/2">
+                   <div className="w-full md:w-1/2 lg:w-1/2 ">
                         {hasTotalPositive && (
                             <button
                                 type="button"
@@ -360,14 +355,14 @@ const ListProductShoppingCart = () => {
                                    transition-all duration-200 active:scale-95
                                 "
                                 onClick={boughtProduct}
-                                aria-label={`Payer ${grandTotalConverted} ${reference} en cash`}
+                                aria-label={`Payer ${grandTotal} ${reference} en cash`}
                             >
                                 <CashIcon />
 
                                 <span>{t('paymentMode')}</span>
 
                                 <span className="text-sm bg-white/20 px-3 py-1 rounded-full">
-                                   {grandTotalConverted} {reference}
+                                    {grandTotal} {reference}
                                 </span>
 
                             </button>

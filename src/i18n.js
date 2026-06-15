@@ -22,6 +22,8 @@ i18n
         en: {
 
             translation: {
+                "chat_empty_title": "No conversation open",
+                "chat_empty_sub": "Select a contact to start chatting",
                 confirm_payment: "Confirm payment",
                 confirm_and_pay:"Confirm and pay",
                 platform_posters: "Platform posters",
@@ -823,6 +825,8 @@ i18n
         fr: {
 
             translation: {
+                "chat_empty_title": "Aucune conversation ouverte",
+                "chat_empty_sub": "Choisissez un contact pour commencer à échanger",
                 confirm_payment: "Confirmer payement",
                 confirm_and_pay: "Confirmer et payer",
                 platform_posters: "Affiches de la plateforme",
@@ -1610,6 +1614,8 @@ i18n
         es: {
 
             translation: {
+                "chat_empty_title": "Ninguna conversación abierta",
+                "chat_empty_sub": "Elige un contacto para empezar a chatear",
                 confirm_payment: "Confirmar pago",
                 confirm_and_pay: "Confirmar y pagar",
                 platform_posters: "Carteles de la plataforma",

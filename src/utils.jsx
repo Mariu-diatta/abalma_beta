@@ -1042,7 +1042,38 @@ export const payNow = async (
 
 };
 
+
+export const getItemTotal = (prod, reference) => {
+    if (!prod) return 0;
+
+    let currency = prod.currency_price;
+
+    if (currency === CONSTANTS.FRANC) {
+        currency = CONSTANTS.XOF;
+    }
+
+    const unitPrice = convertir(
+        currency,
+        reference,
+        prod?.price_product
+    );
+
+    const price = toNumber(unitPrice);
+    const qty = toNumber(prod.quantity_sold);
+
+
+    return price * qty;
+};
+
+export const toNumber = (value) => {
+    const n = Number(value);
+    return Number.isFinite(n) ? n : 0;
+};
+
 export function convertir(de, vers, value) {
+ 
+    const amount = toNumber(value);
+
     const taux = {
         EUR_USD: 1.10,
         USD_EUR: 0.91,
@@ -1050,27 +1081,29 @@ export function convertir(de, vers, value) {
         EUR_XOF: 655,
         EUR_FRANC: 655,
 
-        XOF_EUR: 1 / 655,
-        FRANC_EUR: 1 / 655,
+        XOF_EUR: (1 / 655),
+        FRANC_EUR: (1 / 655),
 
         USD_XOF: 600,
         USD_FRANC: 600,
 
-        XOF_USD: 1 / 600,
-        FRANC_USD: 1 / 600,
+        XOF_USD: (1 / 600),
+        FRANC_USD: (1 / 600),
 
-        EUR_EUR: 1.00,
-        USD_USD: 1.00,
+        EUR_EUR: 1,
+        USD_USD: 1,
+        XOF_XOF: 1,
+        FRANC_FRANC: 1,
     };
 
     const key = `${de}_${vers}`;
+    const rate = taux[key];
 
-    if (taux[key] !== undefined) {
-
-        return  taux[key] * value;
+    if (!Number.isFinite(rate)) {
+        return amount; // ou null selon ton besoin
     }
 
-    return null; // conversion impossible
+    return amount * rate;
 }
 
 export const OPERATIONS_STATUS = {

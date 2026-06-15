@@ -101,7 +101,7 @@ const AnaliesChatsWithAi = () => {
             {
                 open && createPortal(
 
-                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-2">
+                    <div className="fixed inset-0 z-[9998] flex items-center justify-center bg-black/50 backdrop-blur-sm px-2">
 
                         <div className="bg-white w-full max-w-3xl rounded-2xl shadow-2xl p-5 md:p-6 relative">
 

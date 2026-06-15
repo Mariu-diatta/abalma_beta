@@ -98,29 +98,8 @@ const PaginationProduit = ({ products = [] }) => {
 
     return (
         <>
-            <style>{`
-        .fan-item {
-          opacity: 0;
-          transform: translateY(60px) rotate(15deg) scale(0.85);
-          will-change: transform, opacity;
-          transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
-        }
-        .fan-item.fan-visible {
-          opacity: 1;
-        }
-        .fan-label {
-          opacity: 0;
-          transition: opacity 0.2s;
-        }
-        .fan-track {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-          justify-content: safe center;
-        }
-        .fan-track::-webkit-scrollbar { display: none; }
-      `}</style>
 
-            <div className="relative group w-full py-6">
+            <div className="relative group w-full py-2">
 
                 <button
                     onClick={() => scroll("left")}
@@ -131,7 +110,7 @@ const PaginationProduit = ({ products = [] }) => {
 
                 <div
                     ref={scrollRef}
-                    className="fan-track flex overflow-x-auto scroll-smooth pt-14 pb-4 px-4 items-end"
+                    className="fan-track flex overflow-x-auto scroll-smooth pt-10 pb-4 px-4 items-end"
                     style={{ gap: 0 }}
                 >
                     {products.map((product, index) => {
