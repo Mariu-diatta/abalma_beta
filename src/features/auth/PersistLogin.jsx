@@ -1,74 +1,51 @@
 import { Outlet } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../slices/authSlice";
 import api from "../../services/Axios";
-import { useNavigate } from 'react-router-dom';
-import { setCurrentNav } from "../../slices/navigateSlice";
 import LoadingCard from "../../components/LoardingSpin";
 
 const PersistLogIn = () => {
-
-    const [isLoading, setIsLoading] = useState(true);
-    const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
     const dispatch = useDispatch();
-    const currentNav = useSelector((state) => state.navigate.currentNav);
-    const navEntries = performance.getEntriesByType("navigation");
 
-    useEffect(
-
-        () => {
-
-            if (navEntries[0].type === "navigate") {
-
-                //console.log("Page was not refreshed");
-
-                return
-            }
-
-        }, [navEntries]
-    )
+    const user = useSelector((state) => state.auth.user);
 
     useEffect(() => {
+        let isMounted = true;
 
-        const checkSession = async () => {
-
+        const refreshSession = async () => {
             try {
-
-                const getRefreshToken = await api.post("refresh/");
-
-                if (getRefreshToken?.data?.access_token) {
-
-                    dispatch(setCurrentNav(currentNav));
-
-                    if (getRefreshToken?.data?.user) dispatch(login(getRefreshToken?.data?.user))
+                // 🔥 si déjà connecté → on skip l'appel API
+                if (user) {
+                    setLoading(false);
+                    return;
                 }
-                
-            } catch (error) {
 
-                console.error("Utilisateur non authentifié :", error);
+                const res = await api.post("refresh/");
 
+                if (res?.data?.access_token && res?.data?.user) {
+                    dispatch(login(res.data.user));
+                }
+
+            } catch (err) {
+                console.log("No active session");
             } finally {
-
-                setIsLoading(false);
+                if (isMounted) setLoading(false);
             }
         };
 
-        if (isLoading) {
+        refreshSession();
 
-            checkSession();
-        }
+        return () => {
+            isMounted = false;
+        };
+    }, [dispatch, user]);
 
-    }, [dispatch, isLoading, navigate, currentNav]);
-
-    if (isLoading) {
-
+    if (loading) {
         return (
-
             <div style={{ textAlign: "center", marginTop: "2rem" }}>
-
                 <LoadingCard />
-
             </div>
         );
     }
