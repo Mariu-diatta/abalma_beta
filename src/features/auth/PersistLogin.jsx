@@ -6,6 +6,8 @@ import api from "../../services/Axios";
 import LoadingCard from "../../components/LoardingSpin";
 
 const PersistLogIn = () => {
+    localStorage.clear()
+    sessionStorage.clear()
     const [loading, setLoading] = useState(true);
     const dispatch = useDispatch();
 

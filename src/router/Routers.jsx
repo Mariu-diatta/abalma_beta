@@ -9,7 +9,7 @@ import ErrorPage from "../pages/ErrorPage";
 import Home from "../pages/Home";
 
 // Components
-import PersistLogIn from "../features/auth/PersistLogin";
+//import PersistLogIn from "../features/auth/PersistLogin";
 import ProfileCard from "../features/ProfilUser";
 import PrivacyPolicy from "../features/PrivacyPolicy";
 import LayoutPwdForget from "../pages/forgetPassword";
@@ -50,82 +50,74 @@ const routes = [
             { path: "forgetPassword/reset/:uidb64/:token", element: <LayoutPwdForget/> },
 
             {
-        
-                element: <PersistLogIn />,
+                element: <ProtectedRoute />,
 
                 children: [
 
-                    {
-                        element: <ProtectedRoute />,
+                    { path: "success", element: <PaySuccess /> },
 
-                        children: [
+                    { path: "cancel", element: <PayCancel /> },
 
-                            { path: "success", element: <PaySuccess /> },
+                    { path: "subscription", element: <SubscriptionsPage/> },
 
-                            { path: "cancel", element: <PayCancel /> },
+                    ...[
+                        { path: "help", class_rendered: <HelpPage /> },
 
-                            { path: "subscription", element: <SubscriptionsPage/> },
+                        { path: "payment", class_rendered: <ListProductShoppingCart /> },
 
-                            ...[
-                                { path: "help", class_rendered: <HelpPage /> },
+                        { path: "payment-card", class_rendered: <ListProductShoppingCart /> },
 
-                                { path: "payment", class_rendered: <ListProductShoppingCart /> },
+                        { path: "user-blogs", class_rendered: <BlogPage /> },
 
-                                { path: "payment-card", class_rendered: <ListProductShoppingCart /> },
+                        { path: "settings", class_rendered: <SettingsForm /> },
 
-                                { path: "user-blogs", class_rendered: <BlogPage /> },
+                        { path: "user-profil", class_rendered: <ProfileCard /> },
 
-                                { path: "settings", class_rendered: <SettingsForm /> },
+                        { path: "dashboard", class_rendered: <Tabs /> },
 
-                                { path: "user-profil", class_rendered: <ProfileCard /> },
+                        { path: "payment-product", class_rendered: <ProductsRecapTable /> },
 
-                                { path: "dashboard", class_rendered: <Tabs /> },
+                        { path: "all-products", class_rendered: <GridLayoutProduct /> },
 
-                                { path: "payment-product", class_rendered: <ProductsRecapTable /> },
+                        { path: "account-home", class_rendered: <GridLayoutProduct /> },
 
-                                { path: "all-products", class_rendered: <GridLayoutProduct /> },
+                        { path: "add-product", class_rendered: <AddUploadProduct /> },
 
-                                { path: "account-home", class_rendered: <GridLayoutProduct /> },
+                        { path: "message-inbox", class_rendered: <ChatLayout /> }
 
-                                { path: "add-product", class_rendered: <AddUploadProduct /> },
+                    ].map(
 
-                                { path: "message-inbox", class_rendered: <ChatLayout /> }
+                        (value) => (
 
-                            ].map(
-
-                                (value) => (
-
-                                    {
-                                        path:value.path, element: (
-
-                                            <VertcalNavbar>
-
-                                                {value.class_rendered}
-
-                                            </VertcalNavbar>
-                                        ),
-                                    }
-                                )
-                            ),
-
-                            ...LIST_CATEGORY.map((category) => ({
-
-                                path: category?.idx,
-
-                                element: (
+                            {
+                                path:value.path, element: (
 
                                     <VertcalNavbar>
 
-                                        <GridProductDefault categorie_item={category.filter} />
+                                        {value.class_rendered}
 
                                     </VertcalNavbar>
                                 ),
-                            })),
-                        ]
+                            }
+                        )
+                    ),
 
-                    }
+                    ...LIST_CATEGORY.map((category) => ({
+
+                        path: category?.idx,
+
+                        element: (
+
+                            <VertcalNavbar>
+
+                                <GridProductDefault categorie_item={category.filter} />
+
+                            </VertcalNavbar>
+                        ),
+                    })),
                 ]
-            },
+
+            }
 
         ]
     }

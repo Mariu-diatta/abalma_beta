@@ -59,11 +59,11 @@ const LogIn = ({ callbackState, onClose }) => {
     return createPortal(
 
         <div
-            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 "
+            className="scrollbor_hidden fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
             onClick={handleBackdropClick}
         >
 
-            <div className="relative w-full max-auto max-w-[450px] bg-white dark:bg-dark-2 rounded-3xl shadow-2xl overflow-hidden transform transition-all scale-95 animate-in zoom-in-95 duration-300">
+            <div className="scrollbor_hidden relative w-full max-w-[550px] max-h-[90vh] bg-white dark:bg-dark-2 rounded-3xl shadow-2xl overflow-y-auto animate-in zoom-in-95 duration-300">
 
                 {/* Bouton Fermer */}
                 <button
