@@ -77,21 +77,27 @@ export default function CashTransactionCard({ transaction, setSearchTransactionB
 
                 {/* Infos */}
                 <div className="ctc-rows">
+
                     <InfoRow
                         icon={<WalletIcon />}
                         label={t('price') || 'Montant'}
                         value={`${transaction?.price ?? '—'} ${currency}`}
                     />
+
                     <InfoRow
                         icon="📦"
                         label={t('quantityNber') || 'Quantité'}
                         value={transaction?.subproduct_count ?? '—'}
                     />
+
                     <InfoRow
                         icon="🕒"
                         label={t('date') || 'Date'}
                         value={formattedDate}
                     />
+
+                    {transaction?.address}
+
                 </div>
 
                 <div className="ctc-divider" />

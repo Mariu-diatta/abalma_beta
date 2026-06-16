@@ -452,6 +452,8 @@ const SettingsForm = () => {
 
                                 </form>
 
+                                {(deliveryAddress?.length > 0) ? <span>{t("current_address")}</span> : <span className="ap-verify-banner"> {t("noDeliveryAddress")}</span>}
+
                                 {
                                     (deliveryAddress?.length > 0) &&
                                     <select className="text-blue-800 p-2 rounded">
@@ -464,7 +466,6 @@ const SettingsForm = () => {
                                 }
 
                                 <form onSubmit={updateDeliveredAdress} className="mx-2 md:mx-7">
-                                    {(deliveryAddress?.length > 0) ? <span>{t("current_address")}</span>: <span className="ap-verify-banner"> {t("noDeliveryAddress") }</span>}
                                     <LocationSearchPopover setLocationSearch={getAddress} />
                                     <PrimaryButton type="submit">
                                         {!loadingAdress?t('settingsText.deleveredPawd', "Mettre à jour l'adresse de livraison"):"Loading..."}
