@@ -1192,6 +1192,22 @@ html, body, #root {
 }
 
 
+/* Vérification requise */
+.ap-ok {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: gray;
+    border: 0;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: .875rem;
+    color: navajowhite;
+    margin-bottom: 16px;
+}
+
+
+
 /* creat  blog */
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
 
@@ -3972,8 +3988,8 @@ forget password`*/
     justify-content: space-between;
     padding: 14px 16px;
     border-radius: 14px;
-    background: #fff7ed;
-    border: 1.5px solid #fed7aa;
+    background: #EEF2FF;
+    border: 0;
     margin-top: 16px;
     flex-wrap: wrap;
     gap: 8px;

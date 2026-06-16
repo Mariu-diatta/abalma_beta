@@ -214,17 +214,6 @@ const AffichePortal = ({  onEdit }) => {
         fetchAdvertisements();
     }, []);
 
-    console.log("Component render");
-
-    useEffect(() => {
-        console.log("Component mounted");
-
-        return () => {
-            console.log("Component unmounted");
-        };
-    }, []);
-
-
     const handleNext = () => {
         setDirection("next");
 

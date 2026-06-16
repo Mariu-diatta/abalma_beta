@@ -150,12 +150,12 @@ const BuyButtonWithPaymentForm = ({ total_price, reference }) => {
     if (!hasPrice || !hasItems) return null;
 
     return (
-        <div className="p-6">
+        <>
             {/* Bouton principal */}
             <button
                 onClick={handleClick}
                 disabled={loading}
-                className="flex items-center justify-center gap-3 w-full px-6 py-3.5
+                className="flex items-center justify-start gap-3 w-full px-6 py-3.5
                    bg-gradient-to-r from-purple-400 to-blue-400
                    hover:from-purple-500 hover:to-blue-500
                    disabled:opacity-60 disabled:cursor-not-allowed
@@ -255,7 +255,7 @@ const BuyButtonWithPaymentForm = ({ total_price, reference }) => {
 
                 </PaymentModal>
             )}
-        </div>
+        </>
     );
 };
 

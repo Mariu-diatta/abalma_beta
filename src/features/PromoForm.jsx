@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import api from "../services/Axios";
+import { createPortal } from "react-dom";
+import { useTranslation } from 'react-i18next';
 
 const PromoCodeForm = ({ product_id }) => {
     const [code, setCode] = useState("");
     const [discountPercent, setDiscountPercent] = useState("");
     const [discountAmount, setDiscountAmount] = useState("");
     const [expiresAt, setExpiresAt] = useState("");
+    const { t } = useTranslation();
 
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -61,20 +64,26 @@ const PromoCodeForm = ({ product_id }) => {
     };
 
     return (
-        <div>
+        <div className="blog-modal-root">
 
             {/* bouton ouverture */}
             <button
                 className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
                 onClick={() => setShow(true)}
             >
-                Ajouter une promo
+                {t("add_promo")}
             </button>
 
             {/* modal */}
-            {show && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-100 h-100">
-                    <div className="bg-white rounded-xl p-6 w-96 shadow-lg relative">
+            {show && createPortal(
+                <div
+                    className="blog-overlay"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="blog-modal-title"
+                >
+                    <div className="blog-panel">
+                    <form className="blog-body">
 
                         {/* fermer */}
                         <button
@@ -85,12 +94,12 @@ const PromoCodeForm = ({ product_id }) => {
                         </button>
 
                         <h2 className="text-lg font-semibold mb-4">
-                            Créer un code promo
+                            {t("add_promo")}
                         </h2>
 
                         {/* CODE */}
                         <input
-                            className="w-full border p-2 rounded mb-3"
+                            className="blog-input"
                             placeholder="Code promo (ex: WELCOME10)"
                             value={code}
                             onChange={(e) => setCode(e.target.value)}
@@ -98,7 +107,7 @@ const PromoCodeForm = ({ product_id }) => {
 
                         {/* % REDUCTION */}
                         <input
-                            className="w-full border p-2 rounded mb-3"
+                            className="blog-input"
                             placeholder="% réduction"
                             type="number"
                             value={discountPercent}
@@ -107,7 +116,7 @@ const PromoCodeForm = ({ product_id }) => {
 
                         {/* MONTANT FIXE */}
                         <input
-                            className="w-full border p-2 rounded mb-3"
+                            className="blog-input"
                             placeholder="Montant réduction (€)"
                             type="number"
                             value={discountAmount}
@@ -116,7 +125,7 @@ const PromoCodeForm = ({ product_id }) => {
 
                         {/* EXPIRATION */}
                         <input
-                            className="w-full border p-2 rounded mb-3"
+                            className="blog-input"
                             type="date"
                             value={expiresAt}
                             onChange={(e) => setExpiresAt(e.target.value)}
@@ -145,8 +154,9 @@ const PromoCodeForm = ({ product_id }) => {
                             </button>
                         </div>
 
+                        </form>
                     </div>
-                </div>
+                </div>, document.body
             )}
         </div>
     );

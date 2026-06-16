@@ -22,6 +22,12 @@ i18n
         en: {
 
             translation: {
+                "advertisement": "advertisement",
+                "delete_pub": "Delete this ad?",
+                "add_promo": "Add a promo",
+                "current_address": "Current Address",
+                "noDeliveryAddress": "No delivery address provided.",
+                "addAddress": "Add an address",
                 "chat_empty_title": "No conversation open",
                 "chat_empty_sub": "Select a contact to start chatting",
                 confirm_payment: "Confirm payment",
@@ -825,6 +831,12 @@ i18n
         fr: {
 
             translation: {
+                "advertisement": "publicité",
+                "delete_pub": "Supprimer cette publicité ?",
+                "add_promo":"Ajouter une promo",
+                "current_address": "Adresse actuelle",
+                "noDeliveryAddress": "Aucune adresse de livraison renseignée.",
+                "addAddress": "Ajouter une adresse",
                 "chat_empty_title": "Aucune conversation ouverte",
                 "chat_empty_sub": "Choisissez un contact pour commencer à échanger",
                 confirm_payment: "Confirmer payement",
@@ -1614,6 +1626,12 @@ i18n
         es: {
 
             translation: {
+                "advertisement": "publicidad",
+                "delete_pub": "¿Eliminar esta publicidad?",
+                "add_promo":"Añadir una promoción",
+                "current_address": "Dirección actual",
+                "noDeliveryAddress": "No se ha proporcionado ninguna dirección de entrega.",
+                "addAddress": "Añadir una dirección",
                 "chat_empty_title": "Ninguna conversación abierta",
                 "chat_empty_sub": "Elige un contacto para empezar a chatear",
                 confirm_payment: "Confirmar pago",

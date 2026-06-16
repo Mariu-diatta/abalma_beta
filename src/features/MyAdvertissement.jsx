@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import api from "../services/Axios";
 import { TitleCompGenLitle } from "../components/TitleComponentGen";
+import { useTranslation } from "react-i18next";
 
 const MesPublicites = ({ onEdit }) => {
 
     const [ads, setAds] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { t } = useTranslation();
 
     const fetchAdvertisements = async () => {
         try {
@@ -67,7 +69,7 @@ const MesPublicites = ({ onEdit }) => {
     if (loading) {
         return (
             <div className="flex justify-center py-10">
-                Chargement...
+                {t("loading")}
             </div>
         );
     }
@@ -80,15 +82,16 @@ const MesPublicites = ({ onEdit }) => {
                 <TitleCompGenLitle title={"Mes publicités"}/>
 
                 <span className="text-sm text-gray-500 whitespace-nowrap">
-                    {ads.length} publicité (s)
+                    {ads.length} {t("advertisement")}(s)
                 </span>
+
             </div>
 
             {ads.length === 0 && (
                 <div className="bg-white rounded-2xl border border-gray-100 p-10 text-center">
                     <i className="ti ti-speakerphone text-4xl text-gray-300" />
                     <p className="mt-2 text-gray-500">
-                        Aucune publicité créée.
+                        {t("delete_pub")}
                     </p>
                 </div>
             )}

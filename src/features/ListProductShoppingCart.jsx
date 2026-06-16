@@ -8,10 +8,11 @@ import {
     clearCart,
 } from "../slices/cartSlice";
 import { useTranslation } from "react-i18next";
-import { CONSTANTS, convertir, getItemTotal} from "../utils";
+import { CONSTANTS, getItemTotal} from "../utils";
 import BuyButtonWithPaymentForm from "./ButtonPaymentShopping";
 import api from "../services/Axios";
 import { showMessage } from "../components/AlertMessage";
+import PaymentButtonsLayouts from "../layouts/PaymentButtonsLayout";
 
 
 // ─── Icônes ───────────────────────────────────────────────────────────────────
@@ -43,8 +44,6 @@ const ListProductShoppingCart = () => {
 
     // 🎯 monnaie de référence selon langue
     const reference = lang === CONSTANTS?.FR ? CONSTANTS?.EUR : CONSTANTS?.USD;
-
-    const priceProductRef = itemsData[0]?.currency_price
 
 
     // ── Helpers ──
@@ -324,52 +323,54 @@ const ListProductShoppingCart = () => {
                 </div>
 
                 {/* Total général */}
-                <div className="sc-grand-total" aria-label="Total du panier">
+                <div className="sc-grand-total " aria-label="Total du panier">
                     <span className="sc-grand-label">
                         {t('tableEntries.total')} ({reference})
                     </span>
                     <span className="sc-grand-value">
-                        {grandTotalConverted} {reference}
+                        {parseFloat(grandTotal).toFixed(2)} {reference}
                     </span>
                 </div>
 
                 {/* Actions paiement */}
-                <div className="flex flex-col md:flex-row justify-content items-center gap-3 mt-3">
+                <PaymentButtonsLayouts>
+                    <>
 
-                    <div className="w-full md:w-1/2 lg:w-1/2">
-                        <BuyButtonWithPaymentForm
-                            total_price={grandTotalConverted}
-                            reference={reference}
-                        />
-                    </div>
+                        <div className="w-full md:w-auto">
+                            <BuyButtonWithPaymentForm
+                                total_price={grandTotal}
+                                reference={reference}
+                            />
+                        </div>
 
-                   <div className="w-full md:w-1/2 lg:w-1/2 ">
-                        {hasTotalPositive && (
-                            <button
-                                type="button"
-                                className="flex items-center justify-center gap-3 w-full px-6 py-3.5
-                                   bg-gradient-to-r from-purple-400 to-blue-400
-                                   hover:from-purple-500 hover:to-blue-500
-                                   disabled:opacity-60 disabled:cursor-not-allowed
-                                   text-white font-medium rounded-xl
-                                   transition-all duration-200 active:scale-95
-                                "
-                                onClick={boughtProduct}
-                                aria-label={`Payer ${grandTotal} ${reference} en cash`}
-                            >
-                                <CashIcon />
+                       <div className="w-full md:w-auto">
+                            {hasTotalPositive && (
+                                <button
+                                    type="button"
+                                    className="flex items-center justify-start gap-3 w-full px-6 py-3.5
+                                       bg-gradient-to-r from-purple-400 to-blue-400
+                                       hover:from-purple-500 hover:to-blue-500
+                                       disabled:opacity-60 disabled:cursor-not-allowed
+                                       text-white font-medium rounded-xl
+                                       transition-all duration-200 active:scale-95
+                                    "
+                                    onClick={boughtProduct}
+                                    aria-label={`Payer ${parseFloat(grandTotal).toFixed(2)}} ${reference} en cash`}
+                                >
+                                    <CashIcon />
 
-                                <span>{t('paymentMode')}</span>
+                                    <span>{t('paymentMode')}</span>
 
-                                <span className="text-sm bg-white/20 px-3 py-1 rounded-full">
-                                    {grandTotal} {reference}
-                                </span>
+                                    <span className="text-sm bg-white/20 px-3 py-1 rounded-full">
+                                        {parseFloat(grandTotal).toFixed(2)} {reference}
+                                    </span>
 
-                            </button>
-                        )}
-                    </div>
+                                </button>
+                            )}
+                        </div>
 
-                </div>
+                    </>
+                </PaymentButtonsLayouts>
 
             </div>
         </>

@@ -255,7 +255,7 @@ const VerticalNavbar = ({ children }) => {
                         <ButtonUpdateAccountUserToPro />
 
                         {/* Catégories */}
-                        <div className="vnav-section-label">Catégories</div>
+                        <div className="vnav-section-label">{t("categorie")}</div>
 
                         <div style={{ display: "flex", flexDirection: "column", gap: 3 , padding:2}}>
                             {menuItems(t).map(({ name, to, photo, id }, index) => (

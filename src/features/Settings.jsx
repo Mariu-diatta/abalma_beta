@@ -347,9 +347,9 @@ const SettingsForm = () => {
                 fontFamily: 'var(--font-sans)',
             }}>
                 {/* Page header */}
-                <div style={{ marginBottom: '2rem' }}>
+                <div style={{ marginBottom: '0.5rem' }}>
                     <TitleCompGen title={t('settingsText.accountSettings')} />
-                    <p style={{ margin: '4px 0 0', fontSize: '14px', color: 'var(--color-text-tertiary)' }}>
+                    <p style={{ margin: '1px 0 0', fontSize: '14px', color: 'var(--color-text-tertiary)' }}>
                         {t('settingsText.settingsSubtitle', 'Gérez votre compte, vos préférences et votre abonnement.')}
                     </p>
                 </div>
@@ -452,16 +452,19 @@ const SettingsForm = () => {
 
                                 </form>
 
-                                <select className="text-blue-800 p-2 rounded">
-                                    {deliveryAddress?.map((item) => (
-                                        <option key={item.id} value={item.id}>
-                                            {item.address}
-                                        </option>
-                                    ))}
-                                </select>
+                                {
+                                    (deliveryAddress?.length > 0) &&
+                                    <select className="text-blue-800 p-2 rounded">
+                                        {deliveryAddress?.map((item) => (
+                                            <option key={item.id} value={item.id}>
+                                                {item.address}
+                                            </option>
+                                        ))}
+                                    </select>
+                                }
 
                                 <form onSubmit={updateDeliveredAdress} className="mx-2 md:mx-7">
-                                    {t("Current Adress")}
+                                    {(deliveryAddress?.length > 0) ? <span>{t("current_address")}</span>: <span className="ap-verify-banner"> {t("noDeliveryAddress") }</span>}
                                     <LocationSearchPopover setLocationSearch={getAddress} />
                                     <PrimaryButton type="submit">
                                         {!loadingAdress?t('settingsText.deleveredPawd', "Mettre à jour l'adresse de livraison"):"Loading..."}
