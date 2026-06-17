@@ -132,7 +132,7 @@ const VerticalNavbar = ({ children }) => {
 
         const loadRooms = async () => {
             try {
-                const { data } = await api.get("/allRoomes/");
+                const { data } = await api.get("/allRooms/");
                 const rooms = (data || []).filter(
                     (room) =>
                         (room?.current_receiver === currentUser?.id && room?.messages?.length > 0) ||
@@ -140,7 +140,7 @@ const VerticalNavbar = ({ children }) => {
                 );
                 rooms.forEach((room) => dispatch(addRoom(room)));
             } catch (err) {
-                console.error("Erreur rooms :", err.response?.data || err);
+                console.error("Erreur rooms :", err.response?.data || err.response?.data?.detail || err);
             }
         };
 

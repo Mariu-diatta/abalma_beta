@@ -56,9 +56,10 @@ api.interceptors.response.use(
             originalRequest._retry = true;
 
             try {
-                //await api.post("/refresh/", {}, {
-                //    withCredentials: true
-                //});
+
+                await api.post("/refresh/", {}, {
+                    withCredentials: true
+                });
 
                 return api(originalRequest);
 

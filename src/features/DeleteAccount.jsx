@@ -34,7 +34,6 @@ const DeleteProfilAccount = () => {
     }, [currentNav, profileData, selectedProductOwner]);
 
     // Suppression du compte
-    // Suppression du compte
     const delAccountUser = async (e) => {
         e.preventDefault();
 
@@ -45,11 +44,8 @@ const DeleteProfilAccount = () => {
         if (!confirmed) return;
 
         setLoading(true);
-
         try {
-            const deleteResp = await api.delete("clients/delete-account/", {
-                withCredentials: true,
-            });
+            const deleteResp = await api.delete("clients/delete-account/");
 
             showMessage(dispatch, {
                 Type: "Message",
@@ -59,13 +55,13 @@ const DeleteProfilAccount = () => {
             });
 
             dispatch(logout());
-            navigate("/", { replace: true });
+            navigate("/");
 
         } catch (error) {
             const message =
                 error?.response?.data?.detail ||
                 error?.response?.data ||
-                "Erreur lors de la suppression";
+                "Erreur lors de la suppression du compte";
 
             showMessage(dispatch, {
                 Type: "Error",

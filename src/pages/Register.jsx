@@ -31,7 +31,7 @@ const RegisterForm = ({ callbackState, onClose}) => {
     const handleSignUp = async (e) => {
         e.preventDefault();
         if (!form.email || !form.password || !form.password1) {
-            return showMessage(dispatch, { Type: "Erreur", Message: "Tous les champs requis doivent être remplis." });
+            return showMessage(dispatch, { Type: "Erreur", Message: "Tous les champs requis doivent Ãªtre remplis." });
         }
         if (form.password !== form.password1) {
             return showMessage(dispatch, { Type: "Erreur", Message: "Les mots de passe ne correspondent pas." });

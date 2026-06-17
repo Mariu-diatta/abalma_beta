@@ -25,7 +25,9 @@ const LogIn = ({ callbackState, onClose }) => {
     const navigate = useNavigate();
 
     // -- Logique inchangée --
-    const handleSignIn = async () => {
+    const handleSignIn = async (e) => {
+
+        e.preventDefault()
 
         if (!email || !pwd) {
             showMessage(dispatch, { Type: "Erreur", Message: "Veuillez remplir tous les champs." });
@@ -105,7 +107,7 @@ const LogIn = ({ callbackState, onClose }) => {
                                 className="space-y-4"
                                 onSubmit={(e) => {
                                     e.preventDefault();
-                                    handleSignIn();
+                                    handleSignIn(e);
                                 }}
                             >
                                 <InputBox

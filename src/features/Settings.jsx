@@ -10,6 +10,7 @@ import NotificationToggle from '../components/NotificationToggle';
 import ThemeSelector from '../components/Them';
 import SubscriptionsPage from '../pages/SubscriptionCard';
 import LocationSearchPopover from './LocationSearch';
+import AttentionAlertMessage from '../components/AlertMessage';
 
 function ChevronRight() {
     return (
@@ -178,7 +179,7 @@ const SettingsForm = () => {
     const [activeSection, setActiveSection] = useState('profile');
     const [toast, setToast] = useState(null);
 
-    const [address, setAddress] = useState("");
+    const [address, setAddress] = useState(null);
 
     const getAddress = (newAdress) => setAddress(newAdress);
 
@@ -266,21 +267,25 @@ const SettingsForm = () => {
         );
     };
 
-
-
-
     useEffect(() => {
 
         const getDeliveredAdress = async () => {
 
-            const res = await api.get("delivery-address/");
+            try {
 
-            setDeliveryAddress(res.data);
+                const res = await api.get("delivery-address/");
+                setDeliveryAddress(res.data);
+
+            } catch (err) {
+
+                console.log("Error:::", err)
+            }
+
         };
 
         getDeliveredAdress()
 
-    }, [deliveryAddress])
+    }, [address])
 
     const GetClientCard = useCallback(async () => {
         if (!currentUserData?.id) return;
@@ -338,6 +343,8 @@ const SettingsForm = () => {
     return (
         <>
             {toast && <Toast message={toast} onClose={() => setToast(null)} />}
+
+            <AttentionAlertMessage/>
 
             <div 
 
@@ -453,7 +460,7 @@ const SettingsForm = () => {
 
                                 </form>
 
-                                {(deliveryAddress?.length > 0) ? <span>{t("current_address")}</span> : <span className="ap-verify-banner"> {t("noDeliveryAddress")}</span>}
+                                {(deliveryAddress?.length > 0 || !!address) ? <span>{t("current_address")}</span> : <span className="ap-verify-banner"> {t("noDeliveryAddress")}</span>}
 
                                 {
                                     (deliveryAddress?.length > 0) &&

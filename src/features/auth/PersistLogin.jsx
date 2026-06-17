@@ -15,8 +15,9 @@ const PersistLogIn = () => {
         const loadUser = async () => {
             try {
                 const res = await api.get("/me/");
-                dispatch(login(res.data.user));
-                dispatch(updateCompteUser(res?.data?.compte));
+                console.log("User", res.data.client)
+                dispatch(login(res.data.client));
+                //dispatch(updateCompteUser(res?.data?.compte));
             } catch (err) {
                 console.log("Not authenticated");
             } finally {

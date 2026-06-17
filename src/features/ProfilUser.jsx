@@ -109,7 +109,7 @@ const ProfileCard = () => {
     const isCurrentUserFournisseurUnverified = currentUser?.is_fournisseur && !currentUser?.is_verified;
     const isProFormVisibleForCurrentUser = isProFormVisible && isCurrentUser;
     const isBgPhotoEditing = isEditingPhotoBg && isCurrentUser;
-    const isFournisseurNotVerified = (!userProfile?.is_fournisseur || !userProfile?.is_verified) && isCurrentUser;
+    const isFournisseurNotVerified = !(userProfile?.is_fournisseur && isCurrentUser);
     const isViewingOtherUser = !isCurrentUser && !!selectedProductOwner;
     const isNotProAndOwner = !currentUser?.is_pro && !isProFormVisible && isCurrentUser;
 
@@ -192,7 +192,6 @@ const ProfileCard = () => {
             setIsUpdating(true);
         }
     };
-
     const handleUpgradeToPro = async (e) => {
         e.preventDefault();
 
@@ -201,28 +200,38 @@ const ProfileCard = () => {
             return;
         }
 
+        if (isSendingProofDoc) return; // anti double submit
+
         setIsSendingProofDoc(true);
 
         try {
             const fd = new FormData();
             fd.append('doc_proof', fileProof);
 
-            const { data } = await api.put(`clients/${userProfile.id}/become_pro/`, fd, {
-                headers: { 'Content-Type': 'multipart/form-data' },
-            });
+            const { data } = await api.put("clients/become_pro/", fd);
 
-            dispatch(updateUserData(data?.user));
-            alert(t('justif_send'));
+            if (data?.user) {
+                dispatch(updateUserData(data.user));
+            }
+
             setIsProFormVisible(false);
-            alert(t('compte_pro'));
+
+            alert(t('compte_pro')); // 1 seul message final
+
         } catch (error) {
-            console.error("❌ Erreur d'envoi :", error);
-            alert(t('error_file'));
+            console.error("Erreur envoi document PRO:", error);
+
+            const message =
+                error?.response?.data?.detail ||
+                error?.response?.data ||
+                t('error_file');
+
+            alert(message);
+
         } finally {
             setIsSendingProofDoc(false);
         }
     };
-
     const updateAccountToFournisseur = async (e) => {
         e.preventDefault();
         setIsLoadingCode(false);
@@ -432,7 +441,6 @@ const ProfileCard = () => {
                             )}
 
                             {!isCurrentUser && <FollowProfilUser clientId={currentOwnUser?.id} />}
-
                             {isLoadingCode ? (
                                 isFournisseurNotVerified && (
                                     <button
