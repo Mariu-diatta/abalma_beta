@@ -214,7 +214,7 @@ const VerticalNavbar = ({ children }) => {
                             </div>
                             <div style={{ minWidth: 0, flex: 1 }}>
                                 <p className="vnav-user-name" style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                                    {currentUser?.nom || "Utilisateur"}
+                                    {currentUser?.nom || currentUser?.prenom}
                                 </p>
                                 <p className="vnav-user-email" style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                                     {currentUser?.email}
