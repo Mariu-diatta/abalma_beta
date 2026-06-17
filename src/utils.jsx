@@ -753,26 +753,44 @@ export const formaterPrix = (prix, monnaie, t, locale) => {
 // 👥 Authentification & création de compte
 export const loginClient = async (data, dispatch, setIsLoading, navigate) => {
 
+    setIsLoading(true);
+
     try {
 
         const response = await api.post('login/', data, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-            withCredentials: true // <-- CORRECT
+            withCredentials: true
         });
 
-        if (response?.data) {
-            dispatch(login(response?.data?.user));
-            dispatch(updateCompteUser(response?.data?.compte));
-            dispatch(setCurrentNav("account-home"));
-            navigate("/account-home", { replace: true });
+        const { user, compte, message } = response.data || {};
+
+        if (!user) {
+            throw new Error(message || "Login invalide");
         }
 
+        dispatch(login(user));
+
+        if (compte) {
+            dispatch(updateCompteUser(compte));
+        }
+
+        dispatch(setCurrentNav("account-home"));
+
+        navigate("/account-home", { replace: true });
+
     } catch (error) {
-        const errorMessage = error?.response?.data?.detail || error?.message || error?.request?.message || error;
-        showMessage(dispatch, { Type: "Erreur", Message: errorMessage || "Erreur lors de la connexion" });
-        throw error;
+
+        console.log("LOGIN ERROR:", error);
+
+        const message =
+            error?.response?.data?.detail ||
+            error?.response?.data?.errors ||
+            error?.message ||
+            "Erreur lors de la connexion";
+
+        showMessage(dispatch, {
+            Type: "Erreur",
+            Message: message
+        });
 
     } finally {
         setIsLoading(false);
@@ -791,13 +809,12 @@ export const CreateClient = async (data, setLoading, showMessage, dispatch, t) =
             withCredentials: false
         });
 
-        console.log("Les data::::", response)
-
         showMessage(dispatch, { Type: 'Message', Message: t('creatAccountSucces') });
 
         return response;
 
     } catch (error) {
+        console.log("Erreur du client", error)
 
         const errorMessage =
             error?.response?.data?.non_field_errors?.[0] ||

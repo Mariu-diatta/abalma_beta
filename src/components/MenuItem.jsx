@@ -167,7 +167,7 @@ const images = {
                 <stop offset="1" stopColor="#7F270F" stopOpacity="0" />
             </linearGradient>
             <linearGradient id="paint12_linear_204_2681" x1="356.5" y1="263" x2="289.026" y2="182.492" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#c8d8fa" />
+                <stop stopColor="#c8d8fa" />
                 <stop offset="1" stopColor="#c8d8fa" stopOpacity="0" />
             </linearGradient>
             <linearGradient id="paint13_linear_204_2681" x1="447.5" y1="502" x2="447.5" y2="546" gradientUnits="userSpaceOnUse">

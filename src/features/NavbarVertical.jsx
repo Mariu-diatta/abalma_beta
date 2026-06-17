@@ -11,6 +11,7 @@ import ScrollTop, { ButtonScrollTopDown } from "../components/ButtonScroll";
 import ButtonUpdateAccountUserToPro from "../components/ButtonPro";
 import { ENDPOINTS, fetchRooms } from "../utils";
 import ButtonsNavigateThemecolorPayDropdownaccount from "./DropDownAccount";
+import AttentionAlertMessage from "../components/AlertMessage";
 
 
 // ─── Icônes SVG inline ────────────────────────────────────────────────────────
@@ -162,6 +163,8 @@ const VerticalNavbar = ({ children }) => {
     // ── Rendu ──
     return (
         <>
+            <AttentionAlertMessage/>
+
             <div className="vnav">
 
                 {/* Bouton toggle mobile */}

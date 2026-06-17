@@ -1,6 +1,6 @@
 import React, {useRef, useState} from 'react';
 import { createPortal } from 'react-dom';
-import { useNavigate} from 'react-router-dom';
+//import { useNavigate} from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch} from 'react-redux';
 import { CreateClient} from '../utils';
@@ -9,7 +9,7 @@ import TitleCompGen from '../components/TitleComponentGen';
 import InputBox from '../components/InputBoxFloat';
 import PhoneInput from '../components/InputPhoneCountry';
 import LoadingCard from '../components/LoardingSpin';
-import { showMessage } from '../components/AlertMessage';
+import AttentionAlertMessage, { showMessage } from '../components/AlertMessage';
 
 
 
@@ -17,7 +17,7 @@ const RegisterForm = ({ callbackState, onClose}) => {
     const dispatch = useDispatch();
     const { t } = useTranslation();
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
     const componentRef = useRef(null);
 
     const [form, setForm] = useState({
@@ -38,10 +38,14 @@ const RegisterForm = ({ callbackState, onClose}) => {
         }
 
         setLoading(true);
+
         const response = await CreateClient(form, setLoading, showMessage, dispatch, t);
+
         if (response) {
+    
+            showMessage(dispatch, { Type: 'Message', Message: t('creatAccountSucces') });
+
             if (onClose) onClose();
-            navigate("/", { replace: true });
         }
     };
 
@@ -51,7 +55,10 @@ const RegisterForm = ({ callbackState, onClose}) => {
     };
 
     return createPortal(
+
         <div className="scrollbor_hidden fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4" onClick={handleBackdropClick}>
+
+            <AttentionAlertMessage />
 
             <div className="scrollbor_hidden relative w-full max-w-[550px] max-h-[90vh] bg-white dark:bg-dark-2 rounded-3xl shadow-2xl overflow-y-auto animate-in zoom-in-95 duration-300">
 

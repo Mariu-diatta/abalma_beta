@@ -42,18 +42,18 @@ const DeleteProfilAccount = () => {
 
 
             if (window.confirm('Voulez-vous vraiment supprimer ce profil ?')) {
-
+                    
                 setLoading(true)
 
-                const deleteResp = await api.delete(`clients/${userProfile?.id}/`,
+                dispatch(logout());
+
+                const deleteResp = await api.delete("clients/delete-account/",
 
                     {
                         withcredentials: true
                     } );
 
-                showMessage(dispatch, { Type: "Erreur", Message: deleteResp?.response.data.detail || 'Votre compte a été supprimé avec succès' });
-
-                dispatch(logout());
+                showMessage(dispatch, { Type: "Message", Message: deleteResp?.response.data.detail || 'Votre compte a été supprimé avec succès' });
 
                 navigate('/', { replace: true });
             }
@@ -62,7 +62,7 @@ const DeleteProfilAccount = () => {
 
             console.log('Erreur de la suppression du compte', err);
 
-            const data = err.response.data
+            const data = err?.response?.data
 
             var message = data 
 

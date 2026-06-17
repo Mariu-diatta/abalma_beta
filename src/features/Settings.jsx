@@ -261,7 +261,7 @@ const SettingsForm = () => {
         e.preventDefault();
         await tryRequest(
             () => api.post("delivery-address/", { address: address }),
-            t('"Adress addded"'),
+            t('Adress addded'),
             setLoadingAdress
         );
     };

@@ -5,12 +5,14 @@ import SubscriptionsPage from './SubscriptionCard';
 import TestimonialCarousel from '../components/Testimony';
 import ServicesSection from '../features/ServiceSections';
 import AffichePortal from '../components/AffichPub';
+import AttentionAlertMessage from '../components/AlertMessage';
 
 const HomeContain = () => {
 
     return (
 
         <>
+            <AttentionAlertMessage/>
 
             {/* ====================== MAIN CONTENT ====================== */}
             <main className="shadow-full bg-gradient-to-br from-purple-10 to-blue-50 overflow-y-hidden px-0.5 shadow-lg">

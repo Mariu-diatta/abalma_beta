@@ -1,55 +1,35 @@
-import { Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../slices/authSlice";
+import { useDispatch } from "react-redux";
 import api from "../../services/Axios";
+import { login, updateCompteUser } from "../../slices/authSlice";
 import LoadingCard from "../../components/LoardingSpin";
+import { Outlet } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 const PersistLogIn = () => {
-    localStorage.clear()
-    sessionStorage.clear()
     const [loading, setLoading] = useState(true);
     const dispatch = useDispatch();
-
-    const user = useSelector((state) => state.auth.user);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        let isMounted = true;
-
-        const refreshSession = async () => {
+        const loadUser = async () => {
             try {
-                // 🔥 si déjà connecté → on skip l'appel API
-                if (user) {
-                    setLoading(false);
-                    return;
-                }
-
-                const res = await api.post("refresh/");
-
-                if (res?.data?.access_token && res?.data?.user) {
-                    dispatch(login(res.data.user));
-                }
-
+                const res = await api.get("/me/");
+                dispatch(login(res.data.user));
+                dispatch(updateCompteUser(res?.data?.compte));
             } catch (err) {
-                console.log("No active session");
+                console.log("Not authenticated");
             } finally {
-                if (isMounted) setLoading(false);
+                setLoading(false);
             }
         };
 
-        refreshSession();
+        loadUser();
 
-        return () => {
-            isMounted = false;
-        };
-    }, [dispatch, user]);
+    }, [dispatch, navigate]);
 
     if (loading) {
-        return (
-            <div style={{ textAlign: "center", marginTop: "2rem" }}>
-                <LoadingCard />
-            </div>
-        );
+        return <LoadingCard />;
     }
 
     return <Outlet />;

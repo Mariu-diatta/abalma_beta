@@ -7,7 +7,7 @@ import { setCurrentNav } from '../slices/navigateSlice';
 import { LoginWithGoogle } from '../firebase';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import {loginClient } from '../utils';
-import { showMessage } from '../components/AlertMessage';
+import AttentionAlertMessage, { showMessage } from '../components/AlertMessage';
 import { X } from "lucide-react"; // Icône pour fermer
 
 const InputBox = lazy(() => import("../components/InputBoxFloat"));
@@ -39,11 +39,11 @@ const LogIn = ({ callbackState, onClose }) => {
             formData.append("email", email);
             formData.append("password", pwd);
             await loginClient(formData, dispatch, setLoading, navigate);
-            if (onClose) onClose(); // Fermer le popover après succès
 
         } catch (e) {
             const errorMessage = e?.response?.data?.detail || e?.response?.data?.error;
             showMessage(dispatch, { Type: "Erreur", Message: errorMessage || "Error" });
+            if (onClose) onClose(); // Fermer le popover après succès
 
         } finally {
             setLoading(false);
@@ -62,6 +62,8 @@ const LogIn = ({ callbackState, onClose }) => {
             className="scrollbor_hidden fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
             onClick={handleBackdropClick}
         >
+
+            <AttentionAlertMessage/>
 
             <div className="scrollbor_hidden relative w-full max-w-[550px] max-h-[90vh] bg-white dark:bg-dark-2 rounded-3xl shadow-2xl overflow-y-auto animate-in zoom-in-95 duration-300">
 
