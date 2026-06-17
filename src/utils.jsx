@@ -228,8 +228,6 @@ export const CATEGORY_FIELDS = {
 
     habits: {
         fields: [
-            { name: "taille", required: true },
-            { name: "couleur", required: true },
             { name: "matiere", required: false },
         ],
         rules: {
@@ -320,7 +318,6 @@ export const CATEGORY_FIELDS = {
     sacs: {
         fields: [
             { name: "marque", required: false },
-            { name: "couleur", required: true },
             { name: "matiere", required: false },
         ],
         rules: {
@@ -331,8 +328,6 @@ export const CATEGORY_FIELDS = {
 
     chaussures: {
         fields: [
-            { name: "taille", required: true },
-            { name: "couleur", required: true },
             { name: "marque", required: false },
             { name: "etat", required: false },
         ],
@@ -400,7 +395,6 @@ export const CATEGORY_FIELDS = {
     bijoux: {
         fields: [
             { name: "matiere", required: true },
-            { name: "couleur", required: false },
             { name: "etat", required: false },
         ],
         rules: { size: false, color: true }
@@ -435,7 +429,6 @@ export const CATEGORY_FIELDS = {
     maison_decoration: {
         fields: [
             { name: "type", required: true },
-            { name: "couleur", required: false },
             { name: "matiere", required: false },
         ],
         rules: { size: true, color: true }
@@ -470,7 +463,6 @@ export const CATEGORY_FIELDS = {
     animaux: {
         fields: [
             { name: "type", required: true },
-            { name: "taille", required: false },
         ],
         rules: { size: true, color: false }
     },

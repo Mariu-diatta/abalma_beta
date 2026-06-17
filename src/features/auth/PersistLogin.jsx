@@ -14,10 +14,9 @@ const PersistLogIn = () => {
     useEffect(() => {
         const loadUser = async () => {
             try {
-                const res = await api.get("/me/");
-                console.log("User", res.data.client)
+                const res = await api.get("/me/")               
                 dispatch(login(res.data.client));
-                //dispatch(updateCompteUser(res?.data?.compte));
+                dispatch(updateCompteUser(res?.data?.compte));
             } catch (err) {
                 console.log("Not authenticated");
             } finally {

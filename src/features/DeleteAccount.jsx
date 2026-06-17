@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import api from "../services/Axios";
 import LoadingCard from "../components/LoardingSpin";
 import { showMessage } from "../components/AlertMessage";
+import { setCurrentNav } from "../slices/navigateSlice";
 
 
 const DeleteProfilAccount = () => {
@@ -55,6 +56,7 @@ const DeleteProfilAccount = () => {
             });
 
             dispatch(logout());
+            dispatch(setCurrentNav(null))
             navigate("/");
 
         } catch (error) {

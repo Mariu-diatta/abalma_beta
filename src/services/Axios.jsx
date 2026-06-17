@@ -57,9 +57,9 @@ api.interceptors.response.use(
 
             try {
 
-                await api.post("/refresh/", {}, {
-                    withCredentials: true
-                });
+                //await api.post("/refresh/", {}, {
+                //    withCredentials: true
+                //});
 
                 return api(originalRequest);
 
