@@ -279,7 +279,8 @@ const SettingsForm = () => {
         };
 
         getDeliveredAdress()
-    },[])
+
+    }, [deliveryAddress])
 
     const GetClientCard = useCallback(async () => {
         if (!currentUserData?.id) return;
