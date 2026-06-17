@@ -86,7 +86,6 @@ export const WhiteRoundedButtonSignInRegister = ({ titleButton,  children = null
         text-[14px]
         font-semibold
         transition-all duration-300
-        active:scale-95
     `;
 
     // Design plus e-commerce (ombres douces et gradients)

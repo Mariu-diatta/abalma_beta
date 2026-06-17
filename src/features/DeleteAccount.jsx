@@ -34,48 +34,48 @@ const DeleteProfilAccount = () => {
     }, [currentNav, profileData, selectedProductOwner]);
 
     // Suppression du compte
+    // Suppression du compte
     const delAccountUser = async (e) => {
+        e.preventDefault();
 
-        e.preventDefault()
+        const confirmed = window.confirm(
+            "Voulez-vous vraiment supprimer ce profil ?"
+        );
+
+        if (!confirmed) return;
+
+        setLoading(true);
 
         try {
+            const deleteResp = await api.delete("clients/delete-account/", {
+                withCredentials: true,
+            });
 
+            showMessage(dispatch, {
+                Type: "Message",
+                Message:
+                    deleteResp?.data?.detail ||
+                    "Votre compte a été supprimé avec succès",
+            });
 
-            if (window.confirm('Voulez-vous vraiment supprimer ce profil ?')) {
-                    
-                setLoading(true)
+            dispatch(logout());
+            navigate("/", { replace: true });
 
-                dispatch(logout());
+        } catch (error) {
+            const message =
+                error?.response?.data?.detail ||
+                error?.response?.data ||
+                "Erreur lors de la suppression";
 
-                const deleteResp = await api.delete("clients/delete-account/",
+            showMessage(dispatch, {
+                Type: "Error",
+                Message: message,
+            });
 
-                    {
-                        withcredentials: true
-                    } );
-
-                showMessage(dispatch, { Type: "Message", Message: deleteResp?.response.data.detail || 'Votre compte a été supprimé avec succès' });
-
-                navigate('/', { replace: true });
-            }
-
-        } catch (err) {
-
-            console.log('Erreur de la suppression du compte', err);
-
-            const data = err?.response?.data
-
-            var message = data 
-
-            if (data && typeof data === "object" && !Array.isArray(data)) {
-
-                message = data?.detail
-            }
-
-            showMessage(dispatch, { Type: "Erreur", Message: message || "Error" });
+            console.error("Erreur suppression compte:", error);
 
         } finally {
-
-            setLoading(false)
+            setLoading(false);
         }
     };
 
