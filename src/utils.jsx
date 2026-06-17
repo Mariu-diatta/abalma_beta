@@ -2068,11 +2068,45 @@ export const services = [
 
 
 export const availableColors = [
-    "#000000",
-    "#ffffff",
-    "#ff0000",
-    "#0000ff",
-    "#00ff00"
+    "#000000", // noir
+    "#ffffff", // blanc
+
+    "#ff0000", // rouge
+    "#00ff00", // vert
+    "#0000ff", // bleu
+
+    "#ffff00", // jaune
+    "#ff00ff", // magenta
+    "#00ffff", // cyan
+
+    "#ff7f00", // orange
+    "#8b00ff", // violet
+    "#ff1493", // rose vif
+    "#ffd700", // or
+
+    "#808080", // gris
+    "#a52a2a", // marron
+    "#2f4f4f", // gris foncé
+
+    "#1e90ff", // bleu dodger
+    "#32cd32", // vert lime
+    "#ff4500", // orange rouge
+    "#dc143c", // crimson
+
+    "#7cfc00", // vert gazon
+    "#00fa9a", // vert menthe
+    "#4169e1", // bleu royal
+    "#ff69b4", // rose chaud
+
+    "#4b0082", // indigo
+    "#20b2aa", // turquoise
+    "#b22222", // rouge brique
+    "#f4a460", // sable
+
+    "#000080", // bleu marine
+    "#556b2f", // vert olive foncé
+    "#deb887", // beige bois
+    "#fa8072", // saumon
 ];
 
 export const availableSizes = ["S", "M", "L", "XL"];

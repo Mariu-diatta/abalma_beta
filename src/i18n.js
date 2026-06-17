@@ -22,6 +22,8 @@ i18n
         en: {
 
             translation: {
+                "couleur": "color",
+                "taille": "size",
                 "advertisement": "advertisement",
                 "delete_pub": "Delete this ad?",
                 "add_promo": "Add a promo",
@@ -831,6 +833,8 @@ i18n
         fr: {
 
             translation: {
+                "couleur": "couleur",
+                "taille": "taille",
                 "advertisement": "publicité",
                 "delete_pub": "Supprimer cette publicité ?",
                 "add_promo":"Ajouter une promo",
@@ -1626,6 +1630,8 @@ i18n
         es: {
 
             translation: {
+                "couleur": "color",
+                "taille": "talla",
                 "advertisement": "publicidad",
                 "delete_pub": "¿Eliminar esta publicidad?",
                 "add_promo":"Añadir una promoción",

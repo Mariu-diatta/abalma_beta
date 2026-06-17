@@ -99,7 +99,7 @@ const OwnerPopover = ({ owner, onClose }) => {
                     )
 
                 } catch (err) {
-
+                            
                     //console.log("OwnerProfil.jsx, ERREUR DE LA CREATION DU CHAT")
                 }
 
@@ -162,9 +162,9 @@ const OwnerPopover = ({ owner, onClose }) => {
 
                         dispatch(addUser(owner));
 
-                        dispatch(setCurrentNav("user-profil"));
+                        dispatch(setCurrentNav("user-profil-contact"));
 
-                        navigate("/user-profil")
+                        navigate("/user-profil-contact")
 
                         onClose();
                     }}

@@ -20,38 +20,45 @@ import UpdateUserToPro from '../components/UpdateUserToPro';
 
 
 // ─── Icônes réutilisables ─────────────────────────────────────────────────────
+// React.memo : ces SVG ne dépendent que de leurs props (ou d'aucune prop) et n'ont
+// pas besoin d'être re-render à chaque render du parent.
 
-const CameraIcon = ({ className = 'w-6 h-6' }) => (
+const CameraIcon = React.memo(({ className = 'w-6 h-6' }) => (
     <svg className={className} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
         <path stroke="currentColor" strokeLinejoin="round" strokeWidth="2"
             d="M4 18V8a1 1 0 0 1 1-1h1.5l1.707-1.707A1 1 0 0 1 8.914 5h6.172a1 1 0 0 1 .707.293L17.5 7H19a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z" />
         <path stroke="currentColor" strokeLinejoin="round" strokeWidth="2"
             d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
     </svg>
-);
+));
+CameraIcon.displayName = 'CameraIcon';
 
-const BadgeProIcon = () => (
+const BadgeProIcon = React.memo(() => (
     <svg className="w-5 h-5 text-blue-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
             d="m8.032 12 1.984 1.984 4.96-4.96m4.55 5.272.893-.893a1.984 1.984 0 0 0 0-2.806l-.893-.893a1.984 1.984 0 0 1-.581-1.403V7.04a1.984 1.984 0 0 0-1.984-1.984h-1.262a1.983 1.983 0 0 1-1.403-.581l-.893-.893a1.984 1.984 0 0 0-2.806 0l-.893.893a1.984 1.984 0 0 1-1.403.581H7.04A1.984 1.984 0 0 0 5.055 7.04v1.262c0 .527-.209 1.031-.581 1.403l-.893.893a1.984 1.984 0 0 0 0 2.806l.893.893c.372.372.581.876.581 1.403v1.262a1.984 1.984 0 0 0 1.984 1.984h1.262c.527 0 1.031.209 1.403.581l.893.893a1.984 1.984 0 0 0 2.806 0l.893-.893a1.985 1.985 0 0 1 1.403-.581h1.262a1.984 1.984 0 0 0 1.984-1.984V15.7c0-.527.209-1.031.581-1.403Z" />
     </svg>
-);
+));
+BadgeProIcon.displayName = 'BadgeProIcon';
 
-const EditProfilIcon = () => (
+const EditProfilIcon = React.memo(() => (
     <svg className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"
             d="M7 19H5a1 1 0 0 1-1-1v-1a3 3 0 0 1 3-3h1m4-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm7.441 1.559a1.907 1.907 0 0 1 0 2.698l-6.069 6.069L10 19l.674-3.372 6.07-6.07a1.907 1.907 0 0 1 2.697 0Z" />
     </svg>
-);
+));
+EditProfilIcon.displayName = 'EditProfilIcon';
 
-const FournisseurIcon = () => (
+const FournisseurIcon = React.memo(() => (
     <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.9"
             d="m7.171 12.906-2.153 6.411 2.672-.89 1.568 2.34 1.825-5.183m5.73-2.678 2.154 6.411-2.673-.89-1.568 2.34-1.825-5.183M9.165 4.3c.58.068 1.153-.17 1.515-.628a1.681 1.681 0 0 1 2.64 0 1.68 1.68 0 0 0 1.515.628 1.681 1.681 0 0 1 1.866 1.866c-.068.58.17 1.154.628 1.516a1.681 1.681 0 0 1 0 2.639 1.682 1.682 0 0 0-.628 1.515 1.681 1.681 0 0 1-1.866 1.866 1.681 1.681 0 0 0-1.516.628 1.681 1.681 0 0 1-2.639 0 1.681 1.681 0 0 0-1.515-.628 1.681 1.681 0 0 1-1.867-1.866 1.681 1.681 0 0 0-.627-1.515 1.681 1.681 0 0 1 0-2.64c.458-.361.696-.935.627-1.515A1.681 1.681 0 0 1 9.165 4.3ZM14 9a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" />
     </svg>
-);
+));
+FournisseurIcon.displayName = 'FournisseurIcon';
 
 // ─── Constantes ───────────────────────────────────────────────────────────────
+// Hissées hors du composant : identiques à chaque render, jamais recréées.
 
 const DEFAULT_COVER = 'https://images.unsplash.com/photo-1612832020897-593fae15346e';
 
@@ -74,10 +81,13 @@ const ProfileCard = () => {
     const navigate = useNavigate();
 
     // ── Sélecteurs Redux ──
+    // NB : currentOwnUser et selectedProductOwner lisaient le même chemin du store
+    // (state.chat.userSlected) => un seul abonnement useSelector au lieu de deux,
+    // ce qui évite un re-render dupliqué à chaque changement de cette valeur.
     const currentUser = useSelector((state) => state.auth.user);
-    const currentOwnUser = useSelector((state) => state.chat.userSlected);
-    const currentNav = useSelector((state) => state.navigate.currentNav);
     const selectedProductOwner = useSelector((state) => state.chat.userSlected);
+    const currentOwnUser = selectedProductOwner;
+    const currentNav = useSelector((state) => state.navigate.currentNav);
     const allChats = useSelector((state) => state.chat.currentChats);
     const currentChat = useSelector((state) => state.chat.currentChat);
 
@@ -106,12 +116,38 @@ const ProfileCard = () => {
     );
 
     // ── Dérivés d'état (flags) ──
-    const isCurrentUserFournisseurUnverified = currentUser?.is_fournisseur && !currentUser?.is_verified;
-    const isProFormVisibleForCurrentUser = isProFormVisible && isCurrentUser;
-    const isBgPhotoEditing = isEditingPhotoBg && isCurrentUser;
-    const isFournisseurNotVerified = !(userProfile?.is_fournisseur && isCurrentUser);
-    const isViewingOtherUser = !isCurrentUser && !!selectedProductOwner;
-    const isNotProAndOwner = !currentUser?.is_pro && !isProFormVisible && isCurrentUser;
+    // Regroupés dans un seul useMemo : avant, ce sont 6 expressions recalculées en
+    // valeurs "brutes" à chaque render (pas de coût de calcul ici, mais cela
+    // recrée 6 nouvelles valeurs primitives à chaque passage, et surtout cela
+    // empêche de raisonner sur des props stables si elles sont un jour passées
+    // à des enfants memoïsés). Le useMemo fige ces dérivés tant que leurs
+    // dépendances ne changent pas.
+    const flags = useMemo(() => ({
+        isCurrentUserFournisseurUnverified: currentUser?.is_fournisseur && !currentUser?.is_verified,
+        isProFormVisibleForCurrentUser: isProFormVisible && isCurrentUser,
+        isBgPhotoEditing: isEditingPhotoBg && isCurrentUser,
+        isFournisseurNotVerified: !(userProfile?.is_fournisseur && isCurrentUser),
+        isViewingOtherUser: !isCurrentUser && !!selectedProductOwner,
+        isNotProAndOwner: !currentUser?.is_pro && !isProFormVisible && isCurrentUser,
+    }), [
+        currentUser?.is_fournisseur,
+        currentUser?.is_verified,
+        currentUser?.is_pro,
+        isProFormVisible,
+        isCurrentUser,
+        isEditingPhotoBg,
+        userProfile?.is_fournisseur,
+        selectedProductOwner,
+    ]);
+
+    const {
+        isCurrentUserFournisseurUnverified,
+        isProFormVisibleForCurrentUser,
+        isBgPhotoEditing,
+        isFournisseurNotVerified,
+        isViewingOtherUser,
+        isNotProAndOwner,
+    } = flags;
 
     // ── Données du formulaire ──
     const [formData, setFormData] = useState(() => buildInitialFormData(userProfile));
@@ -135,14 +171,14 @@ const ProfileCard = () => {
         setPreviewUrlBackground(userProfile.image_cover ?? null);
     }, [userProfile]);
 
-    // ─── Handlers ────────────────────────────────────────────────────────────
+    // ─── Handlers (useCallback : références stables passées aux enfants) ──────
 
-    const handleChange = (e) => {
+    const handleChange = useCallback((e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
-    };
+    }, []);
 
-    const handleImageUpload = (e, isBackground = false) => {
+    const handleImageUpload = useCallback((e, isBackground = false) => {
         const file = e.target.files?.[0];
         if (!file) return;
 
@@ -158,14 +194,25 @@ const ProfileCard = () => {
         }
 
         setIsEditing(true);
-    };
+    }, []);
 
-    const handleFileChange = (e) => {
+    // Wrappers stables pour les deux usages de handleImageUpload (avatar / couverture),
+    // afin de ne pas recréer une arrow function inline à chaque render au niveau JSX.
+    const handleAvatarUpload = useCallback(
+        (e) => handleImageUpload(e),
+        [handleImageUpload]
+    );
+    const handleCoverUpload = useCallback(
+        (e) => handleImageUpload(e, true),
+        [handleImageUpload]
+    );
+
+    const handleFileChange = useCallback((e) => {
         const file = e.target.files?.[0];
         if (file) setFileProof(file);
-    };
+    }, []);
 
-    const handleSave = async () => {
+    const handleSave = useCallback(async () => {
         if (!userProfile?.id) return;
 
         setIsUpdating(false);
@@ -191,8 +238,9 @@ const ProfileCard = () => {
         } finally {
             setIsUpdating(true);
         }
-    };
-    const handleUpgradeToPro = async (e) => {
+    }, [userProfile?.id, formData, updateImage, updateImageCover, dispatch, t]);
+
+    const handleUpgradeToPro = useCallback(async (e) => {
         e.preventDefault();
 
         if (!fileProof) {
@@ -231,8 +279,9 @@ const ProfileCard = () => {
         } finally {
             setIsSendingProofDoc(false);
         }
-    };
-    const updateAccountToFournisseur = async (e) => {
+    }, [fileProof, isSendingProofDoc, dispatch, t]);
+
+    const updateAccountToFournisseur = useCallback(async (e) => {
         e.preventDefault();
         setIsLoadingCode(false);
 
@@ -250,7 +299,7 @@ const ProfileCard = () => {
         } finally {
             setIsLoadingCode(true);
         }
-    };
+    }, [dispatch]);
 
     const getRoomByName = useCallback(async () => {
         try {
@@ -261,7 +310,7 @@ const ProfileCard = () => {
         }
     }, [dispatch, selectedProductOwner]);
 
-    const creatNewRoom = async () => {
+    const creatNewRoom = useCallback(async () => {
         try {
             const hashedPhone = await hashPassword(selectedProductOwner?.telephone);
             const roomName = `room_${selectedProductOwner?.nom}_${hashedPhone}`;
@@ -303,13 +352,17 @@ const ProfileCard = () => {
                 console.error('❌ Erreur création chat:', errorMsg);
             }
         }
-    };
+    }, [selectedProductOwner, getRoomByName, allChats, currentChat, currentUser, dispatch, navigate]);
 
-    const handleMessageClick = () => {
+    const handleMessageClick = useCallback(() => {
         setMessageVisible((prev) => !prev);
         creatNewRoom();
         navigate('/message-inbox');
-    };
+    }, [creatNewRoom, navigate]);
+
+    // Callbacks de toggle simples, mémoïsés pour stabilité des props (ex: onClick).
+    const toggleBgPhotoEditing = useCallback(() => setIsEditingPhotoBg((prev) => !prev), []);
+    const openEditing = useCallback(() => setIsEditing(true), []);
 
     // ─── Rendu ────────────────────────────────────────────────────────────────
 
@@ -326,7 +379,7 @@ const ProfileCard = () => {
                         <input
                             type="file"
                             accept="image/*"
-                            onChange={(e) => handleImageUpload(e, true)}
+                            onChange={handleCoverUpload}
                             className="bg-white rounded-full p-2 shadow-md text-sm cursor-pointer"
                             aria-label={t('ProfilText.modifierCouverture')}
                         />
@@ -335,7 +388,7 @@ const ProfileCard = () => {
 
                 {isCurrentUser && (
                     <button
-                        onClick={() => setIsEditingPhotoBg((prev) => !prev)}
+                        onClick={toggleBgPhotoEditing}
                         className="absolute top-1/2 right-4 p-2 bg-white rounded-full shadow hover:bg-gray-100"
                         aria-label={t('ProfilText.modifierCouverture')}
                     >
@@ -364,7 +417,7 @@ const ProfileCard = () => {
                             <input
                                 type="file"
                                 accept="image/*"
-                                onChange={(e) => handleImageUpload(e)}
+                                onChange={handleAvatarUpload}
                                 className="hidden"
                             />
                         </label>
@@ -420,7 +473,7 @@ const ProfileCard = () => {
                         <div className="flex flex-col sm:flex-row gap-2 mt-6">
                             {isCurrentUser && (
                                 <button
-                                    onClick={() => setIsEditing(true)}
+                                    onClick={openEditing}
                                     className="h-8 w-1/2 border border-gray-300 cursor-pointer flex items-center justify-center gap-0 rounded-full bg-gray-100 text-gray-800 dark:text-gray-100 text-sm px-0 sm:px-2 hover:bg-gray-200 focus:ring-0 focus:ring-blue-500 focus:outline-none transition-colors duration-200 md:w-auto"
                                     aria-label={t('ProfilText.modifierProfil')}
                                 >
@@ -482,4 +535,4 @@ const ProfileCard = () => {
     );
 };
 
-export default ProfileCard;
+export default React.memo(ProfileCard);

@@ -73,40 +73,120 @@ const Stepper = ({ current, total }) => (
 );
 
 // ─── Sélecteur d'options ──────────────────────────────────────────────────────
-const OptionSelector = ({ options, selectedOption, onSelect, isColor }) => (
-    <div style={{ display: "flex", gap: 8, flexWrap: "wrap", padding: "4px 0" }}>
-        {options.map((opt) => {
-            const isSelected = selectedOption === opt;
-            if (isColor) {
-                return (
-                    <button
-                        key={opt}
-                        type="button"
-                        title={opt}
-                        onClick={() => onSelect(opt)}
-                        className={`ap-opt-color ${isSelected ? "selected" : ""}`}
-                        style={{ backgroundColor: opt }}
-                    />
-                );
+const OptionSelector = ({ options, selectedOption, onSelect, isColor, t }) => {
+    const [open, setOpen] = useState(false);
+    const ref = useRef(null);
+
+    // fermer si clic extérieur
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (ref.current && !ref.current.contains(e.target)) {
+                setOpen(false);
             }
-            return (
-                <button
-                    key={opt}
-                    type="button"
-                    onClick={() => onSelect(opt)}
-                    className={`ap-opt-size ${isSelected ? "selected" : ""}`}
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+    return (
+        <div style={{ position: "relative", display: "inline-block" }} ref={ref}>
+
+            {/* bouton principal */}
+            <button
+                type="button"
+                onClick={() => setOpen(!open)}
+                style={{
+                    padding: "6px 10px",
+                    border: "1px solid #ccc",
+                    borderRadius: 6,
+                    background: "#fff",
+                    cursor: "pointer",
+                }}
+            >
+                {isColor ? t("couleur"): t("taille")} : {selectedOption || "?"}
+            </button>
+
+            {/* popover */}
+            {open && (
+                <div
+                    style={{
+                        position: "absolute",
+                        top: "110%",
+                        left: 0,
+                        zIndex: 1000,
+                        background: "#fff",
+                        border: "1px solid #ddd",
+                        borderRadius: 8,
+                        padding: 8,
+                        display: "flex",
+                        gap: 8,
+                        flexWrap: "wrap",
+                        minWidth: 180,
+                        boxShadow: "0 8px 20px rgba(0,0,0,0.15)",
+                    }}
                 >
-                    {opt}
-                </button>
-            );
-        })}
-    </div>
-);
+                    {options.map((opt) => {
+                        const isSelected = selectedOption === opt;
+
+                        if (isColor) {
+                            return (
+                                <button
+                                    key={opt}
+                                    type="button"
+                                    title={opt}
+                                    onClick={() => {
+                                        onSelect(opt);
+                                        setOpen(false);
+                                    }}
+                                    style={{
+                                        width: 26,
+                                        height: 26,
+                                        borderRadius: "50%",
+                                        border: isSelected
+                                            ? "2px solid #000"
+                                            : "1px solid #ccc",
+                                        backgroundColor: opt,
+                                        cursor: "pointer",
+                                    }}
+                                />
+                            );
+                        }
+
+                        return (
+                            <button
+                                key={opt}
+                                type="button"
+                                onClick={() => {
+                                    onSelect(opt);
+                                    setOpen(false);
+                                }}
+                                style={{
+                                    padding: "6px 10px",
+                                    borderRadius: 6,
+                                    border: isSelected
+                                        ? "2px solid #000"
+                                        : "1px solid #ccc",
+                                    background: isSelected ? "#f0f0f0" : "#fff",
+                                    cursor: "pointer",
+                                }}
+                            >
+                                {opt}
+                            </button>
+                        );
+                    })}
+                </div>
+            )}
+        </div>
+    );
+};
 
 // ─── Variant image ────────────────────────────────────────────────────────────
 const ImageVariantCard = ({ imgIndex, imageVariants, setImageVariants, fieldsRules }) => {
 
     const img = imageVariants[imgIndex];
+
+    const { t } = useTranslation();
 
     const updateVariant = useCallback((key, value) => {
 
@@ -156,16 +236,16 @@ const ImageVariantCard = ({ imgIndex, imageVariants, setImageVariants, fieldsRul
                 {
                     !fieldsRules?.color ? null:
                     <div style={{ marginBottom: 6 }}>
-                        <span className="ap-label">Couleur</span>
-                        <OptionSelector options={availableColors} selectedOption={img.color} onSelect={(v) => updateVariant("color", v)} isColor />
+                        <span className="ap-label">{t("couleur")}</span>
+                            <OptionSelector t={t} options={availableColors} selectedOption={img.color} onSelect={(v) => updateVariant("color", v)} isColor />
                     </div>
                 }
 
                 {
                     !fieldsRules?.size ? null:
                     <div>
-                        <span className="ap-label">Taille</span>
-                        <OptionSelector options={availableSizes} selectedOption={img.size} onSelect={(v) => updateVariant("size", v)} />
+                        <span className="ap-label">{t("Taille")}</span>
+                            <OptionSelector t={t}  options={availableSizes} selectedOption={img.size} onSelect={(v) => updateVariant("size", v)} />
                     </div>
                 }
 
@@ -617,7 +697,7 @@ const AddUploadProduct = () => {
 
                                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
 
-                                        <Field label={t("shipping_price:")}>
+                                        <Field label={t("shipping_price")}>
                                             <InputBox type="number" name="shipping_price" min="0" value={dataProduct.shipping_price} onChange={onChangeClick} placeholder="0.00" className="ap-input" />
                                         </Field>
 

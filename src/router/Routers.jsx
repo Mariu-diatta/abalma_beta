@@ -79,6 +79,8 @@ const routes = [
 
                                 { path: "user-profil", class_rendered: <ProfileCard /> },
 
+                                { path: "user-profil-contact", class_rendered: <ProfileCard /> },
+
                                 { path: "dashboard", class_rendered: <Tabs /> },
 
                                 { path: "payment-product", class_rendered: <ProductsRecapTable /> },

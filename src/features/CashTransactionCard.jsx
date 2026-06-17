@@ -95,9 +95,10 @@ export default function CashTransactionCard({ transaction, setSearchTransactionB
                         label={t('date') || 'Date'}
                         value={formattedDate}
                     />
-
-                    {transaction?.address}
-
+                    <div className="ctc-row">
+                        <span className="ctc-row-icon" aria-hidden="true">📍</span>
+                        {transaction?.address}
+                    </div>
                 </div>
 
                 <div className="ctc-divider" />
