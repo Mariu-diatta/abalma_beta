@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import LoadingCard from "../components/LoardingSpin";
 import { canUpdateDelete } from "../utils";
 import api from "../services/Axios";
+import { useTranslation } from 'react-i18next';
 
 
 // ─── Icône statut ─────────────────────────────────────────────────────────────
@@ -84,9 +85,10 @@ const TransactionAndSubTransactionCard = ({
     actionLabel,
     onClick,
     actionDisabled,
+    address
 }) => {
     const [loadingDelete, setLoadingDelete] = useState(false);
-
+    const { t } = useTranslation();
     const handleDelete = async () => {
         setLoadingDelete(true);
         try {
@@ -132,6 +134,7 @@ const TransactionAndSubTransactionCard = ({
                     <DetailRow label="Date" value={createdAt} />
                     <DetailRow label="Code" value={code} />
                     <DetailRow label={priceLabel ?? "Montant"} value={price} />
+                    <DetailRow label={t("adress")} value={address}/> 
                 </div>
 
                 {/* ── Actions ── */}
