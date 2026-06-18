@@ -23,7 +23,7 @@ const INITIAL_PRODUCT = {
     categorie_product: null, operation_product: null,
     price_product: null, discount_price: null, currency_price: null,
     promotion: false, quantity_product: 1, is_available: false,
-    delivery: null, shipping_price: null, adress: "",
+    delivery: null, shipping_price: null, address: "",
     date_emprunt: null, date_fin_emprunt: null, type_choice: null,
     payment_method: null, social_links: null, is_active: false,
     is_verified: false, commission_percentage: null, images: [],
@@ -305,7 +305,7 @@ const AddUploadProduct = () => {
 
     const notify = (type, msg) => showMessage(dispatch, { Type: type, Message: msg });
 
-    const getAdress = (newAdress) => setDataProduct((prev) => ({ ...prev, adress: newAdress }));
+    const getAddress = (newAddress) => setDataProduct((prev) => ({ ...prev, address: newAddress }));
 
     const onChangeClick = (e) => {
         const { name, value } = e.target;
@@ -342,7 +342,7 @@ const AddUploadProduct = () => {
         if (dataProduct.price_product === null || dataProduct.price_product === "") return "Prix obligatoire";
         if (dataProduct.currency_price === null) return "Devise obligatoire";
         if (dataProduct.categorie_product === "") return "Catégorie obligatoire";
-        if (dataProduct.adress === "") return "Adresse obligatoire";
+        if (dataProduct.address === "") return "Adresse obligatoire";
         if (dataProduct.operation_product === "") return "Type d'opération obligatoire";
         if (!dataProduct.payment_method === "") return "Mode de paiement obligatoire";
         return null;
@@ -692,7 +692,7 @@ const AddUploadProduct = () => {
                                     </Field>
 
                                     <Field label={t("adress")}>
-                                        <LocationSearchPopover setLocationSearch={getAdress} />
+                                        <LocationSearchPopover setLocationSearch={getAddress} />
                                     </Field>
 
                                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
