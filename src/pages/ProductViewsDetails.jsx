@@ -32,7 +32,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
 
     const operations = [
         { logo: express_delivery, title: t("delivery"), value: product?.delivery },
-        { logo: home_5657414, title: t("adress"), value: product?.adress },
+        { logo: home_5657414, title: t("adress"), value: product?.address },
         { logo: pay_8331969, title: t("paymentMethod"), value: product?.payment_method }
     ];
 

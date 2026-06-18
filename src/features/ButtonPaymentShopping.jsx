@@ -110,10 +110,12 @@ const BuyButtonWithPaymentForm = ({ total_price, reference }) => {
     const hasItems = dataItems?.length > 0;
     const hasPrice = total_price > 0;
 
+    const currentNav = useSelector((state) => state.navigate.currentNav);
+
     // Étape 1 — Ouvrir la modal et créer le PaymentIntent
     const handleClick = async () => {
         if (!isConnected) {
-            navigate("/login");
+            navigate("/");
             return;
         }
 
@@ -139,7 +141,8 @@ const BuyButtonWithPaymentForm = ({ total_price, reference }) => {
 
     const handleSuccess = () => {
         setShowModal(false);
-        navigate("/success");
+        navigate(`/${currentNav}`);
+        showMessage(dispatch, { Type: "Erreur", Message: "Done!" });
     };
 
     const handleCancel = () => {
