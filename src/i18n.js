@@ -22,6 +22,15 @@ i18n
         en: {
 
             translation: {
+                "settingsText.cancel": "Cancel",
+                "settingsText.edit": "Edit",
+                "settingsText.save": "Save",
+                "settingsText.cancelling": "Cancelling...",
+                "settingsText.updating": "Updating...",
+                "adress":"Address",
+                "settingsText.countryResidence": "Country of residence",
+                "settingsText.enterLocation": "Enter a location",
+                "settingsText.deleveredPawd": "Update delivery address",
                 "couleur": "color",
                 "taille": "size",
                 "advertisement": "advertisement",
@@ -833,6 +842,14 @@ i18n
         fr: {
 
             translation: {
+                "settingsText.cancel": "Annuler",
+                "settingsText.edit" :"Modifier",
+                "settingsText.save" :"Sauvegarder",
+                "settingsText.cancelling" : "Annulation en cours...",
+                "settingsText.updating" :  "Modification en cours...",
+                "settingsText.countryResidence": "Pays de résidence",
+                "settingsText.enterLocation": "Entrer un lieu",
+                "settingsText.deleveredPawd": "Mettre à jour l'adresse de livraison",
                 "couleur": "couleur",
                 "taille": "taille",
                 "advertisement": "publicité",
@@ -1630,6 +1647,14 @@ i18n
         es: {
 
             translation: {
+                "settingsText.cancel": "Cancelar",
+                "settingsText.edit": "Editar",
+                "settingsText.save": "Guardar",
+                "settingsText.cancelling": "Cancelando...",
+                "settingsText.updating": "Actualizando...",
+                "settingsText.countryResidence": "País de residencia",
+                "settingsText.enterLocation": "Introducir una ubicación",
+                "settingsText.deleveredPawd": "Actualizar la dirección de entrega",
                 "couleur": "color",
                 "taille": "talla",
                 "advertisement": "publicidad",

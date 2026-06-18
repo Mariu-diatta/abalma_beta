@@ -998,7 +998,25 @@ export const CONSTANTS = {
     DANGER: 'danger',
     HOME : "home"
 }
-  
+
+export const COUNTRIES = {
+    FR: { name: "France", code: "FR" },
+    BE: { name: "Belgique", code: "BE" },
+    ES: { name: "Espagne", code: "ES" },
+    IT: { name: "Italie", code: "IT" },
+    DE: { name: "Allemagne", code: "DE" },
+    PT: { name: "Portugal", code: "PT" },
+    US: { name: "États-Unis", code: "US" },
+    GB: { name: "Royaume-Uni", code: "GB" },
+    CI: { name: "Côte d’Ivoire", code: "CI" },
+    MA: { name: "Maroc", code: "MA" },
+    SN: { name: "Sénégal", code: "SN" },
+    CA: { name: "Canada", code: "CA" },
+    CH: { name: "Suisse", code: "CH" },
+    TN: { name: "Tunisie", code: "TN" },
+    DZ: { name: "Algérie", code: "DZ" },
+};
+
 //put fist letter in upCase
 export function capitalizeFirstLetter(str) {
     if (!str) return "";

@@ -9,8 +9,10 @@ import DeleteProfilAccount from './DeleteAccount';
 import NotificationToggle from '../components/NotificationToggle';
 import ThemeSelector from '../components/Them';
 import SubscriptionsPage from '../pages/SubscriptionCard';
-import LocationSearchPopover from './LocationSearch';
 import AttentionAlertMessage from '../components/AlertMessage';
+import CountryField from './CountryField';
+import DeliveryAddressField from './DeliveryAdressField';
+import { updateUserData } from '../slices/authSlice';
 
 function ChevronRight() {
     return (
@@ -58,7 +60,7 @@ function FieldRow({ label, children, hint }) {
 /* ─────────────────────────────────────────────
    Primary action button
 ───────────────────────────────────────────── */
-function PrimaryButton({ children, onClick, type = 'button', danger = false, style = {} }) {
+export function PrimaryButton({ children, onClick, type = 'button', danger = false, style = {} }) {
     return (
         <button
             type={type}
@@ -261,10 +263,14 @@ const SettingsForm = () => {
     const updateDeliveredAdress = async (e) => {
         e.preventDefault();
         await tryRequest(
-            () => api.post("delivery-address/", { address: address }),
+            () => {
+                api.post("delivery-address/", { address: address });
+                dispatch(updateUserData({ ...currentUserData, adresse: address }))
+            },
             t('Adress addded'),
             setLoadingAdress
         );
+
     };
 
     useEffect(() => {
@@ -460,25 +466,31 @@ const SettingsForm = () => {
 
                                 </form>
 
-                                {(deliveryAddress?.length > 0 || !!address) ? <span>{t("current_address")}</span> : <span className="ap-verify-banner"> {t("noDeliveryAddress")}</span>}
+                                <CountryField
+                                    value={currentUserData?.country}
+                                    t={t}
+                                    onSave={(newCountry) =>
+                                        {
+                                            try {
+                                                api.put("/clients/update-country/", { country: newCountry })
+                                                dispatch(updateUserData({ ...currentUserData , country: newCountry }))
+                                                showToast("Done !!");
+                                            } catch (err) {
+                                                alert("Error")
+                                            }
+                                                
+                                        }
+                                    }
+                                />
 
-                                {
-                                    (deliveryAddress?.length > 0) &&
-                                    <select className="text-blue-800 p-2 rounded">
-                                        {deliveryAddress?.map((item) => (
-                                            <option key={item.id} value={item.id}>
-                                                {item.address}
-                                            </option>
-                                        ))}
-                                    </select>
-                                }
-
-                                <form onSubmit={updateDeliveredAdress} className="mx-2 md:mx-7">
-                                    <LocationSearchPopover setLocationSearch={getAddress} />
-                                    <PrimaryButton type="submit">
-                                        {!loadingAdress?t('settingsText.deleveredPawd', "Mettre à jour l'adresse de livraison"):"Loading..."}
-                                    </PrimaryButton>
-                                </form>
+                                <DeliveryAddressField
+                                    deliveryAddress={deliveryAddress}
+                                    address={address}
+                                    onUpdate={updateDeliveredAdress}
+                                    onSelect={getAddress}
+                                    loading={loadingAdress}
+                                    t={t}
+                                />
                            </>
                         )}
 
