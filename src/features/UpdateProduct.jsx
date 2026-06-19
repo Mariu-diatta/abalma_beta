@@ -8,7 +8,7 @@ import LoadingCard from "../components/LoardingSpin";
 
 import FormElementFileUpload from "./FormFile";
 import InputBox from "../components/InputBoxFloat";
-import { ENDPOINTS, LIST_CATEGORIES_KEYS, PAYEMENTMODE, availableColors, availableSizes, socialLinks, CATEGORY_FIELDS, CONSTANTS } from "../utils";
+import { ENDPOINTS, LIST_CATEGORIES_KEYS, PAYEMENTMODE, availableColors, availableSizes, CATEGORY_FIELDS, CONSTANTS } from "../utils";
 import { NavLink } from "react-router-dom";
 import { setCurrentNav } from "../slices/navigateSlice";
 import LocationSearchPopover from "./LocationSearch";
@@ -331,21 +331,85 @@ const AddUploadProduct = () => {
         });
     };
 
-    const formatToISOString = (datetimeStr) => {
-        if (!datetimeStr) return null;
-        const date = new Date(datetimeStr);
-        return isNaN(date.getTime()) ? null : date.toISOString();
+    const validateProduct = (dataProduct, isLoanOptionSelected) => {
+        if (!dataProduct.name_product?.trim())
+            return "Nom du produit obligatoire";
+
+        if (dataProduct.price_product == null || dataProduct.price_product === "")
+            return "Prix obligatoire";
+
+        if (!dataProduct.currency_price)
+            return "Devise obligatoire";
+
+        if (!dataProduct.categorie_product)
+            return "Catégorie obligatoire";
+
+        if (!dataProduct.address?.trim())
+            return "Adresse obligatoire";
+
+        if (!dataProduct.operation_product)
+            return "Type d'opération obligatoire";
+
+        if (!dataProduct.payment_method)
+            return "Mode de paiement obligatoire";
+
+        if (dataProduct.description_product?.length < 20)
+            return "Description trop courte (min 20 caractères)";
+
+        if (isLoanOptionSelected) {
+            if (!dataProduct.date_emprunt || !dataProduct.date_fin_emprunt)
+                return "Dates d'emprunt obligatoires";
+        }
+
+        return null;
     };
 
-    const validateProduct = () => {
-        if (!dataProduct.name_product) return "Nom du produit obligatoire";
-        if (dataProduct.price_product === null || dataProduct.price_product === "") return "Prix obligatoire";
-        if (dataProduct.currency_price === null) return "Devise obligatoire";
-        if (dataProduct.categorie_product === "") return "Catégorie obligatoire";
-        if (dataProduct.address === "") return "Adresse obligatoire";
-        if (dataProduct.operation_product === "") return "Type d'opération obligatoire";
-        if (!dataProduct.payment_method === "") return "Mode de paiement obligatoire";
-        return null;
+
+    const buildFormData = ({ dataProduct, imageVariants, attributes }) => {
+        const formData = new FormData();
+
+        // 🔐 SOCIAL LINKS SAFE BUILD
+        const social_links = {};
+        ["link_facebook", "link_instagramme", "link_tiktok", "link_twitter"].forEach((key) => {
+            if (dataProduct[key]) {
+                social_links[key.replace("link_", "")] = dataProduct[key];
+            }
+        });
+
+        // 📦 variants metadata + images
+        const safeVariants = imageVariants
+            .filter(img => img.file)
+            .map(img => ({
+                color: img.color?.trim() || null,
+                size: img.size?.trim() || null,
+            }));
+
+        imageVariants
+            .filter(img => img.file)
+            .forEach(img => {
+                formData.append("variant_images", img.file);
+            });
+
+        formData.append("variants", JSON.stringify(safeVariants));
+
+        // 🔐 safe append (no undefined)
+        Object.entries(dataProduct).forEach(([key, value]) => {
+            if (
+                value !== undefined &&
+                value !== null &&
+                key !== "social_links"
+            ) {
+                formData.append(key, value);
+            }
+        });
+
+        formData.set("price_product", Number(dataProduct.price_product));
+        formData.set("quantity_product", parseInt(dataProduct.quantity_product || 1));
+
+        formData.set("social_links", JSON.stringify(social_links));
+        formData.set("attributes", JSON.stringify(attributes || {}));
+
+        return formData;
     };
 
     const saveDataForSubmitForm = (e) => {
@@ -357,51 +421,44 @@ const AddUploadProduct = () => {
 
     const submitForm = async (e) => {
         e.preventDefault();
-        const error = validateProduct();
-        if (error) { notify("Erreur", error); return; }
+
+        if (imageVariants.length === 0) {
+            return notify("Erreur", "Ajoutez au moins une image");
+        }
+
+        const error = validateProduct(dataProduct, isLoanOptionSelected);
+        if (error) return notify("Erreur", error);
 
         setIsLoadingSubmit(true);
+
         try {
-            const formData = new FormData();
-            const social_links = {};
-            ["link_facebook", "link_instagramme", "link_tiktok", "link_twitter"].forEach((key) => {
-                if (dataProduct[key]) social_links[key.replace("link_", "")] = dataProduct[key];
+            const formData = buildFormData({
+                dataProduct,
+                imageVariants,
+                attributes,
             });
 
-            const variantsToSend = imageVariants.map((img) => {
-                formData.append("variant_images", img.file);
-                return { color: img.color, size: img.size };
+            // catégorie sécurisée (slug backend-friendly)
+            const categoryRes = await api.post("/categories/", {
+                name: dataProduct.categorie_product,
             });
 
-            Object.entries(dataProduct).forEach(([key, value]) => {
-                if (!socialLinks.includes(key)) formData.append(key, value ?? "");
+            formData.set("categorie_product", categoryRes?.data?.slug);
+
+            await api.post("/produits/", formData, {
+                headers: { "Content-Type": "multipart/form-data" },
             });
-
-            console.log("Le data du produit", dataProduct)
-
-            formData.append("price_product", Number(dataProduct?.price_product));
-            formData.append("quantity_product", parseInt(dataProduct?.quantity_product));
-            formData.append("social_links", JSON.stringify(social_links));
-            formData.append("variants", JSON.stringify(variantsToSend));
-            formData.append("attributes", JSON.stringify(attributes)); 
-
-
-            if (isLoanOptionSelected) {
-                formData.append("date_emprunt", formatToISOString(dataProduct.date_emprunt));
-                formData.append("date_fin_emprunt", formatToISOString(dataProduct.date_fin_emprunt));
-            }
-
-            const category = await api.post("/categories/", { name: dataProduct.categorie_product });
-            formData.set("categorie_product", category?.data?.slug);
-
-            await api.post("/produits/", formData, { headers: { "Content-Type": "multipart/form-data" } });
 
             notify("Message", "Produit créé avec succès !");
-            dispatch(addMessageNotif(`Produit ${dataProduct?.code_reference} créé`));
+            dispatch(addMessageNotif(`Produit créé`));
 
+            // reset propre
             setDataProduct(INITIAL_PRODUCT);
             setImageVariants([]);
+            setAttributes({});
+            setCurrentSection(1);
             setIsProductAdded(false);
+
         } catch (err) {
             console.error(err);
             notify("Erreur", "Erreur lors de la création du produit");
