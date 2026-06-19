@@ -45,17 +45,24 @@ const ChatApp = ({ setShow, show }) => {
 
     // ── WebSocket ──
     useEffect(() => {
-        if (!currentUser) return;
+        //if (!currentUser) return;
 
         const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
         const socket = new WebSocket(`${protocol}://${backendBase}/ws/private/${currentUser.id}/`);
+
+        console.log("WS URL:", `${protocol}://${backendBase}/ws/private/${currentUser.id}/`);
 
         wsRef.current = socket;
 
         socket.onopen = () => setWsStatus('connected');
 
         socket.onmessage = (e) => {
+
+            console.log("WS RAW MESSAGE :", e.data); // 🔥 test brut
+
             const data = JSON.parse(e.data);
+
+            console.log("WS PARSED :", data); // 🔥 test structuré
 
             if (data.action === 'new_message') {
                 setMessages(prev => [
@@ -73,12 +80,24 @@ const ChatApp = ({ setShow, show }) => {
 
         socket.onerror = () => setWsStatus('error');
 
+
+
+        socket.onopen = () => {
+            console.log("✅ WS CONNECTED");
+            setWsStatus('connected');
+        };
+
+        socket.onerror = (e) => {
+            console.log("❌ WS ERROR", e);
+        };
+
         socket.onclose = () => {
             wsRef.current = null;
             setWsStatus('idle');
         };
 
         return () => socket.close();
+
     }, [currentUser]);
 
     // ── Charger les messages du chat courant ──
@@ -110,8 +129,19 @@ const ChatApp = ({ setShow, show }) => {
 
     // ── Envoi d'un message ──
     const sendMessage = useCallback(() => {
+
+
+        console.log("Avant le WS STATE:", wsRef.current?.readyState);
+
         const trimmed = input.trim();
+
+        console.log("WS STATE:", wsRef.current?.readyState);
+        console.log("selectedUser:", selectedUser);
+        console.log("message:", trimmed);
+
         if (!trimmed || wsRef.current?.readyState !== WS_READY) return;
+
+
         wsRef.current.send(JSON.stringify({
             action: 'send_message',
             sender_id: currentUser?.id,

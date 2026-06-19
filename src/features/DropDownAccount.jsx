@@ -26,6 +26,10 @@ export default function ButtonsNavigateThemecolorPayDropdownaccount() {
 
     const currentNotifMessages = useSelector(state => state.chat.messageNotif);
 
+    const currentNav = useSelector(state => state.navigate.currentNav);
+
+    const previousNav = useSelector(state => state.navigate.previousNav);
+
     const trigger = useRef(null);
 
     const dropdown = useRef(null);
@@ -107,6 +111,8 @@ export default function ButtonsNavigateThemecolorPayDropdownaccount() {
             setLoading(false);
         }
     };
+
+    if (ENDPOINTS?.MESSAGE_INBOX === currentNav || !previousNav) return
 
     return (
 
