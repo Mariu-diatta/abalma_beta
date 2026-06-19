@@ -201,18 +201,35 @@ const AffichePortal = ({  onEdit }) => {
         if (fetchedRef.current) return;
         fetchedRef.current = true;
 
+        const alreadySeen = localStorage.getItem("affiche_seen");
+
+        if (alreadySeen) {
+            setVisible(false);
+            return;
+        }
+
         const fetchAdvertisements = async () => {
+
             try {
+
                 const res = await api.get("/advertisements/");
-                setAds(res.data || []);
-                setVisible(true);
+
+                const filtered = res.data.filter(
+                    ad => !localStorage.getItem(`affiche_seen_${ad.id}`)
+                );
+
+                setAds(filtered || []);
+
+                if (res.data?.length > 0) {
+                    setVisible(true);
+                }
             } catch (err) {
                 console.log(err);
             }
         };
 
         fetchAdvertisements();
-    }, []);
+    }, []);;
 
     const handleNext = () => {
         setDirection("next");
@@ -221,6 +238,7 @@ const AffichePortal = ({  onEdit }) => {
             c + 1 >= ads.length ? 0 : c + 1
         );
     };
+
 
     const handlePrev = useCallback(() => {
         setCurrent((c) =>
@@ -249,9 +267,11 @@ const AffichePortal = ({  onEdit }) => {
             const next = prev.filter((_, i) => i !== current);
             if (next.length === 0) setVisible(false);
             else setCurrent((c) => Math.min(c, next.length - 1));
+            localStorage.setItem(`affiche_seen_${ads[current]?.id}`, "true");
+
             return next;
         });
-    }, [current]);
+    }, [current, ads]);
 
 
     if (!visible || ads?.length===0) return null;
@@ -261,11 +281,17 @@ const AffichePortal = ({  onEdit }) => {
             role="dialog" aria-modal="true" aria-label={t('platform_posters')}
             className="fixed justify-center md:justify-end inset-0 z-[9999] flex items-center justify-center p-4"
             style={{ background: "rgba(0,0,0,0.1)" }}
-            onDoubleClick={() => setVisible(false)}
+            onDoubleClick={() => {
+                localStorage.setItem("affiche_seen", "true");
+                setVisible(false);
+            }}
         >
 
             <button
-                onClick={() => setVisible(false)}
+                onClick={() => {
+                    localStorage.setItem("affiche_seen", "true");
+                    setVisible(false);
+                }}
                 className="
                     absolute
                     w-10 h-10
