@@ -25,7 +25,7 @@ const INITIAL_PRODUCT = {
     promotion: false, quantity_product: 1, is_available: false,
     delivery: null, shipping_price: null, address: "",
     date_emprunt: null, date_fin_emprunt: null, type_choice: null,
-    payment_method: null, social_links: null, is_active: false,
+    payment_method: null, social_links: null, is_active: true,
     is_verified: false, commission_percentage: null, images: [],
     variants: [], "attributes": {}
 };
@@ -332,32 +332,32 @@ const AddUploadProduct = () => {
     };
 
     const validateProduct = (dataProduct, isLoanOptionSelected) => {
-        if (!dataProduct.name_product?.trim())
+        if (!dataProduct?.name_product?.trim())
             return "Nom du produit obligatoire";
 
-        if (dataProduct.price_product == null || dataProduct.price_product === "")
+        if (dataProduct?.price_product == null || dataProduct.price_product === "")
             return "Prix obligatoire";
 
-        if (!dataProduct.currency_price)
+        if (!dataProduct?.currency_price)
             return "Devise obligatoire";
 
-        if (!dataProduct.categorie_product)
+        if (!dataProduct?.categorie_product)
             return "Catégorie obligatoire";
 
-        if (!dataProduct.address?.trim())
+        if (!dataProduct?.address?.trim())
             return "Adresse obligatoire";
 
-        if (!dataProduct.operation_product)
+        if (!dataProduct?.operation_product)
             return "Type d'opération obligatoire";
 
-        if (!dataProduct.payment_method)
+        if (!dataProduct?.payment_method)
             return "Mode de paiement obligatoire";
 
-        if (dataProduct.description_product?.length < 20)
+        if (dataProduct?.description_product?.length < 20)
             return "Description trop courte (min 20 caractères)";
 
         if (isLoanOptionSelected) {
-            if (!dataProduct.date_emprunt || !dataProduct.date_fin_emprunt)
+            if (!dataProduct?.date_emprunt || !dataProduct?.date_fin_emprunt)
                 return "Dates d'emprunt obligatoires";
         }
 
@@ -407,6 +407,7 @@ const AddUploadProduct = () => {
         formData.set("quantity_product", parseInt(dataProduct.quantity_product || 1));
 
         formData.set("social_links", JSON.stringify(social_links));
+
         formData.set("attributes", JSON.stringify(attributes || {}));
 
         return formData;
@@ -414,7 +415,7 @@ const AddUploadProduct = () => {
 
     const saveDataForSubmitForm = (e) => {
         e.preventDefault();
-        const error = validateProduct();
+        const error = validateProduct(dataProduct, isLoanOptionSelected);
         if (error) { notify("Erreur", error); return; }
         setIsProductAdded(true);
     };
