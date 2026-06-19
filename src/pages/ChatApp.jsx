@@ -2,11 +2,11 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import ButtonToggleChatsPanel from '../components/ButtonHandleChatsPanel';
 import InputBoxChat from '../components/InputBoxChat';
-import BoxMessagesChats from '../features/MessageBoxChat';
 import { useTranslation } from 'react-i18next';
 import { backendBase } from '../services/Axios';
 import { ENDPOINTS, IMPORTANTS_URLS } from '../utils';
 import { setCurrentNav } from '../slices/navigateSlice';
+import MessageBubble from '../features/MessageBoxChat';
 
 // ─── Constantes ───────────────────────────────────────────────────────────────
 const WS_READY = WebSocket.OPEN;
@@ -30,30 +30,44 @@ const ChatApp = ({ setShow, show }) => {
     const [typing, setTyping] = useState(false);
     const [wsStatus, setWsStatus] = useState('idle'); // idle | connected | error
 
+    const normalizeMessage = (msg, currentUserId) => {
+
+        const senderId = msg.user?.id ?? msg.user;
+
+        return {
+            id: msg.id,
+            text: msg.text,
+            sender_id: senderId,
+            created_at: msg.created_at_formatted,
+            isMine: senderId === currentUserId,
+        };
+    };
+
     // ── WebSocket ──
     useEffect(() => {
-        if (!currentUser || wsRef.current) return;
+        if (!currentUser) return;
 
         const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-        const socketUrl = `${protocol}://${backendBase}/ws/private/${currentUser.id}/`;
-        const socket = new WebSocket(socketUrl);
+        const socket = new WebSocket(`${protocol}://${backendBase}/ws/private/${currentUser.id}/`);
+
         wsRef.current = socket;
 
         socket.onopen = () => setWsStatus('connected');
 
         socket.onmessage = (e) => {
-            try {
-                const data = JSON.parse(e.data);
-                if (data.action === 'new_message') {
-                    setMessages((prev) => [...prev, data.message]);
-                }
-                if (data.action === 'typing') {
-                    setTyping(true);
-                    clearTimeout(typingTimeoutRef.current);
-                    typingTimeoutRef.current = setTimeout(() => setTyping(false), 1800);
-                }
-            } catch (err) {
-                console.error('❌ WS parse error:', err);
+            const data = JSON.parse(e.data);
+
+            if (data.action === 'new_message') {
+                setMessages(prev => [
+                    ...prev,
+                    normalizeMessage(data.message, currentUser.id)
+                ]);
+            }
+
+            if (data.action === 'typing') {
+                setTyping(true);
+                clearTimeout(typingTimeoutRef.current);
+                typingTimeoutRef.current = setTimeout(() => setTyping(false), 1200);
             }
         };
 
@@ -64,25 +78,22 @@ const ChatApp = ({ setShow, show }) => {
             setWsStatus('idle');
         };
 
-        return () => {
-            socket.close();
-            wsRef.current = null;
-            clearTimeout(typingTimeoutRef.current);
-        };
+        return () => socket.close();
     }, [currentUser]);
 
     // ── Charger les messages du chat courant ──
     useEffect(() => {
-        if (!currentChat?.messages) { setMessages([]); return; }
+        if (!currentChat?.messages) {
+            setMessages([]);
+            return;
+        }
+
         setMessages(
-            currentChat.messages.map((msg) => ({
-                id: msg?.id,
-                text: msg.text,
-                sender_id: msg?.user,
-                created_at: msg?.created_at_formatted,
-            }))
+            currentChat.messages.map(msg =>
+                normalizeMessage(msg, currentUser?.id)
+            )
         );
-    }, [currentChat, selectedUser]);
+    }, [currentChat, currentUser]);
 
     // ── Scroll vers le bas ──
     useEffect(() => {
@@ -171,12 +182,17 @@ const ChatApp = ({ setShow, show }) => {
 
                 {/* Zone messages */}
                 {selectedUser ? (
-                    <div className="chat-messages-area">
-                        <BoxMessagesChats
-                            messages={messages}
-                            messagesEndRef={messagesEndRef}
-                            typing={typing}
-                        />
+                    <div className="flex flex-col px-3 py-2 overflow-y-auto h-full">
+                        {messages.map(msg => (
+                            <MessageBubble
+                                key={msg.id}
+                                msg={msg}
+                                selectedUser={selectedUser}
+                                currentUser={currentUser}
+                            />
+                        ))}
+
+                        <div ref={messagesEndRef} />
                     </div>
                 ) : (
                     <div className="chat-empty">
@@ -207,3 +223,4 @@ const ChatApp = ({ setShow, show }) => {
 };
 
 export default ChatApp;
+
