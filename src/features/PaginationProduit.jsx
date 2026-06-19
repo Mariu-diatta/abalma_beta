@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { getMediaUrl } from "../utils";
 
 const randomRot = () => (Math.random() - 0.5) * 6; // Entre -3deg et +3deg
 
@@ -133,7 +134,7 @@ const PaginationProduit = ({ products = [] }) => {
                             >
                                 <div className="rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 aspect-square flex items-center justify-center transition-shadow duration-300 hover:shadow-xl">
                                     <img
-                                        src={image}
+                                        src={getMediaUrl(image)}
                                         alt={name}
                                         className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                                     />

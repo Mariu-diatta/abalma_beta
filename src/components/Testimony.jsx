@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import api from "../services/Axios";
 import TitleCompGen from "./TitleComponentGen";
+import { getMediaUrl } from "../utils";
 
 
 // ─── Utilitaires ──────────────────────────────────────────────────────────────
@@ -25,7 +26,7 @@ const Avatar = ({ src, name }) => {
     }
     return (
         <img
-            src={src}
+            src={getMediaUrl(src)}
             alt={name || 'Avatar'}
             className="tc-avatar"
             loading="lazy"

@@ -6,6 +6,7 @@ import OwnerAvatar from "./OwnerProfil";
 import ScrollingContent from "./ScrollContain";
 import { addMessageNotif } from "../slices/chatSlice";
 import { addToCart } from "../slices/cartSlice";
+import { getMediaUrl } from "../utils";
 
 const PrintNumberStars = lazy(() => import("./SystemStar"));
 
@@ -86,7 +87,7 @@ const ProductCard = ({ item, isInCart, owner, openModal}) => {
 
                     {/* Image principale du produit centrée */}
                     <img
-                        src={currentImage}
+                        src={getMediaUrl(currentImage)}
                         alt={item?.name_product || "Produit"}
                         loading="lazy"
                         className="

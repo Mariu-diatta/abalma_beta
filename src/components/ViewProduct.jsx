@@ -1,4 +1,5 @@
 import React from 'react'
+import { getMediaUrl } from '../utils'
 
 const ViewProduct = ({ productSelected }) => {
 
@@ -17,7 +18,7 @@ const ViewProduct = ({ productSelected }) => {
             <div className="relative">
                 <img
                     className="rounded-lg max-w-full h-auto"
-                    src={productSelected?.image_product}
+                    src={getMediaUrl(productSelected?.image_product)}
                     alt={productSelected?.name_product || 'Product Image'}
                 />
             </div>

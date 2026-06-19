@@ -13,7 +13,7 @@ import FollowProfilUser from '../components/ViewsProfilUser';
 import NumberFollowFollowed from '../components/FollowUserComp';
 import { ModalFormCreatBlog } from './BlogCreatBlogs';
 import GetValidateUserFournisseur from './FournisseurValidation';
-import { ENDPOINTS } from '../utils';
+import { ENDPOINTS, getMediaUrl } from '../utils';
 import ProbuttonComp from '../components/ProButtonComp';
 import FormEditProfil from '../components/FormEditProfil';
 import UpdateUserToPro from '../components/UpdateUserToPro';
@@ -403,7 +403,7 @@ const ProfileCard = () => {
                 {/* Photo de profil */}
                 <div className="absolute -top-12 sm:-top-16 left-1/2 sm:left-6 transform -translate-x-1/2 sm:translate-x-0">
                     <img
-                        src={previewUrl}
+                        src={getMediaUrl(previewUrl)}
                         alt="Profil utilisateur"
                         className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-white shadow-lg object-cover"
                     />

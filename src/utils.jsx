@@ -1,9 +1,15 @@
 import { showMessage } from "./components/AlertMessage";
-import api from "./services/Axios";
+import api, { BASE_URL } from "./services/Axios";
 import { login, updateCompteUser} from "./slices/authSlice";
 import { setCurrentNav, updateTheme } from "./slices/navigateSlice";
 import { store } from "./store/Store";
 import { Client } from "@gradio/client";
+
+export const getMediaUrl = (path) => {
+    if (!path) return "";
+    if (path.startsWith("http")) return path;
+    return `${BASE_URL}${path}`;
+};
 
 export const updateStatusTransaction = async (url, data, func, dispatch) => {
 

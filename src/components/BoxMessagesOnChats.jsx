@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AGENT_AI, formatDateRelative, getDataChat, maintenant } from '../utils';
+import { AGENT_AI, formatDateRelative, getDataChat, getMediaUrl, maintenant } from '../utils';
 import { useSelector, useDispatch } from 'react-redux';
 import { addUser } from '../slices/chatSlice';
 import LoadingCard from './LoardingSpin';
@@ -204,7 +204,7 @@ const PrintMessagesOnChat = ({
                                      {
                                         showUserAvatar && (
                                             <img
-                                                src={userImage}
+                                                src={getMediaUrl(userImage)}
                                                 alt={userName}
                                                 className="h-8 w-8 rounded-full object-cover cursor-pointer ring-1 ring-gray-300 hover:ring-blue-500 transition z-[2999]"
                                                 title={selectedUser?.nom}
@@ -253,7 +253,7 @@ const PrintMessagesOnChat = ({
                                         {
                                             !isCurrentUser && (
                                                 <img
-                                                    src={selectedUser?.image || selectedUser?.photo_url}
+                                                    src={getMediaUrl(selectedUser?.image) || getMediaUrl(selectedUser?.photo_url)}
                                                     alt="avatar"
                                                     className="h-5 w-5 rounded-full object-cover shadow-lg"
                                                 />
@@ -275,7 +275,7 @@ const PrintMessagesOnChat = ({
                                         {
                                             isCurrentUser && (
                                                 <img
-                                                    src={currentUser?.image || currentUser?.photo_url}
+                                                    src={getMediaUrl(currentUser?.image) || getMediaUrl(currentUser?.photo_url)}
                                                     alt="avatar"
                                                     className="h-5 w-5 rounded-full object-cover"
                                                 />

@@ -24,7 +24,7 @@ import PrintNumberStars from "../components/SystemStar";
 import ScrollingContent from "../components/ScrollContain";
 import SearchBar from "../components/BtnSearchWithFilter";
 import ProfilPictureView from "../components/ProfilPictureView";
-import { CONSTANTS, removeAccents, translateCategory } from "../utils";
+import { CONSTANTS, getMediaUrl, removeAccents, translateCategory } from "../utils";
 
 
 const GridProductDefault = ({ categorie_item }) => {
@@ -180,7 +180,7 @@ const GridProductDefault = ({ categorie_item }) => {
 
         return (
             <img
-                src={variants[index]?.image}
+                src={getMediaUrl(variants[index]?.image)}
                 alt="variant"
                 loading="lazy"
                 className="h-auto w-full rounded-lg transition duration-500 ease-in-out hover:brightness-75 hover:grayscale"

@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { AnimatePresence, motion } from "framer-motion";
 import api from "../services/Axios";
 import { useTranslation } from "react-i18next";
+import { getMediaUrl } from "../utils";
 
 
 const CAT_STYLES = {
@@ -70,7 +71,7 @@ const AfficheCard = ({ affiche, onDelete, onEdit, onNext, current, total, onPrev
 
             {/* Image */}
             {affiche?.image ? (
-                <img src={typeof affiche?.image === "string" ? affiche?.image : URL.createObjectURL(affiche?.image)}
+                <img src={typeof affiche?.image === "string" ? getMediaUrl(affiche?.image) : getMediaUrl(URL.createObjectURL(affiche?.image))}
                     alt={affiche.title} className="w-full h-52 object-cover" />
             ) : (
                 <div className="w-full h-52 bg-gradient-to-br from-purple-50 to-indigo-50 flex flex-col items-center justify-center gap-2">

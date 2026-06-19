@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import api from "../services/Axios";
 import { TitleCompGenLitle } from "../components/TitleComponentGen";
 import { useTranslation } from "react-i18next";
+import { getMediaUrl } from "../utils";
 
 const MesPublicites = ({ onEdit }) => {
 
@@ -117,7 +118,7 @@ const MesPublicites = ({ onEdit }) => {
                         {/* IMAGE */}
                         {ad.image ? (
                             <img
-                                src={ad.image}
+                                src={getMediaUrl(ad.image)}
                                 alt={ad.title}
                                 className="w-full h-52 object-cover"
                             />

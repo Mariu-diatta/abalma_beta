@@ -14,6 +14,7 @@ import api from "../services/Axios";
 import express_delivery from "../../src/assets/express-delivery_1981844.png";
 import home_5657414 from "../../src/assets/home-address_12248895.png";
 import pay_8331969 from "../../src/assets/pay_8331969.png";
+import { getMediaUrl } from "../utils";
 
 const ProductDetailsSection = ({ isOpen, onClose }) => {
     const [selectedColor, setSelectedColor] = useState(null);
@@ -85,7 +86,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
 
                             <div className="relative aspect-square rounded-2xl bg-gray-50 border border-gray-100 overflow-hidden group">
                                 <img
-                                    src={imageCurrentVariantImage}
+                                    src={getMediaUrl(imageCurrentVariantImage)}
                                     alt={product?.name_product}
                                     className="w-full h-full object-contain  transition-transform duration-500 group-hover:scale-105 cursor-zoom-in"
                                     onClick={() => setIndex((index + 1) % variantsProduct.length)}
@@ -100,7 +101,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                                         onClick={() => setIndex(i)}
                                         className={`w-16 h-16 rounded-lg border-2 flex-shrink-0 overflow-hidden transition-all ${index === i ? 'border-blue-600' : 'border-transparent opacity-60'}`}
                                     >
-                                        <img src={v.image} className="w-full h-full object-cover" alt="" />
+                                        <img src={getMediaUrl(v.image)} className="w-full h-full object-cover" alt="" />
                                     </button>
                                 ))}
                             </div>

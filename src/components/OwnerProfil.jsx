@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import OwnerPopover from './OwnerPopover';
+import { getMediaUrl } from '../utils';
 
 // ─── Utilitaire : hash SHA-256 ────────────────────────────────────────────────
 export async function hashPassword(password) {
@@ -65,7 +66,7 @@ const OwnerAvatar = ({ owner }) => {
 
                 {hasImage ? (
                     <img
-                        src={imageSrc}
+                        src={getMediaUrl(imageSrc)}
                         alt={displayName}
                         title={displayName}
                         className="oa-img"

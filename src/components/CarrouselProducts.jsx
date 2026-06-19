@@ -3,6 +3,7 @@ import { useEffect, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { addUser } from "../slices/chatSlice";
+import { getMediaUrl } from "../utils";
 
 const Carousel = ({ products, openModal, owners }) => {
 
@@ -85,7 +86,7 @@ const Carousel = ({ products, openModal, owners }) => {
 
                     {/* Image principale */}
                     <img
-                        src={current?.image}
+                        src={getMediaUrl(current?.image)}
                         alt="product"
                         className="relative w-full h-full object-contain shadow-2xl"
                     />

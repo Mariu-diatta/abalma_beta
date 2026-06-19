@@ -1,4 +1,4 @@
-import { CONSTANTS, STYLE, categoriesConfig } from "../utils";
+import { CONSTANTS, STYLE, categoriesConfig, getMediaUrl } from "../utils";
 
 // imports images
 const images = {
@@ -252,7 +252,7 @@ export const menuItems = (t) =>
                 <img
                     loading="lazy"
                     className={STYLE.STYLE_BTN_CATEGORIES}
-                    src={images[cat.idx]}
+                    src={getMediaUrl(images[cat.idx])}
                     alt=""
                     width="120"
                     height="100"

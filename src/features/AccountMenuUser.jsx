@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { ENDPOINTS } from '../utils';
+import { ENDPOINTS, getMediaUrl } from '../utils';
 import { setCurrentNav } from '../slices/navigateSlice';
 import { useNavigate } from 'react-router-dom';
 import LoadingCard from '../components/LoardingSpin';
@@ -55,7 +55,7 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
                         <div className="relative flex items-center justify-center rounded-full">
 
                             <img
-                                src={userImage}
+                                src={getMediaUrl(userImage)}
                                 alt="avatar"
                                 title={userEmail}
                                 className="h-6.5 w-6.5 rounded-full object-cover cursor-pointer bg-gray-200"

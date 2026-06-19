@@ -8,7 +8,7 @@ import {
     clearCart,
 } from "../slices/cartSlice";
 import { useTranslation } from "react-i18next";
-import { CONSTANTS, getItemTotal} from "../utils";
+import { CONSTANTS, getItemTotal, getMediaUrl} from "../utils";
 import BuyButtonWithPaymentForm from "./ButtonPaymentShopping";
 import api from "../services/Axios";
 import { showMessage } from "../components/AlertMessage";
@@ -264,7 +264,7 @@ const ListProductShoppingCart = () => {
                                 {/* Miniature */}
                                 <div className="sc-img-wrap">
                                     {imgSrc ? (
-                                        <img src={imgSrc} alt={prod?.name_product || 'Produit'} className="sc-img" loading="lazy" />
+                                        <img src={getMediaUrl(imgSrc)} alt={prod?.name_product || 'Produit'} className="sc-img" loading="lazy" />
                                     ) : (
                                         <span className="sc-img-ph">📷</span>
                                     )}

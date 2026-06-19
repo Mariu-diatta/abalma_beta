@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { getMediaUrl } from '../utils';
 
 const GridSlideProduct = ({ srcs = [] }) => {
 
@@ -30,7 +31,7 @@ const GridSlideProduct = ({ srcs = [] }) => {
                                 }`}
                         >
                             <img
-                                src={src}
+                            src={getMediaUrl(src)}
                                 alt={`Slide ${index}`}
                                 className="w-full h-full object-cover"
                             />

@@ -2,6 +2,7 @@
 import { useDispatch } from "react-redux";
 import { addUser } from "../slices/chatSlice";
 import RendrePrixProduitMonnaie from "../features/ConvertCurrency";
+import { getMediaUrl } from "../utils";
 
 function CategoryImagesDisplay({ products, openModal, owners }) {
 
@@ -20,7 +21,7 @@ function CategoryImagesDisplay({ products, openModal, owners }) {
 
                                 <img
                                     key={k}
-                                    src={item?.image_product}
+                                    src={getMediaUrl(item?.image_product)}
                                     alt={item?.name_product}
                                     className="relatif  object-cover rounded-lg transition duration-300 ease-in-out hover:brightness-75 hover:grayscale hover:scale-60 z-0"
                                     onClick={() => {

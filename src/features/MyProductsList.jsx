@@ -8,6 +8,7 @@ import CenteredModal from "./ModalProductDetailsViewsCentered";
 import { TitleCompGenLitle } from "../components/TitleComponentGen";
 import ButtonSearchGeneric from "../components/ButtonSearchGeneric";
 import PromoCodeForm from "./PromoForm";
+import { getMediaUrl } from "../utils";
 
 const ITEMS_PER_PAGE = 5;
 
@@ -27,7 +28,7 @@ const ProductRow = ({ prod, onDelete, loadingDelete, selectedBtnProduct, t }) =>
             <td className="p-2">
                 <div className="w-10 h-10 md:w-16 md:h-16 overflow-hidden rounded-lg border border-gray-200  bg-gray-50">
                     <img
-                        src={imageSrc}
+                        src={getMediaUrl(imageSrc)}
                         alt={prod?.name_product}
                         className="object-contain w-full h-full"
                         loading="lazy"

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import api from '../services/Axios';
 import { updateTheme } from '../slices/navigateSlice';
 import { useTranslation } from 'react-i18next';
-import { CONSTANTS, NAV_ITEMS, applyTheme } from '../utils';
+import { CONSTANTS, NAV_ITEMS, applyTheme, getMediaUrl } from '../utils';
 import TitleCompGen, { TitleCompGenLitle } from '../components/TitleComponentGen';
 import DeleteProfilAccount from './DeleteAccount';
 import NotificationToggle from '../components/NotificationToggle';
@@ -408,7 +408,7 @@ const SettingsForm = () => {
 
                                             {previewUrl || currentUserData?.image ? (
                                                 <img
-                                                    src={previewUrl || currentUserData.image}
+                                                    src={getMediaUrl(previewUrl) || getMediaUrl(currentUserData.image)}
                                                     alt="Profil"
                                                     style={{ width: 60, height: 60, borderRadius: '50%', objectFit: 'cover', border: '2px solid #AFA9EC' }}
                                                 />

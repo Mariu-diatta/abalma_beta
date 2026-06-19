@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import ScrollTop, { ButtonScrollTopDown } from "../components/ButtonScroll";
 import ButtonUpdateAccountUserToPro from "../components/ButtonPro";
-import { ENDPOINTS, fetchRooms } from "../utils";
+import { ENDPOINTS, fetchRooms, getMediaUrl } from "../utils";
 import ButtonsNavigateThemecolorPayDropdownaccount from "./DropDownAccount";
 import AttentionAlertMessage from "../components/AlertMessage";
 
@@ -204,7 +204,7 @@ const VerticalNavbar = ({ children }) => {
                         >
                             <div style={{ position: "relative", flexShrink: 0 }}>
                                 {currentUserImage ? (
-                                    <img src={currentUserImage} alt="avatar" title={currentUser?.email} className="vnav-avatar" />
+                                    <img src={getMediaUrl(currentUserImage)} alt="avatar" title={currentUser?.email} className="vnav-avatar" />
                                 ) : (
                                     <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#f1f5f9", display: "flex", alignItems: "center", justifyContent: "center", color: "#94a3b8" }}>
                                         <IconUser />
