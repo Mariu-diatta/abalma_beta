@@ -5,6 +5,7 @@ import { addCurrentChat, addRoom, addUser, newRoom } from '../slices/chatSlice';
 import api from '../services/Axios';
 import { useNavigate } from "react-router";
 import { hashPassword } from './OwnerProfil';
+import { getMediaUrl } from '../utils';
 
 const OwnerPopover = ({ owner, onClose }) => {
 
@@ -136,7 +137,7 @@ const OwnerPopover = ({ owner, onClose }) => {
 
                 <img
 
-                    src={owner?.image || owner?.photo_url}
+                    src={getMediaUrl(owner?.image) || getMediaUrl(owner?.photo_url)}
 
                     alt={owner?.nom || 'Fournisseur'}
 

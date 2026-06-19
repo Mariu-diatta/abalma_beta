@@ -1,4 +1,5 @@
 import React from 'react'
+import { getMediaUrl } from '../utils';
 
 const HoverImage = ({ src, alt, text }) => {
 
@@ -7,7 +8,7 @@ const HoverImage = ({ src, alt, text }) => {
         <div className="relative group overflow-hidden rounded-2xl shadow-2xl">
 
             <img
-                src={src}
+                src={getMediaUrl(src)}
                 alt={alt}
                 className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-120"
             />
