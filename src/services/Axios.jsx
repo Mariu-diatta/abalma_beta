@@ -9,7 +9,7 @@ export const BASE_URL = process.env.NODE_ENV === 'production' ?
 // 🌐 URL du backend WebSocket
 export const backendBase = process.env.NODE_ENV === 'production'
     ? 'api.abalma.fr'
-    : 'localhost:8000';
+    : '127.0.0.1:8000';
 
 const api = axios.create({
     baseURL: BASE_URL,

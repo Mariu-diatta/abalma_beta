@@ -6,7 +6,6 @@ import {
 } from 'firebase/firestore';
 import { db, storage } from '../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { getMediaUrl } from '../utils';
 
 // 🔼 Upload image vers Firebase Storage
 const uploadImageAndGetURL = async (file) => {
@@ -70,7 +69,7 @@ export const ChatComponent = ({ conversationId }) => {
                         </button>
                     </div>
                     <p className="text-sm text-gray-700 dark:text-gray-200">{msg.texte}</p>
-                    {msg.image && <img src={getMediaUrl(msg.image)} alt="envoyée" className="w-32 rounded shadow" />}
+                    {msg.image && <img src={msg.image} alt="envoyée" className="w-32 rounded shadow" />}
                     {msg.url && (
                         <a href={msg.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 text-sm underline">
                             {msg.url}
@@ -222,7 +221,7 @@ const MessageForm = ({ onSend }) => {
                 {previewUrl && (
                     <div className="mt-2">
                         <p className="text-sm text-gray-600 dark:text-gray-300">Aperçu image :</p>
-                        <img src={getMediaUrl(previewUrl)} alt="Aperçu" className="w-32 h-auto rounded" />
+                        <img src={previewUrl} alt="Aperçu" className="w-32 h-auto rounded" />
                     </div>
                 )}
 

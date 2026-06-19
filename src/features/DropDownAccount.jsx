@@ -26,6 +26,10 @@ export default function ButtonsNavigateThemecolorPayDropdownaccount() {
 
     const currentNotifMessages = useSelector(state => state.chat.messageNotif);
 
+    const currentNav = useSelector(state => state.navigate.currentNav);
+
+    const previousNav = useSelector(state => state.navigate.previousNav);
+
     const trigger = useRef(null);
 
     const dropdown = useRef(null);
@@ -113,19 +117,21 @@ export default function ButtonsNavigateThemecolorPayDropdownaccount() {
 
         <section
             style={{top:"6px"}}
-            className={`bg-none flex items-center justify-center px-2  rounded-lg absolute  right-2 fixed z-50`}
+            className={`bg-none   rounded-lg absolute  right-2 fixed z-50 flex items-centers justify-center`}
         >
 
-            <AttentionAlertMessage/>
+            {((currentNav && (ENDPOINTS?.MESSAGE_INBOX === currentNav)) || !!previousNav) && <>
+                <AttentionAlertMessage/>
 
 
-            <GroupThemNotifPayLangageButtons
+                <GroupThemNotifPayLangageButtons
 
-                notify={notify}
+                    notify={notify}
 
-                changeLanguage={changeLanguage}
+                    changeLanguage={changeLanguage}
 
-            />
+                />
+            </>}
 
             {/* Avatar + dropdown */}
             <AccountMenuUser
