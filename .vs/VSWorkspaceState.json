@@ -5,7 +5,9 @@
     "\\android",
     "\\build",
     "\\public",
-    "\\src"
+    "\\src",
+    "\\src\\services"
   ],
+  "SelectedNode": "\\src\\ChatApp.jsx",
   "PreviewInSolutionExplorer": false
 }

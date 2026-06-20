@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState} from "react";
 import { useTranslation } from "react-i18next";
 import HomeLayout from "../layouts/HomeLayout";
 import image_1 from "../assets/image_1.jpg";
-import image_2 from "../assets/image_2.jpg";
+import image_2 from "../assets/image_fabrique.jpg";
 import image_3 from "../assets/image_3.jpg";
 import HoverImage from "../components/HoverImage";
 import TitleCompGen from "../components/TitleComponentGen";
