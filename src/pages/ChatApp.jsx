@@ -152,6 +152,11 @@ const ChatApp = ({ setShow, show }) => {
 
     // ── Envoi d'un message ──
     const sendMessage = useCallback(() => {
+        console.log(
+            'ws',
+            wsRef.current,
+            wsRef.current?.readyState
+        );
         const trimmed = input.trim();
         if (!trimmed || wsRef.current?.readyState !== WS_READY) return;
         wsRef.current.send(JSON.stringify({
