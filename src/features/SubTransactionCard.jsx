@@ -110,7 +110,7 @@ const TransactionAndSubTransactionCard = ({
         <div className="relative bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden w-full max-w-sm">
 
             {/* Accent coloré en haut */}
-            <div className="h-1 w-full bg-gradient-to-r from-indigo-400 via-violet-400 to-blue-400" />
+            <div className="h-1 w-full bg-gradient-to-r from-indigo-400 via-indigo-400 to-indigo-400" />
 
             <div className="p-5 flex flex-col gap-4">
 

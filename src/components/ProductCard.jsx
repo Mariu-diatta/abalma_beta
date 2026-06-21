@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useRef, lazy } from "react";
+import React, { useEffect, useState, useRef, useMemo, lazy } from "react";
 import { useDispatch } from "react-redux";
 import { useTranslation } from 'react-i18next';
-import { Eye } from "lucide-react"; // Utilisation de Lucide pour plus de finesse
+import { Eye, ImageOff } from "lucide-react"; // Utilisation de Lucide pour plus de finesse
 import OwnerAvatar from "./OwnerProfil";
 import ScrollingContent from "./ScrollContain";
 import { addMessageNotif } from "../slices/chatSlice";
@@ -13,10 +13,11 @@ const PrintNumberStars = lazy(() => import("./SystemStar"));
 const ProductCard = ({ item, isInCart, owner, openModal}) => {
     const dispatch = useDispatch();
     const { t } = useTranslation();
-    const variantProduct = item?.variants ;
+    const variantProduct = useMemo(() => item?.variants || [], [item?.variants]);
     const nberVariants = variantProduct.length;
     const imageIndexRef = useRef(0);
     const [currentImage, setCurrentImage] = useState(variantProduct[0]?.image);
+    const [imageError, setImageError] = useState(false);
 
     // Diaporama automatique fluide
     useEffect(() => {
@@ -24,6 +25,7 @@ const ProductCard = ({ item, isInCart, owner, openModal}) => {
         const interval = setInterval(() => {
             imageIndexRef.current = (imageIndexRef.current + 1) % nberVariants;
             setCurrentImage(variantProduct[imageIndexRef.current]?.image);
+            setImageError(false);
         }, 3500);
         return () => clearInterval(interval);
     }, [nberVariants, variantProduct]);
@@ -39,7 +41,7 @@ const ProductCard = ({ item, isInCart, owner, openModal}) => {
             className={`
                 group relative flex flex-col bg-white 
                 rounded-2xl border border-gray-100 overflow-hidden
-                transition-all duration-300 hover:shadow-2xl hover:border-blue-100 h-full w-full md:max-w-[30vw] 
+                transition-all duration-300 hover:shadow-2xl hover:border-indigo-100 h-full w-full md:max-w-[30vw] 
                 ${isInCart ? "opacity-75 grayscale-[0.5]" : ""}
             `}
         >
@@ -80,35 +82,40 @@ const ProductCard = ({ item, isInCart, owner, openModal}) => {
                     "
                 >
                     {/* Image de fond floutée */}
-                    <div
-                        className="absolute inset-0 bg-cover bg-center blur-sm scale-110 opacity-40 transition-transform duration-500"
-                        style={{ backgroundImage: `url(${currentImage})` }}
-                    />
+                    {currentImage && (
+                        <div
+                            className="absolute inset-0 bg-cover bg-center blur-sm scale-110 opacity-40 transition-transform duration-500"
+                            style={{ backgroundImage: `url(${getMediaUrl(currentImage)})` }}
+                        />
+                    )}
 
-                    {/* Image principale du produit centrée */}
-                    <img
-                        src={getMediaUrl(currentImage)}
-                        alt={item?.name_product || "Produit"}
-                        loading="lazy"
-                        className="
-                            relative
-                            z-10
-                            /* TAILLE INTELLIGENTE : */
-                            max-w-full 
-                            w-auto
-                            h-auto
-                            object-contain /* Important pour ne pas déformer */
-                            transition-transform
-                            duration-300
-                            ease-in-out
-                            group-hover:scale-110
-                        "
-                        onError={(e) => {
-                            if (!e.target.src.includes("default-product.jpg")) {
-                                e.target.src = "/default-product.jpg";
-                            }
-                        }}
-                    />
+                    {/* Image principale du produit centrée (avec repli si absente/en erreur) */}
+                    {currentImage && !imageError ? (
+                        <img
+                            src={getMediaUrl(currentImage)}
+                            alt={item?.name_product || "Produit"}
+                            loading="lazy"
+                            className="
+                                relative
+                                z-10
+                                /* TAILLE INTELLIGENTE : */
+                                max-w-full 
+                                w-auto
+                                h-auto
+                                object-contain /* Important pour ne pas déformer */
+                                transition-transform
+                                duration-300
+                                ease-in-out
+                                group-hover:scale-110
+                            "
+                            onError={() => setImageError(true)}
+                        />
+                    ) : (
+                        <div className="relative z-10 flex flex-col items-center justify-center gap-2 text-gray-300">
+                            <ImageOff size={32} strokeWidth={1.5} />
+                            <span className="text-[10px] font-medium">{t("no_image") || "Image indisponible"}</span>
+                        </div>
+                    )}
 
                     {/* Overlay Action Rapide */}
                     <div className="absolute inset-x-0 bottom-4 flex justify-center translate-y-12 group-hover:translate-y-0 transition-transform duration-300 z-20 hidden md:flex">
@@ -150,8 +157,6 @@ const ProductCard = ({ item, isInCart, owner, openModal}) => {
                         title="Ajouter au panier"
 
                         onClick={(e) => handleAddToCart(e) }
-
-                        aria-disabled="true"
 
                         className="whitespace-nowrap flex flex-row gap-2 cursor-pointer p-1 rounded-full hover:bg-green-100 transition"
                     >  

@@ -286,7 +286,7 @@ function CenteredModal({ product, children }) {
                                 ) : (
                                     <button
                                         type="submit"
-                                        className="flex items-center gap-2 rounded-full border border-blue-100 px-5 py-2 text-sm text-gray-800 bg-gradient-to-br from-purple-100 to-blue-100 hover:from-purple-200 hover:to-blue-200 transition cursor-pointer"
+                                        className="flex items-center gap-2 rounded-full border border-indigo-100 px-5 py-2 text-sm text-gray-800 bg-gradient-to-br from-purple-100 to-indigo-100 hover:from-purple-200 hover:to-indigo-200 transition cursor-pointer"
                                     >
                                         <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg"
                                             fill="none" viewBox="0 0 24 24">

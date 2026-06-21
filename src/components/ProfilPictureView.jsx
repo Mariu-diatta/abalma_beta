@@ -14,7 +14,7 @@ const ProfilPictureView = ({ currentUser, message, children }) => {
                 alt=""
                 src={getMediaUrl(currentUser?.image) || getMediaUrl(currentUser?.photo_url)}
                 title={currentUser?.description}
-                className="h-30 w-30 rounded-full object-cover cursor-pointer ring-1 ring-gray-300 hover:ring-blue-500 transition mb-4"
+                className="h-30 w-30 rounded-full object-cover cursor-pointer ring-1 ring-gray-300 hover:ring-indigo-500 transition mb-4"
             />
 
             <div className="w-full h-px bg-gray-100" />

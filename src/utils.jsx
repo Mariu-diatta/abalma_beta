@@ -3,7 +3,6 @@ import api, { BASE_URL } from "./services/Axios";
 import { login, updateCompteUser} from "./slices/authSlice";
 import { setCurrentNav, updateTheme } from "./slices/navigateSlice";
 import { store } from "./store/Store";
-import { Client } from "@gradio/client";
 
 export const getMediaUrl = (path) => {
     if (!path) return "";
@@ -44,6 +43,11 @@ export const updateStatusTransaction = async (url, data, func, dispatch) => {
 export const getDataChat = async (data) => {
 
   try {
+
+    // Import différé : @gradio/client est une dépendance assez lourde qui
+    // ne sert qu'à cette fonctionnalité d'analyse IA — pas besoin de
+    // l'embarquer dans le bundle principal chargé par tout le monde.
+    const { Client } = await import("@gradio/client");
 
     const client = await Client.connect("MariusSitoye/abalma");
 
@@ -151,25 +155,67 @@ const currentLang = storeSates?.navigate?.lang;
 const isLang = (currentLang === "ang");
 
 // 📨 Requêtes & interactions backend
+// Récupère TOUTES les rooms où l'utilisateur est impliqué, qu'il soit
+// "owner" (a démarré la conversation) ou "receiver" (l'a reçue). Filtrer
+// uniquement par receiver_id (comme le faisaient certains écrans) ignore
+// la moitié des conversations de l'utilisateur — d'où des discussions qui
+// "disparaissaient" de la liste après rechargement de la page.
 export const fetchRooms = async (currentUser, dispatch, addRoom) => {
 
-    if (!currentUser) return;
+    if (!currentUser) return [];
 
     try {
 
-        const response = await api.get("allRoomes");
+        const { data } = await api.get("/allRooms/");
 
-        if (response?.data?.length > 0) {
+        const rooms = (data || []).filter((room) => {
+            const isOwner = room?.current_owner === currentUser?.id;
+            const isReceiverWithMessages =
+                room?.current_receiver === currentUser?.id && (room?.messages?.length || 0) > 0;
+            return isOwner || isReceiverWithMessages;
+        });
 
-            response.data.forEach(room => {
-                const isCurrentUserInThisChat = room?.current_receiver === currentUser?.id || room?.current_owner === currentUser?.id;
-                const numberMessagesRoom = room?.messages.length;
-                if (isCurrentUserInThisChat && (numberMessagesRoom > 0)) dispatch(addRoom(room));
-            });
-        }
+        rooms.forEach((room) => dispatch(addRoom(room)));
 
-    } catch {
+        return rooms;
 
+    } catch (err) {
+        console.error("Erreur lors du chargement des rooms :", err?.response?.data || err?.message);
+        return [];
+    }
+};
+
+// Récupère (ou crée) la room entre l'utilisateur courant et un autre
+// utilisateur — utilisé pour ouvrir/reprendre une conversation depuis une
+// fiche produit ou un profil.
+export const getOrCreateRoom = async ({ currentUser, otherUser, roomName }) => {
+
+    if (!currentUser?.id || !otherUser?.id) return null;
+
+    // 1) On cherche d'abord si une conversation existe déjà entre les deux.
+    try {
+        const { data } = await api.get("/allRooms/");
+        const existing = (data || []).find(
+            (room) =>
+                (room?.current_owner === currentUser.id && room?.current_receiver === otherUser.id) ||
+                (room?.current_owner === otherUser.id && room?.current_receiver === currentUser.id)
+        );
+        if (existing) return existing;
+    } catch (err) {
+        console.error("Erreur recherche room existante :", err?.response?.data || err?.message);
+    }
+
+    // 2) Sinon on en crée une nouvelle.
+    try {
+        const { data } = await api.post('rooms/', {
+            name: roomName || `room_${currentUser.id}_${otherUser.id}_${Date.now()}`,
+            current_owner: currentUser.id,
+            current_receiver: otherUser.id,
+        });
+        return data;
+    } catch (err) {
+        console.error("Erreur création room :", err?.response?.data || err?.message);
+        return null;
     }
 };
 
@@ -775,6 +821,8 @@ export const loginClient = async (data, dispatch, setIsLoading, navigate) => {
 
         navigate("/account-home", { replace: true });
 
+        return true;
+
     } catch (error) {
 
         console.log("LOGIN ERROR:", error);
@@ -789,6 +837,8 @@ export const loginClient = async (data, dispatch, setIsLoading, navigate) => {
             Type: "Erreur",
             Message: message
         });
+
+        return false;
 
     } finally {
         setIsLoading(false);

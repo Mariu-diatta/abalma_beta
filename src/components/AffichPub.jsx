@@ -11,7 +11,7 @@ const CAT_STYLES = {
     "event": { bg: "bg-purple-50", text: "text-purple-800", border: "border-purple-100" },
     "promotion": { bg: "bg-amber-50", text: "text-amber-800", border: "border-amber-100" },
     "advertisement": { bg: "bg-teal-50", text: "text-teal-800", border: "border-teal-100" },
-    "information": { bg: "bg-blue-50", text: "text-blue-800", border: "border-blue-100" },
+    "information": { bg: "bg-indigo-50", text: "text-indigo-800", border: "border-indigo-100" },
     "urgence": { bg: "bg-red-50", text: "text-red-800", border: "border-red-100" },
 };
 
@@ -109,7 +109,7 @@ const AfficheCard = ({ affiche, onDelete, onEdit, onNext, current, total, onPrev
                             <i className="ti ti-trash text-sm" aria-hidden="true" /> {t('delete')}
                         </button>
                         <button onClick={onEdit}
-                            className="flex items-center justify-center gap-1.5 py-2 rounded-lg bg-blue-50 border border-blue-100 text-xs font-medium text-blue-700 hover:bg-blue-100 transition-all">
+                            className="flex items-center justify-center gap-1.5 py-2 rounded-lg bg-indigo-50 border border-indigo-100 text-xs font-medium text-indigo-700 hover:bg-indigo-100 transition-all">
                                 <i className="ti ti-edit text-sm" aria-hidden="true" /> {t('edit')}
                         </button>
                         <button onClick={onNext}

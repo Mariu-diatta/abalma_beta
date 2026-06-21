@@ -58,7 +58,7 @@ const FormEditProfil = ({ handleSave, handleChange, formData, loadinUpdate, setI
                 name="description"
                 value={formData?.description}
                 onChange={handleChange}
-                className="w-full h-24 rounded-lg border border-gray-100 p-2 resize-none focus:ring-2 focus:ring-blue-500 "
+                className="w-full h-24 rounded-lg border border-gray-100 p-2 resize-none focus:ring-2 focus:ring-indigo-500 "
                 placeholder={t('ProfilText.descriptionPlaceholder')}
             />
 

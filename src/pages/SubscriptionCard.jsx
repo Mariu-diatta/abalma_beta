@@ -123,7 +123,7 @@ function SubscriptionCard({
                 onClick={() => handleSubscribe(currentUser?.email, amount_id)}
                 disabled={!currentUser || IS_USE_SUBCRIB}
                 className={`
-                ${IS_USE_SUBCRIB ? "bg-gray-200  cursor-not-allowed" :" bg-blue-200"} py-2.5 font-semibold my-1 rounded-md
+                ${IS_USE_SUBCRIB ? "bg-gray-200  cursor-not-allowed" :" bg-indigo-200"} py-2.5 font-semibold my-1 rounded-md
                 hover:bg-gray-300 transition
                 disabled:opacity-50 disabled:cursor-not-allowed
                 flex items-center justify-center gap-2

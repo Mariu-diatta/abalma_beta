@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { backendBase } from '../services/Axios';
 import { ENDPOINTS, IMPORTANTS_URLS } from '../utils';
 import { setCurrentNav } from '../slices/navigateSlice';
+import { addMessageNotif } from '../slices/chatSlice';
 import MessageBubble from '../features/MessageBoxChat';
 
 // ─── Constantes ───────────────────────────────────────────────────────────────
@@ -19,11 +20,15 @@ const ChatApp = ({ setShow, show }) => {
     const wsRef = useRef(null);
     const messagesEndRef = useRef(null);
     const typingTimeoutRef = useRef(null);
+    const selectedUserRef = useRef(null);
 
     const currentChat = useSelector((state) => state.chat.currentChat);
     const currentUser = useSelector((state) => state.auth.user);
-    const allRoomsChats = useSelector((state) => state.chat.currentChats);
     const selectedUser = useSelector((state) => state.chat.userSlected);
+
+    useEffect(() => {
+        selectedUserRef.current = selectedUser;
+    }, [selectedUser]);
 
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
@@ -43,43 +48,80 @@ const ChatApp = ({ setShow, show }) => {
         };
     };
 
-    // ── WebSocket ──
+    // ── WebSocket (avec reconnexion automatique) ──
     useEffect(() => {
         if (!currentUser) return;
 
-        const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-        const socket = new WebSocket(`${protocol}://${backendBase}/ws/private/${currentUser.id}/`);
+        let cancelled = false;
+        let reconnectTimer = null;
+        let attempt = 0;
 
-        wsRef.current = socket;
+        const connect = () => {
+            const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+            const socket = new WebSocket(`${protocol}://${backendBase}/ws/private/${currentUser.id}/`);
+            wsRef.current = socket;
 
-        socket.onopen = () => setWsStatus('connected');
+            socket.onopen = () => {
+                attempt = 0;
+                setWsStatus('connected');
+            };
 
-        socket.onmessage = (e) => {
-            const data = JSON.parse(e.data);
+            socket.onmessage = (e) => {
+                let data;
+                try {
+                    data = JSON.parse(e.data);
+                } catch {
+                    return;
+                }
 
-            if (data.action === 'new_message') {
-                setMessages(prev => [
-                    ...prev,
-                    normalizeMessage(data.message, currentUser.id)
-                ]);
-            }
+                if (data.action === 'new_message') {
+                    const msg = data.message;
+                    const senderId = msg?.user?.id ?? msg?.user;
+                    const receiverId = msg?.receiver?.id ?? msg?.receiver_id ?? msg?.receiver;
 
-            if (data.action === 'typing') {
-                setTyping(true);
-                clearTimeout(typingTimeoutRef.current);
-                typingTimeoutRef.current = setTimeout(() => setTyping(false), 1200);
-            }
+                    // Le WebSocket est "global" (par utilisateur, pas par room) :
+                    // on ne doit ajouter le message au fil affiché que s'il
+                    // appartient bien à la conversation actuellement ouverte,
+                    // sinon il faut juste notifier sans mélanger les discussions.
+                    const belongsToOpenThread =
+                        selectedUserRef.current &&
+                        (senderId === selectedUserRef.current.id || receiverId === selectedUserRef.current.id);
+
+                    if (belongsToOpenThread) {
+                        setMessages(prev => [...prev, normalizeMessage(msg, currentUser.id)]);
+                    } else if (senderId !== currentUser.id) {
+                        dispatch(addMessageNotif(`Nouveau message de ${msg?.user?.prenom || 'un contact'}`));
+                    }
+                }
+
+                if (data.action === 'typing') {
+                    setTyping(true);
+                    clearTimeout(typingTimeoutRef.current);
+                    typingTimeoutRef.current = setTimeout(() => setTyping(false), 1200);
+                }
+            };
+
+            socket.onerror = () => setWsStatus('error');
+
+            socket.onclose = () => {
+                wsRef.current = null;
+                if (cancelled) return;
+                setWsStatus('idle');
+                // Reconnexion progressive (1s, 2s, 4s... plafonnée à 15s)
+                const delay = Math.min(1000 * 2 ** attempt, 15000);
+                attempt += 1;
+                reconnectTimer = setTimeout(connect, delay);
+            };
         };
 
-        socket.onerror = () => setWsStatus('error');
+        connect();
 
-        socket.onclose = () => {
-            wsRef.current = null;
-            setWsStatus('idle');
+        return () => {
+            cancelled = true;
+            clearTimeout(reconnectTimer);
+            wsRef.current?.close();
         };
-
-        return () => socket.close();
-    }, [currentUser]);
+    }, [currentUser, dispatch]);
 
     // ── Charger les messages du chat courant ──
     useEffect(() => {
@@ -141,11 +183,29 @@ const ChatApp = ({ setShow, show }) => {
                     {selectedUser ? (
                         <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
                             <div style={{ position: 'relative', flexShrink: 0 }}>
-                                <img
-                                    src={selectedUser?.image || selectedUser?.photo_url || '/default-avatar.png'}
-                                    alt={`${selectedUser?.nom || 'Utilisateur'} avatar`}
-                                    className="chat-avatar"
-                                />
+                                {(selectedUser?.image || selectedUser?.photo_url) ? (
+                                    <img
+                                        src={selectedUser.image || selectedUser.photo_url}
+                                        alt={`${selectedUser?.nom || 'Utilisateur'} avatar`}
+                                        className="chat-avatar"
+                                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                                    />
+                                ) : (
+                                    <div
+                                        className="chat-avatar"
+                                        style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            background: '#6366f1',
+                                            color: '#fff',
+                                            fontWeight: 600,
+                                            fontSize: '.85rem',
+                                        }}
+                                    >
+                                        {(selectedUser?.prenom?.[0] || selectedUser?.nom?.[0] || '?').toUpperCase()}
+                                    </div>
+                                )}
                                 <span className="chat-online-dot" style={{ position: 'absolute', bottom: 1, right: 1 }} />
                             </div>
 
@@ -182,15 +242,16 @@ const ChatApp = ({ setShow, show }) => {
 
                 {/* Zone messages */}
                 {selectedUser ? (
-                    <div className="flex flex-col px-3 py-2 overflow-y-auto h-full">
-                        {messages.map(msg => (
-                            <MessageBubble
-                                key={msg.id}
-                                msg={msg}
-                                selectedUser={selectedUser}
-                                currentUser={currentUser}
-                            />
-                        ))}
+                    <div className="chat-messages-area flex flex-col px-3">
+                        {messages.length === 0 ? (
+                            <div className="flex-1 flex items-center justify-center text-xs text-gray-400 py-10">
+                                Aucun message pour le moment — dites bonjour 👋
+                            </div>
+                        ) : (
+                            messages.map(msg => (
+                                <MessageBubble key={msg.id} msg={msg} />
+                            ))
+                        )}
 
                         <div ref={messagesEndRef} />
                     </div>
@@ -209,7 +270,7 @@ const ChatApp = ({ setShow, show }) => {
                 {/* Input */}
                 <footer className="chat-footer">
                     <InputBoxChat
-                        allRoomsChats={allRoomsChats}
+                        disabled={!selectedUser}
                         input={input}
                         setInput={setInput}
                         setShow={setShow}

@@ -15,7 +15,7 @@ const HomeContain = () => {
             <AttentionAlertMessage/>
 
             {/* ====================== MAIN CONTENT ====================== */}
-            <main className="shadow-full bg-gradient-to-br from-purple-10 to-blue-50 overflow-y-hidden px-0.5 shadow-lg">
+            <main className="shadow-full bg-gradient-to-br from-purple-10 to-indigo-50 overflow-y-hidden px-0.5 shadow-lg">
 
 
                 {/* ========= PRODUCTS ========= */}

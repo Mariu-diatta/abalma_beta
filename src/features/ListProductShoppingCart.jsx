@@ -348,8 +348,8 @@ const ListProductShoppingCart = () => {
                                 <button
                                     type="button"
                                     className="flex items-center justify-start gap-3 w-full px-6 py-3.5
-                                       bg-gradient-to-r from-purple-400 to-blue-400
-                                       hover:from-purple-500 hover:to-blue-500
+                                       bg-gradient-to-r from-purple-400 to-indigo-400
+                                       hover:from-purple-500 hover:to-indigo-500
                                        disabled:opacity-60 disabled:cursor-not-allowed
                                        text-white font-medium rounded-xl
                                        transition-all duration-200 active:scale-95

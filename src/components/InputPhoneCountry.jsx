@@ -37,7 +37,7 @@ export default function PhoneInput({ form, handleChange, setForm }) {
 
             {/* Dropdown pays */}
             <select
-                className="text-md border-b-2 pb-2 border-gray-300 dark:border-gray-600 rounded-l-lg px-2 focus:outline-none focus:ring-0 focus:border-blue-600"
+                className="text-md border-b-2 pb-2 border-gray-300 dark:border-gray-600 rounded-l-lg px-2 focus:outline-none focus:ring-0 focus:border-indigo-600"
                 value={selectedCountry.name}
                 onChange={(e) =>
                     handleCountryChange(countries.find((c) => c.name === e.target.value))

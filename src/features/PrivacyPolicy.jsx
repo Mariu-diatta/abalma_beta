@@ -24,12 +24,12 @@ const PrivacyPolicy = () => {
 
             {/* Sections */}
             <section className="mb-8 leading-relaxed whitespace-pre-line">
-                <h2 className="text-2xl font-semibold text-blue-600 dark:text-blue-400 mb-2">{t('section_1_title')}</h2>
+                <h2 className="text-2xl font-semibold text-indigo-600 dark:text-indigo-400 mb-2">{t('section_1_title')}</h2>
                 <p className="leading-relaxed">{t('section_1_content')}</p>
             </section>
 
             <section className="mb-8 leading-relaxed whitespace-pre-line">
-                <h2 className="text-2xl font-semibold text-blue-600 dark:text-blue-400 mb-2">{t('section_2_title')}</h2>
+                <h2 className="text-2xl font-semibold text-indigo-600 dark:text-indigo-400 mb-2">{t('section_2_title')}</h2>
                 <ul className="list-disc list-inside space-y-1">
                     <li>{t('section_2_list.1')}</li>
                     <li>{t('section_2_list.2')}</li>
@@ -40,7 +40,7 @@ const PrivacyPolicy = () => {
             </section>
 
             <section className="mb-8 leading-relaxed whitespace-pre-line">
-                <h2 className="text-2xl font-semibold text-blue-600 dark:text-blue-400 mb-2">{t('section_3_title')}</h2>
+                <h2 className="text-2xl font-semibold text-indigo-600 dark:text-indigo-400 mb-2">{t('section_3_title')}</h2>
                 <ul className="list-disc list-inside space-y-1">
                     <li>{t('section_3_list.1')}</li>
                     <li>{t('section_3_list.2')}</li>
@@ -50,17 +50,17 @@ const PrivacyPolicy = () => {
             </section>
 
             <section className="mb-8 leading-relaxed whitespace-pre-line">
-                <h2 className="text-2xl font-semibold text-blue-600 dark:text-blue-400 mb-2">{t('section_4_title')}</h2>
+                <h2 className="text-2xl font-semibold text-indigo-600 dark:text-indigo-400 mb-2">{t('section_4_title')}</h2>
                 <p className="leading-relaxed">{t('section_4_content')}</p>
             </section>
 
             <section className="mb-8 leading-relaxed whitespace-pre-line">
-                <h2 className="text-2xl font-semibold text-blue-600 dark:text-blue-400 mb-2">{t('section_5_title')}</h2>
+                <h2 className="text-2xl font-semibold text-indigo-600 dark:text-indigo-400 mb-2">{t('section_5_title')}</h2>
                 <p className="leading-relaxed">{t('section_5_content')}</p>
             </section>
 
             <section className="mb-8 leading-relaxed whitespace-pre-line">
-                <h2 className="text-2xl font-semibold text-blue-600 dark:text-blue-400 mb-2">{t('section_6_title')}</h2>
+                <h2 className="text-2xl font-semibold text-indigo-600 dark:text-indigo-400 mb-2">{t('section_6_title')}</h2>
                 <ul className="list-disc list-inside space-y-1">
                     <li>{t('section_6_list.1')}</li>
                     <li>{t('section_6_list.2')}</li>
@@ -70,7 +70,7 @@ const PrivacyPolicy = () => {
 
             <section className="mb-8 leading-relaxed whitespace-pre-line">
 
-                <h2 className="text-2xl font-semibold text-blue-600 dark:text-blue-400 mb-2">{t('section_7_title')}</h2>
+                <h2 className="text-2xl font-semibold text-indigo-600 dark:text-indigo-400 mb-2">{t('section_7_title')}</h2>
 
                 <p className="leading-relaxed">{t('section_7_content_1')}</p>
 
@@ -80,7 +80,7 @@ const PrivacyPolicy = () => {
 
             <section className="mb-8 leading-relaxed whitespace-pre-line">
 
-                <h2 className="text-2xl font-semibold text-blue-600 dark:text-blue-400 mb-2">{t('section_8_title')}</h2>
+                <h2 className="text-2xl font-semibold text-indigo-600 dark:text-indigo-400 mb-2">{t('section_8_title')}</h2>
 
                 <p className="leading-relaxed">{t('section_8_content')}</p>
 
@@ -88,7 +88,7 @@ const PrivacyPolicy = () => {
 
             <section>
 
-                <h2 className="text-2xl font-semibold text-blue-600 dark:text-blue-400 mb-2">{t('section_9_title')}</h2>
+                <h2 className="text-2xl font-semibold text-indigo-600 dark:text-indigo-400 mb-2">{t('section_9_title')}</h2>
 
                 <p className="leading-relaxed">{t('section_9_content')}</p>
 

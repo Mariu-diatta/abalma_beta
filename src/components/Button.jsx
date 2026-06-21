@@ -26,13 +26,13 @@ const WhiteRoundedButton = ({ titleButton, to, children = null }) => {
           `;
 
     const defaultClasses = isRegister? `
-        bg-blue-200  shadow-lg
-        hover:from-purple-100 hover:to-blue-200
+        bg-indigo-200  shadow-lg
+        hover:from-purple-100 hover:to-indigo-200
         border border-gray-200
         `
         : `
         bg-white shadow-lg
-        hover:bg-gradient-to-br hover:from-purple-50 hover:to-blue-100
+        hover:bg-gradient-to-br hover:from-purple-50 hover:to-indigo-100
         border-t sm:border-b-0 lg:border-b lg:border-t-0
         border border-gray-100
       `;
@@ -90,8 +90,8 @@ export const WhiteRoundedButtonSignInRegister = ({ titleButton,  children = null
 
     // Design plus e-commerce (ombres douces et gradients)
     const defaultClasses = isRegister
-        ? `bg-[#2563EB] text-white shadow-lg shadow-blue-200 hover:bg-[#1536a3] border-none`
-        : `bg-white text-gray-700 shadow-sm border border-gray-100 hover:shadow-md hover:border-blue-200 hover:bg-blue-50/30`;
+        ? `bg-[#6366f1] text-white shadow-lg shadow-indigo-200 hover:bg-[#4f46e5] border-none`
+        : `bg-white text-gray-700 shadow-sm border border-gray-100 hover:shadow-md hover:border-indigo-200 hover:bg-indigo-50/30`;
 
     // Rendu conditionnel : si onClick existe, c'est un bouton de modale, sinon c'est un lien
     const renderButton = () => {
@@ -157,7 +157,7 @@ export const ButtonNavigate = ({ tabs }) => {
                                             border-t sm:border-b-0 lg:border-b lg:border-t-0
                                             ${isActive
                                             ? 'border-gray-100 rounded-lg'
-                                            : 'border-transparent text-gray-100 dark:text-gray-700 hover:bg-blue-50 dark:hover:bg-dark-3 hover:rounded-full hover:bg-gradient-to-br from-purple-0 to-blue-50 hover:bg-gradient-to-br hover:from-purple-50 '
+                                            : 'border-transparent text-gray-100 dark:text-gray-700 hover:bg-indigo-50 dark:hover:bg-dark-3 hover:rounded-full hover:bg-gradient-to-br from-purple-0 to-indigo-50 hover:bg-gradient-to-br hover:from-purple-50 '
                                         }
                                         `
                                     }
@@ -188,7 +188,7 @@ export const ButtonSimple = ({
     title,
     onHandleClick = () => { },
     type = "submit",
-    className = "w-auto flex items-center m-auto cursor-pointer rounded-full border border-blue-100 bg-blue-0 px-5 py-2 text-base  text-white-900 transition bg-gradient-to-br from-purple-0 to-blue-100 hover:bg-gradient-to-br hover:from-purple-100 px-2 "
+    className = "w-auto flex items-center m-auto cursor-pointer rounded-full border border-indigo-100 bg-blue-0 px-5 py-2 text-base  text-white-900 transition bg-gradient-to-br from-purple-0 to-indigo-100 hover:bg-gradient-to-br hover:from-purple-100 px-2 "
 }) => {
 
 

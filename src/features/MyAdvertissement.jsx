@@ -174,9 +174,9 @@ const MesPublicites = ({ onEdit }) => {
                                     onClick={() => onEdit?.(ad)}
                                     className="
                                         py-2 rounded-lg
-                                        bg-blue-50
-                                        text-blue-700
-                                        hover:bg-blue-100
+                                        bg-indigo-50
+                                        text-indigo-700
+                                        hover:bg-indigo-100
                                         transition flex
                                         justify-center
                                     "

@@ -121,7 +121,7 @@ const GetValidateUserFournisseur = ({ isCurrentUser }) => {
                                     id="code"
                                     value={code}
                                     onChange={handleCodeChange}
-                                    className="w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                                     placeholder="Ex: 123456"
                                     min="0"
                                     autoComplete="one-time-code"
@@ -151,7 +151,7 @@ const GetValidateUserFournisseur = ({ isCurrentUser }) => {
 
                                     `w-full py-2 px-4 rounded-md text-white text-sm font-medium transition duration-200
                                 ${code
-                                        ? "bg-blue-600 hover:bg-blue-700"
+                                        ? "bg-indigo-600 hover:bg-indigo-700"
                                         : "bg-gray-400 cursor-not-allowed"
                                     }`
                                 }

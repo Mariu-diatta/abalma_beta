@@ -10,7 +10,7 @@ const NotificationToggle = ({ checked, onChange, t }) => (
             name="notifications"
             checked={checked}
             onChange={onChange}
-            className="w-4 h-4 text-blue-100 bg-gray-100 border-gray-300 rounded focus:ring-blue-100 dark:bg-gray-100 dark:border-gray-100"
+            className="w-4 h-4 text-indigo-100 bg-gray-100 border-gray-300 rounded focus:ring-indigo-100 dark:bg-gray-100 dark:border-gray-100"
         />
 
         <label htmlFor="notifications" className="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">

@@ -71,14 +71,14 @@ const RendrePrixProduitMonnaie = ({ item }) => {
         };
 
         return (
-            <span className="whitespace-nowrap text-blue-700 text-[15px] md:text-[20px] font-bold p-1 flex flex-col items-start">
+            <span className="whitespace-nowrap text-indigo-700 text-[15px] md:text-[20px] font-bold p-1 flex flex-col items-start">
 
                 {/* 💰 prix converti */}
                 <p className="text-green-500 font-bold">{parsePrice(prixConverti)}</p>
 
                 {/* 🔥 si différente monnaie → afficher original */}
                 {!sameCurrency && (
-                    <p className="text-blue-500 text-sm font-semibold">
+                    <p className="text-indigo-500 text-sm font-semibold">
                         {prixOriginal}
                     </p>
                 )}

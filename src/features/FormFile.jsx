@@ -79,8 +79,8 @@ const FormElementFileUpload = ({
                         file:mr-4 file:py-2 file:px-4
                         file:rounded file:border-0
                         file:text-sm file:font-semibold
-                        file:bg-blue-300 file:text-blue-700
-                        hover:file:bg-blue-500
+                        file:bg-indigo-300 file:text-indigo-700
+                        hover:file:bg-indigo-500
                         dark:file:text-white"
                     required={required}
                 />

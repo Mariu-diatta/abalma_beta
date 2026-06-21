@@ -91,7 +91,7 @@ const AnaliesChatsWithAi = () => {
 
             <button
                 onClick={fetchAiAnalysisList}
-                className=" bg-gradient-to-r from-blue-400 to-gray-200 text-gray-700 font-sm text-sm z-10 rounded-full  hover:font-medium px-2 cursor-pointer py-2 fixed bottom-2 left-1/2 md:absolute w-full -translate-x-1/2 shadow-md hover:shadow-lg  transition-all duration-200"
+                className=" bg-gradient-to-r from-indigo-400 to-gray-200 text-gray-700 font-sm text-sm z-10 rounded-full  hover:font-medium px-2 cursor-pointer py-2 fixed bottom-2 left-1/2 md:absolute w-full -translate-x-1/2 shadow-md hover:shadow-lg  transition-all duration-200"
             >
                 {loadingList ? t("loading") : t("ai_analies")}
 
@@ -144,7 +144,7 @@ const AnaliesChatsWithAi = () => {
 
                                                         <button
                                                             onClick={() => handleViewAiChat(item.id)}
-                                                            className="border border-blue-300 text-xs md:text-sm bg-blue-100 hover:bg-blue-200 px-3 py-1 rounded-lg transition flex items-center justify-center min-w-[90px]"
+                                                            className="border border-indigo-300 text-xs md:text-sm bg-indigo-100 hover:bg-indigo-200 px-3 py-1 rounded-lg transition flex items-center justify-center min-w-[90px]"
                                                             disabled={loadingViewId}
                                                         >
                                                             {loadingViewId === item.id ? <LoadingCard /> : t("view_ai_discuss")}
@@ -152,7 +152,7 @@ const AnaliesChatsWithAi = () => {
 
                                                         <button
                                                             onClick={() => handleDeleteAiChat(item.id)}
-                                                            className="border border-blue-300 text-xs md:text-sm bg-red-100 hover:bg-red-200 px-3 py-1 rounded-lg transition flex items-center justify-center min-w-[90px]"
+                                                            className="border border-indigo-300 text-xs md:text-sm bg-red-100 hover:bg-red-200 px-3 py-1 rounded-lg transition flex items-center justify-center min-w-[90px]"
                                                             disabled={loadingDeleteId}
                                                         >
                                                             {loadingDeleteId === item.id ? <LoadingCard /> : t("del_ai_discuss")}

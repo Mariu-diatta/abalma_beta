@@ -59,8 +59,8 @@ const StripePaymentForm = ({ clientSecret, onSuccess, onCancel }) => {
             <button
                 onClick={handleSubmit}
                 disabled={loading || !stripe}
-                className="w-full py-3 bg-gradient-to-r from-purple-400 to-blue-400
-                   hover:from-purple-500 hover:to-blue-500
+                className="w-full py-3 bg-gradient-to-r from-purple-400 to-indigo-400
+                   hover:from-purple-500 hover:to-indigo-500
                    text-white font-medium rounded-xl
                    disabled:opacity-60 transition-all duration-200
                    flex items-center justify-center gap-2"
@@ -159,8 +159,8 @@ const BuyButtonWithPaymentForm = ({ total_price, reference }) => {
                 onClick={handleClick}
                 disabled={loading}
                 className="flex items-center justify-start gap-3 w-full px-6 py-3.5
-                   bg-gradient-to-r from-purple-400 to-blue-400
-                   hover:from-purple-500 hover:to-blue-500
+                   bg-gradient-to-r from-purple-400 to-indigo-400
+                   hover:from-purple-500 hover:to-indigo-500
                    disabled:opacity-60 disabled:cursor-not-allowed
                    text-white font-medium rounded-xl
                    transition-all duration-200 active:scale-95"

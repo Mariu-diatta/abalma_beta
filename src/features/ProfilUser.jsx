@@ -5,7 +5,6 @@ import api from '../services/Axios';
 import { updateUserData } from '../slices/authSlice';
 import { addCurrentChat, addRoom } from '../slices/chatSlice';
 import { setCurrentNav } from '../slices/navigateSlice';
-import { hashPassword } from '../components/OwnerProfil';
 import AttentionAlertMesage, { showMessage } from '../components/AlertMessage';
 import { useTranslation } from 'react-i18next';
 import LoadingCard from '../components/LoardingSpin';
@@ -13,7 +12,7 @@ import FollowProfilUser from '../components/ViewsProfilUser';
 import NumberFollowFollowed from '../components/FollowUserComp';
 import { ModalFormCreatBlog } from './BlogCreatBlogs';
 import GetValidateUserFournisseur from './FournisseurValidation';
-import { ENDPOINTS, getMediaUrl } from '../utils';
+import { ENDPOINTS, getMediaUrl, getOrCreateRoom } from '../utils';
 import ProbuttonComp from '../components/ProButtonComp';
 import FormEditProfil from '../components/FormEditProfil';
 import UpdateUserToPro from '../components/UpdateUserToPro';
@@ -34,7 +33,7 @@ const CameraIcon = React.memo(({ className = 'w-6 h-6' }) => (
 CameraIcon.displayName = 'CameraIcon';
 
 const BadgeProIcon = React.memo(() => (
-    <svg className="w-5 h-5 text-blue-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+    <svg className="w-5 h-5 text-indigo-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
             d="m8.032 12 1.984 1.984 4.96-4.96m4.55 5.272.893-.893a1.984 1.984 0 0 0 0-2.806l-.893-.893a1.984 1.984 0 0 1-.581-1.403V7.04a1.984 1.984 0 0 0-1.984-1.984h-1.262a1.983 1.983 0 0 1-1.403-.581l-.893-.893a1.984 1.984 0 0 0-2.806 0l-.893.893a1.984 1.984 0 0 1-1.403.581H7.04A1.984 1.984 0 0 0 5.055 7.04v1.262c0 .527-.209 1.031-.581 1.403l-.893.893a1.984 1.984 0 0 0 0 2.806l.893.893c.372.372.581.876.581 1.403v1.262a1.984 1.984 0 0 0 1.984 1.984h1.262c.527 0 1.031.209 1.403.581l.893.893a1.984 1.984 0 0 0 2.806 0l.893-.893a1.985 1.985 0 0 1 1.403-.581h1.262a1.984 1.984 0 0 0 1.984-1.984V15.7c0-.527.209-1.031.581-1.403Z" />
     </svg>
@@ -88,8 +87,6 @@ const ProfileCard = () => {
     const selectedProductOwner = useSelector((state) => state.chat.userSlected);
     const currentOwnUser = selectedProductOwner;
     const currentNav = useSelector((state) => state.navigate.currentNav);
-    const allChats = useSelector((state) => state.chat.currentChats);
-    const currentChat = useSelector((state) => state.chat.currentChat);
 
     // ── État local ──
     const [isEditing, setIsEditing] = useState(false);
@@ -301,64 +298,39 @@ const ProfileCard = () => {
         }
     }, [dispatch]);
 
-    const getRoomByName = useCallback(async () => {
-        try {
-            const response = await api.get(`/rooms/?receiver_id=${selectedProductOwner?.id}`);
-            dispatch(addCurrentChat(response[0]));
-        } catch (err) {
-            console.error('❌ Erreur chargement messages :', err);
-        }
-    }, [dispatch, selectedProductOwner]);
+    const [loadingChat, setLoadingChat] = useState(false);
 
+    // Ouvre la conversation existante avec ce profil, ou en crée une si
+    // aucune n'existe encore — partage la même logique fiable que le
+    // popover "écrire un message" sur les fiches produit.
     const creatNewRoom = useCallback(async () => {
+        if (loadingChat || !selectedProductOwner) return;
+
+        setLoadingChat(true);
+
         try {
-            const hashedPhone = await hashPassword(selectedProductOwner?.telephone);
-            const roomName = `room_${selectedProductOwner?.nom}_${hashedPhone}`;
-            await getRoomByName();
+            const room = await getOrCreateRoom({ currentUser, otherUser: selectedProductOwner });
 
-            const roomExists = allChats?.some((room) => room?.name === currentChat?.nom);
-            if (roomExists) {
-                dispatch(setCurrentNav('message-inbox'));
-                navigate('/message-inbox');
-                return;
+            if (room) {
+                dispatch(addRoom(room));
+                dispatch(addCurrentChat(room));
+            } else {
+                showMessage(dispatch, {
+                    Type: 'Erreur',
+                    Message: "Impossible d'ouvrir la conversation pour le moment.",
+                });
             }
-
-            await api.post('rooms/', {
-                name: roomName,
-                current_owner: currentUser?.id,
-                current_receiver: selectedProductOwner?.id,
-            });
-
+        } finally {
+            setLoadingChat(false);
             dispatch(setCurrentNav('message-inbox'));
             navigate('/message-inbox');
-        } catch (err) {
-            const errorMsg = err?.response?.data;
-            const roomAlreadyExists = [
-                errorMsg?.name?.[0],
-                errorMsg?.current_receiver?.[0],
-                errorMsg?.current_owner?.[0],
-            ].some((msg) => msg?.includes('already exists'));
-
-            if (roomAlreadyExists) {
-                try {
-                    const fallbackHash = await hashPassword(selectedProductOwner?.telephone);
-                    const fallbackRoom = `room_${selectedProductOwner?.email}_${fallbackHash}`;
-                    dispatch(addRoom(fallbackRoom));
-                    dispatch(addCurrentChat(fallbackRoom));
-                } catch (hashErr) {
-                    console.error('❌ Erreur fallback (hash):', hashErr);
-                }
-            } else {
-                console.error('❌ Erreur création chat:', errorMsg);
-            }
         }
-    }, [selectedProductOwner, getRoomByName, allChats, currentChat, currentUser, dispatch, navigate]);
+    }, [selectedProductOwner, currentUser, dispatch, navigate, loadingChat]);
 
     const handleMessageClick = useCallback(() => {
         setMessageVisible((prev) => !prev);
         creatNewRoom();
-        navigate('/message-inbox');
-    }, [creatNewRoom, navigate]);
+    }, [creatNewRoom]);
 
     // Callbacks de toggle simples, mémoïsés pour stabilité des props (ex: onClick).
     const toggleBgPhotoEditing = useCallback(() => setIsEditingPhotoBg((prev) => !prev), []);
@@ -462,7 +434,7 @@ const ProfileCard = () => {
                                 value={formData.description}
                                 onChange={handleChange}
                                 disabled
-                                className="w-full mt-2 rounded-lg border border-gray-50 p-2 text-sm focus:ring-2 focus:ring-blue-500 prose scrollbor_hidden leading-relaxed whitespace-pre-lin"
+                                className="w-full mt-2 rounded-lg border border-gray-50 p-2 text-sm focus:ring-2 focus:ring-indigo-500 prose scrollbor_hidden leading-relaxed whitespace-pre-lin"
                                 placeholder={t('ProfilText.descriptionPlaceholder')}
                             />
                         </>
@@ -474,7 +446,7 @@ const ProfileCard = () => {
                             {isCurrentUser && (
                                 <button
                                     onClick={openEditing}
-                                    className="h-8 w-1/2 border border-gray-300 cursor-pointer flex items-center justify-center gap-0 rounded-full bg-gray-100 text-gray-800 dark:text-gray-100 text-sm px-0 sm:px-2 hover:bg-gray-200 focus:ring-0 focus:ring-blue-500 focus:outline-none transition-colors duration-200 md:w-auto"
+                                    className="h-8 w-1/2 border border-gray-300 cursor-pointer flex items-center justify-center gap-0 rounded-full bg-gray-100 text-gray-800 dark:text-gray-100 text-sm px-0 sm:px-2 hover:bg-gray-200 focus:ring-0 focus:ring-indigo-500 focus:outline-none transition-colors duration-200 md:w-auto"
                                     aria-label={t('ProfilText.modifierProfil')}
                                 >
                                     <EditProfilIcon />
@@ -485,7 +457,7 @@ const ProfileCard = () => {
                             {isViewingOtherUser && (
                                 <button
                                     onClick={handleMessageClick}
-                                    className="h-8 w-1/2 md:w-auto border border-gray-300 cursor-pointer flex items-center justify-center gap-2 rounded-full bg-gray-100 text-gray-800 dark:text-gray-100 text-sm px-1 sm:px-2 hover:bg-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors duration-200"
+                                    className="h-8 w-1/2 md:w-auto border border-gray-300 cursor-pointer flex items-center justify-center gap-2 rounded-full bg-gray-100 text-gray-800 dark:text-gray-100 text-sm px-1 sm:px-2 hover:bg-gray-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-colors duration-200"
                                 >
                                     <span className="whitespace-nowrap px-2">
                                         {messageVisible ? 'X' : 'Message'}

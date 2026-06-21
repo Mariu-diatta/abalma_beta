@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import api from '../services/Axios';
+import { showMessage } from '../components/AlertMessage';
 
 const initialState = {
     currentChats: [], // Liste des rooms actuellement actives (sans doublon)
-    newChat: null,
     deleteChat: null,
     currentChat:null,
     userSlected: null,
@@ -55,10 +55,6 @@ const chatSlice = createSlice({
             state.currentChat=null
         },
 
-        newRoom: (state, payload) => {
-            state.newChat = payload?.name;
-        },
-
         // ➕ Ajouter une room s'il n'existe pas déjà
         addUser: (state, action) => {
        
@@ -96,12 +92,12 @@ const chatSlice = createSlice({
     },
 });
 
-export const { addRoom, removeRoom, clearRooms, newRoom, addUser, addCurrentChat, addMessageNotif,
+export const { addRoom, removeRoom, clearRooms, addUser, addCurrentChat, addMessageNotif,
     removeMessageNotif, cleanAllMessageNotif, getDeleteChat} = chatSlice.actions;
 
 export const deleteRoomAsync = (room) => async (dispatch) => {
 
-    // Mise à jour du store après succès
+    // Mise à jour optimiste du store
     dispatch(getDeleteChat(room));
 
     try {
@@ -111,6 +107,15 @@ export const deleteRoomAsync = (room) => async (dispatch) => {
     } catch (err) {
 
         console.error("ChatSlice.jsx = Erreur de suppression", err);
+
+        // La suppression a échoué côté serveur : on remet la conversation
+        // dans la liste plutôt que de la laisser disparaître silencieusement.
+        dispatch(addRoom(room));
+
+        showMessage(dispatch, {
+            Type: "Erreur",
+            Message: "Impossible de supprimer cette discussion. Réessayez.",
+        });
     }
 };
 

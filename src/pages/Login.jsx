@@ -40,12 +40,12 @@ const LogIn = ({ callbackState, onClose }) => {
             const formData = new FormData();
             formData.append("email", email);
             formData.append("password", pwd);
-            await loginClient(formData, dispatch, setLoading, navigate);
+            const success = await loginClient(formData, dispatch, setLoading, navigate);
 
-        } catch (e) {
-            const errorMessage = e?.response?.data?.detail || e?.response?.data?.error;
-            showMessage(dispatch, { Type: "Erreur", Message: errorMessage || "Error" });
-            if (onClose) onClose(); // Fermer le popover après succès
+            // On ne ferme la fenêtre de connexion qu'en cas de succès — sinon
+            // l'utilisateur ne voit jamais le message d'erreur (la modale se
+            // refermait alors qu'un identifiant ou mot de passe était incorrect).
+            if (success && onClose) onClose();
 
         } finally {
             setLoading(false);
@@ -94,7 +94,7 @@ const LogIn = ({ callbackState, onClose }) => {
                                             callbackState();
                                             onClose()
                                         }}
-                                        className="font-semibold text-blue-600 hover:underline"
+                                        className="font-semibold text-indigo-600 hover:underline"
                                     >
                                         {t("register")}
                                     </button>
@@ -128,7 +128,7 @@ const LogIn = ({ callbackState, onClose }) => {
                                     required
                                 />
 
-                                <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-bold transition-all shadow-lg shadow-blue-200 active:scale-95">
+                                <button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-bold transition-all shadow-lg shadow-indigo-200 active:scale-95">
                                     {t("login")}
                                 </button>
 
@@ -141,7 +141,7 @@ const LogIn = ({ callbackState, onClose }) => {
                                         dispatch(setCurrentNav("forgetPassword"));
                                         if (onClose) onClose();
                                     }}
-                                    className="text-xs text-gray-400 hover:text-blue-600 transition"
+                                    className="text-xs text-gray-400 hover:text-indigo-600 transition"
                                 >
                                     {t("forgetPwd")}
                                 </NavLink>

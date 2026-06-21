@@ -93,7 +93,7 @@ const AttentionAlertMessage = () => {
                     p-4
                     ${isError
                         ? "bg-red-50 border-red-200"
-                        : "bg-blue-50 border-blue-200"
+                        : "bg-indigo-50 border-indigo-200"
                     }
                 `}
             >
@@ -105,7 +105,7 @@ const AttentionAlertMessage = () => {
                             w-10 h-10 rounded-full shrink-0
                             ${isError
                                 ? "bg-red-100 text-red-600"
-                                : "bg-blue-100 text-blue-600"
+                                : "bg-indigo-100 text-indigo-600"
                             }
                         `}
                     >
@@ -119,7 +119,7 @@ const AttentionAlertMessage = () => {
                                 font-semibold text-base
                                 ${isError
                                     ? "text-red-700"
-                                    : "text-blue-700"
+                                    : "text-indigo-700"
                                 }
                             `}
                         >
@@ -148,7 +148,7 @@ const AttentionAlertMessage = () => {
                     className={`
                         absolute bottom-0 left-0 h-1
                         transition-[width] ease-linear
-                        ${isError ? "bg-red-500" : "bg-blue-500"}
+                        ${isError ? "bg-red-500" : "bg-indigo-500"}
                         ${progressFilled ? "w-full" : "w-0"}
                     `}
                     style={{ transitionDuration: `${DISPLAY_DURATION_MS}ms` }}

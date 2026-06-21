@@ -70,9 +70,9 @@ const NavbarHeader = () => {
             if (!header) return;
             if (currentScroll < lastScroll) {
                 header.classList.remove("bg-none");
-                header.classList.add("bg-white-50", "shadow-none");
+                header.classList.add("bg-white/95", "shadow-sm", "backdrop-blur-md");
             } else {
-                header.classList.remove("bg-white-50", "shadow-none");
+                header.classList.remove("bg-white/95", "shadow-sm", "backdrop-blur-md");
                 header.classList.add("bg-none");
             }
             lastScroll = currentScroll;

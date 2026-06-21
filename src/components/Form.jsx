@@ -67,7 +67,7 @@ const RegisterForm = ({ onClose }) => {
                                         {t("alredyRegister")}{" "}
                                         <button
                                             onClick={() => { if (onClose) onClose(); navigate("/"); }}
-                                            className="font-semibold text-blue-600 hover:underline"
+                                            className="font-semibold text-indigo-600 hover:underline"
                                         >
                                             {t("login")}
                                         </button>
@@ -88,7 +88,7 @@ const RegisterForm = ({ onClose }) => {
 
                                     <InputBox type="password" name="password1" placeholder={t('form.confirmPassword')} value={form.password1} onChange={handleChange} autoComplete="off" />
 
-                                    <button type="submit" className="w-full bg-[#1B44C8] hover:bg-[#1536a3] text-white py-3.5 rounded-xl font-bold shadow-lg shadow-blue-200 transition-all active:scale-[0.98] mt-4">
+                                    <button type="submit" className="w-full bg-[#6366f1] hover:bg-[#4f46e5] text-white py-3.5 rounded-xl font-bold shadow-lg shadow-indigo-200 transition-all active:scale-[0.98] mt-4">
                                         {t("register")}
                                     </button>
                                 </form>

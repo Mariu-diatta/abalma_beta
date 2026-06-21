@@ -1,33 +1,40 @@
+import { lazy } from "react";
+
 // Imports
 import ProtectedRoute from "../ProtectedRoute";
 
-// Layouts
-
-// Pages
-import About from "../pages/About";
+// Pages critiques (chargées immédiatement : page d'accueil + gestion des erreurs)
 import ErrorPage from "../pages/ErrorPage";
 import Home from "../pages/Home";
 
-// Components
+// Auth (petit, sur le chemin critique de toutes les routes protégées)
 import PersistLogIn from "../features/auth/PersistLogin";
-import ProfileCard from "../features/ProfilUser";
-import PrivacyPolicy from "../features/PrivacyPolicy";
-import LayoutPwdForget from "../pages/forgetPassword";
 import VertcalNavbar from "../features/NavbarVertical";
-import AddUploadProduct from "../features/UpdateProduct";
-import ChatLayout from "../layouts/ChatLayout";
-import GridProductDefault from "../features/GridProductDefaultSize";
-import Tabs from "../features/DashbordProfileUser";
-import GridLayoutProduct from "../features/GridLayoutProducts";
-import ProductsRecapTable from "../features/ProductRecaptable";
-import ListProductShoppingCart from "../features/ListProductShoppingCart";
-import SettingsForm from "../features/Settings";
-import BlogPageHome, { BlogPage } from "../pages/Blog";
+
 import { LIST_CATEGORY } from "../utils";
-import HelpPage from "../layouts/HelpLayout";
-import PaySuccess from "../features/PaySuccess";
-import PayCancel from "../features/PayCancel";
-import SubscriptionsPage from "../pages/SubscriptionCard";
+
+// ─── Tout le reste est chargé à la demande (code-splitting) ────────────────
+// Ces pages ne sont visitées qu'après navigation explicite (paiement,
+// dashboard, gestion produit, chat, blog...) — les charger en différé
+// réduit fortement le bundle initial téléchargé par chaque visiteur.
+const About = lazy(() => import("../pages/About"));
+const ProfileCard = lazy(() => import("../features/ProfilUser"));
+const PrivacyPolicy = lazy(() => import("../features/PrivacyPolicy"));
+const LayoutPwdForget = lazy(() => import("../pages/forgetPassword"));
+const AddUploadProduct = lazy(() => import("../features/UpdateProduct"));
+const ChatLayout = lazy(() => import("../layouts/ChatLayout"));
+const GridProductDefault = lazy(() => import("../features/GridProductDefaultSize"));
+const Tabs = lazy(() => import("../features/DashbordProfileUser"));
+const GridLayoutProduct = lazy(() => import("../features/GridLayoutProducts"));
+const ProductsRecapTable = lazy(() => import("../features/ProductRecaptable"));
+const ListProductShoppingCart = lazy(() => import("../features/ListProductShoppingCart"));
+const SettingsForm = lazy(() => import("../features/Settings"));
+const BlogPageHome = lazy(() => import("../pages/Blog").then((m) => ({ default: m.default })));
+const BlogPage = lazy(() => import("../pages/Blog").then((m) => ({ default: m.BlogPage })));
+const HelpPage = lazy(() => import("../layouts/HelpLayout"));
+const PaySuccess = lazy(() => import("../features/PaySuccess"));
+const PayCancel = lazy(() => import("../features/PayCancel"));
+const SubscriptionsPage = lazy(() => import("../pages/SubscriptionCard"));
 
 
 // Routes Configuration

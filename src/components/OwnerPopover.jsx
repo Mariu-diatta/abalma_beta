@@ -1,11 +1,10 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { setCurrentNav } from '../slices/navigateSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCurrentChat, addRoom, addUser, newRoom } from '../slices/chatSlice';
-import api from '../services/Axios';
+import { addCurrentChat, addRoom, addUser } from '../slices/chatSlice';
 import { useNavigate } from "react-router";
-import { hashPassword } from './OwnerProfil';
-import { getMediaUrl } from '../utils';
+import { getMediaUrl, getOrCreateRoom } from '../utils';
+import { showMessage } from './AlertMessage';
 
 const OwnerPopover = ({ owner, onClose }) => {
 
@@ -17,7 +16,7 @@ const OwnerPopover = ({ owner, onClose }) => {
 
     const currentUser = useSelector(state => state.auth.user)
 
-    const selectedProductOwner = useSelector(state => state.chat.userSlected)
+    const [loadingChat, setLoadingChat] = useState(false);
 
     const nomLength = owner?.nom?.length || 0;
 
@@ -25,7 +24,7 @@ const OwnerPopover = ({ owner, onClose }) => {
 
     const maxLength = Math.max(nomLength, prenomLength);
 
-    const calculatedWidth = `${maxLength * 0.6 + 3}rem`; // ou px/rem adapt� � la police
+    const calculatedWidth = `${maxLength * 0.6 + 3}rem`; // ou px/rem adapté à la police
 
 
     useEffect(() => {
@@ -44,77 +43,37 @@ const OwnerPopover = ({ owner, onClose }) => {
 
     }, [onClose]);
 
+    // Ouvre (ou crée) la conversation avec ce fournisseur puis navigue vers
+    // la messagerie. getOrCreateRoom cherche d'abord une conversation
+    // existante avant d'en créer une — fini les conversations "perdues"
+    // quand on recontacte quelqu'un à qui on a déjà écrit.
     const chatWithOwner = async () => {
 
-        hashPassword(owner?.telephone).then(
+        if (loadingChat) return;
 
-            res => {
+        setLoadingChat(true);
 
-                try {
-                    api.post('rooms/',
+        dispatch(addUser(owner));
 
-                        {
-                            "name": `room_${owner?.nom}${owner?.id}${res}${currentUser?.id}`,
+        try {
 
-                            "current_owner": currentUser?.id,
+            const room = await getOrCreateRoom({ currentUser, otherUser: owner });
 
-                            "current_receiver": owner?.id
-                        }
-
-                    ).then(
-
-                        resp => {
-
-                            dispatch(newRoom(resp?.data?.name))
-
-                            dispatch(addCurrentChat(resp?.data))
-
-                            dispatch(addRoom(resp?.data))
-
-                            dispatch(addUser(owner))
-                        }
-
-                    ).catch(
-
-                        err => {
-
-                            const errorMsg = err?.response?.data;
-
-                            const roomAlreadyExists =
-                                errorMsg?.name?.[0]?.includes("already exists") ||
-                                errorMsg?.current_receiver?.[0]?.includes("already exists") ||
-                                errorMsg?.current_owner?.[0]?.includes("already exists");
-
-                            if (roomAlreadyExists) {
-
-                                const response = api.get(`/rooms/?receiver_id=${selectedProductOwner?.id}`);
-
-                                dispatch(addRoom(response?.data));
-
-                                dispatch(addCurrentChat(response?.data));
-
-                            } else {
-                                //console.error("Erreur inconnue lors de la cr�ation du chat:", errorMsg);
-                            }
-                        }
-                    )
-
-                } catch (err) {
-                            
-                    //console.log("OwnerProfil.jsx, ERREUR DE LA CREATION DU CHAT")
-                }
-
-                dispatch(newRoom({ name: `room_${owner?.nom}_${res}` }))
-
+            if (room) {
+                dispatch(addRoom(room));
+                dispatch(addCurrentChat(room));
+            } else {
+                showMessage(dispatch, {
+                    Type: "Erreur",
+                    Message: "Impossible d'ouvrir la conversation pour le moment.",
+                });
             }
 
-        )
-
-        dispatch(addUser(owner))
-
-        dispatch(setCurrentNav("message-inbox"))
-
-        return navigate("/message-inbox")
+        } finally {
+            setLoadingChat(false);
+            dispatch(setCurrentNav("message-inbox"));
+            navigate("/message-inbox");
+        }
     }
 
     if (!owner) return null
@@ -190,35 +149,40 @@ const OwnerPopover = ({ owner, onClose }) => {
 
                 </button>
 
-                {/* �crire un message */}
+                {/* Écrire un message */}
                 {
                     !(currentUser?.id === owner?.id) &&
                     <button
 
                         onClick={
-
-                            () => {
-                                chatWithOwner();
-                            }
+                            () => chatWithOwner()
                         }
 
-                        className="p-1.5 rounded-md text-gray-700 hover:bg-gray-50 dark:text-white cursor-pointer z-50"
+                        disabled={loadingChat}
 
-                        title="�crire un message"
+                        className="p-1.5 rounded-md text-gray-700 hover:bg-gray-50 dark:text-white cursor-pointer z-50 disabled:opacity-50"
+
+                        title="Écrire un message"
                     >
-                        <svg
-                            className="w-6 h-6"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                fillRule="evenodd"
-                                d="M4.9 4c-.5 0-.9.2-1.3.6C3.2 5 3 5.5 3 6v9c0 .5.2 1 .6 1.3.4.4.8.6 1.3.6h4.6l2.4 3.2a1 1 0 0 0 1.6 0l2.4-3.2h4.6c.5 0 .9-.2 1.3-.6.4-.4.6-.8.6-1.3V6c0-.5-.2-1-.6-1.4-.4-.4-.8-.6-1.3-.6H4.9ZM8 8a1 1 0 0 0 0 2h8a1 1 0 1 0 0-2H8Zm0 3a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2H8Z"
-                                clipRule="evenodd"
-                            />
-
-                        </svg>
+                        {loadingChat ? (
+                            <svg className="w-6 h-6 animate-spin text-[#6366f1]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+                            </svg>
+                        ) : (
+                            <svg
+                                className="w-6 h-6"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    fillRule="evenodd"
+                                    d="M4.9 4c-.5 0-.9.2-1.3.6C3.2 5 3 5.5 3 6v9c0 .5.2 1 .6 1.3.4.4.8.6 1.3.6h4.6l2.4 3.2a1 1 0 0 0 1.6 0l2.4-3.2h4.6c.5 0 .9-.2 1.3-.6.4-.4.6-.8.6-1.3V6c0-.5-.2-1-.6-1.4-.4-.4-.8-.6-1.3-.6H4.9ZM8 8a1 1 0 0 0 0 2h8a1 1 0 1 0 0-2H8Zm0 3a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2H8Z"
+                                    clipRule="evenodd"
+                                />
+                            </svg>
+                        )}
 
                     </button>
                 }
@@ -231,4 +195,3 @@ const OwnerPopover = ({ owner, onClose }) => {
 };
 
 export default OwnerPopover;
-

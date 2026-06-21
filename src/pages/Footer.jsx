@@ -83,9 +83,9 @@ const PaymentFooter = () => {
                 {t("text_payment")}
             </p>
             <div className="flex flex-row gap-3 text-[32px] text-gray-400">
-                <FaCcVisa title="Visa" className="hover:text-blue-600 transition-colors" />
+                <FaCcVisa title="Visa" className="hover:text-indigo-600 transition-colors" />
                 <FaCcMastercard title="Mastercard" className="hover:text-red-500 transition-colors" />
-                <FaCcAmex title="American Express" className="hover:text-blue-400 transition-colors" />
+                <FaCcAmex title="American Express" className="hover:text-indigo-400 transition-colors" />
                 <FaCcDiscover title="Discover" className="hover:text-orange-400 transition-colors" />
                 <FaApplePay title="Apple Pay" className="hover:text-gray-800 transition-colors" />
                 <FaGooglePay title="Google Pay" className="hover:text-gray-700 transition-colors" />

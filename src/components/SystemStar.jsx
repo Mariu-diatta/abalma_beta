@@ -26,7 +26,7 @@ const PrintNumberStars = ({ productNbViews, t }) => {
             {/*</div>*/}
 
             <p
-                className="whitespace-nowrap  text-xs font-normal text-indigo-600 hover:text-indigo-500 sm:text-sx rounded-full bg-blue-200 p-1"
+                className="whitespace-nowrap  text-xs font-normal text-indigo-600 hover:text-indigo-500 sm:text-sx rounded-full bg-indigo-200 p-1"
             >
                 {productNbViews?? 0} {t("reviews")}
             </p>

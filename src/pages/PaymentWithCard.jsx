@@ -37,7 +37,7 @@ function CheckoutForm({ clientSecret, onSuccess }) {
         }
 
         if (result.paymentIntent?.status === "succeeded") {
-            toast.success("Paiement réussi !");
+            toast.success("Paiement rÃ©ussi !");
             // update state / vider panier / redirect optionnel
         }
 
@@ -75,7 +75,7 @@ export function PaymentWithCard({ refRate }) {
 
     const createOrder = async () => {
         if (currentUserNotConnected) {
-            alert("Utilisateur non connecté");
+            alert("Utilisateur non connectÃ©");
             return;
         }
 
@@ -108,7 +108,7 @@ export function PaymentWithCard({ refRate }) {
     if (currentUserNotConnected) return null;
 
     // ----------------------
-    // STEP 1: création paiement
+    // STEP 1: crÃ©ation paiement
     // ----------------------
     if (!clientSecret) {
         return (

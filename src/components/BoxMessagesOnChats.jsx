@@ -32,7 +32,7 @@ const PrintMessagesOnChat = ({ messages, messagesEndRef }) => {
                             className={`
                                 max-w-[70%] px-4 py-2 rounded-2xl text-sm shadow
                                 ${isMine
-                                    ? "bg-blue-500 text-white rounded-br-none"
+                                    ? "bg-indigo-500 text-white rounded-br-none"
                                     : "bg-white text-gray-700 border rounded-bl-none"
                                 }
                             `}

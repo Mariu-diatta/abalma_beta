@@ -35,7 +35,7 @@ const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) 
 
                         <div key={category} className="flex flex-col items-center gap-3 overflow-x-hidden">
 
-                            {/* Nom catégorie */}
+                            {/* Nom catÃ©gorie */}
                             <div className="flex flex-col items-center gap-2 overflow-x-hidden">
 
                                 <h2 className="

@@ -66,7 +66,7 @@ export function PrimaryButton({ children, onClick, type = 'button', danger = fal
             type={type}
             onClick={onClick}
             style={{
-                background: danger ? '#E24B4A' : '#534AB7',
+                background: danger ? '#E24B4A' : '#6366f1',
                 color: '#fff',
                 border: 'none',
                 borderRadius: '10px',
@@ -104,7 +104,7 @@ function NavItem({ label, icon: Icon, active, onClick, danger }) {
                 border: 'none',
                 cursor: 'pointer',
                 textAlign: 'left',
-                color: danger ? (active ? '#E24B4A' : 'var(--color-text-secondary)') : (active ? '#534AB7' : 'var(--color-text-secondary)'),
+                color: danger ? (active ? '#E24B4A' : 'var(--color-text-secondary)') : (active ? '#6366f1' : 'var(--color-text-secondary)'),
                 fontWeight: active ? 500 : 400,
                 fontSize: '14px',
                 transition: 'background 0.15s',
@@ -159,7 +159,7 @@ function Toast({ message, onClose }) {
     return (
         <div style={{
             position: 'fixed', bottom: '24px', right: '24px', zIndex: 9999,
-            background: '#534AB7', color: '#fff',
+            background: '#6366f1', color: '#fff',
             padding: '12px 20px', borderRadius: '12px',
             fontSize: '14px', fontWeight: 500,
             boxShadow: '0 4px 20px rgba(83,74,183,0.35)',
@@ -416,7 +416,7 @@ const SettingsForm = () => {
                                                 <div style={{
                                                     width: 60, height: 60, borderRadius: '50%',
                                                     background: '#EEEDFE', display: 'flex', alignItems: 'center',
-                                                    justifyContent: 'center', fontSize: '20px', fontWeight: 600, color: '#534AB7',
+                                                    justifyContent: 'center', fontSize: '20px', fontWeight: 600, color: '#6366f1',
                                                 }}>
                                                     {initials}
                                                 </div>
@@ -426,7 +426,7 @@ const SettingsForm = () => {
                                                 <label style={{
                                                     display: 'inline-block',
                                                     fontSize: '13px', fontWeight: 500,
-                                                    color: '#534AB7', cursor: 'pointer',
+                                                    color: '#6366f1', cursor: 'pointer',
                                                     border: '0.5px solid #AFA9EC',
                                                     borderRadius: '8px', padding: '5px 12px',
                                                 }}>

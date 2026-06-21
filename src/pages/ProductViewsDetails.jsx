@@ -99,7 +99,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                                     <button
                                         key={i}
                                         onClick={() => setIndex(i)}
-                                        className={`w-16 h-16 rounded-lg border-2 flex-shrink-0 overflow-hidden transition-all ${index === i ? 'border-blue-600' : 'border-transparent opacity-60'}`}
+                                        className={`w-16 h-16 rounded-lg border-2 flex-shrink-0 overflow-hidden transition-all ${index === i ? 'border-indigo-600' : 'border-transparent opacity-60'}`}
                                     >
                                         <img src={getMediaUrl(v.image)} className="w-full h-full object-cover" alt="" />
                                     </button>
@@ -115,16 +115,16 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                                     <h1 className="text-2xl md:text-3xl font-black text-gray-900 leading-tight">
                                         {product?.name_product}
                                     </h1>
-                                    <p className="text-xs font-bold text-blue-500 mt-1 tracking-widest uppercase">
+                                    <p className="text-xs font-bold text-indigo-500 mt-1 tracking-widest uppercase">
                                         Ref: {product?.code_reference}
                                     </p>
                                 </div>
                                 <ProfilPopPov />
                             </div>
 
-                            <div className="mt-6 flex items-center justify-between bg-blue-50/50 p-4 rounded-2xl border border-blue-100">
+                            <div className="mt-6 flex items-center justify-between bg-indigo-50/50 p-4 rounded-2xl border border-indigo-100">
 
-                                <div className="text-3xl font-black text-blue-600">
+                                <div className="text-3xl font-black text-indigo-600">
                                     <RendrePrixProduitMonnaie item={product} />
                                 </div>
 
@@ -141,7 +141,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                                             <button
                                                 key={i}
                                                 onClick={() => { setSelectedColor(variant.color); setIndex(i); }}
-                                                className={`w-9 h-9 rounded-full border-2 shadow-sm transition-all ${selectedColor === variant.color ? "ring-2 ring-blue-500 ring-offset-2 scale-110" : "border-white"}`}
+                                                className={`w-9 h-9 rounded-full border-2 shadow-sm transition-all ${selectedColor === variant.color ? "ring-2 ring-indigo-500 ring-offset-2 scale-110" : "border-white"}`}
                                                 style={{ backgroundColor: variant.color }}
                                             />
                                         ))}
@@ -172,7 +172,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
 
                                 <button
                                     onClick={handleAddToCart}
-                                    className="flex-1 flex items-center justify-center gap-3 py-4 bg-[#2563EB] hover:bg-[#1D4ED8] text-white rounded-2xl font-bold shadow-xl shadow-blue-200 transition-all active:scale-95"
+                                    className="flex-1 flex items-center justify-center gap-3 py-4 bg-[#6366f1] hover:bg-[#4f46e5] text-white rounded-2xl font-bold shadow-xl shadow-indigo-200 transition-all active:scale-95"
                                 >
                                     <ShoppingCart size={20} />
                                     {t("add_in_basket")}

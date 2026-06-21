@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentNav } from "../slices/navigateSlice";
-import api from "../services/Axios";
 import Logo from "../components/LogoApp";
 import { menuItems } from "../components/MenuItem";
 import { addRoom } from "../slices/chatSlice";
@@ -130,21 +129,6 @@ const VerticalNavbar = ({ children }) => {
     useEffect(() => {
         if (!currentUser) { navigate("/", { replace: true }); return; }
 
-        const loadRooms = async () => {
-            try {
-                const { data } = await api.get("/allRooms/");
-                const rooms = (data || []).filter(
-                    (room) =>
-                        (room?.current_receiver === currentUser?.id && room?.messages?.length > 0) ||
-                        room?.current_owner === currentUser?.id
-                );
-                rooms.forEach((room) => dispatch(addRoom(room)));
-            } catch (err) {
-                console.error("Erreur rooms :", err.response?.data || err.response?.data?.detail || err);
-            }
-        };
-
-        loadRooms();
         fetchRooms(currentUser, dispatch, addRoom);
     }, [currentUser, dispatch, navigate]);
 

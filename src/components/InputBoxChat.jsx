@@ -1,7 +1,7 @@
 import React from 'react'
 
 const InputBoxChat = ({
-    allRoomsChats,
+    disabled,
     input,
     setInput,
     setShow,
@@ -11,24 +11,26 @@ const InputBoxChat = ({
     return (
         <div className="absolute bottom-0 left-0 w-full">
 
-            <div className="flex items-center px-2 py-2 bg-white">
+            <div className="flex items-center gap-0 px-2 py-2 bg-white border-t border-gray-100">
 
                 <input
-                    disabled={allRoomsChats?.length === 0}
+                    disabled={disabled}
                     value={input}
                     onChange={(e) => {
                         setInput(e.target.value);
                         setShow(false);
                         handleTyping();
                     }}
-                    onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-                    placeholder="Votre message..."
-                    className="flex-1 px-3 py-2 border border-gray-300 border-r-0 rounded-l-xl text-sm focus:outline-none"
+                    onKeyDown={(e) => e.key === "Enter" && !disabled && sendMessage()}
+                    placeholder={disabled ? "Sélectionnez une conversation pour écrire..." : "Votre message..."}
+                    aria-label="Votre message"
+                    className="flex-1 px-3.5 py-2.5 border border-gray-300 border-r-0 rounded-l-xl text-sm outline-none focus:border-[#6366f1] focus:ring-1 focus:ring-[#6366f1]/30 disabled:bg-gray-50 disabled:text-gray-400 transition-colors"
                 />
 
                 <button
-                    onClick={()=>sendMessage()}
-                    className="rounded-e-full border-l-0 border border-gray-300 px-5 py-2 text-base  text-white transition bg-none from-purple-300 to-blue-300 hover:bg-gradient-to-br hover:from-purple-50 "
+                    onClick={() => sendMessage()}
+                    disabled={disabled || !input?.trim()}
+                    className="rounded-r-xl border border-gray-300 border-l-0 px-4 py-2.5 text-white transition-colors bg-[#6366f1] hover:bg-[#4f46e5] disabled:bg-gray-300 disabled:cursor-not-allowed"
                     aria-label="Envoyer"
                 >
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -44,7 +46,7 @@ const InputBoxChat = ({
                 </button>
 
             </div>
-        </div >
+        </div>
 
     )
 }

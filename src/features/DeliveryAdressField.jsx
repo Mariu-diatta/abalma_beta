@@ -36,7 +36,7 @@ export default function DeliveryAddressField({
                 <div className="space-y-2">
 
                     <select
-                        className="w-full p-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-400 outline-none"
+                        className="w-full p-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-400 outline-none"
                         value={selectedId}
                         onChange={(e) => {
                             setSelectedId(e.target.value);

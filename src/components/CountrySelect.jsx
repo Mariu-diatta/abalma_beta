@@ -3,7 +3,7 @@ import { COUNTRIES } from "../utils";
 export default function CountrySelect({ value, onChange,t }) {
     return (
         <select
-            className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400"
+            className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-indigo-400"
             value={value}
             onChange={(e) => onChange(e.target.value)}
         >
