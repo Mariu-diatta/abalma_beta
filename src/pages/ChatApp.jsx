@@ -176,7 +176,7 @@ const ChatApp = ({ setShow, show }) => {
     // ── Rendu ──
     return (
         <>
-            <main className="chat-root">
+            <main className="chat-root border-0">
 
                 {/* Header */}
                 <header className="chat-header">

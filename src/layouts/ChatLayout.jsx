@@ -145,7 +145,7 @@ const ChatLayout = () => {
 
     return (
 
-        <main className="sticky bottom-1 overflow-hidden grid grid-cols-12 mt-12  backdrop-blur-md rounded-lg mx-2 px-2 py-2 border border-gray-300 gap-2 shadow-xl">
+        <main className="sticky bottom-1 border-0 overflow-hidden grid grid-cols-12 mt-12  backdrop-blur-md rounded-lg mx-2 px-2 py-2 border border-gray-300 gap-2 ">
 
             {/* Sidebar */}
             <section className="relative col-span-12 md:col-span-5 h-full overflow-y-auto border border-gray-200 rounded-lg px-2">
