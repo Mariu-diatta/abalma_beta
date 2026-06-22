@@ -87,9 +87,25 @@ const ChatApp = ({ setShow, show }) => {
                         selectedUserRef.current &&
                         (senderId === selectedUserRef.current.id || receiverId === selectedUserRef.current.id);
 
-                    if (belongsToOpenThread) {
+                    if (senderId === currentUser.id) {
+                        // C'est l'écho de notre propre message confirmé par le serveur :
+                        // on remplace la version optimiste (en attente) au lieu de la dupliquer.
+                        setMessages(prev => {
+                            const pendingIndex = prev.findIndex(
+                                m => m.pending && m.text === msg.text
+                            );
+                            const confirmed = normalizeMessage(msg, currentUser.id);
+
+                            if (pendingIndex !== -1) {
+                                const updated = [...prev];
+                                updated[pendingIndex] = confirmed;
+                                return updated;
+                            }
+                            return [...prev, confirmed];
+                        });
+                    } else if (belongsToOpenThread) {
                         setMessages(prev => [...prev, normalizeMessage(msg, currentUser.id)]);
-                    } else if (senderId !== currentUser.id) {
+                    } else {
                         dispatch(addMessageNotif(`Nouveau message de ${msg?.user?.prenom || 'un contact'}`));
                     }
                 }
@@ -137,9 +153,9 @@ const ChatApp = ({ setShow, show }) => {
         );
     }, [currentChat, currentUser]);
 
-    // ── Scroll vers le bas ──
+    // ── Scroll vers le bas (instantané, sans animation) ──
     useEffect(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+        messagesEndRef.current?.scrollIntoView({ behavior: 'auto', block: 'end' });
     }, [messages]);
 
     // ── Sync nav URL ──
@@ -150,15 +166,22 @@ const ChatApp = ({ setShow, show }) => {
         }
     }, [dispatch]);
 
-    // ── Envoi d'un message ──
+    // ── Envoi d'un message (affichage optimiste, instantané) ──
     const sendMessage = useCallback(() => {
-        console.log(
-            'ws',
-            wsRef.current,
-            wsRef.current?.readyState
-        );
         const trimmed = input.trim();
         if (!trimmed || wsRef.current?.readyState !== WS_READY) return;
+
+        // Affiché immédiatement, sans attendre la réponse du serveur.
+        const optimisticMessage = {
+            id: `temp-${Date.now()}`,
+            text: trimmed,
+            sender_id: currentUser?.id,
+            created_at: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            isMine: true,
+            pending: true,
+        };
+        setMessages(prev => [...prev, optimisticMessage]);
+
         wsRef.current.send(JSON.stringify({
             action: 'send_message',
             sender_id: currentUser?.id,
@@ -180,113 +203,111 @@ const ChatApp = ({ setShow, show }) => {
 
     // ── Rendu ──
     return (
-        <>
-            <main className="chat-root border-0">
+        <main className="chat-root flex h-full min-h-0 flex-col overflow-hidden border-0">
 
-                {/* Header */}
-                <header className="chat-header">
-                    {selectedUser ? (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
-                            <div style={{ position: 'relative', flexShrink: 0 }}>
-                                {(selectedUser?.image || selectedUser?.photo_url) ? (
-                                    <img
-                                        src={selectedUser.image || selectedUser.photo_url}
-                                        alt={`${selectedUser?.nom || 'Utilisateur'} avatar`}
-                                        className="chat-avatar"
-                                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                                    />
-                                ) : (
-                                    <div
-                                        className="chat-avatar"
-                                        style={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            background: '#6366f1',
-                                            color: '#fff',
-                                            fontWeight: 600,
-                                            fontSize: '.85rem',
-                                        }}
-                                    >
-                                        {(selectedUser?.prenom?.[0] || selectedUser?.nom?.[0] || '?').toUpperCase()}
-                                    </div>
-                                )}
-                                <span className="chat-online-dot" style={{ position: 'absolute', bottom: 1, right: 1 }} />
-                            </div>
-
-                            <div style={{ minWidth: 0 }}>
-                                <p className="chat-user-name" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                                    {selectedUser?.prenom || 'Prénom'}
-                                </p>
-                                <p className="chat-user-sub">
-                                    {selectedUser?.nom || 'Nom'}
-                                </p>
-                            </div>
-
-                            {typing && (
-                                <div className="chat-typing" style={{ marginLeft: 8 }}>
-                                    <span /><span /><span />
-                                    <span className="chat-typing-label">{t('typing')}</span>
+            {/* Header */}
+            <header className="chat-header flex-shrink-0">
+                {selectedUser ? (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
+                        <div style={{ position: 'relative', flexShrink: 0 }}>
+                            {(selectedUser?.image || selectedUser?.photo_url) ? (
+                                <img
+                                    src={selectedUser.image || selectedUser.photo_url}
+                                    alt={`${selectedUser?.nom || 'Utilisateur'} avatar`}
+                                    className="chat-avatar"
+                                    onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                                />
+                            ) : (
+                                <div
+                                    className="chat-avatar"
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        background: '#6366f1',
+                                        color: '#fff',
+                                        fontWeight: 600,
+                                        fontSize: '.85rem',
+                                    }}
+                                >
+                                    {(selectedUser?.prenom?.[0] || selectedUser?.nom?.[0] || '?').toUpperCase()}
                                 </div>
                             )}
+                            <span className="chat-online-dot" style={{ position: 'absolute', bottom: 1, right: 1 }} />
                         </div>
-                    ) : (
-                        <div style={{ fontSize: '.85rem', color: '#94a3b8', fontWeight: 500 }}>
-                            Sélectionnez une conversation
+
+                        <div style={{ minWidth: 0 }}>
+                            <p className="chat-user-name" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                {selectedUser?.prenom || 'Prénom'}
+                            </p>
+                            <p className="chat-user-sub">
+                                {selectedUser?.nom || 'Nom'}
+                            </p>
                         </div>
-                    )}
 
-                    <ButtonToggleChatsPanel showSidebar={show} setShowSidebar={setShow} />
-                </header>
-
-                {/* Barre de statut WS */}
-                <div className="chat-status-bar">
-                    <span className={`chat-status-dot ${wsStatus}`} />
-                    {wsStatus === 'connected' ? 'Connecté' : wsStatus === 'error' ? 'Erreur de connexion' : 'En attente…'}
-                </div>
-
-                {/* Zone messages */}
-                {selectedUser ? (
-                    <div className="chat-messages-area flex flex-col px-3">
-                        {messages.length === 0 ? (
-                            <div className="flex-1 flex items-center justify-center text-xs text-gray-400 py-10">
-                                Aucun message pour le moment — dites bonjour 👋
+                        {typing && (
+                            <div className="chat-typing" style={{ marginLeft: 8 }}>
+                                <span /><span /><span />
+                                <span className="chat-typing-label">{t('typing')}</span>
                             </div>
-                        ) : (
-                            messages.map(msg => (
-                                <MessageBubble key={msg.id} msg={msg} />
-                            ))
                         )}
-
-                        <div ref={messagesEndRef} />
                     </div>
                 ) : (
-                    <div className="chat-empty">
-                        <div className="chat-empty-icon">
-                            <svg className="w-8 h-8 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M7 9h5m3 0h2M7 12h2m3 0h5M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-6.616a1 1 0 0 0-.67.257l-2.88 2.592A.5.5 0 0 1 8 18.477V17a1 1 0 0 0-1-1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" />
-                            </svg>
-                        </div>
-                            <p className="chat-empty-title">{t("chat_empty_title")}</p>
-                            <p className="chat-empty-sub">{t("chat_empty_sub")}</p>
+                    <div style={{ fontSize: '.85rem', color: '#94a3b8', fontWeight: 500 }}>
+                        Sélectionnez une conversation
                     </div>
                 )}
 
-                {/* Input */}
-                <footer className="chat-footer">
-                    <InputBoxChat
-                        disabled={!selectedUser}
-                        input={input}
-                        setInput={setInput}
-                        setShow={setShow}
-                        sendMessage={sendMessage}
-                        handleTyping={handleTyping}
-                    />
-                </footer>
-            </main>
-        </>
+                <ButtonToggleChatsPanel showSidebar={show} setShowSidebar={setShow} />
+            </header>
+
+            {/* Barre de statut WS */}
+            <div className="chat-status-bar flex-shrink-0">
+                <span className={`chat-status-dot ${wsStatus}`} />
+                {wsStatus === 'connected' ? 'Connecté' : wsStatus === 'error' ? 'Erreur de connexion' : 'En attente…'}
+            </div>
+
+            {/* Zone messages */}
+            {selectedUser ? (
+                <div className="chat-messages-area flex min-h-0 flex-1 flex-col overflow-y-auto px-3">
+                    {messages.length === 0 ? (
+                        <div className="flex flex-1 items-center justify-center py-10 text-xs text-gray-400">
+                            Aucun message pour le moment — dites bonjour 👋
+                        </div>
+                    ) : (
+                        <div className="mt-auto flex flex-col gap-1 py-[4dvh] px-2">
+                            {messages.map(msg => (
+                                <MessageBubble key={msg.id} msg={msg} />
+                            ))}
+                            <div ref={messagesEndRef} className="pb-[10dvh]"/>
+                        </div>
+                    )}
+                </div>
+            ) : (
+                <div className="chat-empty flex-1">
+                    <div className="chat-empty-icon">
+                        <svg className="w-8 h-8 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M7 9h5m3 0h2M7 12h2m3 0h5M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-6.616a1 1 0 0 0-.67.257l-2.88 2.592A.5.5 0 0 1 8 18.477V17a1 1 0 0 0-1-1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" />
+                        </svg>
+                    </div>
+                    <p className="chat-empty-title">{t("chat_empty_title")}</p>
+                    <p className="chat-empty-sub">{t("chat_empty_sub")}</p>
+                </div>
+            )}
+
+            {/* Input */}
+            <footer className="chat-footer w-full flex-shrink-0">
+                <InputBoxChat
+                    disabled={!selectedUser}
+                    input={input}
+                    setInput={setInput}
+                    setShow={setShow}
+                    sendMessage={sendMessage}
+                    handleTyping={handleTyping}
+                />
+            </footer>
+        </main>
     );
 };
 
 export default ChatApp;
-
