@@ -12,6 +12,19 @@ import MessageBubble from '../features/MessageBoxChat';
 // ─── Constantes ───────────────────────────────────────────────────────────────
 const WS_READY = WebSocket.OPEN;
 
+// Convertit un id en valeur comparable : les ids temporaires ("temp-...", non
+// numériques) sont toujours considérés comme les plus récents, donc placés
+// en fin de liste tant que le serveur n'a pas confirmé le message.
+const toComparableId = (id) => {
+    const n = Number(id);
+    return Number.isNaN(n) ? Infinity : n;
+};
+
+// Trie les messages par id croissant, donc dans l'ordre chronologique
+// d'envoi (suppose des ids attribués de façon séquentielle côté backend).
+const sortMessages = (msgs) =>
+    [...msgs].sort((a, b) => toComparableId(a.id) - toComparableId(b.id));
+
 // ─── ChatApp ─────────────────────────────────────────────────────────────────
 const ChatApp = ({ setShow, show }) => {
     const { t } = useTranslation();
@@ -99,12 +112,12 @@ const ChatApp = ({ setShow, show }) => {
                             if (pendingIndex !== -1) {
                                 const updated = [...prev];
                                 updated[pendingIndex] = confirmed;
-                                return updated;
+                                return sortMessages(updated);
                             }
-                            return [...prev, confirmed];
+                            return sortMessages([...prev, confirmed]);
                         });
                     } else if (belongsToOpenThread) {
-                        setMessages(prev => [...prev, normalizeMessage(msg, currentUser.id)]);
+                        setMessages(prev => sortMessages([...prev, normalizeMessage(msg, currentUser.id)]));
                     } else {
                         dispatch(addMessageNotif(`Nouveau message de ${msg?.user?.prenom || 'un contact'}`));
                     }
@@ -139,7 +152,7 @@ const ChatApp = ({ setShow, show }) => {
         };
     }, [currentUser, dispatch]);
 
-    // ── Charger les messages du chat courant ──
+    // ── Charger les messages du chat courant (triés chronologiquement) ──
     useEffect(() => {
         if (!currentChat?.messages) {
             setMessages([]);
@@ -147,8 +160,8 @@ const ChatApp = ({ setShow, show }) => {
         }
 
         setMessages(
-            currentChat.messages.map(msg =>
-                normalizeMessage(msg, currentUser?.id)
+            sortMessages(
+                currentChat.messages.map(msg => normalizeMessage(msg, currentUser?.id))
             )
         );
     }, [currentChat, currentUser]);
@@ -180,7 +193,7 @@ const ChatApp = ({ setShow, show }) => {
             isMine: true,
             pending: true,
         };
-        setMessages(prev => [...prev, optimisticMessage]);
+        setMessages(prev => sortMessages([...prev, optimisticMessage]));
 
         wsRef.current.send(JSON.stringify({
             action: 'send_message',
@@ -275,11 +288,11 @@ const ChatApp = ({ setShow, show }) => {
                             Aucun message pour le moment — dites bonjour 👋
                         </div>
                     ) : (
-                        <div className="mt-auto flex flex-col gap-1 py-[4dvh] px-2">
+                        <div className="mt-auto flex flex-col gap-1 px-2 py-[4dvh]">
                             {messages.map(msg => (
                                 <MessageBubble key={msg.id} msg={msg} />
                             ))}
-                            <div ref={messagesEndRef} className="pb-[10dvh]"/>
+                            <div ref={messagesEndRef} className="pb-[10dvh]" />
                         </div>
                     )}
                 </div>
