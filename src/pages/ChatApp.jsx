@@ -159,11 +159,17 @@ const ChatApp = ({ setShow, show }) => {
             return;
         }
 
-        setMessages(
-            sortMessages(
-                currentChat.messages.map(msg => normalizeMessage(msg, currentUser?.id))
-            )
+        const normalized = currentChat.messages.map(msg =>
+            normalizeMessage(msg, currentUser?.id)
         );
+
+        // 🔥 suppression des doublons par id
+        const uniqueMap = new Map();
+        for (const msg of normalized) {
+            uniqueMap.set(msg.id, msg);
+        }
+
+        setMessages(sortMessages(Array.from(uniqueMap.values())));
     }, [currentChat, currentUser]);
 
     // ── Scroll vers le bas (instantané, sans animation) ──
@@ -290,7 +296,10 @@ const ChatApp = ({ setShow, show }) => {
                     ) : (
                         <div className="mt-auto flex flex-col gap-1 px-2 py-[4dvh]">
                             {messages.map(msg => (
-                                <MessageBubble key={msg.id} msg={msg} />
+                                <MessageBubble
+                                    key={`${msg.id}-${msg.created_at}`}
+                                    msg={msg}
+                                />
                             ))}
                             <div ref={messagesEndRef} className="pb-[10dvh]" />
                         </div>
