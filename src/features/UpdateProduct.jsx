@@ -104,7 +104,7 @@ const OptionSelector = ({ options, selectedOption, onSelect, isColor, t }) => {
                     cursor: "pointer",
                 }}
             >
-                {isColor ? t("couleur"): t("taille")} : {selectedOption || "?"}
+                {isColor ? t("couleur") : t("taille")} : {selectedOption || "?"}
             </button>
 
             {/* popover */}
@@ -234,19 +234,19 @@ const ImageVariantCard = ({ imgIndex, imageVariants, setImageVariants, fieldsRul
             <div style={{ flex: 1 }}>
 
                 {
-                    !fieldsRules?.color ? null:
-                    <div style={{ marginBottom: 6 }}>
-                        <span className="ap-label">{t("couleur")}</span>
+                    !fieldsRules?.color ? null :
+                        <div style={{ marginBottom: 6 }}>
+                            <span className="ap-label">{t("couleur")}</span>
                             <OptionSelector t={t} options={availableColors} selectedOption={img.color} onSelect={(v) => updateVariant("color", v)} isColor />
-                    </div>
+                        </div>
                 }
 
                 {
-                    !fieldsRules?.size ? null:
-                    <div>
-                        <span className="ap-label">{t("Taille")}</span>
-                            <OptionSelector t={t}  options={availableSizes} selectedOption={img.size} onSelect={(v) => updateVariant("size", v)} />
-                    </div>
+                    !fieldsRules?.size ? null :
+                        <div>
+                            <span className="ap-label">{t("Taille")}</span>
+                            <OptionSelector t={t} options={availableSizes} selectedOption={img.size} onSelect={(v) => updateVariant("size", v)} />
+                        </div>
                 }
 
             </div>
@@ -499,7 +499,7 @@ const AddUploadProduct = () => {
 
                     <div className="ap-fade" style={{ maxWidth: 560, margin: "0 auto 24px", textAlign: "center" }}>
 
-                        <div  className="flex flex-row">
+                        <div className="flex flex-row">
 
                             <TitleCompGen title={t("add_product.add_or_update_product")} />
 
@@ -598,55 +598,55 @@ const AddUploadProduct = () => {
 
                                     <Field label={t("add_product.select_category")}>
 
-                                        <select required id="categorie_product" name="categorie_product" value={dataProduct.categorie_product ?? ""} onChange={(e) => { setCategory(e); handleFileSelect({}); setImageLoaded(null)}} className="ap-select">
+                                        <select required id="categorie_product" name="categorie_product" value={dataProduct.categorie_product ?? ""} onChange={(e) => { setCategory(e); handleFileSelect({}); setImageLoaded(null) }} className="ap-select">
                                             <option value="" disabled>{t("add_product.select_category")}</option>
                                             {
                                                 LIST_CATEGORIES_KEYS
-                                                ?.filter((value) => value !== CONSTANTS?.ALL)
-                                                .map((value, idx) => (
-                                                    <option key={idx} value={value}>
-                                                        {t(`add_product.categories.${value}`)}
-                                                    </option>
-                                                ))
+                                                    ?.filter((value) => value !== CONSTANTS?.ALL)
+                                                    .map((value, idx) => (
+                                                        <option key={idx} value={value}>
+                                                            {t(`add_product.categories.${value}`)}
+                                                        </option>
+                                                    ))
                                             }
                                         </select>
 
                                     </Field>
 
-                                    <div className={` ${fields?.length>0 ? "mb-5 p-2 shadow-md rounded-md" : null }` }>
+                                    <div className={` ${fields?.length > 0 ? "mb-5 p-2 shadow-md rounded-md" : null}`}>
                                         {
-                                            fields?.map((field,key) => (
+                                            fields?.map((field, key) => (
                                                 <div className="relative mb-6 w-auto">
                                                     <input
                                                         id={key}
                                                         key={field?.name}
-                                                        name={field.name} 
+                                                        name={field.name}
                                                         required={field?.required}
-                                                        onChange={e => setAttributes(prev => ({...prev,[e.target.name]:e.target.value }))} 
+                                                        onChange={e => setAttributes(prev => ({ ...prev, [e.target.name]: e.target.value }))}
                                                         placeholder=" "
                                                         className="
                                                           block w-full px-2.5 pt-5 pb-2.5
                                                           text-black
                                                           bg-white
                                                           border-b
-                                                          border-indigo-100
+                                                          border-blue-100
                                                           focus:outline-none focus:ring-0
                                                           peer
                                                         "
                                                     />
                                                     <label
                                                         htmlFor={key}
-                                                        className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-indigo-600 peer-focus:dark:text-indigo-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+                                                        className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
                                                     >
                                                         {field?.name}
                                                     </label>
                                                 </div>
                                             ))
-                                        }      
+                                        }
                                     </div>
 
                                     <Field label={t("add_product.ChooseImage")}>
-                                         <FormElementFileUpload label={t("add_product.ChooseImage")} getFile={handleFileSelect} getImage={setImageLoaded} imageLoaded={imageLoaded}  multiple />
+                                        <FormElementFileUpload label={t("add_product.ChooseImage")} getFile={handleFileSelect} getImage={setImageLoaded} imageLoaded={imageLoaded} multiple />
                                     </Field>
 
                                     {
@@ -669,7 +669,7 @@ const AddUploadProduct = () => {
                                         )
                                     }
 
-                                        <Field label={t("helpPage.problemType.description")}>
+                                    <Field label={t("helpPage.problemType.description")}>
 
                                         <textarea
                                             id="description_product"
@@ -771,7 +771,7 @@ const AddUploadProduct = () => {
                                         { name: "link_twitter", label: "Twitter", icon: "𝕏" },
                                         { name: "link_facebook", label: "Facebook", icon: "f" },
                                         { name: "link_instagramme", label: "Instagram", icon: "◎" },
-                                            { name: "link_tictoc", label: t("TicToc"), icon: "♪" },
+                                        { name: "link_tictoc", label: t("TicToc"), icon: "♪" },
 
                                     ].map(({ name, label, icon }) => (
 
@@ -796,14 +796,14 @@ const AddUploadProduct = () => {
                                     <div style={{ display: "flex", justifyContent: "center", marginTop: 24 }}>
 
                                         {
-                                            isLoadingSubmit ? 
-                                            <LoadingCard /> : 
-                                            (
-                                                <button type="submit" className="ap-btn-primary">
-                                                    {t("text_verify_product")} ✦
-                                                </button>
-                                            )
-                                    }
+                                            isLoadingSubmit ?
+                                                <LoadingCard /> :
+                                                (
+                                                    <button type="submit" className="ap-btn-primary">
+                                                        {t("text_verify_product")} ✦
+                                                    </button>
+                                                )
+                                        }
 
                                     </div>
 
@@ -829,8 +829,8 @@ const AddUploadProduct = () => {
                         font-semibold
                         text-white
                         bg-gradient-to-r
-                        from-indigo-300
-                        via-indigo-200
+                        from-blue-300
+                        via-blue-200
                         to-orange-50
                         shadow-lg
                         shadow-purple-500/30
@@ -839,7 +839,7 @@ const AddUploadProduct = () => {
                         hover:scale-105
                         hover:shadow-xl
                         hover:shadow-pink-500/40
-                        hover:bg-indigo-300
+                        hover:bg-blue-300
                         active:scale-95
                         group
                     "
