@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
-import { getMediaUrl } from "../utils";
 
 const FormElementFileUpload = ({
     label = "Uploader une image",
@@ -101,7 +100,7 @@ const FormElementFileUpload = ({
                     {previewUrls?.map((url, idx) => (
                         <img
                             key={idx}
-                            src={getMediaUrl(url)}
+                            src={url}
                             alt={`Aperçu ${idx + 1}`}
                             className="w-32 h-32 rounded border border-gray-300 shadow object-cover"
                         />
