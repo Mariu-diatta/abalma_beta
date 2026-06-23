@@ -153,24 +153,7 @@ const ChatApp = ({ setShow, show }) => {
     }, [currentUser, dispatch]);
 
     // ── Charger les messages du chat courant (triés chronologiquement) ──
-    useEffect(() => {
-        if (!currentChat?.messages) {
-            setMessages([]);
-            return;
-        }
-
-        const normalized = currentChat.messages.map(msg =>
-            normalizeMessage(msg, currentUser?.id)
-        );
-
-        // 🔥 suppression des doublons par id
-        const uniqueMap = new Map();
-        for (const msg of normalized) {
-            uniqueMap.set(msg.id, msg);
-        }
-
-        setMessages(sortMessages(Array.from(uniqueMap.values())));
-    }, [currentChat, currentUser]);
+    
 
     // ── Scroll vers le bas (instantané, sans animation) ──
     useEffect(() => {
