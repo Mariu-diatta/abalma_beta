@@ -8,7 +8,7 @@ import LoadingCard from "../components/LoardingSpin";
 
 import FormElementFileUpload from "./FormFile";
 import InputBox from "../components/InputBoxFloat";
-import { ENDPOINTS, LIST_CATEGORIES_KEYS, PAYEMENTMODE, availableColors, availableSizes, CATEGORY_FIELDS, CONSTANTS, getMediaUrl } from "../utils";
+import { ENDPOINTS, LIST_CATEGORIES_KEYS, PAYEMENTMODE, availableColors, availableSizes, CATEGORY_FIELDS, CONSTANTS } from "../utils";
 import { NavLink } from "react-router-dom";
 import { setCurrentNav } from "../slices/navigateSlice";
 import LocationSearchPopover from "./LocationSearch";
@@ -211,7 +211,7 @@ const ImageVariantCard = ({ imgIndex, imageVariants, setImageVariants, fieldsRul
             <div style={{ position: "relative", flexShrink: 0 }}>
 
                 <img
-                    src={getMediaUrl(img.preview)}
+                    src={img.preview}
                     alt="preview"
                     style={{ width: 80, height: 80, objectFit: "cover", borderRadius: 10, border: "1.5px solid #e2e8f0" }}
                 />
@@ -542,7 +542,7 @@ const AddUploadProduct = () => {
                         onAddNew={submitForm}
                     >
                         {imageLoaded && (
-                            <img src={getMediaUrl(imageLoaded)} alt="aperçu" style={{ width: 160, height: 160, objectFit: "cover", borderRadius: 14, border: "2px solid #e2e8f0" }} />
+                            <img src={imageLoaded} alt="aperçu" style={{ width: 160, height: 160, objectFit: "cover", borderRadius: 14, border: "2px solid #e2e8f0" }} />
                         )}
                         {/*handleSubmitNew*/}
                     </ProductSummary>
