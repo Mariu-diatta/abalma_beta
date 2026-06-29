@@ -172,7 +172,7 @@ const ServicesPlatforms = () => {
                     transition={{ duration: 0.6, ease: "easeOut" }}
                 />
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[420px]">
+                <div className="grid grid-cols-1 lg:grid-cols-2 h-auto">
 
                     {/* ── Panneau texte ── */}
                     <div className="relative flex flex-col justify-between p-2 lg:p-4 border-b lg:border-b-0 lg:border-r border-gray-100">

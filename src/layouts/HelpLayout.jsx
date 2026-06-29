@@ -5,6 +5,7 @@ import api from "../services/Axios";
 import LoadingCard from "../components/LoardingSpin";
 import { useDispatch, useSelector } from "react-redux";
 import { showMessage } from "../components/AlertMessage";
+import TitleCompGen from "../components/TitleComponentGen";
 
 // ─── HelpPage ─────────────────────────────────────────────────────────────────
 const HelpPage = () => {
@@ -71,17 +72,23 @@ const HelpPage = () => {
                 {/*linear-gradient(135deg,#eef2ff 0%,#f5f3ff 50%,#ede9fe 10%)*/}
                 {/* ── Hero header ── */}
                 <div className="anim-fade-up" style={{ display: 'flex', alignItems: 'center', gap: 16, maxWidth: 760, margin: '0 auto 36px', flexWrap: 'wrap' }}>
+
                     <HeroIllustration />
+
                     <div>
+
                         <p style={{ fontFamily: 'Sora,sans-serif', fontSize: '.75rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: '#6366f1', marginBottom: 4 }}>
                             {t("helpLayout.centerHelp")}
                         </p>
-                        <h1 style={{ fontFamily: 'Sora,sans-serif', fontSize: 'clamp(1.4rem,4vw,2rem)', fontWeight: 700, color: '#1e1b4b', lineHeight: 1.2, margin: 0 }}>
-                            {t("helpLayout.supportHelp")}
-                        </h1>
+
+                        <TitleCompGen
+                            title={t("helpLayout.supportHelp")}
+                        />
+
                         <p style={{ color: '#6b7280', fontSize: '.9rem', marginTop: 6, lineHeight: 1.5, maxWidth: 340 }}>
                             {t("helpLayout.questionHelp")}
                         </p>
+
                     </div>
                 </div>
 

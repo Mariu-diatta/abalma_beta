@@ -1019,7 +1019,8 @@ export const ENDPOINTS = {
     DASHBOARD: "dashboard",
     BLOG: "blogs",
     SUBSCRIPTION: "subscription",
-    ABOUT:"about"
+    ABOUT:"about",
+    TRACKING: "tracking"
 }
 
 export const API_URL_BACKEND = {

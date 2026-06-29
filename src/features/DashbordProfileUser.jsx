@@ -3,6 +3,7 @@ import api from '../services/Axios';
 import { useTranslation } from 'react-i18next';
 import UsersContactsList from './ContactUser';
 import TablesRecapActivities from './TablesRecapActivities';
+import SendcloudTracking from './SendcloudTracking';
 
 const MIN_SWIPE = 50;
 
@@ -15,6 +16,30 @@ const isScrollableX = (el) => {
     return false;
 };
 
+// ─── Icônes onglets ───────────────────────────────────────────────────────────
+
+const IconDashboard = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8"
+            d="M3 3h7v9H3zM3 16h7v5H3zM14 12h7v8h-7zM14 3h7v5h-7z" />
+    </svg>
+);
+
+const IconContacts = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8"
+            d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+);
+
+const IconTracking = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8"
+            d="M1 3h15v13H1zM16 8h4l3 3v5h-7V8zM5.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM18.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+    </svg>
+);
+
+// ─── Composant ────────────────────────────────────────────────────────────────
 const Tabs = () => {
     const { t } = useTranslation();
 
@@ -30,12 +55,12 @@ const Tabs = () => {
     const touchEndX = useRef(null);
     const ignoreSwipe = useRef(false);
 
-    const tabs =useMemo(()=> [
-        { id: 'dashboard', label: t('Dashboard.dashboard') },
-        { id: 'contacts', label: t('Dashboard.contacts') },
-    ],[t]);
+    const tabs = useMemo(() => [
+        { id: 'dashboard', label: t('Dashboard.dashboard'), icon: <IconDashboard /> },
+        { id: 'contacts',  label: t('Dashboard.contacts'),  icon: <IconContacts />  },
+        { id: 'tracking',  label: 'Suivi colis',           icon: <IconTracking />  },
+    ], [t]);
 
-    // Mesure la pill après que le DOM soit peint
     useLayoutEffect(() => {
         const id = requestAnimationFrame(() =>
             requestAnimationFrame(() => {
@@ -76,11 +101,8 @@ const Tabs = () => {
         touchEndX.current = null;
     };
 
-    // Rendu du contenu via switch plutôt que par objet (évite d'instancier tous les composants)
     const renderContent = (activeTab) => {
-
         switch (activeTab) {
-
             case 'dashboard':
                 return (
                     <TablesRecapActivities
@@ -90,68 +112,64 @@ const Tabs = () => {
                         setProductsTrasactionSell={setProductsTrasactionSell}
                     />
                 );
-
             case 'contacts':
                 return <UsersContactsList />;
-
+            case 'tracking':
+                return <SendcloudTracking />;
             default:
                 return null;
         }
     };
 
     return (
-        <>
-            <div className="tabs-root" style={{ width: '100%', paddingTop: 20 }}>
-
-                <nav className="tabs-nav-wrap mt-8 md:mt-0" role="tablist" aria-label="Onglets principaux">
-                    <div ref={navRef} className="tabs-nav">
-                        {pillStyle.width > 0 && (
-                            <span
-                                className="tabs-pill"
-                                style={{ left: pillStyle.left, width: pillStyle.width }}
-                                aria-hidden="true"
-                            />
-                        )}
-                        {tabs.map((tab, idx) => (
-                            <button
-                                key={tab.id}
-                                ref={(el) => { btnRefs.current[idx] = el; }}
-                                type="button"
-                                role="tab"
-                                aria-selected={activeTab === tab.id}
-                                aria-controls={`${tab.id}-panel`}
-                                id={`${tab.id}-tab`}
-                                className={`tabs-btn ${activeTab === tab.id ? 'active' : ''}`}
-                                onClick={() => setActiveTab(tab.id)}
-                            >
-                                {tab.label}
-                            </button>
-                        ))}
-                    </div>
-                </nav>
-
-                <div className="tabs-dots" aria-hidden="true">
-                    {tabs.map((tab) => (
-                        <span key={tab.id} className={`tabs-dot ${activeTab === tab.id ? 'active' : ''}`} />
+        <div className="dtabs-root" >
+            {/* Nav tabs améliorée */}
+            <nav className="dtabs-nav-wrap" role="tablist" aria-label="Onglets principaux">
+                <div ref={navRef} className="dtabs-nav">
+                    {pillStyle.width > 0 && (
+                        <span className="dtabs-pill" style={{ left: pillStyle.left, width: pillStyle.width }} aria-hidden="true" />
+                    )}
+                    {tabs.map((tab, idx) => (
+                        <button
+                            key={tab.id}
+                            ref={(el) => { btnRefs.current[idx] = el; }}
+                            type="button"
+                            role="tab"
+                            aria-selected={activeTab === tab.id}
+                            aria-controls={`${tab.id}-panel`}
+                            id={`${tab.id}-tab`}
+                            className={`dtabs-btn ${activeTab === tab.id ? 'active' : ''}`}
+                            onClick={() => setActiveTab(tab.id)}
+                        >
+                            <span className="dtabs-btn-icon" aria-hidden="true">{tab.icon}</span>
+                            <span>{tab.label}</span>
+                        </button>
                     ))}
                 </div>
+            </nav>
 
-                <section
-                    id={`${activeTab}-panel`}
-                    role="tabpanel"
-                    aria-labelledby={`${activeTab}-tab`}
-                    className="tabs-panel"
-                    onTouchStart={onTouchStart}
-                    onTouchMove={onTouchMove}
-                    onTouchEnd={onTouchEnd}
-                >
-                    <div key={activeTab} className="tabs-panel-inner">
-                        {renderContent(activeTab)}
-                    </div>
-                </section>
-
+            {/* Dots mobile */}
+            <div className="dtabs-dots" aria-hidden="true">
+                {tabs.map((tab) => (
+                    <span key={tab.id} className={`dtabs-dot ${activeTab === tab.id ? 'active' : ''}`} />
+                ))}
             </div>
-        </>
+
+            {/* Contenu */}
+            <section
+                id={`${activeTab}-panel`}
+                role="tabpanel"
+                aria-labelledby={`${activeTab}-tab`}
+                className="dtabs-panel"
+                onTouchStart={onTouchStart}
+                onTouchMove={onTouchMove}
+                onTouchEnd={onTouchEnd}
+            >
+                <div key={activeTab} className="dtabs-panel-inner">
+                    {renderContent(activeTab)}
+                </div>
+            </section>
+        </div>
     );
 };
 

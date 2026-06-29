@@ -13,6 +13,7 @@ import BuyButtonWithPaymentForm from "./ButtonPaymentShopping";
 import api from "../services/Axios";
 import { showMessage } from "../components/AlertMessage";
 import PaymentButtonsLayouts from "../layouts/PaymentButtonsLayout";
+import { TitleCompGenLitle } from "../components/TitleComponentGen";
 
 
 // ─── Icônes ───────────────────────────────────────────────────────────────────
@@ -84,12 +85,12 @@ const ListProductShoppingCart = () => {
         return (
             <>
                 <div className="sc-root sc-wrap">
-                    <h2 className="sc-title">
+                    <div className="sc-title">
                         <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
                         </svg>
-                        <p>{t('tableEntries.selectedProducts')}</p>
-                    </h2>
+                        <TitleCompGenLitle title={t('tableEntries.selectedProducts')} />
+                    </div>
                     <div className="sc-empty">
                         <div className="sc-empty-icon">
                             <svg className="w-auto max-w-[16rem] h-40 text-gray-800 dark:text-white" aria-hidden="true" width="463" height="406" viewBox="0 0 463 406" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -226,7 +227,7 @@ const ListProductShoppingCart = () => {
                                 </defs>
                             </svg>
                         </div>
-                        <p className="sc-empty-title">{t('emptyCart') || 'Votre panier est vide'}</p>
+                        <p className="sc-empty-title">{t('TableRecap.noProducts')}</p>
                     </div>
                 </div>
             </>
@@ -235,16 +236,16 @@ const ListProductShoppingCart = () => {
 
     return (
         <>
-            <div className="sc-root sc-wrap">
+            <div className="sc-root sc-wrap" style={{paddingTop:"12dvh"} }>
 
                 {/* Titre */}
-                <h2 className="sc-title">
+                <span className="sc-title">
                     <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
                     </svg>
-                    <p>{t('tableEntries.selectedProducts')} </p>
+                    <TitleCompGenLitle title={t('tableEntries.selectedProducts')} />
                     <span className="sc-count">{itemsData.length}</span>
-                </h2>
+                </span>
 
                 {/* Liste produits */}
                 <div className="sc-list">

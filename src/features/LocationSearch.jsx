@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 
+
 const LocationSearchPopover = ({ setLocationSearch}) => {
     const [query, setQuery] = useState("");               // Texte recherché
     const [results, setResults] = useState([]);           // Résultats API
@@ -9,10 +10,23 @@ const LocationSearchPopover = ({ setLocationSearch}) => {
 
     const inputRef = useRef(null);
 
+    const [adresse, setAdresse] = useState(""); 
+
+
+    const parseToJson = (selectedLocation) => {
+        try {
+            let adresse = JSON.parse(selectedLocation).adresse;
+            setAdresse(adresse)
+        } catch (e) {
+            setAdresse(""); // ou une valeur par défaut
+        }
+    }
+
     useEffect(() => {
         if (selectedLocation) {
             setLocationSearch(selectedLocation); // ← seulement quand selectedLocation change
         }
+        parseToJson(selectedLocation)
     }, [selectedLocation, setLocationSearch]); 
 
     const searchLocation = async () => {
@@ -30,7 +44,7 @@ const LocationSearchPopover = ({ setLocationSearch}) => {
               },
             }
           );
-
+           console.log("Le salade:::::",response)
           setResults(response.data);
           setIsOpen(true); // ouvre le popover
         } catch (error) {
@@ -41,10 +55,20 @@ const LocationSearchPopover = ({ setLocationSearch}) => {
    };
 
   const handleSelect = (place) => {
-    const locationString = `${place.display_name}`;
-    setSelectedLocation(locationString ?? query);
-    setIsOpen(false); // fermer le popover après sélection
-    setQuery(place.display_name); // afficher le lieu choisi dans l'input
+      const locationString = {
+          adresse: `${place.display_name}`,
+          codePostal: place.address.postcode,
+          country: place.address.country,
+          state: place.address.state,
+          road: place.address.road,
+          town: place.address.town,
+          house_number: place.address.house_number,
+          region: place.address.region,
+          country_code: place.address.country_code
+      };
+      setSelectedLocation(JSON.stringify(locationString) ?? query);
+      setIsOpen(false); // fermer le popover après sélection
+      setQuery(place.display_name); // afficher le lieu choisi dans l'input
   };
 
   return (
@@ -99,7 +123,9 @@ const LocationSearchPopover = ({ setLocationSearch}) => {
           {selectedLocation && (
             <div className="mt-2 p-2 border border-gray-100 rounded bg-green-50">
               <strong>Lieu sélectionné :</strong>
-              <p className="text-sm">{selectedLocation}</p>
+                  <p className="text-sm">{
+                      adresse ?? selectedLocation
+                  }</p>
             </div>
           )}
     </div>

@@ -1,4 +1,5 @@
-import React, { useState, useRef, useLayoutEffect, useMemo } from 'react';
+import React, { useState, useRef, useLayoutEffect, useMemo, useEffect } from 'react';
+import api from '../services/Axios';
 import ListProductShoppingCart from '../features/ListProductShoppingCart';
 import ProductsRecapTable from '../features/ProductRecaptable';
 import MyProductList from '../features/MyProductsList';
@@ -8,7 +9,8 @@ import { MODE } from '../utils';
 import CashTransaction from './CashTransactions';
 import MesPublicites from './MyAdvertissement';
 import AfficheForm from './CreatFormPub';
-
+import { useSelector} from 'react-redux';
+import TitleCompGen from '../components/TitleComponentGen';
 
 // ─── Composant ────────────────────────────────────────────────────────────────
 const TablesRecapActivities = ({
@@ -22,6 +24,7 @@ const TablesRecapActivities = ({
     const [pillStyle, setPillStyle] = useState({ left: 0, width: 0 });
     const [selectedAd, setSelectedAd] = useState(null);
 
+    const currentUser = useSelector(state => state.auth.user);
     const navRef = useRef(null);
     const btnRefs = useRef([]);
 
@@ -115,14 +118,108 @@ const TablesRecapActivities = ({
         }
     };
 
+    // ── Stats rapides ──
+    const [stats, setStats] = useState(null);
+
+    useEffect(() => {
+
+        const bought =
+            productsTrasactionBought?.filter(transaction =>
+                transaction.items?.some(
+                    item => item.fournisseur?.id !== currentUser.id
+                )
+            ).length ?? 0;
+
+        const sold =
+            productsTrasactionSell?.filter(transaction =>
+                transaction.items?.some(
+                    item => item.fournisseur?.id === currentUser.id
+                )
+            ).length ?? 0;
+
+        api.get("product/list/")
+            .then(({ data }) => {
+                setStats({
+                    products: Array.isArray(data)
+                        ? data.length
+                        : (data?.count ?? data?.results?.length ?? 0),
+                    bought,
+                    sold,
+                });
+                console.log("Les données de la ", data)
+            })
+            .catch(() => {
+                setStats({
+                    products: 0,
+                    bought,
+                    sold,
+                });
+            });
+
+    }, [productsTrasactionBought, productsTrasactionSell, currentUser]);
+
     return (
         <>
             <div className="tra-root">
 
                 {/* Header */}
                 <div className="tra-header">
-                    <h1 className="tra-title">{t('Dashboard.welcomeTitle')}</h1>
+
+                    <TitleCompGen title={t('Dashboard.welcomeTitle')} />
+
                     <p className="tra-subtitle">{t('Dashboard.welcomeText')}</p>
+
+                </div>
+
+                {/* ── Stat cards ── */}
+                <div className="dash-stats-grid">
+
+                    <div className="dash-stat-card">
+
+                        <div className="dash-stat-icon">
+                            <p style={{ background: '#eff6ff' }}>🛍️</p>
+                            <div className="dash-stat-value">{stats?.bought ?? '—'}</div>
+                        </div>
+
+                        <div>
+                            <div className="dash-stat-label">Achats</div>
+                        </div>
+
+                    </div>
+
+                    <div className="dash-stat-card">
+                        <div className="dash-stat-icon">
+                            <p style={{ background: '#eff6ff' }}>💰</p>
+                            <div className="dash-stat-value">{stats?.sold ?? '—'}</div>
+                        </div>
+                        <div>
+                            <div className="dash-stat-label">Ventes</div>
+                        </div>
+                    </div>
+
+                    <div className="dash-stat-card">
+
+                        <div className="dash-stat-icon">
+                            <p style={{ background: '#eff6ff'}}>📦</p>
+                            <div className="dash-stat-value">{stats?.products ?? '—'}</div>
+                        </div>
+
+                        <div>
+                            <div className="dash-stat-label">Mes produits</div>
+                        </div>
+
+                    </div>
+
+                    <div className="dash-stat-card">
+                        <div className="dash-stat-icon">
+                            <p style={{ background: '#eff6ff' }}>⭐</p>
+                            <div className="dash-stat-value">—</div>
+
+                        </div>
+                        <div>
+                            <div className="dash-stat-label">Avis reçus</div>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Navigation tabs */}

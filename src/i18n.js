@@ -22,6 +22,16 @@ i18n
         en: {
 
             translation: {
+                "tracking_history": "Tracking History",
+                "destination": "Destination",
+                "estimated_delivery": "Estimated Delivery",
+                "carrier": "Carrier",
+                "weight": "Weight",
+                "recent": "Recent:",
+                "tracking_title": "Package Tracking",
+                "tracking_subtitle": "Enter your tracking number to locate your delivery in real time",
+                "tracking_empty_title": "No tracking in progress",
+                "tracking_empty_subtitle": "Enter a tracking number to get started",
                 "settingsText.cancel": "Cancel",
                 "settingsText.edit": "Edit",
                 "settingsText.save": "Save",
@@ -842,6 +852,16 @@ i18n
         fr: {
 
             translation: {
+                "tracking_history": "Historique du suivi",
+                "destination": "Destination",
+                "estimated_delivery": "Livraison prévue",
+                "carrier": "Transporteur",
+                "weight": "Poids",
+                "recent": "Récents :",
+                "tracking_title": "Suivi de colis",
+                "tracking_subtitle": "Entrez votre numéro de suivi pour localiser votre livraison en temps réel",
+                "tracking_empty_title": "Aucun suivi en cours",
+                "tracking_empty_subtitle": "Entrez un numéro de suivi pour commencer",
                 "settingsText.cancel": "Annuler",
                 "settingsText.edit" :"Modifier",
                 "settingsText.save" :"Sauvegarder",
@@ -1647,6 +1667,16 @@ i18n
         es: {
 
             translation: {
+                "tracking_history": "Historial de seguimiento",
+                "destination": "Destino",
+                "estimated_delivery": "Entrega estimada",
+                "carrier": "Transportista",
+                "weight": "Peso",
+                "recent": "Recientes:",
+                "tracking_title": "Seguimiento de paquetes",
+                "tracking_subtitle": "Ingrese su número de seguimiento para localizar su entrega en tiempo real",
+                "tracking_empty_title": "No hay seguimientos en curso",
+                "tracking_empty_subtitle": "Ingrese un número de seguimiento para comenzar",
                 "settingsText.cancel": "Cancelar",
                 "settingsText.edit": "Editar",
                 "settingsText.save": "Guardar",

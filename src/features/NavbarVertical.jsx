@@ -186,29 +186,29 @@ const VerticalNavbar = ({ children }) => {
                             className={`vnav-user-btn ${isActive(ENDPOINTS.ACCOUNT_HOME) ? "active" : ""}`}
                             onClick={() => go(ENDPOINTS.ACCOUNT_HOME)}
                         >
-                            <div style={{ position: "relative", flexShrink: 0 }}>
+                            <div style={{ position: "relative", flexShrink: 0, color:"gray" }}>
                                 {currentUserImage ? (
                                     <img src={getMediaUrl(currentUserImage)} alt="avatar" title={currentUser?.email} className="vnav-avatar" />
                                 ) : (
-                                    <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#f1f5f9", display: "flex", alignItems: "center", justifyContent: "center", color: "#94a3b8" }}>
+                                    <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#f1f5f9", display: "flex", alignItems: "center", justifyContent: "start", color: "#94a3b8" }}>
                                         <IconUser />
                                     </div>
                                 )}
                                 {currentUser?.is_connected && <span className="vnav-online-dot" />}
                             </div>
+
                             <div style={{ minWidth: 0, flex: 1 }}>
-                                <p className="vnav-user-name" style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                <p className="vnav-user-name" style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color:"gray" }}>
                                     {currentUser?.nom || currentUser?.prenom}
                                 </p>
                                 <p className="vnav-user-email" style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                                     {currentUser?.email}
                                 </p>
                             </div>
-                            {currentUser?.is_pro && <span className="vnav-pro-badge">Pro</span>}
-                        </button>
 
-                        {/* Navigation principale */}
-                        <div className="vnav-section-label">Navigation</div>
+                            {currentUser?.is_pro && <span className="vnav-pro-badge">Pro</span>}
+
+                        </button>
 
                         <NavItem
                             icon={<IconMessages filled={isActive(ENDPOINTS.MESSAGE_INBOX)} />}
@@ -217,23 +217,38 @@ const VerticalNavbar = ({ children }) => {
                             onClick={() => go(ENDPOINTS.MESSAGE_INBOX)}
                             badge={allRooms?.length || null}
                         />
+
                         <NavItem
                             icon={<IconAdd filled={isActive(ENDPOINTS.ADD_PRODUCT)} />}
                             label={t("AccountPage.create")}
                             isActive={isActive(ENDPOINTS.ADD_PRODUCT)}
                             onClick={() => go(ENDPOINTS.ADD_PRODUCT)}
                         />
+
                         <NavItem
                             icon={<IconBlog filled={isActive(ENDPOINTS.USER_BLOGS)} />}
                             label={t("blogs")}
                             isActive={isActive(ENDPOINTS.USER_BLOGS)}
                             onClick={() => go(ENDPOINTS.USER_BLOGS)}
                         />
+
                         <NavItem
                             icon={<IconDashboard filled={isActive(ENDPOINTS.DASHBOARD)} />}
                             label={t("activity")}
                             isActive={isActive(ENDPOINTS.DASHBOARD)}
                             onClick={() => go(ENDPOINTS.DASHBOARD)}
+                        />
+
+                        <NavItem
+                            icon={
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"
+                                        d="M1 3h15v13H1zM16 8h4l3 3v5h-7V8zM5.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM18.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                                </svg>
+                            }
+                            label="Suivi colis"
+                            isActive={isActive(ENDPOINTS.TRACKING)}
+                            onClick={() => go(ENDPOINTS.TRACKING)}
                         />
 
                         <div className="vnav-divider" />
@@ -279,7 +294,7 @@ const VerticalNavbar = ({ children }) => {
                 </aside>
 
                 {/* ── Zone de contenu ── */}
-                <div className="bg-gray-900 overflow-y-hidden">
+                <div className="bg-white/50 overflow-y-hidden">
 
                     <div className="w-full flex start-end">
                         <ButtonsNavigateThemecolorPayDropdownaccount />

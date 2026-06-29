@@ -12,6 +12,7 @@ import api from '../services/Axios';
 import LoadingCard from '../components/LoardingSpin';
 import TransactionAndSubTransactionCard from './SubTransactionCard';
 import {createPortal} from "react-dom"
+import { TitleCompGenLitle } from '../components/TitleComponentGen';
 
 // ─── Constantes ───────────────────────────────────────────────────────────────
 const ITEMS_PER_PAGE = 5;
@@ -175,12 +176,12 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
 
                 {/* Toolbar */}
                 <div className="prt-toolbar">
-                    <h2 className="prt-title">
-                        📋 {title}
+                    <div className="prt-title">
+                        📋 <TitleCompGenLitle title= {title} />
                         {filteredProducts.length > 0 && (
                             <span className="prt-count">{filteredProducts.length}</span>
                         )}
-                    </h2>
+                    </div>
                 </div>
 
                 {/* Filtres */}

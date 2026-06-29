@@ -49,7 +49,7 @@ export const TitleCompGenLitle = ({ title }) => {
 
     return (
 
-        <div className="relative overflow-hidden w-full pt-2"  ref={containerRef}>
+        <div className="relative overflow-hidden w-full "  ref={containerRef}>
 
             <h1 ref={contentRef} className={` ${shouldScroll ? "animate-scroll" : ""} whitespace-nowrap text-md font-extrabold text-gray-500`}>
 

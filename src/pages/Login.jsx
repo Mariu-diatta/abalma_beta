@@ -1,4 +1,4 @@
-import React, { lazy,useState } from "react";
+import React, { useState } from "react";
 import { createPortal } from "react-dom"; // Import du Portal
 import { useDispatch} from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -10,9 +10,9 @@ import {loginClient } from '../utils';
 import AttentionAlertMessage, { showMessage } from '../components/AlertMessage';
 import { X } from "lucide-react"; // Icône pour fermer
 
-const InputBox = lazy(() => import("../components/InputBoxFloat"));
-const LoadingCard = lazy(() => import("../components/LoardingSpin"));
-const TitleCompGen = lazy(() => import("../components/TitleComponentGen"));
+import  InputBox from "../components/InputBoxFloat";
+import  LoadingCard from "../components/LoardingSpin";
+import  TitleCompGen from "../components/TitleComponentGen";
 
 const LogIn = ({ callbackState, onClose }) => {
 

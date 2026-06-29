@@ -25,6 +25,7 @@ const AddUploadProduct = lazy(() => import("../features/UpdateProduct"));
 const ChatLayout = lazy(() => import("../layouts/ChatLayout"));
 const GridProductDefault = lazy(() => import("../features/GridProductDefaultSize"));
 const Tabs = lazy(() => import("../features/DashbordProfileUser"));
+const SendcloudTracking = lazy(() => import("../features/SendcloudTracking"));
 const GridLayoutProduct = lazy(() => import("../features/GridLayoutProducts"));
 const ProductsRecapTable = lazy(() => import("../features/ProductRecaptable"));
 const ListProductShoppingCart = lazy(() => import("../features/ListProductShoppingCart"));
@@ -98,7 +99,9 @@ const routes = [
 
                                 { path: "add-product", class_rendered: <AddUploadProduct /> },
 
-                                { path: "message-inbox", class_rendered: <ChatLayout /> }
+                                { path: "message-inbox", class_rendered: <ChatLayout /> },
+
+                                { path: "tracking", class_rendered: <SendcloudTracking /> }
 
                             ].map(
 

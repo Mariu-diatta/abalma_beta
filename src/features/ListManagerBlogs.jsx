@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import api from "../services/Axios";
 import { formatISODate } from "../utils";
 import LoadingCard from "../components/LoardingSpin";
+import { TitleCompGenLitle } from "../components/TitleComponentGen";
 
 
 
@@ -97,7 +98,7 @@ const MyBlogsList = () => {
                 {/* Toolbar */}
                 <div className="mbl-toolbar">
                     <h2 className="mbl-heading">
-                        ✍️ {t('blog.myBlogs')}
+                        ✍️ <TitleCompGenLitle title={t('blog.myBlogs')} />
                         {!loading && (
                             <span className="mbl-heading-badge">{filteredBlogs.length}</span>
                         )}

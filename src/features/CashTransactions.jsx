@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import api from '../services/Axios';
 import CashTransactionCard from './CashTransactionCard';
 import { useTranslation } from 'react-i18next';
+import { TitleCompGenLitle } from '../components/TitleComponentGen';
 
 
 // ─── Squelette de chargement ──────────────────────────────────────────────────
@@ -137,7 +138,7 @@ const CashTransaction = () => {
                 {/* Toolbar */}
                 <div className="ct-toolbar">
                     <h2 className="ct-title">
-                        💵 {t('paymentMode')}
+                        💵 <TitleCompGenLitle title={t('paymentMode')} />
                         {!loading && transactions.length > 0 && (
                             <span className="ct-title-badge">{transactions.length}</span>
                         )}

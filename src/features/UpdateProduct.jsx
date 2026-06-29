@@ -27,7 +27,7 @@ const INITIAL_PRODUCT = {
     date_emprunt: null, date_fin_emprunt: null, type_choice: null,
     payment_method: null, social_links: null, is_active: true,
     is_verified: false, commission_percentage: null, images: [],
-    variants: [], "attributes": {}
+    variants: [], "attributes": {}, weight:0.0
 };
 
 //const STEPS = ["Infos", "Détails", "Paiement", "Livraison"];
@@ -257,6 +257,7 @@ const ImageVariantCard = ({ imgIndex, imageVariants, setImageVariants, fieldsRul
 
 // ─── Composant principal ──────────────────────────────────────────────────────
 const AddUploadProduct = () => {
+
     const dispatch = useDispatch();
     const { t } = useTranslation();
     const bottomRef = useRef(null);
@@ -461,9 +462,13 @@ const AddUploadProduct = () => {
             setIsProductAdded(false);
 
         } catch (err) {
+
             console.error(err);
+
             notify("Erreur", "Erreur lors de la création du produit");
+
         } finally {
+
             setIsLoadingSubmit(false);
         }
     };
@@ -499,11 +504,7 @@ const AddUploadProduct = () => {
 
                     <div className="ap-fade" style={{ maxWidth: 560, margin: "0 auto 24px", textAlign: "center" }}>
 
-                        <div className="flex flex-row">
-
-                            <TitleCompGen title={t("add_product.add_or_update_product")} />
-
-                        </div>
+                        <TitleCompGen title={t("add_product.add_or_update_product")} />
 
                         {!isUserVerified && (
                             <div className="ap-verify-banner" style={{ maxWidth: 400, margin: "12px auto 0" }}>
@@ -571,6 +572,10 @@ const AddUploadProduct = () => {
 
                                     <Field label={t("price")}>
                                         <InputBox type="number" min="0" id="price_product" name="price_product" value={dataProduct?.price_product} onChange={onChangeClick} placeholder={t("price")} required className="ap-input" />
+                                    </Field>
+                                        
+                                    <Field label={t("weight")}>
+                                         <InputBox type="number" min="0" id="weight" name="weight" value={dataProduct?.weight} onChange={onChangeClick} placeholder={t("weight_g")} required className="ap-input" />
                                     </Field>
 
                                     <Field label={t("add_product.select_currency")}>
