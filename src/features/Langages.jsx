@@ -100,7 +100,7 @@ function LanguageDropdown() {
 
     return (
 
-        <div className="relative inline-block text-left rounded-lg py-0 mx-2">
+        <div className="hover:bg-gray-200 relative inline-block text-left rounded-lg py-0 mx-2">
 
             <button
                 ref={buttonRef}

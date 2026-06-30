@@ -235,8 +235,8 @@ const ListProductShoppingCart = () => {
     }
 
     return (
-        <>
-            <div className="sc-root sc-wrap" style={{paddingTop:"12dvh"} }>
+        <div style={{ paddingTop: "15dvh"}}>
+            <div className="sc-root sc-wrap">
 
                 {/* Titre */}
                 <span className="sc-title">
@@ -374,7 +374,7 @@ const ListProductShoppingCart = () => {
                 </PaymentButtonsLayouts>
 
             </div>
-        </>
+        </div>
     );
 };
 

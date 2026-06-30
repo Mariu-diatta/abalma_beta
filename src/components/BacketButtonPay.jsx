@@ -39,7 +39,7 @@ const PayBack = () => {
 
                     }
             }
-            className="relative flex items-center justify-between rounded-full  dark:bg-dark-2 text-dark dark:text-white h-8 w-8 mx-4  hover:bg-gray-50 "
+            className="hover:bg-gray-200 relative flex items-center justify-between rounded-full  text-dark h-8 w-8 mx-4  hover:bg-gray-50 "
         >
             <svg className="w-6 h-6 text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
 

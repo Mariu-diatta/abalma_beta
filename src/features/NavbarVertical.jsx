@@ -12,7 +12,6 @@ import { ENDPOINTS, fetchRooms, getMediaUrl } from "../utils";
 import ButtonsNavigateThemecolorPayDropdownaccount from "./DropDownAccount";
 import AttentionAlertMessage from "../components/AlertMessage";
 
-
 // ─── Icônes SVG inline ────────────────────────────────────────────────────────
 
 const IconMessages = ({ filled }) => filled ? (
