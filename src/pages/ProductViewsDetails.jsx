@@ -55,9 +55,8 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                 try {
                     const { products } = await getProducts(product?.categorie_product);
 
-                    console.log(products);
-
                     setSameProductCategory(products);
+
                 } catch (error) {
                     console.error(error);
                 }
