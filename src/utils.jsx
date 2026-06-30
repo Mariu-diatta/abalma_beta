@@ -4,6 +4,29 @@ import { login, updateCompteUser} from "./slices/authSlice";
 import { setCurrentNav, updateTheme } from "./slices/navigateSlice";
 import { store } from "./store/Store";
 
+export const getProducts = async (category) => {
+
+    const isDefaultCategory =
+        !category ||
+        category === CONSTANTS?.ALL?.toLowerCase();
+
+    const url = isDefaultCategory
+        ? "produits/"
+        : "products/filter/";
+
+    const { data } = await api.get(url, {
+        params: {
+            product_categorie: category?.toUpperCase(),
+        },
+    });
+    const filters = data.filter(
+        p => Number(p?.quantity_product) > 0
+    )
+    return {
+        products: filters
+    };
+};
+
 export const getMediaUrl = (path) => {
     if (!path) return "";
     if (path.startsWith("http")) return path;

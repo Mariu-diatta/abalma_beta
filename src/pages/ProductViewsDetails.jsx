@@ -1,7 +1,7 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect,useState} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { addToCart } from "../slices/cartSlice";
+import { addToCart, updateSelectedProduct } from "../slices/cartSlice";
 import { X, ShoppingCart, Clock, Heart} from "lucide-react"; // Optionnel: icons plus fines
 
 import PrintNumberStars from "../components/SystemStar";
@@ -14,13 +14,13 @@ import api from "../services/Axios";
 import express_delivery from "../../src/assets/express-delivery_1981844.png";
 import home_5657414 from "../../src/assets/home-address_12248895.png";
 import pay_8331969 from "../../src/assets/pay_8331969.png";
-import { getMediaUrl } from "../utils";
+import { getMediaUrl, getProducts } from "../utils";
 
 const ProductDetailsSection = ({ isOpen, onClose }) => {
+    const dispatch = useDispatch();
     const [selectedColor, setSelectedColor] = useState(null);
     const [index, setIndex] = useState(0);
     const { t } = useTranslation();
-    const dispatch = useDispatch();
     const product = useSelector(state => state.cart.selectedProductView);
 
     const variantsProduct = product?.variants || [];
@@ -30,12 +30,43 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
     const handleAddToCart = () => dispatch(addToCart(product));
     const createdDate = new Date(product?.created);
     const isToday = createdDate.toDateString() === new Date().toDateString();
+    const [sameProductCategory, setSameProductCategory]=useState([])
+
+
+
+    let adresse = "";
+
+    try {
+        adresse = JSON.parse(product?.address)?.adresse || "";
+    } catch (error) {
+        adresse = "";
+    }
 
     const operations = [
         { logo: express_delivery, title: t("delivery"), value: product?.delivery },
-        { logo: home_5657414, title: t("adress"), value: product?.address },
+        { logo: home_5657414, title: t("adress"), value: adresse},
         { logo: pay_8331969, title: t("paymentMethod"), value: product?.payment_method }
     ];
+
+    useEffect(
+        () => {
+
+            const fetchProducts = async () => {
+                try {
+                    const { products } = await getProducts(product?.categorie_product);
+
+                    console.log(products);
+
+                    setSameProductCategory(products);
+                } catch (error) {
+                    console.error(error);
+                }
+            };
+
+            fetchProducts()
+
+        }, [product]
+    )
 
     useEffect(() => {
         if (!product?.id || !isOpen) return;
@@ -117,6 +148,9 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                                     </h1>
                                     <p className="text-xs font-bold text-indigo-500 mt-1 tracking-widest uppercase">
                                         Ref: {product?.code_reference}
+                                    </p>
+                                    <p className="text-xs font-bold text-yellow-300 mt-1 tracking-widest uppercase">
+                                        {product?.categorie_product}
                                     </p>
                                 </div>
                                 <ProfilPopPov />
@@ -220,8 +254,56 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
 
                         </div>
                     </div>
+
+                    {sameProductCategory?.length > 0 && (
+                        <div className="mt-8">
+
+                            {/* Séparateur */}
+                            <div className="flex items-center gap-4 mb-5">
+                                <div className="flex-1 h-px bg-gray-200" />
+                                <span className="text-sm font-semibold text-gray-500 uppercase tracking-wider">
+                                    {t("same_category_products")}
+                                </span>
+                                <div className="flex-1 h-px bg-gray-200" />
+                            </div>
+
+                            {/* Liste */}
+                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                                {sameProductCategory.map((prod) => (
+                                    <div
+                                        key={prod.id}
+                                        className="group rounded-xl border border-gray-100 bg-white p-3 hover:shadow-md transition"
+                                    >
+                                        <img
+                                            onClick={() => dispatch(updateSelectedProduct(prod))}
+                                            src={getMediaUrl(prod?.variants?.[0]?.image)}
+                                            alt={prod?.name_product || "Produit"}
+                                            loading="lazy"
+                                            className="
+                                                w-full
+                                                h-28
+                                                object-contain
+                                                transition-transform
+                                                duration-300
+                                                group-hover:scale-110
+                                                cursor-pointer
+                                            "
+                                        />
+
+                                        <p className="mt-3 text-sm font-medium text-gray-700 text-center line-clamp-2">
+                                            {prod?.name_product}
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
                 </div>
+
+
             </div>
+            
         </div>
     );
 };

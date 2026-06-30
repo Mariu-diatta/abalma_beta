@@ -22,6 +22,7 @@ i18n
         en: {
 
             translation: {
+                "same_category_products": "Products from the same category",
                 "tracking_history": "Tracking History",
                 "destination": "Destination",
                 "estimated_delivery": "Estimated Delivery",
@@ -852,6 +853,7 @@ i18n
         fr: {
 
             translation: {
+                "same_category_products": "Produits de la même catégorie",
                 "tracking_history": "Historique du suivi",
                 "destination": "Destination",
                 "estimated_delivery": "Livraison prévue",
@@ -1667,6 +1669,7 @@ i18n
         es: {
 
             translation: {
+                "same_category_products": "Productos de la misma categoría",
                 "tracking_history": "Historial de seguimiento",
                 "destination": "Destino",
                 "estimated_delivery": "Entrega estimada",

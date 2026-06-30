@@ -22,7 +22,7 @@ const INITIAL_PRODUCT = {
     code_reference: "", name_product: "", description_product: "",
     categorie_product: null, operation_product: null,
     price_product: null, discount_price: null, currency_price: null,
-    promotion: false, quantity_product: 1, is_available: false,
+    promotion: false, quantity_product: 1, is_available: true,
     delivery: null, shipping_price: null, address: "",
     date_emprunt: null, date_fin_emprunt: null, type_choice: null,
     payment_method: null, social_links: null, is_active: true,

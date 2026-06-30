@@ -9,7 +9,6 @@ import {
 
 import {
     setCurrentNav,
-    updateCategorySelected
 } from "../slices/navigateSlice";
 
 import {
@@ -24,7 +23,7 @@ import PrintNumberStars from "../components/SystemStar";
 import ScrollingContent from "../components/ScrollContain";
 import SearchBar from "../components/BtnSearchWithFilter";
 import ProfilPictureView from "../components/ProfilPictureView";
-import { CONSTANTS, getMediaUrl, removeAccents, translateCategory } from "../utils";
+import { CONSTANTS, getMediaUrl} from "../utils";
 
 
 const GridProductDefault = ({ categorie_item }) => {
@@ -72,70 +71,79 @@ const GridProductDefault = ({ categorie_item }) => {
         }, [dispatch, modalData]
     )
 
+
     // Fetch products and owners
     const fetchProductsAndOwners = useCallback(async (category) => {
 
-        setIsLoading(true);
+            setIsLoading(true);
 
-        const isDefaultCategory = (cleanCategory) => {
+            const isDefaultCategory = (cleanCategory) => {
 
-            if (!cleanCategory) return false;
+                if (!cleanCategory) return false;
 
-            return cleanCategory?.toLowerCase() === DEFAULT_ACTIVE_CATEGORY?.toLowerCase();
-        }
+                return cleanCategory?.toLowerCase() === DEFAULT_ACTIVE_CATEGORY?.toLowerCase();
+            }
 
-        try {
+            const fetchProductsAndOwners = async () => {
 
-            const translatedCategory = translateCategory(category);
+                try {
 
-            let cleanCategory = removeAccents(translatedCategory)?.toLowerCase();
 
-            const url = isDefaultCategory(cleanCategory) ? "produits/" : "products/filter/"
+                    console.log("Categorie sélectionnée before", category)
 
-            const { data: products } = await api.get(url, {
-                params: {
-                    product_categorie: cleanCategory,
-                },
-            });
-            const availableProducts = products.filter(p => parseInt(p.quantity_product) !== 0);
+                    console.log("Categorie sélectionnée", category.toLowerCase())
 
-            setProductData(availableProducts);
 
-            const uniqueOwnerIds = [...new Set(products.map(p => p?.fournisseur?.id))]
-                .filter(id => id != null);
+                    const url = isDefaultCategory(category.toLowerCase()) ? "produits/" : "products/filter/"
 
-            const responses = await Promise.all(
+                    const { data: products } = await api.get(url, {
+                        params: {
+                            product_categorie: category.toLowerCase(),
+                        },
+                    });
 
-                uniqueOwnerIds.map(id =>
+                    const filtered = products.filter(item => parseInt(item?.quantity_product) !== 0);
 
-                    api.get(`clients/${id}/`)
+                    setProductData(filtered);
 
-                        .then(res => ({ id, data: res.data }))
+                    const uniqueOwnerIds = [...new Set(products.map(p => p?.fournisseur?.id))]
+                        .filter(id => id != null);
 
-                        .catch(() => ({ id, data: null }))
-                )
-            );
+                    const responses = await Promise.all(
 
-            const ownerMap = responses.reduce((acc, { id, data }) => {
+                        uniqueOwnerIds.map(id =>
 
-                if (data) acc[id] = data;
+                            api.get(`clients/${id}/`)
 
-                return acc;
+                                .then(res => ({ id, data: res.data }))
 
-            }, {});
+                                .catch(() => ({ id, data: null }))
+                        )
+                    );
 
-            setOwners(ownerMap);
+                    const ownerMap = responses.reduce((acc, { id, data }) => {
 
-            dispatch(updateCategorySelected(category));
+                        if (data) acc[id] = data;
 
-        } catch (error) {
-            //    console.error("Erreur de chargement des produits :", error);
-        } finally {
+                        return acc;
 
-            setIsLoading(false);
-        }
+                    }, {});
 
-    }, [dispatch, DEFAULT_ACTIVE_CATEGORY]);
+                    setOwners(ownerMap);
+
+                } catch (error) {
+
+                    // console.error("Erreur lors du chargement :", error);
+                } finally {
+
+                    setIsLoading(false);
+                }
+            };
+
+            fetchProductsAndOwners();
+
+    }, [DEFAULT_ACTIVE_CATEGORY]);
+
 
     const productDataColsLenght = (productData?.length > 0 && cols?.length > 0)
 

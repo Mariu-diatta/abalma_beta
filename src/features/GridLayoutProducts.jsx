@@ -75,7 +75,7 @@ const GridLayoutProduct = () => {
 
             try {
 
-                const translatedCategory = translateCategory(activeButtonCategory);
+                const translatedCategory = translateCategory(activeButtonCategory.replace("_", " ")).toLocaleUpperCase();
 
 
                 let cleanCategory = removeAccents(translatedCategory)?.toLowerCase();
@@ -203,7 +203,7 @@ const GridLayoutProduct = () => {
   
     return (
 
-        <div className="space-y-1 overflow-x-hidden py-[8dvh] md:py-[1dvh]">
+        <div className="space-y-1 overflow-x-hidden md:py-[1dvh]">
 
             { isCurrentUserConnected && <SearchBar /> }
 
