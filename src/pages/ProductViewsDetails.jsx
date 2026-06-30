@@ -102,7 +102,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                 {/* Header Mobile / Close Button */}
                 <button
                     onClick={() => { onClose(); setIndex(0); }}
-                    className="absolute right-1 top-0.5 z-50 p-2 bg-white/80 backdrop-blur rounded-full shadow-lg text-gray-500 hover:text-black transition-all active:scale-90"
+                    className="absolute right-1 top-3 z-50 p-2 bg-white/80 backdrop-blur rounded-full shadow-lg text-gray-500 hover:text-black transition-all active:scale-90"
                 >
                     <X size={20} />
                 </button>

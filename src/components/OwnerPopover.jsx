@@ -62,6 +62,8 @@ const OwnerPopover = ({ owner, onClose }) => {
             if (room) {
                 dispatch(addRoom(room));
                 dispatch(addCurrentChat(room));
+                dispatch(setCurrentNav("message-inbox"));
+                navigate("/message-inbox");
             } else {
                 showMessage(dispatch, {
                     Type: "Erreur",
@@ -71,12 +73,11 @@ const OwnerPopover = ({ owner, onClose }) => {
 
         } finally {
             setLoadingChat(false);
-            dispatch(setCurrentNav("message-inbox"));
-            navigate("/message-inbox");
+
         }
     }
 
-    if (!owner) return null
+    if (!owner || !currentUser) return null
 
     return (
 
