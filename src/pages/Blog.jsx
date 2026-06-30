@@ -102,7 +102,7 @@ export const BlogPage = () => {
     return (
 
 
-        <div className="min-h-full py-1 overflow-y-auto scrollbor_hidden">
+        <div className="min-h-full py-1 overflow-y-auto scrollbor_hidden pt-[5dvh]">
 
             <div className="mx-0 lg:mx-auto  max-w-screen-auto text-center lg:mb-3 mb-2">
 

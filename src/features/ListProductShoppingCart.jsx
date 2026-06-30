@@ -235,7 +235,7 @@ const ListProductShoppingCart = () => {
     }
 
     return (
-        <div style={{ paddingTop: "15dvh"}}>
+        <div className="pt-[5dvh]">
             <div className="sc-root sc-wrap">
 
                 {/* Titre */}

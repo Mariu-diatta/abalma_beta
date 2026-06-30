@@ -1,13 +1,15 @@
 {
   "ExpandedNodes": [
     "",
-    "\\abalma_beta",
-    "\\android",
     "\\build",
     "\\public",
     "\\src",
-    "\\src\\services"
+    "\\src\\assets",
+    "\\src\\components",
+    "\\src\\features",
+    "\\src\\features\\auth",
+    "\\src\\layouts",
+    "\\src\\pages"
   ],
-  "SelectedNode": "\\src\\ChatApp.jsx",
   "PreviewInSolutionExplorer": false
 }
