@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import ButtonToggleChatsPanel from '../components/ButtonHandleChatsPanel';
 import InputBoxChat from '../components/InputBoxChat';
@@ -6,24 +6,17 @@ import { useTranslation } from 'react-i18next';
 import { backendBase } from '../services/Axios';
 import { ENDPOINTS, IMPORTANTS_URLS } from '../utils';
 import { setCurrentNav } from '../slices/navigateSlice';
-import { addMessageNotif } from '../slices/chatSlice';
+import { addChatMessage, addMessageNotif, addPendingMessage, confirmPendingMessage } from '../slices/chatSlice';
 import MessageBubble from '../features/MessageBoxChat';
 
 // ─── Constantes ───────────────────────────────────────────────────────────────
 const WS_READY = WebSocket.OPEN;
 
-// Convertit un id en valeur comparable : les ids temporaires ("temp-...", non
-// numériques) sont toujours considérés comme les plus récents, donc placés
-// en fin de liste tant que le serveur n'a pas confirmé le message.
-const toComparableId = (id) => {
-    const n = Number(id);
-    return Number.isNaN(n) ? Infinity : n;
-};
-
-// Trie les messages par id croissant, donc dans l'ordre chronologique
-// d'envoi (suppose des ids attribués de façon séquentielle côté backend).
-const sortMessages = (msgs) =>
-    [...msgs].sort((a, b) => toComparableId(a.id) - toComparableId(b.id));
+// ⚠️ NOTE D'ARCHITECTURE : ce composant se connecte à `ws/private/<user_id>/`,
+// c'est-à-dire au consumer `PrivateChatConsumer` côté backend (chat privé 1-à-1,
+// routage par utilisateur), PAS à `ChatConsumer` (chat par room). Toute la
+// cohérence des formats ci-dessous est donc calée sur les payloads envoyés par
+// `PrivateChatConsumer` (cf. consumers.py).
 
 // ─── ChatApp ─────────────────────────────────────────────────────────────────
 const ChatApp = ({ setShow, show }) => {
@@ -35,39 +28,68 @@ const ChatApp = ({ setShow, show }) => {
     const typingTimeoutRef = useRef(null);
     const selectedUserRef = useRef(null);
 
-    //const currentChat = useSelector((state) => state.chat.currentChat);
     const currentUser = useSelector((state) => state.auth.user);
     const selectedUser = useSelector((state) => state.chat.userSlected);
+    const currentRoomChat = useSelector((state) => state.chat.currentChat);
+
+    const messages = useMemo(() => { 
+        return currentRoomChat?.messages ?? []
+    }, [currentRoomChat]);
+
+    const [input, setInput] = useState('');
+    const [typing, setTyping] = useState(false);
+
+    const [wsStatus, setWsStatus] = useState('idle'); // idle | connected | error
 
     useEffect(() => {
         selectedUserRef.current = selectedUser;
     }, [selectedUser]);
 
-    const [messages, setMessages] = useState([]);
-    const [input, setInput] = useState('');
-    const [typing, setTyping] = useState(false);
-    const [wsStatus, setWsStatus] = useState('idle'); // idle | connected | error
-
-    const normalizeMessage = (msg, currentUserId) => {
-
-        const senderId = msg.user?.id ?? msg.user;
-
-        return {
-            id: msg.id,
-            text: msg.text,
-            sender_id: senderId,
-            created_at: msg.created_at_formatted,
-            isMine: senderId === currentUserId,
-        };
-    };
-
     // ── WebSocket (avec reconnexion automatique) ──
+    //
+    // ⚠️ FIX : `selectedUser` a été RETIRÉ des dépendances de cet effet.
+    // Le WS de PrivateChatConsumer est routé par utilisateur (groupe
+    // "chat_<currentUser.id>"), pas par conversation : il n'a donc aucune
+    // raison de se fermer/rouvrir quand on change de contact sélectionné.
+    // Avant ce fix, chaque clic sur un contact fermait puis rouvrait la
+    // connexion (effet de bord + flash de "wsStatus: idle"). On continue à
+    // utiliser `selectedUserRef` (mis à jour par l'effet ci-dessus) pour lire
+    // la conversation actuellement ouverte sans dépendre de `selectedUser`
+    // dans la fermeture du `useEffect`.
     useEffect(() => {
         if (!currentUser) return;
 
         let cancelled = false;
         let reconnectTimer = null;
         let attempt = 0;
+
+        // Normalise un message backend (`PrivateChatConsumer` payload.message)
+        // vers la MÊME forme que le message optimiste créé dans `sendMessage`
+        // ({ id, text, sender_id, receiver_id, created_at, isMine, pending }).
+        // ⚠️ FIX : avant, cette fonction renvoyait `user` (et non `sender_id`)
+        // et un champ `action: "send_message"` qui n'avait rien à faire ici
+        // (copié par erreur depuis le format des messages SORTANTS). Si le
+        // reducer `confirmPendingMessage` essaie de retrouver le message
+        // optimiste correspondant, il a besoin d'une forme cohérente — sinon
+        // le matching échoue silencieusement et on se retrouve avec deux
+        // entrées pour le même message (l'optimiste + la version confirmée).
+        const normalizeMessage = (msg, currentUserId) => {
+            // Le backend envoie "user" comme entier brut (self.user.id), pas
+            // comme objet — mais on garde le fallback `?.id` par robustesse
+            // au cas où le format backend évoluerait un jour vers un objet.
+            const senderId = msg?.user?.id ?? msg?.user;
+            const receiverId = msg?.receiver_id ?? msg?.receiver?.id ?? msg?.receiver;
+
+            return {
+                id: msg?.id,
+                text: msg?.text,
+                sender_id: senderId,
+                receiver_id: receiverId,
+                created_at: msg?.created_at_formatted,
+                isMine: senderId === currentUserId,
+                pending: false,
+            };
+        };
 
         const connect = () => {
             const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
@@ -90,43 +112,54 @@ const ChatApp = ({ setShow, show }) => {
                 if (data.action === 'new_message') {
                     const msg = data.message;
                     const senderId = msg?.user?.id ?? msg?.user;
-                    const receiverId = msg?.receiver?.id ?? msg?.receiver_id ?? msg?.receiver;
 
-                    // Le WebSocket est "global" (par utilisateur, pas par room) :
-                    // on ne doit ajouter le message au fil affiché que s'il
-                    // appartient bien à la conversation actuellement ouverte,
-                    // sinon il faut juste notifier sans mélanger les discussions.
-                    const belongsToOpenThread =
-                        selectedUserRef.current &&
-                        (senderId === selectedUserRef.current.id || receiverId === selectedUserRef.current.id);
+                    // Conversation actuellement ouverte (lue via la ref, pas
+                    // via `selectedUser` directement, puisque cet effet ne se
+                    // relance plus à chaque changement de contact).
+                    const openUser = selectedUserRef.current;
+
+                    // Comme ce WS est routé par utilisateur (et pas par
+                    // room), un message reçu ici a TOUJOURS `receiver_id`
+                    // égal à `currentUser.id` (sauf écho de notre propre
+                    // envoi). La seule comparaison pertinente pour savoir si
+                    // le message appartient au fil ouvert est donc sur
+                    // l'expéditeur, pas sur le destinataire.
+                    const belongsToOpenThread = !!openUser && senderId === openUser.id;
 
                     if (senderId === currentUser.id) {
-                        // C'est l'écho de notre propre message confirmé par le serveur :
-                        // on remplace la version optimiste (en attente) au lieu de la dupliquer.
-                        setMessages(prev => {
-                            const pendingIndex = prev.findIndex(
-                                m => m.pending && m.text === msg.text
-                            );
-                            const confirmed = normalizeMessage(msg, currentUser.id);
+                        // Écho de notre propre message confirmé par le serveur :
+                        // on remplace la version optimiste au lieu de la dupliquer.
+                        const confirmed = normalizeMessage(msg, currentUser.id);
+                        dispatch(confirmPendingMessage(confirmed));
 
-                            if (pendingIndex !== -1) {
-                                const updated = [...prev];
-                                updated[pendingIndex] = confirmed;
-                                return sortMessages(updated);
-                            }
-                            return sortMessages([...prev, confirmed]);
-                        });
                     } else if (belongsToOpenThread) {
-                        setMessages(prev => sortMessages([...prev, normalizeMessage(msg, currentUser.id)]));
+                        dispatch(addChatMessage(normalizeMessage(msg, currentUser.id)));
+
                     } else {
-                        dispatch(addMessageNotif(`Nouveau message de ${msg?.user?.prenom || 'un contact'}`));
+                        // ⚠️ FIX : le backend n'envoie jamais d'objet "user"
+                        // enrichi (juste un id entier), donc `msg?.user?.prenom`
+                        // était toujours `undefined` et la notif affichait
+                        // systématiquement "un contact". On ne peut pas
+                        // retrouver le prénom de l'expéditeur depuis ce
+                        // payload : tant que `PrivateChatConsumer` n'envoie
+                        // pas un minimum d'info sur l'expéditeur (prenom/nom),
+                        // on affiche un message générique honnête plutôt que
+                        // de faire semblant d'avoir l'info.
+                        dispatch(addMessageNotif(`Nouveau message d'un contact (id ${senderId})`));
                     }
                 }
 
                 if (data.action === 'typing') {
-                    setTyping(true);
-                    clearTimeout(typingTimeoutRef.current);
-                    typingTimeoutRef.current = setTimeout(() => setTyping(false), 1200);
+                    // ⚠️ FIX : avant, n'importe quel "typing" reçu (même
+                    // venant d'un contact qui n'est pas la conversation
+                    // ouverte) déclenchait l'indicateur. On filtre maintenant
+                    // sur l'expéditeur du typing vs la conversation ouverte.
+                    const openUser = selectedUserRef.current;
+                    if (openUser && data.sender_id === openUser.id) {
+                        setTyping(true);
+                        clearTimeout(typingTimeoutRef.current);
+                        typingTimeoutRef.current = setTimeout(() => setTyping(false), 1200);
+                    }
                 }
             };
 
@@ -152,9 +185,6 @@ const ChatApp = ({ setShow, show }) => {
         };
     }, [currentUser, dispatch]);
 
-    // ── Charger les messages du chat courant (triés chronologiquement) ──
-    
-
     // ── Scroll vers le bas (instantané, sans animation) ──
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'auto', block: 'end' });
@@ -173,29 +203,40 @@ const ChatApp = ({ setShow, show }) => {
         const trimmed = input.trim();
         if (!trimmed || wsRef.current?.readyState !== WS_READY) return;
 
-        // Affiché immédiatement, sans attendre la réponse du serveur.
+        // Forme alignée avec `normalizeMessage` ci-dessus, pour que
+        // `confirmPendingMessage` puisse retrouver et remplacer ce message
+        // optimiste avec la version confirmée par le serveur.
         const optimisticMessage = {
-            id: `temp-${Date.now()}`,
+            id: `temp-${currentUser?.id}-${selectedUser?.id}-${Date.now()}`,
             text: trimmed,
-            sender_id: currentUser?.id,
+            user:currentUser,
             created_at: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
             isMine: true,
             pending: true,
         };
-        setMessages(prev => sortMessages([...prev, optimisticMessage]));
 
+        dispatch(addPendingMessage(optimisticMessage));
+
+        // Format attendu par `PrivateChatConsumer.handle_send_message` :
+        // { action, text, receiver_id }. `sender_id` n'est pas lu côté
+        // backend (le serveur fait confiance à l'utilisateur authentifié du
+        // scope, pas à une valeur fournie par le client) — on le garde ici
+        // uniquement parce qu'il ne coûte rien et peut servir au debug.
         wsRef.current.send(JSON.stringify({
             action: 'send_message',
             sender_id: currentUser?.id,
             receiver_id: selectedUser?.id,
             text: trimmed,
         }));
+
         setInput('');
-    }, [input, currentUser?.id, selectedUser?.id]);
+
+    }, [input, currentUser, selectedUser?.id, dispatch]);
 
     // ── Indicateur de saisie ──
     const handleTyping = useCallback(() => {
         if (wsRef.current?.readyState !== WS_READY) return;
+
         wsRef.current.send(JSON.stringify({
             action: 'typing',
             sender_id: currentUser?.id,

@@ -68,7 +68,45 @@ const chatSlice = createSlice({
             state.currentChat= action?.payload
 
         },
+        addChatMessage: (state, action) => {
+            if (!state.currentChat) return;
 
+            const message = action.payload;
+
+            const exists = state.currentChat.messages.some(
+                m => m.id === message.id
+            );
+
+            if (!exists) {
+                state.currentChat.messages.push(message);
+            }
+        },
+        addPendingMessage: (state, action) => {
+            if (!state.currentChat) return;
+
+            state.currentChat.messages.push(action.payload);
+        },
+        confirmPendingMessage: (state, action) => {
+            if (!state.currentChat) return;
+
+            const message = action.payload;
+
+            const index = state.currentChat.messages.findIndex(
+                m => m.pending && m.text === message.text
+            );
+
+            if (index !== -1) {
+                state.currentChat.messages[index] = message;
+            } else {
+                const exists = state.currentChat.messages.some(
+                    m => m.id === message.id
+                );
+
+                if (!exists) {
+                    state.currentChat.messages.push(message);
+                }
+            }
+        },
         addMessageNotif: (state, action) => {
 
             if (state.currentChats.includes(action?.payload)) return 
@@ -92,7 +130,7 @@ const chatSlice = createSlice({
     },
 });
 
-export const { addRoom, removeRoom, clearRooms, addUser, addCurrentChat, addMessageNotif,
+export const { addRoom, removeRoom, clearRooms, addUser, addCurrentChat, addChatMessage, addPendingMessage, confirmPendingMessage, addMessageNotif,
     removeMessageNotif, cleanAllMessageNotif, getDeleteChat} = chatSlice.actions;
 
 export const deleteRoomAsync = (room) => async (dispatch) => {
