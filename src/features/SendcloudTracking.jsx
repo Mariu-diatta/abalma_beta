@@ -253,9 +253,22 @@ const SendcloudTracking = () => {
         try { return JSON.parse(localStorage.getItem('sc_recent') || '[]'); } catch { return []; }
     });
 
-    const handleSearch = useCallback(async (number) => {
-        const query = (number || trackingNumber).trim();
-        if (!query) return;
+    useEffect(() => {
+        if (selectedCommande?.tracking_number) {
+            setTrackingNumber(selectedCommande.tracking_number);
+        }
+    }, [selectedCommande]);
+
+
+    useEffect(() => {
+        if (trackingNumber) {
+            setSelectedCommande({ "id": trackingNumber });
+        }
+    }, [trackingNumber]);
+
+    const handleSearch = useCallback(async () => {
+
+        if (!selectedCommande?.id) return;
 
         setLoading(true);
         setError(null);
@@ -267,8 +280,8 @@ const SendcloudTracking = () => {
 
             // Sauvegarder dans l'historique récent
             setRecentSearches(prev => {
-                const updated = [query, ...prev.filter(n => n !== query)].slice(0, 5);
-                localStorage.setItem('sc_recent', JSON.stringify(updated));
+                const updated = 1
+                localStorage.setItem('sc_recent', selectedCommande?.id);
                 return updated;
             });
         } catch (err) {
@@ -280,7 +293,7 @@ const SendcloudTracking = () => {
         } finally {
             setLoading(false);
         }
-    }, [trackingNumber, selectedCommande]);
+    }, [selectedCommande]);
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') handleSearch();
@@ -311,8 +324,8 @@ const SendcloudTracking = () => {
                     <input
                         type="text"
                         className="sc-search-input"
-                        placeholder={`Ex: ${selectedCommande?.tracking_number || "3SABCD1234567890"}`}
-                        value={selectedCommande?.id ?? trackingNumber}
+                        placeholder={`Ex: ${selectedCommande?.tracking_number || "2"}`}
+                        value={selectedCommande?.id}
                         onChange={e => setTrackingNumber(e.target.value)}
                         onKeyDown={handleKeyDown}
                         autoComplete="off"
@@ -320,8 +333,7 @@ const SendcloudTracking = () => {
                     />
                     <button
                         className="sc-search-btn"
-                        onClick={() => handleSearch()}
-                        disabled={loading || !trackingNumber.trim()}
+                        onClick={(e) => handleSearch()}
                     >
                         {loading ? (
                             <span className="sc-spinner" />
@@ -443,7 +455,7 @@ const CommandesList = ({ setDataTracking }) => {
 
                                 <td className="p-3 text-center">
                                     <button
-                                        className="btn btn-outline-primary btn-sm"
+                                        className="btn btn-outline-primary btn-sm shadow-md rounded-full p-2"
                                         onClick={() => handleSelectCommande(cmd)}
                                     >
                                         Voir détails

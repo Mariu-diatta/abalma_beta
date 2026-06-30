@@ -35,7 +35,7 @@ const ChatApp = ({ setShow, show }) => {
     const typingTimeoutRef = useRef(null);
     const selectedUserRef = useRef(null);
 
-    const currentChat = useSelector((state) => state.chat.currentChat);
+    //const currentChat = useSelector((state) => state.chat.currentChat);
     const currentUser = useSelector((state) => state.auth.user);
     const selectedUser = useSelector((state) => state.chat.userSlected);
 

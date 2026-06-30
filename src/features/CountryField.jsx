@@ -155,6 +155,7 @@ export default function CountryField({ value, onSave, disabled = false, t }) {
             {/* EDIT */}
             {editing && (
                 <div style={styles.editBox}>
+
                     <CountrySelect
                         value={country}
                         onChange={setCountry}

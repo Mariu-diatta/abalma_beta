@@ -27,7 +27,7 @@ const GroupThemNotifPayLangageButtons = ({ notify, changeLanguage }) => {
                 <div
                     className = {`
                         bg-white/80  py-1 md:py-0 lg:py-0 lg:rounded-lg lg:bg-transparent md:rounded-lg md:bg-transparent
-                        flex items-center justify-around gap-2 z-50
+                        flex items-center justify-between gap-2 z-50
                         /* Mobile: fixed bottom bar */
                         fixed bottom-0 left-0 right-0 md:static 
                         md:justify-between

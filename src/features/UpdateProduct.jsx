@@ -27,7 +27,7 @@ const INITIAL_PRODUCT = {
     date_emprunt: null, date_fin_emprunt: null, type_choice: null,
     payment_method: null, social_links: null, is_active: true,
     is_verified: false, commission_percentage: null, images: [],
-    variants: [], "attributes": {}, weight:0.0
+    variants: [], "attributes": {}, weight:1.0
 };
 
 //const STEPS = ["Infos", "Détails", "Paiement", "Livraison"];

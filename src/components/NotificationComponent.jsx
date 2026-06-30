@@ -27,7 +27,7 @@ const NotificationsComponent = () => {
             // ✅ ws:// ou wss:// uniquement — jamais https:// (BASE_URL),
             // sinon le constructeur WebSocket lève une erreur et ne connecte jamais.
             const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-            const socketUrl = `${protocol}://${backendBase}/notifications/${currentUser.id}/`;
+            const socketUrl = `${protocol}://${backendBase}/ws/notifications/${currentUser.id}/`;
 
             if (ws.current) ws.current.close();
             ws.current = new WebSocket(socketUrl);
