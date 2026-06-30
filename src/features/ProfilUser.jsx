@@ -85,7 +85,6 @@ const ProfileCard = () => {
     // ce qui évite un re-render dupliqué à chaque changement de cette valeur.
     const currentUser = useSelector((state) => state.auth.user);
     const selectedProductOwner = useSelector((state) => state.chat.userSlected);
-    const currentOwnUser = selectedProductOwner;
     const currentNav = useSelector((state) => state.navigate.currentNav);
 
     // ── État local ──
@@ -120,7 +119,7 @@ const ProfileCard = () => {
     // à des enfants memoïsés). Le useMemo fige ces dérivés tant que leurs
     // dépendances ne changent pas.
     const flags = useMemo(() => ({
-        isCurrentUserFournisseurUnverified: currentUser?.is_fournisseur && !currentUser?.is_verified,
+        isCurrentUserFournisseurUnverified:  currentUser?.is_fournisseur && !currentUser?.is_verified,
         isProFormVisibleForCurrentUser: isProFormVisible && isCurrentUser,
         isBgPhotoEditing: isEditingPhotoBg && isCurrentUser,
         isFournisseurNotVerified: !(userProfile?.is_fournisseur && isCurrentUser),
@@ -418,7 +417,7 @@ const ProfileCard = () => {
                                 </div>
 
                                 <div className="flex flex-col sm:flex-col md:flex-row sm:items-center sm:justify-between gap-4 mb-2">
-                                    <NumberFollowFollowed profil={isCurrentUser ? currentUser : currentOwnUser} />
+                                        <NumberFollowFollowed profil={isCurrentUser ? currentUser : selectedProductOwner} />
                                     <ProbuttonComp
                                         isUserProAndFormVisible={isNotProAndOwner}
                                         setIsProFormVisible={setIsProFormVisible}
@@ -465,9 +464,10 @@ const ProfileCard = () => {
                                 </button>
                             )}
 
-                            {!isCurrentUser && <FollowProfilUser clientId={currentOwnUser?.id} />}
+                            {!isCurrentUser && <FollowProfilUser clientId={selectedProductOwner?.id} />}
+
                             {isLoadingCode ? (
-                                isFournisseurNotVerified && (
+                                isFournisseurNotVerified && isCurrentUser &&(
                                     <button
                                         onClick={updateAccountToFournisseur}
                                         className="h-8 w-1/2 md:w-auto flex items-center gap-1 rounded-full bg-indigo-300 text-white text-sm px-3 py-1 hover:bg-indigo-400"
@@ -485,7 +485,7 @@ const ProfileCard = () => {
                         </div>
                     )}
 
-                    {isProFormVisibleForCurrentUser && (
+                    { isProFormVisibleForCurrentUser && (
                         <UpdateUserToPro
                             handleUpgradeToPro={handleUpgradeToPro}
                             handleFileChange={handleFileChange}
