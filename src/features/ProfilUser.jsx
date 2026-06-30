@@ -252,7 +252,7 @@ const ProfileCard = () => {
             const fd = new FormData();
             fd.append('doc_proof', fileProof);
 
-            const { data } = await api.put("clients/become_pro/", fd);
+            const { data } = await api.post("clients/become_pro/", fd);
 
             if (data?.user) {
                 dispatch(updateUserData(data.user));
