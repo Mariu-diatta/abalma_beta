@@ -105,7 +105,7 @@ const ServicesPlatforms = () => {
 
     return (
         <section
-            className="relative py-20 max-w-6xl mx-auto px-4 w-full md:w-1/2"
+            className="relative  mx-auto px-1 py-5 w-full md:w-1/2"
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
         >

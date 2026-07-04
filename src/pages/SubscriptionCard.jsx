@@ -238,7 +238,7 @@ export default function SubscriptionsPage() {
 
     return (
 
-        <main className={`flex flex-col border-t border-gray-300 items-center border-0 justify-center  bg-none mx-2 ${isCurrentNavSubscribtion ? "" :"mt-16 pt-[10dvh]"} overflow-y-auto h-full  scrollbor_hidden`}>
+        <main className={`flex flex-col border-t border-gray-300 items-center border-0 justify-center  bg-none mx-1 py-5 ${isCurrentNavSubscribtion ? "" :"mt-16 pt-[10dvh]"} overflow-y-auto h-full  scrollbor_hidden`}>
 
 
             <button
@@ -264,7 +264,7 @@ export default function SubscriptionsPage() {
 
             </button>
 
-            <div className="m-auto text-start pb-2">
+            <div className="m-auto text-start py-5">
                 <TitleCompGen title={t("Subscriptionb2b")} />
             </div>
 

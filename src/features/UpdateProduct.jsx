@@ -826,6 +826,7 @@ const AddUploadProduct = () => {
                 <button
                     className="
                         fixed
+                        bottom-6
                         overflow-hidden
                         whitespace-nowrap
                         px-6
