@@ -205,6 +205,11 @@ const ProfileCard = () => {
 
     const handleFileChange = useCallback((e) => {
         const file = e.target.files?.[0];
+
+        console.log("RAW INPUT:", e.target.files);
+        console.log("FILE SELECTED:", file);
+        console.log("IS FILE ?", file instanceof File);
+
         if (file) setFileProof(file);
     }, []);
 
@@ -220,13 +225,14 @@ const ProfileCard = () => {
             if (updateImageCover) fd.append('image_cover', updateImageCover);
 
             const { data } = await api.put(`clients/${userProfile.id}/`, fd, {
-                headers: { 'Content-Type': 'multipart/form-data' },
+                headers: { 'Content-Type': 'multipart/form-data' }
             });
 
             dispatch(updateUserData(data?.data));
             setIsEditing(false);
             alert(t('update_profil'));
         } catch (error) {
+            console.log("Erreur Update :: ", error)
             const errorMessage =
                 error?.response?.data?.detail ||
                 error?.response?.data?.errors?.image_cover?.[0];
@@ -250,6 +256,7 @@ const ProfileCard = () => {
 
         try {
             const fd = new FormData();
+
             fd.append('doc_proof', fileProof);
 
             const { data } = await api.post("clients/become_pro/", fd);
@@ -263,11 +270,12 @@ const ProfileCard = () => {
             alert(t('compte_pro')); // 1 seul message final
 
         } catch (error) {
-            console.error("Erreur envoi document PRO:", error);
+            console.error("Erreur envoi document PRO:", error?.response?.data?.errors?.doc_proof?.[0]|| error);
 
             const message =
                 error?.response?.data?.detail ||
                 error?.response?.data ||
+                error?.response?.data?.errors?.doc_proof?.[0] ||
                 t('error_file');
 
             alert(message);
@@ -346,12 +354,12 @@ const ProfileCard = () => {
                 style={{ backgroundImage: `url(${previewUrlBackground || DEFAULT_COVER})` }}
             >
                 {isBgPhotoEditing && (
-                    <div className="absolute inset-0 bg-black/30 flex items-start justify-center">
+                    <div className="absolute inset-0 bg-black/30 flex items-start justify-center pt-1/2">
                         <input
                             type="file"
                             accept="image/*"
                             onChange={handleCoverUpload}
-                            className="bg-white rounded-full p-2 shadow-md text-sm cursor-pointer"
+                            className="bg-white rounded-full p-2 shadow-md text-sm cursor-pointer mt-8 mx-2 z-9999"
                             aria-label={t('ProfilText.modifierCouverture')}
                         />
                     </div>
