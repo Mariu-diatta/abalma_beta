@@ -11,6 +11,7 @@ import MesPublicites from './MyAdvertissement';
 import AfficheForm from './CreatFormPub';
 import { useSelector} from 'react-redux';
 import TitleCompGen from '../components/TitleComponentGen';
+import TestmonyCards from './TestmonyCards';
 
 // ─── Composant ────────────────────────────────────────────────────────────────
 const TablesRecapActivities = ({
@@ -182,7 +183,7 @@ const TablesRecapActivities = ({
                         </div>
 
                         <div>
-                            <div className="dash-stat-label">Achats</div>
+                            <div className="dash-stat-label">{t("TableRecap.title")}</div>
                         </div>
 
                     </div>
@@ -193,7 +194,7 @@ const TablesRecapActivities = ({
                             <div className="dash-stat-value">{stats?.sold ?? '—'}</div>
                         </div>
                         <div>
-                            <div className="dash-stat-label">Ventes</div>
+                            <div className="dash-stat-label">{t('MySales')}</div>
                         </div>
                     </div>
 
@@ -205,7 +206,7 @@ const TablesRecapActivities = ({
                         </div>
 
                         <div>
-                            <div className="dash-stat-label">Mes produits</div>
+                            <div className="dash-stat-label">{t("myProducts")}</div>
                         </div>
 
                     </div>
@@ -217,7 +218,7 @@ const TablesRecapActivities = ({
 
                         </div>
                         <div>
-                            <div className="dash-stat-label">Avis reçus</div>
+                            <div className="dash-stat-label">{t("avis_reçus")}</div>
                         </div>
                     </div>
                 </div>
@@ -281,6 +282,7 @@ const TablesRecapActivities = ({
                 </div>
 
             </div>
+
             <div className="mt-0">
                 <MesPublicites
                     onEdit={(ad) => {
@@ -296,6 +298,9 @@ const TablesRecapActivities = ({
                     />
                 )}
             </div>
+
+            <TestmonyCards />
+
         </>
     );
 };

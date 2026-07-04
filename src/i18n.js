@@ -22,6 +22,7 @@ i18n
         en: {
 
             translation: {
+                avis_reçus: "Received reviews",
                 "same_category_products": "Products from the same category",
                 "tracking_history": "Tracking History",
                 "destination": "Destination",
@@ -853,6 +854,7 @@ i18n
         fr: {
 
             translation: {
+                avis_reçus: "Avis reçus",
                 "same_category_products": "Produits de la même catégorie",
                 "tracking_history": "Historique du suivi",
                 "destination": "Destination",
@@ -1669,6 +1671,7 @@ i18n
         es: {
 
             translation: {
+                avis_reçus:"Opiniones recibidas",
                 "same_category_products": "Productos de la misma categoría",
                 "tracking_history": "Historial de seguimiento",
                 "destination": "Destino",
