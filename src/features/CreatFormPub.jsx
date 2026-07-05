@@ -143,7 +143,7 @@ const AfficheForm = ({ open, onClose }) => {
                         onClick={onClose}
                         className="
                         absolute
-                        bottom-6
+                        bottom-[12dvh]
                         top-1
                         right-4
                         w-9
