@@ -22,6 +22,8 @@ i18n
         en: {
 
             translation: {
+                "select_conversation": "Select a conversation",
+                "no_messages_yet": "No messages yet — say hello 👋",
                 avis_reçus: "Received reviews",
                 "same_category_products": "Products from the same category",
                 "tracking_history": "Tracking History",
@@ -854,6 +856,8 @@ i18n
         fr: {
 
             translation: {
+                "select_conversation": "Sélectionnez une conversation",
+                "no_messages_yet": "Aucun message pour le moment — dites bonjour 👋",
                 avis_reçus: "Avis reçus",
                 "same_category_products": "Produits de la même catégorie",
                 "tracking_history": "Historique du suivi",
@@ -1671,6 +1675,8 @@ i18n
         es: {
 
             translation: {
+                "select_conversation": "Selecciona una conversación",
+                "no_messages_yet": "Aún no hay mensajes — di hola 👋",
                 avis_reçus:"Opiniones recibidas",
                 "same_category_products": "Productos de la misma categoría",
                 "tracking_history": "Historial de seguimiento",

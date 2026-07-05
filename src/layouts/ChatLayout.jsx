@@ -159,10 +159,10 @@ const ChatLayout = () => {
             {/* Sidebar : overlay plein écran sur mobile, colonne fixe sur desktop */}
             <div
                 className={`
-                    absolute inset-0 z-20 flex h-full w-full min-w-0 flex-col overflow-hidden
+                    absolute inset-0 flex h-full mt-8 w-full flex-col overflow-y-auto
                     rounded-2xl border border-slate-200/70 bg-white/95 shadow-sm shadow-slate-200/60 backdrop-blur-md
                     transform transition-transform duration-300 ease-in-out
-                    ${showSidebar ? 'translate-x-0' : '-translate-x-full'}
+                    ${showSidebar ? 'translate-x-0 z-999' : '-translate-x-full'}
                     md:static md:inset-auto md:h-full md:w-[300px] md:flex-shrink-0 md:translate-x-0
                 `}
             >
@@ -181,7 +181,7 @@ const ChatLayout = () => {
                         </p>
                     </div>
                 ) : (
-                    <ul className="flex-1 space-y-1 overflow-y-auto px-2 py-3 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-slate-200">
+                    <ul className="flex-1 space-y-1 overflow-y-auto px-2 py-3 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-slate-200 ">
 
                         {allChats?.map((room) => {
 
