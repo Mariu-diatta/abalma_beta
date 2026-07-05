@@ -265,7 +265,7 @@ const ChatApp = ({ setShow, show }) => {
             </div>
 
             {/* MESSAGES */}
-            <div className="flex-1 overflow-y-auto px-3 scrollbor_hidden py-[6dvh]">
+            <div className="flex-1 overflow-y-auto px-3 scrollbor_hidden py-[12dvh]">
 
                 {!selectedUser ? (
                     <div className="h-full flex items-center justify-center text-gray-400 text-sm">
