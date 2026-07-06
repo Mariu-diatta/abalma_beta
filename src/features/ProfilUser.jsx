@@ -443,17 +443,17 @@ const ProfileCard = () => {
                             </div>
 
                              {
-                                 (formData.description !== "") && 
-                                 <textarea
-                                    name="description"
-                                    rows="5"
-                                    maxLength="20"
-                                    value={formData.description}
-                                    onChange={handleChange}
-                                    disabled
-                                    className="w-full mt-2 rounded-lg border border-gray-50 p-2 text-sm focus:ring-2 focus:ring-indigo-500 prose scrollbor_hidden leading-relaxed whitespace-pre-lin"
-                                    placeholder={t('ProfilText.descriptionPlaceholder')}
-                                />
+                                // (formData.description !== "") && 
+                                // <textarea
+                                //    name="description"
+                                //    rows="5"
+                                //    maxLength="20"
+                                //    value={formData.description}
+                                //    onChange={handleChange}
+                                //    disabled
+                                //    className="w-full mt-2 rounded-lg border border-gray-50 p-2 text-sm focus:ring-2 focus:ring-indigo-500 prose scrollbor_hidden leading-relaxed whitespace-pre-lin"
+                                //    placeholder={t('ProfilText.descriptionPlaceholder')}
+                                ///>
                              }
 
                             <div className="mt-4">
@@ -506,7 +506,7 @@ const ProfileCard = () => {
                                 </div>
                             )}
                             {
-                                isFournisseurNotVerified && isCurrentUser && isLoadingCode ? (
+                                isLoadingCode ? ((isFournisseurNotVerified && isCurrentUser ) && (
                                     <button
                                         onClick={updateAccountToFournisseur}
                                         className="px-4 py-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-sm flex items-center gap-2"
@@ -515,7 +515,7 @@ const ProfileCard = () => {
                                         <span className="whitespace-nowrap px-2">{t('ProfilText.devenirFournisseur')}</span>
                                     </button>
                                 
-                                ) : (
+                                )) : (
                                 <LoadingCard />
                             )
                         }
@@ -524,7 +524,7 @@ const ProfileCard = () => {
                         </div>
                     )}
 
-                    { isProFormVisibleForCurrentUser && (
+                    {isProFormVisibleForCurrentUser && (
                         <UpdateUserToPro
                             handleUpgradeToPro={handleUpgradeToPro}
                             handleFileChange={handleFileChange}
