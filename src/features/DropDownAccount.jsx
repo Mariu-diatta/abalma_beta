@@ -28,7 +28,7 @@ export default function ButtonsNavigateThemecolorPayDropdownaccount() {
 
     const currentNav = useSelector(state => state.navigate.currentNav);
 
-    const previousNav = useSelector(state => state.navigate.previousNav);
+    //const previousNav = useSelector(state => state.navigate.previousNav);
 
     const trigger = useRef(null);
 
@@ -120,7 +120,7 @@ export default function ButtonsNavigateThemecolorPayDropdownaccount() {
             className={`bg-none   rounded-lg absolute  right-2 fixed z-50 flex items-centers justify-center`}
         >
 
-            {((currentNav && (ENDPOINTS?.MESSAGE_INBOX === currentNav)) || !!previousNav) && <>
+            {(ENDPOINTS?.MESSAGE_INBOX === currentNav) && <>
                 <AttentionAlertMessage/>
 
 
