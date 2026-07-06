@@ -5751,3 +5751,15 @@ forget password`*/
     background: #f6f8fb !important;
 }
 
+
+.mine {
+    background: #6366f1;
+    color: white;
+    border-radius: 18px 18px 4px 18px;
+}
+
+.theirs {
+    background: #f1f5f9;
+    color: black;
+    border-radius: 18px 18px 18px 4px;
+}

@@ -222,7 +222,7 @@ const ChatApp = ({ setShow, show }) => {
         <main className="chat-root flex h-full flex-col overflow-hidden">
 
             {/* HEADER */}
-            <header className="chat-header flex-shrink-0">
+            <header className="flex items-center justify-between px-4 py-3 border-b bg-white">
 
                 {selectedUser ? (
                     <div className="flex items-center gap-2">

@@ -91,7 +91,6 @@ const ProfileCard = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [isEditingPhotoBg, setIsEditingPhotoBg] = useState(false);
     const [isProFormVisible, setIsProFormVisible] = useState(false);
-    const [messageVisible, setMessageVisible] = useState(false);
     const [updateImage, setUpdateImage] = useState(null);
     const [updateImageCover, setUpdateImageCover] = useState(null);
     const [fileProof, setFileProof] = useState(null);
@@ -107,7 +106,7 @@ const ProfileCard = () => {
     }, [currentNav, currentUser, selectedProductOwner]);
 
     const isCurrentUser = useMemo(
-        () => userProfile?.email === currentUser?.email && userProfile?.id === currentUser?.id,
+        () => userProfile?.email === currentUser?.email || userProfile?.id === currentUser?.id,
         [userProfile, currentUser]
     );
 
@@ -335,7 +334,6 @@ const ProfileCard = () => {
     }, [selectedProductOwner, currentUser, dispatch, navigate, loadingChat]);
 
     const handleMessageClick = useCallback(() => {
-        setMessageVisible((prev) => !prev);
         creatNewRoom();
     }, [creatNewRoom]);
 
@@ -416,16 +414,26 @@ const ProfileCard = () => {
                     ) : (
                         <>
                             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                                <div className="flex flex-col items-start">
-                                    <div className="flex items-center gap-1">
-                                        <h1 className="text-xl sm:text-2xl font-semibold">{formData.prenom}</h1>
-                                        {userProfile?.is_pro && <BadgeProIcon />}
+
+                                <div className="flex flex-col">
+                                    <div className="flex items-center gap-2">
+                                        <h1 className="text-2xl font-bold tracking-tight">{formData.prenom}</h1>
+                                        {
+                                            userProfile?.is_pro &&
+                                            <span className="px-2 py-0.5 text-xs bg-indigo-100 text-indigo-700 rounded-full">
+                                                <BadgeProIcon />
+                                            </span>
+                                        }
                                     </div>
-                                    <p className="text-xs text-gray-500">{formData.nom}</p>
+                                    <p className="text-xs text-gray-500">@{formData.nom?.toLowerCase()}</p>
+                                    {/* mini bio style marketplace */}
+                                    <p className="text-xs text-gray-400 mt-1 max-w-md">
+                                        {formData.description || "Vendeur indépendant • Produits & services"}
+                                    </p>
                                 </div>
 
                                 <div className="flex flex-col sm:flex-col md:flex-row sm:items-center sm:justify-between gap-4 mb-2">
-                                        <NumberFollowFollowed profil={isCurrentUser ? currentUser : selectedProductOwner} />
+                                    <NumberFollowFollowed profil={isCurrentUser ? currentUser : selectedProductOwner} />
                                     <ProbuttonComp
                                         isUserProAndFormVisible={isNotProAndOwner}
                                         setIsProFormVisible={setIsProFormVisible}
@@ -434,27 +442,43 @@ const ProfileCard = () => {
                                 </div>
                             </div>
 
-                            <textarea
-                                name="description"
-                                rows="5"
-                                maxLength="20"
-                                value={formData.description}
-                                onChange={handleChange}
-                                disabled
-                                className="w-full mt-2 rounded-lg border border-gray-50 p-2 text-sm focus:ring-2 focus:ring-indigo-500 prose scrollbor_hidden leading-relaxed whitespace-pre-lin"
-                                placeholder={t('ProfilText.descriptionPlaceholder')}
-                            />
+                             {
+                                 (formData.description !== "") && 
+                                 <textarea
+                                    name="description"
+                                    rows="5"
+                                    maxLength="20"
+                                    value={formData.description}
+                                    onChange={handleChange}
+                                    disabled
+                                    className="w-full mt-2 rounded-lg border border-gray-50 p-2 text-sm focus:ring-2 focus:ring-indigo-500 prose scrollbor_hidden leading-relaxed whitespace-pre-lin"
+                                    placeholder={t('ProfilText.descriptionPlaceholder')}
+                                />
+                             }
+
+                            <div className="mt-4">
+                                <p className="text-xs text-gray-400 mb-2">Produits récents</p>
+
+                                <div className="flex gap-2 overflow-x-auto">
+                                    {[1, 2, 3].map((p) => (
+                                        <div
+                                            key={p}
+                                            className="min-w-[120px] h-[120px] bg-gray-100 rounded-xl flex items-center justify-center text-xs text-gray-400"
+                                        >
+                                            Produit
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
                         </>
                     )}
-
                     {/* Actions */}
                     {!isEditing && (
                         <div className="flex flex-col sm:flex-row gap-2 mt-6">
                             {isCurrentUser && (
                                 <button
                                     onClick={openEditing}
-                                    className="h-8 w-1/2 border border-gray-300 cursor-pointer flex items-center justify-center gap-0 rounded-full bg-gray-100 text-gray-800 dark:text-gray-100 text-sm px-0 sm:px-2 hover:bg-gray-200 focus:ring-0 focus:ring-indigo-500 focus:outline-none transition-colors duration-200 md:w-auto"
-                                    aria-label={t('ProfilText.modifierProfil')}
+                                    className="px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-sm flex items-center gap-2"
                                 >
                                     <EditProfilIcon />
                                     <span className="whitespace-nowrap px-2">{t('ProfilText.modifierProfil')}</span>
@@ -464,30 +488,37 @@ const ProfileCard = () => {
                             {isViewingOtherUser && (
                                 <button
                                     onClick={handleMessageClick}
-                                    className="h-8 w-1/2 md:w-auto border border-gray-300 cursor-pointer flex items-center justify-center gap-2 rounded-full bg-gray-100 text-gray-800 dark:text-gray-100 text-sm px-1 sm:px-2 hover:bg-gray-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-colors duration-200"
+                                    className="px-4 py-2 rounded-full bg-indigo-500 text-white hover:bg-indigo-600 text-sm"
                                 >
                                     <span className="whitespace-nowrap px-2">
-                                        {messageVisible ? 'X' : 'Message'}
+                                        {'Message'}
                                     </span>
                                 </button>
                             )}
 
-                            {!isCurrentUser && <FollowProfilUser clientId={selectedProductOwner?.id} />}
+                            {!isCurrentUser && (
+                                <div className="flex items-center gap-2">
+                                    <FollowProfilUser clientId={selectedProductOwner?.id} />
 
-                            {isLoadingCode ? (
-                                isFournisseurNotVerified && isCurrentUser &&(
+                                    <button className="px-4 py-2 rounded-full border text-sm hover:bg-gray-50">
+                                        👁️ View Shop
+                                    </button>
+                                </div>
+                            )}
+                            {
+                                isFournisseurNotVerified && isCurrentUser && isLoadingCode ? (
                                     <button
                                         onClick={updateAccountToFournisseur}
-                                        className="h-8 w-1/2 md:w-auto flex items-center gap-1 rounded-full bg-indigo-300 text-white text-sm px-3 py-1 hover:bg-indigo-400"
-                                        title="Devenir un fournisseur"
+                                        className="px-4 py-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-sm flex items-center gap-2"
                                     >
                                         <FournisseurIcon />
                                         <span className="whitespace-nowrap px-2">{t('ProfilText.devenirFournisseur')}</span>
                                     </button>
-                                )
-                            ) : (
+                                
+                                ) : (
                                 <LoadingCard />
-                            )}
+                            )
+                        }
 
                             {isCurrentUser && <ModalFormCreatBlog />}
                         </div>

@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next';
 import BlogCard from './BlogCard';
 import BlogDetails from './BlogDetails';
 import NoContentComp from '../components/NoContentComp';
-import {createPortal} from "react-dom"
+import { createPortal } from "react-dom"
+import { motion } from 'framer-motion';
 
 // ─── Illustration vide (SVG allégé) ──────────────────────────────────────────
 const EmptyIllustration = () => (
@@ -94,16 +95,24 @@ const BlogList = ({ blogs }) => {
                         </div>
                     </div>
                 ) : (
-                    <div className="bl-grid">
-                        {blogs.map((post, index) => (
-                            <div
-                                key={post?.id ?? index}
-                                className="bl-card-wrap"
-                                style={{ animationDelay: `${Math.min(index * 0.05, 0.4)}s` }}
-                            >
-                                <BlogCard blog={post} handleClicked={handleClicked} />
-                            </div>
-                        ))}
+                    <div className="max-w-2xl mx-auto space-y-6">
+                            {blogs.map((post, index) => (
+                                <motion.div
+                                    key={post?.id ?? index}
+                                    initial={{ opacity: 0, y: 30 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{
+                                        duration: 0.35,
+                                        delay: index * 0.05
+                                    }}
+                                    className="bl-card-wrap"
+                                >
+                                    <BlogCard
+                                        blog={post}
+                                        handleClicked={handleClicked}
+                                    />
+                                </motion.div>
+                            ))}
                     </div>
                 )}
             </div>

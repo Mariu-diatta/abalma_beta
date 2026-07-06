@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useRef, useLayoutEffect } from 'react';
+import React, { useEffect, useState, useCallback, useRef, useLayoutEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ChatApp from '../pages/ChatApp';
 import api from '../services/Axios';
@@ -36,7 +36,7 @@ const ChatLayout = () => {
     const currentChat = useSelector((state) => state.chat.currentChat);
     const selectedUser = useSelector((state) => state.chat.userSlected);
     const deleteChat = useSelector((state) => state.chat.deleteChat);
-
+    const [search, setSearch] = useState('');
     const [usersCache, setUsersCache] = useState({});
     const fetchingRef = useRef(new Set());
 
@@ -67,6 +67,24 @@ const ChatLayout = () => {
             observer.disconnect();
         };
     }, []);
+
+    const filteredChats = useMemo(() => {
+        if (!search.trim()) return allChats;
+
+        return allChats.filter((room) => {
+            const otherUserId =
+                room.current_receiver === currentUser?.id
+                    ? room.current_owner
+                    : room.current_receiver;
+
+            const user = usersCache[otherUserId];
+
+            const fullName =
+                `${user?.prenom || ''} ${user?.nom || ''}`.toLowerCase();
+
+            return fullName.includes(search.toLowerCase());
+        });
+    }, [search, allChats, usersCache, currentUser]);
 
     const getUserProfile = useCallback(
         async (userId) => {
@@ -166,12 +184,61 @@ const ChatLayout = () => {
                     md:static md:inset-auto md:h-full md:w-[300px] md:flex-shrink-0 md:translate-x-0
                 `}
             >
-     
+                <div className="px-3 py-2">
+                    <input
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        placeholder="Rechercher un utilisateur..."
+                        className="
+                            w-full
+                            px-3 py-2
+                            text-sm
+                            bg-slate-50
+                            border border-slate-200
+                            rounded-xl
+                            focus:outline-none
+                            focus:ring-2
+                            focus:ring-indigo-300
+                        "
+                    />
+                </div>
                 <div className="flex items-center gap-2 border-b border-slate-100 px-4 pb-2 pt-4">
                     <div className="min-w-0 flex-1">
                         <TitleCompGen title={"Discussions"} />
                     </div>
                     <ButtonToggleChatsPanel showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+                </div>
+
+                <div className="px-3 py-2">
+                    <p className="text-xs text-slate-400 mb-2">Actifs</p>
+
+                    <div className="flex gap-2 overflow-x-auto">
+                        {filteredChats.slice(0, 10).map((room) => {
+                            const otherUserId =
+                                room.current_receiver === currentUser?.id
+                                    ? room.current_owner
+                                    : room.current_receiver;
+
+                            const user = usersCache[otherUserId];
+
+                            return (
+                                <div key={room.pk} className="flex flex-col items-center">
+                                    <div className="relative">
+                                        <img
+                                            src={user?.image || '/default.png'}
+                                            alt=""
+                                            className="w-10 h-10 rounded-full object-cover border-2 border-green-400"
+                                        />
+                                        <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+                                    </div>
+
+                                    <span className="text-[10px] truncate w-12 text-center">
+                                        {user?.prenom}
+                                    </span>
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
 
                 {(allChats?.length === 0) ? (
