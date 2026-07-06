@@ -37,7 +37,7 @@ const UpgradeToProButton = () => {
                             className="ms-3 "
                             onClick={
                                 () => {
-                                    alert(t("NO_SERVICE_PRO"));
+                                    //alert(t("NO_SERVICE_PRO"));
                                     dispatch(setCurrentNav(ENDPOINTS?.USER_PROFIL))
                                     navigate(`/${ENDPOINTS?.USER_PROFIL}`);
                                 }

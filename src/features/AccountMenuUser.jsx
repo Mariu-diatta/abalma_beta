@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { ENDPOINTS } from '../utils';
+import { ENDPOINTS, getMediaUrl } from '../utils';
 import { setCurrentNav } from '../slices/navigateSlice';
 import { useNavigate } from 'react-router-dom';
 import LoadingCard from '../components/LoardingSpin';
@@ -25,16 +25,29 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
     const currentNav = useSelector(state => state.navigate.currentNav);
 
+    useEffect(
+        () => {
+            if (currentNav) navigate(`/${currentNav}`);
+
+        },[currentNav, navigate]
+    )
+
+    const handleButton = (elem) => {
+        dispatch(setCurrentNav(elem));
+        setDropdownOpen(false)
+        navigate(`/${elem}`);
+
+    }
 
     return (
 
-        <div className='flex items-center justify-center z-0'>
+        <div className='flex items-center justify-center z-0 '>
 
             {/* Avatar + dropdown */ }
             <button
                 ref={trigger}
                 onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="hover:bg-gray-50 relative inline-flex items-center justify-center gap-0 rounded-lg  px-1 dark:text-white"
+                className="hover:bg-gray-50 relative inline-flex items-center justify-center gap-0 rounded-lg  px-1"
             >
                 {
                     userImage ? (
@@ -42,7 +55,7 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
                         <div className="relative flex items-center justify-center rounded-full">
 
                             <img
-                                src={userImage}
+                                src={getMediaUrl(userImage)}
                                 alt="avatar"
                                 title={userEmail}
                                 className="h-6.5 w-6.5 rounded-full object-cover cursor-pointer bg-gray-200"
@@ -90,15 +103,13 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
             </button>
 
-            {/* Dropdown menu */ }
+            {/* Dropdown menu */}
+            {/*onBlur={() => setDropdownOpen(false)}*/}
+            {/*onFocus={() => setDropdownOpen(true)}*/}
+
             <div
                 ref={dropdown}
-
-                onFocus={() => setDropdownOpen(true)}
-
-                onBlur={() => setDropdownOpen(false)}
-
-                className={`bg-gradient-to-r from-blue-50 to-gray-300 h-100 border border-gray-100 shadow-lg absolute right-0 top-full me-3 overflow-hidden rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${dropdownOpen ? "block z-100 bg-white/80 " : "hidden"}`}
+                className={`bg-white h-auto border-2 border-white shadow-2xl absolute right-0 top-full me-1 overflow-hidden rounded-lg dark:divide-dark-3 dark:bg-dark-2 ${dropdownOpen ? "block z-100" : "hidden"}`}
 
             >
 
@@ -110,36 +121,48 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
                 {
                     [
-                        { endPoint: ENDPOINTS?.USER_PROFIL, title: t("profil") },
+                        {
+                            endPoint: ENDPOINTS?.USER_PROFIL,
 
-                        { endPoint: ENDPOINTS?.SETTINGS, title: t("param") },
+                            title: t("profil"),
+
+                            logo: (
+                                <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+
+                                    <path stroke="currentColor" strokeWidth="1" d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+
+                                </svg>
+                            )
+                        },
+
+                        {
+                            endPoint: ENDPOINTS?.SETTINGS,
+
+                            title: t("param"),
+
+                            logo: (
+                                <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+
+                                    <path stroke="currentColor" strokeLinecap="square" strokeLinejoin="round" strokeWidth="0.9" d="M10 19H5a1 1 0 0 1-1-1v-1a3 3 0 0 1 3-3h2m10 1a3 3 0 0 1-3 3m3-3a3 3 0 0 0-3-3m3 3h1m-4 3a3 3 0 0 1-3-3m3 3v1m-3-4a3 3 0 0 1 3-3m-3 3h-1m4-3v-1m-2.121 1.879-.707-.707m5.656 5.656-.707-.707m-4.242 0-.707.707m5.656-5.656-.707.707M12 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+
+                                </svg>
+                            )
+                        },
 
                     ]?.map(
 
-                        elem => <div>
-
+                        (elem, id) => <div key={id}>
+                            
                             <button
 
                                 className={`shadow-sm flex gap-1 w-full items-center justify-between px-4 py-2.5 text-sm text-dark hover:bg-gray-50 dark:text-white ${currentNav === elem.endPoint && "bg-gray-50"}`}
 
-                                onClick={
-
-                                    () => {
-
-                                        navigate(`/${elem.endPoint}`);
-
-                                        dispatch(setCurrentNav(elem.endPoint))
-                                    }
-                                }
+                                onClick={()=> handleButton(elem.endPoint)}
                             >
 
                                 <div className="flex gap-2 items-center">
 
-                                    <svg className="w-[26px] h-[26px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-
-                                        <path stroke="currentColor" strokeWidth="1" d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-
-                                    </svg>
+                                    {elem.logo}
 
                                     <div className="whitespace-nowrap">{elem.title}</div>
 

@@ -4,17 +4,8 @@ const LoadingCard = () => {
 
     return (
 
-        <div
+        <div className="flex justify-center m-auto relative items-center block p-1 border-0  rounded-full mt-20">
 
-            className="flex justify-center m-auto relative items-center block w-min p-1 border-0  rounded-full  dark:bg-gray-800 dark:border-gray-800 dark:hover:bg-gray-700"
-
-            style={
-                {
-                    backgroundColor: "var(--color-bg)",
-                    color: "var(--color-text)"
-                }
-            }
-        >
             <svg
                 aria-hidden="true"
                 className="w-6 h-6 text-white-200 animate-spin dark:text-white-600 fill-blue-600 "

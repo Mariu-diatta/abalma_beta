@@ -7,12 +7,8 @@ const Home = () => {
     return (
 
         <HomeLayout>
-            
-            {/*<ButtonScrollTopDown>*/}
-
-                <HomeContain/>
-
-            {/*</ButtonScrollTopDown>*/}
+           
+            <HomeContain />
 
         </HomeLayout>
     )

@@ -28,12 +28,31 @@ function LanguageDropdown() {
 
         setSelectedLang(
 
-            (lang === "fr") ? (
+            lang === "fr" ? (
 
-                <img src="https://flagcdn.com/w40/fr.png" alt="Fr" className="w-4 h-4" />
+                <img
+                    src="https://flagcdn.com/w40/fr.png"
+                    alt="Français"
+                    className="w-4 h-4"
+                />
+
+            ) : lang === "en" ? (
+
+                <img
+                    src="https://flagcdn.com/w40/gb.png"
+                    alt="English"
+                    className="w-4 h-4"
+                />
+
             ) : (
-                <img src="https://flagcdn.com/w40/gb.png" alt="En" className="w-4 h-4" />
+
+                <img
+                    src="https://flagcdn.com/w40/es.png"
+                    alt="Español"
+                    className="w-4 h-4"
+                />
             )
+
         );
 
     }, [i18n.language]);
@@ -81,7 +100,7 @@ function LanguageDropdown() {
 
     return (
 
-        <div className="relative inline-block text-left rounded-lg py-0 mx-2">
+        <div className="hover:bg-gray-200 relative inline-block text-left rounded-lg py-0 mx-2">
 
             <button
                 ref={buttonRef}
@@ -91,7 +110,8 @@ function LanguageDropdown() {
                 aria-haspopup="true"
                 aria-expanded={isOpen}
             >
-                {/*{selectedLang}*/}
+                {selectedLang}
+
                 <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                     <path stroke="currentColor" strokeLinecap="round" strokeWidth="1" d="M4.37 7.657c2.063.528 2.396 2.806 3.202 3.87 1.07 1.413 2.075 1.228 3.192 2.644 1.805 2.289 1.312 5.705 1.312 6.705M20 15h-1a4 4 0 0 0-4 4v1M8.587 3.992c0 .822.112 1.886 1.515 2.58 1.402.693 2.918.351 2.918 2.334 0 .276 0 2.008 1.972 2.008 2.026.031 2.026-1.678 2.026-2.008 0-.65.527-.9 1.177-.9H20M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>
@@ -113,7 +133,7 @@ function LanguageDropdown() {
                 isOpen && (
 
                     <div
-                        className={` absolute right-0 w-28 rounded-md z-[30] ring-black ring-opacity-5 ${openDirection === "top" ? "origin-bottom-right mb-2 bottom-full" : "origin-top-right mt-2 top-full"}`}
+                        className={`bg-white absolute right-0 w-28 rounded-md z-[30] ring-black ring-opacity-5 ${openDirection === "top" ? "origin-bottom-right mb-2 bottom-full" : "origin-top-right mt-2 top-full"}`}
                     >
                         <div className="py-1">
 
@@ -136,6 +156,18 @@ function LanguageDropdown() {
                                 English
 
                                 <img src="https://flagcdn.com/w40/gb.png" alt="En" className="w-5 h-4" />
+
+                            </button>
+
+
+                            <button
+                                onClick={() => handleChangeLanguage("es")}
+                                className=" flex justify-between w-full  gap-2 items-center block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+                                role="menuitem"
+                            >
+                                Español
+
+                                <img src="https://flagcdn.com/w40/es.png" alt="Es" className="w-5 h-4" />
 
                             </button>
 

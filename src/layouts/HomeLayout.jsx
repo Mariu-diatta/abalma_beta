@@ -1,58 +1,25 @@
-import React, { useEffect} from 'react';
+import React from 'react';
 import Footer from '../pages/Footer';
 import NavbarHeader from '../pages/Header';
-import { useDispatch, useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
-import { setCurrentNav } from '../slices/navigateSlice';
-import ScrollTop from '../components/ButtonScroll';
-import { ENDPOINTS } from '../utils';
+//import ScrollTop from '../components/ButtonScroll';
 
 const HomeLayout = ({ children }) => {
 
-    const dispatch = useDispatch();
-
-    const currentUser = useSelector((state) => state.auth.user);
-
-    useEffect(() => {
-
-        if (currentUser) {
-
-            dispatch(setCurrentNav(ENDPOINTS.ACCOUNT_HOME));
-        }
-
-    }, [currentUser, dispatch]);
-
-    useEffect(
-
-        () => {
-
-            if (currentUser) {
-
-                <Navigate to={`/${ENDPOINTS.ACCOUNT_HOME}`} replace />;
-            }
-
-        }, [currentUser]
-    )
-
     return (
 
-        <main className=" d-flex flex-column items-start justify-between style-bg mx-0 mb-[30dvh]" >
+        <main className=" d-flex flex-column items-start justify-between style-bg mx-0 overflow-y-auto h-full scrollbor_hidden" >
 
             <NavbarHeader />
 
-            <ScrollTop />
+            {/*<ScrollTop />*/}
 
-            <section className="mt-[5dvh]"> 
+            {/*<section className="mt-[5dvh]"> */}
 
-                {/*<ButtonScrollTopDown>*/}
-
-                    {children}
-
-                {/*</ButtonScrollTopDown>*/}
+                {children}
 
                 <Footer />
 
-            </section>
+            {/*</section>*/}
 
         </main>
     );

@@ -31,17 +31,19 @@ export default function PhoneInput({ form, handleChange, setForm }) {
     };
 
     return (
+
         <div className="w-auto flex flex-wrap items-center justify-center gap-2 px-2">
+
 
             {/* Dropdown pays */}
             <select
-                className="text-md border-b-2 pb-2 border-gray-300 dark:border-gray-600 rounded-l-lg px-2 focus:outline-none focus:ring-0 focus:border-blue-600"
+                className="text-md border-b-2 pb-2 border-gray-300 dark:border-gray-600 rounded-l-lg px-2 focus:outline-none focus:ring-0 focus:border-indigo-600"
                 value={selectedCountry.name}
                 onChange={(e) =>
                     handleCountryChange(countries.find((c) => c.name === e.target.value))
                 }
             >
-                {countries.map((c) => (
+                {countries?.map((c) => (
                     <option key={c.name} value={c.name} disabled={c.disabled} >
                         {c.name}
                     </option>
@@ -58,7 +60,7 @@ export default function PhoneInput({ form, handleChange, setForm }) {
                 type="tel"
                 name="telephone"
                 placeholder={t("form.phone")}
-                value={form.telephone}
+                value={form?.telephone}
                 onChange={handleChange_}
             />
 

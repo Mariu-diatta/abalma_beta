@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { logout } from "../slices/authSlice";
 import { useTranslation } from 'react-i18next';
 import api from "../services/Axios";
-import { setCurrentNav } from "../slices/navigateSlice";
 import LoadingCard from "../components/LoardingSpin";
+import { showMessage } from "../components/AlertMessage";
+import { setCurrentNav } from "../slices/navigateSlice";
 
 
 const DeleteProfilAccount = () => {
@@ -25,7 +26,7 @@ const DeleteProfilAccount = () => {
 
     const userProfile = useMemo(() => {
 
-        if (currentNav === "settings" || currentNav === "home") return profileData;
+        if (currentNav === "settings") return profileData;
 
         if (currentNav === "user_profil_product") return selectedProductOwner;
 
@@ -34,46 +35,50 @@ const DeleteProfilAccount = () => {
     }, [currentNav, profileData, selectedProductOwner]);
 
     // Suppression du compte
-    const delAccountUser = async () => {
+    const delAccountUser = async (e) => {
+        e.preventDefault();
 
+        const confirmed = window.confirm(
+            "Voulez-vous vraiment supprimer ce profil ?"
+        );
 
+        if (!confirmed) return;
+
+        setLoading(true);
         try {
+            const deleteResp = await api.delete("clients/delete-account/");
 
+            showMessage(dispatch, {
+                Type: "Message",
+                Message:
+                    deleteResp?.data?.detail ||
+                    "Votre compte a été supprimé avec succès",
+            });
 
-            if (window.confirm('Voulez-vous vraiment supprimer ce profil ?')) {
+            dispatch(logout());
+            dispatch(setCurrentNav(null))
+            navigate("/");
 
-                setLoading(true)
+        } catch (error) {
+            const message =
+                error?.response?.data?.detail ||
+                error?.response?.data ||
+                "Erreur lors de la suppression du compte";
 
-                const deleteResp = await api.delete(`clients/${userProfile?.id}/`,
+            showMessage(dispatch, {
+                Type: "Error",
+                Message: message,
+            });
 
-                    {
-                        withcredentials: true
-                    } );
-
-                console.log("Response suppression", deleteResp?.data)
-
-                alert('Votre compte a été supprimé avec succès');
-
-                dispatch(logout());
-
-                dispatch(setCurrentNav("home"));
-
-                navigate('/', { replace: true });
-            }
-
-        } catch (err) {
-
-            console.error('Erreur de la suppression du compte', err);
+            console.error("Erreur suppression compte:", error);
 
         } finally {
-
-            setLoading(false)
+            setLoading(false);
         }
     };
 
     const isCurrentUser = useMemo(() => userProfile?.email === profileData?.email, [userProfile, profileData]);
 
- 
     if (!isCurrentUser) return
 
     return (

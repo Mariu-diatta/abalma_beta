@@ -1,29 +1,29 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef, useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ChatApp from '../pages/ChatApp';
 import api from '../services/Axios';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 
 import {
     addCurrentChat,
     addMessageNotif,
     addRoom,
     addUser,
-    cleanAllMessageNotif,
-    clearRooms,
     deleteRoomAsync,
     removeRoom,
 } from '../slices/chatSlice';
 
-import { clearCart } from '../slices/cartSlice';
-
-import { logout } from '../slices/authSlice';
-
-import { setCurrentNav } from '../slices/navigateSlice';
-import AnaliesChatsWithAi from '../pages/ChatWithAi';
 import { addAiChat } from '../slices/aiChatSlice';
+
 import TitleCompGen from '../components/TitleComponentGen';
+import AnaliesChatsWithAi from '../pages/ChatWithAi';
+import {fetchRooms } from '../utils';
+import ButtonToggleChatsPanel from '../components/ButtonHandleChatsPanel';
+
+// Doit correspondre au padding-bottom du <section> dans VerticalNavbar
+// (actuellement style={{ padding: "0px 0 40px" }}). Si cette valeur change
+// un jour côté VerticalNavbar, mettez-la aussi à jour ici.
+const NAVBAR_BOTTOM_PADDING = 40;
 
 const ChatLayout = () => {
 
@@ -35,357 +35,229 @@ const ChatLayout = () => {
     const allChats = useSelector((state) => state.chat.currentChats);
     const currentChat = useSelector((state) => state.chat.currentChat);
     const selectedUser = useSelector((state) => state.chat.userSlected);
-
     const deleteChat = useSelector((state) => state.chat.deleteChat);
 
-    const [receivers, setReceivers] = useState({});
-    const [senders, setSenders] = useState({});
-
-    const navigate = useNavigate();
+    const [usersCache, setUsersCache] = useState({});
+    const fetchingRef = useRef(new Set());
 
     const dispatch = useDispatch();
 
-    // Récupération du sender
-    const getSender = useCallback(
+    // ── Hauteur dynamique : remplit tout l'espace restant sous le header/bannière,
+    // comme WhatsApp Web, quelle que soit la hauteur de ce qui se trouve au-dessus ──
+    const containerRef = useRef(null);
+    const [height, setHeight] = useState('100dvh');
 
+    useLayoutEffect(() => {
+        const updateHeight = () => {
+            if (!containerRef.current) return;
+            const top = containerRef.current.getBoundingClientRect().top;
+            setHeight(`calc(100dvh - ${top}px - ${NAVBAR_BOTTOM_PADDING}px)`);
+        };
+
+        updateHeight();
+
+        window.addEventListener('resize', updateHeight);
+        // Recalcule aussi si la bannière d'alerte ou la barre du compte
+        // apparaît/disparaît ou change de taille après le montage.
+        const observer = new ResizeObserver(updateHeight);
+        observer.observe(document.body);
+
+        return () => {
+            window.removeEventListener('resize', updateHeight);
+            observer.disconnect();
+        };
+    }, []);
+
+    const getUserProfile = useCallback(
         async (userId) => {
-
-            if (!userId || senders[userId]) return; // évite doublons
-
-            try {
-
-                const res = await api.get(`/clients/${userId}/`);
-
-                const user = res?.data;
-
-                if (user && user?.id !== currentUser?.id) {
-
-                    setSenders((prev) => ({ ...prev, [userId]: user }));
-                }
-
-            } catch (e) {
-
-                console.error(e);
-            }
-        },
-        [senders, currentUser?.id]
-    );
-
-    // Récupération du receiver
-    const getReceiver = useCallback(
-
-        async (userId) => {
-
-            if (!userId || receivers[userId]) return; // évite doublons
+            if (!userId || fetchingRef.current.has(userId)) return;
+            fetchingRef.current.add(userId);
             try {
                 const res = await api.get(`/clients/${userId}/`);
-
                 const user = res?.data;
-
                 if (user) {
-
-                    setReceivers((prev) => ({ ...prev, [userId]: user }));
+                    setUsersCache((prev) => (prev[userId] ? prev : { ...prev, [userId]: user }));
                 }
-
             } catch (e) {
-
                 console.error(e);
             }
         },
-
-        [receivers]
+        []
     );
 
-    // Charger infos des users (receiver/sender) quand allChats change
     useEffect(() => {
-
         allChats.forEach((room) => {
-
-            getReceiver(room?.current_receiver);
-
-            getSender(room?.current_owner);
+            getUserProfile(room?.current_receiver);
+            getUserProfile(room?.current_owner);
         });
+    }, [allChats, getUserProfile]);
 
-    }, [allChats, getReceiver, getSender]);
-
-    // Charger la room d'un utilisateur sélectionné
     useEffect(() => {
+        if (!selectedUser?.id || !currentUser?.id) return;
 
         const fetchRoom = async () => {
-
-            if (!selectedUser?.id) return;
-
             try {
-                const response = await api.get(`/rooms/?receiver_id=${selectedUser?.id}`);
+                const { data } = await api.get("/allRooms/");
 
-                const response_room = response?.data[0];
+                const room = (data || []).find(
+                    (r) =>
+                        (r?.current_owner === currentUser.id && r?.current_receiver === selectedUser.id) ||
+                        (r?.current_owner === selectedUser.id && r?.current_receiver === currentUser.id)
+                );
 
-                if ((response_room?.current_receiver === currentUser?.id) && (response_room?.messages.length > 0) && (response?.data?.length > 0) ) {
+                if (!room) return;
 
-                    if ((response_room?.current_receiver === currentUser?.id || response_room?.current_owner === currentUser?.id)) {
-
-                        console.log("Romm with lenght", response_room?.messages.length)
-
-                        dispatch(addRoom(response_room));
-
-                        dispatch(addCurrentChat(response_room));
-                    }
-       
-
-                }
+                dispatch(addRoom(room));
+                dispatch(addCurrentChat(room));
             } catch (err) {
-
-                console.error('Erreur lors du chargement des rooms:', err);
-
-                if (err?.response?.data?.detail === "Informations d'authentification non fournies.") {
-
-                    if (window.confirm("Votre session a expiré veullez vous reconnecter")) {
-
-                        try {
-
-                            dispatch(clearCart());
-
-                            dispatch(clearRooms());
-
-                            dispatch(cleanAllMessageNotif());
-
-                            dispatch(logout());
-
-                            dispatch(setCurrentNav("login"))
-
-                            return navigate("/login", { replace: true });
-
-
-
-                        } catch (error) {
-
-                            //showMessage(dispatch, { Type: "Erreur", Message: error?.message || error?.request?.response });
-
-                        } finally {
-
-                            //setLoading(false)
-                        }
-                    }
-                }
+                console.error(err);
             }
         };
 
         fetchRoom();
+    }, [selectedUser?.id, currentUser?.id, dispatch]);
 
-    }, [selectedUser?.id, dispatch, currentUser?.id, navigate]);
-
-    // Charger la room de l'utilisateur actuel 
     useEffect(() => {
-
-        const fetchRooms = async () => {
-
-            if (!currentUser?.id) return;
-
-            try {
-                const response = await api.get(`/rooms/?receiver_id=${currentUser?.id}`);
-
-                if (response?.data?.length > 0) {
-
-                    response?.data?.forEach(
-
-                        room => {
-
-
-                            if (room?.messages.length>0) {
-
-                                dispatch(addRoom(room));
-                            }
-            
-                        }
-                    )
-
-                }
-
-            } catch (err) {
-
-                console.error('Erreur lors du chargement des rooms:', err);
-            }
-        };
-
-        fetchRooms();
-
+        if (!currentUser?.id) return;
+        fetchRooms(currentUser, dispatch, addRoom);
     }, [dispatch, currentUser]);
 
-    // Si plus de chat → reset utilisateur sélectionné
     useEffect(() => {
-
         if (allChats.length === 0) {
-
             dispatch(addUser(null));
         }
-
     }, [allChats.length, dispatch]);
 
-    //suppresion du room
     const handleDeleteRoom = (room) => {
 
         if (deleteChat === room) {
-            return
+            return;
         }
 
-        dispatch(removeRoom(room))            
+        const otherUserId =
+            room.current_receiver === currentUser?.id ? room.current_owner : room.current_receiver;
+        const otherUser = usersCache[otherUserId];
+        const otherUserName = otherUser?.prenom || otherUser?.nom || 'cet utilisateur';
 
+        dispatch(removeRoom(room));
         dispatch(deleteRoomAsync(room));
 
-        dispatch(addCurrentChat(null))
+        if (currentChat?.pk === room?.pk) {
+            dispatch(addCurrentChat(null));
+        }
 
-        dispatch(
-
-            addMessageNotif(
-
-                `Discussion ${selectedUser?.prenom + room?.name?.slice(10, 15)} supprimée`
-            )
-        );
-
+        dispatch(addMessageNotif(`Discussion avec ${otherUserName} supprimée`));
     };
 
     return (
-
         <main
-            className="grid grid-cols-12  flex justify-center items-start mx-auto gap-2 pb-1 bg-grey-100  mb-2 fixed  md:mt-0"
+            ref={containerRef}
+            style={{ height }}
+            className="h-full md:mt-6 fixed w-full md:w-4/5 flex bg-0 flex-col gap-3 overflow-hidden px-2 md:flex-row md:p-3 pt-[6dvh]  mt-8"
         >
-            {/* Sidebar */}
 
-            <section className="relative md:col-span-4 h-full">
-
-                <div
-
-                    className={`
-                        bg-white fixed top-0 left-0 h-full
-                        bg-gray-100 z-20 transform transition-transform duration-300 ease-in-out
-                        ${showSidebar ? 'translate-x-0' : '-translate-x-full'}
-                        md:static md:translate-x-0 md:block
-                        flex flex-col
-                      `
-                    }
-                >
-                    <div className="p-1 gap-3 pt-6 mt-5 flex-1 overflow-y-auto scrollbor_hidden justyfy-between">
-
+            {/* Sidebar : overlay plein écran sur mobile, colonne fixe sur desktop */}
+            <div
+                className={`
+                    absolute inset-0 flex h-full w-full flex-col overflow-y-auto
+                    rounded-2xl border border-slate-200/70 bg-white/95 shadow-sm shadow-slate-200/60 backdrop-blur-md
+                    transform transition-transform duration-300 ease-in-out
+                    ${showSidebar ? 'translate-x-0 z-999' : '-translate-x-full'}
+                    md:static md:inset-auto md:h-full md:w-[300px] md:flex-shrink-0 md:translate-x-0
+                `}
+            >
+     
+                <div className="flex items-center gap-2 border-b border-slate-100 px-4 pb-2 pt-4">
+                    <div className="min-w-0 flex-1">
                         <TitleCompGen title={"Discussions"} />
-
-                        {
-                            (allChats?.length === 0) ?
-                            (
-                                <div className="text-center text-md py-6 border border-gray-50 rounded-full">
-                                    {t('message.nomessage')}
-                                </div>
-                            )
-                            :
-                            (
-                                <ul className="mt-10 space-y-2 ">
-
-                                    {
-                                        allChats?.map(
-
-                                            (room, index) => {
-
-                                                const currentReceiver = receivers[room?.current_receiver];
-                                                const currentSender = senders[room?.current_owner];
-                                                const whoCurrentUserChatWith =
-                                                currentReceiver?.email === currentUser?.email
-                                                    ? currentSender
-                                                    : currentReceiver;
-
-                                                return (
-
-                                                    <li
-                                                        key={index}
-                                                        className={`w-full flex items-center justify-between px-2 py-1 rounded-lg text-sm font-medium transition-colors
-                                                        ${currentChat?.name === room?.name
-                                                            ? 'bg-gradient-to-br from-purple-0 to-blue-100 hover:bg-gradient-to-br hover:from-purple-50 text-white-800 shadow-sm'
-                                                            : 'hover:bg-gray-100 text-gray-800 shadow-sm'
-                                                        }`}
-                                                    >
-                                                        <button
-
-                                                            onClick={() => {
-                                                                dispatch(addAiChat(null));
-                                                                dispatch(addCurrentChat(room));
-                                                                dispatch(addUser(whoCurrentUserChatWith));
-                                                            }}
-
-                                                            className="flex gap-1 cursor-pointer flex-grow items-center "
-                                                        >
-                                                            <img
-
-                                                                src={
-                                                                    whoCurrentUserChatWith?.image ||
-                                                                    whoCurrentUserChatWith?.photo_url
-                                                                }
-
-                                                                alt={`${whoCurrentUserChatWith?.nom || 'Moi'
-                                                                    } avatar`}
-                                                                className="h-[60px] w-[60px] rounded-full object-cover"
-                                                            />
-
-                                                            <div className="flex leading-tight gap-1 items-center">
-
-                                                                <span className="text-md font-medium text-gray-600">
-                                                                    {whoCurrentUserChatWith?.prenom?.slice(0, 20) ||
-                                                                        'Prénom'}
-                                                                </span>
-
-                                                                <span className="text-xs text-gray">
-                                                                    {whoCurrentUserChatWith?.nom?.toLowerCase()}
-                                                                </span>
-
-                                                            </div>
-
-                                                        </button>
-
-                                                        <button
-                                                            onClick={
-                                                                () => handleDeleteRoom(room)
-                                                            }
-                                                            className="cursor-pointer ml-2 bg-none hover:bg-red-200 text-lg shadow-sm h-7 w-7 rounded-full"
-                                                            aria-label={`Supprimer ${room.name}`}
-                                                        >
-                                                            ✕
-                                                        </button>
-
-                                                    </li>
-                                                );
-                                            }
-                                        )
-                                    }
-
-                                </ul>
-                            )
-                    }
-
                     </div>
-
+                    <ButtonToggleChatsPanel showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
                 </div>
 
-                <div className="mb-5">
-                    <AnaliesChatsWithAi />
-                </div>
+                {(allChats?.length === 0) ? (
+                    <div className="flex flex-1 items-center justify-center px-6">
+                        <p className="text-center text-sm text-slate-400">
+                            {t('message.nomessage')}
+                        </p>
+                    </div>
+                ) : (
+                    <ul className="flex-1 space-y-1 overflow-y-auto px-2 py-3 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-slate-200 ">
 
-            </section>
+                        {allChats?.map((room) => {
+
+                            const otherUserId =
+                                room.current_receiver === currentUser?.id
+                                    ? room.current_owner
+                                    : room.current_receiver;
+
+                            const otherUser = usersCache[otherUserId] || null;
+                            const isActive = currentChat?.pk === room?.pk;
+
+                            return (
+                                <li
+                                    key={room?.pk}
+                                    className={`group flex w-full min-w-0 items-center justify-between gap-2 rounded-xl px-2.5 py-2 transition-colors
+                                        ${isActive ? 'bg-indigo-50 ring-1 ring-indigo-100' : 'hover:bg-slate-50'}`}
+                                >
+                                    <button
+                                        onClick={() => {
+                                            dispatch(addAiChat(null));
+                                            dispatch(addCurrentChat(room));
+                                            if (otherUser) {
+                                                dispatch(addUser(otherUser));
+                                            }
+                                        }}
+                                        className="flex min-w-0 flex-1 items-center gap-3 text-left"
+                                    >
+                                        {(otherUser?.image || otherUser?.photo_url) ? (
+                                            <img
+                                                src={otherUser.image || otherUser.photo_url}
+                                                alt={`${otherUser?.nom || 'Utilisateur'} avatar`}
+                                                className="h-11 w-11 flex-shrink-0 rounded-full object-cover shadow-sm ring-2 ring-white"
+                                                onError={(e) => { e.currentTarget.style.visibility = 'hidden'; }}
+                                            />
+                                        ) : (
+                                            <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-500 font-semibold text-white shadow-sm">
+                                                {(otherUser?.prenom?.[0] || otherUser?.nom?.[0] || '?').toUpperCase()}
+                                            </div>
+                                        )}
+
+                                        <div className="min-w-0 leading-tight">
+                                            <p className={`truncate text-sm font-semibold ${isActive ? 'text-indigo-700' : 'text-slate-700'}`}>
+                                                {otherUser?.prenom?.slice(0, 20) || 'Prénom'}
+                                            </p>
+                                            <p className="truncate text-xs text-slate-400">
+                                                {otherUser?.nom?.toLowerCase()}
+                                            </p>
+                                        </div>
+                                    </button>
+
+                                    <button
+                                        onClick={() => handleDeleteRoom(room)}
+                                        className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full text-slate-400 opacity-0 transition-all duration-150 hover:bg-red-50 hover:text-red-500 group-hover:opacity-100"
+                                        aria-label={`Supprimer la conversation avec ${otherUser?.prenom || otherUser?.nom || 'cet utilisateur'}`}
+                                    >
+                                        ✕
+                                    </button>
+                                </li>
+                            );
+                        })}
+
+                    </ul>
+                )}
+
+                <AnaliesChatsWithAi />
 
 
-             {/*Main Chat Area */}
-            <section className="col-span-12 md:col-span-8  p-0  scrollbor_hidden">
+            </div>
 
-                <div
-                    className="lg:me-2 lg:pe-2 lg:ps-1 flex overflow_hidden "
-                    style={{
-                        backgroundColor: 'var(--color-bg)',
-                        color: 'var(--color-text)',
-                    }}
-                >
-
+            {/* Zone de chat principale */}
+            <section className="h-full min-h-0 w-full min-w-0 flex-1 overflow-hidden">
+                <div className="h-full min-w-0 overflow-hidden rounded-2xl border border-slate-200/70 bg-white/90 shadow-sm shadow-slate-200/60 backdrop-blur-md">
                     <ChatApp setShow={setShowSidebar} show={showSidebar} />
-
                 </div>
-
             </section>
-            
+
         </main>
     );
 };

@@ -3,13 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { addMessageNotif, removeRoom } from "../slices/chatSlice";
 import { backendBase } from "../services/Axios";
 
+const MAX_RECONNECT_DELAY = 30000;
+
 const NotificationsComponent = () => {
 
     const dispatch = useDispatch();
     const ws = useRef(null);
     const currentUser = useSelector((state) => state.auth.user);
-    const currentNotifMessages = useSelector((state) => state.chat.messageNotif);
-    const deleteChat = useSelector((state) => state.chat.deleteChat);
+    const reconnectTimeoutRef = useRef(null);
+    const reconnectAttemptsRef = useRef(0);
+    const manualCloseRef = useRef(false);
 
     // ✅ Empêcher les doublons grâce à un Set
     const receivedNotifs = useRef(new Set());
@@ -18,105 +21,83 @@ const NotificationsComponent = () => {
 
         if (!currentUser?.id) return;
 
-        const socketUrl = `${backendBase}/chat/notifications/${currentUser.id}/`;
+        manualCloseRef.current = false;
 
-        // Ferme toute ancienne connexion avant d’en créer une nouvelle
-        if (ws.current) ws.current.close();
-
-        ws.current = new WebSocket(socketUrl);
-
-        ws.current.onopen = () => {
-            console.log("✅ Notification WebSocket connecté");
-        };
-
-        ws.current.onmessage = (event) => {
-
-            try {
-                const data = JSON.parse(event.data);
-
-                // ✅ Vérifie si la notif existe déjà (en se basant sur room_pk + contenu)
-                const notifId = `${data?.room_pk}_${data?.content}`;
-
-                if (
-                    data?.typeNotif === "Delete" &&
-                    data?.typeItem === "Delete" &&
-                    !receivedNotifs.current.has(notifId)
-                ) {
-                    // ✅ Empêche les doublons
-                    receivedNotifs.current.add(notifId);
-
-                    dispatch(addMessageNotif(data?.content));
-
-                    dispatch(removeRoom({ pk: data?.room_pk }));
-                }
-            } catch (e) {
-                console.error("❌ Erreur JSON:", e);
-            }
-        };
-
-        ws.current.onclose = () => {
-            console.warn("❌ WebSocket fermé");
-        };
-
-        ws.current.onerror = (err) => {
-            console.error("❗ WebSocket erreur:", err);
-        };
-
-        return () => {
+        const connect = () => {
+            // ✅ ws:// ou wss:// uniquement — jamais https:// (BASE_URL),
+            // sinon le constructeur WebSocket lève une erreur et ne connecte jamais.
+            const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+            const socketUrl = `${protocol}://${backendBase}/ws/notifications/${currentUser.id}/`;
 
             if (ws.current) ws.current.close();
+            ws.current = new WebSocket(socketUrl);
+
+            ws.current.onopen = () => {
+                console.log("✅ Notification WebSocket connecté");
+                reconnectAttemptsRef.current = 0;
+            };
+
+            ws.current.onmessage = (event) => {
+                try {
+                    const data = JSON.parse(event.data);
+
+                    // ✅ Vérifie si la notif existe déjà (en se basant sur room_pk + contenu)
+                    const notifId = `${data?.room_pk}_${data?.content}`;
+
+                    if (
+                        data?.typeNotif === "Delete" &&
+                        data?.typeItem === "Delete" &&
+                        !receivedNotifs.current.has(notifId)
+                    ) {
+                        receivedNotifs.current.add(notifId);
+                        dispatch(addMessageNotif(data?.content));
+                        dispatch(removeRoom({ pk: data?.room_pk }));
+                    }
+
+                    // Note : les notifications typeItem === "Chat" (nouveaux messages)
+                    // ne sont pas traitées ici pour l'instant — à étendre si vous
+                    // voulez un badge "non lu" basé sur ce canal plutôt que sur
+                    // le WebSocket de ChatApp.jsx.
+                } catch (e) {
+                    console.error("❌ Erreur JSON:", e);
+                }
+            };
+
+            ws.current.onclose = () => {
+                if (manualCloseRef.current) {
+                    console.warn("❌ WebSocket fermé");
+                    return;
+                }
+                const attempt = reconnectAttemptsRef.current + 1;
+                reconnectAttemptsRef.current = attempt;
+                const delay = Math.min(1000 * 2 ** (attempt - 1), MAX_RECONNECT_DELAY);
+                reconnectTimeoutRef.current = setTimeout(connect, delay);
+            };
+
+            ws.current.onerror = (err) => {
+                console.error("❗ WebSocket erreur:", err);
+            };
         };
 
-    }, [currentUser?.id, dispatch]); // 👈 ne dépend que de l’utilisateur
+        connect();
 
-    // ✅ Envoi de notification (une seule fois)
-    useEffect(() => {
+        return () => {
+            manualCloseRef.current = true;
+            clearTimeout(reconnectTimeoutRef.current);
+            ws.current?.close();
+            ws.current = null;
+        };
 
-        if (!currentNotifMessages.length || !ws.current || ws.current.readyState !== WebSocket.OPEN)
-            return;
-
-        const lastNotif = currentNotifMessages[currentNotifMessages.length - 1];
-
-        ws.current.send(
-
-            JSON.stringify(
-
-                {
-                    user: currentUser,
-                    content: lastNotif,
-                    title: lastNotif,
-                    room_pk: deleteChat?.pk,
-                    typeItem: "Chat",
-                    receiver_id: deleteChat?.current_receiver,
-                    typeNotif: "Delete",
-                }
-            )
-        );
-
-    }, [currentNotifMessages, currentUser, deleteChat]);
+    }, [currentUser?.id, dispatch]);
 
     return (
-
-        <div className="flex bg-white-50 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-full px-1 py-1">
-
-            <svg
-                className="w-6 h-6 text-gray-800 dark:text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-            >
-                <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="0.8"
-                    d="M12 5.365V3m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175 0 .593 0 1.292-.538 1.292H5.538C5 18 5 17.301 5 16.708c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 12 5.365ZM8.733 18c.094.852.306 1.54.944 2.112a3.48 3.48 0 0 0 4.646 0c.638-.572 1.236-1.26 1.33-2.112h-6.92Z"
-                />
-
-            </svg>
-
-            <p className="text-xs">{currentNotifMessages?.length}</p>
-
+        <div className="h-7 w-7 flex gap-1 items-center">
+            <div>
+                <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="m10.827 5.465-.435-2.324m.435 2.324a5.338 5.338 0 0 1 6.033 4.333l.331 1.769c.44 2.345 2.383 2.588 2.6 3.761.11.586.22 1.171-.31 1.271l-12.7 2.377c-.529.099-.639-.488-.749-1.074C5.813 16.73 7.538 15.8 7.1 13.455c-.219-1.169.218 1.162-.33-1.769a5.338 5.338 0 0 1 4.058-6.221Zm-7.046 4.41c.143-1.877.822-3.461 2.086-4.856m2.646 13.633a3.472 3.472 0 0 0 6.728-.777l.09-.5-6.818 1.277Z" />
+                </svg>
+            </div>
+            {reconnectAttemptsRef.current}
         </div>
     );
 };

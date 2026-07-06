@@ -1,38 +1,37 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
 import api from "../services/Axios";
-import { useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
 import {
-    addToCart,
-    updateSelectedProduct
+    addToCart, updateSelectedProduct
 } from "../slices/cartSlice";
 
 import {
     setCurrentNav,
-    updateCategorySelected
 } from "../slices/navigateSlice";
 
 import {
-    addMessageNotif,
-    addUser
+    addMessageNotif
 } from "../slices/chatSlice";
 
 import OwnerAvatar from "../components/OwnerProfil";
-import ProductModal from "../pages/ProductViewsDetails";
+import ProductDetailsSection from "../pages/ProductViewsDetails";
 import LoadingCard from "../components/LoardingSpin";
 import { useTranslation } from 'react-i18next';
 import PrintNumberStars from "../components/SystemStar";
 import ScrollingContent from "../components/ScrollContain";
 import SearchBar from "../components/BtnSearchWithFilter";
 import ProfilPictureView from "../components/ProfilPictureView";
+import { CONSTANTS, getMediaUrl} from "../utils";
+
 
 const GridProductDefault = ({ categorie_item }) => {
 
     const dispatch = useDispatch();
     const { t } = useTranslation();
     const navigate = useNavigate();
-
+    const DEFAULT_ACTIVE_CATEGORY = CONSTANTS?.ALL;
     const cartItems = useSelector(state => state.cart.items);
     const currentUser = useSelector(state => state.auth.user);
 
@@ -42,13 +41,10 @@ const GridProductDefault = ({ categorie_item }) => {
     const [isLoading, setIsLoading] = useState(true);
     const categorySelectedData = useSelector(state => state?.navigate?.categorySelectedOnSearch)
 
-    // Open modal with product
-    const openModal = (product) => {
-        setModalData(product);
-        dispatch(updateSelectedProduct(product));
-    };
 
     const closeModal = () => setModalData(null);
+
+    const openModal = (item) => setModalData(item);
 
     const shouldDisableSearch = useMemo(() => productData?.length <= 0, [productData]);
 
@@ -57,7 +53,8 @@ const GridProductDefault = ({ categorie_item }) => {
 
         const chunked = [];
 
-        for (let i = 0; i < productData.length; i += 3) {
+        for (let i = 0; i < productData?.length; i += 3) {
+
             chunked.push(productData.slice(i, i + 3));
         }
 
@@ -65,47 +62,88 @@ const GridProductDefault = ({ categorie_item }) => {
 
     }, [productData]);
 
+    useEffect(
+
+        () => {
+
+            dispatch(updateSelectedProduct(modalData))
+
+        }, [dispatch, modalData]
+    )
+
+
     // Fetch products and owners
     const fetchProductsAndOwners = useCallback(async (category) => {
 
-        setIsLoading(true);
+            setIsLoading(true);
 
-        try {
+            const isDefaultCategory = (cleanCategory) => {
 
-            const { data: products } = await api.get(`/products/filter/?categorie_product=${category}`);
+                if (!cleanCategory) return false;
 
-            const availableProducts = products.filter(p => parseInt(p.quantity_product) !== 0);
+                return cleanCategory?.toLowerCase() === DEFAULT_ACTIVE_CATEGORY?.toLowerCase();
+            }
 
-            setProductData(availableProducts);
+            const fetchProductsAndOwners = async () => {
 
-            const ownerIds = [...new Set(availableProducts.map(p => p.fournisseur).filter(Boolean))];
+                try {
 
-            const responses = await Promise.all(ownerIds.map(id =>
-                api.get(`clients/${id}/`)
-                    .then(res => ({ id, data: res.data }))
-                    .catch(() => ({ id, data: null }))
-            ));
 
-            const ownerMap = responses.reduce((acc, { id, data }) => {
+                    console.log("Categorie sélectionnée before", category)
 
-                if (data) acc[id] = data;
+                    console.log("Categorie sélectionnée", category.toLowerCase())
 
-                return acc;
 
-            }, {});
+                    const url = isDefaultCategory(category.toLowerCase()) ? "produits/" : "products/filter/"
 
-            setOwners(ownerMap);
+                    const { data: products } = await api.get(url, {
+                        params: {
+                            product_categorie: category.toLowerCase(),
+                        },
+                    });
 
-            dispatch(updateCategorySelected(category));
+                    const filtered = products.filter(item => parseInt(item?.quantity_product) !== 0);
 
-        } catch (error) {
-        //    console.error("Erreur de chargement des produits :", error);
-        } finally {
+                    setProductData(filtered);
 
-            setIsLoading(false);
-        }
+                    const uniqueOwnerIds = [...new Set(products.map(p => p?.fournisseur?.id))]
+                        .filter(id => id != null);
 
-    }, [dispatch]);
+                    const responses = await Promise.all(
+
+                        uniqueOwnerIds.map(id =>
+
+                            api.get(`clients/${id}/`)
+
+                                .then(res => ({ id, data: res.data }))
+
+                                .catch(() => ({ id, data: null }))
+                        )
+                    );
+
+                    const ownerMap = responses.reduce((acc, { id, data }) => {
+
+                        if (data) acc[id] = data;
+
+                        return acc;
+
+                    }, {});
+
+                    setOwners(ownerMap);
+
+                } catch (error) {
+
+                    // console.error("Erreur lors du chargement :", error);
+                } finally {
+
+                    setIsLoading(false);
+                }
+            };
+
+            fetchProductsAndOwners();
+
+    }, [DEFAULT_ACTIVE_CATEGORY]);
+
 
     const productDataColsLenght = (productData?.length > 0 && cols?.length > 0)
 
@@ -128,10 +166,44 @@ const GridProductDefault = ({ categorie_item }) => {
 
     }, [fetchProductsAndOwners, categorySelectedData]);
 
+    const VariantSlider = ({ variants = [] }) => {
+
+        const [index, setIndex] = useState(0);
+
+        useEffect(() => {
+
+            if (!variants.length) return;
+
+            const interval = setInterval(() => {
+
+                setIndex(prev => (prev + 1) % variants.length);
+
+            }, 2500);
+
+            return () => clearInterval(interval);
+
+        }, [variants.length]);
+
+        if (!variants.length) return null;
+
+        return (
+            <img
+                src={getMediaUrl(variants[index]?.image)}
+                alt="variant"
+                loading="lazy"
+                className="h-auto w-full rounded-lg transition duration-500 ease-in-out hover:brightness-75 hover:grayscale"
+            />
+        );
+    };
 
     return (
 
-        <div className="py-1 justify-center">
+        <div className="py-3 justify-center items-center my-6 px-1">
+
+            <ProductDetailsSection
+                isOpen={!!modalData}
+                onClose={closeModal}
+            />
 
             {
                 isCurrentUserConnected &&
@@ -152,51 +224,36 @@ const GridProductDefault = ({ categorie_item }) => {
                     )
                     :
                     productDataColsLenght ?
-                    (
+                        (
 
-                        <div className="grid grid-cols-2 md:grid-cols-5 gap-1 mt-2 w-[100dvw] md:w-auto mx-auto overflow-x-hidden">
+                            <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mt-2 w-full mx-auto justify-items-center ">
 
-                        {
-                            cols?.map(
+                                {
+                                    cols?.map((products, colIdx) => (
 
-                                (products, colIdx) => (
-
-                                    <div key={colIdx} className="grid gap-1">
+                                    <div key={colIdx} className="flex flex-col items-center gap-3">
 
                                         {
-                                            products?.map(
+                                            products?.map(product => 
 
-                                                product => {
-
+                                                {
                                                     const isInCart = cartItems?.some(p => p.id === product.id);
 
                                                     const owner = owners[product.fournisseur];
 
                                                     const prodQutySupZero = product?.quantity_product !== "0"
 
-                                                    return (
+                                                    return(
 
                                                         <div
                                                             key={product?.id}
-                                                            className={`w-[50dvw] md:w-50 min-h-50 rounded-lg  transition transform hover:-translate-y-1 ${isInCart
-                                                                    ? "opacity-50 pointer-events-none bg-gray-100"
-                                                                    : "bg-white"
+                                                            type="button"
+                                                            onClick={() => openModal(product)}
+                                                            className={`w-[50dvw] md:w-50 mx-auto min-h-auto rounded-lg transition transform hover:-translate-y-1 ${isInCart ? "opacity-50 pointer-events-none bg-gray-100" : "bg-white"
                                                                 }`}
                                                         >
-                                                            <div
-                                                                className="relative w-full block rounded-lg overflow-hidden"
-                                                                aria-label={`Voir le produit ${product?.product_name}`}
-                                                            >
-                                                                <img
-                                                                    src={product.image_product}
-                                                                    alt={"alt_prod"}
-                                                                    onClick={() => {
-                                                                        openModal(product);
-                                                                        dispatch(addUser(owner));
-                                                                    }}
-                                                                    loading="lazy"
-                                                                    className="h-auto w-full rounded-lg transition duration-300 ease-in-out hover:brightness-75 hover:grayscale"
-                                                                />
+                                                            <div className="relative w-full block rounded-lg overflow-hidden">
+                                                                <VariantSlider variants={product?.variants || []} />
                                                             </div>
 
                                                             <div className="p-1">
@@ -210,24 +267,21 @@ const GridProductDefault = ({ categorie_item }) => {
                                                                             {t("quantity")} {product?.quantity_product}
                                                                         </span>
                                                                     )}
+
                                                                 </div>
 
-                                                                <PrintNumberStars productNbViews={product?.total_views} t={t} />
+                                                                <PrintNumberStars productNbViews={product?.view_count} t={t} />
 
                                                                 <p className="text-xs truncate mb-1 md:text-sm">
                                                                     {product?.description_product}
                                                                 </p>
-
-                                                                <div className="whitespace-nowrap flex text-xs gap-1 md:hidden dark:bg-white-100 p-1 rounded-lg">
-                                                                    <p>{t('quantity_sold')}</p>{product?.quatity_sold}
-                                                                </div>
 
                                                                 <div className="flex justify-between items-center">
 
                                                                     <ScrollingContent
                                                                         item={product}
                                                                         t={t}
-                                                                        qut_sold={product?.quatity_sold}
+                                                                        qut_sold={product?.quantity_product_sold}
                                                                     />
 
                                                                     <button
@@ -258,59 +312,49 @@ const GridProductDefault = ({ categorie_item }) => {
                                                                         </svg>
 
                                                                     </button>
+
                                                                 </div>
+
                                                             </div>
+
                                                         </div>
-                                                    );
+                                                    )
                                                 }
                                             )
                                         }
 
                                     </div>
-                                )
-                            )
-                        }
-                        </div>
-                    ) 
-                    : 
-                    (
-                        <ProfilPictureView currentUser={currentUser}>
 
-                            <button
-                                onClick={() => {
-                                    dispatch(setCurrentNav("add-product"));
-                                    navigate("/add-product");
-                                }}
-                                title="Ajouter un nouveau produit"
-                                className="mt-5 flex items-center justify-center rounded-md shadow-lg border border-gray-300 h-20 w-20 bg-white hover:bg-gray-100 transition"
-                            >
-                                <svg
-                                    className="text-gray-800 dark:text-white"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
-                                    fill="currentColor"
-                                    viewBox="0 0 24 24"
-                                    aria-hidden="true"
+                                    ))
+                                }
+
+
+                            </div>
+
+                        )
+                        :
+                        (
+                            <ProfilPictureView currentUser={currentUser}>
+
+                                <button
+                                    onClick={() => {
+                                        dispatch(setCurrentNav("add-product"));
+                                        navigate("/add-product");
+                                    }}
+                                    title="Ajouter un nouveau produit"
+                                    className="mt-5 flex items-center justify-center rounded-md  border border-gray-100 h-30 w-30 bg-white hover:bg-gray-100 transition"
                                 >
-                                    <path
-                                        fillRule="evenodd"
-                                        clipRule="evenodd"
-                                        d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4.243a1 1 0 1 0-2 0V11H7.757a1 1 0 1 0 0 2H11v3.243a1 1 0 1 0 2 0V13h3.243a1 1 0 1 0 0-2H13V7.757Z"
-                                    />
-                                </svg>
 
-                            </button>
+                                    <svg className="w-8 h-8 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                    </svg>
 
-                        </ProfilPictureView>
-                    )
+                                </button>
+
+                            </ProfilPictureView>
+                        )
             }
 
-            <ProductModal
-                isOpen={!!modalData}
-                onClose={closeModal}
-                dataProduct={productData}
-            />
 
         </div>
     );

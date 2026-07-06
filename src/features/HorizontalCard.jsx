@@ -1,4 +1,4 @@
-﻿import React, { useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../slices/cartSlice";
 import { addMessageNotif } from "../slices/chatSlice";
@@ -27,7 +27,7 @@ const HorizontalCard = ({ children, item }) => {
             {/* Toggle button petits écrans */}
             <button
                 onClick={() => setShowActions((prev) => !prev)}
-                className="absolute bottom-3 right-3 z-10 p-2 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 lg:hidden focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="absolute bottom-3 right-3 z-10 p-2 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 lg:hidden focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 aria-label={showActions ? "Cacher les actions" : "Afficher les actions"}
             >
                 {showActions ? "✕" : "☰"}
@@ -42,7 +42,7 @@ const HorizontalCard = ({ children, item }) => {
                         <button
                             onClick={handleAddToCart}
                             title="Ajouter au panier"
-                            className="flex items-center justify-center p-3 rounded-full bg-blue-100 hover:bg-blue-200 dark:bg-blue-700 dark:hover:bg-blue-600 text-blue-700 dark:text-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="flex items-center justify-center p-3 rounded-full bg-indigo-100 hover:bg-indigo-200 dark:bg-indigo-700 dark:hover:bg-indigo-600 text-indigo-700 dark:text-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             aria-label="Ajouter au panier"
                         >
                             🛒
@@ -52,7 +52,7 @@ const HorizontalCard = ({ children, item }) => {
                     <WalletModal>
                         <button
                             title="Payer"
-                            className="flex items-center justify-center p-3 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="flex items-center justify-center p-3 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             aria-label="Payer"
                         >
                             💳
@@ -74,7 +74,7 @@ const HorizontalCard = ({ children, item }) => {
                     <button
                         onClick={handleAddToCart}
                         title="Ajouter au panier"
-                        className="flex items-center justify-center p-3 rounded-full bg-blue-100 hover:bg-blue-200 dark:bg-blue-700 dark:hover:bg-blue-600 text-blue-700 dark:text-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="flex items-center justify-center p-3 rounded-full bg-indigo-100 hover:bg-indigo-200 dark:bg-indigo-700 dark:hover:bg-indigo-600 text-indigo-700 dark:text-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                         aria-label="Ajouter au panier"
                     >
                         🛒
@@ -84,7 +84,7 @@ const HorizontalCard = ({ children, item }) => {
                 <WalletModal>
                     <button
                         title="Payer"
-                        className="flex items-center justify-center p-3 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="flex items-center justify-center p-3 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                         aria-label="Payer"
                     >
                         💳
@@ -93,7 +93,7 @@ const HorizontalCard = ({ children, item }) => {
 
                 <div
                     title="Profil Produit Popov"
-                    className=" rounded-full hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus-within:ring-2 focus-within:ring-blue-500"
+                    className=" rounded-full hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 focus-within:ring-2 focus-within:ring-indigo-500"
                     tabIndex={0}
                     aria-label="Profil Produit Popov"
                 >

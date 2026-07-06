@@ -2,11 +2,14 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import ProductCard from '../components/ProductCard';
 import NoContentComp from '../components/NoContentComp';
+import { TitleCompGenLitle } from '../components/TitleComponentGen';
 
 const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) => {
+
     const { t } = useTranslation();
 
-    if (!filteredItems || filteredItems.length === 0) {
+    if (!filteredItems || filteredItems?.length === 0) {
+
         return <NoContentComp content={t('ListItemsFilterProduct.noProduct')} />;
     }
 
@@ -19,34 +22,48 @@ const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) 
 
     return (
 
-        <div className="space-y-6">
+        <div className="space-y-6 overflow-x-hidden">
 
             {
                 Object.entries(groupedItems).map(([category, items]) => {
 
-                    const cols = Math.min(items.length, 5);
+                    const cols = Math.min(items?.length, 4);
 
-                    const cols_sm= Math.min(items.length, 2);
+                    const cols_sm= Math.min(items?.length, 2);
 
                     return (
 
-                        <div key={category} className="flex flex-col items-center gap-3">
+                        <div key={category} className="flex flex-col items-center gap-3 overflow-x-hidden">
 
-                            {/* Nom catégorie */}
-                            <div className="text-center text-xs text-gray-500 rounded-full px-5 py-0.5 shadow-sm">
-                                {t(`add_product.categories.${category}`)}
+                            {/* Nom catÃ©gorie */}
+                            <div className="flex flex-col items-center gap-2 overflow-x-hidden">
+
+                                <h2 className="
+                                    text-sm md:text-base 
+                                    font-semibold 
+                                    text-gray-700
+                                    tracking-wide
+                                ">
+                                    
+                                    <TitleCompGenLitle title={t(`add_product.categories.${category?.toUpperCase() ?? ""}`)} />
+
+                                </h2>
+
+                                <div className="w-10 h-[2px] bg-gray-300 rounded-full" />
+
                             </div>
 
                             {/* Produits */}
                             <div
                                 className={`
+                                    overflow-x-hidden
                                     grid
-                                    gap-1
+                                    gap-2 md:gap-4
                                     w-fit
                                     grid-cols-${cols_sm}
                                     md:grid-cols-${cols}
                                     mb-2
-                                    mx-1
+                                    mx-0.5
                                  `}
                             >
                                 {
@@ -56,8 +73,6 @@ const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) 
                                             (product) => product?.id === item?.id
                                         );
 
-                                        const owner = owners[item?.fournisseur];
-
                                         return (
 
                                             <ProductCard
@@ -65,7 +80,7 @@ const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) 
                                                 id={item.id}
                                                 item={item}
                                                 isInCart={isInCart}
-                                                owner={owner}
+                                                owner={item?.fournisseur}
                                                 openModal={openModal}
                                                 owners={owners}
                                                 qut_sold={item?.quanttity_product_sold}

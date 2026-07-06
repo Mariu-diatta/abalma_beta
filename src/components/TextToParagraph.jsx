@@ -1,7 +1,10 @@
 import React from 'react'
 
 function TextParagraphs({ text }) {
-    const paragraphs = text.split(". ").map(p => p.trim()).filter(p => p.length > 0);
+
+    const paragraphs = text?.split(". ").map(p => p.trim()).filter(p => p?.length > 0);
+
+    if (!paragraphs) return null
 
     return (
         <div className="space-y-3 leading-relaxed text-gray-700">

@@ -1,46 +1,39 @@
-import { useSelector } from "react-redux";
-import PrintMessagesOnChat from "../components/BoxMessagesOnChats";
-import ProfilPictureView from "../components/ProfilPictureView";
-import { useTranslation } from 'react-i18next';
+import React from 'react';
+import { useSelector} from 'react-redux';
 
-const BoxMessagesChats = ({ messages, messagesEndRef }) => {
+const MessageBubble = ({ msg }) => {
 
-    const selectedUser = useSelector((state) => state.chat.userSlected);
+    const currentUser = useSelector((state) => state.auth.user);
 
-    const { t } = useTranslation();
+    const ISFORCURRENTUSER = (msg?.user?.email || msg?.sender_id) ?
+        (
+            msg?.user?.email ? (msg?.user?.email === currentUser?.email) : (currentUser?.id === msg?.sender_id) 
+        )
+        :
+        undefined
 
-    const lengthMessages = (messages?.length === 0)
+    if (ISFORCURRENTUSER===undefined) return
 
     return (
-
-        <div className="relative flex-1 space-y-0 pr-2 max-h-[100dvh] min-h-[100dvh] shadow-lg">
-
-            <div className="w-full h-px bg-gray-100 mb-3" />
-
-            {/* 💬 Liste des messages */}
-
-            {
-                lengthMessages ?
-                (
-                    <ProfilPictureView
-                        currentUser={selectedUser}
-                        message={t("no_message")}
-                    />
-                )
-                :
-                (
-                    <PrintMessagesOnChat
-                        messages={messages}
-                        selectedUser={selectedUser}
-                        messagesEndRef={messagesEndRef}
-                    />
-
-                )
-
-            }
-
+        <div className={`flex w-full mb-1.5 ${ISFORCURRENTUSER? "justify-end" : "justify-start"}`}>
+            <div
+                className={`max-w-[78%] sm:max-w-[65%] px-3.5 py-2 text-sm leading-relaxed shadow-sm break-words ${ISFORCURRENTUSER 
+                        ? "bg-[#6366f1] text-white rounded-2xl rounded-br-sm"
+                        : "bg-gray-100 text-gray-800 rounded-2xl rounded-bl-sm"
+                    }`}
+            >
+                <p className="whitespace-pre-wrap">{msg?.text}</p>
+                {msg?.created_at && (
+                    <span
+                        className={`block text-[10px] mt-1 text-right ${ISFORCURRENTUSER ? "text-indigo-100/80" : "text-gray-400"
+                            }`}
+                    >
+                        {msg?.created_at}
+                    </span>
+                )}
+            </div>
         </div>
-    )
-}
+    );
+};
 
-export default BoxMessagesChats;
+export default MessageBubble;

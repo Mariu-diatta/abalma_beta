@@ -14,7 +14,7 @@ const ButtonSearchGeneric = ({search, setSearch, setPage, t }) => {
                 setSearch(e.target.value);
                 setPage(1);
             }}
-            className="focus:outline-none focus:ring-0 rounded-full border px-3 py-2 border-blue-50 focus:border-blue-50 focus:ring-1 focus:ring-blue-100"
+            className="focus:outline-none focus:ring-0 rounded-full border px-3 py-2 border-indigo-50 focus:border-indigo-50 focus:ring-1 focus:ring-indigo-100"
         />
     )
 }

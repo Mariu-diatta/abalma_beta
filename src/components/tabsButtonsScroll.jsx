@@ -49,8 +49,8 @@ function TabsButtons({ tabs, activeTab, setActiveTab }) {
                 aria-controls={`${tab.id}-tab`}
                 id={`${tab.id}-tab-button`}
                 onClick={() => setActiveTab(tab.id)}
-                className={`text-md dark:text-white text-gray-600 border border-gray-100 whitespace-nowrap cursor-pointer rounded-full px-3 py-1 hover:bg-blue-50
-                ${activeTab === tab.id ? "bg-gray-100" : ""}`}
+                className={`text-md dark:text-white text-gray-600 border border-gray-100 whitespace-nowrap cursor-pointer rounded-full px-3 py-1 hover:bg-gray-50
+                ${activeTab === tab.id ? "bg-gradient-to-r from-indigo-50 to-indigo-200" : ""}`}
               >
                 {tab?.label}
               </button>

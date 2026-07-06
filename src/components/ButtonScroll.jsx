@@ -66,7 +66,7 @@ export const ButtonScrollTopDown = ({ children }) => {
 
             {isScrollable && (
                 <button
-                    className="hidden cursor-pointer fixed right-4 bottom-[50px] md:bottom-6 p-3 rounded-full shadow-lg bg-gradient-to-br from-purple-50 to-blue-100 hover:from-purple-0 hover:to-blue-100 text-purple-600 transition-colors"
+                    className="hidden cursor-pointer fixed right-4 bottom-[50px] md:bottom-6 p-3 rounded-full shadow-lg bg-gradient-to-br from-purple-50 to-indigo-100 hover:from-purple-0 hover:to-indigo-100 text-purple-600 transition-colors"
                     onClick={(e)=>handleScrollClick(e)}
                 >
                     {atTop ? (
@@ -101,7 +101,7 @@ const ScrollTop = () => {
 
     return (
 
-        <div ref={messagesEndRef} className="pt-[1dvh]"/>
+        <div ref={messagesEndRef} className="mt-[2dvh]"/>
     )
 }
 

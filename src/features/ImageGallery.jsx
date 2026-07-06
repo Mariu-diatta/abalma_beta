@@ -8,26 +8,27 @@ const ImageGallery = ({ imagesEls,  openModal, owners}) => {
 
     return (
 
-        <div className="grid grid-cols-2 gap-0.5 h-full w-full overflow-x-auto overflow-y-auto overflow-x-auto scrollbor_hidden z-0 p-0 m-0">
+        <div className="grid grid-cols-2 gap-1 scrollbor_hidden overflow-y-auto h-full w-full mx-1">
 
 
-            {imagesEls?.map(item => {
-                const isInCart = cartItems?.some(product => product?.id === item?.id);
-                const owner = owners[item?.fournisseur];
+            {
+                imagesEls?.map(item => {
 
-                return (
-                    <ProductCard
-                        key={item?.id} // ✅ Clé unique ici
-                        id={item?.id}
-                        item={item}
-                        isInCart={isInCart}
-                        owner={owner}
-                        openModal={openModal}
-                        owners={owners}
-                        qut_sold={item?.quanttity_product_sold}
-                    />
-                );
-            })}
+                    const isInCart = cartItems?.some(product => product?.id === item?.id);
+                    const owner = owners[item?.fournisseur];
+
+                    return (
+                        <ProductCard
+                            key={item?.id} // ✅ Clé unique ici
+                            item={item}
+                            isInCart={isInCart}
+                            owner={owner}
+                            openModal={openModal}
+                            owners={owners}
+                        />
+                    );
+                })
+            }
 
         </div>
     )

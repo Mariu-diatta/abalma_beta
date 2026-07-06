@@ -5,8 +5,6 @@ const initialState = {
 
     previousNav: null,
 
-    currentNav: 'home',
-
     messageAlert: null,
 
     theme: 'light',

@@ -1,96 +1,134 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { ENDPOINTS } from '../utils';
-import { addMessageNotif } from '../slices/chatSlice';
-import { clearCart } from '../slices/cartSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import api from '../services/Axios';
-import { showMessage } from '../components/AlertMessage';
-import { useTranslation } from 'react-i18next';
-import { setCurrentNav } from '../slices/navigateSlice';
+import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 
+import { ENDPOINTS } from "../utils";
+import { setCurrentNav } from "../slices/navigateSlice";
+import api from "../services/Axios";
+import LoadingCard from "../components/LoardingSpin";
 
 const PaySuccess = () => {
-
     const { t } = useTranslation();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    let navigate = useNavigate();
-
-    const dispatch = useDispatch()
-
-    const data = useSelector(state => state.cart);
-
-    const currentUser = useSelector(state => state.auth.user);
-
-    const [isCodeSent, setIsCodeSent]=useState(true)
-
-
-    // Construire directement le tableau, sans setState
-    const productIds = data.items.map((item) => ({ "key": item?.id, "quantity": item?.quanttity_product_sold }))
-
-    // Construire l’objet à envoyer
-    const payload = useMemo(() => ({
-        product_ids: productIds,
-        quantity: data.nbItem,
-        price: data.totalPrice,
-        transaction_type: "Achat",
-        client: currentUser.id,
-    }), [productIds, data.nbItem, data.totalPrice, currentUser.id]);
+    const [loading, setLoading] = useState(true);
+    const [success, setSuccess] = useState(false);
+    const [paymentData, setPaymentData] = useState(null);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        if (!isCodeSent) return;
+        const sessionId = new URLSearchParams(window.location.search).get("session_id");
 
-        const sendTransaction = async () => {
-            setIsCodeSent(false); // on bloque la prochaine exécution
+        if (!sessionId) {
+            setError("Session introuvable");
+            setLoading(false);
+            return;
+        }
 
+        let isMounted = true;
+
+        const checkPayment = async () => {
             try {
-                await api.post(
-                    "transactions/products/",
-                    payload,
-                    { headers: { "Content-Type": "application/json" } }
+                const res = await api.get(
+                    `/payment-status?session_id=${sessionId}`
                 );
 
-                showMessage(dispatch, { Type: "Message", Message: "Transaction effectuée !" });
-                dispatch(addMessageNotif("Transaction effectuée !"));
-                dispatch(clearCart());
+                if (!isMounted) return;
 
+                if (res.data?.paid) {
+                    setSuccess(true);
+                    setPaymentData(res.data);
+                    setLoading(false);
+                    return true;
+                }
+
+                return false;
             } catch (err) {
-                const errorMessage = err?.response?.data?.detail || err?.message;
-                showMessage(dispatch, { Type: "Erreur", Message: errorMessage });
+                console.error(err);
+                setError("Erreur lors de la vérification");
+                setLoading(false);
             }
         };
 
-        sendTransaction();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []); // [] signifie que le useEffect s'exécute une seule fois
+        const run = async () => {
+            // 1ère tentative immédiate
+            const paid = await checkPayment();
+
+            if (paid) return;
+
+            // fallback polling léger (max 10 essais)
+            let attempts = 0;
+
+            const interval = setInterval(async () => {
+                attempts++;
+
+                const paidNow = await checkPayment();
+
+                if (paidNow || attempts >= 10) {
+                    clearInterval(interval);
+                    setLoading(false);
+                }
+            }, 2000);
+
+            return () => clearInterval(interval);
+        };
+
+        run();
+
+        return () => {
+            isMounted = false;
+        };
+    }, []);
+
+    // ---------------- UI ----------------
 
     return (
-
         <div className="flex flex-col items-center justify-center min-h-screen text-center p-4">
 
-            <h1 className="text-2xl font-bold text-green-600 mb-2">
-                {t("payment_text.success_text_1")} 🎉
-            </h1>
+            {
+                loading ?
+                (
+                    <>
+                        <LoadingCard />
+                        <h1 className="text-lg mt-3">
+                            {t("payment_text.verification_processing")}
+                        </h1>
+                    </>
+                ):
+                <button
+                    onClick={() => {
+                        dispatch(setCurrentNav(ENDPOINTS.PAYMENT));
+                        navigate(`/${ENDPOINTS.PAYMENT}`);
+                    }}
+                    className="mt-6 bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg"
+                >
+                    {t("payment_text.btn_back_to_dashbord")}
+                </button>
+           }
 
-            <p className="text-gray-700 text-lg">
-                {t("payment_text.success_transaction_done")}   
-            </p>
+            {error && (
+                <h1 className="text-red-600 text-xl font-bold">
+                    {error}
+                </h1>
+            )}
 
-            <p className="text-gray-500 mt-1">
-                {t("payment_text.success_transaction_message")}   
-            </p>
+            {success && (
+                <>
+                    <h1 className="text-2xl font-bold text-green-600 mb-2">
+                        {t("payment_text.success_text_1")}
+                    </h1>
 
-            <button
-                onClick={(e) => {
-                    e.preventDefault();
-                    dispatch(setCurrentNav(ENDPOINTS?.PAYMENT))
-                    navigate(`/${ENDPOINTS?.PAYMENT}`)
-                }}
-                className="mt-6 inline-block bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg font-medium"
-            >
-                {t("payment_text.btn_back_to_dashbord")}
-            </button>
+                    <p className="text-gray-700 text-lg">
+                        {t("payment_text.success_transaction_done")}
+                    </p>
 
+                    <p className="text-gray-500 mt-1">
+                        {paymentData?.email}
+                    </p>
+                </>
+            )}
         </div>
     );
 };

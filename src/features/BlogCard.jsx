@@ -17,7 +17,7 @@ const BlogCard = ({blog, handleClicked}) => {
             hover:shadow-md transition-shadow duration-300 h-[20dvh] overflow-hidden"
         >
             {/* Header : Avatar + date */}
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-start mb-1">
 
                 {blog?.user && <OwnerAvatar owner={blog.user} />}
 

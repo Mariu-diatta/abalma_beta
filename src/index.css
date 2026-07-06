@@ -12,7 +12,7 @@ html, body {
     padding: 0;
     background-color: #ffffff;
     color: #000000;
-    overflow-x: hidden; /* empêche le scroll horizontal */
+    overflow-x: hidden; /* empÃªche le scroll horizontal */
     -webkit-text-size-adjust: 100%;
 }
 
@@ -52,7 +52,7 @@ code {
     border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-/* Empêche le contenu d’être caché derrière la navbar */
+/* EmpÃªche le contenu dâ€™Ãªtre cachÃ© derriÃ¨re la navbar */
 .main-content {
     padding-bottom: calc(60px + env(safe-area-inset-bottom));
 }

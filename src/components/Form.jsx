@@ -1,236 +1,105 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import InputBox from './InputBoxFloat';
+import React, { useRef, useState, lazy } from 'react';
+import { createPortal } from 'react-dom';
+import { useNavigate} from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import LoadingCard from './LoardingSpin';
 import { useDispatch} from 'react-redux';
-import  { showMessage } from './AlertMessage';
-import PhoneInput from './InputPhoneCountry';
-import { setCurrentNav } from '../slices/navigateSlice';
-import { ButtonSimple } from './Button';
-import FormLayout from '../layouts/FormLayout';
-import TitleCompGen from './TitleComponentGen';
-import { CreateClient, ENDPOINTS, IMPORTANTS_URLS } from '../utils';
+import { showMessage } from './AlertMessage';
+import { CreateClient} from '../utils';
+import { X } from 'lucide-react'; // Pour fermer
 
+const InputBox = lazy(() => import('./InputBoxFloat'));
+const LoadingCard = lazy(() => import('./LoardingSpin'));
+const PhoneInput = lazy(() => import('./InputPhoneCountry'));
+const TitleCompGen = lazy(() => import('./TitleComponentGen'));
 
-const RegisterForm = () => {
-
+const RegisterForm = ({ onClose }) => {
     const dispatch = useDispatch();
-
     const { t } = useTranslation();
-
-    const [loading, setLoading] = useState(false)
-
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-
     const componentRef = useRef(null);
 
     const [form, setForm] = useState({
-        "password": "",
-        "password1": "",
-        "last_login": null,
-        "is_superuser": false,
-        "email": "",
-        "prenom": "",
-        "nom": "",
-        "image": null,
-        "photo_url":null,
-        "telephone": "",
-        "description": "",
-        "adresse": "",
-        "is_connected": false,
+        "password": "", "password1": "", "email": "",
+        "prenom": "", "nom": "", "telephone": "", "adresse": "",
         "is_active": true,
-        "is_staff": false,
-        "is_pro": false,
-        "is_verified": false,
-        "groups": [],
-        "user_permissions": []
     });
 
-    const handleChange = (e) => {
-
-        setForm({ ...form, [e.target.name]: e.target.value });
-    };
+    const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
     const handleSignUp = async (e) => {
         e.preventDefault();
-
         if (!form.email || !form.password || !form.password1) {
             return showMessage(dispatch, { Type: "Erreur", Message: "Tous les champs requis doivent être remplis." });
         }
-
         if (form.password !== form.password1) {
             return showMessage(dispatch, { Type: "Erreur", Message: "Les mots de passe ne correspondent pas." });
         }
 
         setLoading(true);
-
-        const userData = {
-            password1: form.password1,
-            password: form.password,
-            email: form.email,
-            prenom: form.prenom,
-            nom: form.nom,
-            telephone: form.telephone,
-            adresse: form.adresse,
-            is_active: true,
-        };
-
-        const response = await CreateClient(userData, setLoading, showMessage, dispatch, t);
-
+        const response = await CreateClient(form, setLoading, showMessage, dispatch, t);
         if (response) {
-            navigate("/login", { replace: true });
+            if (onClose) onClose();
+            navigate("/", { replace: true });
         }
     };
 
+    // Fermer si clic sur le fond sombre
+    const handleBackdropClick = (e) => {
+        if (e.target === e.currentTarget && onClose) onClose();
+    };
 
+    return createPortal(
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" onClick={handleBackdropClick}>
+            <div className="relative w-full max-w-[550px] max-h-[90vh] bg-white dark:bg-dark-2 rounded-3xl shadow-2xl overflow-y-auto animate-in zoom-in-95 duration-300">
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("animate-in");
-                        entry.target.classList.remove("animate-out");
-                    } else {
-                        entry.target.classList.add("animate-out");
-                        entry.target.classList.remove("animate-in");
-                    }
-                });
-            },
-            { threshold: 0.05 } // Déclenche quand 10% du composant est visible
-        );
+                {/* Close Button */}
+                <button onClick={onClose} className="absolute top-5 right-5 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors z-10">
+                    <X size={22} className="text-gray-400" />
+                </button>
 
-        const node = componentRef.current
+                <div className="p-8 md:p-10">
+                        {!loading ? (
+                            <section>
+                                <div className="mb-8 text-center">
+                                    <TitleCompGen title={t('register')} />
+                                    <p className="text-sm text-gray-500 mt-2">
+                                        {t("alredyRegister")}{" "}
+                                        <button
+                                            onClick={() => { if (onClose) onClose(); navigate("/"); }}
+                                            className="font-semibold text-indigo-600 hover:underline"
+                                        >
+                                            {t("login")}
+                                        </button>
+                                    </p>
+                                </div>
 
-        if (componentRef.current) {
-            observer.observe(componentRef.current);
-        }
-        // Nettoyage de l'observateur lors du démontage
-        return () => {
+                                <form onSubmit={handleSignUp} ref={componentRef} className="space-y-4">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <InputBox type="text" name="nom" placeholder={t('form.lastName')} value={form.nom} onChange={handleChange} />
+                                        <InputBox type="text" name="prenom" placeholder={t('form.firstName')} value={form.prenom} onChange={handleChange} />
+                                    </div>
 
-            if (node) {
+                                    <InputBox type="email" name="email" placeholder={t('form.email')} value={form.email} onChange={handleChange} />
 
-                node.removeEventListener('scroll', () => {console.log(node)});
-            }
-        };
-    }, []);
+                                    <PhoneInput form={form} handleChange={handleChange} setForm={setForm} />
 
+                                    <InputBox type="password" name="password" placeholder={t('form.password')} value={form.password} onChange={handleChange} autoComplete="new-password" />
 
-    useEffect(
-        () => {
-            const currentUrl = window.location.href;
-            if (currentUrl === IMPORTANTS_URLS?.REGISTER || currentUrl === IMPORTANTS_URLS?.REGISTERS) {
-                dispatch(setCurrentNav(ENDPOINTS.REGISTER))
-            }
+                                    <InputBox type="password" name="password1" placeholder={t('form.confirmPassword')} value={form.password1} onChange={handleChange} autoComplete="off" />
 
-        }, [dispatch]
-    )
-
-
-    return (
-
-        <FormLayout>
-
-            {
-                (!loading)?
-                <section>
-  
-                    <div className="py-7">
-
-                        <TitleCompGen title={t('register')} />
-
-                        <div className="text-sm lg:text-md text-base text-body-color dark:text-dark-6 gap-3">
-
-                            <span>{t("alredyRegister")} </span>
-
-                            <Link
-                                to="/login"
-                                className="text-sm lg:text-md text-primary hover:underline"
-                                onClick={() => dispatch(setCurrentNav("login"))}
-                            >
-                                {t("login")}
-                            </Link>
-
-                        </div>
-
-                    </div>
-
-                    <form 
-                        onSubmit={handleSignUp} ref={componentRef}
-                        className="translate-y-0 transition-all duration-1000 ease-in-out mb-3"
-                    >
-
-                        <InputBox
-                            type="text"
-                            name={"nom"}
-                            placeholder={t('form.lastName')}
-                            value={form.nom}
-                            onChange={handleChange}
-                        />
-
-                        <InputBox
-                            type="text"
-                            name="prenom"
-                            placeholder={t('form.firstName')}
-                            value={form.prenom}
-                            onChange={handleChange}
-                        />
-
-                        <InputBox
-                            type="email"
-                            name="email"
-                            placeholder={t('form.email')}
-                            value={form.email}
-                            onChange={handleChange}
-                        />
-
-
-                        <PhoneInput form={form} handleChange={handleChange} setForm={setForm} />
-
-                        <InputBox
-                            type="password"
-                            name="password"
-                            placeholder="Mot de passe"
-                            value={form.password}
-                            onChange={handleChange}
-                            autoComplete="new-password"
-                        />
-
-                        <InputBox
-                            type="password"
-                            name="password1"
-                            placeholder={t('form.confirmPassword')}
-                            value={form.password1}
-                            onChange={handleChange}
-                            autoComplete="off"
-
-                        />
-
-                       <div className="mb-10">
-
-                            <ButtonSimple
-
-                                className="w-auto flex items-center m-auto cursor-pointer rounded-full border border-blue-100  px-5 py-2 text-base  text-white-900 transition hover:bg-gradient-to-br hover:from-purple-100 px-2 "
-
-                                title={t("register")}
-                            />
-
-                       </div>
-
-                    </form>
-
-                    {/* Decorations (optionnels) */}
-                    <div className="absolute right-1 top-1" />
-
-                    <div className="absolute bottom-1 left-1" />
-
-                </section>
-                :
-                <LoadingCard />
-            } 
-
-        </FormLayout>
+                                    <button type="submit" className="w-full bg-[#6366f1] hover:bg-[#4f46e5] text-white py-3.5 rounded-xl font-bold shadow-lg shadow-indigo-200 transition-all active:scale-[0.98] mt-4">
+                                        {t("register")}
+                                    </button>
+                                </form>
+                            </section>
+                        ) : (
+                            <div className="py-12 flex justify-center"><LoadingCard /></div>
+                        )}
+                </div>
+            </div>
+        </div>,
+        document.body
     );
 };
 

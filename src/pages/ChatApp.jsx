@@ -1,188 +1,302 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import React, {
+    useEffect,
+    useRef,
+    useState,
+    useCallback,
+    useMemo
+} from 'react';
+
+import { useSelector, useDispatch } from 'react-redux';
 import ButtonToggleChatsPanel from '../components/ButtonHandleChatsPanel';
 import InputBoxChat from '../components/InputBoxChat';
-import BoxMessagesChats from '../features/MessageBoxChat';
 import { useTranslation } from 'react-i18next';
-import AnaliesChatsWithAi from './ChatWithAi';
 import { backendBase } from '../services/Axios';
 import { ENDPOINTS, IMPORTANTS_URLS } from '../utils';
 import { setCurrentNav } from '../slices/navigateSlice';
-import { useDispatch, } from 'react-redux';
+import {
+    addChatMessage,
+    confirmPendingMessage,
+} from '../slices/chatSlice';
 
+import MessageBubble from '../features/MessageBoxChat';
+
+const WS_READY = WebSocket.OPEN;
 
 const ChatApp = ({ setShow, show }) => {
     const { t } = useTranslation();
-    const ws = useRef(null);
-    const messagesEndRef = useRef(null);
-    const typingTimeoutRef = useRef(null);
-
-    const currentChat = useSelector((state) => state.chat.currentChat);
-    const currentUser = useSelector((state) => state.auth.user);
-    const allRoomsChats = useSelector((state) => state.chat.currentChats);
-    const selectedUser = useSelector((state) => state.chat.userSlected);
-
-    const [messages, setMessages] = useState([]);
-    const [input, setInput] = useState("");
-    const [typing, setTyping] = useState(false);
     const dispatch = useDispatch();
 
+    // ─── Refs ───
+    const wsRef = useRef(null);
+    const messagesEndRef = useRef(null);
+    const typingTimeoutRef = useRef(null);
+    const selectedUserRef = useRef(null);
 
+    // ─── Redux ───
+    const currentUser = useSelector((state) => state.auth.user);
+    const selectedUser = useSelector((state) => state.chat.userSlected);
+    const currentRoomChat = useSelector((state) => state.chat.currentChat);
+
+    // ─── Local state ───
+    const [input, setInput] = useState('');
+    const [typing, setTyping] = useState(false);
+    const [wsStatus, setWsStatus] = useState('idle'); // idle | connected | error
+    const [loadingNewMessage, setLoadingNewMessage] = useState(false);
+
+    // ─── Messages memo ───
+    const messages = useMemo(() => {
+        return currentRoomChat?.messages ?? [];
+    }, [currentRoomChat]);
+
+    // ─── sync selected user ref ───
     useEffect(() => {
+        selectedUserRef.current = selectedUser;
+    }, [selectedUser]);
 
+    // ─── WS CONNECTION ───
+    useEffect(() => {
         if (!currentUser) return;
-        if (ws.current) return; // 🔒 empêche les reconnexions
 
-        const protocol = window.location.protocol === "https:" ? "wss" : "ws";
-        const socketUrl = `${protocol}://${backendBase}/ws/private/${currentUser.id}/`;
+        let socket;
 
-        ws.current = new WebSocket(socketUrl);
+        const normalizeMessage = (msg) => {
+            const senderId = msg?.user?.id ?? msg?.user;
 
-        ws.current.onopen = () => {
-            console.log("✅ WS connecté (user) :", currentUser.id);
+            return {
+                id: msg.id,
+                text: msg.text,
+                sender_id: senderId,
+                receiver_id: msg.receiver_id,
+                created_at: msg.created_at,
+                isMine: senderId === currentUser.id,
+                pending: false,
+                temp_id: msg.temp_id,
+            };
         };
 
-        ws.current.onmessage = (e) => {
+        const connect = () => {
+            const protocol =
+                window.location.protocol === 'https:' ? 'wss' : 'ws';
 
-            try {
+            socket = new WebSocket(
+                `${protocol}://${backendBase}/ws/private/${currentUser.id}/`
+            );
+
+            wsRef.current = socket;
+
+            socket.onopen = () => {
+                setWsStatus('connected');
+            };
+
+            socket.onerror = () => {
+                setWsStatus('error');
+            };
+
+            socket.onmessage = (e) => {
                 const data = JSON.parse(e.data);
 
-                if (data.action === "new_message") {
-                    setMessages((prev) => [...prev, data.message]);
+                if (data.action === 'new_message') {
+                    const msg = data.message;
+                    const senderId = msg?.user?.id ?? msg?.user;
+
+                    const openUser = selectedUserRef.current;
+
+                    const belongsToOpenChat =
+                        openUser && senderId === openUser.id;
+
+                    const normalized = normalizeMessage(msg);
+
+                    // ✔ message envoyé par nous → confirmation
+                    if (senderId === currentUser.id) {
+                        dispatch(confirmPendingMessage(normalized));
+                        setLoadingNewMessage(false);
+                    }
+
+                    // ✔ message reçu dans conversation ouverte
+                    else if (belongsToOpenChat) {
+                        dispatch(addChatMessage(normalized));
+                    }
                 }
 
-                if (data.action === "typing") {
-                    setTyping(true);
-                    clearTimeout(typingTimeoutRef.current);
-                    typingTimeoutRef.current = setTimeout(() => setTyping(false), 1800);
+                if (data.action === 'typing') {
+                    const openUser = selectedUserRef.current;
+
+                    if (openUser && data.sender_id === openUser.id) {
+                        setTyping(true);
+                        clearTimeout(typingTimeoutRef.current);
+                        typingTimeoutRef.current = setTimeout(
+                            () => setTyping(false),
+                            1200
+                        );
+                    }
                 }
+            };
 
-            } catch (err) {
-                console.error("❌ WS parse error:", err);
-            }
+            socket.onclose = () => {
+                setWsStatus('idle');
+                setTimeout(connect, 2000);
+            };
         };
 
-        ws.current.onerror = (err) => {
-            console.error("❌ WS error :", err);
-            // ❌ ne pas fermer ici
-        };
+        connect();
 
-        ws.current.onclose = (e) => {
-            console.log("🔌 WS fermé :", e.code, e.reason);
-            ws.current = null;
-        };
+        return () => socket?.close();
+    }, [currentUser, dispatch]);
 
-        return () => {
-            ws.current?.close();
-            ws.current = null;
-            clearTimeout(typingTimeoutRef.current);
-        };
-
-    }, [currentUser]); // 👈 UNE SEULE dépendance
-
-
-    // ===== Load previous messages =====
+    // ─── SCROLL ───
     useEffect(() => {
-        setMessages([]);
-        if (!currentChat?.messages) return;
-
-        const formatted = currentChat.messages.map((msg) => ({
-            id: msg?.id,
-            text: msg.text,
-            sender_id: msg?.user,
-            created_at: msg?.created_at_formatted,
-        }));
-
-        setMessages(formatted);
-    }, [currentChat, selectedUser]);
-
-    // ===== Scroll to bottom =====
-    useEffect(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        messagesEndRef.current?.scrollIntoView({
+            behavior: 'auto',
+        });
     }, [messages]);
 
-    useEffect(
-        () => {
-            const currentUrl = window.location.href;
-            if (currentUrl === IMPORTANTS_URLS?.MESSAGE_APP || currentUrl === IMPORTANTS_URLS?.MESSAGE_APPS) {
-                dispatch(setCurrentNav(ENDPOINTS.MESSAGE_INBOX))
-            }
+    // ─── NAV SYNC ───
+    useEffect(() => {
+        const url = window.location.href;
 
-        }, [dispatch]
-    )
+        if (
+            url === IMPORTANTS_URLS?.MESSAGE_APP ||
+            url === IMPORTANTS_URLS?.MESSAGE_APPS
+        ) {
+            dispatch(setCurrentNav(ENDPOINTS.MESSAGE_INBOX));
+        }
+    }, [dispatch]);
 
-    // ===== Send Message =====
+    // ─── SEND MESSAGE (OPTIMISTIC UX) ───
     const sendMessage = useCallback(() => {
         const trimmed = input.trim();
-        if (!trimmed || !ws.current || ws.current.readyState !== WebSocket.OPEN) return;
 
-        ws.current.send(JSON.stringify({
-            action: "send_message",
-            sender_id: currentUser?.id,
-            receiver_id: selectedUser?.id,
-            text: trimmed,
-        }));
+        if (!trimmed || wsRef.current?.readyState !== WS_READY) return;
 
-        setInput("");
-    }, [input, currentUser?.id, selectedUser?.id]);
+        if (!selectedUser) return;
 
-    // ===== Detect typing =====
+        const tempId = `temp-${Date.now()}`;
+
+        setLoadingNewMessage(true);
+
+        //// ✔ message optimiste
+        //const optimisticMessage = {
+        //    id: tempId,
+        //    text: trimmed,
+        //    sender_id: currentUser.id,
+        //    receiver_id: selectedUser.id,
+        //    created_at: new Date().toISOString(),
+        //    isMine: true,
+        //    pending: true,
+        //    temp_id: tempId,
+        //};
+
+        //// ✔ ajout UI immédiat
+        //dispatch(addChatMessage(optimisticMessage));
+
+        // ✔ envoi WS
+        wsRef.current.send(
+            JSON.stringify({
+                action: 'send_message',
+                sender_id: currentUser.id,
+                receiver_id: selectedUser.id,
+                text: trimmed,
+                temp_id: tempId,
+            })
+        );
+
+        setInput('');
+    }, [input, currentUser, selectedUser]);
+
+    // ─── TYPING ───
     const handleTyping = useCallback(() => {
-        if (ws.current?.readyState === WebSocket.OPEN) {
-            ws.current.send(JSON.stringify({
-                action: "typing",
-                sender_id: currentUser?.id,
-                receiver_id: selectedUser?.id,
-            }));
-        }
-    }, [currentUser?.id, selectedUser?.id]);
+        if (wsRef.current?.readyState !== WS_READY) return;
+        if (!selectedUser) return;
 
+        wsRef.current.send(
+            JSON.stringify({
+                action: 'typing',
+                sender_id: currentUser.id,
+                receiver_id: selectedUser.id,
+            })
+        );
+    }, [currentUser, selectedUser]);
+
+    // ─── RENDER ───
     return (
-        <main className="flex flex-col w-screen rounded-2xl overflow-hidden bg-none shadow-sm z-8 w-full mb-0">
+        <main className="chat-root flex h-full flex-col overflow-hidden">
 
-            <div className="md:hidden">
-                <AnaliesChatsWithAi />
-            </div>
+            {/* HEADER */}
+            <header className="chat-header flex-shrink-0">
 
-            <section className="flex justify-between items-align-center p-2 bg-none max-h-[10dvh] min-h-[10dvh]">
-                
-            {selectedUser && (
-                    <div className="flex items-center gap-3 text-gray-700 mb-3">
+                {selectedUser ? (
+                    <div className="flex items-center gap-2">
 
-                        <img
-                            src={selectedUser?.image || selectedUser?.photo_url || "/default-avatar.png"}
-                            alt={`${selectedUser?.nom || "Utilisateur"} avatar`}
-                            className="h-[40px] w-[40px] rounded-full object-cover"
-                        />
+                        <strong className="truncate">
+                            {selectedUser.prenom} {selectedUser.nom}
+                        </strong>
 
-                        <div>
-                            <p className="text-md font-semibold text-blue-600">{selectedUser?.prenom || "Prénom"}</p>
-                            <p className="text-xs text-gray-500">{selectedUser?.nom?.toLowerCase() || "Nom"}</p>
-                        </div>
+                        {typing && (
+                            <span className="text-xs text-gray-400 animate-pulse">
+                                {t('typing')}
+                            </span>
+                        )}
 
-                        {
-                            typing && (
-                                <div className="text-xs text-gray-500 pl-3 pb-1 animate-pulse">
-                                    {t('typing')}
-                                </div>
-                            )
-                        }
-
+                    </div>
+                ) : (
+                    <div className="text-sm text-gray-400">
+                        {t('select_conversation')}
                     </div>
                 )}
 
-                <div className="w-0" />
+                <ButtonToggleChatsPanel
+                    showSidebar={show}
+                    setShowSidebar={setShow}
+                />
+            </header>
 
-                <ButtonToggleChatsPanel showSidebar={show} setShowSidebar={setShow} />
+            {/* STATUS WS */}
+            <div className="text-xs px-3 py-1 text-gray-500 flex items-center gap-2">
+                <span
+                    className={`w-2 h-2 rounded-full ${
+                        wsStatus === 'connected'
+                            ? 'bg-green-500'
+                            : wsStatus === 'error'
+                            ? 'bg-red-500'
+                            : 'bg-gray-400'
+                    }`}
+                />
+                {wsStatus}
+            </div>
 
-            </section>
+            {/* MESSAGES */}
+            <div className="flex-1 overflow-y-auto px-3 scrollbor_hidden py-[12dvh]">
 
-            <section>
+                {!selectedUser ? (
+                    <div className="h-full flex items-center justify-center text-gray-400 text-sm">
+                        {t('chat_empty_title')}
+                    </div>
+                ) : messages.length === 0 ? (
+                    <div className="h-full flex items-center justify-center text-gray-400 text-sm">
+                        {t('no_messages_yet')}
+                    </div>
+                ) : (
+                    <div className="flex flex-col gap-1 py-3">
+                        {messages.map((msg) => (
+                            <MessageBubble key={msg.id} msg={msg} />
+                        ))}
 
-                <BoxMessagesChats messages={messages} messagesEndRef={messagesEndRef} typing={typing} />
+                        {loadingNewMessage && (
+                            <div className="text-xs text-gray-400 animate-pulse">
+                                {t('loading')}
+                            </div>
+                        )}
+
+                        <div ref={messagesEndRef} />
+                    </div>
+                )}
+            </div>
+
+            {/* INPUT */}
+            <footer className="chat-footer flex-shrink-0">
 
                 <InputBoxChat
-                    allRoomsChats={allRoomsChats}
+                    disabled={!selectedUser}
                     input={input}
                     setInput={setInput}
                     setShow={setShow}
@@ -190,7 +304,7 @@ const ChatApp = ({ setShow, show }) => {
                     handleTyping={handleTyping}
                 />
 
-            </section>
+            </footer>
 
         </main>
     );

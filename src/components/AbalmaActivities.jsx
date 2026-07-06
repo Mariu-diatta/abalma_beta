@@ -1,222 +1,221 @@
-import React, { useState, useCallback, useRef, useEffect } from "react";
-import { useTranslation } from 'react-i18next';
-import logoApp from "../assets/logoApp.jpg";
+import React, { useState, useCallback, useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { motion, AnimatePresence } from "framer-motion";
+import TitleCompGen from "./TitleComponentGen";
 
+/* ─────────────────────────────────────────────
+   ICONS
+───────────────────────────────────────────── */
+
+const IconGrowth = () => (
+    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
+        <path stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
+            d="M4 4.5V19a1 1 0 0 0 1 1h15M7 14l4-4 4 4 5-5" />
+    </svg>
+);
+
+const IconSecurity = () => (
+    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
+        <path stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
+            d="M12 14v3m-3-6V7a3 3 0 1 1 6 0v4m-8 0h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z" />
+    </svg>
+);
+
+const IconEngagement = () => (
+    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
+        <path stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
+            d="M13.213 9.787a3.39 3.39 0 0 0-4.795 0l-3.425 3.426a3.39 3.39 0 0 0 4.795 4.794" />
+    </svg>
+);
+
+/* ─────────────────────────────────────────────
+   SLIDES CONFIG (clean & scalable)
+───────────────────────────────────────────── */
+
+const getSlides = (t) => [
+    {
+        icon: IconGrowth,
+        name: "Croissance Digitale",
+        subtitle: "Solutions Marketing Abalma",
+        details: t("serviceHome.detail_1"),
+        accent: "#4f46e5",
+    },
+    {
+        icon: IconSecurity,
+        name: "Cybersécurité",
+        subtitle: "Services de Sécurité Abalma",
+        details: t("serviceHome.detail_2"),
+        accent: "#7c3aed",
+    },
+    {
+        icon: IconEngagement,
+        name: "Engagement Client",
+        subtitle: "Services Premium Abalma",
+        details: t("serviceHome.detail_3"),
+        accent: "#0ea5e9",
+    },
+];
+
+/* ─────────────────────────────────────────────
+   ANIMATIONS
+───────────────────────────────────────────── */
+
+const slideVariants = {
+    enter: (d) => ({ x: d > 0 ? 40 : -40, opacity: 0 }),
+    center: { x: 0, opacity: 1 },
+    exit: (d) => ({ x: d > 0 ? -40 : 40, opacity: 0 }),
+};
+
+const visualVariants = {
+    enter: (d) => ({ x: d > 0 ? 60 : -60, opacity: 0, scale: 0.95 }),
+    center: { x: 0, opacity: 1, scale: 1 },
+    exit: (d) => ({ x: d > 0 ? -60 : 60, opacity: 0, scale: 0.95 }),
+};
+
+/* ─────────────────────────────────────────────
+   MAIN COMPONENT
+───────────────────────────────────────────── */
 
 const ServicesPlatforms = () => {
+    const { t } = useTranslation();
 
-    const componentRef = useRef(null);
+    const slides = useMemo(() => getSlides(t), [t]);
 
-    useEffect(
+    const [index, setIndex] = useState(0);
+    const [direction, setDirection] = useState(1);
+    const [paused, setPaused] = useState(false);
 
-        () => {
+    const total = slides.length;
+    const current = slides[index];
 
-        const observer = new IntersectionObserver(
+    const goTo = useCallback((next) => {
+        setDirection(next > index ? 1 : -1);
+        setIndex((next + total) % total);
+    }, [index, total]);
 
-            (entries) => {
+    const goNext = useCallback(() => goTo(index + 1), [goTo, index]);
+    const goPrev = useCallback(() => goTo(index - 1), [goTo, index]);
 
-                entries.forEach((entry) => {
-
-                    if (entry.isIntersecting) {
-
-                        entry.target.classList.add("animate-in");
-
-                        entry.target.classList.remove("animate-out");
-
-                    } else {
-
-                        entry.target.classList.add("animate-out");
-
-                        entry.target.classList.remove("animate-in");
-                    }
-                });
-            },
-            { threshold: 0.05 } // Déclenche quand 10% du composant est visible
-        );
-
-        const node = componentRef.current
-
-        if (componentRef.current) {
-            observer.observe(componentRef.current);
-        }
-        // Nettoyage de l'observateur lors du démontage
-        return () => {
-
-            if (node) {
-
-                node.removeEventListener('scroll', () => { console.log(node) });
-            }
-        };
-
-    }, []);
-
+    /* autoplay */
+    useEffect(() => {
+        if (paused) return;
+        const id = setInterval(() => goNext(), 5000);
+        return () => clearInterval(id);
+    }, [goNext, paused]);
 
     return (
-        <section className="pb-20 pt-20 dark:bg-dark lg:pb-[120px] lg:pt-[120px] ">
-
-            <div className="container mx-auto translate-y-0 transition-all duration-1000 ease-in-out " ref={componentRef}>
-
-                <div className="relative text-sm">
-
-                    <SingleActivity />
-
-                </div>
-
+        <section
+            className="relative  mx-auto px-1 py-5 w-full md:w-1/2"
+            onMouseEnter={() => setPaused(true)}
+            onMouseLeave={() => setPaused(false)}
+        >
+            <div className="mb-14 text-center">
+                <TitleCompGen title={t("Nos activités")} />
             </div>
 
+            <div className="relative rounded-3xl bg-white border border-gray-100 shadow-md overflow-hidden">
+
+                {/* Accent bar */}
+                <motion.div
+                    className="absolute top-0 left-0 h-1"
+                    animate={{
+                        backgroundColor: current.accent,
+                        width: `${((index + 1) / total) * 100}%`
+                    }}
+                />
+
+                <div className="">
+
+                    {/* ───────── TEXT PANEL ───────── */}
+                    <div className="relative p-6 lg:p-10 border-b lg:border-b-0 lg:border-r border-gray-100">
+
+                        <AnimatePresence mode="wait" custom={direction}>
+                            <motion.div
+                                key={index}
+                                custom={direction}
+                                variants={slideVariants}
+                                initial="enter"
+                                animate="center"
+                                exit="exit"
+                                transition={{ duration: 0.4 }}
+                                className="space-y-6"
+                            >
+                                <div className="flex items-center gap-3">
+                                    <span
+                                        className="w-10 h-10 flex items-center justify-center rounded-xl text-white"
+                                        style={{ background: current.accent }}
+                                    >
+                                        {React.createElement(current.icon)}
+                                    </span>
+
+                                    <div>
+                                        <h3 className="font-bold text-gray-900">
+                                            {current.name}
+                                        </h3>
+                                        <p className="text-xs text-gray-400">
+                                            {current.subtitle}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <p className="text-sm text-gray-500 leading-relaxed">
+                                    {current.details}
+                                </p>
+                            </motion.div>
+                        </AnimatePresence>
+
+                        {/* NAV */}
+                        <div className="flex justify-between items-center mt-10">
+                            <div className="flex gap-2">
+                                {slides.map((_, i) => (
+                                    <button
+                                        key={i}
+                                        onClick={() => goTo(i)}
+                                        className="h-2 rounded-full transition-all"
+                                        style={{
+                                            width: i === index ? 24 : 8,
+                                            background: i === index ? current.accent : "#e5e7eb"
+                                        }}
+                                    />
+                                ))}
+                            </div>
+
+                            <div className="flex gap-2">
+                                <button onClick={goPrev} className="btn">‹</button>
+                                <button onClick={goNext} className="btn">›</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    {/* ───────── VISUAL PANEL ───────── */}
+                    <div className="hidden relative flex items-center justify-center p-8 overflow-hidden">
+
+                        <motion.div
+                            className="absolute inset-0 opacity-30"
+                            animate={{ backgroundColor: `${current.accent}10` }}
+                        />
+
+                        <AnimatePresence mode="wait" custom={direction}>
+                            <motion.div
+                                key={index}
+                                custom={direction}
+                                variants={visualVariants}
+                                initial="enter"
+                                animate="center"
+                                exit="exit"
+                                transition={{ duration: 0.45 }}
+                                className="relative w-full max-w-xs"
+                            >
+                                {/* SVG placeholder */}
+                                <div className="w-full h-64 bg-gray-100 rounded-xl" />
+                            </motion.div>
+                        </AnimatePresence>
+                    </div>
+                </div>
+            </div>
         </section>
     );
 };
 
 export default ServicesPlatforms;
-
-const SingleActivity = () => {
-
-    const [currentSlide, setCurrentSlide] = useState(0);
-
-    const { t } = useTranslation();
-
-    const testimonials = [
-        {
-            image: "https://cdn.tailgrids.com/assets/marketing/images/testimonials/testimonial-01/image-01.jpg",
-            reviewImg: "https://cdn.tailgrids.com/assets/marketing/images/testimonials/testimonial-01/lineicon.svg",
-            reviewAlt: "lineicon",
-            details: t('serviceHome.detail_1'),
-            name: "Croissance Digitale",
-            position: "Solutions Marketing Abalma"
-        },
-        {
-            image: "https://cdn.tailgrids.com/assets/marketing/images/testimonials/testimonial-01/image-01.jpg",
-            reviewImg: "https://cdn.tailgrids.com/assets/marketing/images/testimonials/testimonial-01/lineicon.svg",
-            reviewAlt: "lineicon",
-            details: t('serviceHome.detail_2'),
-            name: "Cybersécurité",
-            position: "Services de Sécurité Abalma"
-        },
-        {
-            image: "https://cdn.tailgrids.com/assets/marketing/images/testimonials/testimonial-01/image-01.jpg",
-            reviewImg: "https://cdn.tailgrids.com/assets/marketing/images/testimonials/testimonial-01/lineicon.svg",
-            reviewAlt: "lineicon",
-            details: t('serviceHome.detail_3'),
-            name: "Engagement Client",
-            position: "Services Premium Abalma"
-        }
-    ];
-
-    const handlePrev = useCallback(() => {
-
-        setCurrentSlide((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
-
-    }, [testimonials.length]);
-
-    const handleNext = useCallback(() => {
-
-        setCurrentSlide((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
-
-    }, [testimonials.length]);
-
-
-    const {
-        reviewAlt,
-        details,
-        name,
-        position,
-    }=testimonials[currentSlide]
-
-
-    return (
-
-        <main className="relative w-full md:w-1/2 m-auto pb-16 md:w-11/12 lg:w-10/12 xl:w-8/12  p-2  mt-0 bg-gradient-to-br from-purple-50 to-blue-100 shadow-lg rounded-lg ">
-
-            <h1 className="text-2xl font-bold text-gray-800  flex items-center  my-2 justify-center">
-                Services
-            </h1>
-
-            <div>
-
-                <section className="w-full items-center md:flex  p-2 border-0 text-white" >
-
-                    <div className="hidden relative mb-12 w-full max-w-[310px] md:mb-0 md:m-12 md:max-w-[250px] lg:mr-14 lg:max-w-[280px] 2xl:mr-16">
-
-                        <img src={logoApp} alt="commerce " className="w-1/2 m-auto hidden" />
-
-                        <span className="absolute -left-6 -top-6 z-[-1] hidden sm:block">
-
-                        </span>
-
-                    </div>
-
-                    <div className="w-full p-1">
-
-                        <div className="mb-3">
-                            <img src={logoApp} alt={reviewAlt} className="w-13 h-auto" />
-                        </div>
-
-                        <p className="mb-2 text-base font-normal italic leading-[1.81] text-body-color dark:text-dark-6  text-[14px] ">
-                            {details}
-                        </p>
-
-                        <h4 className="mb-2 text-md font-semibold leading-[27px] text-dark dark:text-white">
-                            {name}
-                        </h4>
-
-                        <p className="text-base text-body-color dark:text-dark-6">
-                            {position}
-                        </p>
-
-                    </div>
-
-                </section>
-
-                {/*Button navigations*/}
-                <section className="absolute left-0 right-0 z-10 flex items-center justify-center gap-5 sm:bottom-0 mt-2">
-
-                    <div className="prev-arrow cursor-pointer" onClick={handlePrev}>
-
-                        <button className="flex h-[50px] w-[50px] items-center justify-center rounded-full border-0 text-dark transition-all shadow-lg hover:border-transparent hover:drop-shadow-testimonial dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:hover:drop-shadow-none">
-                            <svg
-                                width="20"
-                                height="21"
-                                viewBox="0 0 20 21"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="fill-current"
-                            >
-                                <path
-                                    d="M17.5 9.5H4.15625L9.46875 4.09375C9.75 3.8125 9.75 3.375 9.46875 3.09375C9.1875 2.8125 8.75 2.8125 8.46875 3.09375L2 9.65625C1.71875 9.9375 1.71875 10.375 2 10.6562L8.46875 17.2188C8.59375 17.3438 8.78125 17.4375 8.96875 17.4375C9.15625 17.4375 9.3125 17.375 9.46875 17.25C9.75 16.9687 9.75 16.5313 9.46875 16.25L4.1875 10.9062H17.5C17.875 10.9062 18.1875 10.5937 18.1875 10.2187C18.1875 9.8125 17.875 9.5 17.5 9.5Z"
-                                    fill=""
-                                />
-                            </svg>
-                        </button>
-
-                    </div>
-
-                    <div className="next-arrow cursor-pointer" onClick={handleNext}>
-
-                        <button className="flex h-[50px] w-[50px] items-center justify-center rounded-full border-0 shadow-lg  text-dark transition-all hover:border-transparent hover:drop-shadow-testimonial dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:hover:drop-shadow-none">
-
-                            <svg
-                                width="20"
-                                height="21"
-                                viewBox="0 0 20 21"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="fill-current"
-                            >
-                                <path
-                                    d="M18 9.6875L11.5312 3.125C11.25 2.84375 10.8125 2.84375 10.5312 3.125C10.25 3.40625 10.25 3.84375 10.5312 4.125L15.7812 9.46875H2.5C2.125 9.46875 1.8125 9.78125 1.8125 10.1562C1.8125 10.5312 2.125 10.875 2.5 10.875H15.8437L10.5312 16.2813C10.25 16.5625 10.25 17 10.5312 17.2813C10.6562 17.4063 10.8437 17.4688 11.0312 17.4688C11.2187 17.4688 11.4062 17.4062 11.5312 17.25L18 10.6875C18.2812 10.4062 18.2812 9.96875 18 9.6875Z"
-                                    fill=""
-                                />
-                            </svg>
-
-                        </button>
-
-                    </div>
-
-                </section>
-            </div>
-
-        </main>
-    );
-};
-

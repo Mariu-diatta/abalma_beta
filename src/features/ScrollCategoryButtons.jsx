@@ -1,13 +1,15 @@
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useRef, } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from 'react-i18next';
 import { useDispatch} from 'react-redux';
-import { LIST_CATEGORIES } from '../utils';
+import { LIST_CATEGORIES_KEYS } from '../utils';
 import { updateCurrentButtonCategoryHover } from '../slices/navigateSlice';
 import HoverCategoryProductDisplay from './ProductSpecificPopovViews';
 import ListButtonsCategories from './ListButtonsCategories';
+import bg_image from '../assets/bg_image_.jpg'
+import TitleCompGen from '../components/TitleComponentGen';
+import { useSelector} from 'react-redux';
 
 const ScrollableCategoryButtons = ({
     setActiveCategory,
@@ -21,68 +23,22 @@ const ScrollableCategoryButtons = ({
 
     const dispatch = useDispatch()
 
+    const currentUser = useSelector((state) => state.auth.user);
+
     const categories = useMemo(
 
-        () => LIST_CATEGORIES?.map((cat) => t(`ListItemsFilterProduct.${cat}`)),
+        () => LIST_CATEGORIES_KEYS?.map((cat) => t(`ListItemsFilterProduct.${cat}`)),
 
         [t]
     );
 
-    const scrollRef = useRef(null);
-
     const panelRef = useRef(null);
-
-    const [showLeft, setShowLeft] = useState(false);
-
-    const [showRight, setShowRight] = useState(false);
 
     const [productSpecificHandler, setProductSpecificHandler] = useState(null);
 
     const [activateButtonCategory, setActivateButtonCategory] = useState(null);
 
-    const updateButtonsVisibility = useCallback(() => {
 
-        const container = scrollRef.current;
-
-        if (!container) return;
-
-        const { scrollLeft, scrollWidth, clientWidth } = container;
-
-        setShowLeft(scrollLeft > 0);
-
-        setShowRight(scrollLeft + clientWidth < scrollWidth - 1);
-
-    }, []);
-
-    const scroll = useCallback(
-
-        (direction) => {
-
-            scrollRef.current?.scrollBy({ left: direction === "left" ? -200 : 200, behavior: "smooth" });
-        },
-        []
-    );
-
-    useEffect(() => {
-
-        const container = scrollRef.current;
-
-        if (!container) return;
-
-        updateButtonsVisibility();
-
-        container.addEventListener("scroll", updateButtonsVisibility);
-
-        window.addEventListener("resize", updateButtonsVisibility);
-
-        return () => {
-
-            container.removeEventListener("scroll", updateButtonsVisibility);
-
-            window.removeEventListener("resize", updateButtonsVisibility);
-        };
-
-    }, [updateButtonsVisibility]);
 
     useEffect(() => {
 
@@ -99,6 +55,47 @@ const ScrollableCategoryButtons = ({
 
         <>
 
+            <ListButtonsCategories
+
+                categories={categories}
+
+                setProductSpecificHandler={setProductSpecificHandler}
+
+                setActiveCategory={setActiveCategory}
+
+                setActivateButtonCategory={setActivateButtonCategory}
+
+                activateButtonCategory={activateButtonCategory}
+
+            />
+
+            {/* ========= HERO / Intro ========= */}
+            {!currentUser &&
+                <section className="max-w-screen-md mx-auto text-center mb-10 relative w-full px-2 text-[10px] md:text-[15px] translate-y-0 transition-all duration-1000 ease-in-out">
+
+                    <header>
+
+                        <div
+                            className={`
+                                inset-0 bg-cover bg-center blur-xl scale-110 `}
+                            style={{
+                                backgroundImage: `url(${bg_image})`,
+                            }}
+                        />
+
+                        <div className="m-auto text-center">
+                            <TitleCompGen title={t('homePan.title')} />
+                        </div>
+
+                        <p className="text-gray-600 text-md">
+                            {t('homePan.content')}
+                        </p>
+
+                    </header>
+
+                </section>
+            }
+
             <main>
 
                 <HoverCategoryProductDisplay
@@ -109,64 +106,6 @@ const ScrollableCategoryButtons = ({
                 />
 
             </main>
-
-            <section
-
-                className=" w-full mb-0 sticky top-[10dvh] z-5  px-3 py-[0dvh] md:py-0 lg:py-0 bg-none mb-0"
-            >
-
-                {
-                    showLeft && (
-
-                        <button
-
-                            className="absolute left-0 top-1/2 -translate-y-1/2 z-5 p-2 shadow rounded-full bg-none hidden md:flex bg-white"
-
-                            onClick={() => scroll("left")}
-                        >
-                            <ChevronLeft className="w-5 h-5 text-gray-600" />
-
-                        </button>
-                    )
-                }
-
-                <div
-                    ref={scrollRef}
-
-                    className="overflow-x-auto px-10 scrollbor_hidden_ bg-none"
-                >
-
-                    <ListButtonsCategories
-
-                        categories={categories}
-
-                        setProductSpecificHandler={setProductSpecificHandler}
-
-                        setActiveCategory={setActiveCategory}
-
-                        setActivateButtonCategory={setActivateButtonCategory}
-
-                        activateButtonCategory={activateButtonCategory}
-
-                    />
-
-                </div>
-
-
-                {
-                    showRight && (
-
-                        <button
-                            className="absolute right-0 top-1/2 -translate-y-1/2 z-5 p-3 shadow rounded-full hidden md:flex bg-white"
-                            onClick={() => scroll("right")}
-                        >
-                            <ChevronRight className="w-5 h-5 text-gray-600" />
-
-                        </button>
-                    )
-                }
-
-            </section>
 
         </>
     );

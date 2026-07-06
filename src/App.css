@@ -38,7 +38,7 @@
     }
 
     100% {
-        transform: scale(1) rotate(360deg); /* rotation complète */
+        transform: scale(1) rotate(360deg); /* rotation complÃ¨te */
     }
 }
 
@@ -81,7 +81,7 @@ body.light {
     --color-bg: #ffffff;
     --color-text: #000000;
     --color-primary: #6200ee;
-    --color-code: #444444; /* Gris foncé pour le code en mode clair */
+    --color-code: #444444; /* Gris foncÃ© pour le code en mode clair */
 }
 
 body.dark {
@@ -145,14 +145,14 @@ body .style_bg {
 
 .bg_home {
     backdrop-filter: blur(5px); /* Applique un flou de 5px */
-    -webkit-backdrop-filter: blur(5px); /* Pour compatibilité avec Safari */
-    background-size: 20%; /* Taille réduite (ajustez si nécessaire) */
-    background-position: left bottom; /* Positionne l'image en bas à gauche */
-    background-repeat: no-repeat; /* Évite la répétition */
-    position: relative; /* Nécessaire pour le pseudo-élément */
+    -webkit-backdrop-filter: blur(5px); /* Pour compatibilitÃ© avec Safari */
+    background-size: 20%; /* Taille rÃ©duite (ajustez si nÃ©cessaire) */
+    background-position: left bottom; /* Positionne l'image en bas Ã  gauche */
+    background-repeat: no-repeat; /* Ã‰vite la rÃ©pÃ©tition */
+    position: relative; /* NÃ©cessaire pour le pseudo-Ã©lÃ©ment */
     border-radius: 15px; /* Coins arrondis (ajustez la valeur si besoin) */
     overflow: hidden; /* Assure que l'image respecte les coins arrondis */
-    margin: 1px; /* Marges de 20px de tous les côtés (ajustez selon besoin) */
+    margin: 1px; /* Marges de 20px de tous les cÃ´tÃ©s (ajustez selon besoin) */
     padding-top:60px !important;
 }
 
@@ -164,9 +164,9 @@ body .style_bg {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.01); /* Couche semi-transparente (noir à 10% d'opacité) */
+    background: rgba(0, 0, 0, 0.01); /* Couche semi-transparente (noir Ã  10% d'opacitÃ©) */
     z-index: 1; /* Sous le contenu */
-    border-radius: 15px; /* Coins arrondis pour le pseudo-élément */
+    border-radius: 15px; /* Coins arrondis pour le pseudo-Ã©lÃ©ment */
 }
 
 .bg_home > * {
@@ -181,7 +181,7 @@ body .style_bg {
 
 /*animation du footer/
 
-    /* Animation d'entrée (monter doucement) */
+    /* Animation d'entrÃ©e (monter doucement) */
 @keyframes slideIn {
     from {
         opacity: 0;
@@ -207,7 +207,7 @@ body .style_bg {
     }
 }
 
-/* Classe pour l'animation d'entrée */
+/* Classe pour l'animation d'entrÃ©e */
 .animate-in {
     animation: slideIn 1s ease-out forwards;
 }
@@ -217,7 +217,7 @@ body .style_bg {
     animation: slideOut 1s ease-in forwards;
 }
 
-    /* Réinitialiser les classes après animation */
+    /* RÃ©initialiser les classes aprÃ¨s animation */
 .animate-in.animate-out,
 .animate-out.animate-in {
     animation: none;
@@ -245,4 +245,5 @@ body .style_bg {
 html, body, #root {
     height: 100%;
 }
+
 

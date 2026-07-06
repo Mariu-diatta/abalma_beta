@@ -26,11 +26,17 @@ export default function ButtonsNavigateThemecolorPayDropdownaccount() {
 
     const currentNotifMessages = useSelector(state => state.chat.messageNotif);
 
+    const currentNav = useSelector(state => state.navigate.currentNav);
+
+    const previousNav = useSelector(state => state.navigate.previousNav);
+
     const trigger = useRef(null);
 
     const dropdown = useRef(null);
 
     const navigate = useNavigate();
+
+    const shouldShowAlert = (!previousNav || (currentNav && currentNav !== ENDPOINTS?.MESSAGE_INBOX));
 
     const changeLanguage = (lang) => {
 
@@ -78,43 +84,33 @@ export default function ButtonsNavigateThemecolorPayDropdownaccount() {
 
     const getUserLogOut = async () => {
 
-        setLoading(true)
+        setLoading(true);
 
-        if (window.confirm(t("logout"))) {
+        if (!window.confirm(t("logout"))) {
+            setLoading(false);
+            return;
+        }
 
-            dispatch(clearCart());
+        // 1️⃣ Mettre à jour le store immédiatement
+        dispatch(clearCart());
+        dispatch(clearRooms());
+        dispatch(cleanAllMessageNotif());
+        dispatch(logout());
+        dispatch(setCurrentNav(ENDPOINTS?.HOME));
 
-            dispatch(clearRooms());
+        // 2️⃣ Naviguer directement
+        navigate(`/`, { replace: true });
 
-            dispatch(cleanAllMessageNotif());
-
-            dispatch(logout());
-
-            try {
-
-                await api.get(`logout/`);
-
-                dispatch(setCurrentNav(ENDPOINTS?.LOGIN))
-
-                return navigate(`/${ENDPOINTS?.LOGIN}`, { replace: true });
-
-            } catch (error) {
-
-                showMessage(dispatch, { Type: "Erreur", Message: error?.message || error?.request?.response });
-                
-                dispatch(setCurrentNav(ENDPOINTS?.LOGIN))
-
-                return navigate(`/${ENDPOINTS?.LOGIN}`, { replace: true });
-
-            } finally {
-
-                setLoading(false)
-
-
-            }
-        } else {
-
-            setLoading(false)
+        // 3️⃣ Essayer la requête API en arrière-plan
+        try {
+            await api.get(`logout/`);
+        } catch (error) {
+            showMessage(dispatch, {
+                Type: "Erreur",
+                Message: error?.message || error?.request?.response,
+            });
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -122,20 +118,20 @@ export default function ButtonsNavigateThemecolorPayDropdownaccount() {
 
 
         <section
-            
-            className={`bg-none flex items-center justify-center px-2  rounded-lg absolute top-0  fixed z-50`}
+            style={{top:"6px"}}
+            className={`bg-none   rounded-lg absolute  right-2 fixed z-50 flex items-centers justify-center`}
         >
 
-            <AttentionAlertMessage/>
+            {shouldShowAlert && (
+                <>
+                    <AttentionAlertMessage />
 
-
-            <GroupThemNotifPayLangageButtons
-
-                notify={notify}
-
-                changeLanguage={changeLanguage}
-
-            />
+                    <GroupThemNotifPayLangageButtons
+                        notify={notify}
+                        changeLanguage={changeLanguage}
+                    />
+                </>
+            )}
 
             {/* Avatar + dropdown */}
             <AccountMenuUser

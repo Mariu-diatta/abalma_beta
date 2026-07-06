@@ -1,15 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, lazy } from 'react';
 import { useSelector } from 'react-redux';
-import OwnerAvatar from '../components/OwnerProfil';
-import FollowProfilUser from '../components/ViewsProfilUser';
-import NumberFollowFollowed from '../components/FollowUserComp';
 import { useTranslation } from 'react-i18next';
+
+const OwnerAvatar = lazy(() => import("../components/OwnerProfil"));
+const FollowProfilUser = lazy(() => import("../components/ViewsProfilUser"));
+const NumberFollowFollowed = lazy(() => import("../components/FollowUserComp"));
 
 const ProfilPopPov = () => {
 
     const { t } = useTranslation();
 
-    const currentOwnUser = useSelector(state => state.chat.userSlected);
+    const product = useSelector(state => state.cart.selectedProductView);
+
+    const currentOwnUser = product.fournisseur;
 
     const [isVisible, setIsVisible] = useState(false);
     const [showAbove, setShowAbove] = useState(false);
@@ -18,14 +21,15 @@ const ProfilPopPov = () => {
     const buttonRef = useRef(null);
 
     const togglePopover = () => {
+
         setIsVisible(prev => !prev);
 
         if (buttonRef.current) {
+
             const rect = buttonRef.current.getBoundingClientRect();
             const windowHeight = window.innerHeight;
             const spaceBelow = windowHeight - rect.bottom;
             const spaceAbove = rect.top;
-
             // Affiche au-dessus si pas assez d'espace en bas
             setShowAbove(spaceBelow < 250 && spaceAbove > spaceBelow);
         }
@@ -56,7 +60,9 @@ const ProfilPopPov = () => {
     }, []);
 
     return (
-        <div className="relative inline-block z-30">
+
+        <div className="relative inline-block z-30 bg-white">
+
             {/* Bouton toggle */}
             <button
                 ref={buttonRef}
@@ -65,10 +71,10 @@ const ProfilPopPov = () => {
                 aria-haspopup="true"
                 aria-expanded={isVisible}
                 aria-controls="popover-user-profile"
-                className="flex flex-col items-center cursor-pointer p-3 text-center text-sm rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:hover:bg-gray-600"
+                className="flex items-center gap-3 cursor-pointer p-1 text-center text-sm rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-50"
             >
                 <svg
-                    className="w-5 h-5 text-blue-800 dark:text-white"
+                    className="w-5 h-5 text-indigo-800 dark:text-white"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -77,7 +83,9 @@ const ProfilPopPov = () => {
                 >
                     <path d="M5 7h14M5 12h14M5 17h10" />
                 </svg>
-                <span className="whitespace-nowrap">{t("your_profil")}</span>
+
+                <span className="whitespace-nowrap hidden">{t("your_profil")}</span>
+
             </button>
 
             {/* Popover */}
@@ -89,27 +97,25 @@ const ProfilPopPov = () => {
                     aria-modal="true"
                     className={`
                     absolute z-50 w-64 max-h-[70vh] overflow-y-auto
-                    text-md border rounded-lg shadow-lg
+                    text-md border border-white/80 rounded-lg shadow-lg bg-white
                     ${showAbove ? 'bottom-full mb-2 left-0 -translate-x-50 z-100' : 'top-full mt-2 right-2'}
                   `}
                 >
                     <div className="p-4 space-y-3">
 
-                        <div className="flex items-center justify-between">
+                        <div className="flex flex-col  gap-5 w-full">
 
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 me-6">
 
                                 <OwnerAvatar owner={currentOwnUser} />
 
-                                <small>{currentOwnUser?.nom} {currentOwnUser?.prenom}</small>
+                                <small>@{currentOwnUser?.nom}-{currentOwnUser?.prenom}</small>
 
                             </div>
 
                             <FollowProfilUser clientId={currentOwnUser?.id} />
 
                         </div>
-
-                        <p className="text-sm text-gray-500">@{currentOwnUser?.nom}</p>
 
                         <p className="text-sm">{currentOwnUser?.description?.slice(0, 80)}…</p>
 

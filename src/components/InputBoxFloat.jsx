@@ -17,7 +17,7 @@ const InputBox = ({
 
     return (
 
-        <div className="relative mb-6 w-auto">
+        <div className="relative mb-3 w-auto">
 
             <input
                 id={inputId}
@@ -32,8 +32,9 @@ const InputBox = ({
                 className="
                   block w-full px-2.5 pt-5 pb-2.5
                   text-black
-                  bg-transparent
-                  border-b 
+                  bg-white
+                  border-b
+                  border-indigo-100
                   focus:outline-none focus:ring-0
                   peer
                 "
@@ -42,7 +43,7 @@ const InputBox = ({
 
             <label
                 htmlFor={inputId}
-                className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+                className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-indigo-600 peer-focus:dark:text-indigo-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
             >
                 {placeholder}
             </label>

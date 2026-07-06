@@ -3,6 +3,7 @@ import { useEffect, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { addUser } from "../slices/chatSlice";
+import { getMediaUrl } from "../utils";
 
 const Carousel = ({ products, openModal, owners }) => {
 
@@ -20,7 +21,11 @@ const Carousel = ({ products, openModal, owners }) => {
 
     }, [products]);
 
-    const pictures = filteredProducts;
+    const pictures = filteredProducts.map(prod => ({
+        description: prod?.description_product ?? "",
+        image: prod?.variants?.[0]?.image ?? null,
+        fournisseur: prod?.fournisseur   // âœ… AJOUT
+    }));
 
     const prevSlide = () => {
 
@@ -39,17 +44,22 @@ const Carousel = ({ products, openModal, owners }) => {
     };
 
     useEffect(() => {
-
         if (!pictures.length) return;
 
-        const interval = setInterval(nextSlide, 2500);
+        const interval = setInterval(() => {
+            setCurrentIndex((prev) =>
+                prev === pictures.length - 1 ? 0 : prev + 1
+            );
+        }, 2500);
 
         return () => clearInterval(interval);
-    });
+
+    }, [pictures.length]);
 
     if (!pictures.length) return null;
 
     const current = pictures[currentIndex];
+
 
     return (
 
@@ -61,24 +71,24 @@ const Carousel = ({ products, openModal, owners }) => {
                 <div
                     className="relative w-full h-full overflow-hidden"
                 >
-                    {/* Image de fond floutée */}
+                    {/* Image de fond floutÃ©e */}
                     <div
 
                         className="absolute inset-0 bg-cover bg-center blur-xl scale-110"
 
                         style={{
-                            backgroundImage: `url(${current?.image_product})`,
+                            backgroundImage: `url(${current?.image})`,
                         }}
                     />
 
-                    {/* Overlay sombre pour lisibilité */}
+                    {/* Overlay sombre pour lisibilitÃ© */}
                     <div className="absolute inset-0 bg-black/20" />
 
                     {/* Image principale */}
                     <img
-                        src={current?.image_product}
+                        src={getMediaUrl(current?.image)}
                         alt="product"
-                        className="relative w-full h-full object-contain "
+                        className="relative w-full h-full object-contain shadow-2xl"
                     />
 
                 </div>
@@ -105,7 +115,7 @@ const Carousel = ({ products, openModal, owners }) => {
                           transition-all duration-500
                         "
                     >
-                        {(current?.description_product?.toLowerCase())?.slice(0, 50)}...
+                        {(current?.description?.toLowerCase())?.slice(0, 50)}...
 
                     </p>
 
@@ -113,7 +123,7 @@ const Carousel = ({ products, openModal, owners }) => {
                     <button
 
                         onClick={() => {
-                            openModal(current);
+                            openModal(filteredProducts[currentIndex])
                             dispatch(addUser(owners[current?.fournisseur]));
                         }}
 

@@ -56,7 +56,7 @@ const DataTable = () => {
                                                 id={`filter-radio-${i}`}
                                                 type="radio"
                                                 name="filter-radio"
-                                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                className="w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 focus:ring-indigo-500 dark:focus:ring-indigo-600 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                             />
                                             <label
                                                 htmlFor={`filter-radio-${i}`}
@@ -94,7 +94,7 @@ const DataTable = () => {
                         id="table-search"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        className="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
                         placeholder="Search for items"
                     />
                 </div>
@@ -106,7 +106,7 @@ const DataTable = () => {
                         <th scope="col" className="p-4">
                             <input
                                 type="checkbox"
-                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                className="w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             />
                         </th>
                         <th scope="col" className="px-6 py-3">Product name</th>
@@ -134,7 +134,7 @@ const DataTable = () => {
                                 <td className="w-4 p-4">
                                     <input
                                         type="checkbox"
-                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                        className="w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                     />
                                 </td>
                                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -144,7 +144,7 @@ const DataTable = () => {
                                 <td className="px-6 py-4">{item.category}</td>
                                 <td className="px-6 py-4">{item.price}</td>
                                 <td className="px-6 py-4">
-                                    <a href="/" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                    <a href="/" className="font-medium text-indigo-600 dark:text-indigo-500 hover:underline">
                                         Edit
                                     </a>
                                 </td>

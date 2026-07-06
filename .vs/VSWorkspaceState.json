@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\build",
+    "\\public",
+    "\\src",
+    "\\src\\assets",
+    "\\src\\components",
+    "\\src\\features",
+    "\\src\\features\\auth",
+    "\\src\\layouts",
+    "\\src\\pages"
+  ],
+  "PreviewInSolutionExplorer": false
+}

@@ -1,6 +1,7 @@
 
 import React, { Suspense, useEffect } from 'react'
 import './App.css';
+import './styles/style.css'
 import routes from './router/Routers';
 import { useRoutes} from "react-router-dom"
 import CookieBanner from './components/CookieBanner';

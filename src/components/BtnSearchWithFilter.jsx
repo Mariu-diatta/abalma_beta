@@ -72,24 +72,24 @@ const SearchBar = ({disabled = false }) => {
     return (
 
         <span
-            className={`flex justify-center items-start z-[10] py-6 px-3 md:px-0 md:w-1/2 scroll:pt-5 md:py-0 lg:py-0 ${currentNav === ENDPOINTS?.HOME ? "" :"sticky top-0 "}
-                  ${ItemsNav.includes(currentNav) ? "w-full" : "hidden"}`}
+            className={`sticky top-[3dvh] md:top-1 flex justify-center items-start z-[10] py-6 px-3 md:px-0 md:w-1/2 scroll:pt-5 md:py-0 lg:py-0 ${currentNav === ENDPOINTS?.HOME ? "w-full" :"sticky top-0 "}
+                  ${ItemsNav.includes(currentNav) ? "w-full" : !!currentNav && "hidden"}`}
         >
             <form
                 onSubmit={handleSubmit}
                 className={clsx(
-                    "mt-0 rounded-full",
+                    "mt-0 rounded-full hover:shadow-xl",
                     "relative flex",
-                    searchTerm ? "w-full" : "w-full  md:w-1/2"
+                    searchTerm ? "w-full" : "w-full"
                 )}
             >
                 <button
                     type="submit"
-                    className="px-2.5 text-sm z-10 text-sm text-gray-900 bg-gray-50 rounded-l-full border-0  dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none focus:ring-0 "
+                    className="px-2.5 border-r-0 border border-gray-100   text-sm z-10 text-sm text-gray-900  rounded-l-full dark:placeholder-gray-400 dark:text-white focus:outline-none focus:ring-0 "
                     disabled={disabled}
                 >
-                    <svg className="w-4 h-4" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M19 19L15 15M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" strokeLinecap="round" strokeWidth="1" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
                     </svg>
 
                     <span className="sr-only">{t("Search")}</span>
@@ -99,7 +99,7 @@ const SearchBar = ({disabled = false }) => {
                 <input
                     ref={searchBtnRef}
                     type="search"
-                    className={` block px-2.5 py-1.5 w-full z-10 text-md rounded-e-full border-0 border-gray-50  dark:border-s-gray-700 bg-gray-50  dark:border-gray-600 dark:placeholder-gray-400 focus:outline-none focus:ring-0`}
+                    className={` block px-2.5 py-2.5 w-full z-10 text-md rounded-e-full border-l-0 border border-gray-100 dark:placeholder-gray-400 focus:outline-none focus:ring-0`}
                     placeholder={`${t("Search")} ${selectedCategory ? selectedCategory?.replace(/_/g, " ").toLowerCase() : (t('All')).toLowerCase() } `}
                     value={searchTerm??""}
                     onChange={(e) => {

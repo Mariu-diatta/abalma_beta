@@ -1,17 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { useTranslation } from "react-i18next";
-import WhiteRoundedButton from "../components/Button";
+import { WhiteRoundedButtonSignInRegister } from "../components/Button";
 import ThemeToggle from "./Theme";
 import NotificationsComponent from "../components/NotificationComponent";
 import PayBack from "../components/BacketButtonPay";
 import { useSelector } from "react-redux";
 import { ENDPOINTS } from "../utils";
 import LanguageDropdown from "./Langages";
+import LogIn from "../pages/Login";
+import RegisterForm from "../pages/Register";
 
 const MobileNav = ({ open }) => {
 
-  const { t } = useTranslation();
+    const { t } = useTranslation();
+
+    const [showLogin, setShowLogin] = useState(false);
+
+    const [showRegister, setShowRegister] = useState(false);
 
   return (
 
@@ -22,20 +28,51 @@ const MobileNav = ({ open }) => {
       } lg:static lg:block lg:max-w-full lg:w-auto`}
     >
       <div
-        className="text-sm absolute top-3 flex flex-col items-start justify-start gap-3 p-1 sm:hidden shadow-lg rounded-lg w-full py-5 bg-white/90"
+         className="text-sm absolute top-3 flex flex-col items-start justify-start gap-3 sm:hidden p-1 shadow-2xl rounded-lg w-full py-5 bg-white/90"
       >
-        <WhiteRoundedButton titleButton={t(ENDPOINTS.LOGIN)} to={ENDPOINTS.LOGIN} />
 
-        <WhiteRoundedButton titleButton={t(ENDPOINTS.REGISTER)} to={ENDPOINTS.REGISTER} />
+        <WhiteRoundedButtonSignInRegister
+            titleButton={t(ENDPOINTS.LOGIN)}
+            onClick={() => setShowLogin(!showLogin)}
+        >
+            {showLogin && <LogIn
+                callbackState={() => {
+                    setShowLogin(false);      // 1. fermer le login
+                    setShowRegister(true); // 2. ouvre le registre
+                }}
+                onClose={() => setShowLogin(!showLogin)}
+            />}
+        </WhiteRoundedButtonSignInRegister>
+
+        <WhiteRoundedButtonSignInRegister
+            titleButton={t(ENDPOINTS.REGISTER)}
+            onClick={() => setShowRegister(!showRegister)}
+        >
+            {showRegister &&
+                <RegisterForm
+                    callbackState={() => {
+                        setShowRegister(false); // 1. Ferme le registre
+                        setShowLogin(true);      // 2. Ouvre le login
+                    }}
+                    onClose={() => { setShowRegister(!showRegister) }}
+                />
+            }
+        </WhiteRoundedButtonSignInRegister>
 
         <div className="flex justify-between items-center gap-1 text-sm hover:bg-gray-100">
+
             <PayBack />
+
             <span>{t("your_basket")}</span>
+
         </div>
 
         <div className="flex justify-between items-center gap-1 text-sm  hover:bg-gray-100">
+
             <LanguageDropdown />
+
             <span>{t("choose_language")}</span>
+
         </div>
 
         <ThemeToggle/>

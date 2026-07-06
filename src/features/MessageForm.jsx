@@ -71,7 +71,7 @@ export const ChatComponent = ({ conversationId }) => {
                     <p className="text-sm text-gray-700 dark:text-gray-200">{msg.texte}</p>
                     {msg.image && <img src={msg.image} alt="envoyée" className="w-32 rounded shadow" />}
                     {msg.url && (
-                        <a href={msg.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 text-sm underline">
+                        <a href={msg.url} target="_blank" rel="noopener noreferrer" className="text-indigo-500 text-sm underline">
                             {msg.url}
                         </a>
                     )}
@@ -194,7 +194,7 @@ const MessageForm = ({ onSend }) => {
                         onChange={handleFileChange}
                         className="block w-full file:mr-4 file:py-2 file:px-4
                             file:rounded file:border-0 file:text-sm file:font-semibold
-                            file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                            file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
                     />
                 )}
 
@@ -229,7 +229,7 @@ const MessageForm = ({ onSend }) => {
 
                 <button
                     type="submit"
-                    className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded"
+                    className="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded"
                 >
                     Envoyer
                 </button>

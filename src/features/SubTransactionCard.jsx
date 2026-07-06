@@ -1,9 +1,73 @@
-import React, { useState } from 'react'
-import LoadingCard from '../components/LoardingSpin';
-import { canUpdateDelete } from '../utils';
-import api from '../services/Axios';
+import React, { useState } from "react";
+import LoadingCard from "../components/LoardingSpin";
+import { canUpdateDelete } from "../utils";
+import api from "../services/Axios";
+import { useTranslation } from 'react-i18next';
 
-const SubTransactionCard = ({
+
+// ─── Icône statut ─────────────────────────────────────────────────────────────
+const StatusBadge = ({ status }) => {
+    const config = {
+        success: { bg: "bg-emerald-50", text: "text-emerald-600", dot: "bg-emerald-400" },
+        pending: { bg: "bg-amber-50", text: "text-amber-600", dot: "bg-amber-400" },
+        failed: { bg: "bg-red-50", text: "text-red-500", dot: "bg-red-400" },
+    };
+    const s = status?.toLowerCase();
+    const style = config[s] ?? { bg: "bg-gray-50", text: "text-gray-500", dot: "bg-gray-400" };
+
+    return (
+        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold tracking-wide whitespace-nowrap ${style.bg} ${style.text}`}>
+            <span className={`w-1.5 h-1.5 rounded-full ${style.dot}`} />
+            {status}
+        </span>
+    );
+};
+
+// ─── Ligne de détail ──────────────────────────────────────────────────────────
+const DetailRow = ({ label, value }) => (
+    <div className="flex items-center justify-between gap-6 py-1.5">
+        <span className="text-xs text-gray-400 font-medium uppercase tracking-wide shrink-0">
+            {label}
+        </span>
+        <span className="text-sm text-gray-700 font-medium text-right truncate">
+            {value}
+        </span>
+    </div>
+);
+
+// ─── Bouton d'action ──────────────────────────────────────────────────────────
+const ActionButton = ({ onClick, disabled, loading, label, variant = "default" }) => {
+    if (loading) return <LoadingCard />;
+
+    const styles = {
+        default: "border border-gray-200 text-gray-600 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-600",
+        danger: "border border-gray-200 text-gray-400 hover:bg-red-50 hover:border-red-300 hover:text-red-500",
+    };
+
+    return (
+        <button
+            onClick={onClick}
+            disabled={disabled}
+            className={`
+                flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-xl
+                bg-white transition-all duration-200
+                disabled:opacity-40 disabled:cursor-not-allowed
+                ${styles[variant]}
+            `}
+        >
+            {variant === "danger" && (
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                        d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" />
+                </svg>
+            )}
+            {label}
+        </button>
+    );
+};
+
+// ─── Composant principal ──────────────────────────────────────────────────────
+const TransactionAndSubTransactionCard = ({
     title = "Sous-transaction",
     icon,
     status,
@@ -16,152 +80,88 @@ const SubTransactionCard = ({
     setData,
     setDeleted,
     priceLabel,
-    showAction = false,
-    isLoading = false,
+    showAction,
+    isLoading,
     actionLabel,
-    onAction,
-    actionDisabled = false,
+    onClick,
+    actionDisabled,
+    address
 }) => {
-
-    const [loadingDelate, setLoadingDelate] = useState(false)
-
-    const handleDelete = async (url) => {
-
-        setLoadingDelate(true)
-
+    const [loadingDelete, setLoadingDelete] = useState(false);
+    const { t } = useTranslation();
+    const handleDelete = async () => {
+        setLoadingDelete(true);
         try {
-
-            await api.delete(
-
-                `${url}/${pk}/`,
-
-                {
-
-                    params: {
-
-                        mode: "sell"
-                    }
-                }
-
-            ).then(
-
-                resp => {
-
-                    console.log(resp)
-
-                    alert("Secessuffuly delete")
-
-                    setData(
-                        () => data.filter(el => el?.id !== pk)
-                    )
-                    setDeleted(true)
-                }
-
-            ).catch(
-
-                err => {
-                    console.log(err)
-
-                    alert(err?.response?.data?.detail || "Error delete")
-
-                    setDeleted(false)
-                }
-            )
-
-        } catch (e) {
-
+            await api.delete(`${url}/${pk}/`, { params: { mode: "sell" } });
+            setData(() => data.filter((el) => el?.id !== pk));
+            setDeleted(true);
+        } catch (err) {
+            alert(err?.response?.data?.detail || "Erreur lors de la suppression");
+            setDeleted(false);
         } finally {
-            setLoadingDelate(false)
+            setLoadingDelete(false);
         }
-    }
+    };
+
+    const canDelete = canUpdateDelete?.includes(status);
+    const hasActions = canDelete || (showAction && actionLabel);
 
     return (
+        <div className="relative bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden w-full max-w-sm">
 
-        <div className="bg-gradient-to-br from-blue-50 to-white border border-blue-100 p-4 rounded-xl shadow-lg w-fit">
+            {/* Accent coloré en haut */}
+            <div className="h-1 w-full bg-gradient-to-r from-indigo-400 via-indigo-400 to-indigo-400" />
 
-            {/* HEADER */}
-            <div className="flex items-center justify-between gap-3">
+            <div className="p-5 flex flex-col gap-4">
 
-                <div className="flex items-center gap-2 text-blue-800 font-semibold">
-                    {icon}
-                    <span>{title}</span>
+                {/* ── Header ── */}
+                <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2.5">
+                        {icon && (
+                            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-50 text-indigo-500 shrink-0">
+                                {icon}
+                            </span>
+                        )}
+                        <span className="text-sm font-semibold text-gray-800 tracking-tight">
+                            {title}
+                        </span>
+                    </div>
+                    <StatusBadge status={status} />
                 </div>
 
-                <span className="px-3 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700 whitespace-nowrap">
-                    {status}
-                </span>
+                {/* ── Détails ── */}
+                <div className="bg-gray-50 rounded-xl px-4 py-1 divide-y divide-gray-100">
+                    <DetailRow label="Date" value={createdAt} />
+                    <DetailRow label="Code" value={code} />
+                    <DetailRow label={priceLabel ?? "Montant"} value={price} />
+                    <DetailRow label={t("adress")} value={address}/> 
+                </div>
+
+                {/* ── Actions ── */}
+                {hasActions && (
+                    <div className="flex items-center justify-end gap-2 pt-1">
+                        {canDelete && (
+                            <ActionButton
+                                onClick={handleDelete}
+                                loading={loadingDelete}
+                                label="Supprimer"
+                                variant="danger"
+                            />
+                        )}
+                        {showAction && actionLabel && (
+                            <ActionButton
+                                onClick={onClick}
+                                disabled={actionDisabled}
+                                loading={isLoading}
+                                label={actionLabel}
+                                variant="default"
+                            />
+                        )}
+                    </div>
+                )}
             </div>
-
-            <div className="my-3 h-px bg-gray-200" />
-
-            {/* CONTENT */}
-            <div className="flex flex-col gap-1 text-sm text-gray-700">
-                <p><span className="font-medium">Date :</span> {createdAt}</p>
-                <p><span className="font-medium">Code :</span> {code}</p>
-                <p><span className="font-medium">{priceLabel} :</span> {price}</p>
-            </div>
-
-            <div className="my-3 h-px bg-gray-200" />
-
-            <div className="flex justify-between px-1">
-
-                {
-                    canUpdateDelete?.includes(status) && (
-
-                        <>
-                            {
-                                !loadingDelate ?
-                                    <button
-                                        onClick={() => handleDelete(url)}
-                                        className="px-4 py-2 text-sm font-medium r  ounded-lg
-                                    bg-white 
-                                    hover:bg-red-50 hover:border-green-400
-                                    transition"
-                                    >
-                                        Delete
-
-                                    </button>
-                                    :
-                                    <LoadingCard />
-                            }
-                        </>
-                    )
-                }
-
-                {/* ACTION */}
-                {
-                    showAction && (
-
-                        <div className="flex justify-end">
-
-                            {
-                                !isLoading ? (
-                                    <button
-                                        onClick={onAction}
-                                        disabled={actionDisabled}
-                                        className="px-4 py-2 text-sm font-medium rounded-lg
-                                    bg-white border border-gray-300
-                                    hover:bg-green-50 hover:border-green-400
-                                    transition disabled:opacity-40 disabled:cursor-not-allowed"
-                                    >
-                                        {actionLabel}
-
-                                    </button>
-                                )
-                                    :
-                                    (
-                                        <LoadingCard/>
-                                    )
-                            }
-
-                        </div>
-                    )
-                }
-
-            </div>
-
         </div>
     );
 };
 
-export default SubTransactionCard;
+export default TransactionAndSubTransactionCard;

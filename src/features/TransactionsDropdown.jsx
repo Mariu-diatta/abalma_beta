@@ -61,12 +61,12 @@ function TransactionsDropdown(
 
                 onClick={() => setOpenMenu(m => ({ ...m, main: !m.main }))}
 
-                className="border-blue-200 
+                className="border-indigo-200 
                     h-10 px-3 rounded-full
                     bg-gray-100 flex 
                     items-center justify-between 
                     flex gap-2 items-center justify-center
-                    focus:border-blue-500 focus:ring-1 focus:ring-blue-400        
+                    focus:border-indigo-500 focus:ring-1 focus:ring-indigo-400        
                 "
             >
                 <p>Transactions</p>
@@ -108,9 +108,9 @@ function TransactionsDropdown(
             {/*Sélection de la sous transaction*/}
             <button
                 onClick={() => subTransactionsData?.length && setOpenMenu(m => ({ ...m, sub: !m.sub }))}
-                className={`border-blue-200 h-10 px-3 rounded-full bg-gray-100 
+                className={`border-indigo-200 h-10 px-3 rounded-full bg-gray-100 
                 disabled:opacity-50 flex gap-2 items-center justify-center
-                focus:border-blue-500 focus:ring-1 focus:ring-blue-400 ${ subTransactionsData?.length > 0?"hidden":""}
+                focus:border-indigo-500 focus:ring-1 focus:ring-indigo-400 ${ subTransactionsData?.length > 0?"hidden":""}
                 `}
                 disabled={!selectedTransaction}
             >

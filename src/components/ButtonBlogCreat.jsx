@@ -29,9 +29,9 @@ const ButtonCreateBlog = ({ handleToggleModal, isOpen }) => {
               fixed bottom-[60px] right-6 -translate-y-1/2
               h-10 px-3 rounded-full flex items-center gap-2
               text-white text-sm
-              bg-gradient-to-br from-purple-50 to-blue-100
-              hover:from-purple-50 hover:to-blue-100
-              shadow-lg shadow-blue-100 dark:shadow-none
+              bg-gradient-to-br from-purple-50 to-indigo-100
+              hover:from-purple-50 hover:to-indigo-100
+              shadow-lg shadow-indigo-100 dark:shadow-none
               transition-all duration-200
               z-50
           "

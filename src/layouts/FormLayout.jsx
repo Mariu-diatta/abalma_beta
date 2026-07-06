@@ -12,37 +12,32 @@ const FormLayout = ({ children }) => {
 
             <ScrollTop />
 
-            <section className="bg-gray-1 py-5 dark:bg-dark lg:py-[120px] bg_home px-2">
+            <section className="bg-gray-1 px-2 mt-10 p-2 overflow-y-auto h-full scrollbor_hidden">
 
                 <div className="container mx-auto">
 
-                    <div className="flex flex-wrap text-center">
+                    <div className="flex flex-wrap justify-center text-center">
 
-                        <div className="w-full">
+                        <div className="w-full max-w-[525px]">
 
                             <div
                                 className="
-                                  relative mx-auto max-w-[525px] overflow-hidden
-                                  rounded-xl
-                                  bg-white px-3 py-2 text-center
-                                  sm:px-12 md:px-[60px] lg:px-10
-                                  dark:bg-dark-2
-                                  shadow-xl shadow-black/10
-                                  hover:shadow-2xl hover:shadow-black/20
-                                  transition-shadow duration-300
+                                    relative overflow-hidden rounded-xl
+                                    px-4 sm:px-10 md:px-14 lg:px-10
+                                    backdrop-blur-md bg-white/80 
+                                    shadow-xl shadow-black/10
+                                    hover:shadow-2xl hover:shadow-black/20
+                                    transition-all duration-300
                                 "
-                                style={{
-                                    backgroundColor: "var(--color-bg)",
-                                    color: "var(--color-text)",
-                                }}
                             >
-
                                 {children}
 
                             </div>
 
                         </div>
+
                     </div>
+
                 </div>
 
                 <Outlet />

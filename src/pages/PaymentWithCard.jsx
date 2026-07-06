@@ -1,175 +1,132 @@
-import React, { useState } from 'react'
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-import { useCallback } from 'react';
-//import { CONSTANTS } from '../utils';
-import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import api from '../services/Axios';
-import { showMessage } from '../components/AlertMessage';
-import { clearCart } from '../slices/cartSlice';
+import React, { useState} from "react";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements, useStripe, useElements, PaymentElement } from "@stripe/react-stripe-js";
 
-export function PaymentWithCard(
-    {
-        amount,
-        setLoadingPayPal,
-        refRate,
-        setShowPaymentForm
-    }
-) {
+import api from "../services/Axios";
+import { showMessage } from "../components/AlertMessage";
+import LoadingCard from "../components/LoardingSpin";
+import { toast } from "react-toastify";
 
-    //const [loading, setLoading] = useState(false)
+const stripePromise = loadStripe("pk_live_51SPtoBCEAhT0NnGVoQjdHYYUtO485bRx760vbQd5AWu6sfAl7Imm9adI7cf6sVlEjVdEWB797NplRdMvHBGl8Kid00q8x8Skjj");
 
+// ----------------------
+// FORMULAIRE DE PAIEMENT
+// ----------------------
+function CheckoutForm({ clientSecret, onSuccess }) {
+    const stripe = useStripe();
+    const elements = useElements();
+
+    const [loading, setLoading] = useState(false);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (!stripe || !elements) return;
+
+        setLoading(true);
+        const result = await stripe.confirmPayment({
+            elements,
+            redirect: "if_required",
+        });
+
+        if (result.error) {
+            toast.error(result.error.message);
+            return;
+        }
+
+        if (result.paymentIntent?.status === "succeeded") {
+            toast.success("Paiement réussi !");
+            // update state / vider panier / redirect optionnel
+        }
+
+        setLoading(false);
+    };
+
+    return (
+        <form onSubmit={handleSubmit} className="space-y-4">
+            <PaymentElement />
+
+            <button
+                disabled={!stripe || loading}
+                className="bg-gray-200 py-2.5 font-bold hover:bg-gray-300 rounded-md w-full"
+            >
+                {loading ? <LoadingCard /> : "Payer"}
+            </button>
+        </form>
+    );
+}
+
+// ----------------------
+// COMPOSANT PRINCIPAL
+// ----------------------
+export function PaymentWithCard({ refRate }) {
     const { t } = useTranslation();
+    const dispatch = useDispatch();
 
+    const dataItems = useSelector((state) => state.cart.items);
+    const currentUser = useSelector((state) => state.auth.user);
 
-    const dispatch = useDispatch()
+    const [clientSecret, setClientSecret] = useState(null);
+    const [loading, setLoading] = useState(false);
 
-    const dataItems = useSelector(state => state.cart.items);
-
-
-    const currentUser = useSelector(state => state.auth.user);
-
-    const currentUserNotConnected = !currentUser && !currentUser?.is_connected
-
-    const [datatPayLoad, setDataPayLoad] = useState({})
-
-    const boughtProduct = useCallback(async (payload) => {
-
-            try {
-
-                setLoadingPayPal(true)
-
-                // Envoi en JSON  const products =
-                await api.post("creat/transactions/products/",
-
-                    payload,
-
-                    {
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    }
-                )
-
-                showMessage(dispatch, { Type: "Message", Message: t("success_transaction") });
-
-                //dispatch(addMessageNotif("Transaction effectué"))
-
-                dispatch(clearCart())
-
-            } catch (err) {
-
-                setShowPaymentForm(false)
-
-                showMessage(dispatch, { Type: "Erreur", Message: err?.response?.data?.detail || err?.message });
-
-
-            } finally {
-
-                setLoadingPayPal(false)
-            }
-
-        }, [setShowPaymentForm, setLoadingPayPal, dispatch,t]
-    )
+    const currentUserNotConnected = !currentUser?.email;
 
     const createOrder = async () => {
+        if (currentUserNotConnected) {
+            alert("Utilisateur non connecté");
+            return;
+        }
 
-        const response = await api.post("create-paypal-order/",
+        setLoading(true);
 
-            { items: dataItems, currency: refRate },
-         
-            {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
-        );
-        const data = await response.json();
-
-        setDataPayLoad(data?.productsData)
-
-        return data; // ID que PayPal Buttons utilise
-    }
-
-
-    const onApprovePayment = async (actions) => {
-            
         try {
-
-            const details = await actions.order.capture();
-
-            // Appel fonction post-transaction
-            boughtProduct(datatPayLoad);
-
-            // Notification personnalisée
-            showMessage(
-
-                dispatch,
-
+            const res = await api.post(
+                "create-payment/",
                 {
-                    Type: "Message",
-                    Message: `Merci ${details.payer.name.given_name}, ${t("success_transaction")}!`,
-                }
+                    items: dataItems,
+                    currency: refRate,
+                    email: currentUser.email,
+                },
+                { withCredentials: true }
             );
 
-        } catch (err) {
+            setClientSecret(res.data.client_secret);
+        } catch (error) {
+            console.log(error);
 
-            handlePaymentError(err);
-            // Notification personnalisée
-            showMessage(
-
-                dispatch,
-
-                {
-                    Type: "Erreur",
-                    Message: `Hupps! ${err?.response?.data?.detail || err?.message}, ${t('transaction_fail')}`,
-                }
-            );
+            showMessage(dispatch, {
+                Type: "Erreur",
+                Message: t("unsuccess_transaction"),
+            });
+        } finally {
+            setLoading(false);
         }
     };
 
-    const handlePaymentError = (err) => {
+    if (currentUserNotConnected) return null;
 
-        showMessage(dispatch, {
-            Type: "Erreur",
-            Message: t("unsuccess_transaction"),
-        });
-    };
+    // ----------------------
+    // STEP 1: création paiement
+    // ----------------------
+    if (!clientSecret) {
+        return (
+            <button
+                onClick={createOrder}
+                className="bg-gray-200 py-2.5 font-bold hover:bg-gray-300 rounded-md w-1/2"
+            >
+                {loading ? <LoadingCard /> : "Payer"}
+            </button>
+        );
+    }
 
-    if (currentUserNotConnected) return
-
+    // ----------------------
+    // STEP 2: paiement Stripe
+    // ----------------------
     return (
-
-        <PayPalScriptProvider
-
-            options={
-                {
-                    "client-id": process.env.REACT_APP_PAYPAL_CLIENT_ID,
-
-                    currency: refRate,
-                }
-            }
-        >
-
-            <PayPalButtons
-
-                style={
-                    {
-                        layout: "vertical",
-                        color: "blue",
-                        shape: "rect",
-                        label: "paypal",
-                    }
-                }
-
-                createOrder={(data, actions) => createOrder(actions)}
-
-                onApprove={(data, actions) => onApprovePayment(actions)}
-
-                onError={(err) => handlePaymentError(err)}
-            />
-
-        </PayPalScriptProvider>
-
+        <Elements stripe={stripePromise} options={{ clientSecret }}>
+            <CheckoutForm />
+        </Elements>
     );
 }

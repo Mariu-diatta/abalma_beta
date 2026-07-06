@@ -7,12 +7,19 @@ import LoadingCard from '../components/LoardingSpin';
 import { CONSTANTS, removeAccents, translateCategory } from '../utils';
 import SearchBar from '../components/BtnSearchWithFilter';
 import ScrollableButtonsCategoryProducts from './ScrollCategoryButtons';
-import PaginationProduit from './ProductPagination';
 import ListProductByCategory from './ListProductCategory';
+import PaginationProduit from './PaginationProduit';
+
 
 const GridLayoutProduct = () => {
 
     const [filteredItems, setFilteredItems] = useState([])
+
+    const productsFiltered = filteredItems.filter(prod =>
+
+        prod.variants?.some(variant => variant?.image)
+
+    );
 
     const [filteredItemsPopover, setFilteredItemsPopover] = useState([])
 
@@ -40,7 +47,7 @@ const GridLayoutProduct = () => {
 
     const currentUser = useSelector(state => state.auth.user);
 
-    const filteredItemsLenght = (filteredItems?.length === 0)
+    const filteredItemsLenght = (productsFiltered?.length === 0)
 
     const isCurrentUserConnected = (currentUser && currentUser?.is_connected)
 
@@ -59,7 +66,7 @@ const GridLayoutProduct = () => {
 
         const isDefaultCategory = (cleanCategory) => {
 
-            if (!cleanCategory) return true;
+            if (!cleanCategory) return false;
 
             return cleanCategory?.toLowerCase() === DEFAULT_ACTIVE_CATEGORY?.toLowerCase();
         }
@@ -68,21 +75,25 @@ const GridLayoutProduct = () => {
 
             try {
 
-                const translatedCategory = translateCategory(activeButtonCategory);
+                const translatedCategory = translateCategory(activeButtonCategory.replace("_", " ")).toLocaleUpperCase();
+
 
                 let cleanCategory = removeAccents(translatedCategory)?.toLowerCase();
 
-                const url = isDefaultCategory(cleanCategory)
-                    ? "produits/"
-                    : `products/filter/?categorie_product=${cleanCategory?.toUpperCase()}`;
+                const url = isDefaultCategory(cleanCategory) ? "produits/" : "products/filter/"
 
-                const { data: products } = await api.get(url);
+                const { data: products } = await api.get(url, {
+                    params: {
+                        product_categorie: cleanCategory,
+                    },
+                });
 
                 const filtered = products.filter(item => parseInt(item?.quantity_product) !== 0);
 
                 setFilteredItems(filtered);
 
-                const uniqueOwnerIds = [...new Set(products.map(p => p?.fournisseur))].filter(Boolean);
+                const uniqueOwnerIds = [...new Set(products.map(p => p?.fournisseur?.id))]
+                    .filter(id => id != null);
 
                 const responses = await Promise.all(
 
@@ -117,60 +128,37 @@ const GridLayoutProduct = () => {
 
         fetchProductsAndOwners();
 
-    }, [activeButtonCategory,DEFAULT_ACTIVE_CATEGORY]);
+    }, [activeButtonCategory, DEFAULT_ACTIVE_CATEGORY]);
 
     useEffect(() => {
-
-
-        const isDefaultCategory = (cleanCategory) => {
-
-                if (!cleanCategory) return true;
-
-                return cleanCategory === DEFAULT_ACTIVE_CATEGORY?.toLowerCase();
-        }
 
         const fetchProductsAndOwners = async () => {
 
             try {
+
+
+                const isDefaultCategory = (cleanCategory) => {
+
+                    if (!cleanCategory) return true;
+
+                    return cleanCategory === DEFAULT_ACTIVE_CATEGORY?.toLowerCase();
+                }
+
                 const translatedCategory = translateCategory(isButtonOver.replace("_", " ").toLocaleUpperCase());
 
                 var cleanCategory = removeAccents(translatedCategory)?.toLowerCase();
 
-                const url = isDefaultCategory(cleanCategory)
-                    ?
-                    "produits/"
-                    :
-                    `products/filter/?categorie_product=${cleanCategory?.toUpperCase()}`;
+                const url = isDefaultCategory(cleanCategory) ? "produits/" : "products/filter/";
 
-                const { data: products } = await api.get(url);
+                const { data: products } = await api.get(url, {
+                    params: {
+                        product_categorie: cleanCategory?.toUpperCase(),
+                    },
+                });
 
                 const filtered = products.filter(item => parseInt(item?.quantity_product) !== 0);
 
                 setFilteredItemsPopover(filtered);
-
-                const uniqueOwnerIds = [...new Set(products.map(p => p?.fournisseur))].filter(Boolean);
-
-                const responses = await Promise.all(
-
-                    uniqueOwnerIds?.map(id =>
-
-                        api.get(`clients/${id}/`)
-
-                        .then(res => ({ id, data: res.data }))
-
-                        .catch(() => ({ id, data: null }))
-                    )
-                );
-
-                const ownerMap = responses.reduce((acc, { id, data }) => {
-
-                    if (data) acc[id] = data;
-
-                    return acc;
-
-                }, {});
-
-                setOwners(ownerMap);
 
             } catch (error) {
 
@@ -215,12 +203,9 @@ const GridLayoutProduct = () => {
   
     return (
 
-        <div className="space-y-4  pb-[10dvh]">
+        <div className="space-y-1 overflow-x-hidden md:py-[1dvh]">
 
-            {
-                isCurrentUserConnected &&
-                <SearchBar />
-            }
+            { isCurrentUserConnected && <SearchBar /> }
 
             <ScrollableButtonsCategoryProducts
 
@@ -236,20 +221,21 @@ const GridLayoutProduct = () => {
 
             />
 
+
             <aside className={`${filteredItemsLenght ? "hidden" : "p-0"}`}>
 
-                <PaginationProduit products={filteredItems} />
+                <PaginationProduit products={productsFiltered} />
 
             </aside>
 
-            <main className="h-full">
+            <main className="h-full overflow-x-hidden">
 
             {
                 (loading) ?
                 <LoadingCard />
                 :
                 <ListProductByCategory
-                    filteredItems={filteredItems}
+                    filteredItems={productsFiltered}
                     cartItems={cartItems}
                     owners={owners}
                     openModal={openModal}
@@ -259,7 +245,7 @@ const GridLayoutProduct = () => {
 
             </main>
 
-            <ModalViewProduct isOpen={!!modalData} onClose={closeModal} products={filteredItems}/>
+            <ModalViewProduct isOpen={!!modalData} onClose={closeModal}/>
 
         </div>
     );
