@@ -177,7 +177,7 @@ const ChatLayout = () => {
             {/* Sidebar : overlay plein écran sur mobile, colonne fixe sur desktop */}
             <div
                 className={`
-                    absolute inset-0 flex h-full w-full flex-col overflow-y-auto
+                    absolute inset-0 flex h-full w-full flex-col overflow-y-auto overflow-x-hidden
                     rounded-2xl border border-slate-200/70 bg-white/95 shadow-sm shadow-slate-200/60 backdrop-blur-md
                     transform transition-transform duration-300 ease-in-out
                     ${showSidebar ? 'translate-x-0 z-999' : '-translate-x-full'}

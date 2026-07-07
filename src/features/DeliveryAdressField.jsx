@@ -1,13 +1,17 @@
 import { useState } from "react";
 import { PrimaryButton } from "./Settings";
 import LocationSearchPopover from "./LocationSearch";
-
+import api from "../services/Axios";
+import { showMessage } from "../components/AlertMessage";
+import {  useDispatch } from "react-redux";
+import { CONSTANTS } from "../utils";
 export default function DeliveryAddressField({
     deliveryAddress = [],
     address,
     onUpdate,
     onSelect,
     loading = false,
+    setDeliveryAddress,
     t,
 }) {
     const [selectedId, setSelectedId] = useState(
@@ -15,6 +19,28 @@ export default function DeliveryAddressField({
     );
 
     const hasAddress = deliveryAddress?.length > 0 || !!address;
+
+    const [loadingDel, setLoadingDel] = useState(false)
+
+    const dispatch = useDispatch();
+
+
+    const deleteDeliveredAdress = async (id) => {
+        setLoadingDel(true)
+        try {
+            await api.delete(`delivery-address/${id}/`);;
+            deliveryAddress.filter(item => item.id !== id)
+            setDeliveryAddress(deliveryAddress)
+            showMessage(dispatch, { Type: 'Message', Message: 'Done!' });
+        } catch (error) {
+            console.log("erreur suppression adress", error)
+            showMessage(dispatch, {
+                Type: CONSTANTS.ERRREUR, Message: 'Error!' });
+        } finally {
+            setLoadingDel(false)
+        }
+
+    };
 
     return (
         <div className="bg-white rounded-xl shadow-md border-0 p-4 space-y-3 my-5 md:w-1/2 lg:w-1/2">
@@ -44,11 +70,17 @@ export default function DeliveryAddressField({
                         }}
                     >
                         {deliveryAddress.map((item) => (
-                            <option key={item.id} value={item.id}>
-                                {item.address}
+                            <option key={item.id} value={item.id} >
+                                <>{item.address}</>
                             </option>
                         ))}
                     </select>
+                    {
+                        selectedId &&
+                        <button onClick={() => deleteDeliveredAdress(selectedId)} className="bg-red-300 rounded-full p-2 text-md">
+                                {!loadingDel?`Delete ${selectedId}`:"Loading"}
+                        </button>
+                    }
                 </div>
             )}
 

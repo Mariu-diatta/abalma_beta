@@ -9,7 +9,7 @@ import DeleteProfilAccount from './DeleteAccount';
 import NotificationToggle from '../components/NotificationToggle';
 import ThemeSelector from '../components/Them';
 import SubscriptionsPage from '../pages/SubscriptionCard';
-import AttentionAlertMessage from '../components/AlertMessage';
+import AttentionAlertMessage, { showMessage } from '../components/AlertMessage';
 import CountryField from './CountryField';
 import DeliveryAddressField from './DeliveryAdressField';
 import { updateUserData } from '../slices/authSlice';
@@ -183,7 +183,12 @@ const SettingsForm = () => {
 
     const [address, setAddress] = useState(null);
 
-    const getAddress = (newAdress) => setAddress(newAdress);
+    const [deliveryAddress, setDeliveryAddress] = useState([]);
+
+    const getAddress = (newAdress) => {
+        setAddress(newAdress);
+        setDeliveryAddress(prev => [...prev, newAdress])
+    }
 
     const [form, setForm] = useState({
         name: '',
@@ -207,15 +212,20 @@ const SettingsForm = () => {
 
     const showToast = (msg) => setToast(msg);
 
-    const [deliveryAddress, setDeliveryAddress] = useState(null);
+
 
     const tryRequest = async (requestFn, successMessage, calback = () => {}) => {
         try {
             calback(true)
             await requestFn();
-            showToast(successMessage);
+            showMessage(dispatch, {
+                Type: "Message", Message: successMessage
+            });
         } catch (err) {
             console.warn('Request failed:', err);
+            showMessage(dispatch, {
+                Type: CONSTANTS.ERRREUR, Message: 'Error!'
+            });
         } finally {
             calback(false)
         }
@@ -271,7 +281,8 @@ const SettingsForm = () => {
             setLoadingAdress
         );
 
-    };
+    }
+
 
     useEffect(() => {
 
@@ -473,7 +484,7 @@ const SettingsForm = () => {
                                         {
                                             try {
                                                 api.put("/clients/update-country/", { country: newCountry })
-                                                dispatch(updateUserData({ ...currentUserData , country: newCountry }))
+                                                dispatch(updateUserData({ ...currentUserData, country: newCountry }))
                                                 showToast("Done !!");
                                             } catch (err) {
                                                 alert("Error")
@@ -484,6 +495,7 @@ const SettingsForm = () => {
                                 />
 
                                 <DeliveryAddressField
+                                    setDeliveryAddress={setDeliveryAddress }
                                     deliveryAddress={deliveryAddress}
                                     address={address}
                                     onUpdate={updateDeliveredAdress}
