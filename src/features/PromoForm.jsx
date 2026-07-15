@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import api from "../services/Axios";
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import { createPortal } from "react-dom";
 import { useTranslation } from 'react-i18next';
 
@@ -39,7 +40,7 @@ const PromoCodeForm = ({ product_id }) => {
             setLoading(true);
             setError("");
 
-            await api.post("/seller/create-promo/", {
+            await api.post(API_ENDPOINTS.SUPPLIER.CREATE_PROMO, {
                 product:product_id,
                 code:code,
                 discount_percent: discountPercent || null,

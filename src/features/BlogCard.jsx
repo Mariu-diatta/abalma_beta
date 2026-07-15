@@ -12,16 +12,16 @@ const BlogCard = ({blog, handleClicked}) => {
     return (
 
         <div
-            className="relative w-auto p-2 flex flex-col justify-between rounded-lg shadow-lg
-            dark:border dark:border-gray-50
-            hover:shadow-md transition-shadow duration-300 h-[20dvh] overflow-hidden"
+            className="relative w-auto p-2 flex flex-col justify-between bg-white
+            rounded-xl border border-[#dbdbdb] overflow-hidden
+            transition-all duration-200 hover:border-[#0095F6]/40 h-[20dvh]"
         >
             {/* Header : Avatar + date */}
             <div className="flex justify-between items-start mb-1">
 
                 {blog?.user && <OwnerAvatar owner={blog.user} />}
 
-                <div className="flex items-center text-gray-500 text-sm">
+                <div className="flex items-center text-[#8e8e8e] text-xs">
 
                     <span>{formatISODate(blog?.created_at)}</span>
 
@@ -31,8 +31,8 @@ const BlogCard = ({blog, handleClicked}) => {
 
             {/* Contenu principal */}
             <div
-                className="absolute inset-x-0 px-5 py-1 text-center font-light text-gray-500
-                   dark:text-gray-400 text-sm overflow-hidden text-ellipsis line-clamp-3"
+                className="absolute inset-x-0 px-5 py-1 text-center font-light text-[#262626]
+                   text-sm overflow-hidden text-ellipsis line-clamp-3"
             >
                 <TitleCompGenLitle title={blog?.title_blog} />
 
@@ -43,7 +43,7 @@ const BlogCard = ({blog, handleClicked}) => {
             {/* Bouton Lire plus */}
             <button
                 className="absolute right-2 bottom-2 inline-flex items-center font-medium
-                   text-primary-600 text-sm dark:text-primary-500 hover:underline"
+                   text-[#0095F6] text-sm hover:underline"
                 onClick={() => handleClicked(true,blog)}
             >
                 {t("blog.reaMore")}

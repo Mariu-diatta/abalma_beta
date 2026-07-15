@@ -289,7 +289,7 @@ html, body, #root {
         transform: translateX(-100%);
     }
 
-@media(min-width:640px) {
+@media(min-width:768px) {
     .vnav-sidebar {
         transform: translateX(0) !important;
     }
@@ -368,7 +368,15 @@ html, body, #root {
     align-items: center;
     justify-content: center;
     color: #64748b;
-    transition: color .15s;
+    transition: color .15s, transform .15s;
+}
+
+.vnav-item:hover .vnav-icon {
+    transform: scale(1.12);
+}
+
+.vnav-item.active .vnav-icon {
+    transform: scale(1.08);
 }
 
 /* Avatar user button */
@@ -387,15 +395,15 @@ html, body, #root {
     margin-bottom: 10px;
 }
 
-    .vnav-user-btn:hover {
-        background: #f1f5f9;
-        border-color: #e2e8f0;
-    }
+.vnav-user-btn:hover {
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+}
 
-    .vnav-user-btn.active {
-        background: #eff6ff;
-        border-color: #bfdbfe;
-    }
+.vnav-user-btn.active {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+}
 
 .vnav-avatar {
     width: 32px;
@@ -497,7 +505,7 @@ html, body, #root {
         box-shadow: 0 4px 14px rgba(15,23,42,.12);
     }
 
-@media(min-width:640px) {
+@media(min-width:768px) {
     .vnav-toggle {
         display: none;
     }
@@ -532,7 +540,7 @@ html, body, #root {
     background: #f8fafc;
 }
 
-@media(min-width:640px) {
+@media(min-width:768px) {
     .vnav-content {
         margin-left: 240px;
     }
@@ -5752,14 +5760,191 @@ forget password`*/
 }
 
 
-.mine {
-    background: #6366f1;
-    color: white;
-    border-radius: 18px 18px 4px 18px;
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESIGN SYSTEM — inspiration Instagram, appliqué au marketplace Abalma
+   Palette : fond clair, accent bleu unique (#0095F6), anneau coloré réservé
+   au statut "vendeur en vedette / boutique active" (signal de confiance).
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.vnav-sidebar {
+    background: var(--color-surface, #ffffff) !important;
+    border-right: 1px solid var(--color-border, #dbdbdb) !important;
+    box-shadow: none !important;
 }
 
-.theirs {
-    background: #f1f5f9;
-    color: black;
-    border-radius: 18px 18px 18px 4px;
+.vnav-logo-zone,
+.vnav-item.active,
+.vnav-user-btn.active {
+    border-color: var(--color-border, #dbdbdb) !important;
 }
+
+.vnav-section-label {
+    color: var(--color-text-secondary, #8e8e8e) !important;
+}
+
+.vnav-item:hover {
+    background: #f2f2f2 !important;
+    color: var(--color-primary, #0095f6) !important;
+}
+
+.vnav-item.active {
+    background: #eaf5ff !important;
+    color: var(--color-primary, #0095f6) !important;
+}
+
+.vnav-item.active .vnav-icon {
+    color: var(--color-primary, #0095f6) !important;
+}
+
+.vnav-user-btn.active {
+    background: #eaf5ff !important;
+    border-color: #b8e0ff !important;
+}
+
+.vnav-user-email {
+    color: var(--color-primary, #0095f6) !important;
+}
+
+.vnav-pro-badge {
+    background: linear-gradient(45deg, #feda75, #fa7e1e 25%, #d62976 50%, #962fbf 75%, #4f5bd5 100%) !important;
+}
+
+.vnav-cat-item:hover,
+.vnav-cat-item.active {
+    color: var(--color-primary, #0095f6) !important;
+    background-color: #eaf5ff !important;
+}
+
+/* ─── Avatars vendeur : anneau "boutique active" ──────────────────────────── */
+
+.oa-img,
+.oa-svg {
+    border-color: var(--color-border, #dbdbdb) !important;
+}
+
+.oa-img:hover,
+.oa-svg:hover {
+    border-color: var(--color-primary, #0095f6) !important;
+    box-shadow: 0 0 0 3px rgba(0, 149, 246, .15) !important;
+}
+
+.oa-online {
+    background: var(--color-success, #2ecc71) !important;
+    box-shadow: 0 0 0 2px rgba(46, 204, 113, .2) !important;
+}
+
+/* Vendeur pro / boutique avec annonces actives : anneau dégradé façon story */
+.oa-img--trusted,
+.oa-svg--trusted {
+    border: 2.5px solid transparent !important;
+    background-image:
+        linear-gradient(var(--color-surface, #fff), var(--color-surface, #fff)),
+        linear-gradient(45deg, #feda75, #fa7e1e 25%, #d62976 50%, #962fbf 75%, #4f5bd5 100%) !important;
+    background-origin: border-box !important;
+    background-clip: content-box, border-box !important;
+    padding: 1px;
+}
+
+/* Même anneau "story", décliné en grand format pour la page de profil complète
+   et pour l'en-tête de conversation dans le chat. */
+.profil-ring--trusted {
+    border: 4px solid transparent !important;
+    background-image:
+        linear-gradient(#fff, #fff),
+        linear-gradient(45deg, #feda75, #fa7e1e 25%, #d62976 50%, #962fbf 75%, #4f5bd5 100%) !important;
+    background-origin: border-box !important;
+    background-clip: content-box, border-box !important;
+    padding: 2px;
+}
+
+/* Variante compacte (avatars de la strip stories / en-tête de chat ~40-56px) */
+.story-ring--trusted {
+    border: 2px solid transparent !important;
+    background-image:
+        linear-gradient(var(--color-surface, #fff), var(--color-surface, #fff)),
+        linear-gradient(45deg, #feda75, #fa7e1e 25%, #d62976 50%, #962fbf 75%, #4f5bd5 100%) !important;
+    background-origin: border-box !important;
+    background-clip: content-box, border-box !important;
+    padding: 2px;
+}
+
+/* ─── Bottom nav mobile façon Instagram (5 icônes) ────────────────────────── */
+
+.ig-bottom-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 60;
+    align-items: center;
+    justify-content: space-between;
+    height: 54px;
+    padding: 0 10px;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background-color: var(--color-surface, #ffffff);
+    border-top: 1px solid var(--color-border, #dbdbdb);
+}
+
+.ig-bottom-nav__item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.ig-bottom-nav__item:active {
+    transform: scale(0.92);
+}
+
+.ig-bottom-nav__add {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    margin: 0 2px;
+    border-radius: 10px;
+    border: none;
+    color: #fff;
+    background: linear-gradient(45deg, #feda75, #fa7e1e 25%, #d62976 50%, #962fbf 75%, #4f5bd5 100%);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform .12s;
+}
+
+.ig-bottom-nav__add:active {
+    transform: scale(0.9);
+}
+
+.ig-bottom-nav__badge {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 3px;
+    border-radius: 999px;
+    background: var(--color-danger, #ed4956);
+    color: #fff;
+    font-size: 10px;
+    line-height: 16px;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* Espace réservé en bas de l'écran pour que le contenu ne soit jamais
+   masqué par la bottom nav fixe (mobile/tablette uniquement, la nav est
+   cachée à partir de md:). */
+@media (max-width: 767px) {
+    body {
+        padding-bottom: 54px;
+    }
+}
+
+

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import api from "../services/Axios";
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import PaymentModal from "../components/PaymentModal";
 const stripePromise = loadStripe(process.env.STRIPE_PUBLISHABLE_KEY ??"pk_live_51SPtoBCEAhT0NnGVoQjdHYYUtO485bRx760vbQd5AWu6sfAl7Imm9adI7cf6sVlEjVdEWB797NplRdMvHBGl8Kid00q8x8Skjj");
 
@@ -124,7 +125,7 @@ const BuyButtonWithPaymentForm = ({ total_price, reference }) => {
 
         try {
             const res = await api.post(
-                "create-payment/",  // ← ton endpoint PaymentIntent
+                API_ENDPOINTS.PAYMENTS.CREATE_PAYMENT,  // ← ton endpoint PaymentIntent
                 { items: dataItems, currency: reference, email: currentUser.email },
                 { withCredentials: true }
             );

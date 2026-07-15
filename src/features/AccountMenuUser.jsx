@@ -5,7 +5,11 @@ import { setCurrentNav } from '../slices/navigateSlice';
 import { useNavigate } from 'react-router-dom';
 import LoadingCard from '../components/LoardingSpin';
 import { useTranslation } from 'react-i18next';
-
+import i18n from "i18next";
+import AttentionAlertMessage from '../components/AlertMessage';
+import GroupThemNotifPayLangageButtons from '../components/NotificationGrouped';
+import toast from 'react-hot-toast';
+import { removeMessageNotif } from '../slices/chatSlice';
 
 const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, getUserLogOut, loading }) => {
 
@@ -25,6 +29,8 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
     const currentNav = useSelector(state => state.navigate.currentNav);
 
+    const currentNotifMessages = useSelector(state => state.chat.messageNotif);
+
     useEffect(
         () => {
             if (currentNav) navigate(`/${currentNav}`);
@@ -39,9 +45,32 @@ const AccountMenuUser = ({ dropdownOpen, trigger, setDropdownOpen, dropdown, get
 
     }
 
+    const notify = () => {
+
+        toast(currentNotifMessages[0]);
+
+        dispatch(removeMessageNotif());
+    };
+
+    const changeLanguage = (lang) => {
+
+        i18n.changeLanguage(lang);
+    };
+
     return (
 
         <div className='flex items-center justify-center z-0 '>
+
+            <AttentionAlertMessage/>
+
+
+            <GroupThemNotifPayLangageButtons
+
+                notify={notify}
+
+                changeLanguage={changeLanguage}
+
+            />
 
             {/* Avatar + dropdown */ }
             <button

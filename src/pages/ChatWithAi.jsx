@@ -1,5 +1,6 @@
 import React, {useState } from "react";
 import api from "../services/Axios";
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { addAiChat } from "../slices/aiChatSlice";
@@ -32,7 +33,7 @@ const AnaliesChatsWithAi = () => {
         setError(null);
 
         try {
-            const { data } = await api.get("ai-analyse-chat/");
+            const { data } = await api.get(API_ENDPOINTS.CHAT.AI_ANALYSE_LIST);
             setAiData(data);
             setOpen(true);
         } catch (err) {
@@ -52,7 +53,7 @@ const AnaliesChatsWithAi = () => {
         setLoadingViewId(id);
 
         try {
-            const { data } = await api.get(`ai-analyse-chat/${id}/`);
+            const { data } = await api.get(API_ENDPOINTS.CHAT.AI_ANALYSE_DETAIL(id));
             dispatch(addAiChat(data));
             setOpen(false);
         } catch (err) {
@@ -72,7 +73,7 @@ const AnaliesChatsWithAi = () => {
         setLoadingDeleteId(id);
 
         try {
-            await api.delete(`ai-analyse-chat/${id}/`);
+            await api.delete(API_ENDPOINTS.CHAT.AI_ANALYSE_DELETE(id));
             setAiData((prev) => prev.filter((item) => item.id !== id));
 
         } catch (err) {

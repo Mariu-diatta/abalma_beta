@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
 import api from "../services/Axios";
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
@@ -94,7 +95,7 @@ const GridProductDefault = ({ categorie_item }) => {
                     console.log("Categorie sélectionnée", category.toLowerCase())
 
 
-                    const url = isDefaultCategory(category.toLowerCase()) ? "produits/" : "products/filter/"
+                    const url = isDefaultCategory(category.toLowerCase()) ? API_ENDPOINTS.PRODUCTS.DEFAULT_LIST : API_ENDPOINTS.PRODUCTS.FILTER
 
                     const { data: products } = await api.get(url, {
                         params: {
@@ -113,7 +114,7 @@ const GridProductDefault = ({ categorie_item }) => {
 
                         uniqueOwnerIds.map(id =>
 
-                            api.get(`clients/${id}/`)
+                            api.get(API_ENDPOINTS.CLIENTS.DETAIL(id))
 
                                 .then(res => ({ id, data: res.data }))
 

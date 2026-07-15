@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import LoadingCard from "../components/LoardingSpin";
 import api from "../services/Axios";
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import { createPortal } from "react-dom";
 
 function CenteredModal({ product, children }) {
@@ -113,7 +114,7 @@ function CenteredModal({ product, children }) {
 
         try {
             const { data } = await api.patch(
-                `owner/product/${product?.id}/`,
+                API_ENDPOINTS.PRODUCTS.OWNER_DETAIL(product?.id),
                 formData,
                 {
                     headers: { "Content-Type": "multipart/form-data" },

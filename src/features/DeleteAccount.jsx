@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { logout } from "../slices/authSlice";
 import { useTranslation } from 'react-i18next';
 import api from "../services/Axios";
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import LoadingCard from "../components/LoardingSpin";
 import { showMessage } from "../components/AlertMessage";
 import { setCurrentNav } from "../slices/navigateSlice";
@@ -46,7 +47,7 @@ const DeleteProfilAccount = () => {
 
         setLoading(true);
         try {
-            const deleteResp = await api.delete("clients/delete-account/");
+            const deleteResp = await api.delete(API_ENDPOINTS.CLIENTS.DELETE_ACCOUNT);
 
             showMessage(dispatch, {
                 Type: "Message",

@@ -1,6 +1,7 @@
 
 import axios from "axios";
 import Cookies from "js-cookie";
+import { API_ENDPOINTS } from "./apiEndpoints";
 export const BASE_URL = process.env.NODE_ENV === 'production' ?
     'https://api.abalma.fr/'
     :
@@ -24,7 +25,7 @@ const api = axios.create({
 // Récupération CSRF si nécessaire
 export const fetchCsrfToken = async () => {
     try {
-        await api.get('set-csrf/'); // endpoint pour initialiser le cookie CSRF
+        await api.get(API_ENDPOINTS.AUTH.SET_CSRF); // endpoint pour initialiser le cookie CSRF
         const csrftoken = Cookies.get('csrftoken');
         if (csrftoken) {
             api.defaults.headers.common['X-CSRFToken'] = csrftoken;

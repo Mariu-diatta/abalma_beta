@@ -5,6 +5,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements, useStripe, useElements, PaymentElement } from "@stripe/react-stripe-js";
 
 import api from "../services/Axios";
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import { showMessage } from "../components/AlertMessage";
 import LoadingCard from "../components/LoardingSpin";
 import { toast } from "react-toastify";
@@ -83,7 +84,7 @@ export function PaymentWithCard({ refRate }) {
 
         try {
             const res = await api.post(
-                "create-payment/",
+                API_ENDPOINTS.PAYMENTS.CREATE_PAYMENT,
                 {
                     items: dataItems,
                     currency: refRate,

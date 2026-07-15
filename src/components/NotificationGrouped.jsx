@@ -7,67 +7,49 @@ import { useSelector } from 'react-redux';
 import { ENDPOINTS } from '../utils';
 
 
-const GroupThemNotifPayLangageButtons = ({ notify, changeLanguage }) => { 
+const GroupThemNotifPayLangageButtons = ({ notify, changeLanguage }) => {
 
     const currentNav = useSelector(state => state.navigate.currentNav);
 
     const currentNotifMessages = useSelector(state => state.chat.messageNotif);
 
-    const currentNavIsMessageInbox = (currentNav === ENDPOINTS?.MESSAGE_INBOX)
+    // Actif dans tout le dashboard (petit ET grand écran), masqué uniquement
+    // quand on est sur la messagerie (le chat a déjà sa propre barre d'actions).
+    const currentNavIsMessageInbox = (currentNav === ENDPOINTS?.MESSAGE_INBOX);
 
-    const lengthMessage = (currentNotifMessages?.length > 0)
+    const lengthMessage = (currentNotifMessages?.length > 0);
+
+    if (currentNavIsMessageInbox) return null;
 
     return (
 
-        <>
-            { 
-                currentNavIsMessageInbox?  
-                null
-                :
-                <div
-                    className = {`
-                        bg-white/80  py-1 md:py-0 lg:py-0 lg:rounded-lg lg:bg-transparent md:rounded-lg md:bg-transparent
-                        flex items-center justify-between gap-2 z-50
-                        /* Mobile: fixed bottom bar */
-                        fixed bottom-0 left-0 right-0 md:static 
-                        md:justify-between
-                        /* Visible: mobile + desktop without duplicating the component */
-                        sm:flex md:flex lg:flex
+        <div
+            className="
+                flex items-center justify-end gap-2 z-50
+                bg-white/80 md:bg-transparent lg:bg-transparent
+                rounded-full px-2 py-1
+            "
+        >
+            <Toaster />
 
-                    `}
-                >
-
-                    {/*style = {{ backgroundColor: "var(--color-bg)", color: "var(--color-text)" }}*/}
-
-                    {
-                            lengthMessage && (
-
-                            <button
-
-                                onClick={notify}
-
-                                className="hover:bg-gray-200 cursor-pointer relative flex items-center justify-center h-8 w-8 px-1 mx-2 rounded-full  text-white "
-
-                            >
-
-                                <NotificationsComponent />
-
-                            </button>
-                        )
-                    }
-
-                    <Toaster />
-
-                    <ThemeToggle />
-
-                    <PayBack />
-
-                    <LanguageDropdown changeLanguage={changeLanguage} />
-    
-                </div >
+            {
+                lengthMessage && (
+                    <button
+                        onClick={notify}
+                        className="hover:bg-gray-200 cursor-pointer relative flex items-center justify-center h-8 w-8 px-1 rounded-full text-white"
+                    >
+                        <NotificationsComponent />
+                    </button>
+                )
             }
 
-        </>
+            <ThemeToggle />
+
+            <PayBack />
+
+            <LanguageDropdown changeLanguage={changeLanguage} />
+
+        </div>
     )
 
 };

@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { ENDPOINTS } from "../utils";
 import { setCurrentNav } from "../slices/navigateSlice";
 import api from "../services/Axios";
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import LoadingCard from "../components/LoardingSpin";
 
 const PaySuccess = () => {
@@ -32,7 +33,7 @@ const PaySuccess = () => {
         const checkPayment = async () => {
             try {
                 const res = await api.get(
-                    `/payment-status?session_id=${sessionId}`
+                    API_ENDPOINTS.PAYMENTS.PAYMENT_STATUS(sessionId)
                 );
 
                 if (!isMounted) return;

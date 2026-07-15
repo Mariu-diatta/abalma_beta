@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import api from "../services/Axios";
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import LoadingCard from "../components/LoardingSpin";
 import RendrePrixProduitMonnaie from "../features/ConvertCurrency";
 import { useSelector } from "react-redux";
@@ -181,7 +182,7 @@ const MyProductList = () => {
             setLoading(true);
             setError(null);
             try {
-                const res = await api.get("owner/product");
+                const res = await api.get(API_ENDPOINTS.PRODUCTS.OWNER_LIST);
                 if (!cancelled) setProducts(res?.data ?? []);
             } catch (err) {
                 if (!cancelled) setError(t("errors.fetchFailed") || "Erreur de chargement.");
@@ -200,7 +201,7 @@ const MyProductList = () => {
         setLoadingDelete(true);
         setSelectedBtnProduct(id);
         try {
-            await api.delete(`owner/product/${id}/`);
+            await api.delete(API_ENDPOINTS.PRODUCTS.OWNER_DETAIL(id));
             setProducts((prev) => prev.filter((p) => p.id !== id));
             // Revient à la page précédente si la page courante devient vide
             setPage((prev) => (prev > 1 ? prev - 1 : prev));

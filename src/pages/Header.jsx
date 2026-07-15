@@ -7,10 +7,11 @@ import Logo from "../components/LogoApp";
 import { ButtonNavigate } from "../components/Button";
 import { ENDPOINTS, getTabsNavigationsItems } from "../utils";
 import api from "../services/Axios";
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 
 // Lazy load heavy components
 const SearchBar = lazy(() => import("../components/BtnSearchWithFilter"));
-const MobileNav = lazy(() => import("../features/FooterMobileNav"));
+const MoreSheetMobile = lazy(() => import("../features/FooterMobileNav").then(m => ({ default: m.MoreSheetMobile })));
 const DesktopNav = lazy(() => import("../features/FooterDeskTopNav"));
 
 const NavbarHeader = () => {
@@ -44,7 +45,7 @@ const NavbarHeader = () => {
 
         const fetchFiltered = async () => {
             try {
-                await api.get(`product/fimter?search=${categorySelectedData.query}`);
+                await api.get(API_ENDPOINTS.PRODUCTS.HEADER_SEARCH(categorySelectedData.query));
             } catch (e) {
                 console.error(e);
             }
@@ -70,9 +71,9 @@ const NavbarHeader = () => {
             if (!header) return;
             if (currentScroll < lastScroll) {
                 header.classList.remove("bg-none");
-                header.classList.add("bg-white/95", "shadow-sm", "backdrop-blur-md");
+                header.classList.add("bg-white", "border-b", "border-[#dbdbdb]");
             } else {
-                header.classList.remove("bg-white/95", "shadow-sm", "backdrop-blur-md");
+                header.classList.remove("bg-white", "border-b", "border-[#dbdbdb]");
                 header.classList.add("bg-none");
             }
             lastScroll = currentScroll;
@@ -95,7 +96,7 @@ const NavbarHeader = () => {
 
             <header
                 id="header"
-                className="flex w-full items-center justify-between h-[50px] px-1 bg-white/80"
+                className="flex w-full items-center justify-between h-[50px] px-1 bg-white border-b border-[#dbdbdb]"
                 ref={ref}
             >
                 <Logo />
@@ -128,7 +129,7 @@ const NavbarHeader = () => {
 
                     {/* Lazy-loaded Navigation */}
                     <Suspense fallback={null}>
-                        <MobileNav open={open} />
+                        <MoreSheetMobile open={open} onClose={() => setOpen(false)} />
                         <DesktopNav />
                     </Suspense>
 

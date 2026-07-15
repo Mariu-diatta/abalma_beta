@@ -1,6 +1,7 @@
 import React, {useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import api from '../services/Axios';
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import { clearCart } from '../slices/cartSlice';
 import AttentionAlertMesage, { showMessage } from '../components/AlertMessage';
 import { addMessageNotif } from '../slices/chatSlice';
@@ -44,7 +45,7 @@ export const PaymentForm = () => {
         try {
 
             // Envoi en JSON  const products =
-            await api.post("creat/transactions/products/",
+            await api.post(API_ENDPOINTS.TRANSACTIONS.CREATE_PRODUCT_TRANSACTION,
 
                 payload,
 

@@ -214,7 +214,7 @@ const SettingsForm = () => {
 
 
 
-    const tryRequest = async (requestFn, successMessage, calback = () => {}) => {
+    const tryRequest = async (requestFn, successMessage, calback = () => { }) => {
         try {
             calback(true)
             await requestFn();
@@ -361,16 +361,16 @@ const SettingsForm = () => {
         <>
             {toast && <Toast message={toast} onClose={() => setToast(null)} />}
 
-            <AttentionAlertMessage/>
+            <AttentionAlertMessage />
 
-            <div 
+            <div
 
-              style={{
-                maxWidth: '100%',
-                margin: '0 auto',
-                padding: '2rem 1rem 2rem',
-                fontFamily: 'var(--font-sans)',
-            }}>
+                style={{
+                    maxWidth: '100%',
+                    margin: '0 auto',
+                    padding: '2rem 1rem 2rem',
+                    fontFamily: 'var(--font-sans)',
+                }}>
                 {/* Page header */}
                 <div style={{ marginBottom: '0.5rem' }}>
                     <TitleCompGen title={t('settingsText.accountSettings')} />
@@ -379,7 +379,7 @@ const SettingsForm = () => {
                     </p>
                 </div>
 
-                <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start'}} className="flex flex-col md:block md:flex-row">
+                <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }} className="flex flex-col md:block md:flex-row">
 
                     {/* ── Sidebar ── */}
                     <aside className="flex md:block overflow-x-auto w-full md:w-[200px] scrollbor_hidden_ z-10 mt-10" style={{
@@ -408,8 +408,8 @@ const SettingsForm = () => {
 
                         {/* ── Profile ── */}
                         {activeSection === CONSTANTS?.PROFILE && (
-                           <>
-                                
+                            <>
+
                                 <form onSubmit={updatePassword}>
 
                                     <Section title={t('settingsText.profile', 'Profil')}>
@@ -480,22 +480,21 @@ const SettingsForm = () => {
                                 <CountryField
                                     value={currentUserData?.country}
                                     t={t}
-                                    onSave={(newCountry) =>
-                                        {
-                                            try {
-                                                api.put("/clients/update-country/", { country: newCountry })
-                                                dispatch(updateUserData({ ...currentUserData, country: newCountry }))
-                                                showToast("Done !!");
-                                            } catch (err) {
-                                                alert("Error")
-                                            }
-                                                
+                                    onSave={(newCountry) => {
+                                        try {
+                                            api.put("/clients/update-country/", { country: newCountry })
+                                            dispatch(updateUserData({ ...currentUserData, country: newCountry }))
+                                            showToast("Done !!");
+                                        } catch (err) {
+                                            alert("Error")
                                         }
+
+                                    }
                                     }
                                 />
 
                                 <DeliveryAddressField
-                                    setDeliveryAddress={setDeliveryAddress }
+                                    setDeliveryAddress={setDeliveryAddress}
                                     deliveryAddress={deliveryAddress}
                                     address={address}
                                     onUpdate={updateDeliveredAdress}
@@ -503,7 +502,7 @@ const SettingsForm = () => {
                                     loading={loadingAdress}
                                     t={t}
                                 />
-                           </>
+                            </>
                         )}
 
                         {/* ── Preferences ── */}
@@ -596,7 +595,7 @@ const SettingsForm = () => {
 
                         {/* ── Subscription ── */}
                         {activeSection === CONSTANTS?.SUBSCRIPTION && (
-                                <SubscriptionsPage />
+                            <SubscriptionsPage />
                         )}
 
                         {/* ── Danger zone ── */}

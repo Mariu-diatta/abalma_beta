@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { useSelector } from 'react-redux';
 import { AnimatePresence, motion } from "framer-motion";
 import api from "../services/Axios";
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import { useTranslation } from "react-i18next";
 import { getMediaUrl } from "../utils";
 
@@ -47,8 +48,8 @@ const AfficheCard = ({ affiche, onDelete, onEdit, onNext, current, total, onPrev
         <div
             className="
                 bg-white
-                rounded-3xl
-                border border-gray-100
+                rounded-2xl
+                border border-[#dbdbdb]
                 overflow-hidden
                 w-full
                 max-w-md
@@ -58,13 +59,13 @@ const AfficheCard = ({ affiche, onDelete, onEdit, onNext, current, total, onPrev
         >
 
             {/* En-tête modale */}
-            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-                <div className="flex items-center gap-2 text-sm font-semibold text-gray-800">
-                    <i className="ti ti-speakerphone text-purple-500 text-lg" />
+            <div className="flex items-center justify-between px-5 py-4 border-b border-[#dbdbdb]">
+                <div className="flex items-center gap-2 text-sm font-semibold text-[#262626]">
+                    <i className="ti ti-speakerphone text-[#0095F6] text-lg" />
                     {t('platform_ads')}
                 </div>
 
-                <span className="text-xs text-gray-400">
+                <span className="text-xs text-[#8e8e8e]">
                     {current} / {total}
                 </span>
             </div>
@@ -74,9 +75,9 @@ const AfficheCard = ({ affiche, onDelete, onEdit, onNext, current, total, onPrev
                 <img src={typeof affiche?.image === "string" ? getMediaUrl(affiche?.image) : getMediaUrl(URL.createObjectURL(affiche?.image))}
                     alt={affiche.title} className="w-full h-52 object-cover" />
             ) : (
-                <div className="w-full h-52 bg-gradient-to-br from-purple-50 to-indigo-50 flex flex-col items-center justify-center gap-2">
-                    <i className="ti ti-photo text-4xl text-purple-300" aria-hidden="true" />
-                        <span className="text-sm text-purple-400">{t('image_preview')}</span>
+                <div className="w-full h-52 bg-[#fafafa] flex flex-col items-center justify-center gap-2">
+                    <i className="ti ti-photo text-4xl text-[#0095F6]/40" aria-hidden="true" />
+                        <span className="text-sm text-[#0095F6]/70">{t('image_preview')}</span>
                 </div>
             )}
 
@@ -87,17 +88,17 @@ const AfficheCard = ({ affiche, onDelete, onEdit, onNext, current, total, onPrev
                         {affiche?.category}
                     </span>
                     {affiche?.end_date && (
-                        <span className="flex items-center gap-1 text-xs text-gray-400">
+                        <span className="flex items-center gap-1 text-xs text-[#8e8e8e]">
                             <i className="ti ti-calendar text-sm" aria-hidden="true" />
                             {t('until')} {new Date(affiche?.end_date).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
                         </span>
                     )}
                 </div>
 
-                <h2 className="text-base font-medium text-gray-900 leading-snug">{affiche?.title}</h2>
+                <h2 className="text-base font-medium text-[#262626] leading-snug">{affiche?.title}</h2>
 
                 {affiche?.description && (
-                    <p className="text-sm text-gray-500 leading-relaxed">{affiche?.description}</p>
+                    <p className="text-sm text-[#8e8e8e] leading-relaxed">{affiche?.description}</p>
                 )}
 
                 {/* Actions */}
@@ -132,9 +133,9 @@ const AfficheCard = ({ affiche, onDelete, onEdit, onNext, current, total, onPrev
                         w-10 h-10
                         rounded-full
                         bg-gray-50
-                        border border-gray-200
+                        border border-[#dbdbdb]
                         flex items-center justify-center
-                        text-gray-500
+                        text-[#8e8e8e]
                         hover:bg-white
                         hover:shadow-md
                         transition-all
@@ -153,7 +154,7 @@ const AfficheCard = ({ affiche, onDelete, onEdit, onNext, current, total, onPrev
                         className={`
                             transition-all duration-300 rounded-full
                             ${i === current - 1
-                                ? "w-8 h-2 bg-purple-500"
+                                ? "w-8 h-2 bg-[#0095F6]"
                                 : "w-2 h-2 bg-gray-300 hover:bg-gray-400"
                             }
                         `}
@@ -169,11 +170,11 @@ const AfficheCard = ({ affiche, onDelete, onEdit, onNext, current, total, onPrev
                     className="
                         w-10 h-10
                         rounded-full
-                        bg-purple-50
-                        border border-purple-100
+                        bg-[#eaf5ff]
+                        border border-[#b8e0ff]
                         flex items-center justify-center
-                        text-purple-600
-                        hover:bg-purple-100
+                        text-[#0095F6]
+                        hover:bg-[#d8edff]
                         hover:shadow-md
                         transition-all
                     "
@@ -213,7 +214,7 @@ const AffichePortal = ({  onEdit }) => {
 
             try {
 
-                const res = await api.get("/advertisements/");
+                const res = await api.get(API_ENDPOINTS.ADVERTISEMENTS.LIST);
 
                 const filtered = res.data.filter(
                     ad => !localStorage.getItem(`affiche_seen_${ad.id}`)
@@ -297,11 +298,10 @@ const AffichePortal = ({  onEdit }) => {
                     absolute
                     w-10 h-10
                     rounded-full
-                    bg-purple-50
+                    bg-red-100
                     border-0
                     flex items-center justify-center
-                    text-purple-600
-                    hover:bg-purple-100
+                    text-[#0095F6]
                     hover:shadow-md
                     hover:bg-red-300
                     transition-all

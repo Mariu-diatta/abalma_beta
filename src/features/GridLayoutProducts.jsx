@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateSelectedProduct } from '../slices/cartSlice';
 import api from '../services/Axios';
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import ModalViewProduct from '../pages/ProductViewsDetails';
 import LoadingCard from '../components/LoardingSpin';
 import { CONSTANTS, removeAccents, translateCategory } from '../utils';
@@ -80,7 +81,7 @@ const GridLayoutProduct = () => {
 
                 let cleanCategory = removeAccents(translatedCategory)?.toLowerCase();
 
-                const url = isDefaultCategory(cleanCategory) ? "produits/" : "products/filter/"
+                const url = isDefaultCategory(cleanCategory) ? API_ENDPOINTS.PRODUCTS.DEFAULT_LIST : API_ENDPOINTS.PRODUCTS.FILTER
 
                 const { data: products } = await api.get(url, {
                     params: {
@@ -99,7 +100,7 @@ const GridLayoutProduct = () => {
 
                     uniqueOwnerIds.map(id =>
 
-                        api.get(`clients/${id}/`)
+                        api.get(API_ENDPOINTS.CLIENTS.DETAIL(id))
 
                         .then(res => ({ id, data: res.data }))
 
@@ -148,7 +149,7 @@ const GridLayoutProduct = () => {
 
                 var cleanCategory = removeAccents(translatedCategory)?.toLowerCase();
 
-                const url = isDefaultCategory(cleanCategory) ? "produits/" : "products/filter/";
+                const url = isDefaultCategory(cleanCategory) ? API_ENDPOINTS.PRODUCTS.DEFAULT_LIST : API_ENDPOINTS.PRODUCTS.FILTER;
 
                 const { data: products } = await api.get(url, {
                     params: {
@@ -182,7 +183,7 @@ const GridLayoutProduct = () => {
                 setLoading(true)
 
                 try {
-                    const { data: products } = await api.get(`products/filter/?search=${categorySelectedData?.query}`)
+                    const { data: products } = await api.get(API_ENDPOINTS.PRODUCTS.FILTER_SEARCH(categorySelectedData?.query))
 
                     const filtered = products.filter(item => item?.categorie_product === categorySelectedData?.category);
 

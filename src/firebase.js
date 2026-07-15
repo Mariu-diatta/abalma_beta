@@ -17,6 +17,7 @@ import {
     RecaptchaVerifier
 } from "firebase/auth";
 import api from "./services/Axios";
+import { API_ENDPOINTS } from "./services/apiEndpoints";
 import { login, updateCompteUser, updateUserData} from "./slices/authSlice";
 import { setCurrentNav } from "./slices/navigateSlice";
 import { useDispatch } from "react-redux";
@@ -76,7 +77,7 @@ export function LoginWithGoogle() {
 
         try {
 
-            const res = await api.post("auth/google-login/",
+            const res = await api.post(API_ENDPOINTS.AUTH.GOOGLE_LOGIN,
 
                 {
 

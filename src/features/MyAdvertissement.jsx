@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import api from "../services/Axios";
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import { TitleCompGenLitle } from "../components/TitleComponentGen";
 import { useTranslation } from "react-i18next";
 import { getMediaUrl } from "../utils";
@@ -12,7 +13,7 @@ const MesPublicites = ({ onEdit }) => {
 
     const fetchAdvertisements = async () => {
         try {
-            const res = await api.get("/advertisemenOwnerUser/");
+            const res = await api.get(API_ENDPOINTS.ADVERTISEMENTS.OWNER_LIST);
             setAds(res.data);
         } catch (err) {
             console.log(err.response?.data);
@@ -32,7 +33,7 @@ const MesPublicites = ({ onEdit }) => {
         }
 
         try {
-            await api.delete(`/advertisements/${id}/`);
+            await api.delete(API_ENDPOINTS.ADVERTISEMENTS.DETAIL(id));
 
             setAds(prev =>
                 prev.filter(ad => ad.id !== id)
@@ -48,7 +49,7 @@ const MesPublicites = ({ onEdit }) => {
         try {
 
             const res = await api.patch(
-                `/advertisements/${ad.id}/`,
+                API_ENDPOINTS.ADVERTISEMENTS.DETAIL(ad.id),
                 {
                     is_active: !ad.is_active
                 }

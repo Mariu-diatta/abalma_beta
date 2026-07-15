@@ -1,5 +1,6 @@
 import React, { useState, useRef, useLayoutEffect, useMemo, useEffect } from 'react';
 import api from '../services/Axios';
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import ListProductShoppingCart from '../features/ListProductShoppingCart';
 import ProductsRecapTable from '../features/ProductRecaptable';
 import MyProductList from '../features/MyProductsList';
@@ -138,7 +139,7 @@ const TablesRecapActivities = ({
                 )
             ).length ?? 0;
 
-        api.get("product/list/")
+        api.get(API_ENDPOINTS.PRODUCTS.LIST)
             .then(({ data }) => {
                 setStats({
                     products: Array.isArray(data)

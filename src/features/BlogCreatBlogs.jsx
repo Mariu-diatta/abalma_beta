@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import api from '../services/Axios';
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import { useTranslation } from 'react-i18next';
 import { updateContentBlog } from '../slices/cartSlice';
 import LoadingCard from '../components/LoardingSpin';
@@ -87,7 +88,7 @@ export const ModalFormCreatBlog = () => {
 
         setLoading(true);
         try {
-            const { data } = await api.post('blogs/', {
+            const { data } = await api.post(API_ENDPOINTS.BLOG.CREATE, {
                 title_blog: title,
                 blog_message: message,
             });

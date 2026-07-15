@@ -11,7 +11,7 @@ import ButtonToggleChatsPanel from '../components/ButtonHandleChatsPanel';
 import InputBoxChat from '../components/InputBoxChat';
 import { useTranslation } from 'react-i18next';
 import { backendBase } from '../services/Axios';
-import { ENDPOINTS, IMPORTANTS_URLS } from '../utils';
+import { ENDPOINTS, IMPORTANTS_URLS, getMediaUrl } from '../utils';
 import { setCurrentNav } from '../slices/navigateSlice';
 import {
     addChatMessage,
@@ -222,10 +222,27 @@ const ChatApp = ({ setShow, show }) => {
         <main className="chat-root flex h-full flex-col overflow-hidden">
 
             {/* HEADER */}
-            <header className="flex items-center justify-between px-4 py-3 border-b bg-white">
+            <header className="chat-header flex-shrink-0">
 
                 {selectedUser ? (
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 min-w-0">
+
+                        {(() => {
+                            const avatarSrc = selectedUser?.image || selectedUser?.photo_url;
+                            const trusted = !!(selectedUser?.is_pro || selectedUser?.is_fournisseur || selectedUser?.fournisseur || selectedUser?.is_verified);
+
+                            return avatarSrc ? (
+                                <img
+                                    src={getMediaUrl(avatarSrc)}
+                                    alt=""
+                                    className={`w-8 h-8 rounded-full object-cover flex-shrink-0${trusted ? ' story-ring--trusted' : ''}`}
+                                />
+                            ) : (
+                                <div className={`w-8 h-8 rounded-full flex items-center justify-center bg-gray-100 text-gray-400 text-xs font-semibold flex-shrink-0${trusted ? ' story-ring--trusted' : ''}`}>
+                                    {(selectedUser?.prenom?.[0] || selectedUser?.nom?.[0] || '?').toUpperCase()}
+                                </div>
+                            );
+                        })()}
 
                         <strong className="truncate">
                             {selectedUser.prenom} {selectedUser.nom}

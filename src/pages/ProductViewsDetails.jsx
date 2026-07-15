@@ -9,6 +9,7 @@ import RendrePrixProduitMonnaie from "../features/ConvertCurrency";
 import TextParagraphs from "../components/TextToParagraph";
 import ProfilPopPov from "../features/PopovProfile";
 import api from "../services/Axios";
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 
 // Assets
 import express_delivery from "../../src/assets/express-delivery_1981844.png";
@@ -72,7 +73,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
         const controller = new AbortController();
         const updateViewCount = async () => {
             try {
-                await api.get(`products_details/${product.id}/`, {
+                await api.get(API_ENDPOINTS.PRODUCTS.DETAILS(product.id), {
                     signal: controller.signal,
                     withCredentials: true
                 });

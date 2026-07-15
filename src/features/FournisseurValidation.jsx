@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import api from '../services/Axios';
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import { updateUserData } from '../slices/authSlice';
 import  AttentionAlertMessage, { showMessage } from '../components/AlertMessage';
 import { useTranslation } from 'react-i18next';
@@ -54,13 +55,13 @@ const GetValidateUserFournisseur = ({ isCurrentUser }) => {
 
             formData.append("code_validation", code)
 
-            await api.get('set-csrf/');
+            await api.get(API_ENDPOINTS.AUTH.SET_CSRF);
 
-            const response = await api.get(`codes_validation/${code}/validation-fournisseur/`)
+            const response = await api.get(API_ENDPOINTS.SUPPLIER.VALIDATION_CODE(code))
 
             if (response?.data?.exists) {
 
-                await api.post('fournisseurs/validation-fournisseur/', formData)
+                await api.post(API_ENDPOINTS.SUPPLIER.VALIDATION, formData)
 
                 const updateUser = { ...profileData, "is_verified": true }
 

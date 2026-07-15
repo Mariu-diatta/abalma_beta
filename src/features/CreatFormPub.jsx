@@ -2,6 +2,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import api from "../services/Axios";
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import { useTranslation } from "react-i18next";
 
 const CATEGORIES = ["event", "promotion", "advertisement", "information", "urgent"];
@@ -56,7 +57,7 @@ const AfficheForm = ({ open, onClose }) => {
         data.append("description", form.description);
 
         try {
-            await api.post("/advertisements/", data, {
+            await api.post(API_ENDPOINTS.ADVERTISEMENTS.CREATE, data, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
@@ -143,8 +144,7 @@ const AfficheForm = ({ open, onClose }) => {
                         onClick={onClose}
                         className="
                         absolute
-                        bottom-[12dvh]
-                        top-1
+                        bottom-[15dvh]
                         right-4
                         w-9
                         h-9

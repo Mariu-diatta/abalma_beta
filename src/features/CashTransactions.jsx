@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import api from '../services/Axios';
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import CashTransactionCard from './CashTransactionCard';
 import { useTranslation } from 'react-i18next';
 import { TitleCompGenLitle } from '../components/TitleComponentGen';
@@ -83,7 +84,7 @@ const CashTransaction = () => {
 
         setLoading(true);
 
-        api.get('/cashtransaction')
+        api.get(API_ENDPOINTS.TRANSACTIONS.CASH_TRANSACTION_LIST)
             .then(({ data }) => {
 
                 setTransactions(data?.results);
@@ -105,7 +106,7 @@ const CashTransaction = () => {
         setLoading(true);
         setIsSearchMode(true);
         try {
-            const { data } = await api.get(`/cashtransaction/${encodeURIComponent(query)}/`);
+            const { data } = await api.get(API_ENDPOINTS.TRANSACTIONS.CASH_TRANSACTION_SEARCH(query));
             setTransactions(Array.isArray(data?.results) ? data?.results : [data?.results]);
             console.log(data)
         } catch (err) {
@@ -120,7 +121,7 @@ const CashTransaction = () => {
         setSearchValue('');
         setIsSearchMode(false);
         setLoading(true);
-        api.get('/cashtransaction')
+        api.get(API_ENDPOINTS.TRANSACTIONS.CASH_TRANSACTION_LIST)
             .then(({ data }) => setTransactions(data?.results))
             .catch((err) => console.error('Erreur reset:', err))
             .finally(() => setLoading(false));

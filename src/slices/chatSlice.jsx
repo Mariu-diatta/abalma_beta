@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import api from '../services/Axios';
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import { showMessage } from '../components/AlertMessage';
 
 const initialState = {
@@ -140,7 +141,7 @@ export const deleteRoomAsync = (room) => async (dispatch) => {
 
     try {
 
-        await api.delete(`/rooms/${room?.pk}/`);
+        await api.delete(API_ENDPOINTS.CHAT.DELETE_ROOM(room?.pk));
 
     } catch (err) {
 

@@ -51,6 +51,8 @@ const OwnerAvatar = ({ owner }) => {
     const hasImage = !!(owner?.image || owner?.photo_url);
     const imageSrc = owner?.image || owner?.photo_url;
     const displayName = owner?.nom || 'Utilisateur';
+    // Anneau dégradé façon "story" réservé aux vendeurs pro / boutiques actives
+    const isTrustedSeller = !!(owner?.is_pro || owner?.fournisseur || owner?.is_verified);
     const toggle = () => setShowPopover((prev) => !prev);
 
     return (
@@ -69,7 +71,7 @@ const OwnerAvatar = ({ owner }) => {
                         src={getMediaUrl(imageSrc)}
                         alt={displayName}
                         title={displayName}
-                        className="oa-img"
+                        className={`oa-img${isTrustedSeller ? ' oa-img--trusted' : ''}`}
                         onClick={toggle}
                         onKeyDown={(e) => e.key === 'Enter' && toggle()}
                         tabIndex={0}
@@ -79,7 +81,7 @@ const OwnerAvatar = ({ owner }) => {
                     />
                 ) : (
                     <div
-                        className="oa-svg"
+                        className={`oa-svg${isTrustedSeller ? ' oa-svg--trusted' : ''}`}
                         title={displayName}
                         onClick={toggle}
                         onKeyDown={(e) => e.key === 'Enter' && toggle()}

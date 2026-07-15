@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { CONSTANTS, getItemTotal, getMediaUrl} from "../utils";
 import BuyButtonWithPaymentForm from "./ButtonPaymentShopping";
 import api from "../services/Axios";
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import { showMessage } from "../components/AlertMessage";
 import PaymentButtonsLayouts from "../layouts/PaymentButtonsLayout";
 import { TitleCompGenLitle } from "../components/TitleComponentGen";
@@ -69,7 +70,7 @@ const ListProductShoppingCart = () => {
     // ── Achat cash ──
     const boughtProduct = useCallback(async () => {
         try {
-            await api.post('payments/cash/', { items: itemsData, currency: reference }, {
+            await api.post(API_ENDPOINTS.PAYMENTS.CASH, { items: itemsData, currency: reference }, {
                 headers: { 'Content-Type': 'application/json' },
             });
             showMessage(dispatch, { Type: 'Message', Message: 'Transaction effectuée' });

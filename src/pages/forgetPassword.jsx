@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import InputBox from "../components/InputBoxFloat";
 import api from "../services/Axios";
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import { useParams } from "react-router-dom";
 import { showMessage } from "../components/AlertMessage";
 import { useDispatch } from "react-redux";
@@ -67,7 +68,7 @@ const LayoutPwdForget = () => {
         if (!email) { notify('Erreur', t('form.emailRequired')); return; }
         setLoadingStep1(true);
         try {
-            await api.post('/forget_password/request/', { email });
+            await api.post(API_ENDPOINTS.AUTH.FORGET_PASSWORD_REQUEST, { email });
             notify('Message', `${t('password.linkSend')} : ${email}`);
             setStep(2);
         } catch (err) {
@@ -84,7 +85,7 @@ const LayoutPwdForget = () => {
         if (!uidb64 || !token) { notify('Erreur', t('form.invalidLink')); return; }
         setLoadingStep2(true);
         try {
-            await api.post(`/forget_password/reset/${uidb64}/${token}/`, { password: newPassword });
+            await api.post(API_ENDPOINTS.AUTH.FORGET_PASSWORD_RESET(uidb64, token), { password: newPassword });
             setStep(3);
         } catch (err) {
             notify('Erreur', t('form.resetError'));

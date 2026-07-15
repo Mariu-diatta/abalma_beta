@@ -2,6 +2,7 @@ import React, { useState, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import api from "../services/Axios";
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import AttentionAlertMesage, { showMessage } from "../components/AlertMessage";
 import { addMessageNotif } from "../slices/chatSlice";
 import LoadingCard from "../components/LoardingSpin";
@@ -441,13 +442,13 @@ const AddUploadProduct = () => {
             });
 
             // catégorie sécurisée (slug backend-friendly)
-            const categoryRes = await api.post("/categories/", {
+            const categoryRes = await api.post(API_ENDPOINTS.PRODUCTS.CATEGORIES_CREATE, {
                 name: dataProduct.categorie_product,
             });
 
             formData.set("categorie_product", categoryRes?.data?.slug);
 
-            await api.post("/produits/", formData, {
+            await api.post(API_ENDPOINTS.PRODUCTS.CREATE, formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
 
@@ -826,11 +827,11 @@ const AddUploadProduct = () => {
                 <button
                     className="
                         fixed
-                        bottom-6
+                        bottom-[10dvh]
                         overflow-hidden
                         whitespace-nowrap
-                        px-6
-                        py-3
+                        px-2
+                        py-2
                         rounded-full
                         font-semibold
                         text-white

@@ -1,16 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { logout } from "../slices/authSlice";
 import api from "../services/Axios";
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import { clearCart } from "../slices/cartSlice";
-import { cleanAllMessageNotif, clearRooms, removeMessageNotif } from "../slices/chatSlice";
-import toast from 'react-hot-toast';
-import i18n from "i18next";
+import { cleanAllMessageNotif, clearRooms} from "../slices/chatSlice";
 import { useTranslation } from 'react-i18next';
 import { setCurrentNav } from "../slices/navigateSlice";
-import AttentionAlertMessage, { showMessage } from "../components/AlertMessage";
-import GroupThemNotifPayLangageButtons from "../components/NotificationGrouped";
+import { showMessage } from "../components/AlertMessage";
 import { ENDPOINTS } from "../utils";
 import AccountMenuUser from "./AccountMenuUser";
 
@@ -24,11 +22,7 @@ export default function ButtonsNavigateThemecolorPayDropdownaccount() {
 
     const dispatch = useDispatch();
 
-    const currentNotifMessages = useSelector(state => state.chat.messageNotif);
-
-    const currentNav = useSelector(state => state.navigate.currentNav);
-
-    const previousNav = useSelector(state => state.navigate.previousNav);
+    //const previousNav = useSelector(state => state.navigate.previousNav);
 
     const trigger = useRef(null);
 
@@ -36,19 +30,6 @@ export default function ButtonsNavigateThemecolorPayDropdownaccount() {
 
     const navigate = useNavigate();
 
-    const shouldShowAlert = (!previousNav || (currentNav && currentNav !== ENDPOINTS?.MESSAGE_INBOX));
-
-    const changeLanguage = (lang) => {
-
-        i18n.changeLanguage(lang);
-    };
-
-    const notify = () => {
-
-        toast(currentNotifMessages[0]);
-
-        dispatch(removeMessageNotif());
-    };
 
     // Outside click
     useEffect(() => {
@@ -103,7 +84,7 @@ export default function ButtonsNavigateThemecolorPayDropdownaccount() {
 
         // 3️⃣ Essayer la requête API en arrière-plan
         try {
-            await api.get(`logout/`);
+            await api.get(API_ENDPOINTS.AUTH.LOGOUT);
         } catch (error) {
             showMessage(dispatch, {
                 Type: "Erreur",
@@ -116,22 +97,10 @@ export default function ButtonsNavigateThemecolorPayDropdownaccount() {
 
     return (
 
-
         <section
             style={{top:"6px"}}
-            className={`bg-none   rounded-lg absolute  right-2 fixed z-50 flex items-centers justify-center`}
+            className={`bg-white/20   rounded-lg absolute  right-2 fixed z-50 flex items-centers justify-center`}
         >
-
-            {shouldShowAlert && (
-                <>
-                    <AttentionAlertMessage />
-
-                    <GroupThemNotifPayLangageButtons
-                        notify={notify}
-                        changeLanguage={changeLanguage}
-                    />
-                </>
-            )}
 
             {/* Avatar + dropdown */}
             <AccountMenuUser

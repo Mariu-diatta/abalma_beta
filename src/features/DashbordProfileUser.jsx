@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef, useLayoutEffect, useMemo } from 'react';
 import api from '../services/Axios';
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import { useTranslation } from 'react-i18next';
 import UsersContactsList from './ContactUser';
 import TablesRecapActivities from './TablesRecapActivities';
@@ -77,7 +78,7 @@ const Tabs = () => {
     }, [activeTab, tabs]);
 
     useEffect(() => {
-        api.get('product/fournisseur/transaction/')
+        api.get(API_ENDPOINTS.PRODUCTS.SUPPLIER_TRANSACTIONS)
             .then(({ data }) => setProductsTrasactionBought(data))
             .catch(() => { });
     }, []);

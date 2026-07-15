@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { messages } from "../utils";
 import { useTranslation } from 'react-i18next';
 import api from "../services/Axios";
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import LoadingCard from "../components/LoardingSpin";
 import { useDispatch, useSelector } from "react-redux";
 import { showMessage } from "../components/AlertMessage";
@@ -28,7 +29,7 @@ const HelpPage = () => {
         if (isFormInvalid) { alert(t("alertSuccesMessageFormHelp.text3")); return; }
         setLoading(true);
         try {
-            await api.post("help/messages/", { title: problemType, content: description });
+            await api.post(API_ENDPOINTS.HELP.SEND_MESSAGE, { title: problemType, content: description });
             resetForm();
         } catch (err) {
             console.error("Erreur de données", err);
@@ -210,7 +211,7 @@ function TestmonyList() {
     const [justClicked, setJustClicked] = useState(null);
 
     useEffect(() => {
-        api.get("content/testmony/")
+        api.get(API_ENDPOINTS.TESTIMONIALS.HELP_LIST)
             .then((res) => setItems(res.data))
             .catch((err) => console.warn(err?.messages));
     }, []);
@@ -219,7 +220,7 @@ function TestmonyList() {
         e.preventDefault();
         setLoading(true);
         try {
-            api.post("/content/testmony/", { content, number_stars: rating })
+            api.post(API_ENDPOINTS.TESTIMONIALS.CREATE, { content, number_stars: rating })
                 .then((res) => res.data)
                 .then((newItem) => {
                     setItems([newItem, ...items]);

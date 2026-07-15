@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useMemo, lazy } from "react";
 import { useDispatch } from "react-redux";
 import { useTranslation } from 'react-i18next';
-import { Eye, ImageOff } from "lucide-react"; // Utilisation de Lucide pour plus de finesse
+import { Eye, ImageOff, Heart, ShoppingBag } from "lucide-react"; // Utilisation de Lucide pour plus de finesse
 import OwnerAvatar from "./OwnerProfil";
 import ScrollingContent from "./ScrollContain";
 import { addMessageNotif } from "../slices/chatSlice";
@@ -18,6 +18,7 @@ const ProductCard = ({ item, isInCart, owner, openModal}) => {
     const imageIndexRef = useRef(0);
     const [currentImage, setCurrentImage] = useState(variantProduct[0]?.image);
     const [imageError, setImageError] = useState(false);
+    const [isLiked, setIsLiked] = useState(false);
 
     // Diaporama automatique fluide
     useEffect(() => {
@@ -36,12 +37,17 @@ const ProductCard = ({ item, isInCart, owner, openModal}) => {
         dispatch(addMessageNotif(`Produit ${item?.code_reference} ajouté !`));
     };
 
+    const handleToggleLike = (e) => {
+        e.stopPropagation();
+        setIsLiked((prev) => !prev);
+    };
+
     return (
         <div
             className={`
-                group relative flex flex-col bg-white 
-                rounded-2xl border border-gray-100 overflow-hidden
-                transition-all duration-300 hover:shadow-2xl hover:border-indigo-100 h-full w-full md:max-w-[30vw] 
+                group relative flex flex-col bg-white
+                rounded-xl border border-[#dbdbdb] overflow-hidden
+                transition-all duration-200 hover:border-[#0095F6]/40 h-full w-full md:max-w-[30vw]
                 ${isInCart ? "opacity-75 grayscale-[0.5]" : ""}
             `}
         >
@@ -53,12 +59,26 @@ const ProductCard = ({ item, isInCart, owner, openModal}) => {
 
                     <div className="absolute top-3 left-3 z-20">
 
-                        <p className="bg-white/90 backdrop-blur-md text-[10px] font-bold px-2 py-1 rounded-full shadow-sm text-yellow-700 border border-white/50 ">
+                        <p className="bg-white/95 text-[10px] font-semibold px-2 py-1 rounded-full text-[#0095F6] border border-[#dbdbdb]">
                             {item.quantity_product} {t("availability")}
                         </p>
 
                     </div>
                 )}
+
+                {/* Like / favori façon Instagram */}
+                <button
+                    type="button"
+                    onClick={handleToggleLike}
+                    title={t("save_item") || "Enregistrer"}
+                    className="absolute top-3 right-3 z-20 w-8 h-8 rounded-full bg-white/95 border border-[#dbdbdb] flex items-center justify-center transition-transform active:scale-90"
+                >
+                    <Heart
+                        size={16}
+                        className={isLiked ? "text-[#ED4956]" : "text-[#262626]"}
+                        fill={isLiked ? "#ED4956" : "none"}
+                    />
+                </button>
 
                 <div
                     onClick={() => openModal(item)}
@@ -66,13 +86,10 @@ const ProductCard = ({ item, isInCart, owner, openModal}) => {
                         relative
                         w-full
                         h-auto
-                        aspect-[4/5]
+                        aspect-square
                         overflow-hidden
-                        rounded-lg
                         cursor-pointer
                         bg-gray-100
-                        shadow-md
-                        hover:shadow-xl
                         transition-all
                         duration-300
                         /* ACTIONS POUR CENTRER : */
@@ -106,7 +123,7 @@ const ProductCard = ({ item, isInCart, owner, openModal}) => {
                                 transition-transform
                                 duration-300
                                 ease-in-out
-                                group-hover:scale-110
+                                group-hover:scale-105
                             "
                             onError={() => setImageError(true)}
                         />
@@ -119,7 +136,7 @@ const ProductCard = ({ item, isInCart, owner, openModal}) => {
 
                     {/* Overlay Action Rapide */}
                     <div className="absolute inset-x-0 bottom-4 flex justify-center translate-y-12 group-hover:translate-y-0 transition-transform duration-300 z-20 hidden md:flex">
-                        <button className="bg-white/90 backdrop-blur px-4 py-2 rounded-full shadow-lg text-xs font-bold flex items-center justify-center gap-2 text-gray-800 hover:bg-white">
+                        <button className="bg-white/95 px-4 py-2 rounded-full border border-[#dbdbdb] text-xs font-semibold flex items-center justify-center gap-2 text-[#262626] hover:bg-[#fafafa]">
                             <Eye size={16} />
                             <span>{t("voir_details")}</span>
                         </button>
@@ -128,21 +145,26 @@ const ProductCard = ({ item, isInCart, owner, openModal}) => {
             </div>
 
             {/* Infos Section */}
-            <div className="p-4 flex flex-col flex-grow">
+            <div className="p-3 flex flex-col flex-grow">
                 {/* Vendeur & Stars */}
-                <div className="flex justify-between items-start mb-2">
-                    <OwnerAvatar owner={owner} />
-                    <div className="scale-90 origin-right">
+                <div className="flex justify-between items-center mb-2">
+                    <div className="flex items-center gap-2 min-w-0">
+                        <OwnerAvatar owner={owner} />
+                        <span className="text-xs font-medium text-[#262626] truncate">
+                            {owner?.nom || t("seller") || "Vendeur"}
+                        </span>
+                    </div>
+                    <div className="scale-90 origin-right shrink-0">
                         <PrintNumberStars productNbViews={item?.view_count} t={t} />
                     </div>
                 </div>
 
                 {/* Nom & Description */}
                 <div className="flex-grow">
-                    <h3 className="text-sm font-bold text-gray-900 line-clamp-1 mb-1">
+                    <h3 className="text-sm font-semibold text-[#262626] line-clamp-1 mb-1">
                         {item?.name_product || "Sans nom"}
                     </h3>
-                    <p className="text-[11px] text-gray-500 line-clamp-2 leading-relaxed mb-3">
+                    <p className="text-[11px] text-[#8e8e8e] line-clamp-2 leading-relaxed mb-3">
                         {item?.description_product?.toLowerCase()}
                     </p>
                 </div>
@@ -158,24 +180,9 @@ const ProductCard = ({ item, isInCart, owner, openModal}) => {
 
                         onClick={(e) => handleAddToCart(e) }
 
-                        className="whitespace-nowrap flex flex-row gap-2 cursor-pointer p-1 rounded-full hover:bg-green-100 transition"
-                    >  
-                        <svg
-                            className="w-8 h-6 text-gray-800 dark:text-white border border-green-200 rounded-lg"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="1"
-                                d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7h-1M8 7h-.688M13 5v4m-2-2h4"
-                            />
-                        </svg>
-
+                        className="whitespace-nowrap flex flex-row gap-2 cursor-pointer w-8 h-8 rounded-full border border-[#dbdbdb] items-center justify-center hover:border-[#0095F6] hover:text-[#0095F6] transition-colors"
+                    >
+                        <ShoppingBag size={15} />
                     </button>
 
                 </div>

@@ -1,5 +1,6 @@
 import { showMessage } from "./components/AlertMessage";
 import api, { BASE_URL } from "./services/Axios";
+import { API_ENDPOINTS } from "./services/apiEndpoints";
 import { login, updateCompteUser} from "./slices/authSlice";
 import { setCurrentNav, updateTheme } from "./slices/navigateSlice";
 import { store } from "./store/Store";
@@ -189,7 +190,7 @@ export const fetchRooms = async (currentUser, dispatch, addRoom) => {
 
     try {
 
-        const { data } = await api.get("/allRooms/");
+        const { data } = await api.get(API_ENDPOINTS.CHAT.ALL_ROOMS);
 
         const rooms = (data || []).filter((room) => {
             const isOwner = room?.current_owner === currentUser?.id;
@@ -217,7 +218,7 @@ export const getOrCreateRoom = async ({ currentUser, otherUser, roomName }) => {
 
     // 1) On cherche d'abord si une conversation existe déjà entre les deux.
     try {
-        const { data } = await api.get("/allRooms/");
+        const { data } = await api.get(API_ENDPOINTS.CHAT.ALL_ROOMS);
         const existing = (data || []).find(
             (room) =>
                 (room?.current_owner === currentUser.id && room?.current_receiver === otherUser.id) ||
@@ -230,7 +231,7 @@ export const getOrCreateRoom = async ({ currentUser, otherUser, roomName }) => {
 
     // 2) Sinon on en crée une nouvelle.
     try {
-        const { data } = await api.post('rooms/', {
+        const { data } = await api.post(API_ENDPOINTS.CHAT.CREATE_ROOM, {
             name: roomName || `room_${currentUser.id}_${otherUser.id}_${Date.now()}`,
             current_owner: currentUser.id,
             current_receiver: otherUser.id,
@@ -246,7 +247,7 @@ export const isAlreadyFollowed = async (clientId, setIsFollow, setIsLoading, cur
 
     if (!clientId || !currentUser || clientId===currentUser?.id ) return 
     try {
-        const response = await api.get(`/clients/${clientId}/alreadyFollow/`, {
+        const response = await api.get(API_ENDPOINTS.CLIENTS.ALREADY_FOLLOW(clientId), {
             withCredentials: true,
             headers: { 'Content-Type': 'application/json' },
         });
@@ -255,11 +256,11 @@ export const isAlreadyFollowed = async (clientId, setIsFollow, setIsLoading, cur
 };
 
 export const recordFollowUser = async (clientId) => {
-    try { await api.post(`/clients/${clientId}/follow/`, { withCredentials: true }); } catch { }
+    try { await api.post(API_ENDPOINTS.CLIENTS.FOLLOW(clientId), { withCredentials: true }); } catch { }
 };
 
 export const recordUnfollowUser = async (clientId) => {
-    try { await api.post(`/clients/${clientId}/unfollow/`, { withCredentials: true }); } catch { }
+    try { await api.post(API_ENDPOINTS.CLIENTS.UNFOLLOW(clientId), { withCredentials: true }); } catch { }
 };
 
 export const productViews = async (dataProduct, setProductNbViews) => {
@@ -268,7 +269,7 @@ export const productViews = async (dataProduct, setProductNbViews) => {
 
     try {
 
-        const response = await api.get(`/products_details/${dataProduct.id}/`);
+        const response = await api.get(API_ENDPOINTS.PRODUCTS.DETAILS_SLASH(dataProduct.id));
 
         const totalViews = response?.data?.total_views ?? 0;
 
@@ -824,7 +825,7 @@ export const loginClient = async (data, dispatch, setIsLoading, navigate) => {
 
     try {
 
-        const response = await api.post('login/', data, {
+        const response = await api.post(API_ENDPOINTS.AUTH.LOGIN, data, {
             withCredentials: true
         });
 
@@ -870,7 +871,7 @@ export const loginClient = async (data, dispatch, setIsLoading, navigate) => {
 
 export const CreateClient = async (data, setLoading, showMessage, dispatch, t) => {
     try {
-        const response = await api.post('inscription/', data, {
+        const response = await api.post(API_ENDPOINTS.AUTH.REGISTER, data, {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -1128,7 +1129,7 @@ export const payNow = async (
 
         }
 
-        const res = await api.post("/create-checkout-session/", dataStringify);
+        const res = await api.post(API_ENDPOINTS.PAYMENTS.CREATE_CHECKOUT_SESSION, dataStringify);
 
         showMessage(dispatch, { Type: "Success", Message: res?.data || "sucess " || t("Requete bonne sur la donnée") });
 

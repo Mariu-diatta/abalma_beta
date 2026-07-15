@@ -1,5 +1,5 @@
 
-import React, { Suspense, useEffect } from 'react'
+import React, { Suspense, useEffect, lazy } from 'react'
 import './App.css';
 import './styles/style.css'
 import routes from './router/Routers';
@@ -9,6 +9,10 @@ import { AuthProvider } from './AuthContext';
 import './i18n'; // ⚠️ Important
 import LoadingCard from './components/LoardingSpin';
 import { useTranslation } from "react-i18next";
+
+// Bottom nav mobile façon Instagram (5 icônes), montée une seule fois au
+// niveau racine pour rester visible et cohérente sur toutes les routes.
+const BottomNavMobile = lazy(() => import('./features/FooterMobileNav'));
 
 const AppRoutes = () => {
 
@@ -29,6 +33,10 @@ function App() {
               <SEO />
 
               <AppRoutes />
+
+              <Suspense fallback={null}>
+                  <BottomNavMobile />
+              </Suspense>
 
               <CookieBanner />
 

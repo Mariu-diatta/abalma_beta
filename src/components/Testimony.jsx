@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import api from "../services/Axios";
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import TitleCompGen from "./TitleComponentGen";
 import { getMediaUrl } from "../utils";
 
@@ -62,7 +63,7 @@ export default function TestimonialCarousel({
 
     // ── Fetch ──
     useEffect(() => {
-        api.get('/content/testmony/')
+        api.get(API_ENDPOINTS.TESTIMONIALS.PUBLIC_LIST)
             .then(({ data }) => setTestimonials(data || []))
             .catch(console.error);
     }, []);

@@ -9,6 +9,7 @@ import {
 } from '../utils';
 import TransactionsDropdown from './TransactionsDropdown';
 import api from '../services/Axios';
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import LoadingCard from '../components/LoardingSpin';
 import TransactionAndSubTransactionCard from './SubTransactionCard';
 import {createPortal} from "react-dom"
@@ -66,7 +67,7 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
 
     // ── Fetch transactions ──
     useEffect(() => {
-        api.get('transactions/products/', { params: { mode } })
+        api.get(API_ENDPOINTS.TRANSACTIONS.PRODUCTS_TRANSACTIONS, { params: { mode } })
             .then(({ data }) => setTransactionsData(data?.results || data))
             .catch((err) => console.error('Erreur transactions:', err));
         setDeletedTrans(false);
@@ -75,7 +76,7 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
     // ── Fetch sous-transactions ──
     useEffect(() => {
         if (!selectedTransaction?.id) return;
-        api.get('sub/transaction/', { params: { trans_id: selectedTransaction.id, mode } })
+        api.get(API_ENDPOINTS.TRANSACTIONS.SUB_TRANSACTION, { params: { trans_id: selectedTransaction.id, mode } })
             .then(({ data }) => setSubTransactionsData(data?.sub_transactions))
             .catch((err) => console.error('Erreur sous-transactions:', err));
         setDeletedSubTrans(false);
@@ -84,7 +85,7 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
     // ── Fetch produits de la sous-transaction ──
     useEffect(() => {
         if (!selectedSubTransaction?.id) return;
-        api.get('item/products/transaction/', { params: { subTrans_id: selectedSubTransaction.id } })
+        api.get(API_ENDPOINTS.TRANSACTIONS.ITEM_PRODUCTS_TRANSACTION, { params: { subTrans_id: selectedSubTransaction.id } })
             .then(({ data }) => setProductsTrasaction(data?.products_transactions))
             .catch((err) => console.error('Erreur produits transaction:', err));
     }, [selectedSubTransaction, setProductsTrasaction]);
@@ -94,7 +95,7 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
         setCurrentProductDeleted(item?.id);
         setLoadingDelete(true);
         try {
-            await api.delete(`produits/${item?.id}/`);
+            await api.delete(API_ENDPOINTS.PRODUCTS.DELETE(item?.id));
         } catch (err) {
             alert(err?.response?.data?.detail || 'Erreur lors de la suppression');
         } finally {

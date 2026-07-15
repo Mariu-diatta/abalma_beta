@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import api from "../services/Axios";
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import OwnerAvatar from "../components/OwnerProfil";
@@ -39,7 +40,7 @@ const UsersContactsList = () => {
 
     // ── Fetch contacts ──
     useEffect(() => {
-        api.get('clients/othersClients/')
+        api.get(API_ENDPOINTS.CLIENTS.OTHERS)
             .then(({ data }) => setUsers(data?.other_clients ?? []))
             .catch(() => { })
             .finally(() => setLoading(false));

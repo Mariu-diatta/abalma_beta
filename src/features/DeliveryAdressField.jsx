@@ -3,7 +3,7 @@ import { PrimaryButton } from "./Settings";
 import LocationSearchPopover from "./LocationSearch";
 import api from "../services/Axios";
 import { showMessage } from "../components/AlertMessage";
-import {  useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { CONSTANTS } from "../utils";
 export default function DeliveryAddressField({
     deliveryAddress = [],
@@ -35,7 +35,8 @@ export default function DeliveryAddressField({
         } catch (error) {
             console.log("erreur suppression adress", error)
             showMessage(dispatch, {
-                Type: CONSTANTS.ERRREUR, Message: 'Error!' });
+                Type: CONSTANTS.ERRREUR, Message: 'Error!'
+            });
         } finally {
             setLoadingDel(false)
         }
@@ -78,7 +79,7 @@ export default function DeliveryAddressField({
                     {
                         selectedId &&
                         <button onClick={() => deleteDeliveredAdress(selectedId)} className="bg-red-300 rounded-full p-2 text-md">
-                                {!loadingDel?`Delete ${selectedId}`:"Loading"}
+                            {!loadingDel ? `Delete ${selectedId}` : "Loading"}
                         </button>
                     }
                 </div>

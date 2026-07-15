@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import api from '../services/Axios';
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import { useTranslation } from 'react-i18next';
 import TitleCompGen, { TitleCompGenLitle } from '../components/TitleComponentGen';
 
@@ -275,7 +276,7 @@ const SendcloudTracking = () => {
         setResult(null);
 
         try {
-            const { data } = await api.get(`commande/${selectedCommande?.id}/tracking/`);
+            const { data } = await api.get(API_ENDPOINTS.DELIVERY.TRACKING(selectedCommande?.id));
             setResult(data);
 
             // Sauvegarder dans l'historique récent
@@ -395,14 +396,12 @@ const CommandesList = ({ setDataTracking }) => {
 
     const fetchCommandes = async () => {
         try {
-            const response = await api.get("commandes/");
+            const response = await api.get(API_ENDPOINTS.DELIVERY.COMMANDES);
 
             // ⚠️ si api.get = axios, pas besoin de .json()
             const data = response.data;
 
             setCommandes(data.commandes);
-
-            console.log("data commande", data)
         } catch (error) {
             console.error("Erreur fetch commandes:", error);
         }
@@ -437,16 +436,16 @@ const CommandesList = ({ setDataTracking }) => {
                     </thead>
 
                     <tbody>
-                        {commandes?.map((cmd) => (
+                        {commandes.map((cmd) => (
                             <tr key={cmd.id}>
-                                <td className="p-3">{cmd?.id}</td>
-                                <td className="p-3 fw-semibold">{cmd?.numero}</td>
-                                <td className="p-3">{cmd?.client_nom}</td>
+                                <td className="p-3">{cmd.id}</td>
+                                <td className="p-3 fw-semibold">{cmd.numero}</td>
+                                <td className="p-3">{cmd.client_nom}</td>
 
                                 <td className="p-3">
-                                    {cmd?.tracking_number ? (
+                                    {cmd.tracking_number ? (
                                         <span className="badge bg-success">
-                                            {cmd?.tracking_number}
+                                            {cmd.tracking_number}
                                         </span>
                                     ) : (
                                         <span className="badge bg-warning text-dark">

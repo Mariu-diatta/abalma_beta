@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import api from "../services/Axios";
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import { formatISODate } from "../utils";
 import LoadingCard from "../components/LoardingSpin";
 import { TitleCompGenLitle } from "../components/TitleComponentGen";
@@ -42,7 +43,7 @@ const MyBlogsList = () => {
     useEffect(() => {
         if (!currentUser?.id) return;
         setLoading(true);
-        api.get('byOwnerUser/')
+        api.get(API_ENDPOINTS.BLOG.OWNER_LIST)
             .then(({ data }) => setBlogs(data?.data ?? []))
             .catch(console.error)
             .finally(() => setLoading(false));
@@ -54,7 +55,7 @@ const MyBlogsList = () => {
         setTriggerdBtnId(blog?.id);
         setLoadingDelete(true);
         try {
-            await api.delete(`/blogs/${blog.id}/`);
+            await api.delete(API_ENDPOINTS.BLOG.DELETE(blog.id));
             setBlogs((prev) => prev.filter((b) => b.id !== blog.id));
         } catch (err) {
             console.error(err);

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Star, Calendar, MessageCircle } from "lucide-react";
+import { Star, Trash2, Calendar, MessageCircle } from "lucide-react";
 import api from "../services/Axios";
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 
 const TestmonyCards = () => {
     const [testmonies, setTestmonies] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        api.get("user-owner/testmony/")
+        api.get(API_ENDPOINTS.TESTIMONIALS.OWNER_LIST)
             .then((res) => {
                 setTestmonies(res.data);
                 setLoading(false);
@@ -22,7 +23,7 @@ const TestmonyCards = () => {
         if (!window.confirm("Supprimer ce témoignage ?")) return;
 
         try {
-            await api.delete(`user-owner/testmony/${id}/`);
+            await api.delete(API_ENDPOINTS.TESTIMONIALS.DELETE(id));
             setTestmonies((prev) => prev.filter((item) => item.id !== id));
         } catch (err) {
             console.error(err);
@@ -38,7 +39,7 @@ const TestmonyCards = () => {
     }
 
     return (
-        <div className="relative container py-2 px-4 mb-[12dvh]">
+        <div className="container py-2 px-4 mb-[12dvh]">
 
             <div className="row g-2">
 
@@ -71,10 +72,10 @@ const TestmonyCards = () => {
                                 </div>
 
                                 <button
-                                    className="absolute top-5 right-7 bg-black-200 text-black-300 hover:bg-red-200 rounded-full p-2"
+                                    className="fixed top-3 right-5 bg-black-200 text-black-300 btn-delete"
                                     onClick={() => removeCard(item.id)}
                                 >
-                                    X
+                                    <Trash2 size={16} />
                                 </button>
                             </div>
 

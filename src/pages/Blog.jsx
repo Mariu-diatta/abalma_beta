@@ -1,6 +1,7 @@
 import React, { useEffect, useState , lazy} from 'react';
 import { useTranslation } from 'react-i18next';
 import api from '../services/Axios';
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 import LoadingCard from '../components/LoardingSpin';
 import SearchBar from '../components/BtnSearchWithFilter';
 import { useDispatch, useSelector } from 'react-redux';
@@ -50,7 +51,7 @@ export const BlogPage = () => {
 
                 try {
 
-                    const blogs = await api.get("blogs/");
+                    const blogs = await api.get(API_ENDPOINTS.BLOG.LIST);
 
                     setBlogs(blogs.data)
 
@@ -79,7 +80,7 @@ export const BlogPage = () => {
 
                     try {
 
-                        const blogs = await api.get(`blogs/?search=${data?.query}`);
+                        const blogs = await api.get(API_ENDPOINTS.BLOG.SEARCH(data?.query));
 
                         setBlogs(blogs.data)
 
