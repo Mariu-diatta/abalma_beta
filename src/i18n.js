@@ -22,6 +22,20 @@ i18n
         en: {
 
             translation: {
+                "with_abalma_they_grow_their_business": "With Abalma, they grow their business.",
+                "what_our_users_say_about_us": "What our users say about us.",
+                "discover_products": "Discover products, chat with sellers, and grow your business.",
+                "trending_now": "Trending Now",
+                "active_sellers": "Active Sellers",
+                "popular_products": "Popular Products",
+                "no_sellers_found": "No sellers found.",
+                "trends_coming_soon": "Trending topics are coming soon.",
+                "real_time_activity": "Real-Time Activity",
+                "recent_activity": "Recent purchases • conversations • active sellers",
+                "online_24": "24 online",
+                "go_pro_priority": "Go PRO to sell more and get priority visibility",
+                "user_reviews": "User Reviews",
+                "boost_visibility": "Boost Your Visibility",
                 "select_conversation": "Select a conversation",
                 "no_messages_yet": "No messages yet — say hello 👋",
                 avis_reçus: "Received reviews",
@@ -856,6 +870,20 @@ i18n
         fr: {
 
             translation: {
+                "with_abalma_they_grow_their_business": "Avec Abalma, ils font grandir leur activité.",
+                "what_our_users_say_about_us": "Ce que nos utilisateurs disent de nous.",
+                "discover_products": "Découvrez des produits, discutez avec les vendeurs et développez votre activité.",
+                "trending_now": "Tendances du moment",
+                "active_sellers": "Vendeurs actifs",
+                "popular_products": "Produits populaires",
+                "no_sellers_found": "Aucun vendeur trouvé.",
+                "trends_coming_soon": "Les tendances arrivent bientôt.",
+                "real_time_activity": "Activité en temps réel",
+                "recent_activity": "Achats récents • discussions • vendeurs actifs",
+                "online_24": "24 en ligne",
+                "go_pro_priority": "Passez PRO pour vendre plus et apparaître en priorité",
+                "user_reviews": "Avis utilisateurs",
+                "boost_visibility": "Booster votre visibilité",
                 "select_conversation": "Sélectionnez une conversation",
                 "no_messages_yet": "Aucun message pour le moment — dites bonjour 👋",
                 avis_reçus: "Avis reçus",
@@ -1675,6 +1703,20 @@ i18n
         es: {
 
             translation: {
+                "with_abalma_they_grow_their_business": "Con Abalma, hacen crecer su negocio.",
+                "what_our_users_say_about_us": "Lo que nuestros usuarios dicen de nosotros.",
+                "discover_products": "Descubre productos, chatea con los vendedores y haz crecer tu negocio.",
+                "trending_now": "Tendencias del momento",
+                "active_sellers": "Vendedores activos",
+                "popular_products": "Productos populares",
+                "no_sellers_found": "No se encontraron vendedores.",
+                "trends_coming_soon": "Las tendencias llegarán pronto.",
+                "real_time_activity": "Actividad en tiempo real",
+                "recent_activity": "Compras recientes • conversaciones • vendedores activos",
+                "online_24": "24 en línea",
+                "go_pro_priority": "Hazte PRO para vender más y aparecer con prioridad",
+                "user_reviews": "Opiniones de los usuarios",
+                "boost_visibility": "Impulsa tu visibilidad",
                 "select_conversation": "Selecciona una conversación",
                 "no_messages_yet": "Aún no hay mensajes — di hola 👋",
                 avis_reçus:"Opiniones recibidas",

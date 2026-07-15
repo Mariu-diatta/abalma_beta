@@ -64,7 +64,7 @@ function SubscriptionCard({
     return (
         <div
             className={
-                `relative flex flex-col justify-between rounded-lg shadow-md p-6 w-full max-w-sm transition transform
+                `relative flex flex-col justify-between rounded-lg shadow-md p-4 w-full max-w-sm transition transform
                 hover:shadow-2xl hover:-translate-y-1
                 animate-fade-in-up
                 ${highlight
@@ -239,7 +239,7 @@ export default function SubscriptionsPage() {
 
     return (
 
-        <main className={`flex flex-col border-t border-gray-300 items-center border-0 justify-center  bg-none mx-1 ${isCurrentNavSubscribtion ? "" :"mt-16"} overflow-y-auto h-full  scrollbor_hidden`}>
+        <main className={`flex flex-col border-t border-gray-300 items-center border-0 justify-center  bg-none mx-1 ${isCurrentNavSubscribtion ? "" :"mt-5"} overflow-y-auto h-full  scrollbor_hidden`}>
 
 
             <button
@@ -265,11 +265,8 @@ export default function SubscriptionsPage() {
 
             </button>
 
-            <div
-                className="
-                    py-[20dvh]  min-h-full overflow-y-auto  scrollbor_hidden
-                "
-            >
+            <div className={` overflow-y-auto  scrollbor_hidden ${isCurrentNavSubscribtion ?"min-h-full py-[5dvh]":""}`} >
+
                 <div className="m-auto text-center w-full">
                     <TitleCompGen title={t("Subscriptionb2b")} />
                 </div>

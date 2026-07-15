@@ -44,7 +44,7 @@ const TestmonyCards = () => {
             <div className="row g-2">
 
                 {testmonies.map((item) => (
-                    <div className="col-md-6 col-lg-4" key={item.id}>
+                    <div className="relative col-md-6 col-lg-4" key={item.id}>
                         <div
                             className="testimonial-card shadow-sm h-auto"
                         >
@@ -72,7 +72,7 @@ const TestmonyCards = () => {
                                 </div>
 
                                 <button
-                                    className="fixed top-3 right-5 bg-black-200 text-black-300 btn-delete"
+                                    className="absolute top-3 right-5 bg-black-200 text-black-300 btn-delete"
                                     onClick={() => removeCard(item.id)}
                                 >
                                     <Trash2 size={16} />

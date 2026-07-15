@@ -96,7 +96,7 @@ const NavbarHeader = () => {
 
             <header
                 id="header"
-                className="flex w-full items-center justify-between h-[50px] px-1 bg-white border-b border-[#dbdbdb]"
+                className="flex w-full items-center justify-between h-[50px] px-1 bg-white"
                 ref={ref}
             >
                 <Logo />

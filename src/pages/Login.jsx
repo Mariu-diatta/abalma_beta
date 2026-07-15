@@ -40,7 +40,7 @@ const LogIn = ({ callbackState, onClose }) => {
             const formData = new FormData();
             formData.append("email", email);
             formData.append("password", pwd);
-            const success = await loginClient(formData, dispatch, setLoading, navigate);
+            const success = await loginClient(formData, dispatch, setLoading, navigate, onClose);
 
             // On ne ferme la fenêtre de connexion qu'en cas de succès — sinon
             // l'utilisateur ne voit jamais le message d'erreur (la modale se

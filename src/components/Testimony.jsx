@@ -3,7 +3,7 @@ import api from "../services/Axios";
 import { API_ENDPOINTS } from "../services/apiEndpoints";
 import TitleCompGen from "./TitleComponentGen";
 import { getMediaUrl } from "../utils";
-
+import { useTranslation } from 'react-i18next';
 
 // ─── Utilitaires ──────────────────────────────────────────────────────────────
 const getItemsPerView = () => {
@@ -41,6 +41,7 @@ export default function TestimonialCarousel({
     autoplay = true,
     autoplayInterval = 5000,
 }) {
+    const { t } = useTranslation();
     const [testimonials, setTestimonials] = useState([]);
     const [index, setIndex] = useState(0);
     const [itemsPerView, setItemsPerView] = useState(getItemsPerView);
@@ -101,8 +102,8 @@ export default function TestimonialCarousel({
 
                 {/* Header */}
                 <div className="tc-header">
-                    <TitleCompGen title={"Avec Abalma, ils font grandir leur activité."} />
-                    <p className="tc-subtitle">Ce que nos utilisateurs disent de nous.</p>
+                    <TitleCompGen title={t("with_abalma_they_grow_their_business")} />
+                    <p className="tc-subtitle">{t("what_our_users_say_about_us")}</p>
                 </div>
 
                 {/* Slider */}

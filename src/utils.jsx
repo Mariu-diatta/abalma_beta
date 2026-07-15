@@ -819,7 +819,7 @@ export const formaterPrix = (prix, monnaie, t, locale) => {
 };
 
 // 👥 Authentification & création de compte
-export const loginClient = async (data, dispatch, setIsLoading, navigate) => {
+export const loginClient = async (data, dispatch, setIsLoading, navigate, onClose) => {
 
     setIsLoading(true);
 
@@ -844,7 +844,7 @@ export const loginClient = async (data, dispatch, setIsLoading, navigate) => {
         dispatch(setCurrentNav("account-home"));
 
         navigate("/account-home", { replace: true });
-
+        onClose()
         return true;
 
     } catch (error) {

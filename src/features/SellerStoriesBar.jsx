@@ -11,6 +11,7 @@ import { addUser } from "../slices/chatSlice";
 import { setCurrentNav } from "../slices/navigateSlice";
 import LogIn from "../pages/Login";
 import RegisterForm from "../pages/Register";
+import { TitleCompGenLitle } from "../components/TitleComponentGen";
 
 const isTrustedSeller = (owner) =>
     !!(owner?.is_pro || owner?.is_fournisseur || owner?.fournisseur || owner?.is_verified);
@@ -90,7 +91,7 @@ const SellerStoriesBar = () => {
         navigate("/user-profil-contact");
     };
 
-    if (!loading && sellers.length === 0) return null;
+    if (!loading && sellers.length === 0) return <TitleCompGenLitle title="No sellers" />;
 
     return (
         <section
