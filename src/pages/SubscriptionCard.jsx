@@ -267,7 +267,7 @@ export default function SubscriptionsPage() {
 
             <div
                 className="
-                    py-[20dvh]  min-h-full overflow-y-auto
+                    py-[20dvh]  min-h-full overflow-y-auto  scrollbor_hidden
                 "
             >
                 <div className="m-auto text-center w-full">
