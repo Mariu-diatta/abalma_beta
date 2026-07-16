@@ -101,9 +101,9 @@ const HomeContain = () => {
             <main className="min-h-screen bg-gradient-to-b from-slate-50 via-indigo-50/30 to-purple-50/30">
 
                 {/* ============ HERO / COMPOSER ============ */}
-                <section className="px-1 pt-4 w-full">
+                <section className="px-0 pt-4 w-full">
 
-                    <SectionCard className="grid grid-cols-1 md:grid-cols-2 p-5 space-y-4 space-x-0 relative overflow-hidden w-full">
+                    <SectionCard className="grid grid-cols-1 md:grid-cols-2 py-5 px-2 space-y-4 space-x-0 relative overflow-hidden w-full">
 
                         <div className="max-w-full">
                             {/* blob décoratif */}
@@ -145,14 +145,14 @@ const HomeContain = () => {
                             </div>
 
                             {/* Tabs */}
-                            <div className="flex justify-center gap-2 pt-1 overflow-x-auto no-scrollbar overflow-y-hidden mx-auto w-full scrollbor_hidden w-full py-3">
+                            <div className="flex justify-center gap-2 pt-1 overflow-x-auto no-scrollbar overflow-y-hidden mx-auto scrollbor_hidden w-full py-3">
                                 {TABS.map(({ id, label, icon: Icon }) => {
                                     const active = activeTab === id;
                                     return (
                                         <button
                                             key={id}
                                             onClick={() => setActiveTab(id)}
-                                            className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all
+                                            className={`flex items-center gap-1.5 px-2 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all
                                                 ${active
                                                     ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-md scale-[1.03]'
                                                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}

@@ -34,7 +34,7 @@ const CookieBanner = () => {
         <>
             {/* Bannière cookies */}
             {visible && (
-                <div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center">
+                <div className="fixed bottom-1/2 left-0 right-0 z-50 flex justify-center">
                     <div
                         className="bg-gray-100 p-4 rounded-t-lg shadow-lg max-w-3xl w-full mx-2 transition-all duration-500"
                     >
