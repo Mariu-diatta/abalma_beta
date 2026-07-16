@@ -40,7 +40,7 @@ const LogIn = ({ callbackState, onClose }) => {
             const formData = new FormData();
             formData.append("email", email);
             formData.append("password", pwd);
-            const success = await loginClient(formData, dispatch, setLoading, navigate, onClose);
+            const success = await loginClient(formData, dispatch, setLoading, navigate);
 
             // On ne ferme la fenêtre de connexion qu'en cas de succès — sinon
             // l'utilisateur ne voit jamais le message d'erreur (la modale se
@@ -72,7 +72,7 @@ const LogIn = ({ callbackState, onClose }) => {
                 {/* Bouton Fermer */}
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors z-10"
+                    className="absolute top-4 right-4 p-2 rounded-full hover:bg-red-100  transition-colors z-10"
                 >
                     <X size={20} className="text-gray-500" />
                 </button>
@@ -87,7 +87,7 @@ const LogIn = ({ callbackState, onClose }) => {
 
                                 <TitleCompGen title={t("login")} />
 
-                                <span className="text-sm text-gray-500 dark:text-gray-400">
+                                <span className="text-sm text-gray-500 ">
                                     <span>{t("notRegistered")}</span>{" "}
                                     <button
                                         onClick={() => {
@@ -162,8 +162,8 @@ const LogIn = ({ callbackState, onClose }) => {
                             {/* GOOGLE */}
                             <div className="flex justify-center">
                                 <GoogleOAuthProvider clientId="154955455828-340tuohbjc1c4imb29uqi4hr9l5dm0sv.apps.googleusercontent.com">
-                                    <LoginWithGoogle />
-                                </GoogleOAuthProvider>
+                                    <LoginWithGoogle onClose={onClose} />
+                                </GoogleOAuthProvider> 
                             </div>
 
                         </section>

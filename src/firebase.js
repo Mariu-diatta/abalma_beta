@@ -63,7 +63,7 @@ function getCookie(name) {
     return cookieValue;
 }
 
-export function LoginWithGoogle() {
+export function LoginWithGoogle({ onClose }) {
 
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
@@ -107,7 +107,10 @@ export function LoginWithGoogle() {
 
             dispatch(setCurrentNav("account-home"));
 
+            onClose();
+
             navigate("/account-home", { replace: true });
+
 
 
         } catch (err) {
