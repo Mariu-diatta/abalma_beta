@@ -69,7 +69,8 @@ const HomeContain = () => {
     const [activeTab, setActiveTab] = useState('products');
     const [clients, setClients] = useState([]);
     const [query, setQuery] = useState('');
-    const [numberSellers, setNumberSellers] = useState(''); 
+    const [numberSellers, setNumberSellers] = useState(0); 
+    const [numberTestmony,setNumberTestmony] = useState(0); 
 
     useEffect(() => {
         let cancelled = false;
@@ -286,12 +287,12 @@ const HomeContain = () => {
                 </section>
 
                 {/* ============ TESTIMONIALS ============ */}
-                <section className="px-1 mt-6 pb-10">
+                {!!numberTestmony && <section className="px-1 mt-6 pb-10">
                     <SectionHeader emoji="💬" title={t("user_reviews")} action="" />
                     <SectionCard className="px-0 py-3">
-                        <TestimonialCarousel autoplay autoplayInterval={6000} />
+                        <TestimonialCarousel autoplay autoplayInterval={6000} setNumberTestmony={setNumberTestmony}/>
                     </SectionCard>
-                </section>
+                </section>}
 
             </main>
         </>
