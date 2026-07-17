@@ -80,7 +80,7 @@ const SellerStoriesBar = ({ setNumberSellers }) => {
         };
 
         loadSellers();
-    }, []);
+    }, [sellers, setNumberSellers]);
 
     const handleSellerClick = (owner) => {
         if (!currentUser) {

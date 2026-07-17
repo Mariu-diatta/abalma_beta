@@ -66,10 +66,12 @@ export default function TestimonialCarousel({
     // ── Fetch ──
     useEffect(() => {
         api.get(API_ENDPOINTS.TESTIMONIALS.PUBLIC_LIST)
-            .then(({ data }) => setTestimonials(data || []))
+            .then(({ data }) => {
+                setTestimonials(data || []);
+                setNumberTestmony(data.length)
+            })
             .catch(console.error);
-        setNumberTestmony(testimonials.length)
-    }, []);
+    }, [setNumberTestmony]);
 
     // ── Navigation ──
     const goNext = useCallback(() => {
