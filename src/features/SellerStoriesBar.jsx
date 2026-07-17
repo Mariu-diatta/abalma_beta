@@ -11,7 +11,6 @@ import { addUser } from "../slices/chatSlice";
 import { setCurrentNav } from "../slices/navigateSlice";
 import LogIn from "../pages/Login";
 import RegisterForm from "../pages/Register";
-import { TitleCompGenLitle } from "../components/TitleComponentGen";
 
 const isTrustedSeller = (owner) =>
     !!(owner?.is_pro || owner?.is_fournisseur || owner?.fournisseur || owner?.is_verified);
@@ -22,7 +21,7 @@ const isTrustedSeller = (owner) =>
 // leur profil au clic — pas de fausse donnée, uniquement des vendeurs ayant
 // réellement au moins une annonce en ligne.
 // ─────────────────────────────────────────────────────────────────────────
-const SellerStoriesBar = () => {
+const SellerStoriesBar = ({ setNumberSellers }) => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -70,6 +69,9 @@ const SellerStoriesBar = () => {
                 });
 
                 setSellers(owners.slice(0, 20));
+
+                setNumberSellers(sellers.length)
+
             } catch (e) {
                 // silencieux : la barre stories ne doit jamais casser la home
             } finally {
@@ -91,7 +93,7 @@ const SellerStoriesBar = () => {
         navigate("/user-profil-contact");
     };
 
-    if (!loading && sellers.length === 0) return <TitleCompGenLitle title="No sellers" />;
+    if (!loading && sellers.length === 0) return <></>;
 
     return (
         <section

@@ -16,7 +16,7 @@ import  TitleCompGen from "../components/TitleComponentGen";
 
 const LogIn = ({ callbackState, onClose }) => {
 
-    // Prop onClose ajoutée
+    // Prop onClose ajoutée 
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState("");
     const [pwd, setPwd] = useState("");

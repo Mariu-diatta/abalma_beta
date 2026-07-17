@@ -69,6 +69,7 @@ const HomeContain = () => {
     const [activeTab, setActiveTab] = useState('products');
     const [clients, setClients] = useState([]);
     const [query, setQuery] = useState('');
+    const [numberSellers, setNumberSellers] = useState(''); 
 
     useEffect(() => {
         let cancelled = false;
@@ -171,11 +172,14 @@ const HomeContain = () => {
                 </section>
 
                 {/* ============ STORIES VENDEURS ============ */}
-                <section className="px-1 mt-5">
-                    <SectionCard className="p-3">
-                        <SellerStoriesBar />
-                    </SectionCard>
-                </section>
+                {
+                    !!numberSellers &&
+                    <section className="px-1 mt-5">
+                        <SectionCard className="p-3">
+                            <SellerStoriesBar setNumberSellers={setNumberSellers} />
+                        </SectionCard>
+                    </section>
+                }
 
                 {/* ============ FEED PRINCIPAL ============ */}
                 <section className="px-1 mt-6">
