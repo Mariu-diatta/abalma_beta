@@ -204,7 +204,7 @@ const GridLayoutProduct = () => {
   
     return (
 
-        <div className="space-y-1 overflow-x-hidden md:py-[1dvh]">
+        <div className="space-y-1 overflow-x-hidden py-[1dvh]">
 
             { isCurrentUserConnected && <SearchBar /> }
 

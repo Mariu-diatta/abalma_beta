@@ -101,7 +101,7 @@ const HomeContain = () => {
             <main className="min-h-screen bg-gradient-to-b from-slate-50 via-indigo-50/30 to-purple-50/30">
 
                 {/* ============ HERO / COMPOSER ============ */}
-                <section className="px-0 pt-4 w-full">
+                <section className="px-1 pt-4 w-full">
 
                     <SectionCard className="grid grid-cols-1 md:grid-cols-2 py-5 px-2 space-y-4 space-x-0 relative overflow-hidden w-full">
 
@@ -173,14 +173,14 @@ const HomeContain = () => {
                 {/* ============ STORIES VENDEURS ============ */}
                 {
                     <section className="px-1 mt-5">
-                        <SectionCard className="p-3">
+                        <SectionCard className="py-3">
                             <SellerStoriesBar />
                         </SectionCard>
                     </section>
                 }
 
                 {/* ============ FEED PRINCIPAL ============ */}
-                <section className="px-1 mt-6">
+                <section className="px-1 mt-5">
                     <SectionHeader
                         emoji="🔥"
                         title={
