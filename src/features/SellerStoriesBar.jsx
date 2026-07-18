@@ -21,7 +21,7 @@ const isTrustedSeller = (owner) =>
 // leur profil au clic — pas de fausse donnée, uniquement des vendeurs ayant
 // réellement au moins une annonce en ligne.
 // ─────────────────────────────────────────────────────────────────────────
-const SellerStoriesBar = ({ setNumberSellers }) => {
+const SellerStoriesBar = () => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -70,8 +70,6 @@ const SellerStoriesBar = ({ setNumberSellers }) => {
 
                 setSellers(owners.slice(0, 20));
 
-                setNumberSellers(sellers.length)
-
             } catch (e) {
                 // silencieux : la barre stories ne doit jamais casser la home
             } finally {
@@ -80,7 +78,7 @@ const SellerStoriesBar = ({ setNumberSellers }) => {
         };
 
         loadSellers();
-    }, [sellers, setNumberSellers]);
+    }, []);
 
     const handleSellerClick = (owner) => {
         if (!currentUser) {

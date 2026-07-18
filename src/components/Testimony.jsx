@@ -48,8 +48,8 @@ export default function TestimonialCarousel({
     const [itemsPerView, setItemsPerView] = useState(getItemsPerView);
     const timerRef = useRef(null);
 
-    const length = testimonials.length;
-    const maxIndex = Math.max(0, length - itemsPerView);
+    const lengthTestmony = testimonials.length;
+    const maxIndex = Math.max(0, lengthTestmony - itemsPerView);
 
     // ── Responsive ──
     useEffect(() => {
@@ -88,17 +88,17 @@ export default function TestimonialCarousel({
     }, []);
 
     const startAutoplay = useCallback(() => {
-        if (!autoplay || length <= itemsPerView) return;
+        if (!autoplay || lengthTestmony <= itemsPerView) return;
         stopAutoplay();
         timerRef.current = setInterval(goNext, autoplayInterval);
-    }, [autoplay, autoplayInterval, goNext, length, itemsPerView, stopAutoplay]);
+    }, [autoplay, autoplayInterval, goNext, lengthTestmony, itemsPerView, stopAutoplay]);
 
     useEffect(() => {
         startAutoplay();
         return stopAutoplay;
     }, [startAutoplay, stopAutoplay]);
 
-    if (!length) return null;
+    if (!lengthTestmony) return <></>;
 
     return (
         <>
@@ -171,7 +171,7 @@ export default function TestimonialCarousel({
                     </div>
 
                     {/* Boutons navigation */}
-                    {length > itemsPerView && (
+                    {lengthTestmony > itemsPerView && (
                         <>
                             <button
                                 type="button"
@@ -198,7 +198,7 @@ export default function TestimonialCarousel({
                 </div>
 
                 {/* Dots */}
-                {length > 1 && (
+                {lengthTestmony > 1 && (
                     <div className="tc-dots" role="tablist" aria-label="Navigation des témoignages">
                         {testimonials.map((_, i) => (
                             <button
