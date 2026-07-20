@@ -1,10 +1,7 @@
 {
   "ExpandedNodes": [
     "",
-    "\\build",
-    "\\public",
     "\\src",
-    "\\src\\assets",
     "\\src\\components",
     "\\src\\features",
     "\\src\\layouts",

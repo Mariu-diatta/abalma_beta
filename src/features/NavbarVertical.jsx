@@ -255,18 +255,25 @@ const VerticalNavbar = ({ children }) => {
     return (
         <>
             <AttentionAlertMessage />
+
             <div className="vnav" style={{ backgroundColor: BG }}>
-                {/* Toggle mobile */}
-                <button
-                    type="button"
-                    className="vnav-toggle"
-                    aria-label={isSidebarOpen ? "Fermer le menu" : "Ouvrir le menu"}
-                    aria-expanded={isSidebarOpen}
-                    aria-controls="vnav-sidebar"
-                    onClick={() => setSidebarOpen((p) => !p)}
-                >
-                    <IconMenu />
-                </button>
+
+                <div className="flex justify-center items-center mb-3">
+                    {/* Toggle mobile */}
+                    <button
+                        type="button"
+                        className="vnav-toggle"
+                        aria-label={isSidebarOpen ? "Fermer le menu" : "Ouvrir le menu"}
+                        aria-expanded={isSidebarOpen}
+                        aria-controls="vnav-sidebar"
+                        onClick={() => setSidebarOpen((p) => !p)}
+                    >
+                        <IconMenu />
+                    </button>
+                    <div className="w-full flex start-end">
+                        <ButtonsNavigateThemecolorPayDropdownaccount />
+                    </div>
+                </div>
 
                 {isSidebarOpen && (
                     <div className="vnav-overlay" onClick={closeSidebar} aria-hidden="true" />
@@ -307,7 +314,7 @@ const VerticalNavbar = ({ children }) => {
                             </button>
                         </div>
 
-                        <div className="vnav-body scrollbor_hidden" style={{ backgroundColor: BG }}>
+                        <nav className="vnav-body scrollbor_hidden" style={{ backgroundColor: BG }}>
                             <UserCard
                                 user={currentUser}
                                 displayName={displayName}
@@ -316,13 +323,26 @@ const VerticalNavbar = ({ children }) => {
                                 onClick={() => go(ENDPOINTS.ACCOUNT_HOME)}
                             />
 
-                            {primaryNav.map(renderNavItem)}
+                            <div className="vnav-group">
+                                {primaryNav.map(renderNavItem)}
+                            </div>
 
                             <div className="vnav-divider" />
-                            {!isCollapsed && <ButtonUpdateAccountUserToPro />}
-                            {!isCollapsed && <div className="vnav-section-label">{t("categorie")}</div>}
 
-                            <div style={{ display: "flex", flexDirection: "column", gap: 3, padding: 2 }}>
+                            {!isCollapsed && <ButtonUpdateAccountUserToPro />}
+
+                            {!isCollapsed && (
+                                <div className="vnav-section-label" id="vnav-categories-label">
+                                    {t("categorie")}
+                                </div>
+                            )}
+
+                            <div
+                                className="vnav-cat-list"
+                                role="tablist"
+                                aria-labelledby={!isCollapsed ? "vnav-categories-label" : undefined}
+                                style={{gap:10} }
+                            >
                                 {categories.map(({ name, to, photo, id }) => {
                                     const active = currentNav === id;
                                     return (
@@ -335,8 +355,8 @@ const VerticalNavbar = ({ children }) => {
                                             onClick={() => to && go(id)}
                                             title={isCollapsed ? name : undefined}
                                         >
-                                            {photo && <span className="vnav-cat-icon">{photo}</span>}
-                                            {!isCollapsed && <span>{name}</span>}
+                                            {photo && <span className="">{photo}</span>}
+                                            {!isCollapsed && <span className="vnav-cat-label">{name}</span>}
                                         </button>
                                     );
                                 })}
@@ -344,17 +364,16 @@ const VerticalNavbar = ({ children }) => {
 
                             <div className="vnav-divider" />
 
-                            {secondaryNav.map(renderNavItem)}
-                        </div>
+                            <div className="vnav-group">
+                                {secondaryNav.map(renderNavItem)}
+                            </div>
+                        </nav>
                     </aside>
 
                     <div
                         className="bg-white/50 overflow-y-hidden"
                         style={{ flex: 1, minWidth: 0, transition: "margin .2s ease" }}
                     >
-                        <div className="w-full flex start-end">
-                            <ButtonsNavigateThemecolorPayDropdownaccount />
-                        </div>
                         <main className="vnav-content">
                             <section
                                 id={`${currentNav}-tab`}

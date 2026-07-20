@@ -1,114 +1,192 @@
-import React, { useState, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
-import BlogCard from './BlogCard';
-import BlogDetails from './BlogDetails';
-import NoContentComp from '../components/NoContentComp';
-import {createPortal} from "react-dom"
+import React, { useEffect } from "react";
+import {
+    Heart,
+    MessageCircle,
+    Share2,
+    Bookmark,
+} from "lucide-react";
+import { useState } from "react";
+import api from "../services/Axios";
+import API_ENDPOINTS from "../services/apiEndpoints";
+import { useSelector } from 'react-redux';
 
-// ─── Illustration vide (SVG allégé) ──────────────────────────────────────────
-const EmptyIllustration = () => (
-    <svg
-        width="220" height="160"
-        viewBox="0 0 806 593"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
-        style={{ opacity: .75 }}
-    >
-        <path d="M39 69H707L707 587C707 590.314 704.314 593 701 593H45.9886C42.6793 593 39.9949 590.321 39.9886 587.011L39 69Z" fill="#f1f0fd" />
-        <path d="M40 56.0003C39.9998 52.6865 42.6862 50 46 50L702.001 50C705.314 50 708.001 52.6863 708.001 56V69H40.0006L40 56.0003Z" fill="#e4e2fb" />
-        <circle cx="55" cy="59" r="7" fill="#fff" opacity=".7" />
-        <circle cx="69" cy="59" r="7" fill="#fff" opacity=".7" />
-        <circle cx="83" cy="59" r="7" fill="#fff" opacity=".7" />
-        <path d="M219.521 341.196C218.681 344.401 220.686 347 224 347H380.306C383.619 347 386.986 344.401 387.826 341.196L409.673 257.804C410.512 254.599 408.507 252 405.193 252H248.887C245.574 252 242.207 254.599 241.367 257.804L219.521 341.196Z" fill="#e4e2fb" />
-        <rect x="263" y="279" width="112" height="8" rx="4" fill="#f1f0fd" />
-        <rect x="259" y="295" width="100" height="8" rx="4" fill="#f1f0fd" />
-        <rect x="255" y="311" width="88" height="8" rx="4" fill="#f1f0fd" />
-        <path fillRule="evenodd" clipRule="evenodd" d="M164.036 191C162.912 191 162 191.912 162 193.036V232.744C162 233.869 162.912 234.781 164.036 234.781H176.763V240.98C176.763 241.748 177.58 242.239 178.258 241.88L191.668 234.781H270.943C272.068 234.781 272.979 233.869 272.979 232.744V193.036C272.979 191.912 272.068 191 270.943 191H164.036Z" fill="#e4e2fb" />
-        <rect x="173" y="204" width="80" height="4" rx="2" fill="#fff" />
-        <rect x="173" y="213" width="56" height="4" rx="2" fill="#fff" opacity=".6" />
-    </svg>
-);
+export default function BlogList() {
 
-// ─── Composant ────────────────────────────────────────────────────────────────
-const BlogList = ({ blogs }) => {
-    const { t } = useTranslation();
+    const currentUser = useSelector((state) => state.auth.user);
 
-    const [viewMore, setViewMore] = useState(false);
-    const [selectedBlog, setSelectedBlog] = useState(null);
+    const [blogs, setBlogs] = useState([])
 
-    const handleClicked = useCallback((viewDetail, blog) => {
-        setViewMore(viewDetail);
-        setSelectedBlog(blog);
-    }, []);
 
-    const isEmpty = !blogs || blogs.length === 0;
+    useEffect(() => {
 
-    // Vue détail
-    if (viewMore && selectedBlog) {
+        const allblogs = async () => {
 
-        return (
+            try {
+                const { data } = await api.get(API_ENDPOINTS.BLOG.LIST)
+                setBlogs(data)
 
-            <div className="prt-root prt-wrap">
-                {
-                    createPortal(
+            } catch (e) {
+                console.log(e)
+            }
 
-                        <div style={{ maxWidth: 760, margin: '0 auto', padding: '16px 8px', zIndex:500 }}>
+        }
 
-                            <button
-                                type="button"
-                                className="bl-back-btn"
-                                onClick={() => handleClicked(false, null)}
-                            >
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m15 19-7-7 7-7" />
-                                </svg>
+        allblogs()
 
-                                {t('back') || 'Retour'}
+    }, [])
 
-                            </button>
-               
-                            <BlogDetails blog={selectedBlog} onClose={handleClicked} />
-
-                        </div>,
-
-                        document.body
-                    )
-                }
-
-            </div>
-        );
-    }
-
-    // Vue liste
     return (
-        <>
-            <div className="bl-root">
-                {isEmpty ? (
-                    <div className="bl-grid">
-                        <div className="bl-empty">
-                            <EmptyIllustration />
-                            <div className="bl-empty-text">
-                                <NoContentComp content={t('blogNone')} />
+        <div className="h-full w-full overflow-y-auto bg-none">
+
+            <div className="max-w-7xl mx-auto grid lg:grid-cols-4 gap-8 px-1 py-8 items-start">
+
+                {/* Sidebar gauche */}
+                <aside className="hidden lg:block lg:sticky lg:top-6 lg:self-start">
+
+                    <div className={`${currentUser?.photo_url ? "bg-white rounded-2xl p-6 shadow" :"hidden"}`}>
+
+                        <img
+                            src={currentUser?.photo_url}
+                            alt=""
+                            className="w-20 h-20 rounded-full mx-auto"
+                        />
+
+                        <h2 className="text-center mt-4 font-bold">
+                            Votre Boutique
+                        </h2>
+
+                        <p className="text-center text-gray-500 text-sm">
+                            {currentUser?.description}
+                        </p>
+
+                        {/*<button className="w-full mt-6 bg-indigo-600 text-white py-3 rounded-xl">*/}
+                        {/*    Créer un article*/}
+                        {/*</button>*/}
+                    </div>
+                </aside>
+
+                {/* Feed */}
+                <main className="lg:col-span-2 space-y-8">
+                    {blogs.map((post) => (
+                        <div
+                            key={post.id}
+                            className="bg-white rounded-3xl shadow overflow-hidden"
+                        >
+                            {/* Author */}
+                            <div className="p-5 flex items-center">
+                                <img
+                                    src={post.user?.photo_url}
+                                    alt=""
+                                    className="w-12 h-12 rounded-full"
+                                />
+
+                                <div className="ml-4">
+                                    <h3 className="font-semibold">
+                                        {post.user?.prenom}
+                                    </h3>
+                                    <span className="text-sm text-gray-500">
+                                        il y a 2 heures
+                                    </span>
+                                </div>
+                            </div>
+
+                            {/* Video */}
+                            <div className={`${post.video ? "relative" : "hidden"}`}>
+                                <video
+                                    controls
+                                    autoPlay
+                                    muted
+                                    loop
+                                    playsInline
+                                    className="w-full h-[420px] object-cover"
+                                >
+                                    <source src={post.video} type="video/mp4" />
+                                </video>
+                            </div>
+
+                            {/* Content */}
+                            <div className="p-6">
+                                <h2 className="text-2xl font-bold mb-3">
+                                    {post?.title_blog}
+                                </h2>
+
+                                <p className="text-gray-600 leading-7">
+                                    {post?.blog_message}
+                                </p>
+
+                                {/* Actions */}
+                                <div className="flex justify-between mt-8">
+                                    <button className="flex items-center gap-2 text-gray-600 hover:text-red-500">
+                                        <Heart size={22} />
+                                        {post?.likes??0}
+                                    </button>
+
+                                    <button className="flex items-center gap-2 text-gray-600">
+                                        <MessageCircle size={22} />
+                                        {post?.comments??0}
+                                    </button>
+
+                                    <button className="flex items-center gap-2 text-gray-600">
+                                        <Share2 size={22} />
+                                        Partager
+                                    </button>
+
+                                    <button className="text-gray-600">
+                                        <Bookmark size={22} />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </main>
+
+                {/* Trending */}
+                <aside className="hidden lg:block lg:sticky lg:top-6 h-fit">
+                    <div className="bg-white rounded-2xl shadow p-6">
+                        <h2 className="font-bold text-xl mb-6">
+                            Tendances
+                        </h2>
+
+                        <div className="space-y-5">
+                            <div>
+                                <h3 className="font-semibold">
+                                    #Artisanat
+                                </h3>
+                                <p className="text-gray-500 text-sm">
+                                    2 500 publications
+                                </p>
+                            </div>
+
+                            <div>
+                                <h3 className="font-semibold">
+                                    #Cuisine
+                                </h3>
+                                <p className="text-gray-500 text-sm">
+                                    1 920 publications
+                                </p>
+                            </div>
+
+                            <div>
+                                <h3 className="font-semibold">
+                                    #Mode
+                                </h3>
+                                <p className="text-gray-500 text-sm">
+                                    1 420 publications
+                                </p>
+                            </div>
+
+                            <div>
+                                <h3 className="font-semibold">
+                                    #Décoration
+                                </h3>
+                                <p className="text-gray-500 text-sm">
+                                    980 publications
+                                </p>
                             </div>
                         </div>
                     </div>
-                ) : (
-                    <div className="bl-grid">
-                        {blogs.map((post, index) => (
-                            <div
-                                key={post?.id ?? index}
-                                className="bl-card-wrap"
-                                style={{ animationDelay: `${Math.min(index * 0.05, 0.4)}s` }}
-                            >
-                                <BlogCard blog={post} handleClicked={handleClicked} />
-                            </div>
-                        ))}
-                    </div>
-                )}
+                </aside>
             </div>
-        </>
+        </div>
     );
-};
-
-export default BlogList;
+}

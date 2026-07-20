@@ -7,6 +7,8 @@ import { updateContentBlog } from '../slices/cartSlice';
 import LoadingCard from '../components/LoardingSpin';
 import ButtonCreatBlog from '../components/ButtonBlogCreat';
 import { useCallback } from 'react';
+import UseVideo from './UseVideo';
+import { showMessage } from '../components/AlertMessage';
 
 
 
@@ -18,6 +20,7 @@ export const ModalFormCreatBlog = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [title, setTitle] = useState('');
     const [message, setMessage] = useState('');
+    const [videoFile, setVideoFile] = useState(null);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [loading, setLoading] = useState(false);
@@ -27,12 +30,10 @@ export const ModalFormCreatBlog = () => {
 
     const MAX_MESSAGE = 500;
 
-
     const handleClose =useCallback( () => {
         setIsOpen(false);
         resetForm();
     },[]);
-
 
     // ── Focus auto à l'ouverture ──
     useEffect(() => {
@@ -88,20 +89,45 @@ export const ModalFormCreatBlog = () => {
 
         setLoading(true);
         try {
-            const { data } = await api.post(API_ENDPOINTS.BLOG.CREATE, {
-                title_blog: title,
-                blog_message: message,
+            // FormData nécessaire dès qu'on envoie un fichier (video) en plus
+            // des champs texte — le backend lit request.FILES.get("video").
+            const formData = new FormData();
+            formData.append('title_blog', title);
+            formData.append('blog_message', message);
+
+            if (!!videoFile) {
+                formData.append('video', videoFile);
+                formData.append('video_duration', String(60));
+            }
+
+            const { data } = await api.post(API_ENDPOINTS.BLOG.CREATE, formData, {
+                headers: { "Content-Type": "multipart/form-data" },
             });
             dispatch(updateContentBlog(data));
             setSuccess(t('blog.blog_created') || 'Blog créé avec succès !');
+            showMessage(dispatch, {
+                Type: "Message",
+                Message: t('blog.blog_created')
+            });
             resetForm();
             setTimeout(handleClose, 1500);
+
         } catch (err) {
-            setError(
-                err?.response?.data?.detail ||
+
+            const messageError = err?.response?.data?.detail ||
                 t('blog.error_creating') ||
                 'Erreur lors de la création du blog.'
+            console.log("erreur::", err)
+
+            setError(
+                messageError
             );
+
+            showMessage(dispatch, {
+                Type: "Erreur",
+                Message: messageError
+            });
+
         } finally {
             setLoading(false);
         }
@@ -144,6 +170,7 @@ export const ModalFormCreatBlog = () => {
 
                             {/* Corps */}
                             <form className="blog-body" onSubmit={handleSubmit}>
+   
                                 {/* Titre */}
                                 <div>
                                     <label htmlFor="blog-title" className="blog-label">
@@ -180,6 +207,8 @@ export const ModalFormCreatBlog = () => {
                                     <p className="blog-char-count">{message.length}/{MAX_MESSAGE}</p>
                                 </div>
 
+     
+
                                 {/* Feedback */}
                                 {error && (
                                     <div className="blog-feedback error" role="alert">
@@ -214,6 +243,15 @@ export const ModalFormCreatBlog = () => {
                                         </button>
                                     )}
                                 </div>
+
+                                {/* Vidéo (optionnelle) */}
+                                <div>
+                                    {/*<label className="blog-label">*/}
+                                    {/*    {t('blog.video_optional') || 'Vidéo (optionnel)'}*/}
+                                    {/*</label>*/}
+                                    <UseVideo getVideoSelected={setVideoFile} />
+                                </div>
+
                             </form>
 
                         </div>

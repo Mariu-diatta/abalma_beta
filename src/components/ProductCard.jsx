@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useRef, useMemo, lazy } from "react";
+import React, { useEffect, useState, useMemo, useRef, lazy } from "react";
 import { useDispatch } from "react-redux";
 import { useTranslation } from 'react-i18next';
-import { Eye, ImageOff, Heart, ShoppingBag } from "lucide-react"; // Utilisation de Lucide pour plus de finesse
+import { Eye, ImageOff, Heart, ShoppingBag, PlayCircle } from "lucide-react"; // Utilisation de Lucide pour plus de finesse
 import OwnerAvatar from "./OwnerProfil";
 import ScrollingContent from "./ScrollContain";
 import { addMessageNotif } from "../slices/chatSlice";
@@ -10,26 +10,75 @@ import { getMediaUrl } from "../utils";
 
 const PrintNumberStars = lazy(() => import("./SystemStar"));
 
-const ProductCard = ({ item, isInCart, owner, openModal}) => {
+const IMAGE_SLIDE_DELAY = 3500; // ms, inchangé par rapport à l'original
+
+const ProductCard = ({ item, isInCart, owner, openModal }) => {
     const dispatch = useDispatch();
     const { t } = useTranslation();
     const variantProduct = useMemo(() => item?.variants || [], [item?.variants]);
-    const nberVariants = variantProduct.length;
-    const imageIndexRef = useRef(0);
-    const [currentImage, setCurrentImage] = useState(variantProduct[0]?.image);
+
+    // Diaporama : images + vidéo (si présente) à la suite, comme sur la fiche produit.
+    const medias = useMemo(() => ([
+        ...variantProduct.map(v => ({ type: "image", url: v.image })),
+        ...(item?.video ? [{ type: "video", url: item.video }] : []),
+    ]), [variantProduct, item?.video]);
+
+    const [mediaIndex, setMediaIndex] = useState(0);
     const [imageError, setImageError] = useState(false);
     const [isLiked, setIsLiked] = useState(false);
 
-    // Diaporama automatique fluide
+    const currentMedia = medias[mediaIndex] || null;
+    const videoHalfTimerRef = useRef(null);
+
+    // Si les données du produit changent (autre item recyclé par la liste), on repart du début.
     useEffect(() => {
-        if (nberVariants <= 1) return;
-        const interval = setInterval(() => {
-            imageIndexRef.current = (imageIndexRef.current + 1) % nberVariants;
-            setCurrentImage(variantProduct[imageIndexRef.current]?.image);
-            setImageError(false);
-        }, 3500);
-        return () => clearInterval(interval);
-    }, [nberVariants, variantProduct]);
+        setMediaIndex(0);
+        setImageError(false);
+    }, [item?.id]);
+
+    const goToNextMedia = () => {
+        setMediaIndex((prev) => (medias.length ? (prev + 1) % medias.length : 0));
+        setImageError(false);
+    };
+
+    // Diaporama automatique fluide pour les IMAGES uniquement.
+    useEffect(() => {
+        if (medias.length <= 1) return;
+        if (currentMedia?.type !== "image") return;
+
+        const timer = setTimeout(goToNextMedia, IMAGE_SLIDE_DELAY);
+
+        return () => clearTimeout(timer);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [mediaIndex, medias.length, currentMedia?.type]);
+
+    // Nettoyage du timer vidéo dès qu'on quitte ce média (changement d'item,
+    // avance manuelle, démontage du composant...).
+    useEffect(() => {
+        return () => clearTimeout(videoHalfTimerRef.current);
+    }, [mediaIndex]);
+
+    // La vidéo doit jouer la MOITIÉ de sa durée réelle avant de passer à
+    // l'item suivant (30s par défaut si la durée n'est pas encore connue,
+    // ce qui correspond à la moitié du max autorisé de 1 minute).
+    const handleVideoLoadedMetadata = (e) => {
+        const duration = e.target.duration;
+        const halfDurationMs =
+            Number.isFinite(duration) && duration > 0
+                ? (duration / 2) * 1000
+                : 30000;
+
+        clearTimeout(videoHalfTimerRef.current);
+        videoHalfTimerRef.current = setTimeout(goToNextMedia, halfDurationMs);
+    };
+
+    // Filet de sécurité : si la vidéo se termine avant qu'on ait atteint la
+    // moitié programmée (ex: fichier plus court que prévu), on avance quand
+    // même plutôt que de rester bloqué sur la dernière frame.
+    const handleVideoEnded = () => {
+        clearTimeout(videoHalfTimerRef.current);
+        goToNextMedia();
+    };
 
     const handleAddToCart = (e) => {
         e.stopPropagation(); // Évite d'ouvrir la modal en cliquant sur le panier
@@ -66,6 +115,16 @@ const ProductCard = ({ item, isInCart, owner, openModal}) => {
                     </div>
                 )}
 
+                {/* Indicateur "vidéo en cours" */}
+                {currentMedia?.type === "video" && (
+                    <div className="absolute top-3 left-1/2 -translate-x-1/2 z-20">
+                        <p className="bg-black/60 backdrop-blur text-[10px] font-semibold px-2.5 py-1 rounded-full text-white flex items-center gap-1">
+                            <PlayCircle size={11} />
+                            {t("video") || "Vidéo"}
+                        </p>
+                    </div>
+                )}
+
                 {/* Like / favori façon Instagram */}
                 <button
                     type="button"
@@ -98,40 +157,71 @@ const ProductCard = ({ item, isInCart, owner, openModal}) => {
                         justify-center
                     "
                 >
-                    {/* Image de fond floutée */}
-                    {currentImage && (
+                    {/* Image de fond floutée (uniquement pour les médias image) */}
+                    {currentMedia?.type === "image" && currentMedia.url && (
                         <div
                             className="absolute inset-0 bg-cover bg-center blur-sm scale-110 opacity-40 transition-transform duration-500"
-                            style={{ backgroundImage: `url(${getMediaUrl(currentImage)})` }}
+                            style={{ backgroundImage: `url(${getMediaUrl(currentMedia.url)})` }}
                         />
                     )}
 
                     {/* Image principale du produit centrée (avec repli si absente/en erreur) */}
-                    {currentImage && !imageError ? (
-                        <img
-                            src={getMediaUrl(currentImage)}
-                            alt={item?.name_product || "Produit"}
-                            loading="lazy"
+                    {currentMedia?.type === "image" && (
+                        currentMedia.url && !imageError ? (
+                            <img
+                                key={mediaIndex}
+                                src={getMediaUrl(currentMedia.url)}
+                                alt={item?.name_product || "Produit"}
+                                loading="lazy"
+                                className="
+                                    relative
+                                    z-10
+                                    /* TAILLE INTELLIGENTE : */
+                                    max-w-full 
+                                    w-auto
+                                    h-auto
+                                    object-contain /* Important pour ne pas déformer */
+                                    transition-transform
+                                    duration-300
+                                    ease-in-out
+                                    group-hover:scale-105
+                                "
+                                onError={() => setImageError(true)}
+                            />
+                        ) : (
+                            <div className="relative z-10 flex flex-col items-center justify-center gap-2 text-gray-300">
+                                <ImageOff size={32} strokeWidth={1.5} />
+                                <span className="text-[10px] font-medium">{t("no_image") || "Image indisponible"}</span>
+                            </div>
+                        )
+                    )}
+
+                    {/* Vidéo : joue en boucle silencieuse et déclenche le passage
+                        à l'item suivant uniquement quand elle est terminée
+                        (onEnded), pas avant — même si elle dure plus longtemps
+                        que le délai des images. */}
+                    {currentMedia?.type === "video" && currentMedia.url && (
+                        <video
+                            key={mediaIndex}
+                            src={getMediaUrl(currentMedia.url)}
+                            autoPlay
+                            muted
+                            playsInline
+                            onLoadedMetadata={handleVideoLoadedMetadata}
+                            onEnded={handleVideoEnded}
                             className="
                                 relative
                                 z-10
-                                /* TAILLE INTELLIGENTE : */
-                                max-w-full 
+                                max-w-full
                                 w-auto
                                 h-auto
-                                object-contain /* Important pour ne pas déformer */
+                                object-contain
                                 transition-transform
                                 duration-300
                                 ease-in-out
                                 group-hover:scale-105
                             "
-                            onError={() => setImageError(true)}
                         />
-                    ) : (
-                        <div className="relative z-10 flex flex-col items-center justify-center gap-2 text-gray-300">
-                            <ImageOff size={32} strokeWidth={1.5} />
-                            <span className="text-[10px] font-medium">{t("no_image") || "Image indisponible"}</span>
-                        </div>
                     )}
 
                     {/* Overlay Action Rapide */}
@@ -178,7 +268,7 @@ const ProductCard = ({ item, isInCart, owner, openModal}) => {
 
                         title="Ajouter au panier"
 
-                        onClick={(e) => handleAddToCart(e) }
+                        onClick={(e) => handleAddToCart(e)}
 
                         className="whitespace-nowrap flex flex-row gap-2 cursor-pointer w-8 h-8 rounded-full border border-[#dbdbdb] items-center justify-center hover:border-[#0095F6] hover:text-[#0095F6] transition-colors"
                     >

@@ -183,6 +183,7 @@ const ChatLayout = () => {
         >
 
             {/* Sidebar : overlay plein écran sur mobile, colonne fixe sur desktop */}
+            {/* Sidebar : overlay plein écran sur mobile, colonne fixe sur desktop */}
             <div
                 className={`
                     absolute inset-0 flex h-full w-full flex-col overflow-y-auto overflow-x-hidden
@@ -192,7 +193,7 @@ const ChatLayout = () => {
                     md:static md:inset-auto md:h-full md:w-[300px] md:flex-shrink-0 md:translate-x-0
                 `}
             >
-     
+
                 <div className="flex items-center gap-2 border-b border-slate-100 px-4 pb-2 pt-4">
                     <div className="min-w-0 flex-1">
                         <TitleCompGen title={"Discussions"} />
@@ -208,7 +209,7 @@ const ChatLayout = () => {
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             placeholder={t('search_conversation') || 'Rechercher une discussion...'}
-                            className="w-full pl-8 pr-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0095F6]/30 focus:border-[#0095F6]/40"
+                            className="w-full pl-8 pr-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl outline-none transition-colors focus:bg-white focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100"
                         />
                     </div>
                 </div>
@@ -253,7 +254,7 @@ const ChatLayout = () => {
                                                 </div>
                                             )}
                                             {user?.is_connected && (
-                                                <span className="absolute bottom-0 right-0 w-3 h-3 bg-[#2ecc71] border-2 border-white rounded-full" />
+                                                <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full" />
                                             )}
                                         </div>
 
@@ -294,7 +295,7 @@ const ChatLayout = () => {
                                 <li
                                     key={room?.pk}
                                     className={`group flex w-full min-w-0 items-center justify-between gap-2 rounded-xl px-2.5 py-2 transition-colors
-                                        ${isActive ? 'bg-[#eaf5ff] ring-1 ring-[#b8e0ff]' : 'hover:bg-slate-50'}`}
+                            ${isActive ? 'bg-indigo-50 ring-1 ring-indigo-100' : 'hover:bg-slate-50'}`}
                                 >
                                     <button
                                         onClick={() => {
@@ -315,17 +316,17 @@ const ChatLayout = () => {
                                                     onError={(e) => { e.currentTarget.style.visibility = 'hidden'; }}
                                                 />
                                             ) : (
-                                                <div className={`flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-[#4f5bd5] to-[#962fbf] font-semibold text-white shadow-sm${trusted ? ' story-ring--trusted' : ''}`}>
+                                                <div className={`flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 font-semibold text-white shadow-sm${trusted ? ' story-ring--trusted' : ''}`}>
                                                     {(otherUser?.prenom?.[0] || otherUser?.nom?.[0] || '?').toUpperCase()}
                                                 </div>
                                             )}
                                             {otherUser?.is_connected && (
-                                                <span className="absolute bottom-0 right-0 w-3 h-3 bg-[#2ecc71] border-2 border-white rounded-full" />
+                                                <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full" />
                                             )}
                                         </div>
 
                                         <div className="min-w-0 leading-tight">
-                                            <p className={`truncate text-sm font-semibold ${isActive ? 'text-[#0095F6]' : 'text-slate-700'}`}>
+                                            <p className={`truncate text-sm font-semibold ${isActive ? 'text-indigo-600' : 'text-slate-700'}`}>
                                                 {otherUser?.prenom?.slice(0, 20) || 'Prénom'}
                                             </p>
                                             <p className="truncate text-xs text-slate-400">

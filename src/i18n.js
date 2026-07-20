@@ -22,6 +22,11 @@ i18n
         en: {
 
             translation: {
+                "shared_files": "Shared files",
+                "see_all": "See all",
+                "no_shared_files": "No shared files",
+                "shared_media": "Shared media",
+                "no_shared_media": "No shared media",
                 "with_abalma_they_grow_their_business": "With Abalma, they grow their business.",
                 "what_our_users_say_about_us": "What our users say about us.",
                 "discover_products": "Discover products, chat with sellers, and grow your business.",
@@ -870,6 +875,11 @@ i18n
         fr: {
 
             translation: {
+                'shared_files': "Fichiers partagés",
+                'see_all': "Voir tout",
+                'no_shared_files': "Aucun fichié partagé",
+                'shared_media': "Dossiers partagés",
+                'no_shared_media':"Aucun dossier partagé",
                 "with_abalma_they_grow_their_business": "Avec Abalma, ils font grandir leur activité.",
                 "what_our_users_say_about_us": "Ce que nos utilisateurs disent de nous.",
                 "discover_products": "Découvrez des produits, discutez avec les vendeurs et développez votre activité.",
@@ -1703,6 +1713,11 @@ i18n
         es: {
 
             translation: {
+                "shared_files": "Archivos compartidos",
+                "see_all": "Ver todo",
+                "no_shared_files": "No hay archivos compartidos",
+                "shared_media": "Contenido compartido",
+                "no_shared_media": "No hay contenido compartido",
                 "with_abalma_they_grow_their_business": "Con Abalma, hacen crecer su negocio.",
                 "what_our_users_say_about_us": "Lo que nuestros usuarios dicen de nosotros.",
                 "discover_products": "Descubre productos, chatea con los vendedores y haz crecer tu negocio.",

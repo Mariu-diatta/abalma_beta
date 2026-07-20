@@ -35,7 +35,7 @@ const images = {
     materiel_info: require("../../src/assets/materiel_info.png"),
     divers: require("../../src/assets/produits.png"),
     alimentation: require("../../src/assets/nouriture.png"),
-    all_products: <svg className="w-auto max-w-[16rem] h-40 text-gray-800 dark:text-white" aria-hidden="true" width="800" height="800" viewBox="0 0 622 546" fill="none" xmlns="http://www.w3.org/2000/svg">
+    all_products: <svg className="w-auto w-[7dvw] h-[7dvh] text-gray-800 dark:text-white" aria-hidden="true" width="800" height="800" viewBox="0 0 622 546" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M288 143C280.8 145.8 281.333 152.167 282.5 155L332 247.5C344.167 246.5 368.9 242.8 370.5 236C372.5 227.5 334.5 155 331 150.5C327.5 146 314.5 141 309 139C303.5 137 297 139.5 288 143Z" fill="#F9FAFB" />
         <path d="M288 143C280.8 145.8 281.333 152.167 282.5 155L332 247.5C344.167 246.5 368.9 242.8 370.5 236C372.5 227.5 334.5 155 331 150.5C327.5 146 314.5 141 309 139C303.5 137 297 139.5 288 143Z" fill="url(#paint0_linear_204_2681)" />
         <path d="M288 143C280.8 145.8 281.333 152.167 282.5 155L332 247.5C344.167 246.5 368.9 242.8 370.5 236C372.5 227.5 334.5 155 331 150.5C327.5 146 314.5 141 309 139C303.5 137 297 139.5 288 143Z" fill="url(#paint1_linear_204_2681)" />

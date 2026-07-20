@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { Paperclip, Smile, Mic, Send } from 'lucide-react';
 
 const InputBoxChat = ({
     disabled,
@@ -10,8 +11,16 @@ const InputBoxChat = ({
 }) => {
     return (
         <div className="absolute bottom-0 left-0 w-full">
+            <div className="flex items-center gap-2 px-4 py-3 bg-white border-t border-gray-100">
 
-            <div className="flex items-end gap-2 px-3 py-3 bg-white border-t border-gray-100">
+                {/* ATTACHMENT */}
+                <button
+                    disabled={disabled}
+                    className="text-gray-400 hover:text-indigo-500 disabled:opacity-40 transition-colors flex-shrink-0"
+                    aria-label="Joindre un fichier"
+                >
+                    <Paperclip size={19} />
+                </button>
 
                 {/* INPUT */}
                 <div className="flex-1 relative">
@@ -27,70 +36,73 @@ const InputBoxChat = ({
                         placeholder={
                             disabled
                                 ? "Sélectionnez une conversation pour écrire..."
-                                : "Envoyer un message..."
+                                : "Écrivez un message..."
                         }
                         aria-label="Votre message"
                         className="
                             w-full
-                            px-4 py-3
-                            pr-12
+                            pl-4 pr-9
+                            py-2.5
                             text-sm
                             bg-gray-50
                             border border-gray-200
-                            rounded-2xl
+                            rounded-full
                             outline-none
                             transition-all
                             duration-200
                             focus:bg-white
-                            focus:border-[#6366f1]
+                            focus:border-indigo-400
                             focus:ring-4
-                            focus:ring-[#6366f1]/10
+                            focus:ring-indigo-100
                             disabled:bg-gray-100
                             disabled:text-gray-400
                         "
                     />
-
-                    {/* shortcut icon / decoration (optionnel style ChatGPT) */}
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
-                        <span className="text-xs">⏎</span>
-                    </div>
+                    <button
+                        disabled={disabled}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-indigo-500 disabled:opacity-40 transition-colors"
+                        aria-label="Emoji"
+                    >
+                        <Smile size={17} />
+                    </button>
                 </div>
 
-                {/* BUTTON */}
+                {/* VOICE */}
+                <button
+                    disabled={disabled}
+                    className="text-gray-400 hover:text-indigo-500 disabled:opacity-40 transition-colors flex-shrink-0"
+                    aria-label="Message vocal"
+                >
+                    <Mic size={19} />
+                </button>
+
+                {/* SEND */}
                 <button
                     onClick={() => sendMessage()}
                     disabled={disabled || !input?.trim()}
                     className="
-                        w-11 h-11
+                        w-10 h-10
                         flex items-center justify-center
                         rounded-full
-                        bg-[#6366f1]
+                        bg-indigo-500
                         text-white
                         shadow-sm
                         transition-all
                         duration-200
-                        hover:bg-[#4f46e5]
+                        hover:bg-indigo-600
                         hover:scale-105
                         active:scale-95
                         disabled:bg-gray-300
                         disabled:cursor-not-allowed
                         disabled:scale-100
+                        flex-shrink-0
                     "
                     aria-label="Envoyer"
                 >
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M12 2a1 1 0 0 1 .932.638l7 18a1 1 0 0 1-1.326 1.281L13 19.517V13a1 1 0 1 0-2 0v6.517l-5.606 2.402a1 1 0 0 1-1.326-1.281l7-18A1 1 0 0 1 12 2Z"
-                        />
-                    </svg>
+                    <Send size={16} />
                 </button>
-
             </div>
-
         </div>
-
     )
 }
 

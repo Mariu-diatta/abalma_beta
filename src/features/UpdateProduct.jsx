@@ -17,6 +17,8 @@ import { FaDollarSign, FaBoxes, FaTruck, FaTag, FaCheckCircle, FaTimesCircle, Fa
 import TitleCompGen from "../components/TitleComponentGen";
 import { useEffect } from "react";
 import AfficheForm from "./CreatFormPub";
+import UseVideo from "./UseVideo";
+import AttentionAlertMessage from "../components/AlertMessage";
 
 // ─── Constantes ───────────────────────────────────────────────────────────────
 const INITIAL_PRODUCT = {
@@ -272,6 +274,7 @@ const AddUploadProduct = () => {
     const [attributes, setAttributes] = useState({});
     const [openAnnonceForm, setOpenAnnonceForm] = useState(false);
     const isUserVerified = user?.is_fournisseur && user?.is_verified;
+    const [videoSelected, getVideoSelected] = useState("");
     const isLoanOptionSelected = dataProduct.operation_product === "PRETER";
 
 
@@ -412,6 +415,11 @@ const AddUploadProduct = () => {
 
         formData.set("attributes", JSON.stringify(attributes || {}));
 
+        if (videoSelected) {
+            formData.append("video", videoSelected);
+            formData.append("video_duration", String(60));
+        }
+
         return formData;
     };
 
@@ -462,6 +470,7 @@ const AddUploadProduct = () => {
             setCurrentSection(1);
             setIsProductAdded(false);
 
+
         } catch (err) {
 
             console.error(err);
@@ -492,12 +501,17 @@ const AddUploadProduct = () => {
     // ── Rendu ──
     return (
         <>
+            {/* Notification bar sticky */}
+            <div className="sticky top-0 z-50">
+                <AttentionAlertMessage />
+            </div>
+
             <div
                 className="ap-root"
                 style={{
                     minHeight: "100vh",
                     background: "",
-                    padding: "32px 16px 80px",
+                    padding: "32px 20px 80px",
                 }}
             >
 
@@ -740,6 +754,8 @@ const AddUploadProduct = () => {
                                     )}
                                 </div>
                             )}
+
+                            <UseVideo getVideoSelected={getVideoSelected} />
 
                             {/* ── Section 4 : Livraison & Liens ── */}
                             {currentSection >= 4 && (
