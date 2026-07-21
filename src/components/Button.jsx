@@ -68,7 +68,6 @@ const WhiteRoundedButton = ({ titleButton, to, children = null }) => {
     );
 };
 
-
 export default WhiteRoundedButton;
 
 export const WhiteRoundedButtonSignInRegister = ({ titleButton,  children = null, onClick = null }) => {
@@ -120,19 +119,18 @@ export const ButtonNavigate = ({ tabs }) => {
 
     return (
 
-        <section>
+        <section className="w-full">
 
             <ul
                 className="
-                    fixed bottom-0 left-0 w-full flex gap-2  md:rounded-full lg:rounded-full  rounded-none bg-white/80  lg:bg-transparent md:bg-transparent
+                    w-full flex gap-2  md:rounded-full lg:rounded-full  rounded-none bg-white/80  lg:bg-transparent md:bg-transparent
                     border-0
-                    sm:items-center
-                    lg:static lg:flex 
-                    lg:flex-row 
-                    lg:w-auto
+                    md:static md:flex 
+                    md:flex-row 
+                    md:w-auto
                     justify-between
-                    dark:bg-dark-2
-                    px-4 z-10 
+                    items-center
+                    px-1 z-10 
                     mx-0
                  "
             >
@@ -140,11 +138,10 @@ export const ButtonNavigate = ({ tabs }) => {
             {
                 tabs?.map((tab) => (
 
-                        <li key={tab.id} className="w-full sm:w-auto gap-6 px-1 ">
+                    <li key={tab.id} className={`${tab.id ? "w-full sm:w-auto gap-6 px-1":"hidden md:block"}`}>
 
                             {
                                
-
                                 <NavLink
 
                                     to={tab.endPoint}
@@ -182,7 +179,6 @@ export const ButtonNavigate = ({ tabs }) => {
         </section>
     );
 };
-
 
 export const ButtonSimple = ({
     title,

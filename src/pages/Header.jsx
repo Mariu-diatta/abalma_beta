@@ -104,7 +104,9 @@ const NavbarHeader = () => {
                 {!isHidden && (
                     <div className={`flex w-full items-center ${isCentered ? "justify-center" : "justify-end"}`}>
 
-                        <ButtonNavigate tabs={getTabsNavigationsItems(currentNav, t)} />
+                        <span className="hidden md:block">
+                            <ButtonNavigate tabs={getTabsNavigationsItems(currentNav, t)} />
+                        </span>
 
                         {/* Lazy-loaded SearchBar */}
                         <Suspense fallback={null}>
@@ -118,7 +120,7 @@ const NavbarHeader = () => {
                     <button
                         onClick={() => setOpen(prev => !prev)}
                         id="navbarToggler"
-                        className={`sm:hidden z-[71] px-3 py-3 rounded-lg text-black dark:bg-dark-3 dark:text-white focus:outline-none ${open ? "navbarTogglerActive" : ""}`}
+                        className={`sm:hidden z-[71] px-3 py-3 rounded-lg text-black dark:bg-dark-3 dark:text-white focus:outline-none ${open ? "navbarTogglerActive z-[9999]" : ""}`}
                         aria-label="Toggle navigation"
                         aria-expanded={open}
                     >
@@ -132,7 +134,6 @@ const NavbarHeader = () => {
                         <MoreSheetMobile open={open} onClose={() => setOpen(false)} />
                         <DesktopNav />
                     </Suspense>
-
                 </span>
                 
             </header>

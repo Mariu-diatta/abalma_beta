@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Home, Search, PlusSquare, MessageCircle, User, LogOut } from "lucide-react";
-
 import { setCurrentNav } from "../slices/navigateSlice";
 import { logout } from "../slices/authSlice";
 import { clearCart } from "../slices/cartSlice";
 import { cleanAllMessageNotif, clearRooms } from "../slices/chatSlice";
-import { ENDPOINTS, getMediaUrl } from "../utils";
+import { ENDPOINTS, getMediaUrl, getTabsNavigationsItems } from "../utils";
 import api from "../services/Axios";
 import { API_ENDPOINTS } from "../services/apiEndpoints";
 import { showMessage } from "../components/AlertMessage";
@@ -18,6 +17,7 @@ import LanguageDropdown from "./Langages";
 import PayBack from "../components/BacketButtonPay";
 import LogIn from "../pages/Login";
 import RegisterForm from "../pages/Register";
+import { ButtonNavigate } from "../components/Button";
 
 // ─────────────────────────────────────────────────────────────────────────
 // Bottom nav mobile façon Instagram : 5 icônes fixes, toujours visibles.
@@ -51,7 +51,7 @@ const BottomNavMobile = () => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    const [open, setOpen] = useState(false);
     const currentNav = useSelector((state) => state.navigate.currentNav);
     const currentUser = useSelector((state) => state.auth.user);
     const unreadCount = useSelector((state) => state.chat.messageNotif?.length || 0);
@@ -84,19 +84,21 @@ const BottomNavMobile = () => {
     const avatarSrc = currentUser?.image || currentUser?.photo_url;
     const trusted = isTrustedUser(currentUser);
 
+
     return (
         <>
+
             <nav
                 className="flex ig-bottom-nav md:hidden"
                 role="navigation"
                 aria-label={t("bottom_nav_label") || "Navigation principale"}
             >
                 <NavButton onClick={() => go("")} active={isHome} label={t("home")}>
-                    <Home size={24} strokeWidth={isHome ? 2.25 : 1.6} fill={isHome ? "currentColor" : "none"} />
+                    <Home size={24} strokeWidth={isHome ? 1.5 : 1} fill={isHome ? "currentColor" : "none"} />
                 </NavButton>
 
                 <NavButton onClick={() => goProtected(ENDPOINTS.ACCOUNT_HOME)} active={isSearch} label={t("search") || "Rechercher"}>
-                    <Search size={24} strokeWidth={isSearch ? 2.25 : 1.6} />
+                    <Search size={24} strokeWidth={isSearch ? 1.5 : 1} />
                 </NavButton>
 
                 {/* Bouton central "créer une annonce", mis en avant */}
@@ -201,12 +203,12 @@ const MoreSheetMobile = ({ open, onClose }) => {
 
     return (
         <div
-            className="sm:hidden fixed inset-0 z-[9990] flex items-end justify-center bg-black/30"
+            className="sm:hidden fixed inset-0 z-[9990] flex items-end justify-center bg-black/30 pb-[6dvh]"
             onClick={onClose}
         >
             <div
                 onClick={(e) => e.stopPropagation()}
-                className="w-full max-w-[420px] rounded-t-2xl p-4 pb-6 shadow-2xl"
+                className="w-full  rounded-t-2xl p-4 pb-6 shadow-2xl"
                 style={{ backgroundColor: "var(--color-surface, #fff)" }}
             >
                 <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-gray-300" />
@@ -240,7 +242,7 @@ const MoreSheetMobile = ({ open, onClose }) => {
                     <LanguageDropdown />
                 </div>
 
-                <div className="flex items-center justify-between gap-3 py-2">
+                <div className="hidden flex items-center justify-between gap-3 py-2">
                     <span className="text-sm" style={{ color: "var(--color-text, #262626)" }}>
                         {t("theme") || "Thème"}
                     </span>
@@ -255,25 +257,31 @@ const MoreSheetLoginRegister = ({ onClose }) => {
     const { t } = useTranslation();
     const [showLogin, setShowLogin] = useState(false);
     const [showRegister, setShowRegister] = useState(false);
+    const currentNav = useSelector(state => state.navigate.currentNav);
 
     return (
-        <div className="flex items-center gap-2 pb-3 mb-2 border-b" style={{ borderColor: "var(--color-border, #dbdbdb)" }}>
-            <button
-                type="button"
-                onClick={() => { setShowLogin(true); setShowRegister(false); }}
-                className="flex-1 rounded-full border py-2 text-sm font-medium"
-                style={{ borderColor: "var(--color-border, #dbdbdb)", color: "var(--color-text, #262626)" }}
-            >
-                {t(ENDPOINTS.LOGIN)}
-            </button>
-            <button
-                type="button"
-                onClick={() => { setShowRegister(true); setShowLogin(false); }}
-                className="flex-1 rounded-full py-2 text-sm font-medium text-white"
-                style={{ backgroundColor: "var(--color-primary, #0095F6)" }}
-            >
-                {t(ENDPOINTS.REGISTER)}
-            </button>
+        <div className="flex flex-col items-center gap-2 pb-3 mb-2 border-b" style={{ borderColor: "var(--color-border, #dbdbdb)" }}>
+
+            <div className="flex items-center gap-2 pb-3 mb-2 border-b w-full">
+                <button
+                    type="button"
+                    onClick={() => { setShowLogin(true); setShowRegister(false); }}
+                    className="flex-1 rounded-full border py-2 text-sm font-medium"
+                    style={{ borderColor: "var(--color-border, #dbdbdb)", color: "var(--color-text, #262626)" }}
+                >
+                    {t(ENDPOINTS.LOGIN)}
+                </button>
+                <button
+                    type="button"
+                    onClick={() => { setShowRegister(true); setShowLogin(false); }}
+                    className="flex-1 rounded-full py-2 text-sm font-medium text-white"
+                    style={{ backgroundColor: "var(--color-primary, #0095F6)" }}
+                >
+                    {t(ENDPOINTS.REGISTER)}
+                </button>
+            </div>
+
+            <ButtonNavigate tabs={getTabsNavigationsItems(currentNav, t)} />
 
             {showLogin && (
                 <LogIn
