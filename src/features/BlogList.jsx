@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import {
-    Heart,
     MessageCircle,
     Share2,
     Bookmark,
@@ -9,6 +8,8 @@ import { useState } from "react";
 import api from "../services/Axios";
 import API_ENDPOINTS from "../services/apiEndpoints";
 import { useSelector } from 'react-redux';
+import { formatRelativeDate } from "../utils";
+import LikeButton from "../components/LikeButton";
 
 export default function BlogList() {
 
@@ -36,12 +37,12 @@ export default function BlogList() {
     }, [])
 
     return (
-        <div className="h-full w-full overflow-y-auto bg-none">
+        <div className="h-full w-full  bg-none ">
 
             <div className="max-w-7xl mx-auto grid lg:grid-cols-4 gap-8 px-1 py-8 items-start">
 
                 {/* Sidebar gauche */}
-                <aside className="hidden lg:block lg:sticky lg:top-6 lg:self-start">
+                <aside className="hidden lg:block lg:sticky lg:top-1/3 lg:self-start">
 
                     <div className={`${currentUser?.photo_url ? "bg-white rounded-2xl p-6 shadow" :"hidden"}`}>
 
@@ -85,7 +86,7 @@ export default function BlogList() {
                                         {post.user?.prenom}
                                     </h3>
                                     <span className="text-sm text-gray-500">
-                                        il y a 2 heures
+                                        {formatRelativeDate(post.created_at)}
                                     </span>
                                 </div>
                             </div>
@@ -116,12 +117,15 @@ export default function BlogList() {
 
                                 {/* Actions */}
                                 <div className="flex justify-between mt-8">
-                                    <button className="flex items-center gap-2 text-gray-600 hover:text-red-500">
-                                        <Heart size={22} />
-                                        {post?.likes??0}
-                                    </button>
 
-                                    <button className="flex items-center gap-2 text-gray-600">
+                                    <LikeButton
+                                        contentType="usersblog"
+                                        objectId={post.id}
+                                        initialLiked={post.is_liked}
+                                        initialCount={post.likes_count}
+                                    />
+
+                                    <button className="flex items-center gap-2 text-gray-600 hidden">
                                         <MessageCircle size={22} />
                                         {post?.comments??0}
                                     </button>
@@ -141,7 +145,11 @@ export default function BlogList() {
                 </main>
 
                 {/* Trending */}
-                <aside className="hidden lg:block lg:sticky lg:top-6 h-fit">
+                <aside
+
+                    className=" md:block md:sticky md:top-1/4 h-fit"
+
+                >
                     <div className="bg-white rounded-2xl shadow p-6">
                         <h2 className="font-bold text-xl mb-6">
                             Tendances

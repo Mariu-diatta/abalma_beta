@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Download, FileText } from 'lucide-react';
+import { formatRelativeDate } from '../utils';
 
 const MessageBubble = ({ msg }) => {
 
@@ -42,7 +43,7 @@ const MessageBubble = ({ msg }) => {
                     </div>
                 </div>
                 {msg?.created_at && (
-                    <span className="sr-only">{msg.created_at}</span>
+                    <span className="sr-only">{formatRelativeDate(msg.created_at)}</span>
                 )}
             </div>
         );
@@ -62,7 +63,7 @@ const MessageBubble = ({ msg }) => {
                         className={`block text-[10px] mt-1 text-right ${ISFORCURRENTUSER ? "text-white/70" : "text-gray-400"
                             }`}
                     >
-                        {msg?.created_at}
+                        {formatRelativeDate(msg?.created_at)}
                     </span>
                 )}
             </div>

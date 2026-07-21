@@ -382,15 +382,20 @@ const SettingsForm = () => {
                 <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }} className="flex flex-col md:block md:flex-row">
 
                     {/* ── Sidebar ── */}
-                    <aside className="flex md:block overflow-x-auto w-full md:w-[200px] scrollbor_hidden_ z-10 mt-10" style={{
-                        flexShrink: 0,
-                        background: 'var(--color-background-primary)',
-                        border: '0.5px solid var(--color-border-tertiary)',
-                        borderRadius: '16px',
-                        padding: '10px',
-                        position: 'sticky',
-                        top: '2rem',
-                    }}>
+                    <aside
+
+                        className="flex md:block overflow-x-auto w-full md:w-[200px] scrollbor_hidden_ z-10 mt-10"
+
+                        style={{
+                            flexShrink: 0,
+                            background: 'var(--color-background-primary)',
+                            border: '0.5px solid var(--color-border-tertiary)',
+                            borderRadius: '16px',
+                            padding: '10px',
+                            position: 'sticky',
+                            top: '2rem',
+                        }}
+                    >
                         {NAV_ITEMS.map(({ key, icon, labelKey }) => (
                             <NavItem
                                 key={key}

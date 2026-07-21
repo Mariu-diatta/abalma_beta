@@ -39,8 +39,7 @@ const Avatar = ({ src, name }) => {
 // ─── Composant principal ──────────────────────────────────────────────────────
 export default function TestimonialCarousel({
     autoplay = true,
-    autoplayInterval = 5000,
-    setNumberTestmony
+    autoplayInterval = 5000
 }) {
     const { t } = useTranslation();
     const [testimonials, setTestimonials] = useState([]);
@@ -68,10 +67,9 @@ export default function TestimonialCarousel({
         api.get(API_ENDPOINTS.TESTIMONIALS.PUBLIC_LIST)
             .then(({ data }) => {
                 setTestimonials(data || []);
-                setNumberTestmony(data.length)
             })
             .catch(console.error);
-    }, [setNumberTestmony]);
+    }, []);
 
     // ── Navigation ──
     const goNext = useCallback(() => {

@@ -103,7 +103,7 @@ export const BlogPage = () => {
     return (
 
 
-        <div className="min-h-full py-1 overflow-y-auto scrollbor_hidden pt-[5dvh]">
+        <div className="min-h-full py-1  scrollbor_hidden pt-[5dvh]">
 
             <div className="mx-0 lg:mx-auto  max-w-screen-auto text-center lg:mb-3 mb-2">
 
@@ -119,20 +119,18 @@ export const BlogPage = () => {
                 <SearchBar />
             }
 
-            <div className="relative overflow-x-hidden fixed py-1 px-2 w-full mx-0 lg:mx-auto lg:py-2 lg:px-6 my-6" >
 
-                {
-                    !isLoading?
-                    <BlogList blogs={blogs}/>
-                    :
-                    <LoadingCard/>
+            {
+                !isLoading?
+                <BlogList blogs={blogs}/>
+                :
+                <LoadingCard/>
 
-                }
+            }
 
-                <ModalFormCreatBlog/>
+            <ModalFormCreatBlog/>
 
 
-            </div>
 
         </div>
     );

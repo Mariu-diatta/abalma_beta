@@ -18,6 +18,7 @@ import home_5657414 from "../../src/assets/home-address_12248895.png";
 import pay_8331969 from "../../src/assets/pay_8331969.png";
 import { getMediaUrl, getProducts } from "../utils";
 import { addToCart } from "../slices/cartSlice";
+import LikeButton from "../components/LikeButton";
 
 const ProductDetailsSection = ({ isOpen, onClose }) => {
     const dispatch = useDispatch();
@@ -462,7 +463,12 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                                 </button>
 
                                 <button className="p-4 bg-gray-100 text-gray-400 rounded-2xl hover:bg-red-50 hover:text-red-500 transition-colors">
-                                    <Heart size={20} />
+                                    <LikeButton
+                                        contentType="product"
+                                        objectId={product.id}
+                                        initialLiked={product.is_liked}
+                                        initialCount={product.likes_count}
+                                    />
                                 </button>
 
                             </div>

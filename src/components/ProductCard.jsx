@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useMemo, useRef, lazy } from "react";
 import { useDispatch } from "react-redux";
 import { useTranslation } from 'react-i18next';
-import { Eye, ImageOff, Heart, ShoppingBag, PlayCircle } from "lucide-react"; // Utilisation de Lucide pour plus de finesse
+import { Eye, ImageOff, ShoppingBag, PlayCircle } from "lucide-react"; // Utilisation de Lucide pour plus de finesse
 import OwnerAvatar from "./OwnerProfil";
 import ScrollingContent from "./ScrollContain";
 import { addMessageNotif } from "../slices/chatSlice";
 import { addToCart } from "../slices/cartSlice";
 import { getMediaUrl } from "../utils";
+import LikeButton from "./LikeButton";
 
 const PrintNumberStars = lazy(() => import("./SystemStar"));
 
@@ -126,18 +127,17 @@ const ProductCard = ({ item, isInCart, owner, openModal }) => {
                 )}
 
                 {/* Like / favori façon Instagram */}
-                <button
-                    type="button"
-                    onClick={handleToggleLike}
-                    title={t("save_item") || "Enregistrer"}
-                    className="absolute top-3 right-3 z-20 w-8 h-8 rounded-full bg-white/95 border border-[#dbdbdb] flex items-center justify-center transition-transform active:scale-90"
+                <span
+                    className="absolute top-3 right-3 z-20 w-8 h-8 rounded-full border-0 flex items-center justify-center transition-transform active:scale-90"
                 >
-                    <Heart
-                        size={16}
-                        className={isLiked ? "text-[#ED4956]" : "text-[#262626]"}
-                        fill={isLiked ? "#ED4956" : "none"}
+                    <LikeButton
+                        contentType="product"
+                        objectId={item.id}
+                        initialLiked={item.is_liked}
+                        initialCount={item.likes_count}
                     />
-                </button>
+
+                </span>
 
                 <div
                     onClick={() => openModal(item)}

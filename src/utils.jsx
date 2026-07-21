@@ -5,6 +5,59 @@ import { login, updateCompteUser} from "./slices/authSlice";
 import { setCurrentNav, updateTheme } from "./slices/navigateSlice";
 import { store } from "./store/Store";
 
+export const formatRelativeDate = (dateString) => {
+    const date = new Date(dateString);
+    const now = new Date();
+
+    const diff = now - date;
+
+    const seconds = Math.floor(diff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    // Moins d'une minute
+    if (seconds < 60) {
+        return "À l'instant";
+    }
+
+    // Minutes
+    if (minutes < 60) {
+        return `Il y a ${minutes} minute${minutes > 1 ? "s" : ""}`;
+    }
+
+    // Heures
+    if (hours < 24) {
+        return `Il y a ${hours} heure${hours > 1 ? "s" : ""}`;
+    }
+
+    // Hier
+    if (days === 1) {
+        return "Hier";
+    }
+
+    // Jours
+    if (days < 7) {
+        return `Il y a ${days} jours`;
+    }
+
+    // Semaines
+    if (days < 30) {
+        const weeks = Math.floor(days / 7);
+        return `Il y a ${weeks} semaine${weeks > 1 ? "s" : ""}`;
+    }
+
+    // Mois
+    if (days < 365) {
+        const months = Math.floor(days / 30);
+        return `Il y a ${months} mois`;
+    }
+
+    // Années
+    const years = Math.floor(days / 365);
+    return `Il y a ${years} an${years > 1 ? "s" : ""}`;
+};
+
 export const getProducts = async (category) => {
 
     const isDefaultCategory =

@@ -19,8 +19,46 @@
  * -----------------------------------------------------------------------
  */
 
+import api from "./Axios";
+
+
+export async function toggleLike(contentTypeName, objectId) {
+    try {
+        const response = await api.post(API_ENDPOINTS.LIKE.like, {
+            content_type_name: contentTypeName.toLowerCase(),
+            object_id: objectId,
+        });
+
+        return response.data;
+        // { liked: true/false, likes_count: N }
+
+    } catch (error) {
+
+        if (error.response?.status === 401) {
+            throw new Error("Vous devez être connecté pour liker");
+        }
+
+        if (error.response?.status === 404) {
+            throw new Error(
+                "Le contenu à liker est introuvable"
+            );
+        }
+
+        throw new Error(
+            error.response?.data?.detail ||
+            "Erreur lors du like"
+        );
+    }
+}
+
 export const API_ENDPOINTS = {
 
+    // ---------------------------------------------------------------
+    // LIKE
+    // ---------------------------------------------------------------
+    LIKE: {
+        like:"likes/toggle/"
+    },
     // ---------------------------------------------------------------
     // AUTH
     // ---------------------------------------------------------------
