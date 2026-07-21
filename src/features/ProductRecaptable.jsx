@@ -262,7 +262,7 @@ const ProductsRecapTable = ({ products = [], setProductsTrasaction, title, mode 
                                 url="sub/transaction"
                                 pk={selectedSubTransaction?.id}
                                 status={selectedSubTransaction?.status}
-                                address={selectedSubTransaction?.address}
+                                address={JSON.parse(selectedSubTransaction?.address)}
                                 data={subTransactionsData}
                                 setData={setSubTransactionsData}
                                 setDeleted={setDeletedSubTrans}

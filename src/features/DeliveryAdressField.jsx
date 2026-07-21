@@ -72,7 +72,7 @@ export default function DeliveryAddressField({
                     >
                         {deliveryAddress.map((item) => (
                             <option key={item.id} value={item.id} >
-                                <>{item.address}</>
+                                <>{JSON.parse(item.address).adresse}</>
                             </option>
                         ))}
                     </select>

@@ -220,7 +220,7 @@ const TrackingResult = ({ data }) => {
                         <span className="sc-info-icon">📍</span>
                         <div>
                             <p className="sc-info-label">{t("destination")}</p>
-                            <p className="sc-info-value">{data.address.city || data.address}</p>
+                            <p className="sc-info-value">{JSON.parse(data.address).city || JSON.parse(data.address).adresse}</p>
                         </div>
                     </div>
                 )}

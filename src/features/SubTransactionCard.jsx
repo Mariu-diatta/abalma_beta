@@ -29,7 +29,7 @@ const DetailRow = ({ label, value }) => (
         <span className="text-xs text-gray-400 font-medium uppercase tracking-wide shrink-0">
             {label}
         </span>
-        <span className="text-sm text-gray-700 font-medium text-right truncate">
+        <span className="text-sm text-gray-700 font-medium text-right">
             {value}
         </span>
     </div>
@@ -134,7 +134,7 @@ const TransactionAndSubTransactionCard = ({
                     <DetailRow label="Date" value={createdAt} />
                     <DetailRow label="Code" value={code} />
                     <DetailRow label={priceLabel ?? "Montant"} value={price} />
-                    <DetailRow label={t("adress")} value={address}/> 
+                    <DetailRow label={t("adress")} value={address?.adresse}/> 
                 </div>
 
                 {/* ── Actions ── */}
