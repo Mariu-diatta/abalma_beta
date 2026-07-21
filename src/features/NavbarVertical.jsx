@@ -270,9 +270,9 @@ const VerticalNavbar = ({ children }) => {
                     >
                         <IconMenu />
                     </button>
-                    {/*<div className="w-full flex start-end">*/}
-                    {/*    <ButtonsNavigateThemecolorPayDropdownaccount />*/}
-                    {/*</div>*/}
+                    <div className="w-full flex start-end">
+                        <ButtonsNavigateThemecolorPayDropdownaccount />
+                    </div>
                 </div>
 
                 {isSidebarOpen && (
