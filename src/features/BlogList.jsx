@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Suspense } from "react";
 import {
     MessageCircle,
     Share2,
@@ -10,12 +10,17 @@ import API_ENDPOINTS from "../services/apiEndpoints";
 import { useSelector } from 'react-redux';
 import { formatRelativeDate } from "../utils";
 import LikeButton from "../components/LikeButton";
+import { useTranslation } from "react-i18next";
 
 export default function BlogList() {
+
+    const { t } = useTranslation()
 
     const currentUser = useSelector((state) => state.auth.user);
 
     const [blogs, setBlogs] = useState([])
+
+    const [loading, setLoading] = useState(false)
 
 
     useEffect(() => {
@@ -23,11 +28,15 @@ export default function BlogList() {
         const allblogs = async () => {
 
             try {
+                setLoading(true)
                 const { data } = await api.get(API_ENDPOINTS.BLOG.LIST)
                 setBlogs(data)
 
             } catch (e) {
                 console.log(e)
+
+            } finally {
+                setLoading(false)
             }
 
         }
@@ -42,7 +51,7 @@ export default function BlogList() {
             <div className="max-w-7xl mx-auto grid lg:grid-cols-4 gap-8 px-1 py-8 items-start">
 
                 {/* Sidebar gauche */}
-                <aside className="hidden lg:block lg:sticky lg:top-1/3 lg:self-start">
+                <aside className="hidden lg:block lg:sticky lg:top-1/5 lg:self-start">
 
                     <div className={`${currentUser?.photo_url ? "bg-white rounded-2xl p-6 shadow" :"hidden"}`}>
 
@@ -68,86 +77,104 @@ export default function BlogList() {
 
                 {/* Feed */}
                 <main className="lg:col-span-2 space-y-8">
-                    {blogs.map((post) => (
-                        <div
-                            key={post.id}
-                            className="bg-white rounded-3xl shadow overflow-hidden"
-                        >
-                            {/* Author */}
-                            <div className="p-5 flex items-center">
-                                <img
-                                    src={post.user?.photo_url}
-                                    alt=""
-                                    className="w-12 h-12 rounded-full"
-                                />
+                    {
+                        (blogs.length === 0) && !loading &&
+                        <div className="mbl-empty">
+                            <div className="mbl-empty-icon">📭</div>
+                            <p className="mbl-empty-title">
+                                {t('blogNone')}
+                            </p>
+                        </div>
+                    }
 
-                                <div className="ml-4">
-                                    <h3 className="font-semibold">
-                                        {post.user?.prenom}
-                                    </h3>
-                                    <span className="text-sm text-gray-500">
-                                        {formatRelativeDate(post.created_at)}
-                                    </span>
-                                </div>
-                            </div>
+                    <Suspense Callback={"..."}>
 
-                            {/* Video */}
-                            <div className={`${post.video ? "relative" : "hidden"}`}>
-                                <video
-                                    controls
-                                    autoPlay
-                                    muted
-                                    loop
-                                    playsInline
-                                    className="w-full h-[420px] object-cover"
-                                >
-                                    <source src={post.video} type="video/mp4" />
-                                </video>
-                            </div>
-
-                            {/* Content */}
-                            <div className="p-6">
-                                <h2 className="text-2xl font-bold mb-3">
-                                    {post?.title_blog}
-                                </h2>
-
-                                <p className="text-gray-600 leading-7">
-                                    {post?.blog_message}
-                                </p>
-
-                                {/* Actions */}
-                                <div className="flex justify-between mt-8">
-
-                                    <LikeButton
-                                        contentType="usersblog"
-                                        objectId={post.id}
-                                        initialLiked={post.is_liked}
-                                        initialCount={post.likes_count}
+                        {
+                            blogs.map((post) => (
+                            <div
+                                key={post.id}
+                                className="bg-white rounded-3xl shadow overflow-hidden"
+                            >
+                                {/* Author */}
+                                <div className="p-5 flex items-center">
+                                    <img
+                                        src={post.user?.photo_url}
+                                        alt=""
+                                        className="w-12 h-12 rounded-full"
                                     />
 
-                                    <button className="flex items-center gap-2 text-gray-600 hidden">
-                                        <MessageCircle size={22} />
-                                        {post?.comments??0}
-                                    </button>
+                                    <div className="ml-4">
+                                        <h3 className="font-semibold">
+                                            {post.user?.prenom}
+                                        </h3>
+                                        <span className="text-sm text-gray-500">
+                                            {formatRelativeDate(post.created_at)}
+                                        </span>
+                                    </div>
+                                </div>
 
-                                    <button className="flex items-center gap-2 text-gray-600">
-                                        <Share2 size={22} />
-                                        Partager
-                                    </button>
+                                {/* Video */}
+                                <div className={`${post.video ? "relative" : "hidden"}`}>
+                                    <video
+                                        controls
+                                        autoPlay
+                                        muted
+                                        loop
+                                        playsInline
+                                        className="w-full h-[420px] object-cover"
+                                    >
+                                        <source src={post.video} type="video/mp4" />
+                                    </video>
+                                </div>
 
-                                    <button className="text-gray-600">
-                                        <Bookmark size={22} />
-                                    </button>
+                                {/* Content */}
+                                <div className="p-6">
+                                    <h2 className="text-2xl font-bold mb-3">
+                                        {post?.title_blog}
+                                    </h2>
+
+                                    <p className="text-gray-600 leading-7">
+                                        {post?.blog_message}
+                                    </p>
+
+                                    {/* Actions */}
+                                    <div className="flex justify-between mt-8">
+
+                                        <LikeButton
+                                            contentType="usersblog"
+                                            objectId={post.id}
+                                            initialLiked={post.is_liked}
+                                            initialCount={post.likes_count}
+                                        />
+
+                                        <button className="flex items-center gap-2 text-gray-600 hidden">
+                                            <MessageCircle size={22} />
+                                            {post?.comments??0}
+                                        </button>
+
+                                        <button className="flex items-center gap-2 text-gray-600 hidden">
+                                            <Share2 size={22} />
+                                            Partager
+                                        </button>
+
+                                        <button className="text-gray-600 hidden">
+                                            <Bookmark size={22} />
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                            ))
+
+                        }
+
+                    </Suspense>
+
                 </main>
 
                 {/* Trending */}
                 <aside
 
-                    className=" md:block md:sticky md:top-1/4 h-fit"
+                    className=" md:block md:sticky md:top-1/5 h-fit"
 
                 >
                     <div className="bg-white rounded-2xl shadow p-6">

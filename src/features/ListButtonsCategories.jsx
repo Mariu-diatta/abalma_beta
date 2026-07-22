@@ -118,14 +118,14 @@ const ListButtonsCategories = ({
                 ref={triggerRef}
                 type="button"
                 onClick={togglePopover}
-                whileHover={{ scale: 1.02 }}
+                whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.97 }}
                 className={`
-                    flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium mt-2
+                    flex items-center gap-2 px-1 py-2.5 rounded-xl text-sm font-medium mt-2
                     border transition-all duration-200 select-none
                     ${isOpen
-                        ? "bg-indigo-50 border-indigo-200 text-indigo-600"
-                        : "bg-white border-gray-200 text-gray-600 hover:border-indigo-200 hover:text-indigo-500"
+                        ? " border-0 text-indigo-600"
+                        : " border-0 text-gray-600 hover:border-indigo-200 hover:text-indigo-500"
                     }
                 `}
             >
