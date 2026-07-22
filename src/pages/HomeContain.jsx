@@ -13,6 +13,7 @@ import UserCard from '../components/Fournisseurs';
 import SellerStoriesBar from '../features/SellerStoriesBar';
 import api from '../services/Axios';
 import { useTranslation } from 'react-i18next';
+import {  useSelector } from "react-redux";
 
 /* ---------- petits composants utilitaires (local) ---------- */
 
@@ -69,7 +70,7 @@ const HomeContain = () => {
     const [activeTab, setActiveTab] = useState('products');
     const [clients, setClients] = useState([]);
     const [query, setQuery] = useState('');
-
+    const user = useSelector((state) => state.auth.user);
     useEffect(() => {
         let cancelled = false;
         (async () => {
@@ -172,7 +173,7 @@ const HomeContain = () => {
 
                 {/* ============ STORIES VENDEURS ============ */}
                 {
-                    <section className="px-1 mt-5">
+                    user && <section className="px-1 mt-5">
                         <SectionCard className="py-3">
                             <SellerStoriesBar />
                         </SectionCard>
