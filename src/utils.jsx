@@ -1559,4 +1559,7 @@ export const NAV_ITEMS = [
         { key: 'payment', icon: CardIcon, labelKey: 'settingsText.paymentMethod' },
         { key: 'subscription', icon: StarIcon, labelKey: 'settingsText.subscription' },
         { key: 'danger', icon: TrashIcon, labelKey: 'settingsText.dangerZone' },
-    ];
+];
+
+
+export const alertMessage = (messageTranslateKey, t) => alert(t(messageTranslateKey))

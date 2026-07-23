@@ -99,7 +99,7 @@ const SearchBar = ({disabled = false }) => {
                 <input
                     ref={searchBtnRef}
                     type="search"
-                    className={`bg-white/10  block px-2.5 py-2.5 w-full z-10 text-md rounded-e-full border-l-0 border border-gray-200 dark:placeholder-gray-400 focus:outline-none focus:ring-0`}
+                    className={`bg-white/10  block px-2.5 py-1.5 w-full z-10 text-md rounded-e-full border-l-0 border border-gray-200 dark:placeholder-gray-400 focus:outline-none focus:ring-0`}
                     placeholder={`${t("Search")} ${selectedCategory ? selectedCategory?.replace(/_/g, " ").toLowerCase() : (t('All')).toLowerCase() } `}
                     value={searchTerm??""}
                     onChange={(e) => {

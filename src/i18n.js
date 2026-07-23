@@ -22,6 +22,7 @@ i18n
         en: {
 
             translation: {
+                requireConnexion: "Sign in required!!!",
                 "shared_files": "Shared files",
                 "see_all": "See all",
                 "no_shared_files": "No shared files",
@@ -875,6 +876,7 @@ i18n
         fr: {
 
             translation: {
+                requireConnexion:"Connexion requise !!!",
                 'shared_files': "Fichiers partagés",
                 'see_all': "Voir tout",
                 'no_shared_files': "Aucun fichié partagé",
@@ -1713,6 +1715,7 @@ i18n
         es: {
 
             translation: {
+                requireConnexion: "Se requiere iniciar sesión!!!",
                 "shared_files": "Archivos compartidos",
                 "see_all": "Ver todo",
                 "no_shared_files": "No hay archivos compartidos",

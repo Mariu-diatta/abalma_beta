@@ -14,6 +14,7 @@ import SellerStoriesBar from '../features/SellerStoriesBar';
 import api from '../services/Axios';
 import { useTranslation } from 'react-i18next';
 import {  useSelector } from "react-redux";
+import { useOpenChatRoom } from '../components/UseOpenChatRoom';
 
 /* ---------- petits composants utilitaires (local) ---------- */
 
@@ -71,6 +72,8 @@ const HomeContain = () => {
     const [clients, setClients] = useState([]);
     const [query, setQuery] = useState('');
     const user = useSelector((state) => state.auth.user);
+    const { openRoomWith, loadingChat } = useOpenChatRoom({ user });
+
     useEffect(() => {
         let cancelled = false;
         (async () => {
@@ -147,7 +150,7 @@ const HomeContain = () => {
 
                             {/* Tabs */}
                             <div className="flex justify-center gap-2 pt-1 overflow-x-auto no-scrollbar overflow-y-hidden mx-auto scrollbor_hidden w-full py-3">
-                                {TABS.map(({ id, label, icon: Icon }) => {
+                                {TABS?.map(({ id, label, icon: Icon }) => {
                                     const active = activeTab === id;
                                     return (
                                         <button
@@ -196,13 +199,12 @@ const HomeContain = () => {
                         {activeTab === 'sellers' && (
                             filteredClients.length > 0 ? (
                                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                                    {filteredClients.map((user) => (
+                                    {filteredClients.map((currentSelectedUser) => (
                                         <UserCard
-                                            key={user.id}
-                                            user={user}
-                                            onProfile={() => { }}
-                                            onMessage={() => { }}
-                                            onFollow={() => { }}
+                                            key={currentSelectedUser.id}
+                                            selectedUserToSeeProfil={currentSelectedUser}
+                                            onMessage={() => openRoomWith(currentSelectedUser)}
+                                            disabled={loadingChat}
                                         />
                                     ))}
                                 </div>

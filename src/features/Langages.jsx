@@ -100,13 +100,13 @@ function LanguageDropdown() {
 
     return (
 
-        <div className="hover:bg-gray-200 relative inline-block text-left rounded-lg py-0 mx-2">
+        <div className=" relative inline-block text-left rounded-lg py-0 mx-2">
 
             <button
                 ref={buttonRef}
                 onClick={() => setIsOpen(!isOpen)}
                 type="button"
-                className="flex justify-center items-center  px-1 h-8  text-xs  text-gray-700 hover:bg-gray-50 rounded-lg"
+                className="flex justify-center items-center  px-1 h-8  text-xs  text-gray-700 hover:bg-gray-100 rounded-lg"
                 aria-haspopup="true"
                 aria-expanded={isOpen}
             >
