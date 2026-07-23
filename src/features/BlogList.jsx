@@ -51,7 +51,7 @@ export default function BlogList() {
             <div className="max-w-7xl mx-auto grid lg:grid-cols-4 gap-8 px-1 py-8 items-start">
 
                 {/* Sidebar gauche */}
-                <aside className="hidden lg:block lg:sticky lg:top-1/5 lg:self-start">
+                <aside className="hidden md:block md:sticky md:top-[8dvh] md:self-start">
 
                     <div className={`${currentUser?.photo_url ? "bg-white rounded-2xl p-6 shadow" :"hidden"}`}>
 
@@ -65,7 +65,7 @@ export default function BlogList() {
                             Votre Boutique
                         </h2>
 
-                        <p className="text-center text-gray-500 text-sm">
+                        <p className="text-center text-gray-500 text-sm truncate">
                             {currentUser?.description}
                         </p>
 
@@ -174,7 +174,7 @@ export default function BlogList() {
                 {/* Trending */}
                 <aside
 
-                    className=" md:block md:sticky md:top-1/5 h-fit"
+                    className=" md:block md:sticky md:top-[8dvh] h-fit"
 
                 >
                     <div className="bg-white rounded-2xl shadow p-6">
