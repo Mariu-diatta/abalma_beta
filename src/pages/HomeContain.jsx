@@ -109,7 +109,7 @@ const HomeContain = () => {
 
                     <SectionCard className="grid grid-cols-1 md:grid-cols-2 py-5 px-2 space-y-4 space-x-0 relative overflow-hidden w-full">
 
-                        <div className="max-w-full">
+                        <div className="max-w-full flex flex-col items-start md:items-center justify-start">
                             {/* blob décoratif */}
                             <div className="pointer-events-none absolute -top-16 -right-16 h-48 w-48 rounded-full bg-gradient-to-br from-indigo-300/40 to-purple-300/30 blur-3xl" />
 
