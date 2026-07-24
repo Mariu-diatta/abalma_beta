@@ -386,7 +386,7 @@ const VerticalNavbar = ({ children }) => {
                             >
                                 <ScrollTop />
                                 <ButtonScrollTopDown>
-                                    <div className="px-2">{children}</div>
+                                    <div className="px-0 mx-0">{children}</div>
                                 </ButtonScrollTopDown>
                             </section>
                         </main>
