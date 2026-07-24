@@ -15,6 +15,7 @@ import api from '../services/Axios';
 import { useTranslation } from 'react-i18next';
 import {  useSelector } from "react-redux";
 import { useOpenChatRoom } from '../components/UseOpenChatRoom';
+import { CONSTANTS, ENDPOINTS } from '../utils';
 
 /* ---------- petits composants utilitaires (local) ---------- */
 
@@ -78,8 +79,9 @@ const HomeContain = () => {
         let cancelled = false;
         (async () => {
             try {
-                const { data } = await api.get('/public/users-clients/');
-                if (!cancelled) setClients(data ?? []);
+                const { data } = await api.get(`${ENDPOINTS.PUBLIC_CLIENT}`);
+                const fournisseurs = data.filter(item => item.is_fournisseur)
+                if (!cancelled) setClients(fournisseurs ?? []);
             } catch (err) {
                 console.error(err);
             }
@@ -188,15 +190,15 @@ const HomeContain = () => {
                     <SectionHeader
                         emoji="🔥"
                         title={
-                            activeTab === 'products' ? t("popular_products") :
-                                activeTab === 'sellers' ? t("active_sellers") :
+                            activeTab === CONSTANTS.PRODUCTS ? t("popular_products") :
+                                activeTab === CONSTANTS.SELERS ? t("active_sellers") :
                                     t("trending_now")
                         }
                     />
                     <SectionCard className="p-1 md:p-3">
-                        {activeTab === 'products' && <GridLayoutProduct />}
+                        {activeTab === CONSTANTS.PRODUCTS && <GridLayoutProduct />}
 
-                        {activeTab === 'sellers' && (
+                        {activeTab === CONSTANTS.SELERS && (
                             filteredClients.length > 0 ? (
                                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                                     {filteredClients.map((currentSelectedUser) => (
@@ -215,13 +217,15 @@ const HomeContain = () => {
                             )
                         )}
 
-                        {activeTab === 'trending' && (
+                        {activeTab === CONSTANTS.TRENDINGS && (
                             <div className="p-6 text-center text-sm text-gray-500">
                                 <Sparkles className="mx-auto h-6 w-6 text-indigo-400 mb-2" />
                                 {t("trends_coming_soon")}
                             </div>
                         )}
+
                     </SectionCard>
+
                 </section>
 
                 {/* ============ PUB / AFFICHE ============ */}

@@ -1033,7 +1033,7 @@ export function formatISODate(isoDateStr) {
 
 //Endpoints
 export const ENDPOINTS = {
-    FORGETPSWD:"forgetPassword",
+    FORGETPSWD: "forgetPassword",
     REGISTER: "register",
     LOGIN: "login",
     MESSAGE_INBOX: "message-inbox",
@@ -1047,8 +1047,9 @@ export const ENDPOINTS = {
     DASHBOARD: "dashboard",
     BLOG: "blogs",
     SUBSCRIPTION: "subscription",
-    ABOUT:"about",
-    TRACKING: "tracking"
+    ABOUT: "about",
+    TRACKING: "tracking",
+    PUBLIC_CLIENT:"/public/users-clients/"
 }
 
 export const API_URL_BACKEND = {
@@ -1058,6 +1059,9 @@ export const API_URL_BACKEND = {
 }
 
 export const CONSTANTS = {
+    TRENDINGS:'trending',
+    SELERS: 'sellers',
+    PRODUCTS:'products',
     ABOUT: "about",
     BLOGS: "Blog",
     ALLBLOGS: "blogs",

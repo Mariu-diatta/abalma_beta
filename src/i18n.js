@@ -22,6 +22,7 @@ i18n
         en: {
 
             translation: {
+                featured_sellers: "Featured Sellers",
                 search_placeholder: "Search for a product, seller, or service...",
                 products: "Products",
                 sellers: "Sellers",
@@ -883,6 +884,7 @@ i18n
         fr: {
 
             translation: {
+                featured_sellers: "Vendeurs à la une",
                 search_placeholder: "Rechercher un produit, un vendeur, un service...",
                 products: "Produits",
                 sellers: "Vendeurs",
@@ -1729,6 +1731,7 @@ i18n
         es: {
 
             translation: {
+                featured_sellers: "Vendedores destacados",
                 search_placeholder: "Buscar un producto, un vendedor o un servicio...",
                 products: "Productos",
                 sellers: "Vendedores",
