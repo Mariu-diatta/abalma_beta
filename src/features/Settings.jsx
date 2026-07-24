@@ -215,9 +215,11 @@ const SettingsForm = () => {
 
 
     const tryRequest = async (requestFn, successMessage, calback = () => { }) => {
+
         try {
             calback(true)
             await requestFn();
+
             showMessage(dispatch, {
                 Type: "Message", Message: successMessage
             });
@@ -263,6 +265,7 @@ const SettingsForm = () => {
 
     const updatePassword = async (e) => {
         e.preventDefault();
+        if (currentUserData) return
         await tryRequest(
             () => api.patch(`/clients/${currentUserData?.id}/`, { password: form.password }),
             t('settingsText.passwordUpdated')

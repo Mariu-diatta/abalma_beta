@@ -12,7 +12,7 @@ function CategoryImagesDisplay({ products, openModal, owners }) {
 
     return (
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 scrollbor_hidden overflow-y-auto h-full w-full mx-1">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-1 scrollbor_hidden overflow-y-auto h-full w-full mx-0.5 relative">
 
             {
                 imagesProductsVariants?.map((item,k)=> {

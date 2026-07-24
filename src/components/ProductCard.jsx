@@ -26,7 +26,6 @@ const ProductCard = ({ item, isInCart, owner, openModal }) => {
 
     const [mediaIndex, setMediaIndex] = useState(0);
     const [imageError, setImageError] = useState(false);
-    const [isLiked, setIsLiked] = useState(false);
 
     const currentMedia = medias[mediaIndex] || null;
     const videoHalfTimerRef = useRef(null);
@@ -87,17 +86,13 @@ const ProductCard = ({ item, isInCart, owner, openModal }) => {
         dispatch(addMessageNotif(`Produit ${item?.code_reference} ajouté !`));
     };
 
-    const handleToggleLike = (e) => {
-        e.stopPropagation();
-        setIsLiked((prev) => !prev);
-    };
 
     return (
         <div
             className={`
                 group relative flex flex-col bg-white
                 rounded-xl border border-[#dbdbdb] overflow-hidden
-                transition-all duration-200 hover:border-[#0095F6]/40 h-full w-full md:max-w-[30vw]
+                transition-all duration-200 hover:border-[#0095F6]/40 h-full w-full min-h-[30dvw] md:max-w-[30dvw]
                 ${isInCart ? "opacity-75 grayscale-[0.5]" : ""}
             `}
         >
@@ -225,7 +220,7 @@ const ProductCard = ({ item, isInCart, owner, openModal }) => {
                     )}
 
                     {/* Overlay Action Rapide */}
-                    <div className="absolute inset-x-0 bottom-4 flex justify-center translate-y-12 group-hover:translate-y-0 transition-transform duration-300 z-20 hidden md:flex">
+                    <div className="absolute inset-x-0 bottom-4 flex justify-center translate-y-16 group-hover:translate-y-0 transition-transform duration-300 z-20 hidden md:flex">
                         <button className="bg-white/95 px-4 py-2 rounded-full border border-[#dbdbdb] text-xs font-semibold flex items-center justify-center gap-2 text-[#262626] hover:bg-[#fafafa]">
                             <Eye size={16} />
                             <span>{t("voir_details")}</span>
