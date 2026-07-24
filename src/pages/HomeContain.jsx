@@ -183,7 +183,7 @@ const HomeContain = () => {
                 }
 
                 {/* ============ FEED PRINCIPAL ============ */}
-                <section className="px-0.5 mt-5">
+                <section className="px-0 mt-5">
                     <SectionHeader
                         emoji="🔥"
                         title={
