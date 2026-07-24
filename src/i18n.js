@@ -22,6 +22,11 @@ i18n
         en: {
 
             translation: {
+                search_placeholder: "Search for a product, seller, or service...",
+                products: "Products",
+                sellers: "Sellers",
+                trending: "Trending",
+                social_market: "Network & Marketplace",
                 "active_contacts": "Active",
                 "search_conversation": "Search conversations...",
                 requireConnexion: "Sign in required!!!",
@@ -878,6 +883,11 @@ i18n
         fr: {
 
             translation: {
+                search_placeholder: "Rechercher un produit, un vendeur, un service...",
+                products: "Produits",
+                sellers: "Vendeurs",
+                trending:"Tendances",
+                social_market: "Réseau & Market",
                 "active_contacts": "Actifs",
                 "search_conversation": "Rechercher une discussion...",
                 requireConnexion:"Connexion requise !!!",
@@ -1719,6 +1729,11 @@ i18n
         es: {
 
             translation: {
+                search_placeholder: "Buscar un producto, un vendedor o un servicio...",
+                products: "Productos",
+                sellers: "Vendedores",
+                trending: "Tendencias",
+                social_market: "Red y Mercado",
                 "active_contacts": "Activos",
                 "search_conversation": "Buscar una conversación...",
                 requireConnexion: "Se requiere iniciar sesión!!!",

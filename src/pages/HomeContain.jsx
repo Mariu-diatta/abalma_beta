@@ -61,9 +61,9 @@ const LivePulse = () => (
 /* ---------- HOME ---------- */
 
 const TABS = [
-    { id: 'products', label: 'Produits', icon: ShoppingBag },
-    { id: 'sellers', label: 'Vendeurs', icon: Users },
-    { id: 'trending', label: 'Tendances', icon: TrendingUp },
+    { id: 'products', label: 'products', icon: ShoppingBag },
+    { id: 'sellers', label: 'sellers', icon: Users },
+    { id: 'trending', label: 'trending', icon: TrendingUp },
 ];
 
 const HomeContain = () => {
@@ -109,13 +109,13 @@ const HomeContain = () => {
 
                     <SectionCard className="grid grid-cols-1 md:grid-cols-2 py-5 px-2 space-y-4 space-x-0 relative overflow-hidden w-full">
 
-                        <div className="max-w-full flex flex-col items-start md:items-center justify-start">
+                        <div className="max-w-full flex flex-col items-start md:items-start md:ps-10 justify-start">
                             {/* blob décoratif */}
                             <div className="pointer-events-none absolute -top-16 -right-16 h-48 w-48 rounded-full bg-gradient-to-br from-indigo-300/40 to-purple-300/30 blur-3xl" />
 
-                            <div className="flex items-start justify-between gap-3 relative">
+                            <div className=" relative">
                                 <div>
-                                    <TitleCompGen title="Réseau & Market" />
+                                    <TitleCompGen title={t("social_market")} />
                                     <p className="text-sm text-gray-500 mt-1">
                                         {t("discover_products")}
                                     </p>
@@ -129,8 +129,8 @@ const HomeContain = () => {
 
                             {/* Quick stats */}
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-2 items-center">
-                                <StatPill icon={Users} label="Vendeurs" value={clients.length || '—'} tone="indigo" />
-                                <StatPill icon={ShoppingBag} label="Produits" value="+1.2k" tone="purple" />
+                                <StatPill icon={Users} label={t("sellers")} value={clients.length || '—'} tone="indigo" />
+                                <StatPill icon={ShoppingBag} label={t("products")} value="+1.2k" tone="purple" />
                                 <StatPill icon={MessageCircle} label="Discussions" value="87" tone="emerald" className="hidden"/>
                                 <StatPill icon={Bell} label="Live" value="24 en ligne" tone="rose" className="hidden" />
                             </div>
@@ -143,7 +143,7 @@ const HomeContain = () => {
                                 <input
                                     value={query}
                                     onChange={(e) => setQuery(e.target.value)}
-                                    placeholder="Rechercher un produit, un vendeur, un service..."
+                                    placeholder={t("search_placeholder")}
                                     className="w-full rounded-full border border-slate-200 bg-slate-50 pl-10 pr-4 py-2.5 text-sm placeholder:text-gray-400 focus:bg-white focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100 outline-none transition"
                                 />
                             </div>
@@ -162,7 +162,7 @@ const HomeContain = () => {
                                                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
                                         >
                                             <Icon className="h-4 w-4" />
-                                            {label}
+                                            {t(label)}
                                         </button>
                                     );
                                 })}
