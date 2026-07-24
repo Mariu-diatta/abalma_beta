@@ -103,7 +103,7 @@ EditProfilIcon.displayName = 'EditProfilIcon';
 
 const MessageIcon = React.memo(() => (
     <svg
-        className="w-4 h-4"
+        className="w-6 h-6"
         viewBox="0 0 24 24"
         fill="none"
         aria-hidden="true"
@@ -1080,13 +1080,12 @@ const ProfileCard = () => {
                                         }
                                         className="
                                             inline-flex
-                                            h-10
+                                            px-3 py-1                                             
                                             items-center
                                             justify-center
                                             gap-2
                                             rounded-full
                                             bg-indigo-600
-                                            px-5
                                             text-sm
                                             font-semibold
                                             text-white
@@ -1096,6 +1095,7 @@ const ProfileCard = () => {
                                             active:scale-95
                                             disabled:cursor-not-allowed
                                             disabled:opacity-60
+                                            w-1/3 md:w-auto
                                         "
                                     >
                                         {loadingChat ? (

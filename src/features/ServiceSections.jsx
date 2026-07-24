@@ -19,7 +19,7 @@ const useIsMobile = () => {
 
 // ─── Carte partagée ───────────────────────────────────────────────────────────
 const ServiceCard = ({ service, index, total, t }) => (
-    <div className="group relative flex flex-col items-center text-center px-6 py-8 rounded-2xl bg-white border border-gray-100 shadow-xl overflow-hidden h-full">
+    <div className="group relative flex flex-col items-center text-center px-6 py-2 md:py-8 rounded-2xl bg-white border border-gray-100 shadow-xl overflow-hidden h-full">
         {/* Accent hover */}
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
@@ -84,9 +84,9 @@ const MobileCarousel = ({ t }) => {
     };
 
     return (
-        <div className="flex flex-col items-center gap-1 w-full px-1 py-5">
+        <div className="flex flex-col items-center gap-1 w-full px-1 py-2 md:py-5">
             {/* Carte */}
-            <div className="relative w-full m-2" style={{ height: 340 }}>
+            <div className="relative w-full m-2 min-h-[30dvh]">
                 <AnimatePresence custom={direction} mode="wait">
                     <motion.div
                         key={current}

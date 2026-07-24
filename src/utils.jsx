@@ -320,10 +320,12 @@ export const isAlreadyFollowed = async (clientId, setIsFollow, setIsLoading, cur
 };
 
 export const recordFollowUser = async (clientId) => {
+    if(!clientId) return 
     try { await api.post(API_ENDPOINTS.CLIENTS.FOLLOW(clientId), { withCredentials: true }); } catch { }
 };
 
 export const recordUnfollowUser = async (clientId) => {
+    if (!clientId) return 
     try { await api.post(API_ENDPOINTS.CLIENTS.UNFOLLOW(clientId), { withCredentials: true }); } catch { }
 };
 

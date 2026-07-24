@@ -109,9 +109,10 @@ const HomeContain = () => {
                 {/* ============ HERO / COMPOSER ============ */}
                 <section className="px-1 pt-4 w-full">
 
-                    <SectionCard className="grid grid-cols-1 md:grid-cols-2 py-5 px-2 space-y-4 space-x-0 relative overflow-hidden w-full">
+                    <SectionCard className="grid grid-cols-1 md:grid-cols-2 py-5 px-0.5 space-y-4 space-x-0 relative overflow-hidden w-full">
 
                         <div className="max-w-full flex flex-col items-start md:items-start md:ps-10 justify-start">
+
                             {/* blob décoratif */}
                             <div className="pointer-events-none absolute -top-16 -right-16 h-48 w-48 rounded-full bg-gradient-to-br from-indigo-300/40 to-purple-300/30 blur-3xl" />
 
@@ -122,11 +123,6 @@ const HomeContain = () => {
                                         {t("discover_products")}
                                     </p>
                                 </div>
-                                {/*<button*/}
-                                {/*    className="hidden sm:flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-3 py-2 text-xs font-semibold text-white shadow-md hover:shadow-lg transition-all hover:scale-[1.02]"*/}
-                                {/*>*/}
-                                {/*    <Plus className="h-4 w-4" /> Publier*/}
-                                {/*</button>*/}
                             </div>
 
                             {/* Quick stats */}
@@ -139,6 +135,7 @@ const HomeContain = () => {
                         </div>
 
                         <div className="max-w-full">
+
                             {/* Search bar façon réseau social */}
                             <div className="relative md:w-1/2 md:mx-auto">
                                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -186,7 +183,7 @@ const HomeContain = () => {
                 }
 
                 {/* ============ FEED PRINCIPAL ============ */}
-                <section className="px-1 mt-5">
+                <section className="px-0.5 mt-5">
                     <SectionHeader
                         emoji="🔥"
                         title={
@@ -195,11 +192,14 @@ const HomeContain = () => {
                                     t("trending_now")
                         }
                     />
-                    <SectionCard className="p-1 md:p-3">
+                    <SectionCard className="py-1 px-0 md:p-3">
+
                         {activeTab === CONSTANTS.PRODUCTS && <GridLayoutProduct />}
 
                         {activeTab === CONSTANTS.SELERS && (
-                            filteredClients.length > 0 ? (
+
+                            (filteredClients.length > 0) ? (
+
                                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                                     {filteredClients.map((currentSelectedUser) => (
                                         <UserCard
@@ -210,6 +210,7 @@ const HomeContain = () => {
                                         />
                                     ))}
                                 </div>
+
                             ) : (
                                 <div className="py-12 text-center text-sm text-gray-500">
                                     {t("no_sellers_found")}
@@ -237,8 +238,11 @@ const HomeContain = () => {
 
                 {/* ============ LIVE ACTIVITY ============ */}
                 <section className="px-1 mt-6">
+
                     <div className="relative overflow-hidden rounded-2xl  text-white p-4 shadow-md">
+
                         <div className="absolute -bottom-10 -right-10 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
+
                         <div className="relative flex items-start justify-between gap-3">
                             <div>
                                 <h3 className="flex items-center gap-2 text-sm font-semibold">
@@ -252,7 +256,9 @@ const HomeContain = () => {
                                 {t("online_24")}
                             </span>
                         </div>
+
                     </div>
+
                 </section>
 
                 {/* ============ SERVICES ============ */}
@@ -269,20 +275,16 @@ const HomeContain = () => {
                 {/* ============ SUBSCRIPTIONS ============ */}
                 <section className="px-1 mt-6 space-y-3">
 
-                    {/*<div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white p-4 mb-3 shadow-md">*/}
 
-                    {/*    <div className="absolute -top-8 -right-8 h-32 w-32 rounded-full bg-white/10 blur-2xl" />*/}
+                    <SectionHeader
+                        emoji="💎"
+                        title={t("boost_visibility")}
+                    />
 
-                        <SectionHeader
-                            emoji="💎"
-                            title={t("boost_visibility")}
-                        />
+                    <p className="text-xs opacity-90 relative mt-1">
+                        {t("go_pro_priority")}
+                    </p>
 
-                        <p className="text-xs opacity-90 relative mt-1">
-                            {t("go_pro_priority")}
-                        </p>
-
-                    {/*</div>*/}
 
                     <SectionCard className="px-2">
                         <SubscriptionsPage />

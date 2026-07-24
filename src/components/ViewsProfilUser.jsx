@@ -151,7 +151,7 @@ const FollowProfilUser = ({ clientId }) => {
 
                     <button
                         type="button"
-                        className={`flex items-center gap-1 rounded-full text-white text-sm px-3 py-1  text-base  text-white transition bg-gradient-to-br from-purple-300 w-2/3 md:w-auto ${isFollow ? "to-indigo-300 to-red-300 " : ""} hover:bg-gradient-to-br hover:from-purple-400`}
+                        className={`flex items-center gap-1 rounded-full text-white text-sm px-3 py-1  text-base  text-white transition bg-gradient-to-br from-purple-300 w-1/3 md:w-auto ${isFollow ? "to-indigo-300 to-red-300 " : ""} hover:bg-gradient-to-br hover:from-purple-400`}
                         onClick={handleFollowClick}
                     >
                         <svg
