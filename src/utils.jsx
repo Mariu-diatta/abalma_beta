@@ -973,42 +973,43 @@ export const CreateClient = async (data, setLoading, showMessage, dispatch, t) =
 export const isCurrentUser = (currentUser, SelectedUser) => currentUser.id === SelectedUser.id && currentUser?.email === SelectedUser?.email;
 
 // 🧭 Navigation
-export const getTabsNavigationsItems = (currentNav, t) => {
+const iconClass = (active) =>
+    `w-5 h-5 transition-colors ${
+        active ? "text-black" : "text-gray-500"
+    }`;
 
+export const getTabsNavigationsItems = (currentNav, t) => {
     return [
         {
-            id: '',
-            label: t('home'),
-            endPoint: '/',
+            id: "",
+            label: t("home"),
+            endPoint: "/",
             logo: (
                 <Home
-                    className="w-6 h-6 text-gray-800 "
-                    strokeWidth={1}
-                    fill={currentNav ? "none" : "currentColor"}
+                    className={iconClass(currentNav === "")}
+                    strokeWidth={!currentNav?2:1}
                 />
             ),
         },
         {
-            id: CONSTANTS?.ABOUT,
-            label: t('about'),
-            endPoint: '/about',
+            id: CONSTANTS.ABOUT,
+            label: t("about"),
+            endPoint: "/about",
             logo: (
                 <Info
-                    className="w-6 h-6 text-gray-800"
-                    strokeWidth={1}
-                    fill={currentNav === CONSTANTS?.ABOUT ? "currentColor" : "none"}
+                    className={iconClass(currentNav === CONSTANTS.ABOUT)}
+                    strokeWidth={currentNav === CONSTANTS.ABOUT?2:1}
                 />
             ),
         },
         {
             id: "blogs",
-            label: 'Blog',
-            endPoint: '/blogs',
+            label: "Blog",
+            endPoint: "/blogs",
             logo: (
                 <BookOpen
-                    className="w-6 h-6 text-gray-800 "
-                    strokeWidth={1}
-                    fill={currentNav === "blogs" ? "currentColor" : "none"}
+                    className={iconClass(currentNav === CONSTANTS.ALLBLOGS)}
+                    strokeWidth={currentNav === CONSTANTS.ALLBLOGS?2:1}
                 />
             ),
         },
@@ -1059,6 +1060,7 @@ export const API_URL_BACKEND = {
 export const CONSTANTS = {
     ABOUT: "about",
     BLOGS: "Blog",
+    ALLBLOGS: "blogs",
     ERRREUR: "Erreur",
     ALL: "Tous",
     DARK: 'dark',

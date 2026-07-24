@@ -285,9 +285,9 @@ html, body, #root {
     overflow: hidden;
 }
 
-    .vnav-sidebar.closed {
-        transform: translateX(-100%);
-    }
+.vnav-sidebar.closed {
+    transform: translateX(-100%);
+}
 
 @media(min-width:768px) {
     .vnav-sidebar {
@@ -299,7 +299,7 @@ html, body, #root {
 .vnav-logo-zone {
     padding: 4px 0px 10px;
     flex-shrink: 0;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 0px solid #f1f5f9;
 }
 
 /* Scrollable body */
@@ -307,7 +307,7 @@ html, body, #root {
     flex: 1;
     overflow-y: auto;
     padding: 10px 8px;
-    scrollbar-width: thin;
+    scrollbar-width:thin;
 }
 
 .vnav-body::-webkit-scrollbar {
@@ -5697,7 +5697,7 @@ forget password`*/
 }
 
 .vnav-logo-zone {
-    border-bottom: 1px solid rgba(255,255,255,.06) !important;
+    border-bottom: 0px solid rgba(255,255,255,.06) !important;
 }
 
 .vnav-section-label {
@@ -5771,7 +5771,7 @@ forget password`*/
 
 .vnav-sidebar {
     background: var(--color-surface, #ffffff) !important;
-    border-right: 1px solid var(--color-border, #dbdbdb) !important;
+    border:0 !important;
     box-shadow: none !important;
 }
 
@@ -6077,13 +6077,13 @@ forget password`*/
     display: flex;
     flex-direction: column;
     height: 100%;
-    border-right: 1px solid #f1f1f4;
+    border-right: 0px solid #f1f1f4;
     overflow: hidden;
 }
 
-    .vnav-sidebar.closed {
-        transform: translateX(-100%);
-    }
+.vnav-sidebar.closed {
+    transform: translateX(-100%);
+}
 
 @media (min-width: 768px) {
     .vnav-sidebar.closed {
@@ -6144,7 +6144,7 @@ forget password`*/
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 10px 10px 20px;
+    padding: 10px 5px 20px;
     display: flex;
     flex-direction: column;
     gap: 2px;

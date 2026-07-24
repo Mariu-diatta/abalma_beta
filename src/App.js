@@ -61,8 +61,8 @@ export function SEO() {
         };
 
         const titles = {
-            en: "Abalma - Smart E-commerce with Live Chat",
-            fr: "Abalma - E-commerce intelligent avec chat intégré",
+            en: "Abalma – Shop Unique Products, Connect with Their Creators",
+            fr: "Abalma – Achetez des produits uniques et échangez avec leurs créateurs",
         };
 
         // Mise à jour du <title>

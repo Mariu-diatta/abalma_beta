@@ -22,6 +22,8 @@ i18n
         en: {
 
             translation: {
+                "active_contacts": "Active",
+                "search_conversation": "Search conversations...",
                 requireConnexion: "Sign in required!!!",
                 "shared_files": "Shared files",
                 "see_all": "See all",
@@ -876,6 +878,8 @@ i18n
         fr: {
 
             translation: {
+                "active_contacts": "Actifs",
+                "search_conversation": "Rechercher une discussion...",
                 requireConnexion:"Connexion requise !!!",
                 'shared_files': "Fichiers partagés",
                 'see_all': "Voir tout",
@@ -1715,6 +1719,8 @@ i18n
         es: {
 
             translation: {
+                "active_contacts": "Activos",
+                "search_conversation": "Buscar una conversación...",
                 requireConnexion: "Se requiere iniciar sesión!!!",
                 "shared_files": "Archivos compartidos",
                 "see_all": "Ver todo",

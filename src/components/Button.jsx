@@ -53,9 +53,8 @@ const WhiteRoundedButton = ({ titleButton, to, children = null }) => {
                 className={({ isActive }) =>`
                   ${baseClasses}
                   ${defaultClasses}
-                  ${isActive ? activeClasses : "text-gray-700 dark:text-gray-200"}
-                  dark:bg-dark
-                `
+                  ${isActive ? activeClasses : "text-gray-700"}
+               `
                 }
 
                 onClick={() => dispatch(setCurrentNav(to))}
@@ -130,7 +129,7 @@ export const ButtonNavigate = ({ tabs }) => {
                     md:w-auto
                     justify-between
                     items-center
-                    px-1 z-10 
+                    px-2 z-10 
                     mx-0
                  "
             >
@@ -154,7 +153,7 @@ export const ButtonNavigate = ({ tabs }) => {
                                             border-t sm:border-b-0 lg:border-b lg:border-t-0
                                             ${isActive
                                             ? 'border-gray-100 rounded-lg'
-                                            : 'border-transparent text-gray-100 dark:text-gray-700 hover:bg-indigo-50 dark:hover:bg-dark-3 hover:rounded-full hover:bg-gradient-to-br from-purple-0 to-indigo-50 hover:bg-gradient-to-br hover:from-purple-50 '
+                                            : 'border-transparent text-gray-100 dark:text-gray-700 hover:bg-indigo-50 dark:hover:bg-dark-3 hover:rounded-full hover:bg-gradient-to-br from-purple-0 to-indigo-50 hover:bg-gradient-to-br hover:from-purple-50 hover:py-1.5 '
                                         }
                                         `
                                     }

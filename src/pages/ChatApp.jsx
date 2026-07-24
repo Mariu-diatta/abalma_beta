@@ -81,6 +81,9 @@ const ChatApp = ({ setShow, show }) => {
         };
 
         const connect = () => {
+
+            if (!currentUser) return
+
             const protocol =
                 window.location.protocol === 'https:' ? 'wss' : 'ws';
 
@@ -225,8 +228,10 @@ const ChatApp = ({ setShow, show }) => {
 
     // ─── RENDER ───
     return (
-        <div className="flex h-full w-full overflow-hidden">
-            <main className="chat-root flex h-full flex-1 min-w-0 flex-col overflow-hidden">
+
+        <div className={`flex h-full w-full overflow-hidden ${showInfo ? "flex-col md:flex-row" : ""}`}>
+
+            <main className={`chat-root flex h-full flex-1 min-w-0 flex-col overflow-hidden`}>
 
                 {/* HEADER */}
                 <header className="chat-header flex-shrink-0 flex items-center justify-between px-4 md:px-6 py-3.5 border-b border-gray-100">
@@ -399,7 +404,7 @@ const ProfilePanel = ({ selectedUser, onClose }) => {
     const files = selectedUser?.sharedFiles || [];
 
     return (
-        <aside className="xl:flex flex-col w-[300px] flex-shrink-0 border-l border-gray-100 bg-white overflow-y-auto">
+        <aside className="xl:flex flex-col w-full md:w-1/3 flex-shrink-0 border-l border-gray-100 bg-white overflow-y-auto">
 
             {/* COVER */}
             <div
@@ -412,15 +417,14 @@ const ProfilePanel = ({ selectedUser, onClose }) => {
             >
                 <button
                     onClick={onClose}
-                    className="absolute top-3 right-3 w-7 h-7 rounded-full bg-black/20 hover:bg-black/30 text-white flex items-center justify-center transition-colors"
+                    className="absolute top-3 right-3 w-7 h-7 rounded-full bg-red-200 hover:bg-red/10 text-white flex items-center justify-center transition-colors"
                     aria-label={t('close')}
                 >
                     ✕
                 </button>
             </div>
-
             {/* IDENTITY */}
-            <div className="px-5 -mt-8 pb-5 border-b border-gray-100 z-[999]">
+            <div className="relative px-5 -mt-8 pb-5 border-b border-gray-100 z-[999]">
                 {avatarSrc ? (
                     <img
                         src={getMediaUrl(avatarSrc)}
@@ -458,74 +462,80 @@ const ProfilePanel = ({ selectedUser, onClose }) => {
                 </div>
             </div>
 
-            {/* ABOUT */}
-            {(selectedUser.bio || selectedUser.description) && (
-                <div className="px-5 py-4 border-b border-gray-100">
-                    <h3 className="text-sm font-semibold text-gray-800 mb-2">{t('about')}</h3>
-                    <p className="text-xs text-gray-500 leading-relaxed">
-                        {selectedUser.bio || selectedUser.description}
-                    </p>
-                </div>
-            )}
+            <div className="h-full">
 
-            {/* SHARED MEDIA */}
-            <div className="px-5 py-4 border-b border-gray-100">
-                <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-sm font-semibold text-gray-800">{t('shared_media')}</h3>
-                    {media.length > 0 && (
-                        <button className="text-xs text-indigo-500 hover:underline">{t('see_all')}</button>
-                    )}
-                </div>
-                {media.length === 0 ? (
-                    <p className="text-xs text-gray-400">{t('no_shared_media')}</p>
-                ) : (
-                    <div className="grid grid-cols-3 gap-2">
-                        {media.slice(0, 5).map((m) => (
-                            <img
-                                key={m.id}
-                                src={getMediaUrl(m.url)}
-                                alt=""
-                                className="aspect-square rounded-lg object-cover bg-gray-100"
-                            />
-                        ))}
-                        {media.length > 5 && (
-                            <div className="aspect-square rounded-lg bg-indigo-500 text-white flex items-center justify-center text-xs font-semibold">
-                                +{media.length - 5}
-                            </div>
+                {/* ABOUT */}
+                {(selectedUser.bio || selectedUser.description) && (
+                    <div className="px-5 py-4 border-b border-gray-100">
+                        <h3 className="text-sm font-semibold text-gray-800 mb-2">{t('about')}</h3>
+                        <p className="text-xs text-gray-500 leading-relaxed">
+                            {selectedUser.bio || selectedUser.description}
+                        </p>
+                    </div>
+                )}
+
+                {/* SHARED MEDIA */}
+                <div className="px-5 py-4 border-b border-gray-100">
+
+                    <div className="flex items-center justify-between mb-2">
+                        <h3 className="text-sm font-semibold text-gray-800">{t('shared_media')}</h3>
+                        {media.length > 0 && (
+                            <button className="text-xs text-indigo-500 hover:underline">{t('see_all')}</button>
                         )}
                     </div>
-                )}
-            </div>
 
-            {/* SHARED FILES */}
-            <div className="px-5 py-4">
-                <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-sm font-semibold text-gray-800">{t('shared_files')}</h3>
-                    {files.length > 0 && (
-                        <button className="text-xs text-indigo-500 hover:underline">{t('see_all')}</button>
+                    {media.length === 0 ? (
+                        <p className="text-xs text-gray-400">{t('no_shared_media')}</p>
+                    ) : (
+                        <div className="grid grid-cols-3 gap-2">
+                            {media.slice(0, 5).map((m) => (
+                                <img
+                                    key={m.id}
+                                    src={getMediaUrl(m.url)}
+                                    alt=""
+                                    className="aspect-square rounded-lg object-cover bg-gray-100"
+                                />
+                            ))}
+                            {media.length > 5 && (
+                                <div className="aspect-square rounded-lg bg-indigo-500 text-white flex items-center justify-center text-xs font-semibold">
+                                    +{media.length - 5}
+                                </div>
+                            )}
+                        </div>
                     )}
                 </div>
-                {files.length === 0 ? (
-                    <p className="text-xs text-gray-400">{t('no_shared_files')}</p>
-                ) : (
-                    <div className="flex flex-col gap-2">
-                        {files.map((f) => (
-                            <div key={f.id} className="flex items-center gap-2.5">
-                                <div className="w-8 h-8 rounded-lg bg-red-50 text-red-500 flex items-center justify-center flex-shrink-0">
-                                    <FileText size={14} />
-                                </div>
-                                <div className="min-w-0 flex-1">
-                                    <p className="text-xs font-medium text-gray-700 truncate">{f.name}</p>
-                                    <p className="text-[10px] text-gray-400">{f.size}</p>
-                                </div>
-                                <a href={getMediaUrl(f.url)} target="_blank" rel="noreferrer">
-                                    <Download size={13} className="text-gray-300 flex-shrink-0 hover:text-indigo-500" />
-                                </a>
-                            </div>
-                        ))}
+
+                {/* SHARED FILES */}
+                <div className="px-5 py-4">
+                    <div className="flex items-center justify-between mb-2">
+                        <h3 className="text-sm font-semibold text-gray-800">{t('shared_files')}</h3>
+                        {files.length > 0 && (
+                            <button className="text-xs text-indigo-500 hover:underline">{t('see_all')}</button>
+                        )}
                     </div>
-                )}
-            </div>
+                    {files.length === 0 ? (
+                        <p className="text-xs text-gray-400">{t('no_shared_files')}</p>
+                    ) : (
+                        <div className="flex flex-col gap-2">
+                            {files.map((f) => (
+                                <div key={f.id} className="flex items-center gap-2.5">
+                                    <div className="w-8 h-8 rounded-lg bg-red-50 text-red-500 flex items-center justify-center flex-shrink-0">
+                                        <FileText size={14} />
+                                    </div>
+                                    <div className="min-w-0 flex-1">
+                                        <p className="text-xs font-medium text-gray-700 truncate">{f.name}</p>
+                                        <p className="text-[10px] text-gray-400">{f.size}</p>
+                                    </div>
+                                    <a href={getMediaUrl(f.url)} target="_blank" rel="noreferrer">
+                                        <Download size={13} className="text-gray-300 flex-shrink-0 hover:text-indigo-500" />
+                                    </a>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+             </div >
+
         </aside>
     );
 };

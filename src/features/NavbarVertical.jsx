@@ -16,7 +16,7 @@ import { ENDPOINTS, fetchRooms, getMediaUrl } from "../utils";
 /* ─── Constantes ─────────────────────────────────────────────────────── */
 const COLLAPSE_STORAGE_KEY = "vnav_collapsed";
 const COLLAPSED_WIDTH = 72;
-const BG = "#f8fafc";
+const BG = "#f6f8fb";
 
 /* ─── Icônes (inchangées) ────────────────────────────────────────────── */
 const svgProps = { width: 30, height: 30, viewBox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg" };
@@ -259,6 +259,7 @@ const VerticalNavbar = ({ children }) => {
             <div className="vnav" style={{ backgroundColor: BG }}>
 
                 <div className="flex justify-center items-center mb-3">
+
                     {/* Toggle mobile */}
                     <button
                         type="button"
@@ -270,9 +271,11 @@ const VerticalNavbar = ({ children }) => {
                     >
                         <IconMenu />
                     </button>
+
                     <div className="w-full flex start-end">
                         <ButtonsNavigateThemecolorPayDropdownaccount />
                     </div>
+
                 </div>
 
                 {isSidebarOpen && (
@@ -280,6 +283,7 @@ const VerticalNavbar = ({ children }) => {
                 )}
 
                 <div style={{ display: "flex", width: "100%", minHeight: 0, backgroundColor: BG }}>
+
                     <aside
                         id="vnav-sidebar"
                         ref={sidebarRef}
@@ -293,13 +297,9 @@ const VerticalNavbar = ({ children }) => {
                         }}
                     >
                         <div
-                            className="vnav-logo-zone"
-                            style={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: isCollapsed ? "center" : "space-between",
-                                backgroundColor: BG,
-                            }}
+                            className="flex items-center py-2 w-full justify-between"
+                            style={{backgroundColor:BG}}
+                     
                         >
                             {!isCollapsed && <Logo />}
                             <button
@@ -315,6 +315,7 @@ const VerticalNavbar = ({ children }) => {
                         </div>
 
                         <nav className="vnav-body scrollbor_hidden" style={{ backgroundColor: BG }}>
+
                             <UserCard
                                 user={currentUser}
                                 displayName={displayName}
@@ -344,7 +345,9 @@ const VerticalNavbar = ({ children }) => {
                                 style={{gap:10} }
                             >
                                 {categories.map(({ name, to, photo, id }) => {
+
                                     const active = currentNav === id;
+
                                     return (
                                         <button
                                             key={id ?? name}
@@ -371,10 +374,10 @@ const VerticalNavbar = ({ children }) => {
                     </aside>
 
                     <div
-                        className="bg-white/50 overflow-y-hidden"
+                        className="overflow-y-hidden"
                         style={{ flex: 1, minWidth: 0, transition: "margin .2s ease" }}
                     >
-                        <main className="vnav-content">
+                        <main className="vnav-content" style={{ flex: 1, minWidth: 0, transition: "margin .2s ease" }}>
                             <section
                                 id={`${currentNav}-tab`}
                                 role="tabpanel"
@@ -388,7 +391,9 @@ const VerticalNavbar = ({ children }) => {
                             </section>
                         </main>
                     </div>
+
                 </div>
+
             </div>
         </>
     );

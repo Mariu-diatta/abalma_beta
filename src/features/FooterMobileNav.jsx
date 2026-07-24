@@ -94,11 +94,11 @@ const BottomNavMobile = () => {
                 aria-label={t("bottom_nav_label") || "Navigation principale"}
             >
                 <NavButton onClick={() => go("")} active={isHome} label={t("home")}>
-                    <Home size={24} strokeWidth={isHome ? 1.5 : 1} fill={isHome ? "currentColor" : "none"} />
+                    <Home size={25} strokeWidth={isHome ? 2.5 : 1} fill="none" />
                 </NavButton>
 
                 <NavButton onClick={() => goProtected(ENDPOINTS.ACCOUNT_HOME)} active={isSearch} label={t("search") || "Rechercher"}>
-                    <Search size={24} strokeWidth={isSearch ? 1.5 : 1} />
+                    <Search size={25} strokeWidth={isSearch ? 2.5 : 1} fill="none" />
                 </NavButton>
 
                 {/* Bouton central "créer une annonce", mis en avant */}
@@ -108,7 +108,7 @@ const BottomNavMobile = () => {
                     aria-label={t("AccountPage.create") || "Créer une annonce"}
                     className="ig-bottom-nav__add"
                 >
-                    <PlusSquare size={22} strokeWidth={isAdd ? 2.4 : 2} />
+                    <PlusSquare size={25} strokeWidth={isAdd ? 2.5 : 1} fill="none" />
                 </button>
 
                 <NavButton
@@ -117,7 +117,7 @@ const BottomNavMobile = () => {
                     label={t("AccountPage.messages") || "Messages"}
                     badge={unreadCount}
                 >
-                    <MessageCircle size={24} strokeWidth={isChat ? 2.25 : 1.6} fill={isChat ? "currentColor" : "none"} />
+                    <MessageCircle size={25} strokeWidth={isChat ? 2.5 : 1} fill="none" />
                 </NavButton>
 
                 <button
@@ -138,8 +138,8 @@ const BottomNavMobile = () => {
                         />
                     ) : (
                         <User
-                            size={24}
-                            strokeWidth={isProfile ? 2.25 : 1.6}
+                            size={25}
+                            strokeWidth={isProfile ? 2.5 : 1}
                             style={{ color: isProfile ? "var(--color-primary, #0095F6)" : "var(--color-text, #262626)" }}
                         />
                     )}
