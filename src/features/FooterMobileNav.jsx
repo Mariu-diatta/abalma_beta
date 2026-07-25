@@ -51,7 +51,6 @@ const BottomNavMobile = () => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [open, setOpen] = useState(false);
     const currentNav = useSelector((state) => state.navigate.currentNav);
     const currentUser = useSelector((state) => state.auth.user);
     const unreadCount = useSelector((state) => state.chat.messageNotif?.length || 0);

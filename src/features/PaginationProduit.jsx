@@ -111,7 +111,7 @@ const PaginationProduit = ({ products = [] }) => {
 
                 <div
                     ref={scrollRef}
-                    className="fan-track flex overflow-x-auto scroll-smooth pt-10 pb-4 px-4 items-end"
+                    className="fan-track flex overflow-x-auto scroll-smooth pt-10 pb-4 px-4 items-end w-full"
                     style={{ gap: 0 }}
                 >
                     {products.map((product, index) => {
@@ -140,7 +140,6 @@ const PaginationProduit = ({ products = [] }) => {
                                     />
                                 </div>
                                 <p className="fan-label text-center text-xs text-gray-500 mt-2 truncate px-1">
-                                    {name}
                                 </p>
                             </div>
                         );

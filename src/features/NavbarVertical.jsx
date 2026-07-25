@@ -7,7 +7,7 @@ import { setCurrentNav } from "../slices/navigateSlice";
 import { addRoom } from "../slices/chatSlice";
 import Logo from "../components/LogoApp";
 import { menuItems } from "../components/MenuItem";
-import ScrollTop, { ButtonScrollTopDown } from "../components/ButtonScroll";
+//import ScrollTop, { ButtonScrollTopDown } from "../components/ButtonScroll";
 import ButtonUpdateAccountUserToPro from "../components/ButtonPro";
 import AttentionAlertMessage from "../components/AlertMessage";
 import ButtonsNavigateThemecolorPayDropdownaccount from "./DropDownAccount";
@@ -258,7 +258,7 @@ const VerticalNavbar = ({ children }) => {
 
             <div className="vnav" style={{ backgroundColor: BG }}>
 
-                <div className="flex justify-center items-center mb-3">
+                <div className="flex justify-center items-center">
 
                     {/* Toggle mobile */}
                     <button
@@ -377,17 +377,17 @@ const VerticalNavbar = ({ children }) => {
                         className="overflow-y-hidden"
                         style={{ flex: 1, minWidth: 0, transition: "margin .2s ease" }}
                     >
-                        <main className="vnav-content" style={{ flex: 1, minWidth: 0, transition: "margin .2s ease" }}>
+                        <main className="vnav-content overflow-x-hidden" style={{ flex: 1, minWidth: 0, transition: "margin .2s ease" }}>
                             <section
                                 id={`${currentNav}-tab`}
                                 role="tabpanel"
                                 aria-labelledby={`${currentNav}-tab-button`}
-                                style={{ padding: "0px 0 40px" }}
+                                style={{ padding: "0 0 0px"}}
                             >
-                                <ScrollTop />
-                                <ButtonScrollTopDown>
-                                    <div className="px-0 mx-0">{children}</div>
-                                </ButtonScrollTopDown>
+                                {/*<ScrollTop />*/}
+                                {/*<ButtonScrollTopDown>*/}
+                                    <div className="px-0 mx-0  pb-12">{children}</div>
+                                {/*</ButtonScrollTopDown>*/}
                             </section>
                         </main>
                     </div>

@@ -12,10 +12,10 @@ const ProductSpecifiViews = ({ products, openModal, owners, panelRef }) => {
 
             ref={panelRef}
 
-            className={`flex gap-0  bg-grey-9000 shadow-xs rounded-md mt-1 z-0 py-1 m-0 ${products?.length <= 0 ? "hidden" : "min-h-70 max-h-70 w-full"}`}
+            className={` flex gap-0  w-full bg-grey-9000 shadow-xs rounded-md mt-1 z-0 py-1 m-0 ${products?.length <= 0 ? "hidden" : "min-h-70 max-h-70 px-0"}`}
 
         >
-            <div style={{ flex: 2 }} className="hidden md:block">
+            <div style={{ flex: 2 }} className="hidden md:block p-0 m-0">
 
                 <CategoryProductsCardDisplay
 
@@ -29,7 +29,7 @@ const ProductSpecifiViews = ({ products, openModal, owners, panelRef }) => {
 
             </div>
 
-            <div style={{ flex: 3 }}>
+            <div style={{ flex: 3 }} className="p-0 m-0">
 
                 <ProductsDisplayWithCarousel
 
@@ -42,7 +42,7 @@ const ProductSpecifiViews = ({ products, openModal, owners, panelRef }) => {
 
             </div>
 
-            <div style={{ flex: 2 }}>
+            <div style={{ flex: 2 }} className=" p-0 m-0">
 
                 <CategoryProductsImagesGalleryDisplay
 

@@ -8,7 +8,7 @@ const ImageGallery = ({ imagesEls,  openModal, owners}) => {
 
     return (
 
-        <div className="grid grid-cols-2 gap-1 scrollbor_hidden overflow-y-auto h-full w-full">
+        <div className="grid grid-cols-2 gap-1 scrollbor_hidden overflow-y-auto h-full w-full px-0 mx-0">
 
 
             {

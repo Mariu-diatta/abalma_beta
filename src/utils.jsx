@@ -6,13 +6,10 @@ import {
     Tag,
     Headphones,
     MessageSquareHeart,
-    Info,
-    Home,
-    BookOpen
 } from "lucide-react";
 import api, { BASE_URL } from "./services/Axios";
 import { API_ENDPOINTS } from "./services/apiEndpoints";
-import { login, updateCompteUser} from "./slices/authSlice";
+import { login, updateCompteUser } from "./slices/authSlice";
 import { setCurrentNav, updateTheme } from "./slices/navigateSlice";
 import { store } from "./store/Store";
 
@@ -130,31 +127,31 @@ export const updateStatusTransaction = async (url, data, func, dispatch) => {
 
 export const getDataChat = async (data) => {
 
-  try {
+    try {
 
-    // Import différé : @gradio/client est une dépendance assez lourde qui
-    // ne sert qu'à cette fonctionnalité d'analyse IA — pas besoin de
-    // l'embarquer dans le bundle principal chargé par tout le monde.
-    const { Client } = await import("@gradio/client");
+        // Import différé : @gradio/client est une dépendance assez lourde qui
+        // ne sert qu'à cette fonctionnalité d'analyse IA — pas besoin de
+        // l'embarquer dans le bundle principal chargé par tout le monde.
+        const { Client } = await import("@gradio/client");
 
-    const client = await Client.connect("MariusSitoye/abalma");
+        const client = await Client.connect("MariusSitoye/abalma");
 
-      const result = await client.predict("/analyze", {
+        const result = await client.predict("/analyze", {
 
-          conversation: data
+            conversation: data
 
-    });
+        });
 
-    console.log("Data :::: ", result.data)
+        console.log("Data :::: ", result.data)
 
-    return result.data;
+        return result.data;
 
-  } catch (err) {
+    } catch (err) {
 
-      console.error("Erreur analyse chat :::", err);
+        console.error("Erreur analyse chat :::", err);
 
-      return
-  }
+        return
+    }
 }
 
 // 🕒 Constantes globales
@@ -309,7 +306,7 @@ export const getOrCreateRoom = async ({ currentUser, otherUser, roomName }) => {
 
 export const isAlreadyFollowed = async (clientId, setIsFollow, setIsLoading, currentUser) => {
 
-    if (!clientId || !currentUser || clientId===currentUser?.id ) return 
+    if (!clientId || !currentUser || clientId === currentUser?.id) return
     try {
         const response = await api.get(API_ENDPOINTS.CLIENTS.ALREADY_FOLLOW(clientId), {
             withCredentials: true,
@@ -320,12 +317,12 @@ export const isAlreadyFollowed = async (clientId, setIsFollow, setIsLoading, cur
 };
 
 export const recordFollowUser = async (clientId) => {
-    if(!clientId) return 
+    if (!clientId) return
     try { await api.post(API_ENDPOINTS.CLIENTS.FOLLOW(clientId), { withCredentials: true }); } catch { }
 };
 
 export const recordUnfollowUser = async (clientId) => {
-    if (!clientId) return 
+    if (!clientId) return
     try { await api.post(API_ENDPOINTS.CLIENTS.UNFOLLOW(clientId), { withCredentials: true }); } catch { }
 };
 
@@ -754,7 +751,7 @@ export const CATEGORIES = {
         fr: "Montres & Bijoux",
         en: "Watches & Jewelry",
         es: "Relojes y Joyería",
-        idx: "jewelry"
+        idx: "jewelrywatch"
     },
     VOYAGE: {
         fr: "Voyage & Loisirs",
@@ -975,47 +972,96 @@ export const CreateClient = async (data, setLoading, showMessage, dispatch, t) =
 export const isCurrentUser = (currentUser, SelectedUser) => currentUser.id === SelectedUser.id && currentUser?.email === SelectedUser?.email;
 
 // 🧭 Navigation
-const iconClass = (active) =>
-    `w-5 h-5 transition-colors ${
-        active ? "text-black" : "text-gray-500"
-    }`;
-
 export const getTabsNavigationsItems = (currentNav, t) => {
-    return [
-        {
-            id: "",
-            label: t("home"),
-            endPoint: "/",
-            logo: (
-                <Home
-                    className={iconClass(currentNav === "")}
-                    strokeWidth={!currentNav?2:1}
-                />
-            ),
-        },
-        {
-            id: CONSTANTS.ABOUT,
-            label: t("about"),
-            endPoint: "/about",
-            logo: (
-                <Info
-                    className={iconClass(currentNav === CONSTANTS.ABOUT)}
-                    strokeWidth={currentNav === CONSTANTS.ABOUT?2:1}
-                />
-            ),
-        },
-        {
-            id: "blogs",
-            label: "Blog",
-            endPoint: "/blogs",
-            logo: (
-                <BookOpen
-                    className={iconClass(currentNav === CONSTANTS.ALLBLOGS)}
-                    strokeWidth={currentNav === CONSTANTS.ALLBLOGS?2:1}
-                />
-            ),
-        },
-    ];
+
+    return (
+
+        [
+            {
+                id: '',
+                label: t('home'),
+                endPoint: '/',
+                logo: currentNav ? (
+                    <svg
+                        className="w-6 h-6 text-gray-800 dark:text-white"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1"
+                            d="m4 12 8-8 8 8M6 10.5V19a1 1 0 0 0 1 1h3v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h3a1 1 0 0 0 1-1v-8.5"
+                        />
+                    </svg>
+                ) : (
+                    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                        <path fillRule="evenodd" d="M11.293 3.293a1 1 0 0 1 1.414 0l6 6 2 2a1 1 0 0 1-1.414 1.414L19 12.414V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2v-6.586l-.293.293a1 1 0 0 1-1.414-1.414l2-2 6-6Z" clipRule="evenodd" />
+                    </svg>
+
+                ),
+            },
+            {
+                id: CONSTANTS?.ABOUT,
+                label: t('about'),
+                endPoint: '/about',
+                logo:
+                    (currentNav === CONSTANTS?.ABOUT) ?
+                        (
+                            <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <path fillRule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm9.408-5.5a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM10 10a1 1 0 1 0 0 2h1v3h-1a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-1v-4a1 1 0 0 0-1-1h-2Z" clipRule="evenodd" />
+                            </svg>
+
+                        )
+                        :
+                        (
+                            <svg
+                                className="w-6 h-6 text-gray-800 dark:text-white"
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke="currentColor"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="1"
+                                    d="M10 11h2v5m-2 0h4m-2.592-8.5h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                                />
+                            </svg>
+                        ),
+            },
+            {
+                id: "blogs",
+                label: 'Blog',
+                endPoint: '/blogs',
+                logo:
+                    !(currentNav === "blogs") ?
+                        (
+                            <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M12 6.03v13m0-13c-2.819-.831-4.715-1.076-8.029-1.023A.99.99 0 0 0 3 6v11c0 .563.466 1.014 1.03 1.007 3.122-.043 5.018.212 7.97 1.023m0-13c2.819-.831 4.715-1.076 8.029-1.023A.99.99 0 0 1 21 6v11c0 .563-.466 1.014-1.03 1.007-3.122-.043-5.018.212-7.97 1.023" />
+                            </svg>
+
+                        )
+                        :
+                        (
+                            <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <path fillRule="evenodd" d="M11 4.717c-2.286-.58-4.16-.756-7.045-.71A1.99 1.99 0 0 0 2 6v11c0 1.133.934 2.022 2.044 2.007 2.759-.038 4.5.16 6.956.791V4.717Zm2 15.081c2.456-.631 4.198-.829 6.956-.791A2.013 2.013 0 0 0 22 16.999V6a1.99 1.99 0 0 0-1.955-1.993c-2.885-.046-4.76.13-7.045.71v15.081Z" clipRule="evenodd" />
+                            </svg>
+
+                        )
+                ,
+            },
+        ]
+    )
 };
 
 export const ItemsNav = ["blogs", "account-home", "all-products"];
@@ -1051,19 +1097,19 @@ export const ENDPOINTS = {
     SUBSCRIPTION: "subscription",
     ABOUT: "about",
     TRACKING: "tracking",
-    PUBLIC_CLIENT:"/public/users-clients/"
+    PUBLIC_CLIENT: "/public/users-clients/"
 }
 
 export const API_URL_BACKEND = {
     STATUS_SUB_TRANSACTION: "update-subTransaction-status",
     STATUS_TRANSACTION: 'update-transaction-status',
-    STATUS_TRANSACTION_PRODUCT:"update-productTransaction-status"
+    STATUS_TRANSACTION_PRODUCT: "update-productTransaction-status"
 }
 
 export const CONSTANTS = {
-    TRENDINGS:'trending',
+    TRENDINGS: 'trending',
     SELERS: 'sellers',
-    PRODUCTS:'products',
+    PRODUCTS: 'products',
     ABOUT: "about",
     BLOGS: "Blog",
     ALLBLOGS: "blogs",
@@ -1088,7 +1134,7 @@ export const CONSTANTS = {
     PAYMENT: 'payment',
     SUBSCRIPTION: 'subscription',
     DANGER: 'danger',
-    HOME : "home"
+    HOME: "home"
 }
 
 export const COUNTRIES = {
@@ -1125,7 +1171,7 @@ export const payNow = async (
     showMessage,
     t,
     setShowPaymentForm
-)=> {
+) => {
 
     const currency = currentcyRate
 
@@ -1136,7 +1182,7 @@ export const payNow = async (
         const dataStringify = {
             amount,
             email,
-            currency 
+            currency
 
         }
 
@@ -1190,7 +1236,7 @@ export const toNumber = (value) => {
 };
 
 export function convertir(de, vers, value) {
- 
+
     const amount = toNumber(value);
 
     const taux = {
@@ -1236,7 +1282,7 @@ export const OPERATIONS_STATUS = {
     DELIVERED: 'Livrée',
 }
 
-export const STATUS={
+export const STATUS = {
     "pending": "En attente",
     "recorded": "Enregistrée",
     "in_progress": "Paiement en cours",
@@ -1247,12 +1293,12 @@ export const STATUS={
     "shipped": "Expédiée",
     "delivered": "Livrée",
     "refunded": "Remboursée",
-    "paid":"Payé"
+    "paid": "Payé"
 }
 
-export const NAMES_TABLES= [
-    'name', 'categories', 'actif', 'price', 'created','available', 'operation',
-    'operationDate', 'endDate',  'Date_fin_stock','status', 'view', 'actions'
+export const NAMES_TABLES = [
+    'name', 'categories', 'actif', 'price', 'created', 'available', 'operation',
+    'operationDate', 'endDate', 'Date_fin_stock', 'status', 'view', 'actions'
 ]
 
 export const STATUS_FLOW = {
@@ -1267,27 +1313,27 @@ export const STATUS_FLOW = {
 };
 
 export const STATUS_FLOW_TRANSACTION = {
-        forward: "pending",
-        pending: "recorded",
-        recorded: "in_progress",
-        in_progress: "validated",
-        validated: "confirmed",
-        confirmed: "shipped",
-        shipped: "delivered",
-        delivered: "refunded",
-        canceled: null,
-        failed: null,
-    };
+    forward: "pending",
+    pending: "recorded",
+    recorded: "in_progress",
+    in_progress: "validated",
+    validated: "confirmed",
+    confirmed: "shipped",
+    shipped: "delivered",
+    delivered: "refunded",
+    canceled: null,
+    failed: null,
+};
 
 export const STATUS_FLOW_SUBTRANSACTION = {
-        forward: "pending",
-        pending: "in_progress",
-        in_progress: "confirmed",
-        confirmed: "shipped",
-        shipped: "delivered",
-        delivered:null,
-        canceled:null
-    };
+    forward: "pending",
+    pending: "in_progress",
+    in_progress: "confirmed",
+    confirmed: "shipped",
+    shipped: "delivered",
+    delivered: null,
+    canceled: null
+};
 
 export const STATUS_FLOW_STYLE = {
     pending: {
@@ -1377,9 +1423,9 @@ export const STATUS_FLOW_ITEM = {
     failed: null,
 };
 
-export const MODE={
+export const MODE = {
     BUY: "buy",
-    SELL:"sell"
+    SELL: "sell"
 }
 
 export const canUpdateDelete = [
@@ -1414,15 +1460,15 @@ export const AGENT_AI = {
 }
 
 export const totalPrice = (product, referenceCurrency) => {
-  const price = Number(product.price_product);
-  const quantity = Number(product.quanttity_product_sold);
+    const price = Number(product.price_product);
+    const quantity = Number(product.quanttity_product_sold);
 
-  if (isNaN(price) || isNaN(quantity)) return 0;
+    if (isNaN(price) || isNaN(quantity)) return 0;
 
-  // Déterminer le taux de conversion
-  const rate = convertir(product.currency_price, referenceCurrency) || 1;
+    // Déterminer le taux de conversion
+    const rate = convertir(product.currency_price, referenceCurrency) || 1;
 
-  return price * quantity * rate;
+    return price * quantity * rate;
 };
 
 export const IMPORTANTS_URLS = {
@@ -1557,16 +1603,16 @@ function TrashIcon({ active }) {
     );
 }
 
- /* ─────────────────────────────────────────────
-   Nav items for the left sidebar
+/* ─────────────────────────────────────────────
+  Nav items for the left sidebar
 ───────────────────────────────────────────── */
 
 export const NAV_ITEMS = [
-        { key: 'profile', icon: ProfileIcon, labelKey: 'settingsText.profile' },
-        { key: 'preferences', icon: PrefsIcon, labelKey: 'settingsText.preferences' },
-        { key: 'payment', icon: CardIcon, labelKey: 'settingsText.paymentMethod' },
-        { key: 'subscription', icon: StarIcon, labelKey: 'settingsText.subscription' },
-        { key: 'danger', icon: TrashIcon, labelKey: 'settingsText.dangerZone' },
+    { key: 'profile', icon: ProfileIcon, labelKey: 'settingsText.profile' },
+    { key: 'preferences', icon: PrefsIcon, labelKey: 'settingsText.preferences' },
+    { key: 'payment', icon: CardIcon, labelKey: 'settingsText.paymentMethod' },
+    { key: 'subscription', icon: StarIcon, labelKey: 'settingsText.subscription' },
+    { key: 'danger', icon: TrashIcon, labelKey: 'settingsText.dangerZone' },
 ];
 
 

@@ -6304,4 +6304,12 @@ forget password`*/
     background: transparent;
 }
 
+/* globals.css */
+.container {
+    overflow-x: auto;
+    scrollbar-width: none; /* Firefox */
+}
 
+.container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+}

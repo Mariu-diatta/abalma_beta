@@ -1,4 +1,4 @@
-﻿// components/LikeButton.jsx
+// components/LikeButton.jsx
 import { useState } from "react";
 import { toggleLike } from "../services/apiEndpoints";
 import { useSelector } from 'react-redux';

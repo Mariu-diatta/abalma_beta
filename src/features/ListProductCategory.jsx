@@ -58,12 +58,12 @@ const ListProductByCategory = ({ filteredItems, cartItems, owners, openModal }) 
                                 className={`
                                     overflow-x-hidden
                                     grid
-                                    gap-0.5 md:gap-4
+                                    gap-0.5 md:gap-2
                                     w-fit
                                     grid-cols-${cols_sm}
                                     md:grid-cols-${cols}
                                     mb-2
-                                    mx-0.5
+                                    mx-0 px-0
                                  `}
                             >
                                 {

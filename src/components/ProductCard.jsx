@@ -92,7 +92,7 @@ const ProductCard = ({ item, isInCart, owner, openModal }) => {
             className={`
                 group relative flex flex-col bg-white
                 rounded-xl border border-[#dbdbdb] overflow-hidden
-                transition-all duration-200 hover:border-[#0095F6]/40 h-full w-full min-h-[30dvw] md:max-w-[30dvw]
+                transition-all duration-200 hover:border-[#0095F6]/40 h-full w-full min-h-[25dvw] md:max-w-[30dvw]
                 ${isInCart ? "opacity-75 grayscale-[0.5]" : ""}
             `}
         >
@@ -102,7 +102,7 @@ const ProductCard = ({ item, isInCart, owner, openModal }) => {
                 {/* Badge Quantité */}
                 {item?.quantity_product > 0 && (
 
-                    <div className="absolute top-3 left-3 z-20">
+                    <div className="absolute top-3 left-3 z-10">
 
                         <p className="bg-white/95 text-[10px] font-semibold px-2 py-1 rounded-full text-[#0095F6] border border-[#dbdbdb]">
                             {item.quantity_product} {t("availability")}
@@ -113,7 +113,7 @@ const ProductCard = ({ item, isInCart, owner, openModal }) => {
 
                 {/* Indicateur "vidéo en cours" */}
                 {currentMedia?.type === "video" && (
-                    <div className="absolute top-3 left-1/2 -translate-x-1/2 z-20">
+                    <div className="absolute top-3 left-1/2 -translate-x-1/2 z-10">
                         <p className="bg-black/60 backdrop-blur text-[10px] font-semibold px-2.5 py-1 rounded-full text-white flex items-center gap-1">
                             <PlayCircle size={11} />
                             {t("video") || "Vidéo"}
@@ -123,7 +123,7 @@ const ProductCard = ({ item, isInCart, owner, openModal }) => {
 
                 {/* Like / favori façon Instagram */}
                 <span
-                    className="absolute top-3 right-3 z-20 w-8 h-8 rounded-full border-0 flex items-center justify-center transition-transform active:scale-90"
+                    className="absolute top-3 right-3 z-9 w-8 h-8 rounded-full border-0 flex items-center justify-center transition-transform active:scale-90"
                 >
                     <LikeButton
                         contentType="product"
@@ -170,7 +170,7 @@ const ProductCard = ({ item, isInCart, owner, openModal }) => {
                                 loading="lazy"
                                 className="
                                     relative
-                                    z-10
+                                    z-8
                                     /* TAILLE INTELLIGENTE : */
                                     max-w-full 
                                     w-auto
@@ -184,7 +184,7 @@ const ProductCard = ({ item, isInCart, owner, openModal }) => {
                                 onError={() => setImageError(true)}
                             />
                         ) : (
-                            <div className="relative z-10 flex flex-col items-center justify-center gap-2 text-gray-300">
+                            <div className="relative z-9 flex flex-col items-center justify-center gap-2 text-gray-300">
                                 <ImageOff size={32} strokeWidth={1.5} />
                                 <span className="text-[10px] font-medium">{t("no_image") || "Image indisponible"}</span>
                             </div>
@@ -206,7 +206,7 @@ const ProductCard = ({ item, isInCart, owner, openModal }) => {
                             onEnded={handleVideoEnded}
                             className="
                                 relative
-                                z-10
+                                z-9
                                 max-w-full
                                 w-auto
                                 h-auto
@@ -220,7 +220,7 @@ const ProductCard = ({ item, isInCart, owner, openModal }) => {
                     )}
 
                     {/* Overlay Action Rapide */}
-                    <div className="absolute inset-x-0 bottom-4 flex justify-center translate-y-16 group-hover:translate-y-0 transition-transform duration-300 z-20 hidden md:flex">
+                    <div className="absolute inset-x-0 bottom-4 flex justify-center translate-y-16 group-hover:translate-y-0 transition-transform duration-300 z-10 hidden md:flex">
                         <button className="bg-white/95 px-4 py-2 rounded-full border border-[#dbdbdb] text-xs font-semibold flex items-center justify-center gap-2 text-[#262626] hover:bg-[#fafafa]">
                             <Eye size={16} />
                             <span>{t("voir_details")}</span>
@@ -249,7 +249,7 @@ const ProductCard = ({ item, isInCart, owner, openModal }) => {
                     <h3 className="text-sm font-semibold text-[#262626] line-clamp-1 mb-1">
                         {item?.name_product || "Sans nom"}
                     </h3>
-                    <p className="text-[11px] text-[#8e8e8e] line-clamp-2 leading-relaxed mb-3">
+                    <p className="text-[11px] text-[#8e8e8e] line-clamp-2 leading-relaxed mb-3 truncate">
                         {item?.description_product?.toLowerCase()}
                     </p>
                 </div>

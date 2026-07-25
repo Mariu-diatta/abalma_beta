@@ -183,7 +183,7 @@ const HomeContain = () => {
                 }
 
                 {/* ============ FEED PRINCIPAL ============ */}
-                <section className="px-0 mt-5">
+                <section className="px-0 mt-5 w-full">
                     <SectionHeader
                         emoji="🔥"
                         title={
@@ -192,14 +192,13 @@ const HomeContain = () => {
                                     t("trending_now")
                         }
                     />
-                    <SectionCard className="py-1 px-0 md:p-3">
+                    <SectionCard className="py-1 px-0 w-full">
 
                         {activeTab === CONSTANTS.PRODUCTS && <GridLayoutProduct />}
 
                         {activeTab === CONSTANTS.SELERS && (
 
                             (filteredClients.length > 0) ? (
-
                                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                                     {filteredClients.map((currentSelectedUser) => (
                                         <UserCard
@@ -210,7 +209,6 @@ const HomeContain = () => {
                                         />
                                     ))}
                                 </div>
-
                             ) : (
                                 <div className="py-12 text-center text-sm text-gray-500">
                                     {t("no_sellers_found")}
@@ -238,11 +236,8 @@ const HomeContain = () => {
 
                 {/* ============ LIVE ACTIVITY ============ */}
                 <section className="px-1 mt-6">
-
                     <div className="relative overflow-hidden rounded-2xl  text-white p-4 shadow-md">
-
                         <div className="absolute -bottom-10 -right-10 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
-
                         <div className="relative flex items-start justify-between gap-3">
                             <div>
                                 <h3 className="flex items-center gap-2 text-sm font-semibold">
@@ -256,9 +251,7 @@ const HomeContain = () => {
                                 {t("online_24")}
                             </span>
                         </div>
-
                     </div>
-
                 </section>
 
                 {/* ============ SERVICES ============ */}

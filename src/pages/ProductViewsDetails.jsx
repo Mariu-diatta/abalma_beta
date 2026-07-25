@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 //import { addToCart, updateSelectedProduct } from "../slices/cartSlice";
-import { X, ShoppingCart, Clock, Heart, Play, Pause } from "lucide-react";
+import { X, ShoppingCart, Clock,  Play, Pause } from "lucide-react";
 
 import PrintNumberStars from "../components/SystemStar";
 import RendrePrixProduitMonnaie from "../features/ConvertCurrency";
@@ -462,14 +462,14 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                                     {t("add_in_basket")}
                                 </button>
 
-                                <button className="p-4 bg-gray-100 text-gray-400 rounded-2xl hover:bg-red-50 hover:text-red-500 transition-colors">
+                                <div className="p-4 bg-gray-100 text-gray-400 rounded-2xl hover:bg-red-50 hover:text-red-500 transition-colors">
                                     <LikeButton
                                         contentType="product"
                                         objectId={product.id}
                                         initialLiked={product.is_liked}
                                         initialCount={product.likes_count}
                                     />
-                                </button>
+                                </div>
 
                             </div>
 
