@@ -63,11 +63,10 @@ const HelpPage = () => {
     return (
         <>
             <div
-                className="help-page scrollbor_hidden"
+                className="help-page scrollbor_hidden py-[12dvh] px-2"
                 style={{
                     minHeight: '100vh',
                     background: '',
-                    padding: '32px 16px 80px',
                 }}
             >
                 {/*linear-gradient(135deg,#eef2ff 0%,#f5f3ff 50%,#ede9fe 10%)*/}

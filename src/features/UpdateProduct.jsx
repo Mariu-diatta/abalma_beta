@@ -507,7 +507,7 @@ const AddUploadProduct = () => {
             </div>
 
             <div
-                className="ap-root py-[10dvh] px-3"
+                className="ap-root py-[10dvh] px-2"
                 style={{
                     minHeight: "100vh",
                     background: "",

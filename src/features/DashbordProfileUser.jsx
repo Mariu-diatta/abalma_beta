@@ -123,7 +123,7 @@ const Tabs = () => {
     };
 
     return (
-        <div className="dtabs-root" style={{paddingTop:"8dvh"} }>
+        <div className="dtabs-root px-2" style={{paddingTop:"10dvh"} }>
             {/* Nav tabs améliorée */}
             <nav className="dtabs-nav-wrap" role="tablist" aria-label="Onglets principaux">
                 <div ref={navRef} className="dtabs-nav">
