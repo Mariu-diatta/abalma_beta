@@ -48,7 +48,7 @@ export default function BlogList() {
     return (
         <div className="h-full w-full  bg-none ">
 
-            <div className="max-w-7xl mx-auto grid lg:grid-cols-4 gap-8 px-1 py-8 items-start">
+            <div className="max-w-7xl mx-auto grid lg:grid-cols-4 gap-8 px-1 py-[3dvh] items-start">
 
                 {/* Sidebar gauche */}
                 <aside className="hidden md:block md:sticky md:top-[8dvh] md:self-start">
@@ -61,7 +61,7 @@ export default function BlogList() {
                             className="w-20 h-20 rounded-full mx-auto"
                         />
 
-                        <h2 className="text-center mt-4 font-bold">
+                        <h2 className="text-center mt-4 font-bold hidden">
                             Votre Boutique
                         </h2>
 

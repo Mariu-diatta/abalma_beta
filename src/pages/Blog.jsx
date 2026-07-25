@@ -103,9 +103,9 @@ export const BlogPage = () => {
     return (
 
 
-        <div className="min-h-full py-1  scrollbor_hidden pt-[5dvh]">
+        <div className="min-h-full py-1  scrollbor_hidden pt-[10dvh]">
 
-            <div className="mx-0 lg:mx-auto  max-w-screen-auto text-center lg:mb-3 mb-2">
+            <div className="mx-0 lg:mx-auto  max-w-screen-auto text-center lg:mb-3 mb-2 px-10">
 
                 <TitleCompGen title={t("blog.title")} />
 

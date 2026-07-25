@@ -697,7 +697,6 @@ export const CATEGORIES = {
         es: "Material escolar",
         idx: "fourniture"
     },
-    BIJOUX: { fr: "Bijoux", en: "Jewelry", es: "Joyería", idx: "jewelry" },
     COSMETIQUES: { fr: "Cosmétiques", en: "Cosmetics", es: "Cosméticos", idx: "cosmetics" },
     ALIMENTATION: { fr: "Alimentation", en: "Food", es: "Alimentación", idx: "alimentation" },
     MUSIQUE: { fr: "Musique", en: "Music", es: "Música", idx: "music" },
@@ -751,7 +750,7 @@ export const CATEGORIES = {
         fr: "Montres & Bijoux",
         en: "Watches & Jewelry",
         es: "Relojes y Joyería",
-        idx: "jewelrywatch"
+        idx: "jewelry"
     },
     VOYAGE: {
         fr: "Voyage & Loisirs",
@@ -1484,27 +1483,27 @@ export const STYLE = {
 export const services = [
     {
         key: "services_text_content.livraison",
-        icon: <Truck size={64} strokeWidth={1} />
+        icon: <Truck size={150} strokeWidth={1} />
     },
     {
         key: "services_text_content.paiment",
-        icon: <CreditCard size={64} strokeWidth={1} />
+        icon: <CreditCard size={150} strokeWidth={1} />
     },
     {
         key: "services_text_content.delivero",
-        icon: <PackageCheck size={64} strokeWidth={1} />
+        icon: <PackageCheck size={150} strokeWidth={1} />
     },
     {
         key: "services_text_content.promoCode",
-        icon: <Tag size={64} strokeWidth={1} />
+        icon: <Tag size={150} strokeWidth={1} />
     },
     {
         key: "services_text_content.support",
-        icon: <Headphones size={64} strokeWidth={1} />
+        icon: <Headphones size={150} strokeWidth={1} />
     },
     {
         key: "services_text_content.feadback",
-        icon: <MessageSquareHeart size={64} strokeWidth={1} />
+        icon: <MessageSquareHeart size={150} strokeWidth={1} />
     },
 ];
 

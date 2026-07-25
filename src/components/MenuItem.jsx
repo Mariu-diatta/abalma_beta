@@ -254,8 +254,8 @@ export const menuItems = (t) =>
                     className={STYLE.STYLE_BTN_CATEGORIES}
                     src={images[cat.idx]}
                     alt=""
-                    width="120"
-                    height="100"
+                    width="350"
+                    height="300"
                 />
                 :
                 images[cat.idx]

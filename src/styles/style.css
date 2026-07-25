@@ -361,12 +361,12 @@ html, body, #root {
 
 /* Icon wrapper */
 .vnav-icon {
-    width: 22px;
-    height: 22px;
+    width: 40px;
+    height: 40px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
     color: #64748b;
     transition: color .15s, transform .15s;
 }
@@ -6228,7 +6228,7 @@ forget password`*/
     display: flex;
     flex-direction: column;
     gap: 3px;
-    padding: 2px;
+    padding: 1px;
 }
 
 .vnav-cat-item {

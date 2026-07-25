@@ -243,7 +243,7 @@ const VerticalNavbar = ({ children }) => {
     const renderNavItem = ({ endpoint, label, Icon, badge, staticIcon }) => (
         <NavItem
             key={endpoint}
-            icon={staticIcon ? <Icon /> : <Icon filled={isActive(endpoint)} />}
+            icon={staticIcon ? <Icon/> : <Icon filled={isActive(endpoint)}/>}
             label={label}
             isActive={isActive(endpoint)}
             onClick={() => go(endpoint)}
