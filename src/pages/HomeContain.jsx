@@ -61,7 +61,8 @@ const LivePulse = () => (
 
 /* ---------- HOME ---------- */
 
-const TABS = [
+const 
+TABS = [
     { id: 'products', label: 'products', icon: ShoppingBag },
     { id: 'sellers', label: 'sellers', icon: Users },
     { id: 'trending', label: 'trending', icon: TrendingUp },
