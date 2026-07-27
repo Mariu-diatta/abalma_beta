@@ -39,7 +39,7 @@ const TestmonyCards = () => {
     }
 
     return (
-        <div className="container py-2 px-4 mb-[12dvh]">
+        <div className=" py-2 px-2 mb-[12dvh]">
 
             <div className="row g-2">
 

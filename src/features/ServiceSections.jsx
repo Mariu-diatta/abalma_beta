@@ -86,7 +86,7 @@ const MobileCarousel = ({ t }) => {
     return (
         <div className="flex flex-col items-center gap-1 w-full px-1 py-2 md:py-5">
             {/* Carte */}
-            <div className="relative w-full m-2 min-h-[30dvh]">
+            <div className="relative w-full m-1 py-1 min-h-[30dvh]">
                 <AnimatePresence custom={direction} mode="wait">
                     <motion.div
                         key={current}
