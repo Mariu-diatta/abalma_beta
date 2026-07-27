@@ -2,11 +2,25 @@ workflows:
   android-capacitor:
     name: Android Capacitor Build
     max_build_duration: 60
+    instance_type: linux_x2
     environment:
       node: 20
       java: 17
       vars:
-        PACKAGE_NAME: 'com.example.app' # ton appId (capacitor.config.json)
+        PACKAGE_NAME: "com.example.app" # ton appId (capacitor.config.json)
+    cache:
+      cache_paths:
+        - $HOME/.npm
+        - $HOME/.gradle/caches
+        - android/.gradle
+
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+
     scripts:
       - name: Install npm dependencies
         script: |
@@ -14,19 +28,26 @@ workflows:
 
       - name: Build web app (CRA)
         script: |
+          # évite que les warnings webpack fassent échouer le build en CI
+          export CI=false
           npm run build
 
       - name: Sync Capacitor
         script: |
           npx cap sync android
 
+      - name: Make gradlew executable
+        script: |
+          chmod +x android/gradlew
+
       - name: Build Android debug APK
         script: |
           cd android
-          ./gradlew assembleDebug
+          ./gradlew assembleDebug --stacktrace
 
     artifacts:
       - android/app/build/outputs/**/*.apk
+      - android/app/build/outputs/**/mapping.txt
 
     publishing:
       email:
