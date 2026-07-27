@@ -105,7 +105,7 @@ const HomeContain = () => {
                 <AttentionAlertMessage />
             </div>
 
-            <main className="min-h-screen bg-gradient-to-b from-slate-50 via-indigo-50/30 to-purple-50/30">
+            <main className="min-h-screen bg-gradient-to-b from-slate-50 via-indigo-50/30 to-purple-50/30 overflow-x-hidden">
 
                 {/* ============ HERO / COMPOSER ============ */}
                 <section className="px-1 pt-4 w-full">
