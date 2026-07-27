@@ -1,0 +1,37 @@
+workflows:
+  android-capacitor:
+    name: Android Capacitor Build
+    max_build_duration: 60
+    environment:
+      node: 20
+      java: 17
+      vars:
+        PACKAGE_NAME: 'com.example.app' # ton appId (capacitor.config.json)
+    scripts:
+      - name: Install npm dependencies
+        script: |
+          npm ci
+
+      - name: Build web app (CRA)
+        script: |
+          npm run build
+
+      - name: Sync Capacitor
+        script: |
+          npx cap sync android
+
+      - name: Build Android debug APK
+        script: |
+          cd android
+          ./gradlew assembleDebug
+
+    artifacts:
+      - android/app/build/outputs/**/*.apk
+
+    publishing:
+      email:
+        recipients:
+          - mariusgdiatta@gmail.com
+        notify:
+          success: true
+          failure: true
