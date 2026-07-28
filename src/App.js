@@ -9,10 +9,21 @@ import { AuthProvider } from './AuthContext';
 import './i18n'; // ⚠️ Important
 import LoadingCard from './components/LoardingSpin';
 import { useTranslation } from "react-i18next";
-
+//import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
 // Bottom nav mobile façon Instagram (5 icônes), montée une seule fois au
 // niveau racine pour rester visible et cohérente sur toutes les routes.
 const BottomNavMobile = lazy(() => import('./features/FooterMobileNav'));
+
+//try {
+//    GoogleAuth.initialize({
+//        clientId:
+//            "154955455828-340tuohbjc1c4imb29uqi4hr9l5dm0sv.apps.googleusercontent.com",
+//        scopes: ["profile", "email"],
+//        grantOfflineAccess: true
+//    });
+//} catch (error) {
+//    console.error("Erreur GoogleAuth.initialize:", error);
+//}
 
 const AppRoutes = () => {
 

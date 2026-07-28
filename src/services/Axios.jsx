@@ -2,6 +2,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { API_ENDPOINTS } from "./apiEndpoints";
+//export const BASE_URL = 'https://api.abalma.fr/';
 export const BASE_URL = process.env.NODE_ENV === 'production' ?
     'https://api.abalma.fr/'
     :

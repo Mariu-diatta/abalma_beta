@@ -22,6 +22,7 @@ i18n
         en: {
 
             translation: {
+                download_apk: "Download the Android app",
                 featured_sellers: "Featured Sellers",
                 search_placeholder: "Search for a product, seller, or service...",
                 products: "Products",
@@ -884,6 +885,7 @@ i18n
         fr: {
 
             translation: {
+                download_apk: "Télécharger l'application Android",
                 featured_sellers: "Vendeurs à la une",
                 search_placeholder: "Rechercher un produit, un vendeur, un service...",
                 products: "Produits",
@@ -1731,6 +1733,7 @@ i18n
         es: {
 
             translation: {
+                download_apk: "Descargar la aplicación Android",
                 featured_sellers: "Vendedores destacados",
                 search_placeholder: "Buscar un producto, un vendedor o un servicio...",
                 products: "Productos",

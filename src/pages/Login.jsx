@@ -9,7 +9,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import {loginClient } from '../utils';
 import AttentionAlertMessage, { showMessage } from '../components/AlertMessage';
 import { X } from "lucide-react"; // Icône pour fermer
-
+import { Capacitor } from "@capacitor/core";
 import  InputBox from "../components/InputBoxFloat";
 import  LoadingCard from "../components/LoardingSpin";
 import  TitleCompGen from "../components/TitleComponentGen";
@@ -161,9 +161,22 @@ const LogIn = ({ callbackState, onClose }) => {
 
                             {/* GOOGLE */}
                             <div className="flex justify-center">
-                                <GoogleOAuthProvider clientId="154955455828-340tuohbjc1c4imb29uqi4hr9l5dm0sv.apps.googleusercontent.com">
-                                    <LoginWithGoogle onClose={onClose} />
-                                </GoogleOAuthProvider> 
+
+                                {
+                                    Capacitor.isNativePlatform()
+                                        ?
+
+                                        <LoginWithGoogle onClose={onClose} />
+
+                                        :
+
+                                        <GoogleOAuthProvider
+                                            clientId="154955455828-340tuohbjc1c4imb29uqi4hr9l5dm0sv.apps.googleusercontent.com"
+                                        >
+                                            <LoginWithGoogle onClose={onClose} />
+                                        </GoogleOAuthProvider>
+                                }
+
                             </div>
 
                         </section>

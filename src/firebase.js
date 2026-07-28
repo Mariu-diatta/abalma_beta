@@ -24,8 +24,158 @@ import { useDispatch } from "react-redux";
 import { showMessage } from "./components/AlertMessage";
 import { useState } from "react";
 import LoadingCard from "./components/LoardingSpin";
-import { ENDPOINTS } from "./utils";
 
+import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
+
+import { Capacitor } from "@capacitor/core";
+
+export function LoginWithGoogle({ onClose }) {
+
+    const [loading, setLoading] = useState(false);
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+
+    const sendGoogleToken = async (idToken) => {
+
+        const csrfToken = getCookie("csrftoken");
+
+        setLoading(true);
+
+        try {
+
+            const res = await api.post(
+                API_ENDPOINTS.AUTH.GOOGLE_LOGIN,
+                {
+                    access_token: idToken
+                },
+                {
+                    headers: {
+                        "X-CSRFToken": csrfToken
+                    },
+                    withCredentials: true,
+                    timeout: 10000
+                }
+            );
+
+
+            dispatch(updateCompteUser(res.data.compte));
+            dispatch(updateUserData(res.data));
+            dispatch(login(res.data.user));
+
+            dispatch(setCurrentNav("account-home"));
+
+            onClose();
+
+            navigate("/account-home", {
+                replace: true
+            });
+
+
+        } catch (err) {
+
+            const message =
+                err?.response?.data?.error ||
+                err?.response?.data?.detail ||
+                err.message;
+
+
+            showMessage(dispatch, {
+                Type: "Erreur",
+                Message: message
+            });
+
+
+        } finally {
+
+            setLoading(false);
+
+        }
+
+    };
+
+
+
+    // ============================
+    // WEB
+    // ============================
+
+    const handleWebGoogle = async (response) => {
+
+        await sendGoogleToken(
+            response.credential
+        );
+
+    };
+
+
+
+    // ============================
+    // ANDROID
+    // ============================
+    const handleAndroidGoogle = async () => {
+        try {
+            const user = await GoogleAuth.signIn();
+            await sendGoogleToken(
+                user.authentication.idToken
+            );
+        } catch (error) {
+            console.error("Erreur Google Auth complète:", error);
+            console.error("Message:", error?.message);
+            console.error("Code:", error?.code);
+            showMessage(dispatch, {
+                Type: "Erreur",
+                Message: "Connexion Google impossible"
+            });
+        }
+    };
+
+
+
+    if (loading) {
+
+        return <LoadingCard />;
+
+    }
+
+
+
+    return (
+
+        <>
+            {
+                Capacitor.isNativePlatform()
+                    ?
+
+                    <button
+                        onClick={handleAndroidGoogle}
+                    >
+                        Continuer avec Google
+                    </button>
+
+                    :
+
+                    <GoogleLogin
+
+                        onSuccess={handleWebGoogle}
+
+                        onError={() => {
+
+                            showMessage(dispatch, {
+                                Type: "Erreur",
+                                Message: "Échec de la connexion Google"
+                            });
+
+                        }}
+
+                    />
+
+            }
+        </>
+
+    );
+}
 
 // Exemple d'utilisation (dans une fonction déclenchée par un bouton "Envoyer")
 // envoyerMessage("Bonjour !", "votre_id_utilisateur", "Votre Nom", "url_photo", "id_conversation");
@@ -61,104 +211,6 @@ function getCookie(name) {
         }
     }
     return cookieValue;
-}
-
-export function LoginWithGoogle({ onClose }) {
-
-    const [loading, setLoading] = useState(false);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-
-    const handleLogin = async (credentialResponse) => {
-
-        const csrfToken = getCookie('csrftoken');
-
-        setLoading(true);
-
-        try {
-
-            const res = await api.post(API_ENDPOINTS.AUTH.GOOGLE_LOGIN,
-
-                {
-
-                    access_token: credentialResponse.credential,
-
-                },
-                {
-                    headers: {
-
-                        "X-CSRFToken": csrfToken
-                    },
-
-                    timeout: 10000,
-
-                    withCredentials: true // 🔒 Cookies HttpOnly
-                }
-            );
-
-            //console.log("user data", res?.data)
-
-            // ✅ Utilisateur authentifié : le token est dans les cookies, inutile de le stocker
-            dispatch(updateCompteUser(res?.data?.compte))
-
-            dispatch(updateUserData(res?.data));
-
-            dispatch(login(res.data?.user)); // user info uniquement
-
-            dispatch(setCurrentNav("account-home"));
-
-            onClose();
-
-            navigate("/account-home", { replace: true });
-
-
-
-        } catch (err) {
-
-            const erroMessage =err?.response?.data?.error || err?.message || err?.response?.data?.detail || err?.response?.data?.detail?.error
-
-            dispatch(setCurrentNav(ENDPOINTS.HOME))
-
-            showMessage(
-
-                dispatch,
-
-                {
-
-                    Type: "Erreur",
-
-                    Message: erroMessage
-                }
-            );
-
-        } finally {
-
-            setLoading(false);
-        }
-    };
-
-    return (
-        <>
-            {
-                !loading ? (
-
-                    <GoogleLogin
-                        onSuccess={handleLogin}
-                        onError={() => {
-                            showMessage(dispatch, {
-                                Type: "Erreur",
-                                Message: "Échec de la connexion avec Google"
-                            });
-                        }}
-                    />
-                ) 
-                : 
-                (
-                    <LoadingCard />
-                )
-            }
-        </>
-    );
 }
 
 // --- Authentification Email / Mot de passe ---

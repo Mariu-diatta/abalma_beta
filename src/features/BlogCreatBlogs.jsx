@@ -88,6 +88,7 @@ export const ModalFormCreatBlog = () => {
         }
 
         setLoading(true);
+
         try {
             // FormData nécessaire dès qu'on envoie un fichier (video) en plus
             // des champs texte — le backend lit request.FILES.get("video").
