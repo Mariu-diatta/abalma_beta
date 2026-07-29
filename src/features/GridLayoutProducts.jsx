@@ -1,212 +1,250 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateSelectedProduct } from '../slices/cartSlice';
 import api from '../services/Axios';
 import { API_ENDPOINTS } from "../services/apiEndpoints";
 import ModalViewProduct from '../pages/ProductViewsDetails';
 import LoadingCard from '../components/LoardingSpin';
-import { CONSTANTS, removeAccents, translateCategory } from '../utils';
+import { CONSTANTS, removeAccents, translateCategory, extractResults } from '../utils';
 import SearchBar from '../components/BtnSearchWithFilter';
 import ScrollableButtonsCategoryProducts from './ScrollCategoryButtons';
 import ListProductByCategory from './ListProductCategory';
-import PaginationProduit from './PaginationProduit';
 
+const DEFAULT_ACTIVE_CATEGORY = CONSTANTS?.ALL;
+
+// Résout l'URL + les params d'API selon catégorie / recherche
+const resolveProductsRequest = ({ category, searchQuery }) => {
+
+    if (searchQuery) {
+        return {
+            url: API_ENDPOINTS.PRODUCTS.FILTER_SEARCH(searchQuery),
+            params: {},
+        };
+    }
+
+    const translatedCategory = translateCategory(
+        category.replace("_", " ")
+    ).toLocaleUpperCase();
+
+    const cleanCategory = removeAccents(translatedCategory)?.toLowerCase();
+
+    const isDefaultCategory =
+        !cleanCategory ||
+        cleanCategory?.toLowerCase() === DEFAULT_ACTIVE_CATEGORY?.toLowerCase();
+
+    return {
+        url: isDefaultCategory
+            ? API_ENDPOINTS.PRODUCTS.DEFAULT_LIST
+            : API_ENDPOINTS.PRODUCTS.FILTER,
+        params: isDefaultCategory
+            ? {}
+            : { product_categorie: cleanCategory },
+    };
+};
 
 const GridLayoutProduct = () => {
-
-    const [filteredItems, setFilteredItems] = useState([])
-
-    const productsFiltered = filteredItems.filter(prod =>
-
-        prod.variants?.some(variant => variant?.image)
-
-    );
-
-    const [filteredItemsPopover, setFilteredItemsPopover] = useState([])
-
-    const [loading, setLoading] = useState(false)
 
     const dispatch = useDispatch();
 
     const cartItems = useSelector(state => state?.cart?.items);
-
-    const DEFAULT_ACTIVE_CATEGORY = CONSTANTS?.ALL;
-
-    const [activeButtonCategory, setActiveButtonCategory] = useState(DEFAULT_ACTIVE_CATEGORY);
-
+    const currentUser = useSelector(state => state.auth.user);
     const categorySelectedData = useSelector(state => state?.navigate?.categorySelectedOnSearch)
 
-    const [modalData, setModalData] = useState(null);
-
+    const [activeButtonCategory, setActiveButtonCategory] = useState(DEFAULT_ACTIVE_CATEGORY);
     const [isButtonOver, setIsButtonOver] = useState(DEFAULT_ACTIVE_CATEGORY);
 
+    const [products, setProducts] = useState([]);
+    const [nextPage, setNextPage] = useState(null);
+    const [loading, setLoading] = useState(false);
+
+    const [filteredItemsPopover, setFilteredItemsPopover] = useState([]);
     const [owners, setOwners] = useState({});
+    const [modalData, setModalData] = useState(null);
+
+    const loadingRef = useRef(loading);
+    const nextPageRef = useRef(nextPage);
+
+    useEffect(() => { loadingRef.current = loading; }, [loading]);
+    useEffect(() => { nextPageRef.current = nextPage; }, [nextPage]);
 
     const openModal = (item) => setModalData(item);
-
     const closeModal = () => setModalData(null);
 
-    const currentUser = useSelector(state => state.auth.user);
+    const isCurrentUserConnected = (currentUser && currentUser?.is_connected);
 
-    const filteredItemsLenght = (productsFiltered?.length === 0)
+    const productsWithImage = products.filter(prod =>
+        prod.variants?.some(variant => variant?.image)
+    );
 
-    const isCurrentUserConnected = (currentUser && currentUser?.is_connected)
+    const filteredItemsLenght = (productsWithImage?.length === 0);
 
-    useEffect(
+    // Récupère les fournisseurs pour un lot de produits, et fusionne dans le state existant
+    const fetchOwnersFor = useCallback(async (productList) => {
 
-        () => {
+        const uniqueOwnerIds = [...new Set(productList.map(p => p?.fournisseur?.id))]
+            .filter(id => id != null);
 
-            dispatch(updateSelectedProduct(modalData))
+        if (uniqueOwnerIds.length === 0) return;
 
-        }, [dispatch, modalData]
-    )
+        const responses = await Promise.all(
+            uniqueOwnerIds.map(id =>
+                api.get(API_ENDPOINTS.CLIENTS.DETAIL(id))
+                    .then(res => ({ id, data: res.data }))
+                    .catch(() => ({ id, data: null }))
+            )
+        );
 
+        setOwners(prev => {
+            const next = { ...prev };
+            responses.forEach(({ id, data }) => {
+                if (data) next[id] = data;
+            });
+            return next;
+        });
+
+    }, []);
+
+    // Fetch initial — se relance si la catégorie active ou la recherche change
     useEffect(() => {
 
-        setLoading(true);
+        const fetchProducts = async () => {
 
-        const isDefaultCategory = (cleanCategory) => {
-
-            if (!cleanCategory) return false;
-
-            return cleanCategory?.toLowerCase() === DEFAULT_ACTIVE_CATEGORY?.toLowerCase();
-        }
-
-        const fetchProductsAndOwners = async () => {
+            setLoading(true);
 
             try {
 
-                const translatedCategory = translateCategory(activeButtonCategory.replace("_", " ")).toLocaleUpperCase();
-
-
-                let cleanCategory = removeAccents(translatedCategory)?.toLowerCase();
-
-                const url = isDefaultCategory(cleanCategory) ? API_ENDPOINTS.PRODUCTS.DEFAULT_LIST : API_ENDPOINTS.PRODUCTS.FILTER
-
-                const { data: products } = await api.get(url, {
-                    params: {
-                        product_categorie: cleanCategory,
-                    },
+                const { url, params } = resolveProductsRequest({
+                    category: activeButtonCategory,
+                    searchQuery: categorySelectedData?.query,
                 });
 
-                const filtered = products.filter(item => parseInt(item?.quantity_product) !== 0);
+                const { data: response } = await api.get(url, { params });
 
-                setFilteredItems(filtered);
+                const results = extractResults(response);
 
-                const uniqueOwnerIds = [...new Set(products.map(p => p?.fournisseur?.id))]
-                    .filter(id => id != null);
-
-                const responses = await Promise.all(
-
-                    uniqueOwnerIds.map(id =>
-
-                        api.get(API_ENDPOINTS.CLIENTS.DETAIL(id))
-
-                        .then(res => ({ id, data: res.data }))
-
-                        .catch(() => ({ id, data: null }))
-                    )
+                const filtered = results.filter(
+                    item => parseInt(item?.quantity_product) !== 0
                 );
 
-                const ownerMap = responses.reduce((acc, { id, data }) => {
+                setProducts(filtered);
+                setNextPage(response?.next ?? null);
 
-                    if (data) acc[id] = data;
-
-                    return acc;
-
-                }, {});
-
-                setOwners(ownerMap);
+                fetchOwnersFor(filtered);
 
             } catch (error) {
 
-                // console.error("Erreur lors du chargement :", error);
+                setProducts([]);
+                setNextPage(null);
+
             } finally {
 
                 setLoading(false);
             }
         };
 
-        fetchProductsAndOwners();
+        fetchProducts();
 
-    }, [activeButtonCategory, DEFAULT_ACTIVE_CATEGORY]);
+    }, [activeButtonCategory, categorySelectedData, fetchOwnersFor]);
 
+    // Popover catégorie survolée (indépendant de la liste principale)
     useEffect(() => {
 
-        const fetchProductsAndOwners = async () => {
+        const fetchPopoverProducts = async () => {
 
             try {
 
-
-                const isDefaultCategory = (cleanCategory) => {
-
-                    if (!cleanCategory) return true;
-
-                    return cleanCategory === DEFAULT_ACTIVE_CATEGORY?.toLowerCase();
-                }
-
-                const translatedCategory = translateCategory(isButtonOver.replace("_", " ").toLocaleUpperCase());
-
-                var cleanCategory = removeAccents(translatedCategory)?.toLowerCase();
-
-                const url = isDefaultCategory(cleanCategory) ? API_ENDPOINTS.PRODUCTS.DEFAULT_LIST : API_ENDPOINTS.PRODUCTS.FILTER;
-
-                const { data: products } = await api.get(url, {
-                    params: {
-                        product_categorie: cleanCategory?.toUpperCase(),
-                    },
+                const { url, params } = resolveProductsRequest({
+                    category: isButtonOver,
+                    searchQuery: null,
                 });
 
-                const filtered = products.filter(item => parseInt(item?.quantity_product) !== 0);
+                const { data: response } = await api.get(url, { params });
+
+                const results = extractResults(response);
+
+                const filtered = results.filter(
+                    item => parseInt(item?.quantity_product) !== 0
+                );
 
                 setFilteredItemsPopover(filtered);
 
             } catch (error) {
 
-                // console.error("Erreur lors du chargement :", error);
-            } finally {
+                setFilteredItemsPopover([]);
             }
         };
 
-        fetchProductsAndOwners();
+        fetchPopoverProducts();
 
-    }, [isButtonOver, DEFAULT_ACTIVE_CATEGORY]);
+    }, [isButtonOver]);
 
-    useEffect(
+    // Chargement de la page suivante (scroll infini)
+    const loadMoreProducts = useCallback(async () => {
 
-        () => {
+        if (!nextPageRef.current || loadingRef.current) return;
 
-            if (!categorySelectedData?.query) return
+        try {
 
-            const getDataSearch = async () => {
+            setLoading(true);
 
-                setLoading(true)
+            const { data: response } = await api.get(nextPageRef.current);
 
-                try {
-                    const { data: products } = await api.get(API_ENDPOINTS.PRODUCTS.FILTER_SEARCH(categorySelectedData?.query))
+            const results = extractResults(response);
 
-                    const filtered = products.filter(item => item?.categorie_product === categorySelectedData?.category);
+            const filtered = results.filter(
+                item => parseInt(item?.quantity_product) !== 0
+            );
 
-                    setFilteredItems(filtered);
+            setProducts(prev => [...(Array.isArray(prev) ? prev : []), ...filtered]);
+            setNextPage(response?.next ?? null);
 
-                } catch (e) {
+            fetchOwnersFor(filtered);
 
-                } finally {
+        } catch (error) {
 
-                    setLoading(false)
+            // silencieux, on garde la liste actuelle
+
+        } finally {
+
+            setLoading(false);
+        }
+
+    }, [fetchOwnersFor]);
+
+    // Sentinelle observée pour déclencher le chargement de la page suivante
+    const sentinelRef = useRef(null);
+
+    useEffect(() => {
+
+        const node = sentinelRef.current;
+        if (!node) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting) {
+                    loadMoreProducts();
                 }
-            }
+            },
+            { rootMargin: "800px" }
+        );
 
-            getDataSearch()
+        observer.observe(node);
 
-        }, [categorySelectedData]
-    )
-  
+        return () => observer.disconnect();
+
+    }, [loadMoreProducts]);
+
+    useEffect(() => {
+
+        dispatch(updateSelectedProduct(modalData));
+
+    }, [dispatch, modalData]);
+
     return (
 
         <div className="space-y-1 h-full py-[2dvh]">
 
-            { isCurrentUserConnected && <SearchBar /> }
+            {isCurrentUserConnected && <SearchBar />}
 
             <ScrollableButtonsCategoryProducts
 
@@ -222,42 +260,47 @@ const GridLayoutProduct = () => {
 
             />
 
-
-            <aside className={`${filteredItemsLenght ? "hidden" : "p-0"}`}>
-
-                <PaginationProduit products={productsFiltered} />
-
-            </aside>
-
             <main className="h-full overflow-x-hidden">
 
-            {
-                (loading) ?
-                <LoadingCard />
-                :
-                <ListProductByCategory
-                    filteredItems={productsFiltered}
-                    cartItems={cartItems}
-                    owners={owners}
-                    openModal={openModal}
-                />
+                {
+                    (loading && products.length === 0) ? (
 
-            }
+                        <LoadingCard />
+
+                    ) : filteredItemsLenght ? (
+
+                        <div className="mbl-empty">
+                            <div className="mbl-empty-icon">📭</div>
+                            <p className="mbl-empty-title">Aucun produit trouvé</p>
+                        </div>
+
+                    ) : (
+
+                        <ListProductByCategory
+                            filteredItems={productsWithImage}
+                            cartItems={cartItems}
+                            owners={owners}
+                            openModal={openModal}
+                        />
+
+                    )
+                }
+
+                {/* Sentinelle pour le scroll infini */}
+                <div ref={sentinelRef} className="h-4 w-full" />
+
+                {loading && products.length > 0 && (
+                    <div className="flex justify-center py-6">
+                        <span className="text-sm text-gray-400">Chargement...</span>
+                    </div>
+                )}
 
             </main>
 
-            <ModalViewProduct isOpen={!!modalData} onClose={closeModal}/>
+            <ModalViewProduct isOpen={!!modalData} onClose={closeModal} />
 
         </div>
     );
 };
 
 export default GridLayoutProduct;
-
-
-
-
-
-
-
-

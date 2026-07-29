@@ -13,6 +13,12 @@ import { login, updateCompteUser } from "./slices/authSlice";
 import { setCurrentNav, updateTheme } from "./slices/navigateSlice";
 import { store } from "./store/Store";
 
+
+// utils.jsx
+export const extractResults = (data) => {
+    return Array.isArray(data) ? data : (data?.results ?? []);
+};
+
 export const formatRelativeDate = (dateString) => {
     const date = new Date(dateString);
     const now = new Date();
@@ -76,17 +82,37 @@ export const getProducts = async (category) => {
         ? "produits/"
         : "products/filter/";
 
-    const { data } = await api.get(url, {
-        params: {
-            product_categorie: category?.toUpperCase(),
-        },
-    });
-    const filters = data.filter(
-        p => Number(p?.quantity_product) > 0
-    )
-    return {
-        products: filters
-    };
+    try {
+
+        const { data: response } = await api.get(url, {
+            params: {
+                product_categorie: category?.toUpperCase(),
+            },
+        });
+
+        // ✅ gère à la fois une réponse paginée ({results: [...]}) et un tableau brut
+        const results = extractResults(response);
+
+        const filtered = results.filter(
+            p => Number(p?.quantity_product) > 0
+        );
+
+        return {
+            products: filtered,
+            count: response?.count ?? filtered.length,
+            next: response?.next ?? null,
+            previous: response?.previous ?? null,
+        };
+
+    } catch (error) {
+
+        return {
+            products: [],
+            count: 0,
+            next: null,
+            previous: null,
+        };
+    }
 };
 
 export const getMediaUrl = (path) => {
