@@ -18,6 +18,7 @@ import PayBack from "../components/BacketButtonPay";
 import LogIn from "../pages/Login";
 import RegisterForm from "../pages/Register";
 import { ButtonNavigate } from "../components/Button";
+import { useScrollVisibility } from "../hooks/useScrollVisibility";
 
 // ─────────────────────────────────────────────────────────────────────────
 // Bottom nav mobile façon Instagram : 5 icônes fixes, toujours visibles.
@@ -54,7 +55,10 @@ const BottomNavMobile = () => {
     const currentNav = useSelector((state) => state.navigate.currentNav);
     const currentUser = useSelector((state) => state.auth.user);
     const unreadCount = useSelector((state) => state.chat.messageNotif?.length || 0);
-
+    const visible = useScrollVisibility({
+        mode: "footer",
+        delay: 300,
+    });
     const [authMode, setAuthMode] = useState(null); // null | 'login' | 'register'
 
     const go = (endpoint) => {
@@ -88,7 +92,7 @@ const BottomNavMobile = () => {
         <>
 
             <nav
-                className="flex ig-bottom-nav md:hidden"
+                className={`flex ig-bottom-nav md:hidden ${visible ? " -translate-y-0" : "translate-y-full bg-white"}`}
                 role="navigation"
                 aria-label={t("bottom_nav_label") || "Navigation principale"}
             >
@@ -202,12 +206,12 @@ const MoreSheetMobile = ({ open, onClose }) => {
 
     return (
         <div
-            className="sm:hidden fixed inset-0 z-[9990] flex items-end justify-center bg-black/30 pb-[6dvh]"
+            className="sm:hidden fixed inset-0 z-[9990] flex items-end justify-center bg-black/30 h-full gap- "
             onClick={onClose}
         >
             <div
                 onClick={(e) => e.stopPropagation()}
-                className="w-full  rounded-t-2xl p-4 pb-6 shadow-2xl"
+                className="w-full  rounded-t-2xl shadow-2xl p-3"
                 style={{ backgroundColor: "var(--color-surface, #fff)" }}
             >
                 <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-gray-300" />
@@ -241,7 +245,7 @@ const MoreSheetMobile = ({ open, onClose }) => {
                     <LanguageDropdown />
                 </div>
 
-                <div className="hidden flex items-center justify-between gap-3 py-2">
+                <div className="hidden flex items-center justify-betwee gap-3 py-2">
                     <span className="text-sm" style={{ color: "var(--color-text, #262626)" }}>
                         {t("theme") || "Thème"}
                     </span>
@@ -259,9 +263,10 @@ const MoreSheetLoginRegister = ({ onClose }) => {
     const currentNav = useSelector(state => state.navigate.currentNav);
 
     return (
-        <div className="flex flex-col items-center gap-2 pb-3 mb-2 border-b" style={{ borderColor: "var(--color-border, #dbdbdb)" }}>
+        <div className="flex flex-col items-end gap-2 pb-0 mb-0 border-b" style={{ borderColor: "var(--color-border, #dbdbdb)" }}>
 
             <div className="flex items-center gap-2 pb-3 mb-2 border-b w-full">
+
                 <button
                     type="button"
                     onClick={() => { setShowLogin(true); setShowRegister(false); }}
@@ -270,6 +275,7 @@ const MoreSheetLoginRegister = ({ onClose }) => {
                 >
                     {t(ENDPOINTS.LOGIN)}
                 </button>
+
                 <button
                     type="button"
                     onClick={() => { setShowRegister(true); setShowLogin(false); }}

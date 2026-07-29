@@ -8,29 +8,30 @@ import { ButtonNavigate } from "../components/Button";
 import { ENDPOINTS, getTabsNavigationsItems } from "../utils";
 import api from "../services/Axios";
 import { API_ENDPOINTS } from "../services/apiEndpoints";
+import { useScrollVisibility } from "../hooks/useScrollVisibility";
 
 // Lazy load heavy components
 const SearchBar = lazy(() => import("../components/BtnSearchWithFilter"));
 const MoreSheetMobile = lazy(() => import("../features/FooterMobileNav").then(m => ({ default: m.MoreSheetMobile })));
 const DesktopNav = lazy(() => import("../features/FooterDeskTopNav"));
 
+
 const NavbarHeader = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { t } = useTranslation();
     const ref = useRef(null);
-
     const currentNav = useSelector(state => state.navigate.currentNav);
     const categorySelectedData = useSelector(state => state.navigate.categorySelectedOnSearch);
     const themeValue = useSelector(state => state.navigate.theme);
 
     const [open, setOpen] = useState(false);
+    const visible = useScrollVisibility();
+    // ── tout le reste (isHidden, isCentered, tous les useEffect existants) reste identique ──
 
-    // Pages spécifiques
     const isHidden = currentNav === ENDPOINTS.FORGETPSWD;
     const isCentered = currentNav === ENDPOINTS.ABOUT;
 
-    // Handle clicks outside
     useEffect(() => {
         const handleClickOutside = event => {
             if (ref.current && !ref.current.contains(event.target)) setOpen(false);
@@ -39,7 +40,6 @@ const NavbarHeader = () => {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
-    // Fetch filtered data when categorySelectedData changes
     useEffect(() => {
         if (!categorySelectedData?.query) return;
 
@@ -53,7 +53,6 @@ const NavbarHeader = () => {
         fetchFiltered();
     }, [categorySelectedData]);
 
-    // Theme handling
     useEffect(() => {
         const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
         const theme = localStorage.getItem("theme") || themeValue || (prefersDark ? "dark" : "light");
@@ -61,7 +60,7 @@ const NavbarHeader = () => {
         document.body.classList.add(theme);
     }, [themeValue]);
 
-    // Scroll header effect
+    // Effet existant INCHANGÉ — gère le fond du header en fonction du sens de scroll
     useEffect(() => {
         let lastScroll = 0;
         const header = document.getElementById("header");
@@ -83,7 +82,6 @@ const NavbarHeader = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    // Sync currentNav with URL
     useEffect(() => {
         if (!currentNav) {
             navigate("/", { replace: true });
@@ -92,13 +90,24 @@ const NavbarHeader = () => {
     }, [currentNav, navigate, dispatch]);
 
     return (
-        <nav className="sticky top-0 z-50 max-h-[20px] min-h-[20px] bg-none mb-8">
+        <nav className="mb-0">
 
             <header
                 id="header"
-                className="flex w-full items-center justify-between h-[50px] px-1 bg-white"
-                ref={ref}
-            >
+                className={`
+                flex 
+                items-center fixed max-h-[12dvh]
+                top-0
+                left-0
+                right-0
+                z-100
+                transition-transform
+                duration-300
+                ease-in-out
+                bg-white
+                ${visible ? "translate-y-0 mb-0 bg-white/50" : "-translate-y-full bg-white"}`
+            }
+        >
                 <Logo />
 
                 {!isHidden && (
@@ -108,7 +117,6 @@ const NavbarHeader = () => {
                             <ButtonNavigate tabs={getTabsNavigationsItems(currentNav, t)} />
                         </span>
 
-                        {/* Lazy-loaded SearchBar */}
                         <Suspense fallback={null}>
                             <SearchBar />
                         </Suspense>
@@ -120,7 +128,7 @@ const NavbarHeader = () => {
                     <button
                         onClick={() => setOpen(prev => !prev)}
                         id="navbarToggler"
-                        className={`sm:hidden z-[71] px-3 py-3 rounded-lg text-black dark:bg-dark-3 dark:text-white focus:outline-none ${open ? "navbarTogglerActive z-[9999]" : ""}`}
+                        className={`sm:hidden z-[71] px-3 rounded-lg text-black dark:bg-dark-3 dark:text-white focus:outline-none ${open ? "navbarTogglerActive z-[9999]" : ""}`}
                         aria-label="Toggle navigation"
                         aria-expanded={open}
                     >
@@ -129,14 +137,22 @@ const NavbarHeader = () => {
                         <span className="block w-2 h-0.5 bg-gray-500 dark:bg-gray-200 my-[6px]" />
                     </button>
 
-                    {/* Lazy-loaded Navigation */}
-                    <Suspense fallback={null}>
-                        <MoreSheetMobile open={open} onClose={() => setOpen(false)} />
-                        <DesktopNav />
-                    </Suspense>
+                    <span className="hidden md:block">
+                        <Suspense fallback={null}>
+                            <MoreSheetMobile open={open} onClose={() => setOpen(false)} />
+                            <DesktopNav />
+                        </Suspense>
+                    </span>
+
                 </span>
-                
+
             </header>
+
+            <span className="md:hidden z-[9999] ">
+                <Suspense fallback={null}>
+                    <MoreSheetMobile open={open} onClose={() => setOpen(false)} />
+                </Suspense>
+            </span>
 
             <Outlet />
         </nav>

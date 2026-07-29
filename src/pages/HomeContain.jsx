@@ -105,10 +105,10 @@ const HomeContain = () => {
                 <AttentionAlertMessage />
             </div>
 
-            <main className="min-h-screen bg-gradient-to-b from-slate-50 via-indigo-50/30 to-purple-50/30 overflow-x-hidden">
+            <main className="min-h-screen bg-gradient-to-b from-slate-50 via-indigo-50/30 to-purple-50/30 overflow-x-hidden mt-0">
 
                 {/* ============ HERO / COMPOSER ============ */}
-                <section className="px-1 pt-4 w-full">
+                <section className="px-1 pt-2 w-full">
 
                     <SectionCard className="grid grid-cols-1 md:grid-cols-2 py-5 px-0.5 space-y-4 space-x-0 relative overflow-hidden w-full">
 
