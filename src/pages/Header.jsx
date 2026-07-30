@@ -96,16 +96,16 @@ const NavbarHeader = () => {
                 id="header"
                 className={`
                 flex 
-                items-center fixed max-h-[12dvh]
+                items-center fixed max-h-[8dvh]
                 top-0
                 left-0
                 right-0
-                z-100
+                z-9999
                 transition-transform
                 duration-300
                 ease-in-out
                 bg-white
-                ${visible ? "translate-y-0 mb-0 bg-white/50" : "-translate-y-full bg-white"}`
+                ${visible ? "translate-y-0 mb-0 " : "-translate-y-full"}`
             }
         >
                 <Logo />

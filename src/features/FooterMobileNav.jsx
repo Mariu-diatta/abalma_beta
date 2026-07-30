@@ -18,7 +18,7 @@ import PayBack from "../components/BacketButtonPay";
 import LogIn from "../pages/Login";
 import RegisterForm from "../pages/Register";
 import { ButtonNavigate } from "../components/Button";
-import { useScrollVisibility } from "../hooks/useScrollVisibility";
+import { useFooterVisibility } from "../hooks/useFooterVisibility";
 
 // ─────────────────────────────────────────────────────────────────────────
 // Bottom nav mobile façon Instagram : 5 icônes fixes, toujours visibles.
@@ -55,10 +55,7 @@ const BottomNavMobile = () => {
     const currentNav = useSelector((state) => state.navigate.currentNav);
     const currentUser = useSelector((state) => state.auth.user);
     const unreadCount = useSelector((state) => state.chat.messageNotif?.length || 0);
-    const visible = useScrollVisibility({
-        mode: "footer",
-        delay: 300,
-    });
+    const visible = useFooterVisibility();
     const [authMode, setAuthMode] = useState(null); // null | 'login' | 'register'
 
     const go = (endpoint) => {
@@ -92,7 +89,7 @@ const BottomNavMobile = () => {
         <>
 
             <nav
-                className={`flex ig-bottom-nav md:hidden ${visible ? " -translate-y-0" : "translate-y-full bg-white"}`}
+                className={`flex ig-bottom-nav md:hidden bg-white ${visible ? " -translate-y-0 bg-white/50" : "translate-y-full"}`}
                 role="navigation"
                 aria-label={t("bottom_nav_label") || "Navigation principale"}
             >

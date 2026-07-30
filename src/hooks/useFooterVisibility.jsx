@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-export const useScrollVisibility = (delay = 300) => {
+export const useFooterVisibility = (delay = 300) => {
 
     const [visible, setVisible] = useState(true);
 
@@ -19,22 +19,25 @@ export const useScrollVisibility = (delay = 300) => {
 
             const current = container.scrollTop;
 
+
             // Toujours visible en haut
             if (current <= 5) {
 
                 setVisible(true);
                 lastScroll.current = current;
-
                 return;
+
             }
 
-            // Scroll vers le bas
+            // Scroll vers le bas → masquer le footer
             if (current > lastScroll.current) {
+
 
                 setVisible(false);
 
             }
-            // Scroll vers le haut
+
+            // Scroll vers le haut → afficher le footer
             else if (current < lastScroll.current) {
 
                 setVisible(true);
@@ -43,17 +46,14 @@ export const useScrollVisibility = (delay = 300) => {
 
             lastScroll.current = current;
 
-            // On annule l'ancien timer
-            if (stopTimer.current) {
-                clearTimeout(stopTimer.current);
-            }
+            clearTimeout(stopTimer.current);
 
-            // Si plus aucun scroll pendant "delay" ms
             stopTimer.current = setTimeout(() => {
 
                 setVisible(true);
 
             }, delay);
+
         };
 
         container.addEventListener("scroll", handleScroll, {
@@ -63,10 +63,8 @@ export const useScrollVisibility = (delay = 300) => {
         return () => {
 
             container.removeEventListener("scroll", handleScroll);
+            clearTimeout(stopTimer.current);
 
-            if (stopTimer.current) {
-                clearTimeout(stopTimer.current);
-            }
         };
 
     }, [delay]);
