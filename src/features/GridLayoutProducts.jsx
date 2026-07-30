@@ -9,7 +9,8 @@ import { CONSTANTS, removeAccents, translateCategory, extractResults } from '../
 import SearchBar from '../components/BtnSearchWithFilter';
 import ScrollableButtonsCategoryProducts from './ScrollCategoryButtons';
 import ListProductByCategory from './ListProductCategory';
-
+import NoContentComp from '../components/NoContentComp';
+import { useTranslation } from 'react-i18next';
 const DEFAULT_ACTIVE_CATEGORY = CONSTANTS?.ALL;
 
 // Résout l'URL + les params d'API selon catégorie / recherche
@@ -45,7 +46,7 @@ const resolveProductsRequest = ({ category, searchQuery }) => {
 const GridLayoutProduct = () => {
 
     const dispatch = useDispatch();
-
+    const { t } = useTranslation()
     const cartItems = useSelector(state => state?.cart?.items);
     const currentUser = useSelector(state => state.auth.user);
     const categorySelectedData = useSelector(state => state?.navigate?.categorySelectedOnSearch)
@@ -271,7 +272,7 @@ const GridLayoutProduct = () => {
 
                         <div className="mbl-empty">
                             <div className="mbl-empty-icon">📭</div>
-                            <p className="mbl-empty-title">Aucun produit trouvé</p>
+                                <NoContentComp content={t('ListItemsFilterProduct.noProduct')} />;
                         </div>
 
                     ) : (
