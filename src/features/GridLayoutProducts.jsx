@@ -11,6 +11,7 @@ import ScrollableButtonsCategoryProducts from './ScrollCategoryButtons';
 import ListProductByCategory from './ListProductCategory';
 import NoContentComp from '../components/NoContentComp';
 import { useTranslation } from 'react-i18next';
+import PaginationProduit from './PaginationProduit';
 const DEFAULT_ACTIVE_CATEGORY = CONSTANTS?.ALL;
 
 // Résout l'URL + les params d'API selon catégorie / recherche
@@ -261,6 +262,12 @@ const GridLayoutProduct = () => {
 
             />
 
+            <aside className={`${filteredItemsLenght ? "hidden" : "p-0"}`}>
+
+                <PaginationProduit products={filteredItemsPopover} />
+
+            </aside>
+
             <main className="h-full overflow-x-hidden">
 
                 {
@@ -292,7 +299,7 @@ const GridLayoutProduct = () => {
 
                 {loading && products.length > 0 && (
                     <div className="flex justify-center py-6">
-                        <span className="text-sm text-gray-400">Chargement...</span>
+                        <LoadingCard />
                     </div>
                 )}
 

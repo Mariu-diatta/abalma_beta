@@ -2,159 +2,562 @@ import React, { useRef, useEffect, useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { getMediaUrl } from "../utils";
 
-const randomRot = () => (Math.random() - 0.5) * 6; // Entre -3deg et +3deg
+const randomRot = () => (Math.random() - 0.5) * 6;
 
 const PaginationProduit = ({ products = [] }) => {
+
     const scrollRef = useRef(null);
     const itemRefs = useRef([]);
-    const rotationsRef = useRef([]); // Stocké en ref, pas en state → pas de re-render
+    const rotationsRef = useRef([]);
 
-    // Init des rotations
+
+    /**
+     * Initialisation des rotations
+     */
     useEffect(() => {
-        rotationsRef.current = products.map(() => randomRot());
-        applyRotations();
+
+        rotationsRef.current =
+            products.map(() => randomRot());
+
+
+        requestAnimationFrame(() => {
+            applyRotations();
+        });
+
+
     }, [products]);
 
-    // Applique directement les rotations via le DOM, sans re-render React
+
+
+    /**
+     * Applique les rotations sans rerender
+     */
     const applyRotations = () => {
+
         itemRefs.current.forEach((el, i) => {
+
             if (!el) return;
-            const rot = rotationsRef.current[i] ?? 0;
-            el.style.transform = `rotate(${rot}deg)`;
+
+
+            el.style.transform =
+                `rotate(${rotationsRef.current[i] ?? 0}deg)`;
+
+
             el.style.zIndex = "1";
+
         });
+
     };
 
+
+
+    /**
+     * Navigation boutons
+     */
     const scroll = (direction) => {
-        if (scrollRef.current) {
-            const { scrollLeft, clientWidth } = scrollRef.current;
-            scrollRef.current.scrollTo({
-                left: direction === "left"
-                    ? scrollLeft - clientWidth * 0.6
-                    : scrollLeft + clientWidth * 0.6,
-                behavior: "smooth",
-            });
-        }
-    };
 
-    const revealItem = (el, track) => {
-        if (!el || !track) return;
-        const elRect = el.getBoundingClientRect();
-        const trackRect = track.getBoundingClientRect();
-        const overflowRight = elRect.right - trackRect.right;
-        const overflowLeft = trackRect.left - elRect.left;
-        if (overflowRight > 0) track.scrollBy({ left: overflowRight + 24, behavior: "smooth" });
-        else if (overflowLeft > 0) track.scrollBy({ left: -(overflowLeft + 24), behavior: "smooth" });
-    };
+        const track = scrollRef.current;
 
-    const handleEnter = useCallback((index) => {
-        const el = itemRefs.current[index];
-        if (!el) return;
+        if (!track) return;
 
-        // Révéler si partiellement caché
-        revealItem(el, scrollRef.current);
 
-        // Monter au premier plan immédiatement via DOM
-        el.style.transform = "translateY(-18px) scale(1.06) rotate(0deg)";
-        el.style.zIndex = "10";
-        el.querySelector(".fan-label").style.opacity = "1";
-    }, []);
+        track.scrollBy({
 
-    const handleLeave = useCallback((index) => {
-        const el = itemRefs.current[index];
-        if (!el) return;
+            left:
+                direction === "left"
+                    ? -(track.clientWidth * 0.65)
+                    : track.clientWidth * 0.65,
 
-        // Nouvelle rotation aléatoire tirée MAINTENANT, appliquée immédiatement
-        const newRot = randomRot();
-        rotationsRef.current[index] = newRot;
 
-        el.style.transform = `rotate(${newRot}deg)`;
-        el.style.zIndex = "1";
-        el.querySelector(".fan-label").style.opacity = "0";
-    }, []);
+            behavior: "smooth"
 
-    useEffect(() => {
-        const observers = [];
-        itemRefs.current.forEach((el, i) => {
-            if (!el) return;
-            const obs = new IntersectionObserver(
-                ([entry]) => {
-                    if (entry.isIntersecting) {
-                        setTimeout(() => {
-                            el.classList.add("fan-visible");
-                            el.style.transform = `rotate(${rotationsRef.current[i] ?? 0}deg)`;
-                        }, i * 60);
-                        obs.unobserve(el);
-                    }
-                },
-                { threshold: 0.2 }
-            );
-            obs.observe(el);
-            observers.push(obs);
         });
-        return () => observers.forEach((o) => o.disconnect());
+
+    };
+
+
+
+    /**
+     * Vérifie qu'une carte est visible
+     */
+    const revealItem = (el) => {
+
+        const track = scrollRef.current;
+
+        if (!el || !track) return;
+
+
+        const item =
+            el.getBoundingClientRect();
+
+
+        const container =
+            track.getBoundingClientRect();
+
+
+
+        if (item.right > container.right) {
+
+            track.scrollBy({
+
+                left:
+                    item.right -
+                    container.right +
+                    30,
+
+                behavior: "smooth"
+
+            });
+
+        }
+
+
+
+        if (item.left < container.left) {
+
+            track.scrollBy({
+
+                left:
+                    item.left -
+                    container.left -
+                    30,
+
+                behavior: "smooth"
+
+            });
+
+        }
+
+    };
+
+
+
+    /**
+     * Hover entrée
+     */
+    const handleEnter = useCallback((index) => {
+
+
+        const el =
+            itemRefs.current[index];
+
+
+        if (!el) return;
+
+
+
+        revealItem(el);
+
+
+
+        el.style.transform =
+            `
+            translateY(-18px)
+            scale(1.08)
+            rotate(0deg)
+            `;
+
+
+        el.style.zIndex = "20";
+
+
+
+        const label =
+            el.querySelector(".fan-label");
+
+
+        if (label)
+            label.style.opacity = "1";
+
+
+
+    }, []);
+
+
+
+
+
+    /**
+     * Hover sortie
+     */
+    const handleLeave = useCallback((index) => {
+
+
+        const el =
+            itemRefs.current[index];
+
+
+        if (!el) return;
+
+
+
+        const rotation =
+            randomRot();
+
+
+
+        rotationsRef.current[index] =
+            rotation;
+
+
+
+        el.style.transform =
+            `rotate(${rotation}deg)`;
+
+
+        el.style.zIndex = "1";
+
+
+
+        const label =
+            el.querySelector(".fan-label");
+
+
+        if (label)
+            label.style.opacity = "0";
+
+
+
+    }, []);
+
+
+
+
+    /**
+     * Animation apparition progressive
+     */
+    useEffect(() => {
+
+
+        const observers = [];
+
+
+        itemRefs.current.forEach((el, index) => {
+
+
+            if (!el) return;
+
+
+
+            const observer =
+                new IntersectionObserver(
+                    ([entry]) => {
+
+
+                        if (entry.isIntersecting) {
+
+
+                            setTimeout(() => {
+
+
+                                el.style.opacity = "1";
+
+
+                                el.style.transform =
+                                    `
+                                rotate(
+                                ${rotationsRef.current[index] ?? 0}
+                                deg)
+                                `;
+
+
+                            }, index * 50);
+
+
+
+                            observer.disconnect();
+
+                        }
+
+
+                    },
+
+                    {
+                        threshold: 0.15
+                    }
+
+                );
+
+
+
+            observer.observe(el);
+
+
+            observers.push(observer);
+
+
+
+        });
+
+
+
+        return () => {
+
+            observers.forEach(
+                obs => obs.disconnect()
+            );
+
+        };
+
+
     }, [products]);
 
-    if (!products.length) return null;
+
+
+
+    if (!products.length)
+        return null;
+
+
+
 
     return (
-        <>
 
-            <div className="relative group w-full py-2">
+        <div
+            className="
+            relative
+            group
+            w-full
+            py-2
+            overflow-hidden
+            "
+        >
 
-                <button
-                    onClick={() => scroll("left")}
-                    className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white/90 p-2 rounded-full shadow-lg border border-gray-100 hover:bg-indigo-600 hover:text-white transition-all opacity-0 group-hover:opacity-100 hidden md:flex items-center justify-center"
-                >
-                    <ChevronLeft className="w-5 h-5" />
-                </button>
 
-                <div
-                    ref={scrollRef}
-                    className="fan-track flex overflow-x-auto scroll-smooth pt-10 pb-4 px-4 items-end w-full"
-                    style={{ gap: 0 }}
-                >
-                    {products.map((product, index) => {
-                        const image = product?.variants?.[0]?.image;
-                        const name = product?.name || `Produit ${index + 1}`;
+
+            <button
+
+                onClick={() => scroll("left")}
+
+                className="
+                absolute
+                left-0
+                top-1/2
+                -translate-y-1/2
+                z-20
+                bg-white/90
+                p-2
+                rounded-full
+                shadow-lg
+                border
+                opacity-0
+                group-hover:opacity-100
+                transition
+                hidden
+                md:flex
+                "
+
+            >
+
+                <ChevronLeft className="w-5 h-5" />
+
+            </button>
+
+
+
+
+            <div
+
+                ref={scrollRef}
+
+                className="
+                fan-track
+                flex
+                overflow-x-auto
+                scroll-smooth
+                pt-10
+                pb-4
+                px-4
+                scrollbar-hide
+                "
+
+                style={{
+                    gap: 0
+                }}
+
+            >
+
+
+
+                {
+                    products.map((product, index) => {
+
+
+                        const image =
+                            product?.variants?.[0]?.image;
+
+
+                        const name =
+                            product?.name ??
+                            `Produit ${index + 1}`;
+
+
 
                         return (
-                            <div
-                                key={index}
-                                ref={(el) => (itemRefs.current[index] = el)}
-                                className="fan-item flex-shrink-0 cursor-pointer relative"
-                                style={{
-                                    width: "11rem",
-                                    marginLeft: index === 0 ? "0" : "-2.5rem",
-                                    transformOrigin: "bottom center",
-                                }}
-                                onMouseEnter={() => handleEnter(index)}
-                                onMouseLeave={() => handleLeave(index)}
-                                onClick={() => handleEnter(index)}
-                            >
-                                <div className="rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 aspect-square flex items-center justify-center transition-shadow duration-300 hover:shadow-xl">
-                                    <img
-                                        src={getMediaUrl(image)}
-                                        alt={name}
-                                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
-                                    />
-                                </div>
-                                <p className="fan-label text-center text-xs text-gray-500 mt-2 truncate px-1">
-                                </p>
-                            </div>
-                        );
-                    })}
-                </div>
 
-                <button
-                    onClick={() => scroll("right")}
-                    className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white/90 p-2 rounded-full shadow-lg border border-gray-100 hover:bg-indigo-600 hover:text-white transition-all opacity-0 group-hover:opacity-100 hidden md:flex items-center justify-center"
-                >
-                    <ChevronRight className="w-5 h-5" />
-                </button>
+
+                            <div
+
+
+                                key={
+                                    product.id ??
+                                    index
+                                }
+
+
+                                ref={(el) =>
+                                    itemRefs.current[index] = el
+                                }
+
+
+                                className="
+                                fan-item
+                                flex-shrink-0
+                                cursor-pointer
+                                relative
+                                opacity-0
+                                transition-all
+                                duration-300
+                                ease-out
+                                "
+
+
+                                style={{
+
+                                    width: "11rem",
+
+                                    marginLeft:
+                                        index === 0
+                                            ? "0"
+                                            : "-2.5rem",
+
+
+                                    transformOrigin:
+                                        "bottom center"
+
+                                }}
+
+
+                                onMouseEnter={() =>
+                                    handleEnter(index)
+                                }
+
+
+                                onMouseLeave={() =>
+                                    handleLeave(index)
+                                }
+
+
+                                onClick={() =>
+                                    handleEnter(index)
+                                }
+
+
+                            >
+
+
+
+                                <div
+
+                                    className="
+                                    rounded-2xl
+                                    overflow-hidden
+                                    bg-gray-50
+                                    border
+                                    border-gray-100
+                                    aspect-square
+                                    flex
+                                    items-center
+                                    justify-center
+                                    hover:shadow-xl
+                                    transition-shadow
+                                    "
+
+                                >
+
+
+                                    <img
+
+                                        src={
+                                            getMediaUrl(image)
+                                        }
+
+
+                                        alt={name}
+
+
+                                        className="
+                                        w-full
+                                        h-full
+                                        object-cover
+                                        transition-transform
+                                        duration-500
+                                        hover:scale-110
+                                        "
+
+                                    />
+
+
+                                </div>
+
+
+
+                            </div>
+
+
+                        );
+
+
+                    })
+
+                }
+
+
+
             </div>
-        </>
+
+
+
+
+
+            <button
+
+                onClick={() => scroll("right")}
+
+
+                className="
+                absolute
+                right-0
+                top-1/2
+                -translate-y-1/2
+                z-20
+                bg-white/90
+                p-2
+                rounded-full
+                shadow-lg
+                border
+                opacity-0
+                group-hover:opacity-100
+                transition
+                hidden
+                md:flex
+                "
+
+            >
+
+
+                <ChevronRight className="w-5 h-5" />
+
+
+            </button>
+
+
+
+        </div>
+
     );
+
 };
+
 
 export default PaginationProduit;
