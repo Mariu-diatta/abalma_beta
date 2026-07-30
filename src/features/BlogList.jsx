@@ -38,7 +38,7 @@ const TrendingDesktop = () => (
 const TrendingMobile = () => (
     <div className="lg:hidden order-1 -mx-1">
         <h2 className="font-bold text-lg mb-3 px-1">Tendances</h2>
-        <div className="flex gap-3 overflow-x-auto pb-2 px-1 snap-x snap-mandatory scrollbar-hide">
+        <div className="flex gap-3 overflow-x-auto pb-2 px-1 snap-x snap-mandatory scrollbar-hidden w-screen">
             {TRENDS.map((trend) => (
                 <div
                     key={trend.tag}
