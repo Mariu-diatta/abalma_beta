@@ -4,8 +4,8 @@ import { createPortal } from "react-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 //import { addToCart, updateSelectedProduct } from "../slices/cartSlice";
-import { X, ShoppingCart, Clock,  Play, Pause } from "lucide-react";
-
+import { X, ShoppingCart, Clock, Play, Pause } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import PrintNumberStars from "../components/SystemStar";
 import RendrePrixProduitMonnaie from "../features/ConvertCurrency";
 import TextParagraphs from "../components/TextToParagraph";
@@ -17,7 +17,7 @@ import express_delivery from "../../src/assets/express-delivery_1981844.png";
 import home_5657414 from "../../src/assets/home-address_12248895.png";
 import pay_8331969 from "../../src/assets/pay_8331969.png";
 import { getMediaUrl, getProducts } from "../utils";
-import { addToCart } from "../slices/cartSlice";
+import { addToCart, updateSelectedProduct } from "../slices/cartSlice";
 import LikeButton from "../components/LikeButton";
 
 const ProductDetailsSection = ({ isOpen, onClose }) => {
@@ -80,6 +80,36 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
         { logo: home_5657414, title: t("adress"), value: adresse },
         { logo: pay_8331969, title: t("paymentMethod"), value: product?.payment_method }
     ];
+
+    const currentProductIndex = sameProductCategory.findIndex(
+        p => p.id === product?.id
+    );
+
+    const goPrevProduct = () => {
+        if (currentProductIndex <= 0) return;
+
+        dispatch(
+            updateSelectedProduct(
+                sameProductCategory[currentProductIndex - 1]
+            )
+        );
+
+        setMediaIndex(0);
+        setIndex(0);
+    };
+
+    const goNextProduct = () => {
+        if (currentProductIndex >= sameProductCategory.length - 1) return;
+
+        dispatch(
+            updateSelectedProduct(
+                sameProductCategory[currentProductIndex + 1]
+            )
+        );
+
+        setMediaIndex(0);
+        setIndex(0);
+    };
 
     useEffect(() => {
 
@@ -161,20 +191,68 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
 
         <div
             className="
-        fixed
-        inset-0
-        z-[2147483647]
-        flex
-        items-center
-        justify-center
-        bg-black/40
-        backdrop-blur-sm
-        "
+            fixed 
+            inset-0
+            z-[2147483647]
+            flex
+            items-center
+            justify-center
+            bg-black/40
+            backdrop-blur-sm
+            "
         >
+
+            {/* Desktop */}
+            <button
+                onClick={goPrevProduct}
+                disabled={currentProductIndex <= 0}
+                className="
+                                        hidden md:flex
+                                        absolute
+                                        left-3
+                                        top-1/2
+                                        -translate-y-1/2
+                                        z-30
+                                        w-11
+                                        h-11
+                                        rounded-full
+                                        bg-white/90
+                                        shadow-xl
+                                        items-center
+                                        justify-center
+                                        disabled:opacity-30
+                                    "
+            >
+                <ChevronLeft />
+            </button>
+
+            <button
+                onClick={goNextProduct}
+                disabled={currentProductIndex >= sameProductCategory.length - 1}
+                className="
+                                        hidden md:flex
+                                        absolute
+                                        right-3
+                                        top-1/2
+                                        -translate-y-1/2
+                                        z-30
+                                        w-11
+                                        h-11
+                                        rounded-full
+                                        bg-white/90
+                                        shadow-xl
+                                        items-center
+                                        justify-center
+                                        disabled:opacity-30
+                                    "
+            >
+                <ChevronRight />
+            </button>
+
 
             {/* Overlay flouté pour un look premium */}
             <div
-                className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity"
+                className="absolute inset-0 backdrop-blur-sm transition-opacity"
                 onClick={() => {
                     onClose();
                     setIndex(0);
@@ -187,7 +265,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
             />
 
             {/* Modal */}
-            <div className="scrollbor_hidden relative bg-white max-w-[100vw] w-full rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh]">
+            <div className="scrollbor_hidden relative bg-white w-full m-auto md:w-2/3 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh]">
 
                 {/* Header Mobile / Close Button */}
                 <button
@@ -206,7 +284,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                     <X size={20} />
                 </button>
 
-                <div className="overflow-y-auto p-6 md:p-10 scrollbor_hidden">
+                <div className="overflow-y-auto py-2 md:p-1 scrollbor_hidden">
 
                     <div className="lg:grid lg:grid-cols-2 lg:gap-12 items-start">
 
@@ -523,34 +601,51 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                             </div>
 
                             {/* Liste */}
-                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                                {sameProductCategory.map((prod) => (
-                                    <div
-                                        key={prod.id}
-                                        className="group rounded-xl border border-gray-100 bg-white p-3 hover:shadow-md transition"
-                                    >
-                                        <img
-                                            src={getMediaUrl(medias[mediaIndex].url)}
-                                            alt={prod?.name_product || "Produit"}
-                                            onClick={pauseMediaSlider}
-                                            loading="lazy"
-                                            className="
-                                                w-full
-                                                h-28
-                                                object-contain
-                                                transition-transform
-                                                duration-300
-                                                group-hover:scale-110
-                                                cursor-pointer
-                                            "
-                                        />
+                            <div className="relative">
 
-                                        <p className="mt-3 text-sm font-medium text-gray-700 text-center line-clamp-2">
-                                            {prod?.name_product}
-                                        </p>
-                                    </div>
-                                ))}
+
+                                {/* Mobile */}
+                                <div
+                                    className="
+                                        flex
+                                        overflow-x-auto
+                                        snap-x
+                                        snap-mandatory
+                                        lg:grid
+                                        lg:grid-cols-6
+                                        scrollbar-hidden
+                                    "
+                                >
+
+                                    {sameProductCategory.map((prod) => (
+
+                                        <div
+                                            key={prod.id}
+                                            className="
+                                                snap-center
+                                                min-w-full
+                                                lg:min-w-0
+                                                lg:w-auto
+                                                group
+                                                rounded-xl
+                                                border
+                                                border-gray-100
+                                                bg-white
+                                            "
+                                            onClick={() => dispatch(updateSelectedProduct(prod))}
+                                        >
+
+                                            ...
+
+                                        </div>
+
+                                    ))}
+
+                                </div>
+
                             </div>
+
+
                         </div>
                     )}
 

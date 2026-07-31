@@ -196,6 +196,7 @@ const ProductCard = ({ item, isInCart, owner, openModal }) => {
                         (onEnded), pas avant — même si elle dure plus longtemps
                         que le délai des images. */}
                     {currentMedia?.type === "video" && currentMedia.url && (
+
                         <video
                             key={mediaIndex}
                             src={getMediaUrl(currentMedia.url)}
@@ -221,27 +222,37 @@ const ProductCard = ({ item, isInCart, owner, openModal }) => {
 
                     {/* Overlay Action Rapide */}
                     <div className="absolute inset-x-0 bottom-4 flex justify-center translate-y-16 group-hover:translate-y-0 transition-transform duration-300 z-10 hidden md:flex">
+
                         <button className="bg-white/95 px-4 py-2 rounded-full border border-[#dbdbdb] text-xs font-semibold flex items-center justify-center gap-2 text-[#262626] hover:bg-[#fafafa]">
+
                             <Eye size={16} />
+
                             <span>{t("voir_details")}</span>
+
                         </button>
+
                     </div>
+
                 </div>
             </div>
 
             {/* Infos Section */}
             <div className="p-3 flex flex-col flex-grow">
+
                 {/* Vendeur & Stars */}
                 <div className="flex justify-between items-center mb-2">
+
                     <div className="flex items-center gap-2 min-w-0">
                         <OwnerAvatar owner={owner} />
                         <span className="text-xs font-medium text-[#262626] truncate">
                             {owner?.nom || t("seller") || "Vendeur"}
                         </span>
                     </div>
+
                     <div className="scale-90 origin-right shrink-0">
                         <PrintNumberStars productNbViews={item?.view_count} t={t} />
                     </div>
+
                 </div>
 
                 {/* Nom & Description */}

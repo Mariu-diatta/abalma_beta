@@ -368,7 +368,7 @@ const PaginationProduit = ({ products = [] }) => {
                 pt-10
                 pb-4
                 px-4
-                scrollbar-hide
+                scrollbar-hidden
                 "
 
                 style={{
