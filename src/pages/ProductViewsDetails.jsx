@@ -284,7 +284,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                     <X size={20} />
                 </button>
 
-                <div className="overflow-y-auto py-2 md:p-1 scrollbor_hidden">
+                <div className="overflow-y-auto py-2 p-1 scrollbor_hidden">
 
                     <div className="lg:grid lg:grid-cols-2 lg:gap-12 items-start">
 
@@ -611,9 +611,10 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                                         overflow-x-auto
                                         snap-x
                                         snap-mandatory
-                                        lg:grid
-                                        lg:grid-cols-6
+                                    
+    
                                         scrollbar-hidden
+                                        md:hidden
                                     "
                                 >
 
@@ -635,7 +636,22 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                                             onClick={() => dispatch(updateSelectedProduct(prod))}
                                         >
 
-                                            ...
+                                            <img
+                                            onClick={() => dispatch(updateSelectedProduct(prod))}
+                                            src={getMediaUrl(prod?.variants?.[0]?.image)}
+                                            alt={prod?.name_product || "Produit"}
+                                            loading="lazy"
+                                            className="
+                                                w-full
+                                                h-28
+                                                object-contain
+                                                transition-transform
+                                                duration-300
+                                                group-hover:scale-110
+                                                cursor-pointer
+                                            "
+                                           
+                                                />
 
                                         </div>
 
