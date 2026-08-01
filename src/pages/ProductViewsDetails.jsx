@@ -589,7 +589,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                     </div>
 
                     {sameProductCategory?.length > 0 && (
-                        <div className="mt-8">
+                        <div className="mt-8 md:hidden">
 
                             {/* Séparateur */}
                             <div className="flex items-center gap-4 mb-5">
@@ -611,10 +611,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                                         overflow-x-auto
                                         snap-x
                                         snap-mandatory
-                                    
-    
-                                        scrollbar-hidden
-                                        md:hidden
+                                        scrollbar-hidden   
                                     "
                                 >
 
