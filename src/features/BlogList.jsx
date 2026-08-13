@@ -1,4 +1,5 @@
 import React, { useEffect, Suspense, useRef, useCallback } from "react";
+
 import {
     MessageCircle,
     Share2,
@@ -11,6 +12,9 @@ import { useSelector } from 'react-redux';
 import { formatRelativeDate } from "../utils";
 import LikeButton from "../components/LikeButton";
 import { useTranslation } from "react-i18next";
+// ⚠️ CORRIGÉ : react-helmet-async n'a plus de raison d'être ici, voir
+// explication détaillée au niveau de `sharePost` ci-dessous.
+// import { Helmet } from "react-helmet-async";
 
 const TRENDS = [
     { tag: "#Artisanat", count: "2 500 publications" },
@@ -18,6 +22,12 @@ const TRENDS = [
     { tag: "#Mode", count: "1 420 publications" },
     { tag: "#Décoration", count: "980 publications" },
 ];
+
+// ⚠️ AJOUT : URL de base de l'API Django. Adapte cette constante pour
+// qu'elle pointe vers la même base que ton instance axios
+// (`services/Axios.js`) — idéalement, exporte-la directement depuis ce
+// fichier et importe-la ici plutôt que de la dupliquer.
+const API_BASE_URL = process.env.REACT_APP_API_URL || "https://www.abalma.fr";
 
 const TrendingDesktop = () => (
     <aside className="hidden lg:block lg:sticky lg:top-[8dvh] h-fit order-3">
@@ -38,7 +48,7 @@ const TrendingDesktop = () => (
 const TrendingMobile = () => (
     <div className="lg:hidden order-1 -mx-1">
         <h2 className="font-bold text-lg mb-3 px-1">Tendances</h2>
-        <div className="flex gap-3 overflow-x-auto pb-2 px-1 snap-x snap-mandatory scrollbar-hidden w-screen">
+        <div className="flex gap-3 overflow-x-auto pb-0.5 px-4 snap-x snap-mandatory scrollbor_hidden w-screen">
             {TRENDS.map((trend) => (
                 <div
                     key={trend.tag}
@@ -64,6 +74,59 @@ export default function BlogList({ searchQuery, newBlog }) {
 
     const loadingRef = useRef(loading);
     const nextPageRef = useRef(nextPage);
+    const isSharing = useRef(false);
+
+    const sharePost = async (post) => {
+        // Empêche un deuxième partage pendant que le premier est actif
+        if (isSharing.current) {
+            return;
+        }
+
+        isSharing.current = true;
+
+        try {
+            // ⚠️ CORRIGÉ : on ne partage plus l'URL directe de la SPA
+            // React (`/blog/<id>`), mais l'URL de la route Django
+            // dédiée au partage (`/share/blog/<id>/`, voir
+            // abalma_backend/social_share.py).
+            //
+            // Pourquoi : quand quelqu'un ouvre ce lien sur WhatsApp,
+            // Facebook, Twitter/X..., ce n'est PAS un navigateur qui va
+            // chercher la page, mais un robot qui lit le HTML brut
+            // SANS exécuter de JavaScript. Avec l'URL de la SPA, ce
+            // robot recevait toujours le même `index.html` générique
+            // (mêmes balises og:title/og:image pour toutes les pages),
+            // car le vrai titre/image du post n'était injecté qu'après
+            // coup par `<Helmet>`, une fois React exécuté — ce que les
+            // robots ne font jamais de façon fiable.
+            //
+            // La route Django, elle, détecte ces robots et leur répond
+            // directement avec les bonnes balises Open Graph pour CE
+            // post, sans JS. Un vrai visiteur humain qui clique sur ce
+            // même lien est simplement redirigé (302) vers la page
+            // React normale : rien ne change pour lui.
+            const url = `${API_BASE_URL}/share/blog/${post.id}/`;
+
+            if (navigator.share) {
+                await navigator.share({
+                    title: post.title_blog,
+                    text: post.blog_message,
+                    url: url,
+                });
+            } else {
+                await navigator.clipboard.writeText(url);
+                alert("Lien copié !");
+            }
+        } catch (error) {
+            // L'utilisateur a fermé le menu de partage
+            if (error.name !== "AbortError") {
+                console.error("Erreur de partage :", error);
+            }
+        } finally {
+            // Le partage est terminé
+            isSharing.current = false;
+        }
+    };
 
     useEffect(() => { loadingRef.current = loading; }, [loading]);
     useEffect(() => { nextPageRef.current = nextPage; }, [nextPage]);
@@ -178,6 +241,24 @@ export default function BlogList({ searchQuery, newBlog }) {
                         </div>
                     }
 
+                    {/*
+                        ⚠️ SUPPRIMÉ : il y avait auparavant un <Helmet>
+                        DANS la boucle .map() ci-dessous, donc un par
+                        post affiché — potentiellement des dizaines
+                        d'instances actives en même temps, toutes en
+                        train d'écrire dans le même <head> du document.
+                        Le dernier post rendu "gagnait" systématiquement,
+                        peu importe sur quel post l'utilisateur cliquait
+                        "Partager".
+
+                        <Helmet> n'a de sens que sur une page qui
+                        affiche UN SEUL post (ex: /blog/:id), jamais
+                        dans une liste. Voir le composant BlogDetail.jsx
+                        fourni à côté pour l'usage correct — et de
+                        toute façon, ce n'est plus lui qui gère l'aperçu
+                        de partage désormais (voir sharePost plus haut).
+                    */}
+
                     <Suspense fallback={"..."}>
 
                         {
@@ -197,6 +278,7 @@ export default function BlogList({ searchQuery, newBlog }) {
                                             <h3 className="font-semibold">
                                                 {post.user?.prenom}
                                             </h3>
+
                                             <span className="text-sm text-gray-500">
                                                 {formatRelativeDate(post.created_at)}
                                             </span>
@@ -212,7 +294,10 @@ export default function BlogList({ searchQuery, newBlog }) {
                                             playsInline
                                             className="w-full h-[420px] object-cover"
                                         >
-                                            <source src={post.video} type="video/mp4" />
+                                            <source
+                                                src={post.video}
+                                                type="video/mp4"
+                                            />
                                         </video>
                                     </div>
 
@@ -235,24 +320,27 @@ export default function BlogList({ searchQuery, newBlog }) {
                                             />
 
                                             <button className="flex items-center gap-2 text-gray-600 hidden">
-                                                <MessageCircle size={22} />
+                                                <MessageCircle size={20} />
                                                 {post?.comments ?? 0}
                                             </button>
 
-                                            <button className="flex items-center gap-2 text-gray-600 hidden">
-                                                <Share2 size={22} />
+                                            <button
+                                                onClick={() => sharePost(post)}
+                                                className="flex items-center gap-2 text-gray-600"
+                                            >
+                                                <Share2 size={20} />
                                                 Partager
                                             </button>
 
                                             <button className="text-gray-600 hidden">
-                                                <Bookmark size={22} />
+                                                <Bookmark size={20} />
                                             </button>
+
                                         </div>
                                     </div>
                                 </div>
                             ))
                         }
-
                     </Suspense>
 
                     {/* Sentinelle pour le scroll infini */}
