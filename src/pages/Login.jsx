@@ -161,7 +161,7 @@ const LogIn = ({ callbackState, onClose }) => {
                             </div>
 
                             {/* GOOGLE */}
-                            <div className="flex justify-between gap-1">
+                            <div className="flex flex-col justify-center items-center md:flex-row md:justify-between gap-3 md:gap-1">
 
                                 {
                                     Capacitor.isNativePlatform()
@@ -179,6 +179,7 @@ const LogIn = ({ callbackState, onClose }) => {
                                 }
 
                                 <FacebookLogin/>
+
                             </div>
 
                         </section>
