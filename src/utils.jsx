@@ -14,6 +14,43 @@ import { setCurrentNav, updateTheme } from "./slices/navigateSlice";
 import { store } from "./store/Store";
 
 
+//login with facebook
+export const loginWithFacebook = () => {
+    window.FB.login(
+        async (response) => {
+            if (!response.authResponse) {
+                console.log("Connexion Facebook annulée");
+                return;
+            }
+
+            const accessToken = response.authResponse.accessToken;
+
+            try {
+                const { data } = await api.post(
+                    "/api/auth/facebook/",
+                    {
+                        access_token: accessToken,
+                    }
+                );
+
+                console.log("Utilisateur connecté :", data);
+
+                // Exemple si tu utilises Redux :
+                // dispatch(loginSuccess(data));
+
+            } catch (error) {
+                console.error(
+                    "Erreur Django :",
+                    error.response?.data || error
+                );
+            }
+        },
+        {
+            scope: "public_profile,email",
+        }
+    );
+};
+
 // utils.jsx
 export const extractResults = (data) => {
     return Array.isArray(data) ? data : (data?.results ?? []);

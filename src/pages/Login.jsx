@@ -6,13 +6,14 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { setCurrentNav } from '../slices/navigateSlice';
 import { LoginWithGoogle } from '../firebase';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import {loginClient } from '../utils';
+import { loginClient} from '../utils';
 import AttentionAlertMessage, { showMessage } from '../components/AlertMessage';
 import { X } from "lucide-react"; // Icône pour fermer
 import { Capacitor } from "@capacitor/core";
 import  InputBox from "../components/InputBoxFloat";
 import  LoadingCard from "../components/LoardingSpin";
 import  TitleCompGen from "../components/TitleComponentGen";
+import FacebookLogin from "./LoginWithFacebook";
 
 const LogIn = ({ callbackState, onClose }) => {
 
@@ -160,7 +161,7 @@ const LogIn = ({ callbackState, onClose }) => {
                             </div>
 
                             {/* GOOGLE */}
-                            <div className="flex justify-center">
+                            <div className="flex justify-between gap-1">
 
                                 {
                                     Capacitor.isNativePlatform()
@@ -177,6 +178,7 @@ const LogIn = ({ callbackState, onClose }) => {
                                         </GoogleOAuthProvider>
                                 }
 
+                                <FacebookLogin/>
                             </div>
 
                         </section>
