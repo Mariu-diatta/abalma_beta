@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../services/Axios";
 
-const FACEBOOK_APP_ID = "2019910941919457";
+const FACEBOOK_APP_ID = "1571047877939987";
 
 const sendFacebookTokenToDjango = async (accessToken) => {
     try {
