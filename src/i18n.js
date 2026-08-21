@@ -44,6 +44,8 @@ i18n
                 "active_sellers": "Active Sellers",
                 "popular_products": "Popular Products",
                 "no_sellers_found": "No sellers found.",
+                "new_member_badge": "New",
+                "member_since": "Member since {{date}}",
                 "trends_coming_soon": "Trending topics are coming soon.",
                 "real_time_activity": "Real-Time Activity",
                 "recent_activity": "Recent purchases • conversations • active sellers",
@@ -822,7 +824,12 @@ i18n
                     titreComptePro: "Switch to professional account",
                     titreFournisseur: "Become a supplier",
                     confirmCode: "Enter the verification code send by email:",
-                    validate: "Validate"
+                    validate: "Validate",
+                    resendCodeQuestion: "Didn't receive a code, or has it expired?",
+                    resendCode: "Resend a code",
+                    resendCodeSending: "Sending...",
+                    resendCodeSuccess: "A new code has been sent successfully.",
+                    resendCodeWait: "Retry available in {{time}}"
                 },
 
                 ListItemsFilterProduct: {
@@ -907,6 +914,8 @@ i18n
                 "active_sellers": "Vendeurs actifs",
                 "popular_products": "Produits populaires",
                 "no_sellers_found": "Aucun vendeur trouvé.",
+                "new_member_badge": "Nouveau",
+                "member_since": "Membre depuis {{date}}",
                 "trends_coming_soon": "Les tendances arrivent bientôt.",
                 "real_time_activity": "Activité en temps réel",
                 "recent_activity": "Achats récents • discussions • vendeurs actifs",
@@ -1669,7 +1678,12 @@ i18n
                     titreComptePro: "Passer en compte professionnel",
                     titreFournisseur: "Devenir fournisseur",
                     confirmCode: "Entrez le code de confirmation qui vous a été envoyé par email",
-                    validate:"Validate"
+                    validate:"Valider",
+                    resendCodeQuestion: "Vous n'avez pas reçu de code, ou il a expiré ?",
+                    resendCode: "Renvoyer un code",
+                    resendCodeSending: "Envoi en cours...",
+                    resendCodeSuccess: "Un nouveau code a été envoyé avec succès.",
+                    resendCodeWait: "Nouvel essai possible dans {{time}}"
                 },
                 ListItemsFilterProduct: {
                     Tous: "Tous",
@@ -1755,6 +1769,8 @@ i18n
                 "active_sellers": "Vendedores activos",
                 "popular_products": "Productos populares",
                 "no_sellers_found": "No se encontraron vendedores.",
+                "new_member_badge": "Nuevo",
+                "member_since": "Miembro desde {{date}}",
                 "trends_coming_soon": "Las tendencias llegarán pronto.",
                 "real_time_activity": "Actividad en tiempo real",
                 "recent_activity": "Compras recientes • conversaciones • vendedores activos",
@@ -2500,7 +2516,12 @@ i18n
                     titreComptePro: "Pasar a cuenta profesional",
                     titreFournisseur: "Convertirse en proveedor",
                     confirmCode: "Introduce el código de confirmación que te ha sido enviado por correo electrónico",
-                    validate: "Validar"
+                    validate: "Validar",
+                    resendCodeQuestion: "¿No recibiste un código, o ha caducado?",
+                    resendCode: "Reenviar un código",
+                    resendCodeSending: "Enviando...",
+                    resendCodeSuccess: "Se ha enviado un nuevo código correctamente.",
+                    resendCodeWait: "Nuevo intento disponible en {{time}}"
                 },
 
                 ListItemsFilterProduct: {

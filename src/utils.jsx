@@ -281,6 +281,40 @@ export function formatDateRelative(dateString, lang = 'fr') {
     return locale.format(parsedDate);
 }
 
+// Nombre de jours après l'inscription pendant lesquels un utilisateur /
+// fournisseur est considéré comme "nouveau" dans les listes (accueil, etc.).
+export const NEW_MEMBER_WINDOW_DAYS = 30;
+
+/**
+ * Détermine si un utilisateur est "nouveau" à partir de sa date
+ * d'inscription (`created` côté backend, cf. modèle `User.created`).
+ * Utilisé pour afficher un badge "Nouveau" côté accueil / liste des
+ * fournisseurs.
+ */
+export function isNewMember(registrationDate, windowDays = NEW_MEMBER_WINDOW_DAYS) {
+    if (!registrationDate) return false;
+    const joined = new Date(registrationDate);
+    if (Number.isNaN(joined.getTime())) return false;
+    const diffMs = Date.now() - joined.getTime();
+    const diffDays = diffMs / (1000 * 60 * 60 * 24);
+    return diffDays >= 0 && diffDays <= windowDays;
+}
+
+/**
+ * Formate une date d'inscription pour affichage (ex: "12 juin 2026"),
+ * dans la langue fournie ('fr', 'en', 'es', ...).
+ */
+export function formatJoinDate(registrationDate, lang = 'fr') {
+    if (!registrationDate) return '';
+    const joined = new Date(registrationDate);
+    if (Number.isNaN(joined.getTime())) return '';
+    return joined.toLocaleDateString(lang, {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+    });
+}
+
 // 🧮 Fonctions utilitaires
 export function removeAccents(str) {
     if (!str) return "Tous";

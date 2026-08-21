@@ -198,6 +198,9 @@ export const API_ENDPOINTS = {
         CREATE: 'fournisseurs/',
         VALIDATION: 'fournisseurs/validation-fournisseur/',
         VALIDATION_CODE: (code) => `codes_validation/${code}/validation-fournisseur/`,
+        // Permet de redemander un nouveau code de validation fournisseur
+        // lorsque celui envoyé initialement n'a pas été validé après 2h.
+        RESEND_CODE: 'fournisseurs/renvoyer-code/',
         CREATE_PROMO: '/seller/create-promo/',
     },
 

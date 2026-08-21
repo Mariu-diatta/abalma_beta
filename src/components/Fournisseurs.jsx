@@ -5,13 +5,14 @@ import {
     BadgeCheck,
     MapPin,
     Sparkles,
+    Star,
 } from "lucide-react";
 import FollowProfilUser from "./ViewsProfilUser";
 import { addUser } from "../slices/chatSlice";
 import { setCurrentNav } from "../slices/navigateSlice";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router";
-import { alertMessage } from "../utils";
+import { alertMessage, isNewMember, formatJoinDate } from "../utils";
 import { useTranslation } from 'react-i18next';
 
 /**
@@ -21,10 +22,19 @@ import { useTranslation } from 'react-i18next';
  * identity, location, description, status badges and quick actions.
  */
 const UserCard = ({ selectedUserToSeeProfil, onMessage }) => {
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
     const dispatch = useDispatch()
     let navigate = useNavigate();
     const currentUser = useSelector(state => state.auth.user)
+
+    // Nouveau membre : inscrit(e) depuis moins de 30 jours (cf. utils.js),
+    // à partir de la date d'inscription renvoyée par le backend
+    // (`created` sur le modèle User/Client).
+    const registrationDate =
+        selectedUserToSeeProfil?.created ||
+        selectedUserToSeeProfil?.date_joined;
+    const isNew = isNewMember(registrationDate);
+    const joinDateLabel = formatJoinDate(registrationDate, i18n.language);
 
     const getUserProfil = () => {
 
@@ -81,7 +91,7 @@ const UserCard = ({ selectedUserToSeeProfil, onMessage }) => {
                     </div>
 
                     {selectedUserToSeeProfil.profession && (
-                        <p className="text-sm text-white/85 truncate">
+                        <p className="text-sm text-white/85 truncate hidden">
                             {selectedUserToSeeProfil.profession}
                         </p>
                     )}
@@ -99,8 +109,15 @@ const UserCard = ({ selectedUserToSeeProfil, onMessage }) => {
             <div className="px-5 pb-5 pt-4">
 
                 {/* BADGES */}
-                {(selectedUserToSeeProfil.is_fournisseur || selectedUserToSeeProfil.is_subscribed || selectedUserToSeeProfil.is_verified) && (
+                {(selectedUserToSeeProfil.is_fournisseur || selectedUserToSeeProfil.is_subscribed || selectedUserToSeeProfil.is_verified || isNew) && (
                     <div className="flex flex-wrap gap-2 mb-3">
+                        {isNew && (
+                            <span className="flex items-center gap-1 px-3 py-1 rounded-full bg-pink-50 text-pink-600 text-xs font-medium">
+                                <Star size={12} />
+                                {t("new_member_badge")}
+                            </span>
+                        )}
+
                         {selectedUserToSeeProfil.is_subscribed && (
                             <span className="flex items-center gap-1 px-3 py-1 rounded-full bg-indigo-50 text-indigo-600 text-xs font-medium">
                                 <Sparkles size={12} />
@@ -126,6 +143,13 @@ const UserCard = ({ selectedUserToSeeProfil, onMessage }) => {
                 <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">
                     {selectedUserToSeeProfil.description || "Aucune description disponible."}
                 </p>
+
+                {/* Date d'inscription */}
+                {joinDateLabel && (
+                    <p className="mt-2 text-xs text-gray-400">
+                        {t("member_since", { date: joinDateLabel })}
+                    </p>
+                )}
 
                 {/* ACTIONS */}
                 <div className="grid grid-cols-3 gap-3 mt-5">
