@@ -8,7 +8,7 @@ import {
     clearCart,
 } from "../slices/cartSlice";
 import { useTranslation } from "react-i18next";
-import { CONSTANTS, getItemTotal, getMediaUrl} from "../utils";
+import { CONSTANTS, getItemTotal, getMediaUrl } from "../utils";
 import BuyButtonWithPaymentForm from "./ButtonPaymentShopping";
 import api from "../services/Axios";
 import { API_ENDPOINTS } from "../services/apiEndpoints";
@@ -39,7 +39,7 @@ const ListProductShoppingCart = () => {
 
     const data = useSelector((state) => state.cart);
 
-    const itemsData = data?.items ;
+    const itemsData = data?.items;
 
 
     const lang = i18n.language || window.localStorage.i18nextLng || CONSTANTS?.FR;
@@ -85,8 +85,8 @@ const ListProductShoppingCart = () => {
     if (itemsData.length === 0) {
         return (
             <>
-                <div className="sc-root sc-wrap" style={{paddingTop:"6dvh"}}>
-     
+                <div className="sc-root sc-wrap" style={{ paddingTop: "6dvh" }}>
+
                     <div className="sc-empty">
 
                         <div className="sc-title">
@@ -350,19 +350,20 @@ const ListProductShoppingCart = () => {
                             />
                         </div>
 
-                       <div className="w-full md:w-auto">
+                        <div className="w-full md:w-auto">
                             {hasTotalPositive && (
                                 <button
                                     type="button"
                                     className="flex items-center justify-start gap-3 w-full px-6 py-3.5
-                                       bg-gradient-to-r from-purple-400 to-indigo-400
-                                       hover:from-purple-500 hover:to-indigo-500
+                                       bg-gradient-to-r from-purple-600 to-indigo-600
+                                       hover:from-purple-700 hover:to-indigo-700
                                        disabled:opacity-60 disabled:cursor-not-allowed
-                                       text-white font-medium rounded-xl
+                                       text-white font-medium rounded-xl shadow-lg shadow-indigo-200
+                                       hover:shadow-xl hover:-translate-y-0.5
                                        transition-all duration-200 active:scale-95
                                     "
                                     onClick={boughtProduct}
-                                    aria-label={`Payer ${parseFloat(grandTotal).toFixed(2)}} ${reference} en cash`}
+                                    aria-label={`Payer ${parseFloat(grandTotal).toFixed(2)} ${reference} en cash`}
                                 >
                                     <CashIcon />
 

@@ -55,7 +55,7 @@ const DownloadApkButton = () => {
             </span>
 
             <span className="flex flex-col leading-tight text-left">
-             
+
                 <span className="text-xs font-semibold flex items-center gap-1.5">
                     {t("download_apk") || "Installer l'APK"}
                     <FaDownload className="text-[10px] opacity-70 group-hover:translate-y-0.5 transition-transform" />
@@ -188,12 +188,23 @@ const SocialBtn = ({
 const ColTitle = ({ children }) => (
 
     <p className="
+        relative
+        pl-3
         text-[11px]
         font-semibold
         uppercase
         tracking-widest
         text-gray-400
         mb-4
+        before:content-['']
+        before:absolute
+        before:left-0
+        before:top-1/2
+        before:-translate-y-1/2
+        before:w-1.5
+        before:h-1.5
+        before:rounded-full
+        before:bg-indigo-400
         ">
 
         {children}
@@ -230,16 +241,16 @@ const PaymentFooter = () => {
                 flex
                 gap-3
                 text-[32px]
-                text-gray-400
+                text-gray-300
                 "
             >
 
-                <FaCcVisa />
-                <FaCcMastercard />
-                <FaCcAmex />
-                <FaCcDiscover />
-                <FaApplePay />
-                <FaGooglePay />
+                <FaCcVisa className="hover:text-indigo-500 transition-colors" />
+                <FaCcMastercard className="hover:text-indigo-500 transition-colors" />
+                <FaCcAmex className="hover:text-indigo-500 transition-colors" />
+                <FaCcDiscover className="hover:text-indigo-500 transition-colors" />
+                <FaApplePay className="hover:text-indigo-500 transition-colors" />
+                <FaGooglePay className="hover:text-indigo-500 transition-colors" />
 
             </div>
 
@@ -282,7 +293,7 @@ const Footer = () => {
     return (
 
         <footer
-            className="mt-auto"
+            className="mt-auto bg-gradient-to-b from-white to-slate-50/70"
             role="contentinfo"
         >
 
@@ -323,9 +334,10 @@ const Footer = () => {
                         text-2xl
                         font-bold
                         text-gray-900
+                        tracking-tight
                         ">
 
-                            Ab<span className="text-indigo-500">
+                            Ab<span className="bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">
                                 alma
                             </span>
 
@@ -339,7 +351,7 @@ const Footer = () => {
                         </p>
 
 
-                        <DownloadApkButton/>
+                        <DownloadApkButton />
 
 
                         <label className="flex gap-3 items-start text-xs text-gray-400">
@@ -400,7 +412,8 @@ const Footer = () => {
                             items-center
                             justify-center
                             rounded-lg
-                            bg-gray-50
+                            bg-indigo-50
+                            text-indigo-500
                             ">
 
                                 <PhoneIcon />
@@ -421,7 +434,8 @@ const Footer = () => {
                             items-center
                             justify-center
                             rounded-lg
-                            bg-gray-50
+                            bg-indigo-50
+                            text-indigo-500
                             ">
 
                                 <EmailIcon />

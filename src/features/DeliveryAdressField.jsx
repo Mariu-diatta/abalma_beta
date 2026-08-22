@@ -70,11 +70,23 @@ export default function DeliveryAddressField({
                             onSelect?.(e.target.value);
                         }}
                     >
-                        {deliveryAddress.map((item) => (
-                            <option key={item.id} value={item.id} >
-                                <>{JSON.parse(item.address).adresse}</>
-                            </option>
-                        ))}
+                        {deliveryAddress.map((item) => {
+                            let parsedAddress = {};
+
+                            try {
+                                parsedAddress = item?.address
+                                    ? JSON.parse(item.address)
+                                    : {};
+                            } catch (error) {
+                                console.error("Adresse invalide :", item?.address, error);
+                            }
+
+                            return (
+                                <option key={item.id} value={item.id}>
+                                    {parsedAddress?.adresse || item?.address || "Adresse inconnue"}
+                                </option>
+                            );
+                        })}
                     </select>
                     {
                         selectedId &&

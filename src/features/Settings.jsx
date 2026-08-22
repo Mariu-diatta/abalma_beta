@@ -185,10 +185,22 @@ const SettingsForm = () => {
 
     const [deliveryAddress, setDeliveryAddress] = useState([]);
 
-    const getAddress = (newAdress) => {
-        setAddress(newAdress);
-        setDeliveryAddress(prev => [...prev, newAdress])
-    }
+    const getAddress = (newAddress) => {
+        setAddress(newAddress);
+    };
+
+    useEffect(() => {
+        const getDeliveredAdress = async () => {
+            try {
+                const res = await api.get("delivery-address/");
+                setDeliveryAddress(res.data);
+            } catch (err) {
+                console.log("Error:::", err);
+            }
+        };
+
+        getDeliveredAdress();
+    }, []);
 
     const [form, setForm] = useState({
         name: '',
@@ -272,19 +284,27 @@ const SettingsForm = () => {
         );
     };
 
-
     const updateDeliveredAdress = async (e) => {
         e.preventDefault();
+
         await tryRequest(
-            () => {
-                api.post("delivery-address/", { address: address });
-                dispatch(updateUserData({ ...currentUserData, adresse: address }))
+            async () => {
+                await api.post(
+                    "delivery-address/",
+                    { address: address }
+                );
+
+                dispatch(
+                    updateUserData({
+                        ...currentUserData,
+                        adresse: address
+                    })
+                );
             },
-            t('Adress addded'),
+            t("Adress addded"),
             setLoadingAdress
         );
-
-    }
+    };
 
 
     useEffect(() => {

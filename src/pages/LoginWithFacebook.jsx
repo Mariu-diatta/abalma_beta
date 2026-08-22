@@ -89,13 +89,13 @@ export default function FacebookLogin() {
             type="button"
             onClick={loginWithFacebook}
             disabled={!facebookReady}
-            className="w-full m-auto border border-gray-200 py-2 md:py-1.5 md:w-full flex items-center justify-center gap-1 rounded-sm bg-blue-50 hover:bg-blue-100 px-1 text-white"
+            className="w-full m-auto border border-gray-200 py-2 md:py-1.5 md:w-full flex items-center justify-center gap-5 rounded-sm bg-blue-50 hover:bg-blue-100 px-1 text-white"
         >
             <span className="font-bold text-xl">f</span>
 
             <span>
                 {facebookReady
-                    ? "Continuer avec Facebook"
+                    ? "Facebook"
                     : "Chargement de Facebook..."}
             </span>
         </button>

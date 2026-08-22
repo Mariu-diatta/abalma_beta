@@ -33,7 +33,7 @@ const PaymentModal = ({ children, onClose }) => {
             {open && (
 
                 <motion.div
-                    className="fixed inset-0 z-[9999] bg-black/60 flex items-center justify-center p-0 h-full w-full overflow-y-auto scrollbor_hidden"
+                    className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-0 h-full w-full overflow-y-auto scrollbor_hidden"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -44,6 +44,8 @@ const PaymentModal = ({ children, onClose }) => {
                             bg-white
                             rounded-2xl
                             shadow-2xl
+                            ring-1
+                            ring-black/5
                             w-full
                             max-w-lg
                             max-h-[90vh]
@@ -54,9 +56,12 @@ const PaymentModal = ({ children, onClose }) => {
                         exit={{ scale: 0.9, opacity: 0 }}
                         transition={{ duration: 0.2 }}
                     >
+                        {/* Liseré décoratif, cohérent avec les autres modales (Login/Register) */}
+                        <div className="h-1.5 w-full bg-gradient-to-r from-indigo-500 via-violet-500 to-purple-500" />
+
                         <button
                             onClick={handleClose}
-                            className="absolute top-4 right-4 z-10 text-gray-400 hover:text-gray-700"
+                            className="absolute top-4 right-4 z-10 flex items-center justify-center w-8 h-8 rounded-full bg-white/90 shadow-sm text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
                         >
                             ✕
                         </button>

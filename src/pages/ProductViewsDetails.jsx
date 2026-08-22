@@ -477,7 +477,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                                     <p className="text-xs font-bold text-indigo-500 mt-1 tracking-widest uppercase">
                                         Ref: {product?.code_reference}
                                     </p>
-                                    <p className="text-xs font-bold text-yellow-300 mt-1 tracking-widest uppercase">
+                                    <p className="text-xs font-bold text-amber-600 mt-1 tracking-widest uppercase">
                                         {product?.categorie_product}
                                     </p>
                                 </div>
@@ -534,7 +534,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
 
                                 <button
                                     onClick={handleAddToCart}
-                                    className="flex-1 flex items-center justify-center gap-3 py-4 bg-[#6366f1] hover:bg-[#4f46e5] text-white rounded-2xl font-bold shadow-xl shadow-indigo-200 transition-all active:scale-95"
+                                    className="flex-1 flex items-center justify-center gap-3 py-4 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white rounded-2xl font-bold shadow-xl shadow-indigo-200 hover:shadow-2xl hover:-translate-y-0.5 transition-all active:scale-95"
                                 >
                                     <ShoppingCart size={20} />
                                     {t("add_in_basket")}
@@ -629,16 +629,20 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                                                 border
                                                 border-gray-100
                                                 bg-white
+                                                shadow-sm
+                                                hover:shadow-md
+                                                hover:border-indigo-200
+                                                transition-all
                                             "
                                             onClick={() => dispatch(updateSelectedProduct(prod))}
                                         >
 
                                             <img
-                                            onClick={() => dispatch(updateSelectedProduct(prod))}
-                                            src={getMediaUrl(prod?.variants?.[0]?.image)}
-                                            alt={prod?.name_product || "Produit"}
-                                            loading="lazy"
-                                            className="
+                                                onClick={() => dispatch(updateSelectedProduct(prod))}
+                                                src={getMediaUrl(prod?.variants?.[0]?.image)}
+                                                alt={prod?.name_product || "Produit"}
+                                                loading="lazy"
+                                                className="
                                                 w-full
                                                 h-28
                                                 object-contain
@@ -647,8 +651,8 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                                                 group-hover:scale-110
                                                 cursor-pointer
                                             "
-                                           
-                                                />
+
+                                            />
 
                                         </div>
 

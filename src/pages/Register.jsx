@@ -1,8 +1,8 @@
-import React, {useRef, useState} from 'react';
+import React, { useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
-import { useDispatch} from 'react-redux';
-import { CreateClient} from '../utils';
+import { useDispatch } from 'react-redux';
+import { CreateClient } from '../utils';
 import { X } from 'lucide-react'; // Pour fermer
 import TitleCompGen from '../components/TitleComponentGen';
 import InputBox from '../components/InputBoxFloat';
@@ -12,7 +12,7 @@ import AttentionAlertMessage, { showMessage } from '../components/AlertMessage';
 
 
 
-const RegisterForm = ({ callbackState, onClose}) => {
+const RegisterForm = ({ callbackState, onClose }) => {
     const dispatch = useDispatch();
     const { t } = useTranslation();
     const [loading, setLoading] = useState(false);
@@ -41,7 +41,7 @@ const RegisterForm = ({ callbackState, onClose}) => {
         const response = await CreateClient(form, setLoading, showMessage, dispatch, t);
 
         if (response) {
-    
+
             showMessage(dispatch, { Type: 'Message', Message: t('creatAccountSucces') });
 
             if (onClose) onClose();
@@ -59,24 +59,30 @@ const RegisterForm = ({ callbackState, onClose}) => {
 
             <AttentionAlertMessage />
 
-            <div className="scrollbor_hidden relative w-full max-w-[550px] max-h-[90vh] bg-white dark:bg-dark-2 rounded-3xl shadow-2xl overflow-y-auto animate-in zoom-in-95 duration-300">
+            <div className="scrollbor_hidden relative w-full max-w-[550px] max-h-[98vh] bg-white dark:bg-dark-2 rounded-3xl shadow-2xl ring-1 ring-black/5 overflow-hidden animate-in zoom-in-95 duration-300">
+
+                {/* Liseré décoratif premium (cohérent avec la modale de connexion) */}
+                <div className="h-1.5 w-full bg-gradient-to-r from-indigo-500 via-violet-500 to-purple-500 rounded-t-3xl" />
 
                 {/* Close Button */}
-                <button onClick={onClose} className="absolute top-5 right-5 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors z-10">
+                <button onClick={onClose} className="absolute top-5 right-5 p-2 bg-white/80 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full shadow-sm transition-colors z-10">
                     <X size={22} className="text-gray-400" />
                 </button>
 
-                <div className="p-8 md:p-10 scrollbor_hidden">
+                <div className="px-8 py-10 md:px-10 md:py-10 scrollbor_hidden overflow-hidden">
                     {!loading ? (
                         <section>
                             <div className="mb-8 text-center">
+                                <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 shadow-lg shadow-indigo-200">
+                                    <span className="text-white text-lg font-bold">A</span>
+                                </div>
                                 <TitleCompGen title={t('register')} />
                                 <span className="text-sm text-gray-500 mt-2">
                                     {t("alredyRegister")}{" "}
                                     <button
                                         onClick={() => {
-                                             callbackState();
-                                             onClose()
+                                            callbackState();
+                                            onClose()
                                         }}
                                         className="font-semibold text-indigo-600 hover:underline"
                                     >
@@ -100,7 +106,7 @@ const RegisterForm = ({ callbackState, onClose}) => {
 
                                 <InputBox type="password" name="password1" placeholder={t('form.confirmPassword')} value={form.password1} onChange={handleChange} autoComplete="off" />
 
-                                <button type="submit" className="w-full bg-[#6366f1] hover:bg-[#4f46e5] text-white py-3.5 rounded-xl font-bold shadow-lg shadow-indigo-200 transition-all active:scale-[0.98] mt-4">
+                                <button type="submit" className="w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white py-3.5 rounded-xl font-bold shadow-lg shadow-indigo-200 hover:shadow-xl hover:-translate-y-0.5 transition-all active:scale-[0.98] mt-4">
                                     {t("register")}
                                 </button>
                             </form>

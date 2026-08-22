@@ -97,21 +97,25 @@ const NavbarHeader = () => {
                 className={`
                 flex 
                 items-center fixed max-h-[8dvh]
+                w-full
+                px-3 md:px-6
                 top-0
                 left-0
                 right-0
-                z-9999
-                transition-transform
+                z-[9999]
+                transition-all
                 duration-300
                 ease-in-out
+                backdrop-blur-md
+                shadow-sm
                 bg-white
                 ${visible ? "translate-y-0 mb-0 " : "-translate-y-full"}`
-            }
-        >
+                }
+            >
                 <Logo />
 
                 {!isHidden && (
-                    <div className={`flex w-full items-center ${isCentered ? "justify-center" : "justify-end"}`}>
+                    <div className={`flex w-full items-center gap-3 ${isCentered ? "justify-center" : "justify-end"}`}>
 
                         <span className="hidden md:block">
                             <ButtonNavigate tabs={getTabsNavigationsItems(currentNav, t)} />
@@ -128,13 +132,13 @@ const NavbarHeader = () => {
                     <button
                         onClick={() => setOpen(prev => !prev)}
                         id="navbarToggler"
-                        className={`sm:hidden z-[71] px-3 rounded-lg text-black dark:bg-dark-3 dark:text-white focus:outline-none ${open ? "navbarTogglerActive z-[9999]" : ""}`}
+                        className={`sm:hidden z-[71] p-2.5 rounded-full text-black dark:bg-dark-3 dark:text-white hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-200 ${open ? "navbarTogglerActive z-[9999] bg-gray-100" : ""}`}
                         aria-label="Toggle navigation"
                         aria-expanded={open}
                     >
-                        <span className="block w-6 h-0.5 bg-gray-700 dark:bg-gray-400 my-[6px]" />
-                        <span className="block w-4 h-0.5 bg-gray-600 dark:bg-gray-300 my-[6px]" />
-                        <span className="block w-2 h-0.5 bg-gray-500 dark:bg-gray-200 my-[6px]" />
+                        <span className={`block w-6 h-0.5 rounded-full bg-gray-700 dark:bg-gray-400 my-[6px] transition-transform duration-200 ${open ? "rotate-45 translate-y-[7px]" : ""}`} />
+                        <span className={`block w-4 h-0.5 rounded-full bg-gray-600 dark:bg-gray-300 my-[6px] transition-opacity duration-200 ${open ? "opacity-0" : "opacity-100"}`} />
+                        <span className={`block w-2 h-0.5 rounded-full bg-gray-500 dark:bg-gray-200 my-[6px] transition-transform duration-200 ${open ? "-rotate-45 -translate-y-[7px] w-6" : ""}`} />
                     </button>
 
                     <span className="hidden md:block">

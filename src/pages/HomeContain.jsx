@@ -13,14 +13,14 @@ import UserCard from '../components/Fournisseurs';
 import SellerStoriesBar from '../features/SellerStoriesBar';
 import api from '../services/Axios';
 import { useTranslation } from 'react-i18next';
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useOpenChatRoom } from '../components/UseOpenChatRoom';
 import { CONSTANTS, ENDPOINTS } from '../utils';
 
 /* ---------- petits composants utilitaires (local) ---------- */
 
-const StatPill = ({ icon: Icon, label, value, tone = 'indigo', className ="flex items-center gap-2 rounded-xl" }) => (
-    <div className={`${className} bg-${tone}-50 px-3 py-2 border border-${tone}-100`}>
+const StatPill = ({ icon: Icon, label, value, tone = 'indigo', className = "flex items-center gap-2 rounded-xl" }) => (
+    <div className={`${className} bg-${tone}-50 px-3 py-2 border border-${tone}-100 transition-shadow hover:shadow-sm`}>
         <div className={`h-8 w-8 rounded-lg bg-${tone}-500/10 flex items-center justify-center`}>
             <Icon className={`h-4 w-4 text-${tone}-600`} />
         </div>
@@ -32,7 +32,7 @@ const StatPill = ({ icon: Icon, label, value, tone = 'indigo', className ="flex 
 );
 
 const SectionCard = ({ children, className = '' }) => (
-    <div className={`bg-white/90 backdrop-blur border border-slate-200/70 shadow-sm shadow-slate-200/40 rounded-2xl ${className}`}>
+    <div className={`bg-white/90 backdrop-blur border border-slate-200/70 shadow-md shadow-slate-200/50 rounded-2xl transition-shadow hover:shadow-lg ${className}`}>
         {children}
     </div>
 );
@@ -40,12 +40,14 @@ const SectionCard = ({ children, className = '' }) => (
 const SectionHeader = ({ emoji, title, action = 'Voir tout', onAction }) => (
     <div className="flex items-center justify-between mb-3 px-1">
         <span className="flex items-center gap-2">
-            <span className="text-base">{emoji}</span>
+            <span className="flex items-center justify-center h-7 w-7 rounded-lg bg-gradient-to-br from-indigo-100 to-purple-100 text-base shrink-0">
+                {emoji}
+            </span>
             <TitleCompGenLitle title={title} />
         </span>
         <button
             onClick={onAction}
-            className="hidden text-xs font-medium text-indigo-600 hover:text-indigo-700 hover:underline"
+            className="hidden text-xs font-semibold text-indigo-600 hover:text-indigo-700 hover:underline"
         >
             {action}
         </button>
@@ -61,12 +63,12 @@ const LivePulse = () => (
 
 /* ---------- HOME ---------- */
 
-const 
-TABS = [
-    { id: 'products', label: 'products', icon: ShoppingBag },
-    { id: 'sellers', label: 'sellers', icon: Users },
-    { id: 'trending', label: 'trending', icon: TrendingUp },
-];
+const
+    TABS = [
+        { id: 'products', label: 'products', icon: ShoppingBag },
+        { id: 'sellers', label: 'sellers', icon: Users },
+        { id: 'trending', label: 'trending', icon: TrendingUp },
+    ];
 
 const HomeContain = () => {
     const { t } = useTranslation();
@@ -110,7 +112,7 @@ const HomeContain = () => {
                 {/* ============ HERO / COMPOSER ============ */}
                 <section className="px-1 pt-2 w-full">
 
-                    <SectionCard className="grid grid-cols-1 md:grid-cols-2 py-5 px-0.5 space-y-4 space-x-0 relative overflow-hidden w-full">
+                    <SectionCard className="grid grid-cols-1 md:grid-cols-2 py-5 px-0.5 space-y-4 space-x-0 relative overflow-hidden w-full ring-1 ring-indigo-100/60">
 
                         <div className="max-w-full flex flex-col items-start md:items-start md:ps-10 justify-start">
 
@@ -130,7 +132,7 @@ const HomeContain = () => {
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-2 items-center">
                                 <StatPill icon={Users} label={t("sellers")} value={clients.length || '—'} tone="indigo" />
                                 <StatPill icon={ShoppingBag} label={t("products")} value="+1.2k" tone="purple" />
-                                <StatPill icon={MessageCircle} label="Discussions" value="87" tone="emerald" className="hidden"/>
+                                <StatPill icon={MessageCircle} label="Discussions" value="87" tone="emerald" className="hidden" />
                                 <StatPill icon={Bell} label="Live" value="24 en ligne" tone="rose" className="hidden" />
                             </div>
                         </div>
@@ -139,12 +141,12 @@ const HomeContain = () => {
 
                             {/* Search bar façon réseau social */}
                             <div className="relative md:w-1/2 md:mx-auto">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-indigo-400" />
                                 <input
                                     value={query}
                                     onChange={(e) => setQuery(e.target.value)}
                                     placeholder={t("search_placeholder")}
-                                    className="w-full rounded-full border border-slate-200 bg-slate-50 pl-10 pr-4 py-2.5 text-sm placeholder:text-gray-400 focus:bg-white focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100 outline-none transition"
+                                    className="w-full rounded-full border border-slate-200 bg-slate-50 pl-10 pr-4 py-2.5 text-sm placeholder:text-gray-400 shadow-sm focus:bg-white focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100 focus:shadow-md outline-none transition-all"
                                 />
                             </div>
 
@@ -156,10 +158,10 @@ const HomeContain = () => {
                                         <button
                                             key={id}
                                             onClick={() => setActiveTab(id)}
-                                            className={`flex items-center gap-1.5 px-2 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all
+                                            className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200
                                                 ${active
-                                                    ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-md scale-[1.03]'
-                                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                                                    ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-md shadow-indigo-200 scale-[1.03]'
+                                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:scale-[1.02]'}`}
                                         >
                                             <Icon className="h-4 w-4" />
                                             {t(label)}
@@ -237,8 +239,9 @@ const HomeContain = () => {
 
                 {/* ============ LIVE ACTIVITY ============ */}
                 <section className="px-1 mt-6">
-                    <div className="relative overflow-hidden rounded-2xl  text-white p-4 shadow-md">
+                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-indigo-600 via-violet-600 to-purple-600 text-white p-4 shadow-lg shadow-indigo-200/60">
                         <div className="absolute -bottom-10 -right-10 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
+                        <div className="absolute -top-8 -left-8 h-28 w-28 rounded-full bg-white/10 blur-2xl" />
                         <div className="relative flex items-start justify-between gap-3">
                             <div>
                                 <h3 className="flex items-center gap-2 text-sm font-semibold">
@@ -287,7 +290,7 @@ const HomeContain = () => {
                 </section>
 
                 {/* ============ TESTIMONIALS ============ */}
-                 <section className="px-1 mt-6 pb-10">
+                <section className="px-1 mt-6 pb-10">
                     <SectionHeader emoji="💬" title={t("user_reviews")} action="" />
                     <SectionCard className="px-0 py-3">
                         <TestimonialCarousel autoplay autoplayInterval={6000} />

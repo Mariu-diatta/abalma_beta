@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import { createPortal } from "react-dom"; // Import du Portal
-import { useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { setCurrentNav } from '../slices/navigateSlice';
 import { LoginWithGoogle } from '../firebase';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import { loginClient} from '../utils';
+import { loginClient } from '../utils';
 import AttentionAlertMessage, { showMessage } from '../components/AlertMessage';
 import { X } from "lucide-react"; // Icône pour fermer
 import { Capacitor } from "@capacitor/core";
-import  InputBox from "../components/InputBoxFloat";
-import  LoadingCard from "../components/LoardingSpin";
-import  TitleCompGen from "../components/TitleComponentGen";
+import InputBox from "../components/InputBoxFloat";
+import LoadingCard from "../components/LoardingSpin";
+import TitleCompGen from "../components/TitleComponentGen";
 import FacebookLogin from "./LoginWithFacebook";
 
 const LogIn = ({ callbackState, onClose }) => {
@@ -62,18 +62,21 @@ const LogIn = ({ callbackState, onClose }) => {
     return createPortal(
 
         <div
-            className="scrollbor_hidden fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+            className=" fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 scrollbar-hidden"
             onClick={handleBackdropClick}
         >
 
-            <AttentionAlertMessage/>
+            <AttentionAlertMessage />
 
-            <div className="scrollbor_hidden relative w-full max-w-[550px] max-h-[90vh] bg-white dark:bg-dark-2 rounded-3xl shadow-2xl overflow-y-auto animate-in zoom-in-95 duration-300">
+            <div className="scrollbor_hidden relative w-full max-w-[550px] max-h-[90vh] bg-white dark:bg-dark-2 rounded-3xl shadow-2xl ring-1 ring-black/5 overflow-hidden animate-in zoom-in-95 duration-300 scrollbar-hidden">
+
+                {/* Liseré décoratif premium */}
+                <div className="h-1.5 w-full bg-gradient-to-r from-indigo-500 via-violet-500 to-purple-500 rounded-t-3xl" />
 
                 {/* Bouton Fermer */}
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 p-2 rounded-full hover:bg-red-100  transition-colors z-10"
+                    className="absolute top-4 right-4 p-2 rounded-full bg-white/80 hover:bg-gray-100 shadow-sm transition-colors z-10"
                 >
                     <X size={20} className="text-gray-500" />
                 </button>
@@ -85,6 +88,10 @@ const LogIn = ({ callbackState, onClose }) => {
 
                             {/* HEADER */}
                             <div className="mb-8 text-center space-y-2">
+
+                                <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 shadow-lg shadow-indigo-200">
+                                    <span className="text-white text-lg font-bold">A</span>
+                                </div>
 
                                 <TitleCompGen title={t("login")} />
 
@@ -129,7 +136,7 @@ const LogIn = ({ callbackState, onClose }) => {
                                     required
                                 />
 
-                                <button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-bold transition-all shadow-lg shadow-indigo-200 active:scale-95">
+                                <button type="submit" className="w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white py-3 rounded-xl font-bold transition-all shadow-lg shadow-indigo-200 hover:shadow-xl hover:-translate-y-0.5 active:scale-95">
                                     {t("login")}
                                 </button>
 
@@ -161,7 +168,7 @@ const LogIn = ({ callbackState, onClose }) => {
                             </div>
 
                             {/* GOOGLE */}
-                            <div className="flex flex-col justify-center items-center md:flex-row md:justify-between gap-3 md:gap-1">
+                            <div className="flex flex-col justify-center items-center md:flex-row md:justify-between gap-3 md:gap-1 bg-gray-50/70 border border-gray-100 rounded-2xl p-3">
 
                                 {
                                     Capacitor.isNativePlatform()
@@ -178,7 +185,7 @@ const LogIn = ({ callbackState, onClose }) => {
                                         </GoogleOAuthProvider>
                                 }
 
-                                <FacebookLogin/>
+                                <FacebookLogin />
 
                             </div>
 

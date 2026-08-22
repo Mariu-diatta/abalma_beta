@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { loadStripe } from "@stripe/stripe-js";
@@ -51,7 +51,7 @@ function CheckoutForm({ clientSecret, onSuccess }) {
 
             <button
                 disabled={!stripe || loading}
-                className="bg-gray-200 py-2.5 font-bold hover:bg-gray-300 rounded-md w-full"
+                className="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 disabled:opacity-60 disabled:cursor-not-allowed text-white py-3 font-bold rounded-xl w-full shadow-lg shadow-indigo-200 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200"
             >
                 {loading ? <LoadingCard /> : "Payer"}
             </button>
@@ -115,7 +115,7 @@ export function PaymentWithCard({ refRate }) {
         return (
             <button
                 onClick={createOrder}
-                className="bg-gray-200 py-2.5 font-bold hover:bg-gray-300 rounded-md w-1/2"
+                className="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white py-3 font-bold rounded-xl w-1/2 shadow-lg shadow-indigo-200 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200"
             >
                 {loading ? <LoadingCard /> : "Payer"}
             </button>

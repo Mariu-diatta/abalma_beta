@@ -91,8 +91,9 @@ const ProductCard = ({ item, isInCart, owner, openModal }) => {
         <div
             className={`
                 group relative flex flex-col bg-white
-                rounded-xl border border-[#dbdbdb] overflow-hidden
-                transition-all duration-200 hover:border-[#0095F6]/40 h-full w-full min-h-[25dvw] md:max-w-[30dvw]
+                rounded-2xl border border-[#dbdbdb] overflow-hidden
+                shadow-sm hover:shadow-xl hover:shadow-indigo-100/60
+                transition-all duration-300 hover:border-indigo-200 hover:-translate-y-1 h-full w-full min-h-[25dvw] md:max-w-[30dvw]
                 ${isInCart ? "opacity-75 grayscale-[0.5]" : ""}
             `}
         >
@@ -104,7 +105,7 @@ const ProductCard = ({ item, isInCart, owner, openModal }) => {
 
                     <div className="absolute top-3 left-3 z-10">
 
-                        <p className="bg-white/95 text-[10px] font-semibold px-2 py-1 rounded-full text-[#0095F6] border border-[#dbdbdb]">
+                        <p className="bg-white/95 text-[10px] font-semibold px-2 py-1 rounded-full text-indigo-600 border border-indigo-100 shadow-sm">
                             {item.quantity_product} {t("availability")}
                         </p>
 
@@ -223,7 +224,7 @@ const ProductCard = ({ item, isInCart, owner, openModal }) => {
                     {/* Overlay Action Rapide */}
                     <div className="absolute inset-x-0 bottom-4 flex justify-center translate-y-16 group-hover:translate-y-0 transition-transform duration-300 z-10 hidden md:flex">
 
-                        <button className="bg-white/95 px-4 py-2 rounded-full border border-[#dbdbdb] text-xs font-semibold flex items-center justify-center gap-2 text-[#262626] hover:bg-[#fafafa]">
+                        <button className="bg-white/95 px-4 py-2 rounded-full border border-[#dbdbdb] shadow-md text-xs font-semibold flex items-center justify-center gap-2 text-[#262626] hover:bg-white hover:shadow-lg transition-shadow">
 
                             <Eye size={16} />
 
@@ -276,7 +277,7 @@ const ProductCard = ({ item, isInCart, owner, openModal }) => {
 
                         onClick={(e) => handleAddToCart(e)}
 
-                        className="whitespace-nowrap flex flex-row gap-2 cursor-pointer w-8 h-8 rounded-full border border-[#dbdbdb] items-center justify-center hover:border-[#0095F6] hover:text-[#0095F6] transition-colors"
+                        className="whitespace-nowrap flex flex-row gap-2 cursor-pointer w-9 h-9 rounded-full border border-[#dbdbdb] items-center justify-center text-gray-600 hover:border-transparent hover:bg-gradient-to-br hover:from-indigo-500 hover:to-violet-600 hover:text-white hover:shadow-md transition-all duration-200"
                     >
                         <ShoppingBag size={15} />
                     </button>
