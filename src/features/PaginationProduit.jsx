@@ -80,56 +80,25 @@ const PaginationProduit = ({ products = [] }) => {
     /**
      * Vérifie qu'une carte est visible
      */
-    const revealItem = (el) => {
+    const revealItem = (el) => { 
 
-        const track = scrollRef.current;
+        const track = scrollRef.current; 
 
-        if (!el || !track) return;
+        if (!el || !track) return; 
 
+        const item = el.getBoundingClientRect(); 
 
-        const item =
-            el.getBoundingClientRect();
+        const container = track.getBoundingClientRect();
 
+        const margin = 20; 
 
-        const container =
-            track.getBoundingClientRect();
+        if (item.right > container.right) { 
+            track.scrollBy({ left: item.right - container.right + margin, behavior: "smooth", }); 
 
-
-
-        if (item.right > container.right) {
-
-            track.scrollBy({
-
-                left:
-                    item.right -
-                    container.right +
-                    30,
-
-                behavior: "smooth"
-
-            });
-
-        }
-
-
-
-        if (item.left < container.left) {
-
-            track.scrollBy({
-
-                left:
-                    item.left -
-                    container.left -
-                    30,
-
-                behavior: "smooth"
-
-            });
-
-        }
-
-    };
-
+        } if (item.left < container.left) { 
+            track.scrollBy({ left: item.left - container.left - margin, behavior: "smooth", }); 
+        } 
+     };
 
 
     /**
@@ -353,29 +322,16 @@ const PaginationProduit = ({ products = [] }) => {
 
             </button>
 
-
-
-
-            <div
-
-                ref={scrollRef}
-
-                className="
-                fan-track
-                flex
-                overflow-x-auto justify-start w-full
-                scroll-smooth
-                pt-10
-                pb-4
-                px-4
-                scrollbar-hidden
-                "
-
-                style={{
-                    gap: 0
-                }}
-
-            >
+         <div 
+             ref={scrollRef} 
+             className=" fan-track flex overflow-x-auto w-full scroll-smooth pt-10 pb-4 scrollbar-hidden " 
+             style={{ gap: 0, 
+             paddingLeft: "max(1rem, calc((100% - 11rem) / 2))", 
+             paddingRight: "max(1rem, calc((100% - 11rem) / 2))", 
+             scrollPaddingLeft: "max(1rem, calc((100% - 11rem) / 2))",
+             scrollPaddingRight: "max(1rem, calc((100% - 11rem) / 2))", 
+            }} 
+          >
 
 
 
@@ -430,20 +386,11 @@ const PaginationProduit = ({ products = [] }) => {
                                 "
 
 
-                                style={{
-
-                                    width: "11rem",
-
-                                    marginLeft:
-                                        index === 0
-                                            ? "0"
-                                            : "-2.5rem",
-
-
-                                    transformOrigin:
-                                        "bottom center"
-
-                                }}
+                               style={{ 
+                                   width: "11rem", 
+                                   marginLeft: index === 0 ? "0" : "-2.5rem", 
+                                   transformOrigin: "bottom center", 
+                               }}
 
 
                                 onMouseEnter={() =>
