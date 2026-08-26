@@ -363,7 +363,7 @@ const PaginationProduit = ({ products = [] }) => {
                 className="
                 fan-track
                 flex
-                overflow-x-auto
+                overflow-x-auto justify-start w-full
                 scroll-smooth
                 pt-10
                 pb-4
@@ -411,14 +411,22 @@ const PaginationProduit = ({ products = [] }) => {
 
 
                                 className="
-                                fan-item
-                                flex-shrink-0
-                                cursor-pointer
-                                relative
-                                opacity-0
-                                transition-all
-                                duration-300
-                                ease-out
+                                    fan-item
+                                    flex-shrink-0
+                                    cursor-pointer
+                                    relative
+                                    opacity-0
+                                    transition-all
+                                    duration-300
+                                    ease-out
+                                    rounded-2xl
+                                    overflow-hidden
+                                    bg-gray-50
+                                    border
+                                    border-gray-100
+                                    aspect-square
+                                    hover:shadow-md
+                                    transition-shadow
                                 "
 
 
@@ -457,24 +465,7 @@ const PaginationProduit = ({ products = [] }) => {
 
 
 
-                                <div
-
-                                    className="
-                                    rounded-2xl
-                                    overflow-hidden
-                                    bg-gray-50
-                                    border
-                                    border-gray-100
-                                    aspect-square
-                                    flex
-                                    items-center
-                                    justify-center
-                                    hover:shadow-xl
-                                    transition-shadow
-                                    "
-
-                                >
-
+                     
 
                                     <img
 
@@ -498,7 +489,6 @@ const PaginationProduit = ({ products = [] }) => {
                                     />
 
 
-                                </div>
 
 
 

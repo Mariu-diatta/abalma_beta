@@ -390,7 +390,7 @@ const SettingsForm = () => {
 
                 style={{
                     maxWidth: '100%',
-                    margin: '0 auto',
+                    marginTop: '5dvh',
                     padding: '2rem 1rem 2rem',
                     fontFamily: 'var(--font-sans)',
                 }}>

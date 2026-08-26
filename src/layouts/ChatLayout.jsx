@@ -179,7 +179,7 @@ const ChatLayout = () => {
         <main
             ref={containerRef}
             style={{ height }}
-            className="h-full md:mt-6 fixed w-full md:w-4/5 flex bg-0 flex-col gap-3 overflow-hidden px-2 md:flex-row md:p-3 py-[2dvh] mt-5"
+            className="h-full mt-[6dvh] fixed w-full md:w-4/5 flex bg-0 flex-col gap-1 overflow-hidden px-0 md:flex-row md:p-3 py-[2dvh] "
         >
 
             {/* Sidebar : overlay plein écran sur mobile, colonne fixe sur desktop */}

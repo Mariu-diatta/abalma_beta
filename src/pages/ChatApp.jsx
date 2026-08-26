@@ -181,19 +181,7 @@ const ChatApp = ({ setShow, show }) => {
 
         const tempId = `temp-${Date.now()}`;
 
-        setLoadingNewMessage(true);
-
-        //// ✔ message optimiste
-        //const optimisticMessage = {
-        //    id: tempId,
-        //    text: trimmed,
-        //    sender_id: currentUser.id,
-        //    receiver_id: selectedUser.id,
-        //    created_at: new Date().toISOString(),
-        //    isMine: true,
-        //    pending: true,
-        //    temp_id: tempId,
-        //};
+        setLoadingNewMessage(true)
 
         //// ✔ ajout UI immédiat
         //dispatch(addChatMessage(optimisticMessage));

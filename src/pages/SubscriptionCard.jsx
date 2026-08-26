@@ -239,7 +239,7 @@ export default function SubscriptionsPage() {
 
     return (
 
-        <main className={`flex flex-col border-t border-gray-300 items-center border-0 justify-center  bg-none mx-1 ${isCurrentNavSubscribtion ? "" :"mt-5"} overflow-y-auto h-full  scrollbor_hidden`}>
+        <main className={`flex flex-col  items-center border-0 justify-center  bg-none mx-1 ${isCurrentNavSubscribtion ? "" :"mt-5"} overflow-y-auto h-full  scrollbor_hidden`}>
 
 
             <button
@@ -265,9 +265,9 @@ export default function SubscriptionsPage() {
 
             </button>
 
-            <div className={` overflow-y-auto  scrollbor_hidden ${isCurrentNavSubscribtion ?"min-h-full py-[5dvh]":""}`} >
+            <div className={` overflow-y-auto  scrollbor_hidden p-10 ${isCurrentNavSubscribtion ?"min-h-full py-[5dvh]":""}`} >
 
-                <div className="m-auto text-center w-full">
+                <div className="m-auto text-center w-full mb-5">
                     <TitleCompGen title={t("Subscriptionb2b")} />
                 </div>
 
@@ -317,7 +317,7 @@ export default function SubscriptionsPage() {
                             onClick={cancelSubscription}
                             className="
                                 inline-flex items-center justify-center
-                                px-5 py-2 my-1
+                                px-5 py-2 my-4
                                 rounded-full
                                 bg-red-100 hover:bg-red-700
                                 text-white font-semibold text-sm
