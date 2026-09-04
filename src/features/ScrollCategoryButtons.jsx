@@ -55,21 +55,7 @@ const ScrollableCategoryButtons = ({
 
         <>
 
-            <ListButtonsCategories
-
-                categories={categories}
-
-                setProductSpecificHandler={setProductSpecificHandler}
-
-                setActiveCategory={setActiveCategory}
-
-                setActivateButtonCategory={setActivateButtonCategory}
-
-                activateButtonCategory={activateButtonCategory}
-
-            />
-
-            {/* ========= HERO / Intro ========= */}
+         {/* ========= HERO / Intro ========= */}
             {!currentUser &&
                 <section className="max-w-screen-md mx-auto text-center mb-10 relative w-full px-0.5 text-[10px] md:text-[15px] translate-y-0 transition-all duration-1000 ease-in-out">
 
@@ -95,6 +81,22 @@ const ScrollableCategoryButtons = ({
 
                 </section>
             }
+
+            <ListButtonsCategories
+
+                categories={categories}
+
+                setProductSpecificHandler={setProductSpecificHandler}
+
+                setActiveCategory={setActiveCategory}
+
+                setActivateButtonCategory={setActivateButtonCategory}
+
+                activateButtonCategory={activateButtonCategory}
+
+            />
+
+           
 
             <main>
 

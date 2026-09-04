@@ -140,7 +140,7 @@ const HomeContain = () => {
                         <div className="max-w-full">
 
                             {/* Search bar façon réseau social */}
-                            <div className="relative md:w-1/2 md:mx-auto">
+                            <div className="relative md:w-1/2 md:mx-auto hidden">
                                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-indigo-400" />
                                 <input
                                     value={query}
