@@ -64,7 +64,7 @@ function SubscriptionCard({
     return (
         <div
             className={
-                `relative flex flex-col justify-between rounded-lg shadow-md p-4 w-full max-w-sm transition transform
+                `relative flex flex-col justify-between rounded-lg shadow-md p-2 w-full max-w-sm transition transform
                 hover:shadow-2xl hover:-translate-y-1
                 animate-fade-in-up
                 ${highlight
@@ -265,7 +265,7 @@ export default function SubscriptionsPage() {
 
             </button>
 
-            <div className={` overflow-y-auto  scrollbor_hidden p-10 ${isCurrentNavSubscribtion ?"min-h-full py-[5dvh]":""}`} >
+            <div className={` overflow-y-auto  scrollbor_hidden p-3 ${isCurrentNavSubscribtion ?"min-h-full py-[5dvh]":""}`} >
 
                 <div className="m-auto text-center w-full mb-5">
                     <TitleCompGen title={t("Subscriptionb2b")} />
