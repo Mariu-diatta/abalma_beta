@@ -349,7 +349,6 @@ const ListProductShoppingCart = () => {
                                 reference={reference}
                             />
                         </div>
-
                         <div className="w-full md:w-auto">
                             {hasTotalPositive && (
                                 <button

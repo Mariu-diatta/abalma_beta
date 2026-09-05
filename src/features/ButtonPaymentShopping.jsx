@@ -2,107 +2,15 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { showMessage } from "../components/AlertMessage";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import api from "../services/Axios";
 import { API_ENDPOINTS } from "../services/apiEndpoints";
-import PaymentModal from "../components/PaymentModal";
-const stripePromise = loadStripe(process.env.STRIPE_PUBLISHABLE_KEY ??"pk_live_51SPtoBCEAhT0NnGVoQjdHYYUtO485bRx760vbQd5AWu6sfAl7Imm9adI7cf6sVlEjVdEWB797NplRdMvHBGl8Kid00q8x8Skjj");
-
-// ─── Formulaire de paiement Stripe (à l'intérieur de la modal) ───
-const StripePaymentForm = ({ clientSecret, onSuccess, onCancel }) => {
-    const stripe = useStripe();
-    const elements = useElements();
-    const { t } = useTranslation();
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-
-    const handleSubmit = async () => {
-        if (!stripe || !elements) return;
-
-        setLoading(true);
-        setError(null);
-
-        const { error } = await stripe.confirmPayment({
-            elements,
-            confirmParams: {
-                return_url: `${window.location.origin}/success`,
-            },
-            redirect: "if_required", // ← évite la redirection si pas nécessaire
-        });
-
-        if (error) {
-            setError(error.message);
-            setLoading(false);
-        } else {
-            onSuccess();
-        }
-    };
-
-    return (
-        <div>
-            {/* Formulaire carte Stripe */}
-            <div className="border border-gray-100 rounded-xl p-4 mb-4">
-                <PaymentElement />
-            </div>
-
-            {error && (
-                <div className="flex items-center gap-2 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-3 mb-4">
-                    <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    {error}
-                </div>
-            )}
-
-            <button
-                onClick={handleSubmit}
-                disabled={loading || !stripe}
-                className="w-full py-3 bg-gradient-to-r from-purple-400 to-indigo-400
-                   hover:from-purple-500 hover:to-indigo-500
-                   text-white font-medium rounded-xl
-                   disabled:opacity-60 transition-all duration-200
-                   flex items-center justify-center gap-2"
-            >
-                {loading ? (
-                    <>
-                        <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
-                        </svg>
-                        {t("processing") || "Traitement en cours…"}
-                    </>
-                ) : (
-                    t("confirm_and_pay") || "Confirmer et payer"
-                )}
-            </button>
-
-            <button
-                onClick={onCancel}
-                disabled={loading}
-                className="w-full mt-2 py-3 border border-gray-200 text-gray-600
-                   hover:bg-gray-50 rounded-xl font-medium transition-all
-                   disabled:opacity-50"
-            >
-                {t("cancel") || "Annuler"}
-
-            </button>
-
-        </div>
-    );
-};
 
 // ─── Composant principal ───
 const BuyButtonWithPaymentForm = ({ total_price, reference }) => {
     const { t } = useTranslation();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [showModal, setShowModal] = useState(false);
-    const [clientSecret, setClientSecret] = useState(null);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const dataItems = useSelector((state) => state.cart.items);
     const currentUser = useSelector((state) => state.auth.user);
@@ -111,12 +19,10 @@ const BuyButtonWithPaymentForm = ({ total_price, reference }) => {
     const hasItems = dataItems?.length > 0;
     const hasPrice = total_price > 0;
 
-    const currentNav = useSelector((state) => state.navigate.currentNav);
-
-    // Étape 1 — Ouvrir la modal et créer le PaymentIntent
+    // Étape unique — Créer la Checkout Session puis rediriger vers Stripe
     const handleClick = async () => {
         if (!isConnected) {
-            navigate("/");
+            // navigate("/") si besoin, selon ton flux d'auth
             return;
         }
 
@@ -125,37 +31,31 @@ const BuyButtonWithPaymentForm = ({ total_price, reference }) => {
 
         try {
             const res = await api.post(
-                API_ENDPOINTS.PAYMENTS.CREATE_PAYMENT,  // ← ton endpoint PaymentIntent
-                { items: dataItems, currency: reference, email: currentUser.email },
+                API_ENDPOINTS.PAYMENTS.CREATE_PAYMENT, // ← endpoint Checkout (nom conservé)
+                {
+                    items: dataItems,
+                    currency: reference,
+                    success_url: `${window.location.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+                    cancel_url: `${window.location.origin}/cancel`,
+                },
                 { withCredentials: true }
             );
-            setClientSecret(res.data.client_secret);  // ← stocker le client_secret
-            setShowModal(true);
+
+            // Redirection vers l'interface de paiement hébergée par Stripe
+            window.location.href = res.data.checkoutUrl;
         } catch (err) {
             const message = err?.response?.data?.error || t("unsuccess_transaction");
             setError(message);
             showMessage(dispatch, { Type: "Erreur", Message: message });
-        } finally {
             setLoading(false);
         }
-    };
-
-    const handleSuccess = () => {
-        setShowModal(false);
-        navigate(`/${currentNav}`);
-        showMessage(dispatch, { Type: "Erreur", Message: "Done!" });
-    };
-
-    const handleCancel = () => {
-        setShowModal(false);
-        setClientSecret(null);
+        // pas de finally { setLoading(false) } ici : on quitte la page vers Stripe en cas de succès
     };
 
     if (!hasPrice || !hasItems) return null;
 
     return (
         <>
-            {/* Bouton principal */}
             <button
                 onClick={handleClick}
                 disabled={loading}
@@ -172,7 +72,7 @@ const BuyButtonWithPaymentForm = ({ total_price, reference }) => {
                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
                         </svg>
-                        <span>{t("loading") || "Chargement…"}</span>
+                        <span>{t("loading") || "Redirection vers Stripe…"}</span>
                     </>
                 ) : (
                     <>
@@ -202,62 +102,6 @@ const BuyButtonWithPaymentForm = ({ total_price, reference }) => {
                     </svg>
                     {error}
                 </div>
-            )}
-
-            {/* Modal avec formulaire Stripe */}
-            {showModal && clientSecret && (
-
-                <PaymentModal onClose={handleCancel}>
-
-                    <h2 className="text-lg font-medium text-gray-900 mb-1">
-                        {t("confirm_payment") || "Paiement sécurisé"}
-                    </h2>
-
-                    <p className="text-sm text-gray-500 mb-4">
-                        Total :
-                        <strong>
-                            {" "}
-                            {Number(total_price || 0).toFixed(2)} {reference}
-                        </strong>
-                    </p>
-
-                    <div className="border border-gray-100 rounded-xl overflow-hidden mb-4">
-                        {dataItems.map((item, i) => (
-                            <div
-                                key={i}
-                                className="flex justify-between px-4 py-3 border-b border-gray-100 last:border-0 text-sm"
-                            >
-                                <span className="text-gray-700">
-                                    {item?.name_product}
-                                    {item?.quantity > 1 && (
-                                        <span className="text-gray-400 ml-1">
-                                            × {item.quantity}
-                                        </span>
-                                    )}
-                                </span>
-
-                                <span className="font-medium">
-                                    {Number(
-                                        (item?.price_product || 0) *
-                                        (item?.quantity || 0)
-                                    ).toFixed(2)}{" "}
-                                    {reference}
-                                </span>
-                            </div>
-                        ))}
-                    </div>
-
-                    <Elements stripe={stripePromise} options={{ clientSecret }}>
-
-                        <StripePaymentForm
-                            clientSecret={clientSecret}
-                            onSuccess={handleSuccess}
-                            onCancel={handleCancel}
-                        />
-
-                    </Elements>
-
-                </PaymentModal>
             )}
         </>
     );
