@@ -136,7 +136,7 @@ export const ModalFormCreatBlog = () => {
 
     return (
         <>
-            <div className="blog-modal-root">
+            <div className="blog-modal-root overflow-y-auto min-h-[100dvh] py-[2dvh] scrollbar-hidden">
 
                 {/* Bouton déclencheur */}
                 <ButtonCreatBlog handleToggleModal={handleOpen} isOpen={isOpen} />
