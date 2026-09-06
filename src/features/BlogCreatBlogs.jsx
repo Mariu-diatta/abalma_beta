@@ -217,13 +217,12 @@ export const ModalFormCreatBlog = () => {
                 {/* Modal */}
                 {isOpen && (
                     <div
-                        className="blog-overlay overflow-y-auto min-h-[100dvh] py-[2dvh] scrollbar-hidden"
+                        className="blog-overlay min-h-[100dvh] py-5"
                         role="dialog"
                         aria-modal="true"
                         aria-labelledby="blog-modal-title"
-                        style={{ overflowY: "auto" }}
                     >
-                        <div ref={modalRef} className="blog-panel">
+                        <div ref={modalRef} className="blog-panel overflow-y-auto min-h-[100dvh] py-[2dvh] scrollbar-hidden">
 
                             {/* Header */}
                             <div className="blog-header">
