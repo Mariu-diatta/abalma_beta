@@ -4,6 +4,9 @@ import {
     MessageCircle,
     Share2,
     Bookmark,
+    X,
+    ChevronLeft,
+    ChevronRight,
 } from "lucide-react";
 import { useState } from "react";
 import api from "../services/Axios";
@@ -62,6 +65,189 @@ const TrendingMobile = () => (
     </div>
 );
 
+// ─── Galerie de photos d'un post ────────────────────────────────────────────
+// Reçoit post.photos = [{ id, image, description }, ...] (voir get_photos()
+// du serializer). Gère 1, 2, 3 ou 4+ photos avec des mises en page adaptées,
+// façon réseau social, + ouverture d'une photo en grand via onOpen.
+const PostPhotoGallery = ({ photos, onOpen }) => {
+    if (!Array.isArray(photos) || photos.length === 0) return null;
+
+    const count = photos.length;
+
+    if (count === 1) {
+        return (
+            <button
+                type="button"
+                onClick={() => onOpen(photos, 0)}
+                className="block w-full"
+            >
+                <img
+                    src={photos[0].image}
+                    alt={photos[0].description || ""}
+                    className="w-full max-h-[520px] object-cover"
+                />
+            </button>
+        );
+    }
+
+    if (count === 2) {
+        return (
+            <div className="grid grid-cols-2 gap-0.5">
+                {photos.map((photo, index) => (
+                    <button
+                        type="button"
+                        key={photo.id}
+                        onClick={() => onOpen(photos, index)}
+                        className="block"
+                    >
+                        <img
+                            src={photo.image}
+                            alt={photo.description || ""}
+                            className="w-full h-64 object-cover"
+                        />
+                    </button>
+                ))}
+            </div>
+        );
+    }
+
+    if (count === 3) {
+        return (
+            <div className="grid grid-cols-2 gap-0.5">
+                <button
+                    type="button"
+                    onClick={() => onOpen(photos, 0)}
+                    className="row-span-2 block"
+                >
+                    <img
+                        src={photos[0].image}
+                        alt={photos[0].description || ""}
+                        className="w-full h-full object-cover"
+                    />
+                </button>
+                {photos.slice(1, 3).map((photo, index) => (
+                    <button
+                        type="button"
+                        key={photo.id}
+                        onClick={() => onOpen(photos, index + 1)}
+                        className="block"
+                    >
+                        <img
+                            src={photo.image}
+                            alt={photo.description || ""}
+                            className="w-full h-32 object-cover"
+                        />
+                    </button>
+                ))}
+            </div>
+        );
+    }
+
+    // 4 photos ou plus : grille 2x2, avec un badge "+N" sur la dernière vignette
+    const visible = photos.slice(0, 4);
+    const remaining = count - 4;
+
+    return (
+        <div className="grid grid-cols-2 gap-0.5">
+            {visible.map((photo, index) => {
+                const isLastWithMore = index === 3 && remaining > 0;
+                return (
+                    <button
+                        type="button"
+                        key={photo.id}
+                        onClick={() => onOpen(photos, index)}
+                        className="relative block"
+                    >
+                        <img
+                            src={photo.image}
+                            alt={photo.description || ""}
+                            className="w-full h-40 object-cover"
+                        />
+                        {isLastWithMore && (
+                            <span className="absolute inset-0 bg-black/50 flex items-center justify-center text-white text-xl font-semibold">
+                                +{remaining}
+                            </span>
+                        )}
+                    </button>
+                );
+            })}
+        </div>
+    );
+};
+
+// ─── Lightbox plein écran pour naviguer dans les photos d'un post ──────────
+const PhotoLightbox = ({ photos, index, onClose, onNavigate }) => {
+    useEffect(() => {
+        const handler = (e) => {
+            if (e.key === "Escape") onClose();
+            if (e.key === "ArrowRight") onNavigate(1);
+            if (e.key === "ArrowLeft") onNavigate(-1);
+        };
+        document.addEventListener("keydown", handler);
+        document.body.style.overflow = "hidden";
+        return () => {
+            document.removeEventListener("keydown", handler);
+            document.body.style.overflow = "";
+        };
+    }, [onClose, onNavigate]);
+
+    const photo = photos[index];
+    if (!photo) return null;
+
+    return (
+        <div
+            className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center"
+            role="dialog"
+            aria-modal="true"
+            onClick={onClose}
+        >
+            <button
+                type="button"
+                onClick={onClose}
+                aria-label="Fermer"
+                className="absolute top-4 right-4 text-white"
+            >
+                <X size={28} />
+            </button>
+
+            {photos.length > 1 && (
+                <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); onNavigate(-1); }}
+                    aria-label="Photo précédente"
+                    className="absolute left-4 text-white"
+                >
+                    <ChevronLeft size={32} />
+                </button>
+            )}
+
+            <img
+                src={photo.image}
+                alt={photo.description || ""}
+                onClick={(e) => e.stopPropagation()}
+                className="max-h-[90vh] max-w-[90vw] object-contain"
+            />
+
+            {photos.length > 1 && (
+                <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); onNavigate(1); }}
+                    aria-label="Photo suivante"
+                    className="absolute right-4 text-white"
+                >
+                    <ChevronRight size={32} />
+                </button>
+            )}
+
+            {photos.length > 1 && (
+                <span className="absolute bottom-4 text-white text-sm">
+                    {index + 1} / {photos.length}
+                </span>
+            )}
+        </div>
+    );
+};
+
 export default function BlogList({ searchQuery, newBlog }) {
 
     const { t } = useTranslation()
@@ -71,10 +257,26 @@ export default function BlogList({ searchQuery, newBlog }) {
     const [blogs, setBlogs] = useState([]);
     const [nextPage, setNextPage] = useState(null);
     const [loading, setLoading] = useState(false)
+    const [lightbox, setLightbox] = useState(null); // { photos, index } | null
 
     const loadingRef = useRef(loading);
     const nextPageRef = useRef(nextPage);
     const isSharing = useRef(false);
+
+    const openLightbox = useCallback((photos, index) => {
+        setLightbox({ photos, index });
+    }, []);
+
+    const closeLightbox = useCallback(() => setLightbox(null), []);
+
+    const navigateLightbox = useCallback((delta) => {
+        setLightbox((prev) => {
+            if (!prev) return prev;
+            const total = prev.photos.length;
+            const nextIndex = (prev.index + delta + total) % total;
+            return { ...prev, index: nextIndex };
+        });
+    }, []);
 
     const sharePost = async (post) => {
         // Empêche un deuxième partage pendant que le premier est actif
@@ -301,6 +503,12 @@ export default function BlogList({ searchQuery, newBlog }) {
                                         </video>
                                     </div>
 
+                                    {/* Photos du post (voir get_photos() du serializer) */}
+                                    <PostPhotoGallery
+                                        photos={post.photos}
+                                        onOpen={openLightbox}
+                                    />
+
                                     <div className="p-6">
                                         <h2 className="text-2xl font-bold mb-3">
                                             {post?.title_blog}
@@ -357,6 +565,15 @@ export default function BlogList({ searchQuery, newBlog }) {
                 <TrendingDesktop />
 
             </div>
+
+            {lightbox && (
+                <PhotoLightbox
+                    photos={lightbox.photos}
+                    index={lightbox.index}
+                    onClose={closeLightbox}
+                    onNavigate={navigateLightbox}
+                />
+            )}
         </div>
     );
 }

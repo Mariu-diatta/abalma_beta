@@ -12,6 +12,11 @@ import { showMessage } from '../components/AlertMessage';
 
 
 
+// ─── Constantes ────────────────────────────────────────────────────────────────
+const MAX_PHOTOS = 10;
+const MAX_PHOTO_SIZE = 8 * 1024 * 1024; // 8 Mo, aligné sur MAX_PHOTO_SIZE du serializer
+const ALLOWED_PHOTO_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+
 // ─── Composant ────────────────────────────────────────────────────────────────
 export const ModalFormCreatBlog = () => {
     const { t } = useTranslation();
@@ -21,6 +26,8 @@ export const ModalFormCreatBlog = () => {
     const [title, setTitle] = useState('');
     const [message, setMessage] = useState('');
     const [videoFile, setVideoFile] = useState(null);
+    const [images, setImages] = useState([]); // File[]
+    const [imagePreviews, setImagePreviews] = useState([]); // object URLs
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [loading, setLoading] = useState(false);
@@ -30,10 +37,26 @@ export const ModalFormCreatBlog = () => {
 
     const MAX_MESSAGE = 500;
 
-    const handleClose =useCallback( () => {
+    const clearImagePreviews = useCallback(() => {
+        setImagePreviews((prev) => {
+            prev.forEach((url) => URL.revokeObjectURL(url));
+            return [];
+        });
+    }, []);
+
+    const resetForm = useCallback(() => {
+        setTitle('');
+        setMessage('');
+        setError('');
+        setSuccess('');
+        setImages([]);
+        clearImagePreviews();
+    }, [clearImagePreviews]);
+
+    const handleClose = useCallback(() => {
         setIsOpen(false);
         resetForm();
-    },[]);
+    }, [resetForm]);
 
     // ── Focus auto à l'ouverture ──
     useEffect(() => {
@@ -64,17 +87,61 @@ export const ModalFormCreatBlog = () => {
         return () => { document.body.style.overflow = ''; };
     }, [isOpen]);
 
-    const resetForm = () => {
-        setTitle('');
-        setMessage('');
-        setError('');
-        setSuccess('');
-    };
+    // ── Libère les URLs d'aperçu au démontage du composant ──
+    useEffect(() => {
+        return () => clearImagePreviews();
+    }, [clearImagePreviews]);
 
     const handleOpen = () => {
         resetForm();
         setIsOpen(true);
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const handleImagesChange = (e) => {
+        const files = Array.from(e.target.files || []);
+        e.target.value = ''; // permet de re-sélectionner le même fichier plus tard
+
+        if (!files.length) return;
+
+        setError('');
+
+        if (images.length + files.length > MAX_PHOTOS) {
+            setError(
+                t('blog.too_many_photos', { max: MAX_PHOTOS }) ||
+                `Maximum ${MAX_PHOTOS} photos par article.`
+            );
+            return;
+        }
+
+        const validFiles = [];
+        for (const file of files) {
+            if (!ALLOWED_PHOTO_TYPES.includes(file.type)) {
+                setError(t('blog.invalid_photo_type') || `Format non supporté : ${file.name}`);
+                continue;
+            }
+            if (file.size > MAX_PHOTO_SIZE) {
+                setError(t('blog.photo_too_large') || `${file.name} dépasse 8 Mo.`);
+                continue;
+            }
+            validFiles.push(file);
+        }
+
+        if (!validFiles.length) return;
+
+        setImages((prev) => [...prev, ...validFiles]);
+        setImagePreviews((prev) => [
+            ...prev,
+            ...validFiles.map((file) => URL.createObjectURL(file)),
+        ]);
+    };
+
+    const handleRemoveImage = (index) => {
+        setImagePreviews((prev) => {
+            URL.revokeObjectURL(prev[index]);
+            return prev.filter((_, i) => i !== index);
+        });
+        setImages((prev) => prev.filter((_, i) => i !== index));
     };
 
     const handleSubmit = async (e) => {
@@ -90,8 +157,9 @@ export const ModalFormCreatBlog = () => {
         setLoading(true);
 
         try {
-            // FormData nécessaire dès qu'on envoie un fichier (video) en plus
-            // des champs texte — le backend lit request.FILES.get("video").
+            // FormData nécessaire dès qu'on envoie des fichiers (video, images) en
+            // plus des champs texte — le backend lit request.FILES.get("video")
+            // et request.FILES.getlist("images").
             const formData = new FormData();
             formData.append('title_blog', title);
             formData.append('blog_message', message);
@@ -100,6 +168,10 @@ export const ModalFormCreatBlog = () => {
                 formData.append('video', videoFile);
                 formData.append('video_duration', String(60));
             }
+
+            images.forEach((file) => {
+                formData.append('images', file);
+            });
 
             const { data } = await api.post(API_ENDPOINTS.BLOG.CREATE, formData, {
                 headers: { "Content-Type": "multipart/form-data" },
@@ -116,6 +188,7 @@ export const ModalFormCreatBlog = () => {
         } catch (err) {
 
             const messageError = err?.response?.data?.detail ||
+                err?.response?.data?.images ||
                 t('blog.error_creating') ||
                 'Erreur lors de la création du blog.'
             console.log("erreur::", err)
@@ -148,7 +221,7 @@ export const ModalFormCreatBlog = () => {
                         role="dialog"
                         aria-modal="true"
                         aria-labelledby="blog-modal-title"
-                        style={{overflowY:"auto"}}
+                        style={{ overflowY: "auto" }}
                     >
                         <div ref={modalRef} className="blog-panel">
 
@@ -172,7 +245,7 @@ export const ModalFormCreatBlog = () => {
 
                             {/* Corps */}
                             <form className="blog-body" onSubmit={handleSubmit}>
-   
+
                                 {/* Titre */}
                                 <div>
                                     <label htmlFor="blog-title" className="blog-label">
@@ -209,7 +282,71 @@ export const ModalFormCreatBlog = () => {
                                     <p className="blog-char-count">{message.length}/{MAX_MESSAGE}</p>
                                 </div>
 
-     
+                                {/* Photos (optionnelles, plusieurs possibles) */}
+                                <div>
+                                    <label htmlFor="blog-images" className="blog-label">
+                                        {t('blog.photos_optional') || 'Photos (optionnel)'}
+                                    </label>
+                                    <input
+                                        id="blog-images"
+                                        type="file"
+                                        accept="image/jpeg,image/png,image/webp"
+                                        multiple
+                                        onChange={handleImagesChange}
+                                        className="blog-input"
+                                        disabled={images.length >= MAX_PHOTOS}
+                                    />
+                                    <p className="blog-char-count">
+                                        {images.length}/{MAX_PHOTOS}
+                                    </p>
+
+                                    {imagePreviews.length > 0 && (
+                                        <div
+                                            style={{
+                                                display: 'flex',
+                                                flexWrap: 'wrap',
+                                                gap: '8px',
+                                                marginTop: '10px',
+                                            }}
+                                        >
+                                            {imagePreviews.map((url, index) => (
+                                                <div key={url} style={{ position: 'relative' }}>
+                                                    <img
+                                                        src={url}
+                                                        alt={`Aperçu ${index + 1}`}
+                                                        style={{
+                                                            width: '72px',
+                                                            height: '72px',
+                                                            objectFit: 'cover',
+                                                            borderRadius: '8px',
+                                                        }}
+                                                    />
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleRemoveImage(index)}
+                                                        aria-label={t('blog.remove_image') || 'Retirer'}
+                                                        style={{
+                                                            position: 'absolute',
+                                                            top: '-6px',
+                                                            right: '-6px',
+                                                            width: '20px',
+                                                            height: '20px',
+                                                            borderRadius: '50%',
+                                                            border: 'none',
+                                                            background: '#000',
+                                                            color: '#fff',
+                                                            fontSize: '12px',
+                                                            lineHeight: '20px',
+                                                            cursor: 'pointer',
+                                                        }}
+                                                    >
+                                                        ×
+                                                    </button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
 
                                 {/* Feedback */}
                                 {error && (
