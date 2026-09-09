@@ -45,8 +45,7 @@ const routes = [
 
         children: [
 
-            { index: true, element: <Home/> },
-
+            { path: "/", element: <Home /> },
             { path: "about", element: <About /> },
 
             { path: "politique-confidentialite", element: <PrivacyPolicy /> },

@@ -25,7 +25,7 @@ import ProbuttonComp from '../components/ProButtonComp';
 import FormEditProfil from '../components/FormEditProfil';
 import UpdateUserToPro from '../components/UpdateUserToPro';
 
-import { ModalFormCreatBlog } from './BlogCreatBlogs';
+//import { ModalFormCreatBlog } from './BlogCreatBlogs';
 import GetValidateUserFournisseur from './FournisseurValidation';
 
 import {
@@ -640,7 +640,7 @@ const ProfileCard = () => {
 
     return (
         <div className="
-            min-h-95 pt-0 mt-[-15px]
+            min-h-100 pt-0 mt-[-15px]
             bg-none
             text-gray-900
         ">
@@ -649,7 +649,6 @@ const ProfileCard = () => {
                 w-full
                 max-w-6xl
                 overflow-hidden
-                bg-white
                 sm:shadow-sm
                 sm:ring-1
                 sm:ring-black/5
@@ -747,7 +746,7 @@ const ProfileCard = () => {
                                 items-center
                                 gap-2
                                 rounded-full
-                                bg-white/95
+                                bg-none
                                 px-4
                                 py-2.5
                                 text-sm
@@ -834,7 +833,7 @@ const ProfileCard = () => {
                                     w-10
                                     cursor-pointer
                                     items-center
-                                    justify-center
+                                    justify-start
                                     rounded-full
                                     border-4
                                     border-white
@@ -862,14 +861,10 @@ const ProfileCard = () => {
                     {/* EDIT MODE */}
                     {isEditing ? (
                         <div className="
-                            mt-6
+                            mt-2
                             rounded-2xl
-                            border
-                            border-gray-200
+                            border-0
                             bg-white
-                            p-4
-                            shadow-sm
-                            sm:p-6
                         ">
                             <FormEditProfil
                                 handleSave={
@@ -913,6 +908,7 @@ const ProfileCard = () => {
                                         items-center
                                         justify-center
                                         gap-2
+                                        sm:justify-start
                                         sm:justify-start
                                     ">
                                         <h1 className="
@@ -1025,15 +1021,14 @@ const ProfileCard = () => {
 
                             {/* ACTION BAR */}
                             <div className="
-                                mt-6
+                                mt-2
                                 flex
-                                flex-wrap
                                 items-center
                                 justify-center
                                 gap-2
                                 border-t
                                 border-gray-100
-                                pt-5
+                                pt-2
                                 sm:justify-start
                             ">
                                 {isCurrentUser && (
@@ -1131,9 +1126,9 @@ const ProfileCard = () => {
                                             }
                                             className="
                                                 inline-flex
-                                                h-10
+                                                h-10 bg-green-300
                                                 items-center
-                                                justify-center
+                                                justify-start
                                                 gap-2
                                                 rounded-full
                                                 bg-gradient-to-r
@@ -1162,10 +1157,6 @@ const ProfileCard = () => {
                                     <LoadingCard />
                                 )}
 
-                                {isCurrentUser && (
-                                    <ModalFormCreatBlog />
-                                )}
-
                                 <ProbuttonComp
                                     isUserProAndFormVisible={
                                         isNotProAndOwner
@@ -1182,13 +1173,13 @@ const ProfileCard = () => {
                     {/* PRO FORM */}
                     {isProFormVisibleForCurrentUser && (
                         <div className="
-                            mt-6
+                            mt-1
                             rounded-2xl
                             border
                             border-gray-200
                             bg-gray-50
                             p-4
-                            sm:p-6
+                            sm:p-1
                         ">
                             <UpdateUserToPro
                                 handleUpgradeToPro={
@@ -1218,6 +1209,7 @@ const ProfileCard = () => {
                     }
                 />
             )}
+
         </div>
     );
 };

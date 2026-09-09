@@ -74,7 +74,7 @@ const AttentionAlertMessage = () => {
     return (
         <div
             className={`
-                fixed top-6 right-6 z-[9999]
+                fixed top-6 right-6 z-[99999]
                 transition-all duration-300 ease-out
                 ${show
                     ? "opacity-100 translate-y-0"
