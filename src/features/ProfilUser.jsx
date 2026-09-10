@@ -1022,7 +1022,7 @@ const ProfileCard = () => {
                             {/* ACTION BAR */}
                             <div className="
                                 mt-2
-                                flex
+                                flex flex-wrap
                                 items-center
                                 justify-center
                                 gap-2

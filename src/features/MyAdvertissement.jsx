@@ -77,7 +77,7 @@ const MesPublicites = ({ onEdit }) => {
     }
 
     return (
-        <div className="w-full p-6 my-3">
+        <div className="w-full px-2 my-3">
 
             <div className="flex items-center justify-between mb-6">
 

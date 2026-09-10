@@ -301,7 +301,7 @@ const SendcloudTracking = () => {
     };
 
     return (
-        <div className="sc-root  px-2" style={{ paddingTop: "10dvh" }} >
+        <div className="sc-root px-1" style={{ paddingTop: "10dvh" }} >
 
             {/* Hero section */}
             <div className="sc-hero">
