@@ -780,7 +780,7 @@ const ProfileCard = () => {
                     px-4
                     pb-6
                     sm:px-6
-                    lg:px-8
+                    lg:px-8 border-0
                 ">
 
                     {/* AVATAR */}
@@ -789,13 +789,14 @@ const ProfileCard = () => {
                         -mt-14
                         flex
                         justify-center
-                        sm:-mt-16
-                        sm:justify-start
+                        items-center
+                        sm:-mt-16 border-0
                     ">
-                        <div className="relative">
+                        <div className="relative border-0">
+
                             <div
                                 className={`
-                                    rounded-full
+                                    rounded-full 
                                     bg-white
                                     p-1
                                     shadow-xl
@@ -856,6 +857,7 @@ const ProfileCard = () => {
                                 </label>
                             )}
                         </div>
+
                     </div>
 
                     {/* EDIT MODE */}
@@ -892,9 +894,9 @@ const ProfileCard = () => {
                                 flex
                                 flex-col
                                 gap-5
-                                sm:flex-row
-                                sm:items-start
-                                sm:justify-between
+                                md:justify-center md:items-start md:flex-row mb-6
+                                items-center
+                                justify-center border-0
                             ">
                                 {/* Identity */}
                                 <div className="
@@ -1023,13 +1025,12 @@ const ProfileCard = () => {
                             <div className="
                                 mt-2
                                 flex flex-wrap
-                                items-center
-                                justify-center
+                                items-start
+                                justify-start
                                 gap-2
-                                border-t
-                                border-gray-100
                                 pt-2
-                                sm:justify-start
+                                md:justify-center
+                                md:items-center
                             ">
                                 {isCurrentUser && (
                                     <button
@@ -1175,8 +1176,7 @@ const ProfileCard = () => {
                         <div className="
                             mt-1
                             rounded-2xl
-                            border
-                            border-gray-200
+                            border-0
                             bg-gray-50
                             p-4
                             sm:p-1
