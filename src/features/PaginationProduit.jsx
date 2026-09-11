@@ -81,7 +81,7 @@ const PaginationProduit = ({ products = [] }) => {
             track.scrollBy({ left: item.right - container.right + margin, behavior: "smooth" });
         }
         if (item.left < container.left) {
-            track.scrollBy({ left: item.left - container.left - margin, behavior: "smooth" });
+            track.scrollBy({ left: item.left - container.left + margin, behavior: "smooth" });
         }
     };
 
@@ -196,17 +196,7 @@ const PaginationProduit = ({ products = [] }) => {
 
             <div
                 ref={scrollRef}
-                className="fan-track flex overflow-x-auto w-full scroll-smooth pt-10 pb-4 scrollbar-hidden snap-x snap-mandatory"
-                style={{
-                    gap: 0,
-                    // Plancher relevé à 2rem (au lieu de 1rem) : assez de marge
-                    // pour que la rotation de la carte (transformOrigin bottom
-                    // center) ne dépasse jamais du padding, même sur petit écran.
-                    paddingLeft: "max(2rem, calc((100% - 11rem) / 2))",
-                    paddingRight: "max(2rem, calc((100% - 11rem) / 2))",
-                    scrollPaddingLeft: "max(2rem, calc((100% - 11rem) / 2))",
-                    scrollPaddingRight: "max(2rem, calc((100% - 11rem) / 2))",
-                }}
+                className="fan-track flex justify-start items-center overflow-x-auto w-full scroll-smooth pt-10 pb-4 scrollbar-hidden snap-x snap-mandatory"
             >
                 {products.map((product, index) => {
                     const image = product?.variants?.[0]?.image;
