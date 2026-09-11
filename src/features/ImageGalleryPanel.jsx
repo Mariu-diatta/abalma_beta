@@ -12,12 +12,13 @@ function CategoryImagesDisplay({ products, openModal, owners }) {
 
     return (
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-1 scrollbor_hidden overflow-y-auto h-full w-full mx-0.5 relative">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-1 scrollbor_hidden overflow-y-auto h-70 md:h-70 w-full mx-0.5 relative border-0">
 
             {
                 imagesProductsVariants?.map((item,k)=> {
 
-                    return (item?.image_product) && <section className="flex flex-col z-0" key={k}>
+                    return (item?.image_product) && 
+                           <section className="flex flex-col z-0" key={k}>
 
                                 <img
                                     key={k}
@@ -40,7 +41,7 @@ function CategoryImagesDisplay({ products, openModal, owners }) {
                                     }}
                                 />
                                 
-                                  <RendrePrixProduitMonnaie item={item?.product} /> 
+                                <RendrePrixProduitMonnaie item={item?.product} /> 
 
                             </section>
                     }

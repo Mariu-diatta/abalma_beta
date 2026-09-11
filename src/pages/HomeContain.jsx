@@ -160,7 +160,7 @@ const HomeContain = () => {
                                             onClick={() => setActiveTab(id)}
                                             className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200
                                                 ${active
-                                                    ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-md shadow-indigo-200 scale-[1.03]'
+                                                    ? 'bg-gradient-to-r from-indigo-300 to-purple-300 text-white shadow-md shadow-indigo-200 scale-[1.03]'
                                                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:scale-[1.02]'}`}
                                         >
                                             <Icon className="h-4 w-4" />
@@ -239,7 +239,7 @@ const HomeContain = () => {
 
                 {/* ============ LIVE ACTIVITY ============ */}
                 <section className="px-1 mt-6">
-                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-indigo-600 via-violet-600 to-purple-600 text-white p-4 shadow-lg shadow-indigo-200/60">
+                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-indigo-400 via-violet-300 to-purple-300 text-white p-4 shadow-lg shadow-indigo-100/60">
                         <div className="absolute -bottom-10 -right-10 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
                         <div className="absolute -top-8 -left-8 h-28 w-28 rounded-full bg-white/10 blur-2xl" />
                         <div className="relative flex items-start justify-between gap-3">

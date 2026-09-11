@@ -225,7 +225,7 @@ const PaymentFooter = () => {
         <div className="
                 mt-5
                 pt-5
-                border-t
+                border-0
                 border-gray-100
             "
         >

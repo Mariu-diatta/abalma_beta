@@ -6139,7 +6139,7 @@ forget password`*/
     padding: 0 10px;
     padding-bottom: env(safe-area-inset-bottom, 0px);
     background-color: var(--color-surface, #ffffff);
-    border-top: 1px solid var(--color-border, #dbdbdb);
+    border-top: 0px;
 }
 
 .ig-bottom-nav__item {
@@ -6175,9 +6175,9 @@ forget password`*/
     transition: transform .12s;
 }
 
-    .ig-bottom-nav__add:active {
-        transform: scale(0.9);
-    }
+.ig-bottom-nav__add:active {
+    transform: scale(0.9);
+}
 
 .ig-bottom-nav__badge {
     position: absolute;

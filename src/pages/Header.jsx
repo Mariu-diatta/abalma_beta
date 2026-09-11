@@ -90,13 +90,13 @@ const NavbarHeader = () => {
     }, [currentNav, navigate, dispatch]);
 
     return (
-        <nav className="mb-0">
+        <nav className="mb-0 border-0">
 
             <header
                 id="header"
                 className={`
                 flex 
-                items-center fixed max-h-[8dvh]
+                items-center fixed max-h-[8dvh] border-0
                 w-full
                 px-3 md:px-6
                 top-0
@@ -107,7 +107,6 @@ const NavbarHeader = () => {
                 duration-300
                 ease-in-out
                 backdrop-blur-md
-                shadow-sm
                 bg-white
                 ${visible ? "translate-y-0 mb-0 " : "-translate-y-full"}`
                 }

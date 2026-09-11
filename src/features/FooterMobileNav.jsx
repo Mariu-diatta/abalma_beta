@@ -89,7 +89,7 @@ const BottomNavMobile = () => {
         <>
 
             <nav
-                className={`flex ig-bottom-nav md:hidden bg-white ${visible ? " -translate-y-0 bg-white/50" : "translate-y-full"}`}
+                className={`flex ig-bottom-nav md:hidden bg-white/50  ${visible ? " -translate-y-0" : "translate-y-full"}`}
                 role="navigation"
                 aria-label={t("bottom_nav_label") || "Navigation principale"}
             >
@@ -143,7 +143,9 @@ const BottomNavMobile = () => {
                             style={{ color: isProfile ? "var(--color-primary, #0095F6)" : "var(--color-text, #262626)" }}
                         />
                     )}
+
                 </button>
+
             </nav>
 
             {/* Fenêtre de connexion / inscription, ouverte à la demande depuis n'importe quel onglet protégé */}
@@ -153,6 +155,7 @@ const BottomNavMobile = () => {
                     callbackState={() => setAuthMode("register")}
                 />
             )}
+
             {authMode === "register" && (
                 <RegisterForm
                     onClose={() => setAuthMode(null)}
@@ -203,7 +206,7 @@ const MoreSheetMobile = ({ open, onClose }) => {
 
     return (
         <div
-            className="sm:hidden fixed inset-0 z-[9990] flex items-end justify-center bg-black/30 h-full gap- "
+            className="sm:hidden fixed inset-0 z-[9990] flex items-end justify-between bg-black/30 h-full gap-1 "
             onClick={onClose}
         >
             <div
@@ -211,7 +214,7 @@ const MoreSheetMobile = ({ open, onClose }) => {
                 className="w-full  rounded-t-2xl shadow-2xl p-3"
                 style={{ backgroundColor: "var(--color-surface, #fff)" }}
             >
-                <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-gray-300" />
+                <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-none" />
 
                 {currentUser ? (
                     /* Utilisateur connecté : se déconnecter, jamais connexion/inscription. */
@@ -260,9 +263,9 @@ const MoreSheetLoginRegister = ({ onClose }) => {
     const currentNav = useSelector(state => state.navigate.currentNav);
 
     return (
-        <div className="flex flex-col items-end gap-2 pb-0 mb-0 border-b" style={{ borderColor: "var(--color-border, #dbdbdb)" }}>
+        <div className="flex flex-col items-center justify-between gap-2 pb-0 mb-0 border-b" style={{ borderColor: "var(--color-border, #dbdbdb)" }}>
 
-            <div className="flex items-center gap-2 pb-3 mb-2 border-b w-full">
+            <div className="flex items-center justify-between gap-2 pb-3 mb-2 border-0 w-full">
 
                 <button
                     type="button"
@@ -276,8 +279,14 @@ const MoreSheetLoginRegister = ({ onClose }) => {
                 <button
                     type="button"
                     onClick={() => { setShowRegister(true); setShowLogin(false); }}
-                    className="flex-1 rounded-full py-2 text-sm font-medium text-white"
-                    style={{ backgroundColor: "var(--color-primary, #0095F6)" }}
+                    className="
+                        flex-1 
+                        rounded-full py-2 text-sm font-medium text-white
+                                             bg-[#1B44C8]
+                        border-[#1B44C8]
+                        text-white
+                        shadow-md
+                    "
                 >
                     {t(ENDPOINTS.REGISTER)}
                 </button>
