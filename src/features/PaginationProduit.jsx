@@ -29,7 +29,7 @@ const PaginationProduit = ({ products = [] }) => {
      * Applique la rotation de repos + le z-index par défaut à toutes les cartes
      * (sauf celle actuellement active)
      */
-    const applyBaseTransforms =useCallback( () => {
+    const applyBaseTransforms = useCallback( () => {
         itemRefs.current.forEach((el, i) => {
             if (!el) return;
             if (i === activeIndex) return;
@@ -184,7 +184,7 @@ const PaginationProduit = ({ products = [] }) => {
     if (!products.length) return null;
 
     return (
-        <div className="relative group w-full py-2 overflow-hidden">
+        <div className="relative group w-full py-2 overflow-x-visible overflow-y-hidden">
 
             <button
                 onClick={() => scroll("left")}
@@ -196,13 +196,16 @@ const PaginationProduit = ({ products = [] }) => {
 
             <div
                 ref={scrollRef}
-                className="fan-track flex justify-end items-center overflow-x-auto w-full scroll-smooth pt-10 pb-4 scrollbar-hidden snap-x snap-mandatory"
+                className="fan-track flex overflow-x-auto w-full scroll-smooth pt-10 pb-4 scrollbar-hidden snap-x snap-mandatory"
                 style={{
                     gap: 0,
-                    paddingLeft: "max(1rem, calc((100% - 11rem) / 2))",
-                    paddingRight: "max(1rem, calc((100% - 11rem) / 2))",
-                    scrollPaddingLeft: "max(1rem, calc((100% - 11rem) / 2))",
-                    scrollPaddingRight: "max(1rem, calc((100% - 11rem) / 2))",
+                    // Plancher relevé à 2rem (au lieu de 1rem) : assez de marge
+                    // pour que la rotation de la carte (transformOrigin bottom
+                    // center) ne dépasse jamais du padding, même sur petit écran.
+                    paddingLeft: "max(2rem, calc((100% - 11rem) / 2))",
+                    paddingRight: "max(2rem, calc((100% - 11rem) / 2))",
+                    scrollPaddingLeft: "max(2rem, calc((100% - 11rem) / 2))",
+                    scrollPaddingRight: "max(2rem, calc((100% - 11rem) / 2))",
                 }}
             >
                 {products.map((product, index) => {
