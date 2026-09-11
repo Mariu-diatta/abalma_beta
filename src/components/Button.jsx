@@ -122,9 +122,15 @@ export const ButtonNavigate = ({ tabs }) => {
 
             <ul
                 className="
-                    flex gap-2  
-                    z-10 
-                    mx-0 mb-2
+                    w-full flex gap-2  md:rounded-full lg:rounded-full  rounded-none bg-white/80  lg:bg-transparent md:bg-transparent
+                    border-0
+                    md:static md:flex 
+                    md:flex-row 
+                    md:w-auto
+                    justify-between
+                    items-center
+                    px-2 z-10 
+                    mx-0
                  "
             >
 
@@ -157,7 +163,6 @@ export const ButtonNavigate = ({ tabs }) => {
                                     <>{tab.logo}</>
 
                                     <>{tab.label}</>
-
                                 </NavLink>
                             }
 

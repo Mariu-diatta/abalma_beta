@@ -145,8 +145,8 @@ const ListButtonsCategories = ({
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
                                 transition={{ duration: 0.15 }}
-                                className="fixed inset-0 bg-black/10 backdrop-blur-[2px]"
-                                style={{ zIndex: 9998 }}
+                                className="fixed inset-0 bg-black/10 backdrop-blur-[2px] top-0"
+                                style={{ zIndex: 99999 }}
                                 onClick={close}
                             />
 
@@ -159,10 +159,10 @@ const ListButtonsCategories = ({
                                 transition={{ duration: 0.2, ease: "easeOut" }}
                                 style={{
                                     position: "absolute",
-                                    top: `${coords.top}px`,
-                                    left: `${coords.left}px`,
+                                    top: `5px`,
+                                    left: `2px`,
                                     width: `${coords.width}px`,
-                                    zIndex: 9999,
+                                    zIndex: 99999,
                                 }}
                                 className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden"
                             >
@@ -220,7 +220,7 @@ const ListButtonsCategories = ({
                                 </div>
 
                                 {/* Liste */}
-                                <div className="max-h-64 overflow-y-auto p-2 flex flex-col gap-0.5 scrollbar-thin">
+                                <div className="max-h-80 overflow-y-auto p-2 flex flex-col gap-0.5 scrollbar-thin">
                                     {filtered.length === 0 ? (
                                         <p className="text-center text-xs text-gray-400 py-6">
                                             {t("Aucun résultat") || "Aucun résultat"}

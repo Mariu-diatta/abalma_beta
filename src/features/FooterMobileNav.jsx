@@ -278,11 +278,11 @@ const MoreSheetLoginRegister = ({ onClose }) => {
 
                 <button
                     type="button"
-                    onClick={() => { setShowRegister(true); setShowLogin(false); }}
+                    onClick={() => { setShowRegister(true); setShowLogin(false); }  }
                     className="
                         flex-1 
                         rounded-full py-2 text-sm font-medium text-white
-                                             bg-[#1B44C8]
+                        bg-[#1B44C8]
                         border-[#1B44C8]
                         text-white
                         shadow-md
