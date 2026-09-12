@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux';
 import { formatRelativeDate } from "../utils";
 import LikeButton from "../components/LikeButton";
 import { useTranslation } from "react-i18next";
+import ShareButton from "../components/ButtonShareContent";
 // ⚠️ CORRIGÉ : react-helmet-async n'a plus de raison d'être ici, voir
 // explication détaillée au niveau de `sharePost` ci-dessous.
 // import { Helmet } from "react-helmet-async";
@@ -196,7 +197,7 @@ const PhotoLightbox = ({ photos, index, onClose, onNavigate }) => {
 
     return (
         <div
-            className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center"
+            className="fixed inset-0 bg-black/90 z-99999 flex items-center justify-center"
             role="dialog"
             aria-modal="true"
             onClick={onClose}
@@ -534,11 +535,16 @@ export default function BlogList({ searchQuery, newBlog }) {
 
                                             <button
                                                 onClick={() => sharePost(post)}
-                                                className="flex items-center gap-2 text-gray-600"
+                                                className="flex items-center gap-2 text-gray-600 hidden"
                                             >
                                                 <Share2 size={20} />
                                                 Partager
                                             </button>
+                                            <ShareButton
+                                                url={post?.photos[0].image}
+                                                title={"Abalma/product"}
+                                                text={post?.photos[0].description || post?.blog_message}
+                                            />
 
                                             <button className="text-gray-600 hidden">
                                                 <Bookmark size={20} />
