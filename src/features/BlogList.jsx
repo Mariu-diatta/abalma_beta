@@ -506,7 +506,7 @@ export default function BlogList({ searchQuery, newBlog }) {
 
                                     {/* Photos du post (voir get_photos() du serializer) */}
                                     <PostPhotoGallery
-                                        photos={post.photos}
+                                        photos={post?.photos}
                                         onOpen={openLightbox}
                                     />
 
@@ -541,9 +541,9 @@ export default function BlogList({ searchQuery, newBlog }) {
                                                 Partager
                                             </button>
                                             <ShareButton
-                                                url={post?.photos[0].image}
+                                                url={post?.photos[0]?.image}
                                                 title={"Abalma/product"}
-                                                text={post?.photos[0].description || post?.blog_message}
+                                                text={post?.photos[0]?.description || post?.blog_message}
                                             />
 
                                             <button className="text-gray-600 hidden">
