@@ -223,8 +223,8 @@ const PhotoLightbox = ({ photos, index, onClose, onNavigate }) => {
             )}
 
             <img
-                src={photo.image}
-                alt={photo.description || ""}
+                src={photo?.image}
+                alt={photo?.description || ""}
                 onClick={(e) => e.stopPropagation()}
                 className="max-h-[90vh] max-w-[90vw] object-contain"
             />
@@ -574,8 +574,8 @@ export default function BlogList({ searchQuery, newBlog }) {
 
             {lightbox && (
                 <PhotoLightbox
-                    photos={lightbox.photos}
-                    index={lightbox.index}
+                    photos={lightbox?.photos}
+                    index={lightbox?.index}
                     onClose={closeLightbox}
                     onNavigate={navigateLightbox}
                 />

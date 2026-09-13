@@ -115,22 +115,22 @@ const PhotoLightbox = ({
                     className="absolute top-4 left-4 flex items-center gap-3 bg-black/40 backdrop-blur-sm rounded-full pr-4 pl-2 py-2 max-w-[70vw]"
                     onClick={(e) => e.stopPropagation()}
                 >
-                    {subject.image && (
+                    {subject?.image && (
                         <img
-                            src={subject.image}
-                            alt={subject.name || ""}
+                            src={subject?.image}
+                            alt={subject?.name || ""}
                             className={`w-9 h-9 object-cover flex-shrink-0 border border-white/50 ${subjectShapeClass}`}
                         />
                     )}
                     <div className="min-w-0">
-                        {subject.name && (
+                        {subject?.name && (
                             <p className="text-white text-sm font-medium truncate">
-                                {subject.name}
+                                {subject?.name}
                             </p>
                         )}
-                        {subject.subtitle && (
+                        {subject?.subtitle && (
                             <p className="text-white/70 text-xs truncate">
-                                {subject.subtitle}
+                                {subject?.subtitle}
                             </p>
                         )}
                     </div>
@@ -158,8 +158,8 @@ const PhotoLightbox = ({
             )}
 
             <img
-                src={photo.image}
-                alt={photo.description || ""}
+                src={photo?.image}
+                alt={photo?.description || ""}
                 onClick={(e) => e.stopPropagation()}
                 className="max-h-[90vh] max-w-[90vw] object-contain"
             />
