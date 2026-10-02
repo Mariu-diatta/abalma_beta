@@ -6564,9 +6564,9 @@ forget password`*/
     scrollbar-width: none; /* Firefox */
 }
 
-    .container::-webkit-scrollbar {
-        display: none; /* Chrome, Safari, Edge */
-    }
+.container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+}
 
 .scrollbar-hide::-webkit-scrollbar {
     display: none;
@@ -6574,4 +6574,14 @@ forget password`*/
 
 .scrollbar-hide {
     scrollbar-width: none;
+}
+
+.message {
+    cursor: grab;
+    user-select: none;
+    touch-action: pan-y;
+}
+
+.message:active {
+    cursor: grabbing;
 }

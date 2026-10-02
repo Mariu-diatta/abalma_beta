@@ -46,11 +46,78 @@ const ChatApp = ({ setShow, show }) => {
     const [wsStatus, setWsStatus] = useState('idle'); // idle | connected | error
     const [loadingNewMessage, setLoadingNewMessage] = useState(false);
     const [showInfo, setShowInfo] = useState(false); // panneau profil à droite
+    const [replyingTo, setReplyingTo] = useState(null);
+    const [draggingMessage, setDraggingMessage] = useState(null);
+    const [dragX, setDragX] = useState(0);
+
+    const dragRef = useRef({
+        message: null,
+        startX: 0,
+    });
+
 
     // ─── Messages memo ───
     const messages = useMemo(() => {
         return currentRoomChat?.messages ?? [];
     }, [currentRoomChat]);
+
+    const handlePointerDown = (e, message) => {
+
+        if (e.pointerType === "mouse" && e.button !== 0) {
+            return;
+        }
+
+        dragRef.current = {
+            message,
+            startX: e.clientX,
+        };
+
+        setDraggingMessage(message);
+        setDragX(0);
+
+        e.currentTarget.setPointerCapture?.(e.pointerId);
+    };
+
+
+    const handlePointerMove = (e, message) => {
+        const draggedMessage = dragRef.current.message;
+
+        if (!draggedMessage || draggedMessage.id !== message.id) {
+            return;
+        }
+
+        const distance = e.clientX - dragRef.current.startX;
+
+        if (distance > 0) {
+            setDragX(Math.min(distance, 100));
+        }
+    };
+
+
+    const handlePointerUp = (e, message) => {
+        const draggedMessage = dragRef.current.message;
+
+        if (!draggedMessage || draggedMessage.id !== message.id) {
+            return;
+        }
+
+        const distance = e.clientX - dragRef.current.startX;
+
+        console.log("DRAG DISTANCE:", distance);
+        console.log("MESSAGE CIBLE:", message);
+
+        if (distance >= 60) {
+            setReplyingTo(message);
+        }
+
+        dragRef.current = {
+            message: null,
+            startX: 0,
+        };
+
+        setDraggingMessage(null);
+        setDragX(0);
+    };
 
     // ─── sync selected user ref ───
     useEffect(() => {
@@ -58,6 +125,12 @@ const ChatApp = ({ setShow, show }) => {
         // ferme le panneau profil quand on change de conversation
         setShowInfo(true);
     }, [selectedUser]);
+
+    useEffect(() => {
+        if (!loadingNewMessage) {
+            setReplyingTo(null);
+        }
+    }, [loadingNewMessage]);
 
     // ─── WS CONNECTION ───
     useEffect(() => {
@@ -77,6 +150,7 @@ const ChatApp = ({ setShow, show }) => {
                 isMine: senderId === currentUser.id,
                 pending: false,
                 temp_id: msg.temp_id,
+                replyTo: msg?.replyTo ?? null
             };
         };
 
@@ -105,9 +179,8 @@ const ChatApp = ({ setShow, show }) => {
                 const data = JSON.parse(e.data);
 
                 if (data.action === 'new_message') {
-                    const msg = data.message;
+                    const msg = data?.message;
                     const senderId = msg?.user?.id ?? msg?.user;
-
                     const openUser = selectedUserRef.current;
 
                     const belongsToOpenChat =
@@ -157,7 +230,7 @@ const ChatApp = ({ setShow, show }) => {
         messagesEndRef.current?.scrollIntoView({
             behavior: 'auto',
         });
-    }, [messages]);
+    }, [messages, replyingTo]);
 
     // ─── NAV SYNC ───
     useEffect(() => {
@@ -187,18 +260,20 @@ const ChatApp = ({ setShow, show }) => {
         //dispatch(addChatMessage(optimisticMessage));
 
         // ✔ envoi WS
-        wsRef.current.send(
-            JSON.stringify({
-                action: 'send_message',
-                sender_id: currentUser.id,
-                receiver_id: selectedUser.id,
-                text: trimmed,
-                temp_id: tempId,
-            })
-        );
+        wsRef.current.send(JSON.stringify({
+          action: 'send_message',
+          sender_id: currentUser.id,
+          receiver_id: selectedUser.id,
+          text: trimmed,
+          replyTo: replyingTo ? replyingTo.id : null,
+          temp_id: tempId,
+        }));
 
         setInput('');
-    }, [input, currentUser, selectedUser]);
+
+        setReplyingTo(null);
+
+    }, [input, currentUser, selectedUser, replyingTo ]);
 
     // ─── TYPING ───
     const handleTyping = useCallback(() => {
@@ -310,7 +385,7 @@ const ChatApp = ({ setShow, show }) => {
                 </div>
 
                 {/* MESSAGES */}
-                <div className="flex-1 overflow-y-auto px-3 scrollbor_hidden py-[12dvh] relative">
+                <div className="flex-1 overflow-y-auto px-3 scrollbor_hidden py-[12dvh] relative overflow-x-hidden">
 
                     {!selectedUser ? (
                         <div className="h-full flex items-center justify-center text-gray-400 text-sm">
@@ -323,22 +398,68 @@ const ChatApp = ({ setShow, show }) => {
                     ) : (
                         <div className="flex flex-col gap-1 py-3">
                             {messages.map((msg) => (
-                                <MessageBubble key={msg.id} msg={msg} />
+                                <MessageBubble
+                                    key={msg.id}
+                                    msg={msg} 
+                                    handlePointerDown={handlePointerDown} 
+                                    handlePointerMove={handlePointerMove} 
+                                    handlePointerUp={handlePointerUp}
+                                    dragX={dragX}
+                                    draggingMessage={draggingMessage}
+                                />
                             ))}
+                                    {replyingTo && (
+                                        <div className="mx-3 mb-1 rounded-xl border border-gray-200 bg-white shadow-sm">
 
-                            {loadingNewMessage && (
-                                <div className="text-xs text-gray-400 animate-pulse">
-                                    {t('loading')}
-                                </div>
-                            )}
+                                            <div className="flex items-center gap-3 px-3 py-2">
 
-                            <div ref={messagesEndRef} />
+                                                {/* Barre verticale */}
+                                                <div className="w-1 self-stretch min-h-[42px] rounded-full bg-indigo-500" />
+
+                                                {/* Contenu du message ciblé */}
+                                                <div className="flex-1 min-w-0">
+
+                                                    <div className="text-xs font-semibold text-indigo-500">
+                                                        Répondre à
+                                                    </div>
+
+                                                    <div className="text-sm text-gray-700 truncate">
+                                                        {replyingTo.text || "Message"}
+                                                    </div>
+
+                                                </div>
+
+                                                {/* Fermer */}
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setReplyingTo(null)}
+                                                    className="flex-shrink-0 w-7 h-7 rounded-full
+                                                       flex items-center justify-center
+                                                       text-gray-400 hover:text-gray-700
+                                                       hover:bg-gray-100
+                                                    "
+                                                >
+                                                    ×
+                                                </button>
+
+                                            </div>
+
+                                        </div>
+                                    )}
+                                    {loadingNewMessage && (
+                                        <div className="text-xs text-gray-400 animate-pulse">
+                                            {t('loading')}
+                                        </div>
+                                    )}
+
+                                   <div ref={messagesEndRef} />
                         </div>
                     )}
                 </div>
 
-                {/* INPUT */}
                 <footer className="chat-footer flex-shrink-0 relative">
+
+                
 
                     <InputBoxChat
                         disabled={!selectedUser}

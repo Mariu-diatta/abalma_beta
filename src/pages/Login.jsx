@@ -13,7 +13,7 @@ import { Capacitor } from "@capacitor/core";
 import InputBox from "../components/InputBoxFloat";
 import LoadingCard from "../components/LoardingSpin";
 import TitleCompGen from "../components/TitleComponentGen";
-import FacebookLogin from "./LoginWithFacebook";
+//import FacebookLogin from "./LoginWithFacebook";
 
 const LogIn = ({ callbackState, onClose }) => {
 
@@ -168,7 +168,7 @@ const LogIn = ({ callbackState, onClose }) => {
                             </div>
 
                             {/* GOOGLE */}
-                            <div className="flex flex-col justify-center items-center md:flex-row md:justify-between gap-3 md:gap-1 bg-gray-50/70 border border-gray-100 rounded-2xl p-3">
+                            <div className="flex flex-col justify-center items-center md:flex-row md:justify-center gap-3 md:gap-1 bg-gray-50/70 border border-gray-100 rounded-2xl p-3">
 
                                 {
                                     Capacitor.isNativePlatform()
@@ -185,7 +185,7 @@ const LogIn = ({ callbackState, onClose }) => {
                                         </GoogleOAuthProvider>
                                 }
 
-                                <FacebookLogin />
+                                {/* <FacebookLogin />*/}
 
                             </div>
 
