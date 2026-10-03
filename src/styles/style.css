@@ -4013,9 +4013,7 @@ forget password`*/
 
 .sc-grand-value {
     font-size: 1.1rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
-    color: transparent;
+    font-weight: 800;    
     letter-spacing: -.02em;
 }
 

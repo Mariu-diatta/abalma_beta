@@ -83,7 +83,7 @@ const MessageBubble = ({ msg,  handlePointerDown,  handlePointerMove, handlePoin
             >    
                 <div
                     className={`flex flex-col mb-1.5  w-auto max-w-[50%] sm:max-w-[50%] px-3.5 py-2 text-sm leading-relaxed shadow-sm break-words ${ISFORCURRENTUSER
-                        ? "bg-indigo-500 text-white rounded-full rounded-br-sm "
+                        ? "bg-indigo-300 text-white rounded-full rounded-br-sm "
                         : "bg-gray-100 text-gray-800 rounded-full rounded-bl-sm"
                     }`}
                 >
@@ -104,7 +104,9 @@ const MessageBubble = ({ msg,  handlePointerDown,  handlePointerMove, handlePoin
 
                     {msg?.replyTo ? (
                         <nav
-                            className="bg-gray-300 rounded-full rounded-br-sm p-2 flex flex-col cursor-pointer"
+                            className={`p-2 flex flex-col cursor-pointer 
+                                ${ISFORCURRENTUSER ?
+                                "text-white/70 text-[10px] bg-gray-300 rounded-full rounded-bl-sm" : "text-gray-400 rounded-full rounded-br-sm bg-indigo-300"}`}
                             onPointerDown={(e) => e.stopPropagation()}
                             onClick={scrollToOriginal}
                         >
