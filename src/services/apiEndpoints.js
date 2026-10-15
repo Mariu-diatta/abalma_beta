@@ -145,6 +145,7 @@ export const API_ENDPOINTS = {
         AI_ANALYSE_LIST: 'ai-analyse-chat/',
         AI_ANALYSE_DETAIL: (id) => `ai-analyse-chat/${id}/`,
         AI_ANALYSE_DELETE: (id) => `ai-analyse-chat/${id}/`,
+        AI_ANALYSIS: '/chat/ai-analysis/',
     },
 
     // ---------------------------------------------------------------

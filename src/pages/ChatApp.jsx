@@ -10,7 +10,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import ButtonToggleChatsPanel from '../components/ButtonHandleChatsPanel';
 import InputBoxChat from '../components/InputBoxChat';
 import { useTranslation } from 'react-i18next';
-import { backendBase } from '../services/Axios';
+import api, { backendBase } from '../services/Axios';
+import { API_ENDPOINTS } from '../services/apiEndpoints';
 import { ENDPOINTS, IMPORTANTS_URLS, getMediaUrl } from '../utils';
 import { setCurrentNav } from '../slices/navigateSlice';
 import { Users, Search, Bell, MoreHorizontal, FileText, Download } from 'lucide-react';
@@ -19,7 +20,7 @@ import {
     addChatMessage,
     confirmPendingMessage,
 } from '../slices/chatSlice';
-import { Video, Phone, Info } from 'lucide-react';
+import { Video, Phone, Info, Sparkles, X, Package } from 'lucide-react';
 
 import MessageBubble from '../features/MessageBoxChat';
 
@@ -46,6 +47,11 @@ const ChatApp = ({ setShow, show }) => {
     const [wsStatus, setWsStatus] = useState('idle'); // idle | connected | error
     const [loadingNewMessage, setLoadingNewMessage] = useState(false);
     const [showInfo, setShowInfo] = useState(false); // panneau profil à droite
+    const [aiBusy, setAiBusy] = useState(false);
+    const [aiError, setAiError] = useState('');
+    const [aiAnalysis, setAiAnalysis] = useState(null);
+    const [aiProducts, setAiProducts] = useState([]);
+    const [showAiPanel, setShowAiPanel] = useState(false);
     const [replyingTo, setReplyingTo] = useState(null);
     const [draggingMessage, setDraggingMessage] = useState(null);
     const [dragX, setDragX] = useState(0);
@@ -56,10 +62,53 @@ const ChatApp = ({ setShow, show }) => {
     });
 
 
+    const runChatAI = useCallback(async (mode = 'analysis') => {
+        if (!currentRoomChat?.pk) {
+            setAiError('La discussion doit être chargée avant de lancer l’analyse.');
+            return;
+        }
+        setAiBusy(true);
+        setAiError('');
+        try {
+            const { data } = await api.post(API_ENDPOINTS.CHAT.AI_ANALYSIS, {
+                room_id: currentRoomChat.pk,
+                mode,
+            });
+            setAiProducts(data.products || []);
+            if (mode === 'analysis') setAiAnalysis(data);
+            setShowAiPanel(true);
+        } catch (error) {
+            setAiError(error?.response?.data?.detail || "Impossible d’analyser cette discussion. Réessayez.");
+            setShowAiPanel(true);
+        } finally {
+            setAiBusy(false);
+        }
+    }, [currentRoomChat?.pk]);
+
+    useEffect(() => {
+        setAiAnalysis(null);
+        setAiProducts([]);
+        setAiError('');
+        setShowAiPanel(false);
+        if (currentRoomChat?.pk) runChatAI('suggestions');
+    }, [currentRoomChat?.pk, runChatAI]);
+
     // ─── Messages memo ───
     const messages = useMemo(() => {
         return currentRoomChat?.messages ?? [];
     }, [currentRoomChat]);
+
+    const lastSuggestionCountRef = useRef(0);
+    useEffect(() => {
+        if (!currentRoomChat?.pk) {
+            lastSuggestionCountRef.current = 0;
+            return;
+        }
+        if (messages.length > 0 && messages.length !== lastSuggestionCountRef.current) {
+            lastSuggestionCountRef.current = messages.length;
+            runChatAI('suggestions');
+        }
+    }, [messages.length, currentRoomChat?.pk, runChatAI]);
 
     const handlePointerDown = (e, message) => {
 
@@ -342,6 +391,15 @@ const ChatApp = ({ setShow, show }) => {
                         {selectedUser && (
                             <>
                                 <button
+                                    onClick={() => runChatAI('analysis')}
+                                    disabled={aiBusy || !currentRoomChat?.pk}
+                                    title="Analyser la discussion avec l’IA"
+                                    className="inline-flex items-center gap-1.5 rounded-full bg-violet-100 px-3 py-2 text-xs font-semibold text-violet-700 hover:bg-violet-200 disabled:opacity-50"
+                                >
+                                    <Sparkles size={15} />
+                                    {aiBusy ? 'Analyse…' : 'Analyse IA'}
+                                </button>
+                                <button
                                     className="w-9 h-9 rounded-full bg-indigo-50 text-indigo-500 flex items-center justify-center hover:bg-indigo-100 transition-colors"
                                     aria-label={t('video_call')}
                                 >
@@ -383,6 +441,31 @@ const ChatApp = ({ setShow, show }) => {
                     />
                     {wsStatus === 'connected' ? t('connected') : wsStatus === 'error' ? t('connection_error') : t('connecting')}
                 </div>
+
+                {showAiPanel && selectedUser && (
+                    <section className="mx-3 mt-2 max-h-64 flex-shrink-0 overflow-y-auto rounded-xl border border-violet-200 bg-violet-50 p-3 text-sm">
+                        <div className="mb-2 flex items-center justify-between">
+                            <div className="flex items-center gap-2 font-semibold text-violet-900"><Sparkles size={16}/> Assistant commercial IA</div>
+                            <button onClick={() => setShowAiPanel(false)} aria-label="Fermer"><X size={16}/></button>
+                        </div>
+                        {aiBusy && <p className="text-violet-700">Analyse de la discussion et recherche d’articles…</p>}
+                        {aiError && <p className="text-red-600">{aiError}</p>}
+                        {aiAnalysis && <div className="space-y-2 text-gray-700">
+                            <p><strong>Résumé :</strong> {aiAnalysis.resume}</p>
+                            <p><strong>Conseils au fournisseur :</strong> {aiAnalysis.advise}</p>
+                            <p><strong>Prochaines actions :</strong> {aiAnalysis.directive}</p>
+                        </div>}
+                        {aiProducts.length > 0 && <div className="mt-3 border-t border-violet-200 pt-2">
+                            <p className="mb-2 flex items-center gap-1 font-semibold text-violet-900"><Package size={15}/> Articles susceptibles d’intéresser</p>
+                            <div className="flex flex-wrap gap-2">
+                                {aiProducts.map((product) => <a key={product.id} href={`/all-products?product=${product.id}`} className="rounded-lg border border-violet-200 bg-white px-3 py-2 text-xs hover:border-violet-400">
+                                    <span className="font-semibold">{product.name}</span>{product.description ? <span className="ml-1 text-gray-500">— {product.description.slice(0, 90)}</span> : null}
+                                </a>)}
+                            </div>
+                        </div>}
+                        {!aiBusy && !aiError && !aiAnalysis && aiProducts.length === 0 && <p className="text-gray-500">Aucun article correspondant trouvé pour le moment.</p>}
+                    </section>
+                )}
 
                 {/* MESSAGES */}
                 <div className="flex-1 overflow-y-auto px-3 scrollbor_hidden py-[12dvh] relative overflow-x-hidden">
