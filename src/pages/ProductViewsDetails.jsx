@@ -137,19 +137,26 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
         () => {
 
             const fetchProducts = async () => {
+                if (!product?.id) {
+                    setSameProductCategory([]);
+                    return;
+                }
                 try {
-                    const { products } = await getProducts(product?.categorie_product);
+                    // passe le nom de catégorie (string) pour éviter les erreurs si c'est un objet
+                    const cat = product?.categorie_product;
+                    const { products } = await getProducts(cat);
 
-                    setSameProductCategory(products);
+                    setSameProductCategory(Array.isArray(products) ? products : []);
 
                 } catch (error) {
                     console.error(error);
+                    setSameProductCategory([]);
                 }
             };
 
-            fetchProducts()
+            fetchProducts();
 
-        }, [product]
+        }, [product?.id, product?.categorie_product]
     )
 
     // ⚠️ Correction : il y avait deux useEffect quasi identiques qui faisaient
@@ -588,42 +595,43 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                         </div>
                     </div>
 
-                    {sameProductCategory?.length > 0 && (
-                        <div className="mt-8 md:hidden">
+                    {sameProductCategory?.length > 1 && (
+                        <div className="mt-6 mb-2 px-1">
 
                             {/* Séparateur */}
-                            <div className="flex items-center gap-4 mb-5">
+                            <div className="flex items-center gap-4 mb-4">
                                 <div className="flex-1 h-px bg-gray-200" />
-                                <span className="text-sm font-semibold text-gray-500 uppercase tracking-wider">
-                                    {t("same_category_products")}
+                                <span className="text-sm font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">
+                                    {t("same_category_products") || "Autres produits"}
                                 </span>
                                 <div className="flex-1 h-px bg-gray-200" />
                             </div>
 
-                            {/* Liste */}
+                            {/* Liste horizontale – visible mobile + desktop */}
                             <div className="relative">
-
-
-                                {/* Mobile */}
                                 <div
                                     className="
                                         flex
+                                        gap-3
                                         overflow-x-auto
                                         snap-x
                                         snap-mandatory
-                                        scrollbar-hidden   
+                                        scrollbar-hidden
+                                        pb-2
+                                        px-1
                                     "
                                 >
-
-                                    {sameProductCategory.map((prod) => (
-
+                                    {sameProductCategory
+                                        .filter((prod) => prod.id !== product?.id)
+                                        .map((prod) => (
                                         <div
                                             key={prod.id}
                                             className="
-                                                snap-center
-                                                min-w-full
-                                                lg:min-w-0
-                                                lg:w-auto
+                                                snap-start
+                                                flex-shrink-0
+                                                w-28
+                                                sm:w-32
+                                                md:w-36
                                                 group
                                                 rounded-xl
                                                 border
@@ -633,36 +641,43 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                                                 hover:shadow-md
                                                 hover:border-indigo-200
                                                 transition-all
+                                                cursor-pointer
                                             "
-                                            onClick={() => dispatch(updateSelectedProduct(prod))}
+                                            onClick={() => {
+                                                dispatch(updateSelectedProduct(prod));
+                                                setMediaIndex(0);
+                                                setIndex(0);
+                                            }}
                                         >
-
                                             <img
-                                                onClick={() => dispatch(updateSelectedProduct(prod))}
-                                                src={getMediaUrl(prod?.variants?.[0]?.image)}
+                                                src={getMediaUrl(prod?.variants?.[0]?.image || prod?.image_product)}
                                                 alt={prod?.name_product || "Produit"}
                                                 loading="lazy"
                                                 className="
-                                                w-full
-                                                h-28
-                                                object-contain
-                                                transition-transform
-                                                duration-300
-                                                group-hover:scale-110
-                                                cursor-pointer
-                                            "
-
+                                                    w-full
+                                                    h-24
+                                                    sm:h-28
+                                                    object-contain
+                                                    rounded-t-xl
+                                                    transition-transform
+                                                    duration-300
+                                                    group-hover:scale-105
+                                                "
                                             />
-
+                                            <div className="p-2 text-center">
+                                                <p className="text-xs font-medium text-gray-800 truncate">
+                                                    {prod?.name_product || "-"}
+                                                </p>
+                                                {prod?.price_product && (
+                                                    <p className="text-[11px] text-indigo-600 font-semibold mt-0.5">
+                                                        {prod.price_product} {prod?.currency_price || ""}
+                                                    </p>
+                                                )}
+                                            </div>
                                         </div>
-
                                     ))}
-
                                 </div>
-
                             </div>
-
-
                         </div>
                     )}
 

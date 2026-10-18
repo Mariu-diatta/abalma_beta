@@ -111,9 +111,16 @@ export const formatRelativeDate = (dateString) => {
 
 export const getProducts = async (category) => {
 
+    // category peut être une string OU un objet { name, id, ... }
+    const categoryValue = typeof category === "object" && category !== null
+        ? (category.name || category.categorie_product || category.id || "")
+        : (category || "");
+
+    const categoryStr = String(categoryValue).trim();
+
     const isDefaultCategory =
-        !category ||
-        category === CONSTANTS?.ALL?.toLowerCase();
+        !categoryStr ||
+        categoryStr.toLowerCase() === (CONSTANTS?.ALL || "all").toLowerCase();
 
     const url = isDefaultCategory
         ? "produits/"
@@ -123,7 +130,7 @@ export const getProducts = async (category) => {
 
         const { data: response } = await api.get(url, {
             params: {
-                product_categorie: category?.toUpperCase(),
+                product_categorie: categoryStr.toUpperCase(),
             },
         });
 
