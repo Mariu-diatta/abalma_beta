@@ -442,7 +442,7 @@ export const productViews = async (dataProduct, setProductNbViews) => {
 
     try {
         const response = await api.post(
-            API_ENDPOINTS.PRODUCTS.RECORD_VIEW(dataProduct.id),
+            API_ENDPOINTS.PRODUCTS.RECORD_VIEW(dataProduct?.id),
             {},
             { withCredentials: true }
         );
