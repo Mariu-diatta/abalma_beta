@@ -10,13 +10,13 @@ import PrintNumberStars from "../components/SystemStar";
 import RendrePrixProduitMonnaie from "../features/ConvertCurrency";
 import TextParagraphs from "../components/TextToParagraph";
 import ProfilPopPov from "../features/PopovProfile";
-//import api from "../services/Axios";
-//import { API_ENDPOINTS } from "../services/apiEndpoints";
+import api from "../services/Axios";
+import { API_ENDPOINTS } from "../services/apiEndpoints";
 // Assets
 import express_delivery from "../../src/assets/express-delivery_1981844.png";
 import home_5657414 from "../../src/assets/home-address_12248895.png";
 import pay_8331969 from "../../src/assets/pay_8331969.png";
-import { getMediaUrl, getProducts, productViews } from "../utils";
+import { getMediaUrl, getProducts } from "../utils";
 import { addToCart, updateSelectedProduct } from "../slices/cartSlice";
 import LikeButton from "../components/LikeButton";
 
@@ -26,8 +26,6 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
     const [selectedColor, setSelectedColor] = useState(null);
     const [index, setIndex] = useState(0);
     const product = useSelector(state => state.cart.selectedProductView);
-    const currentUser = useSelector(state => state.auth.user);
-    const viewRecordedFor = React.useRef(null);
 
     const variantsProduct = product?.variants || [];
     const medias = [
@@ -114,22 +112,6 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
     };
 
     useEffect(() => {
-        if (!isOpen || !product?.id || !currentUser) return;
-        if (viewRecordedFor.current === product.id) return;
-    
-        viewRecordedFor.current = product.id;
-    
-        productViews(product).catch(() => {});
-    }, [isOpen, product?.id, currentUser]);
-    
-    // quand le modal se ferme, reset la ref :
-    useEffect(() => {
-        if (!isOpen) {
-            viewRecordedFor.current = null;
-        }
-    }, [isOpen]);
-    
-    useEffect(() => {
 
         if (isOpen) {
 
@@ -150,6 +132,29 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
 
 
     }, [isOpen]);
+
+    // Enregistre la consultation côté serveur (GET products_details/<id>/ crée la
+    // vue et incrémente view_count) puis met à jour le compteur affiché.
+    useEffect(() => {
+        if (!isOpen || !product?.id) return;
+
+        let cancelled = false;
+
+        (async () => {
+            try {
+                const { data } = await api.get(API_ENDPOINTS.PRODUCTS.DETAILS(product.id));
+                if (cancelled || data?.id !== product.id) return;
+                if (typeof data.view_count === "number" && data.view_count !== product.view_count) {
+                    dispatch(updateSelectedProduct({ ...product, view_count: data.view_count }));
+                }
+            } catch (error) {
+                console.error("Erreur enregistrement de la vue :", error);
+            }
+        })();
+
+        return () => { cancelled = true; };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isOpen, product?.id]);
 
     useEffect(
         () => {

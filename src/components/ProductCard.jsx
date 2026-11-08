@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useRef, lazy } from "react";
+import React, { useEffect, useState, useMemo, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useTranslation } from 'react-i18next';
 import { Eye, ImageOff, ShoppingBag, PlayCircle } from "lucide-react"; // Utilisation de Lucide pour plus de finesse
@@ -8,8 +8,7 @@ import { addMessageNotif } from "../slices/chatSlice";
 import { addToCart } from "../slices/cartSlice";
 import { getMediaUrl } from "../utils";
 import LikeButton from "./LikeButton";
-
-const PrintNumberStars = lazy(() => import("./SystemStar"));
+import PrintNumberStars from "./SystemStar";
 
 const IMAGE_SLIDE_DELAY = 3500; // ms, inchangé par rapport à l'original
 
@@ -250,7 +249,7 @@ const ProductCard = ({ item, isInCart, owner, openModal }) => {
                         </span>
                     </div>
 
-                    <div className="scale-90 origin-right shrink-0">
+                    <div className="shrink-0 ml-2">
                         <PrintNumberStars productNbViews={item?.view_count} t={t} />
                     </div>
 

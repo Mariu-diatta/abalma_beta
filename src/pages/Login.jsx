@@ -62,13 +62,13 @@ const LogIn = ({ callbackState, onClose }) => {
     return createPortal(
 
         <div
-            className=" fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 scrollbar-hidden"
+            className=" fixed inset-0 z-[9999] flex items-start sm:items-center justify-center bg-black/50 backdrop-blur-sm p-4 overflow-y-auto overscroll-contain"
             onClick={handleBackdropClick}
         >
 
             <AttentionAlertMessage />
 
-            <div className="scrollbor_hidden relative w-full max-w-[550px] max-h-[90vh] bg-white dark:bg-dark-2 rounded-3xl shadow-2xl ring-1 ring-black/5 overflow-hidden animate-in zoom-in-95 duration-300 scrollbar-hidden">
+            <div className="scrollbor_hidden relative w-full max-w-[550px] my-auto max-h-[90dvh] overflow-y-auto overscroll-contain bg-white dark:bg-dark-2 rounded-3xl shadow-2xl ring-1 ring-black/5 animate-in zoom-in-95 duration-300">
 
                 {/* Liseré décoratif premium */}
                 <div className="h-1.5 w-full bg-gradient-to-r from-indigo-500 via-violet-500 to-purple-500 rounded-t-3xl" />

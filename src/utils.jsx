@@ -430,50 +430,23 @@ export const recordUnfollowUser = async (clientId) => {
     try { await api.post(API_ENDPOINTS.CLIENTS.UNFOLLOW(clientId), { withCredentials: true }); } catch { }
 };
 
-/**
- * Enregistre une vue produit (unique par utilisateur connecté).
- * POST /products/{id}/view/
- * Backend : si pas encore vu → crée l'entrée + incrémente view_count
- */
 export const productViews = async (dataProduct, setProductNbViews) => {
-    if (!dataProduct?.id) {
-        return { counted: false, view_count: dataProduct?.view_count ?? 0 };
-    }
+    // ✅ Vérification sécurisée des paramètres
+    if (!dataProduct?.id || typeof setProductNbViews !== "function") return 0;
 
     try {
-        const response = await api.post(
-            API_ENDPOINTS.PRODUCTS.RECORD_VIEW(dataProduct?.id),
-            {},
-            { withCredentials: true }
-        );
 
-        const viewCount =
-            response?.data?.view_count ??
-            response?.data?.total_views ??
-            dataProduct?.view_count ??
-            0;
+        const response = await api.get(API_ENDPOINTS.PRODUCTS.DETAILS_SLASH(dataProduct.id));
 
-        const counted = Boolean(
-            response?.data?.counted ?? response?.data?.created
-        );
+        const totalViews = response?.data?.view_count ?? 0;
 
-        if (typeof setProductNbViews === "function") {
-            setProductNbViews(viewCount);
-        }
+        // ✅ Mise à jour de l’état si possible
+        setProductNbViews(totalViews);
 
-        return { counted, view_count: viewCount };
+        return 1; // succès
     } catch (error) {
-        // 401 = non connecté → on n'incrémente pas
-        if (error?.response?.status !== 401) {
-            console.error(
-                "❌ Erreur enregistrement vue :",
-                error?.response?.data || error.message
-            );
-        }
-        return {
-            counted: false,
-            view_count: dataProduct?.view_count ?? 0,
-        };
+        console.error("❌ Erreur lors du chargement du produit :", error.message || error);
+        return 0; // échec
     }
 };
 
