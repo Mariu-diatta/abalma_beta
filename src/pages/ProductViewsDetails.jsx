@@ -16,7 +16,7 @@ import ProfilPopPov from "../features/PopovProfile";
 import express_delivery from "../../src/assets/express-delivery_1981844.png";
 import home_5657414 from "../../src/assets/home-address_12248895.png";
 import pay_8331969 from "../../src/assets/pay_8331969.png";
-import { getMediaUrl, getProducts } from "../utils";
+import { getMediaUrl, getProducts, productViews } from "../utils";
 import { addToCart, updateSelectedProduct } from "../slices/cartSlice";
 import LikeButton from "../components/LikeButton";
 
@@ -26,6 +26,8 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
     const [selectedColor, setSelectedColor] = useState(null);
     const [index, setIndex] = useState(0);
     const product = useSelector(state => state.cart.selectedProductView);
+    const currentUser = useSelector(state => state.auth.user);
+    const viewRecordedFor = React.useRef(null);
 
     const variantsProduct = product?.variants || [];
     const medias = [
@@ -111,6 +113,22 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
         setIndex(0);
     };
 
+    useEffect(() => {
+        if (!isOpen || !product?.id || !currentUser) return;
+        if (viewRecordedFor.current === product.id) return;
+    
+        viewRecordedFor.current = product.id;
+    
+        productViews(product).catch(() => {});
+    }, [isOpen, product?.id, currentUser]);
+    
+    // quand le modal se ferme, reset la ref :
+    useEffect(() => {
+        if (!isOpen) {
+            viewRecordedFor.current = null;
+        }
+    }, [isOpen]);
+    
     useEffect(() => {
 
         if (isOpen) {
