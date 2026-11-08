@@ -57,7 +57,7 @@ export const API_ENDPOINTS = {
     // RECORD THE VIEW
     // ---------------------------------------------------------------
     
-    RECORD_VIEW: (id) => `products/${id}/view/`
+    RECORD_VIEW: (id) => `products/${id}/view/`,
         
     // ---------------------------------------------------------------
     // LIKE
