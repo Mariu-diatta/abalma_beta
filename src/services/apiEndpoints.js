@@ -51,10 +51,14 @@ export async function toggleLike(contentTypeName, objectId) {
     }
 }
 
-export const RECORD_VIEW: (id) => `products/${id}/view/`
-
 export const API_ENDPOINTS = {
 
+    // ---------------------------------------------------------------
+    // RECORD THE VIEW
+    // ---------------------------------------------------------------
+    
+    RECORD_VIEW: (id) => `products/${id}/view/`
+        
     // ---------------------------------------------------------------
     // LIKE
     // ---------------------------------------------------------------
