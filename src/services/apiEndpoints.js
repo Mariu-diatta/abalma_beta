@@ -199,6 +199,24 @@ export const API_ENDPOINTS = {
     },
 
     // ---------------------------------------------------------------
+    // NOTIFICATIONS PUSH
+    // ---------------------------------------------------------------
+    PUSH: {
+        PUBLIC_KEY: 'push/public-key/',
+        STATUS: 'push/status/',
+        SUBSCRIBE: 'push/subscribe/',
+        UNSUBSCRIBE: 'push/unsubscribe/',
+        TEST: 'push/test/',
+    },
+
+    // ---------------------------------------------------------------
+    // TABLEAU DE BORD
+    // ---------------------------------------------------------------
+    DASHBOARD: {
+        SUMMARY: 'dashboard/summary/',
+    },
+
+    // ---------------------------------------------------------------
     // FOURNISSEUR / COMPTE PRO
     // ---------------------------------------------------------------
     SUPPLIER: {

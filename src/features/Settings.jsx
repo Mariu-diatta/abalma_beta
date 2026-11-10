@@ -7,6 +7,7 @@ import { CONSTANTS, NAV_ITEMS, applyTheme, getMediaUrl } from '../utils';
 import TitleCompGen, { TitleCompGenLitle } from '../components/TitleComponentGen';
 import DeleteProfilAccount from './DeleteAccount';
 import NotificationToggle from '../components/NotificationToggle';
+import PushNotificationsCard from '../components/PushNotificationsCard';
 import ThemeSelector from '../components/Them';
 import SubscriptionsPage from '../pages/SubscriptionCard';
 import AttentionAlertMessage, { showMessage } from '../components/AlertMessage';
@@ -359,6 +360,11 @@ const SettingsForm = () => {
     };
 
     useEffect(() => { if (currentUserData?.id) GetClientCard(); }, [currentUserData?.id, GetClientCard]);
+    useEffect(() => {
+        if (typeof currentUserCompte?.is_notif_active === 'boolean') {
+            setForm((prev) => ({ ...prev, notifications: currentUserCompte.is_notif_active }));
+        }
+    }, [currentUserCompte?.is_notif_active]);
     useEffect(() => () => { if (previewUrl) URL.revokeObjectURL(previewUrl); }, [previewUrl]);
     useEffect(() => {
         if (cartData) {
@@ -535,7 +541,7 @@ const SettingsForm = () => {
 
                         {/* ── Preferences ── */}
                         {activeSection === CONSTANTS?.PREFERENCES && (
-
+                            <>
                             <form onSubmit={handleSubmit}>
 
                                 <Section title={t('settingsText.preferences')}>
@@ -560,6 +566,14 @@ const SettingsForm = () => {
                                 </Section>
 
                             </form>
+
+                            <Section title={t('settingsText.pushTitle', 'Notifications push')}>
+                                <PushNotificationsCard
+                                    t={t}
+                                    onChange={(enabled) => setForm((prev) => ({ ...prev, notifications: enabled }))}
+                                />
+                            </Section>
+                            </>
                         )}
 
                         {/* ── Payment ── */}

@@ -10,7 +10,6 @@ import { MODE } from '../utils';
 import CashTransaction from './CashTransactions';
 import MesPublicites from './MyAdvertissement';
 import AfficheForm from './CreatFormPub';
-import { useSelector} from 'react-redux';
 import TitleCompGen from '../components/TitleComponentGen';
 import TestmonyCards from './TestmonyCards';
 
@@ -26,7 +25,6 @@ const TablesRecapActivities = ({
     const [pillStyle, setPillStyle] = useState({ left: 0, width: 0 });
     const [selectedAd, setSelectedAd] = useState(null);
 
-    const currentUser = useSelector(state => state.auth.user);
     const navRef = useRef(null);
     const btnRefs = useRef([]);
 
@@ -121,44 +119,22 @@ const TablesRecapActivities = ({
     };
 
     // ── Stats rapides ──
+    // Chiffres calculés côté serveur et propres à l'utilisateur. Avant, « Mes produits »
+    // affichait le nombre de produits de TOUT le catalogue et « Mes ventes » restait à 0
+    // tant que l'onglet n'avait pas été ouvert.
     const [stats, setStats] = useState(null);
 
     useEffect(() => {
+        let cancelled = false;
 
-        const bought =
-            productsTrasactionBought?.filter(transaction =>
-                transaction.items?.some(
-                    item => item.fournisseur?.id !== currentUser.id
-                )
-            ).length ?? 0;
-
-        const sold =
-            productsTrasactionSell?.filter(transaction =>
-                transaction.items?.some(
-                    item => item.fournisseur?.id === currentUser.id
-                )
-            ).length ?? 0;
-
-        api.get(API_ENDPOINTS.PRODUCTS.LIST)
-            .then(({ data }) => {
-                setStats({
-                    products: Array.isArray(data)
-                        ? data.length
-                        : (data?.count ?? data?.results?.length ?? 0),
-                    bought,
-                    sold,
-                });
-                console.log("Les données de la ", data)
-            })
+        api.get(API_ENDPOINTS.DASHBOARD.SUMMARY)
+            .then(({ data }) => { if (!cancelled) setStats(data); })
             .catch(() => {
-                setStats({
-                    products: 0,
-                    bought,
-                    sold,
-                });
+                if (!cancelled) setStats({ bought: 0, sold: 0, products: 0, parcels: { in_transit: 0 } });
             });
 
-    }, [productsTrasactionBought, productsTrasactionSell, currentUser]);
+        return () => { cancelled = true; };
+    }, [activeTab]);
 
     return (
         <>
@@ -214,12 +190,12 @@ const TablesRecapActivities = ({
 
                     <div className="dash-stat-card">
                         <div className="dash-stat-icon">
-                            <p style={{ background: '#eff6ff' }}>⭐</p>
-                            <div className="dash-stat-value">—</div>
+                            <p style={{ background: '#eff6ff' }}>🚚</p>
+                            <div className="dash-stat-value">{stats?.parcels?.in_transit ?? '—'}</div>
 
                         </div>
                         <div>
-                            <div className="dash-stat-label">{t("avis_reçus")}</div>
+                            <div className="dash-stat-label">{t('Dashboard.parcelsInTransit', 'Colis en transit')}</div>
                         </div>
                     </div>
                 </div>

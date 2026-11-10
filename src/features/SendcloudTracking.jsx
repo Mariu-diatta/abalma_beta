@@ -57,6 +57,7 @@ const IconCopy = () => (
 
 // ─── Statuts Sendcloud ────────────────────────────────────────────────────────
 const STATUS_CONFIG = {
+    'Processing':        { label: 'En préparation', color: '#64748b', bg: '#f1f5f9', step: 0 },
     'Announced':         { label: 'Annoncé',        color: '#6366f1', bg: '#eef2ff', step: 1 },
     'At sorting center': { label: 'Centre de tri',   color: '#f59e0b', bg: '#fffbeb', step: 2 },
     'In transit':        { label: 'En transit',      color: '#3b82f6', bg: '#eff6ff', step: 3 },
@@ -130,6 +131,15 @@ const TimelineEvent = ({ event, isLast }) => {
 };
 
 // ─── Result card ──────────────────────────────────────────────────────────────
+const parseAddress = (raw) => {
+    try {
+        const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
+        return parsed?.city || parsed?.adresse || '';
+    } catch {
+        return typeof raw === 'string' ? raw : '';
+    }
+};
+
 const TrackingResult = ({ data }) => {
 
     const [copied, setCopied] = useState(false);
@@ -215,12 +225,23 @@ const TrackingResult = ({ data }) => {
                         </div>
                     </div>
                 )}
+                {data.tracking_url && (
+                    <div className="sc-info-item">
+                        <span className="sc-info-icon">🔗</span>
+                        <div>
+                            <p className="sc-info-label">{t('tracking_link', 'Suivi transporteur')}</p>
+                            <a className="sc-info-value underline" href={data.tracking_url} target="_blank" rel="noopener noreferrer">
+                                {t('tracking_open', 'Ouvrir le suivi')}
+                            </a>
+                        </div>
+                    </div>
+                )}
                 {data.address && (
                     <div className="sc-info-item">
                         <span className="sc-info-icon">📍</span>
                         <div>
                             <p className="sc-info-label">{t("destination")}</p>
-                            <p className="sc-info-value">{JSON.parse(data.address).city || JSON.parse(data.address).adresse}</p>
+                            <p className="sc-info-value">{parseAddress(data.address)}</p>
                         </div>
                     </div>
                 )}
@@ -241,81 +262,162 @@ const TrackingResult = ({ data }) => {
     );
 };
 
+// ─── Liste des commandes (acheteur ou vendeur) ────────────────────────────────
+const CommandesList = ({ onSelect, selectedId }) => {
+    const { t } = useTranslation();
+    const [commandes, setCommandes] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [failed, setFailed] = useState(false);
+
+    useEffect(() => {
+        let cancelled = false;
+
+        api.get(API_ENDPOINTS.DELIVERY.COMMANDES)
+            .then(({ data }) => { if (!cancelled) setCommandes(data?.commandes ?? []); })
+            .catch(() => { if (!cancelled) setFailed(true); })
+            .finally(() => { if (!cancelled) setLoading(false); });
+
+        return () => { cancelled = true; };
+    }, []);
+
+    if (loading) return <Skeleton h={120} r={12} style={{ marginTop: 24 }} />;
+
+    return (
+        <section className="mt-8">
+            <TitleCompGenLitle title={t('tracking_orders_title', 'Mes commandes')} />
+
+            {failed && (
+                <p className="mt-3 text-sm text-red-500">
+                    {t('tracking_orders_error', 'Impossible de charger vos commandes.')}
+                </p>
+            )}
+
+            {!failed && commandes.length === 0 && (
+                <p className="mt-3 text-sm text-gray-500">
+                    {t('tracking_orders_empty', 'Aucune commande pour le moment.')}
+                </p>
+            )}
+
+            {commandes.length > 0 && (
+                <div className="mt-3 overflow-x-auto rounded-xl border border-gray-200 bg-white">
+                    <table className="w-full text-sm text-left">
+                        <thead className="bg-gray-50 text-xs uppercase tracking-wide text-gray-500">
+                            <tr>
+                                <th className="p-3">{t('tracking_col_order', 'Commande')}</th>
+                                <th className="p-3">{t('tracking_col_client', 'Client')}</th>
+                                <th className="p-3">{t('tracking_col_status', 'Statut')}</th>
+                                <th className="p-3">{t('tracking_col_number', 'N° de suivi')}</th>
+                                <th className="p-3 text-center">{t('tracking_col_action', 'Action')}</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-100">
+                            {commandes.map((cmd) => {
+                                const cfg = STATUS_CONFIG[cmd.shipping_status] || STATUS_CONFIG.Processing;
+                                return (
+                                    <tr key={cmd.id} className={String(cmd.id) === String(selectedId) ? 'bg-indigo-50' : ''}>
+                                        <td className="p-3 font-semibold text-gray-800">
+                                            {cmd.numero}
+                                            <span className="ml-2 text-[11px] font-medium text-gray-400">
+                                                {cmd.role === 'seller' ? t('tracking_role_sale', 'Vente') : t('tracking_role_purchase', 'Achat')}
+                                            </span>
+                                        </td>
+                                        <td className="p-3 text-gray-600">{cmd.client_nom}</td>
+                                        <td className="p-3">
+                                            <span className="sc-status-badge" style={{ background: cfg.bg, color: cfg.color }}>
+                                                {cfg.label}
+                                            </span>
+                                        </td>
+                                        <td className="p-3 text-gray-600">
+                                            {cmd.tracking_number || (
+                                                <span className="text-xs text-amber-600">{t('tracking_pending', 'En attente')}</span>
+                                            )}
+                                        </td>
+                                        <td className="p-3 text-center">
+                                            <button
+                                                type="button"
+                                                className="rounded-full border border-indigo-200 px-3 py-1.5 text-xs font-medium text-indigo-600 hover:bg-indigo-50"
+                                                onClick={() => onSelect(cmd.id)}
+                                            >
+                                                {t('tracking_details', 'Voir détails')}
+                                            </button>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+            )}
+        </section>
+    );
+};
+
 // ─── Composant principal ──────────────────────────────────────────────────────
+const RECENT_KEY = 'sc_recent';
+const MAX_RECENT = 5;
+
+const readRecent = () => {
+    try {
+        const stored = JSON.parse(localStorage.getItem(RECENT_KEY) || '[]');
+        return Array.isArray(stored) ? stored.slice(0, MAX_RECENT) : [];
+    } catch {
+        return [];
+    }
+};
+
 const SendcloudTracking = () => {
     const { t } = useTranslation();
 
-    const [trackingNumber, setTrackingNumber] = useState('');
+    // La recherche se fait par identifiant de COMMANDE (route `commande/<id>/tracking/`).
+    // Avant, choisir une commande déjà expédiée remplaçait cet identifiant par le n° de
+    // suivi du transporteur, ce qui appelait une URL inexistante (404).
+    const [commandeId, setCommandeId] = useState('');
     const [result, setResult] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [selectedCommande, setSelectedCommande] = useState({});
-    const [recentSearches, setRecentSearches] = useState(() => {
-        try { return JSON.parse(localStorage.getItem('sc_recent') || '[]'); } catch { return []; }
-    });
+    const [recentSearches, setRecentSearches] = useState(readRecent);
 
-    useEffect(() => {
-        if (selectedCommande?.tracking_number) {
-            setTrackingNumber(selectedCommande.tracking_number);
-        }
-    }, [selectedCommande]);
+    const handleSearch = useCallback(async (id) => {
+        const target = String(id ?? '').trim();
+        if (!target) return;
 
-
-    useEffect(() => {
-        if (trackingNumber) {
-            setSelectedCommande({ "id": trackingNumber });
-        }
-    }, [trackingNumber]);
-
-    const handleSearch = useCallback(async () => {
-
-        if (!selectedCommande?.id) return;
-
+        setCommandeId(target);
         setLoading(true);
         setError(null);
         setResult(null);
 
         try {
-            const { data } = await api.get(API_ENDPOINTS.DELIVERY.TRACKING(selectedCommande?.id));
+            const { data } = await api.get(API_ENDPOINTS.DELIVERY.TRACKING(target));
             setResult(data);
 
-            // Sauvegarder dans l'historique récent
-            setRecentSearches(prev => {
-                const updated = 1
-                localStorage.setItem('sc_recent', selectedCommande?.id);
-                return updated;
+            setRecentSearches((prev) => {
+                const next = [target, ...prev.filter((n) => n !== target)].slice(0, MAX_RECENT);
+                try { localStorage.setItem(RECENT_KEY, JSON.stringify(next)); } catch { /* stockage indisponible */ }
+                return next;
             });
         } catch (err) {
             setError(
                 err?.response?.data?.detail ||
                 err?.response?.data?.message ||
-                'Numéro de suivi introuvable. Vérifiez et réessayez.'
+                t('tracking_not_found', 'Commande introuvable. Vérifiez le numéro et réessayez.')
             );
         } finally {
             setLoading(false);
         }
-    }, [selectedCommande]);
-
-    const handleKeyDown = (e) => {
-        if (e.key === 'Enter') handleSearch();
-    };
+    }, [t]);
 
     return (
-        <div className="sc-root px-1" style={{ paddingTop: "10dvh" }} >
+        <div className="sc-root px-1" style={{ paddingTop: '10dvh' }}>
 
             {/* Hero section */}
             <div className="sc-hero">
-
                 <div className="sc-hero-icon">
                     <IconTruck />
                 </div>
 
-                <TitleCompGen
-                    title={t("tracking_title")}
-                />
+                <TitleCompGen title={t('tracking_title')} />
 
-                <p className="sc-hero-sub">{t("tracking_subtitle")}</p>
-
+                <p className="sc-hero-sub">{t('tracking_subtitle')}</p>
             </div>
 
             {/* Search bar */}
@@ -324,33 +426,31 @@ const SendcloudTracking = () => {
                     <span className="sc-search-icon"><IconSearch /></span>
                     <input
                         type="text"
+                        inputMode="numeric"
                         className="sc-search-input"
-                        placeholder={`Ex: ${selectedCommande?.tracking_number || "2"}`}
-                        value={selectedCommande?.id}
-                        onChange={e => setTrackingNumber(e.target.value)}
-                        onKeyDown={handleKeyDown}
+                        placeholder="Ex: 12"
+                        value={commandeId}
+                        onChange={(e) => setCommandeId(e.target.value)}
+                        onKeyDown={(e) => { if (e.key === 'Enter') handleSearch(commandeId); }}
                         autoComplete="off"
                         spellCheck={false}
                     />
                     <button
+                        type="button"
                         className="sc-search-btn"
-                        onClick={(e) => handleSearch()}
+                        onClick={() => handleSearch(commandeId)}
                     >
-                        {loading ? (
-                            <span className="sc-spinner" />
-                        ) : (
-                            t("TableRecap.searchPlaceholder")
-                        )}
+                        {loading ? <span className="sc-spinner" /> : t('TableRecap.searchPlaceholder')}
                     </button>
                 </div>
 
                 {/* Recherches récentes */}
                 {recentSearches.length > 0 && !result && !loading && (
                     <div className="sc-recents">
-                        <p className="sc-recents-label">{t("recent")}</p>
+                        <p className="sc-recents-label">{t('recent')}</p>
                         <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                            {recentSearches.map((n, i) => (
-                                <button key={i} className="sc-recent-chip" onClick={() => { setTrackingNumber(n); handleSearch(n); }}>
+                            {recentSearches.map((n) => (
+                                <button key={n} type="button" className="sc-recent-chip" onClick={() => handleSearch(n)}>
                                     {n}
                                 </button>
                             ))}
@@ -375,100 +475,15 @@ const SendcloudTracking = () => {
                 {!result && !loading && !error && (
                     <div className="sc-empty-state">
                         <div className="sc-empty-icon border-0">📦</div>
-                        <TitleCompGenLitle title={t("tracking_empty_title")} />
-                        <p className="sc-empty-sub">{t("tracking_empty_subtitle")}</p>
+                        <TitleCompGenLitle title={t('tracking_empty_title')} />
+                        <p className="sc-empty-sub">{t('tracking_empty_subtitle')}</p>
                     </div>
                 )}
             </div>
 
-            <CommandesList setDataTracking={setSelectedCommande} />
-
+            <CommandesList onSelect={handleSearch} selectedId={commandeId} />
         </div>
     );
 };
 
 export default SendcloudTracking;
-
-
-const CommandesList = ({ setDataTracking }) => {
-
-    const [commandes, setCommandes] = useState([]);
-
-    const fetchCommandes = async () => {
-        try {
-            const response = await api.get(API_ENDPOINTS.DELIVERY.COMMANDES);
-
-            // ⚠️ si api.get = axios, pas besoin de .json()
-            const data = response.data;
-
-            setCommandes(data.commandes);
-        } catch (error) {
-            console.error("Erreur fetch commandes:", error);
-        }
-    };
-
-    const handleSelectCommande = (cmd) => {
-        setDataTracking({
-            id: cmd.id,
-            tracking_number: cmd.tracking_number,
-        })
-        console.log("Commande sélectionnée :", cmd.id, cmd.tracking_number);
-    };
-
-    useEffect(() => {
-        fetchCommandes();
-    }, []);
-
-    return (
-        <div>
-            <h2>Liste des commandes</h2>
-
-            <div className="table-responsive">
-                <table className="table table-bordered table-hover align-middle">
-                    <thead className="table-light">
-                        <tr>
-                            <th className="p-3">#</th>
-                            <th className="p-3">Commande</th>
-                            <th className="p-3">Client</th>
-                            <th className="p-3">Suivi</th>
-                            <th className="p-3 text-center">Action</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {commandes.map((cmd) => (
-                            <tr key={cmd.id}>
-                                <td className="p-3">{cmd.id}</td>
-                                <td className="p-3 fw-semibold">{cmd.numero}</td>
-                                <td className="p-3">{cmd.client_nom}</td>
-
-                                <td className="p-3">
-                                    {cmd.tracking_number ? (
-                                        <span className="badge bg-success">
-                                            {cmd.tracking_number}
-                                        </span>
-                                    ) : (
-                                        <span className="badge bg-warning text-dark">
-                                            En attente
-                                        </span>
-                                    )}
-                                </td>
-
-                                <td className="p-3 text-center">
-                                    <button
-                                        className="btn btn-outline-primary btn-sm shadow-md rounded-full p-2"
-                                        onClick={() => handleSelectCommande(cmd)}
-                                    >
-                                        Voir détails
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-
-        </div>
-    );
-};
-

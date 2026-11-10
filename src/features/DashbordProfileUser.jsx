@@ -59,7 +59,7 @@ const Tabs = () => {
     const tabs = useMemo(() => [
         { id: 'dashboard', label: t('Dashboard.dashboard'), icon: <IconDashboard /> },
         { id: 'contacts',  label: t('Dashboard.contacts'),  icon: <IconContacts />  },
-        { id: 'tracking',  label: 'Suivi colis',           icon: <IconTracking />  },
+        { id: 'tracking',  label: t('Dashboard.tracking', 'Suivi colis'), icon: <IconTracking />  },
     ], [t]);
 
     useLayoutEffect(() => {
