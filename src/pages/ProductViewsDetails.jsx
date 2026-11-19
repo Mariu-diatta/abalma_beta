@@ -200,7 +200,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
             };
             fetchProducts();
 
-        }, [product?.id, product?.categorie_product]
+        }, [product]
     )
 
     // ⚠️ Correction : il y avait deux useEffect quasi identiques qui faisaient
@@ -316,7 +316,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
             />
 
             {/* Modal */}
-            <div className="scrollbor_hidden relative bg-white w-full m-auto md:w-2/3 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh]">
+            <div className="scrollbor_hidden relative bg-white w-full m-auto md:w-2/3 rounded-3xl shadow-2xl overflow-hidden flex flex-col md:max-h-[95vh] max-h-[80vh]">
 
                 {/* Header Mobile / Close Button */}
                 <button
