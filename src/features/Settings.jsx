@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import api from '../services/Axios';
 import { updateTheme } from '../slices/navigateSlice';
@@ -14,6 +14,7 @@ import AttentionAlertMessage, { showMessage } from '../components/AlertMessage';
 import CountryField from './CountryField';
 import DeliveryAddressField from './DeliveryAdressField';
 import { updateUserData } from '../slices/authSlice';
+import MapView from "../components/MapView";
 
 function ChevronRight() {
     return (
@@ -195,6 +196,7 @@ const SettingsForm = () => {
             try {
                 const res = await api.get("delivery-address/");
                 setDeliveryAddress(res.data);
+                console.log("Data", res.data)
             } catch (err) {
                 console.log("Error:::", err);
             }
@@ -327,6 +329,24 @@ const SettingsForm = () => {
         getDeliveredAdress()
 
     }, [address])
+
+
+    const mapPosition = useMemo(() => {
+        try {
+            const raw = deliveryAddress?.[0]?.address;
+            if (!raw) return { latitude: 48.8566, longitude: 2.3522 };
+
+            const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
+
+            return {
+                latitude: Number(parsed?.lat) || 48.8566,
+                longitude: Number(parsed?.lon) || 2.3522,
+            };
+        } catch {
+            return { latitude: 48.8566, longitude: 2.3522 };
+        }
+    }, [deliveryAddress]);
+
 
     const GetClientCard = useCallback(async () => {
         if (!currentUserData?.id) return;
@@ -536,6 +556,15 @@ const SettingsForm = () => {
                                     loading={loadingAdress}
                                     t={t}
                                 />
+
+                                <MapView
+                                    key={`${mapPosition.latitude}-${mapPosition.longitude}`}
+                                    initialPosition={mapPosition}
+                                    onChange={(position) => {
+                                        console.log("Position sélectionnée :", position);
+                                    }}
+                                />
+
                             </>
                         )}
 

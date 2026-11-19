@@ -318,7 +318,7 @@ const AddUploadProduct = () => {
     };
 
     const handleFileSelect = (files) => {
-
+        if(!files) return 
         const newImages = Array.from(files).map((file) => ({
             file,
             preview: URL.createObjectURL(file),
@@ -327,6 +327,7 @@ const AddUploadProduct = () => {
         }));
 
         setImageVariants((prev) => [...prev, ...newImages]);
+         return 
     };
 
     const nextSection = () => {

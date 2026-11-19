@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { createPortal } from "react-dom";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -19,6 +19,7 @@ import pay_8331969 from "../../src/assets/pay_8331969.png";
 import { getMediaUrl, getProducts } from "../utils";
 import { addToCart, updateSelectedProduct } from "../slices/cartSlice";
 import LikeButton from "../components/LikeButton";
+import MapView from '../components/MapView'
 
 const ProductDetailsSection = ({ isOpen, onClose }) => {
     const dispatch = useDispatch();
@@ -52,6 +53,24 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
 
     const videoRef = React.useRef(null);
     const resumeTimer = React.useRef(null);
+
+    const mapPosition = useMemo(() => {
+        try {
+            const raw = product?.address;
+
+            if (!raw) return { latitude: 48.8566, longitude: 2.3522 };
+
+            const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
+
+            return {
+                latitude: Number(parsed?.lat) || 48.8566,
+                longitude: Number(parsed?.lon) || 2.3522,
+            };
+        } catch {
+            return { latitude: 48.8566, longitude: 2.3522 };
+        }
+    }, [product?.address]);
+
 
     const pauseMediaSlider = () => {
 
@@ -170,13 +189,15 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                     const { products } = await getProducts(cat);
 
                     setSameProductCategory(Array.isArray(products) ? products : []);
+                    console.log("L'adresse email", JSON.parse(product?.address?.address))
+
 
                 } catch (error) {
                     console.error(error);
                     setSameProductCategory([]);
+                    console.log("L'adresse email", JSON.parse(product?.address))
                 }
             };
-
             fetchProducts();
 
         }, [product?.id, product?.categorie_product]
@@ -435,7 +456,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
 
                                 {/* Navigation média */}
 
-                                {medias.length > 1 && (
+                                {medias?.length > 1 && (
 
                                     <div className="
                                             absolute
@@ -599,7 +620,14 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
 
                                     </div>
                                 ))}
-
+                                <MapView
+                                    key={`${mapPosition.latitude}-${mapPosition.longitude}`}
+                                    initialPosition={mapPosition}
+                                    onChange={(position) => {
+                                        console.log("Position sélectionnée :", position);
+                                    }}
+                                    styleMap={{height: "40dvh", width: "100%", zIndex:0 }}
+                                />
                             </div>
 
                             {/* FOOTER DATE */}

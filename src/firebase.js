@@ -25,9 +25,9 @@ import { showMessage } from "./components/AlertMessage";
 import { useState } from "react";
 import LoadingCard from "./components/LoardingSpin";
 
-import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
+///import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
 
-import { Capacitor } from "@capacitor/core";
+///import { Capacitor } from "@capacitor/core";
 
 export function LoginWithGoogle({ onClose }) {
 
@@ -114,22 +114,22 @@ export function LoginWithGoogle({ onClose }) {
     // ============================
     // ANDROID
     // ============================
-    const handleAndroidGoogle = async () => {
-        try {
-            const user = await GoogleAuth.signIn();
-            await sendGoogleToken(
-                user.authentication.idToken
-            );
-        } catch (error) {
-            console.error("Erreur Google Auth complète:", error);
-            console.error("Message:", error?.message);
-            console.error("Code:", error?.code);
-            showMessage(dispatch, {
-                Type: "Erreur",
-                Message: "Connexion Google impossible"
-            });
-        }
-    };
+    //const handleAndroidGoogle = async () => {
+    //    try {
+    //        const user = await GoogleAuth.signIn();
+    //        await sendGoogleToken(
+    //            user.authentication.idToken
+    //        );
+    //    } catch (error) {
+    //        console.error("Erreur Google Auth complète:", error);
+    //        console.error("Message:", error?.message);
+    //        console.error("Code:", error?.code);
+    //        showMessage(dispatch, {
+    //            Type: "Erreur",
+    //            Message: "Connexion Google impossible"
+    //        });
+    //    }
+    //};
 
 
 
@@ -145,20 +145,20 @@ export function LoginWithGoogle({ onClose }) {
 
         <>
             {
-                Capacitor.isNativePlatform()
-                    ?
+                //Capacitor.isNativePlatform()
+                //    ?
 
-                    <button
-                        onClick={handleAndroidGoogle}
-                    >
-                        Continuer avec Google
-                    </button>
+                //    <button
+                //        onClick={handleAndroidGoogle}
+                //    >
+                //        Continuer avec Google
+                //    </button>
 
-                    :
+                //    :
 
                     <GoogleLogin
 
-                        onSuccess={handleWebGoogle}
+                        onSuccess={handleWebGoogle}cl
 
                         onError={() => {
 

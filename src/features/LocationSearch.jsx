@@ -13,9 +13,9 @@ const LocationSearchPopover = ({ setLocationSearch}) => {
     const [adresse, setAdresse] = useState(""); 
 
 
-    const parseToJson = (selectedLocation) => {
+    const parseToString = (selectedLocation) => {
         try {
-            let adresse = JSON.parse(selectedLocation).adresse;
+            let adresse = JSON.stringify(selectedLocation);
             setAdresse(adresse)
         } catch (e) {
             setAdresse(""); // ou une valeur par défaut
@@ -26,7 +26,7 @@ const LocationSearchPopover = ({ setLocationSearch}) => {
         if (selectedLocation) {
             setLocationSearch(selectedLocation); // ← seulement quand selectedLocation change
         }
-        parseToJson(selectedLocation)
+        parseToString(selectedLocation)
     }, [selectedLocation, setLocationSearch]); 
 
     const searchLocation = async () => {
@@ -44,7 +44,6 @@ const LocationSearchPopover = ({ setLocationSearch}) => {
               },
             }
           );
-           console.log("Le salade:::::",response)
           setResults(response.data);
           setIsOpen(true); // ouvre le popover
         } catch (error) {
@@ -64,7 +63,10 @@ const LocationSearchPopover = ({ setLocationSearch}) => {
           town: place.address.town,
           house_number: place.address.house_number,
           region: place.address.region,
-          country_code: place.address.country_code
+          country_code: place.address.country_code,
+          lon:place?.lon,
+          lat:place?.lat,
+          type:place?.type
       };
       setSelectedLocation(JSON.stringify(locationString) ?? query);
       setIsOpen(false); // fermer le popover après sélection
@@ -121,10 +123,10 @@ const LocationSearchPopover = ({ setLocationSearch}) => {
           )}
 
           {selectedLocation && (
-            <div className="mt-2 p-2 border border-gray-100 rounded bg-green-50">
+            <div className="mt-2 p-2 border border-gray-100 rounded bg-green-50 overflow-x-auto w-100">
               <strong>Lieu sélectionné :</strong>
                   <p className="text-sm">{
-                      adresse ?? selectedLocation
+                      JSON.parse(adresse)?.adresse ?? JSON.parse(selectedLocation)?.adresse
                   }</p>
             </div>
           )}
