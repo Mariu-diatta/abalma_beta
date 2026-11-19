@@ -316,7 +316,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
             />
 
             {/* Modal */}
-            <div className="scrollbor_hidden relative bg-white w-full m-auto md:w-2/3 rounded-3xl shadow-2xl overflow-hidden flex flex-col md:max-h-[95vh] max-h-[80vh]">
+            <div className="scrollbor_hidden relative bg-white w-full m-auto md:w-2/3 rounded-3xl shadow-2xl overflow-hidden flex flex-col md:max-h-[95vh] max-h-[90vh]">
 
                 {/* Header Mobile / Close Button */}
                 <button
