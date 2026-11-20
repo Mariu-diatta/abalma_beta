@@ -810,7 +810,7 @@ const ProfileCard = () => {
                                     src={getMediaUrl(
                                         previewUrl
                                     )}
-                                    alt={`Profil de ${formData.prenom ||
+                                    alt={`Profil de ${formData?.prenom ||
                                         'Utilisateur'
                                         }`}
                                     className="
@@ -896,22 +896,20 @@ const ProfileCard = () => {
                                 gap-5
                                 md:justify-center md:items-start md:flex-row mb-6
                                 items-center
-                                justify-center border-0
+                                justify-start border-0
                             ">
                                 {/* Identity */}
                                 <div className="
                                     min-w-0
-                                    text-center
+                                    text-start
                                     sm:text-left
                                 ">
                                     <div className="
                                         flex
                                         flex-wrap
-                                        items-center
-                                        justify-center
+                                        items-start
                                         gap-2
-                                        sm:justify-start
-                                        sm:justify-start
+                                        justify-start
                                     ">
                                         <h1 className="
                                             truncate
@@ -972,7 +970,7 @@ const ProfileCard = () => {
                                             mt-1
                                             text-sm
                                             font-medium
-                                            text-gray-500
+                                            text-gray-500 text-start
                                         ">
                                             @{formData.nom
                                                 .trim()
