@@ -22,6 +22,14 @@ const LocationSearchPopover = ({ setLocationSearch}) => {
         }
     }
 
+
+    const parseLocation = (value) => {
+        try {
+            return typeof value === "string" ? JSON.parse(value).adresse : value;
+        } catch (error) {
+            return null;
+        }
+    };
     useEffect(() => {
         if (selectedLocation) {
             setLocationSearch(selectedLocation); // ← seulement quand selectedLocation change
@@ -125,9 +133,11 @@ const LocationSearchPopover = ({ setLocationSearch}) => {
           {selectedLocation && (
             <div className="mt-2 p-2 border border-gray-100 rounded bg-green-50 overflow-x-auto w-100">
               <strong>Lieu sélectionné :</strong>
-                  <p className="text-sm">{
-                      JSON.parse(adresse)?.adresse ?? JSON.parse(selectedLocation)?.adresse
-                  }</p>
+                  <p className="text-sm">
+                      {parseLocation(adresse)??
+                          parseLocation(selectedLocation) ??
+                          ""}
+                  </p>
             </div>
           )}
     </div>
