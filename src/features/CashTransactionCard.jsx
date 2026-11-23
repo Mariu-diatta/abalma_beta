@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import {
@@ -9,6 +9,7 @@ import {
     updateStatusTransaction,
 } from "../utils";
 import LoadingCard from "../components/LoardingSpin";
+import MapView from "../components/MapView";
 
 
 // ─── Icône wallet ──────────────────────────────────────────────────────────────
@@ -44,6 +45,24 @@ export default function CashTransactionCard({ transaction, setSearchTransactionB
     const formattedDate = transaction?.created_at
         ? new Date(transaction.created_at).toLocaleDateString()
         : '—';
+
+
+    const mapPosition = useMemo(() => {
+        try {
+            const raw = transaction?.address;
+
+            if (!raw) return { latitude: 48.8566, longitude: 2.3522 };
+
+            const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
+
+            return {
+                latitude: Number(parsed?.lat) || 48.8566,
+                longitude: Number(parsed?.lon) || 2.3522,
+            };
+        } catch {
+            return { latitude: 48.8566, longitude: 2.3522 };
+        }
+    }, [transaction?.address]);
 
     // ── Mise à jour du statut ──
     const handleStatusUpdate = useCallback(async () => {
@@ -95,10 +114,20 @@ export default function CashTransactionCard({ transaction, setSearchTransactionB
                         label={t('date') || 'Date'}
                         value={formattedDate}
                     />
-                    <div className="ctc-row">
+                    <div className="ctc-row overflow-x-auto w-full ">
                         <span className="ctc-row-icon" aria-hidden="true">📍</span>
-                        {transaction?.address}
+                        {JSON.parse(transaction?.address)?.adresse}
                     </div>
+
+                        <MapView
+                            key={`${mapPosition.latitude}-${mapPosition.longitude}`}
+                            initialPosition={mapPosition}
+                            onChange={(position) => {
+                                console.log("Position sélectionnée :", position);
+                            }}
+                            styleMap={{ height: "40dvh", width: "100%", zIndex: 0 }}
+                        />
+                    
                 </div>
 
                 <div className="ctc-divider" />
