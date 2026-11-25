@@ -515,6 +515,16 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                                     </button>
                                 ))}
                             </div>
+                            <span className="hidden md:block">
+                                <MapView
+                                    key={`${mapPosition.latitude}-${mapPosition.longitude}`}
+                                    initialPosition={mapPosition}
+                                    onChange={(position) => {
+                                        console.log("Position sélectionnée :", position);
+                                    }}
+                                    styleMap={{height: "40dvh", width: "100%", zIndex:0 }}
+                                />
+                            </span>
                         </div>
 
                         {/* SECTION DROITE : INFOS */}
@@ -605,7 +615,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                             {/* LOGISTICS */}
                             <div className="mt-10 flex flex-wrap gap-6 py-6 border-y border-gray-100">
 
-                                {operations.map((op, i) => (
+                                {operations?.map((op, i) => (
 
                                     <div key={i} className="flex items-center gap-3">
 
@@ -620,6 +630,10 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
 
                                     </div>
                                 ))}
+
+                            </div>
+
+                            <span className="block md:hidden">
                                 <MapView
                                     key={`${mapPosition.latitude}-${mapPosition.longitude}`}
                                     initialPosition={mapPosition}
@@ -628,7 +642,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                                     }}
                                     styleMap={{height: "40dvh", width: "100%", zIndex:0 }}
                                 />
-                            </div>
+                            </span>
 
                             {/* FOOTER DATE */}
                             <div className="mt-6 flex items-center justify-end text-[11px] text-gray-400 gap-2">
@@ -664,7 +678,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                                     className="
                                         flex
                                         gap-3
-                                        overflow-x-auto
+                                        overflow-x-auto scrollbor-hidden
                                         snap-x
                                         snap-mandatory
                                         scrollbar-hidden
@@ -680,9 +694,9 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                                             className="
                                                 snap-start
                                                 flex-shrink-0
-                                                w-28
-                                                sm:w-32
-                                                md:w-36
+                                                w-40
+                                                sm:w-40
+                                                md:w-40
                                                 group
                                                 rounded-xl
                                                 border
@@ -708,7 +722,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                                                     w-full
                                                     h-24
                                                     sm:h-28
-                                                    object-contain
+                                                    object-cover
                                                     rounded-t-xl
                                                     transition-transform
                                                     duration-300
