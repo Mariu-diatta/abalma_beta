@@ -118,7 +118,8 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
     };
 
     const goNextProduct = () => {
-        if (currentProductIndex >= sameProductCategory.length - 1) return;
+
+        if (currentProductIndex >= sameProductCategory?.length - 1) return;
 
         dispatch(
             updateSelectedProduct(
@@ -189,13 +190,12 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
                     const { products } = await getProducts(cat);
 
                     setSameProductCategory(Array.isArray(products) ? products : []);
-                    console.log("L'adresse email", JSON.parse(product?.address?.address))
+                    
 
 
                 } catch (error) {
                     console.error(error);
                     setSameProductCategory([]);
-                    console.log("L'adresse email", JSON.parse(product?.address))
                 }
             };
             fetchProducts();
@@ -279,7 +279,7 @@ const ProductDetailsSection = ({ isOpen, onClose }) => {
 
             <button
                 onClick={goNextProduct}
-                disabled={currentProductIndex >= sameProductCategory.length - 1}
+                disabled={currentProductIndex >= (sameProductCategory.length - 1)}
                 className="
                                         hidden md:flex
                                         absolute
