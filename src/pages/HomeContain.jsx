@@ -112,12 +112,20 @@ const HomeContain = () => {
                 {/* ============ HERO / COMPOSER ============ */}
                 <section className="px-1 pt-2 w-full">
 
-                    <SectionCard className="grid grid-cols-1 md:grid-cols-2 py-5 px-0.5 space-y-4 space-x-0 relative overflow-hidden w-full ring-1 ring-indigo-100/60">
+                    <SectionCard className="grid grid-cols-1 md:grid-cols-2 py-2 px-0.5 space-y-4 space-x-0 relative overflow-hidden w-full ring-1 ring-indigo-100/60 items-center">
 
-                        <div className="max-w-full flex flex-col items-start md:items-start md:ps-10 justify-start">
+                        <div className="max-w-full flex flex-col md:flex-row items-center md:items-start md:ps-10 justify-center gap-3">
 
                             {/* blob décoratif */}
                             <div className="pointer-events-none absolute -top-16 -right-16 h-48 w-48 rounded-full bg-gradient-to-br from-indigo-300/40 to-purple-300/30 blur-3xl" />
+
+                            {/* Quick stats */}
+                            <div className="flex flex-row items-center hidden md:flex gap-3 ">
+                                <StatPill icon={Users} label={t("sellers")} value={clients.length || '—'} tone="indigo" className="rounded-md" />
+                                <StatPill icon={ShoppingBag} label={t("products")} value="+1.2k" tone="purple" className="rounded-md" />
+                                <StatPill icon={MessageCircle} label="Discussions" value="87" tone="emerald" className="hidden" />
+                                <StatPill icon={Bell} label="Live" value="24 en ligne" tone="rose" className="hidden" />
+                            </div>
 
                             <div className=" relative">
                                 <div>
@@ -129,12 +137,14 @@ const HomeContain = () => {
                             </div>
 
                             {/* Quick stats */}
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 items-center">
-                                <StatPill icon={Users} label={t("sellers")} value={clients.length || '—'} tone="indigo" />
-                                <StatPill icon={ShoppingBag} label={t("products")} value="+1.2k" tone="purple" />
+                            <div className="flex items-center block md:hidden gap-3">
+                                <StatPill icon={Users} label={t("sellers")} value={clients.length || '—'} tone="indigo" className="w-auto rounded-md" />
+                                <StatPill icon={ShoppingBag} label={t("products")} value="+1.2k" tone="purple" className="w-auto rounded-md" />
                                 <StatPill icon={MessageCircle} label="Discussions" value="87" tone="emerald" className="hidden" />
                                 <StatPill icon={Bell} label="Live" value="24 en ligne" tone="rose" className="hidden" />
                             </div>
+
+
                         </div>
 
                         <div className="max-w-full">
@@ -178,11 +188,14 @@ const HomeContain = () => {
 
                 {/* ============ STORIES VENDEURS ============ */}
                 {
-                    user && <section className="px-1 mt-5">
+                    user? 
+                    <section className="px-1 mt-5">
                         <SectionCard className="py-3">
                             <SellerStoriesBar />
                         </SectionCard>
                     </section>
+                    :
+                    null
                 }
 
                 {/* ============ FEED PRINCIPAL ============ */}
