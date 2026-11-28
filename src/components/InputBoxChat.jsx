@@ -16,7 +16,7 @@ const InputBoxChat = ({
                 {/* ATTACHMENT */}
                 <button
                     disabled={disabled}
-                    className="text-gray-400 hover:text-indigo-500 disabled:opacity-40 transition-colors flex-shrink-0"
+                    className="hidden text-gray-400 hover:text-indigo-500 disabled:opacity-40 transition-colors flex-shrink-0"
                     aria-label="Joindre un fichier"
                 >
                     <Paperclip size={19} />
@@ -70,7 +70,7 @@ const InputBoxChat = ({
                 {/* VOICE */}
                 <button
                     disabled={disabled}
-                    className="text-gray-400 hover:text-indigo-500 disabled:opacity-40 transition-colors flex-shrink-0"
+                    className="hidden text-gray-400 hover:text-indigo-500 disabled:opacity-40 transition-colors flex-shrink-0"
                     aria-label="Message vocal"
                 >
                     <Mic size={19} />

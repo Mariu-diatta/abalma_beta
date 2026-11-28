@@ -400,13 +400,13 @@ const ChatApp = ({ setShow, show }) => {
                                     {aiBusy ? 'Analyse…' : 'Analyse IA'}
                                 </button>
                                 <button
-                                    className="w-9 h-9 rounded-full bg-indigo-50 text-indigo-500 flex items-center justify-center hover:bg-indigo-100 transition-colors"
+                                    className="hidden w-9 h-9 rounded-full bg-indigo-50 text-indigo-500 flex items-center justify-center hover:bg-indigo-100 transition-colors"
                                     aria-label={t('video_call')}
                                 >
                                     <Video size={16} />
                                 </button>
                                 <button
-                                    className="w-9 h-9 rounded-full bg-indigo-50 text-indigo-500 flex items-center justify-center hover:bg-indigo-100 transition-colors"
+                                    className="hidden w-9 h-9 rounded-full bg-indigo-50 text-indigo-500 flex items-center justify-center hover:bg-indigo-100 transition-colors"
                                     aria-label={t('audio_call')}
                                 >
                                     <Phone size={15} />
@@ -542,8 +542,6 @@ const ChatApp = ({ setShow, show }) => {
 
                 <footer className="chat-footer flex-shrink-0 relative">
 
-                
-
                     <InputBoxChat
                         disabled={!selectedUser}
                         input={input}
@@ -558,7 +556,7 @@ const ChatApp = ({ setShow, show }) => {
             </main>
 
             {/* PANNEAU PROFIL */}
-            {showInfo && (
+            {!showInfo && (
                 <ProfilePanel
                     selectedUser={selectedUser}
                     onClose={() => setShowInfo(!showInfo)}
